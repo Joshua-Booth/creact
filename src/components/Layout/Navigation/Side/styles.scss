@@ -1,0 +1,31 @@
+// Side Navigation
+
+.side-nav {
+  background-color: $white;
+  bottom: 80px;
+  left: 0;
+  min-height: 180px;
+  overflow-y: auto;
+  position: fixed;
+  scrollbar-width: thin;
+  top: 130px;
+  width: 180px;
+  z-index: 2;
+
+  &__links {
+    background-color: $white;
+  }
+
+  &__link {
+    &-item {
+      padding: 20px 0;
+    }
+
+    &-label {
+      font-size: 12px;
+      padding-left: 16px;
+      position: relative;
+      top: -15%;
+    }
+  }
+}

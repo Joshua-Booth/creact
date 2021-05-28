@@ -1,0 +1,2 @@
+#!/bin/sh
+npx commitlint -e --config "./config/commitlint.config.js"

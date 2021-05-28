@@ -1,0 +1,210 @@
+// AutoComplete Styles
+
+/* stylelint-disable selector-class-pattern */
+
+.page {
+  &.search-bar {
+    height: 30px;
+    position: fixed;
+    right: -100px;
+    top: 30px;
+    -webkit-transform: translate(-50%, -50%);
+    -ms-transform: translate(-50%, -50%);
+    transform: translate(-50%, -50%);
+    -webkit-transition: all 0.3s ease;
+    -o-transition: all 0.3s ease;
+    transition: all 0.3s ease;
+    width: 240px;
+    z-index: 1;
+
+    @include mobile {
+      right: -50px;
+      width: 160px;
+    }
+
+    @include mobile-xs {
+      width: 130px;
+    }
+
+    &.focus {
+      -webkit-box-shadow: 0 3px 4px rgba(0, 0, 0, 0.15);
+      box-shadow: 0 3px 4px rgba(0, 0, 0, 0.15);
+    }
+  }
+
+  .react-autosuggest__input {
+    left: 15px;
+    padding: 0;
+    position: absolute;
+    width: 185px;
+    z-index: 1;
+
+    @include mobile {
+      width: 105px;
+    }
+
+    @include mobile-xs {
+      width: 80px;
+    }
+  }
+}
+
+.react-autosuggest__suggestions-container {
+  display: none;
+}
+
+.react-autosuggest__input {
+  background: none;
+  border: 0;
+  color: #5a6674;
+  font-size: 12px;
+  height: 30px;
+  outline: none;
+  padding: 11.05px 14px;
+  width: inherit;
+}
+
+.react-autosuggest__suggestions-container,
+.react-autosuggest__suggestions-container--open {
+  background: $white;
+  border-radius: 0 0 20px 20px;
+  -webkit-box-shadow: 0 3px 6px #00000029;
+  box-shadow: 0 3px 6px #00000029;
+  height: 200px;
+  padding-bottom: 20px;
+  position: fixed;
+  right: -100px;
+  top: 30px;
+  -webkit-transform: translate(-50%, -50%);
+  -ms-transform: translate(-50%, -50%);
+  transform: translate(-50%, 0%);
+  -webkit-transition: all 0.3s ease;
+  -o-transition: all 0.3s ease;
+  transition: all 0.3s ease;
+  width: 240px;
+
+  @include mobile {
+    right: -50px;
+    width: 160px;
+
+    .hit-title {
+      font-size: 12px;
+    }
+
+    .hit-description {
+      font-size: 10px;
+    }
+
+    .hit-text-content {
+      font-size: 12px;
+    }
+
+    .view-more {
+      font-size: 12px;
+    }
+  }
+
+  @include mobile-xs {
+    width: 130px;
+
+    .hit-title {
+      font-size: 10px;
+    }
+
+    .hit-description {
+      font-size: 8px;
+    }
+
+    .hit-text-content {
+      font-size: 10px;
+    }
+
+    .view-more {
+      padding-top: 7px;
+    }
+  }
+}
+
+.hit-link:hover {
+  text-decoration: none;
+
+  .hit-title {
+    text-decoration: underline;
+  }
+}
+
+.react-autosuggest__section-container--first {
+  padding-top: 10px;
+}
+
+.react-autosuggest__suggestions-list {
+  margin: 0;
+  padding: 0 10px;
+
+  .header {
+    font-size: 1em;
+  }
+
+  li::before {
+    content: "" !important;
+    display: initial !important;
+    margin-left: 0 !important;
+  }
+}
+
+.search-icon {
+  background: none;
+  border: 0;
+  color: #5a6674;
+  cursor: pointer;
+  font-size: 12px;
+  height: 20px;
+  margin: 0;
+  outline: none !important;
+  padding: 0;
+  position: absolute;
+  right: 15px;
+  top: 10px;
+  -webkit-transform: scale(-1, 1);
+  -ms-transform: scale(-1, 1);
+  transform: scale(-1, 1);
+  width: 20px;
+
+  svg {
+    fill: #5a6674;
+    height: 20px;
+    width: 20px;
+  }
+}
+
+.scroll-container {
+  height: 130px;
+  margin-bottom: 30px;
+  margin-top: 20px;
+  overflow-y: scroll;
+  width: calc(100% - 5px);
+}
+
+.view-more {
+  color: $primary;
+  display: block;
+  font-size: 1rem;
+  margin-bottom: 8px;
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: -32px;
+  padding-top: 15px;
+  text-align: center;
+}
+
+.react-autosuggest__suggestions-container--open {
+  display: block;
+}
+
+.react-autosuggest__suggestion {
+  padding-bottom: 10px;
+}
+
+mark {
+  padding: 0.2em 0.08em;
+}

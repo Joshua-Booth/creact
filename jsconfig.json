@@ -1,0 +1,33 @@
+{
+  "compilerOptions": {
+    "allowSyntheticDefaultImports": true,
+    "checkJs": false,
+    "resolveJsonModule": true,
+    "moduleResolution": "node",
+    "target": "es2020",
+    "module": "es2015",
+    "baseUrl": ".",
+    "paths": {
+      "*": ["/*", "config/tests/*"]
+    }
+  },
+  "include": [
+    "node_modules/cypress",
+    "./cypress/**/*.js",
+    "src/**/*",
+    "config/tests/**/*"
+  ],
+  "exclude": [
+    "dist",
+    "node_modules",
+    "build",
+    ".vscode",
+    "coverage",
+    ".npm",
+    ".yarn"
+  ],
+  "typeAcquisition": {
+    "enable": true,
+    "include": ["react", "react-dom", "jest", "testing-library__jest-dom"]
+  }
+}

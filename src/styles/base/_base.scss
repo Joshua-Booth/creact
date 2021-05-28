@@ -1,0 +1,139 @@
+// Resets and core styles.
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  height: 100%;
+  overflow: hidden;
+  width: 100%;
+}
+
+body {
+  background: $white;
+  box-sizing: border-box;
+  font-family: $primary-font;
+  margin: 0;
+  min-height: 100%;
+  padding-bottom: 0;
+  position: relative;
+}
+
+body > div {
+  height: 100%;
+  -webkit-overflow-scrolling: touch;
+  overflow-x: hidden;
+  overflow-y: auto;
+}
+
+a {
+  color: $primary;
+  text-decoration: none;
+
+  &:hover {
+    color: $primary;
+    text-decoration: underline;
+  }
+}
+
+textarea {
+  resize: none;
+}
+
+.logo {
+  height: 50px;
+  margin-right: 10px;
+}
+
+.header,
+h1 {
+  color: $dark-grey;
+  font-family: $header-font;
+  font-size: 40px;
+  font-weight: bold;
+}
+
+.subtitle,
+h2 {
+  color: $light-grey;
+  font-family: $subtitle-font;
+  font-size: 16px;
+}
+
+.landing-header {
+  color: $primary;
+  // font-size: 70px;
+  font-weight: bold;
+  text-align: center;
+}
+
+.button,
+.btn {
+  border: 0 !important;
+  border-radius: 10px;
+  min-width: 75px;
+  padding: 9px 30px;
+}
+
+.btn-primary {
+  background: $primary !important;
+  color: $white;
+}
+
+.btn-secondary {
+  background-color: $white;
+  border: solid 1px $primary !important;
+  color: $primary;
+}
+
+ul {
+  list-style: none;
+
+  li:not(.no-bullet)::before {
+    color: $primary;
+    content: "\2022";
+    display: inline-block;
+    font-weight: bold;
+    margin-left: -1.5em;
+    width: 1.5em;
+  }
+}
+
+ol {
+  counter-reset: count;
+  list-style: none;
+
+  li {
+    counter-increment: count;
+
+    &::before {
+      color: $primary;
+      content: counter(count) ". ";
+      margin-left: -18px;
+    }
+  }
+}
+
+.no-bullet-style {
+  list-style: none;
+
+  li::before {
+    color: initial !important;
+    content: none !important;
+    display: initial;
+    margin: initial !important;
+    width: initial;
+  }
+}
+
+fieldset {
+  border: 0;
+  margin: 0;
+  min-width: 0;
+  padding: 0.01em 0 0;
+}
+
+body:not(:-moz-handler-blocked) fieldset {
+  display: table-cell;
+}

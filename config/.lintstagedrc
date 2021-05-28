@@ -1,0 +1,11 @@
+{
+  "*.+(js)": [
+    "eslint --config ./config/.eslintrc.json --ignore-path .gitignore"
+  ],
+  "*.+(scss)": [
+    "stylelint --config ./config/.stylelintrc.json --ignore-path .gitignore"
+  ],
+  "**/*.+(js|json|html|md)": [
+    "prettier --config ./config/.prettierrc --ignore-path .gitignore"
+  ]
+}

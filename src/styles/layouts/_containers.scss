@@ -1,0 +1,94 @@
+// Contains all the container styles and any grid systems.
+
+.app-container {
+  min-height: 100%;
+  position: relative;
+}
+
+main {
+  min-height: 500px;
+  padding-bottom: 330px !important;
+}
+
+.content-container {
+  margin: auto 0.5rem;
+  margin-bottom: 3rem;
+  padding-bottom: 0.5rem;
+  text-align: center;
+
+  @include tablet {
+    padding-bottom: 1.5rem;
+  }
+
+  @include mobile {
+    padding-bottom: 0.5rem;
+  }
+}
+
+.component-container {
+  display: flex;
+  flex-wrap: wrap;
+  margin-left: auto;
+  margin-right: auto;
+  max-width: 720px;
+  text-align: center;
+
+  @include desktop-lg {
+    max-width: 660px;
+    width: auto;
+  }
+
+  @include desktop {
+    margin: auto 200px;
+  }
+
+  @include tablet-lg {
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  @include mobile {
+    flex-direction: column;
+    width: 100%;
+  }
+}
+
+.flex {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+}
+
+.page-box {
+  flex: 0 0 91.666667%;
+  margin-left: auto;
+  margin-right: auto;
+  max-width: 91.666667%;
+  position: relative;
+  width: 100%;
+
+  @media screen and (min-width: 768px) {
+    flex: 0 0 50%;
+    max-width: 50%;
+  }
+
+  @include tablet {
+    flex: 0 0 83.333333%;
+    max-width: 83.333333%;
+  }
+
+  @include mobile {
+    flex: 0 0 91.666667%;
+    max-width: 91.666667%;
+  }
+
+  @media screen and (min-width: 1200px) {
+    flex: auto;
+    max-width: 615px;
+  }
+}
+
+.default-form {
+  max-width: 340px;
+  width: 90%;
+}

@@ -1,0 +1,30 @@
+// Intercom
+
+.intercom {
+  bottom: 10px;
+  height: 60px;
+  position: fixed;
+  right: 10px;
+  width: 60px;
+  z-index: 2;
+
+  @include tablet-lg {
+    bottom: 100px;
+  }
+
+  &-launcher {
+    background: $primary;
+    border-radius: 30px;
+    border-style: none;
+    height: 100%;
+    width: 100%;
+
+    &:focus {
+      outline: none;
+    }
+
+    i {
+      color: $white;
+    }
+  }
+}
