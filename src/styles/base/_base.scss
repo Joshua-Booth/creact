@@ -137,3 +137,11 @@ fieldset {
 body:not(:-moz-handler-blocked) fieldset {
   display: table-cell;
 }
+
+.right {
+  right: 0;
+}
+
+.left {
+  left: 0;
+}
