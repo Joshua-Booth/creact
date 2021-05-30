@@ -92,8 +92,8 @@ function Footer({ user }) {
   };
 
   return (
-    <footer className="footer position-absolute w-100">
-      <div className="footer-wrapper">
+    <footer className="footer position-absolute mx-auto left right">
+      <div className="footer-wrapper w-100">
         {renderSocialLinks()}
         {renderTextLinks()}
         {renderCopyright()}

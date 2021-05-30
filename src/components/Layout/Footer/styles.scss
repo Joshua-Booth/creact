@@ -1,11 +1,12 @@
 // Footer
 /* stylelint-disable function-parentheses-space-inside */
 .footer {
-  bottom: 80px;
+  width: 300px;
   z-index: 1;
 
   @include tablet-lg {
-    height: 220px;
+    bottom: 80px;
+    height: 150px;
   }
 
   &-wrapper {
@@ -17,7 +18,6 @@
     margin: auto;
     padding-bottom: 20px;
     text-align: center;
-    width: 300px;
   }
 
   &__links {
