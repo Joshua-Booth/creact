@@ -1,4 +1,5 @@
 import React from "react";
+
 import { InstantSearch, Index, Configure } from "react-instantsearch-dom";
 
 // Components
