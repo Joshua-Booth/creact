@@ -26,10 +26,11 @@ jobs:
           node-version: ${{ env.NODE_VERSION }}
       - name: Install dependencies
         run: npm install
+      - name: Build
+        run: npm run build --if-present
+      - name: Test
+        run: npm test
       - name: Release
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: |
-          npm run build --if-present
-          npm test
-          npx semantic-release
+        run: npx semantic-release
