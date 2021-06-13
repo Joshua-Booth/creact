@@ -1,2 +1,3 @@
 #!/bin/sh
 npm start prepush
+[ -n "$CI" ] && exit 0
