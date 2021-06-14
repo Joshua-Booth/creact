@@ -5,7 +5,7 @@ const nps = "npm start";
 module.exports = {
   prettier: {
     description: "Runs prettier.",
-    script: `prettier --ignore-path .gitignore "**/*.+(js|json|scss|html|md)" --config ./config/.prettierrc`,
+    script: `prettier --ignore-path ./config/.prettierignore "**/*.+(js|json|scss|html|md)" --config ./config/.prettierrc`,
   },
   stylelint: {
     description: "Lint the sass (.scss) styles.",
