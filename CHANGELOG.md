@@ -1,3 +1,10 @@
+### [1.0.2](https://github.com/Joshua-Booth/creact/compare/v1.0.1...v1.0.2) (2021-06-17)
+
+
+### Documentation
+
+* display chores in changelog ([1449768](https://github.com/Joshua-Booth/creact/commit/1449768d535c3745c401df4531a2e5288a8d29a3))
+
 ### [1.0.1](https://github.com/Joshua-Booth/creact/compare/v1.0.0...v1.0.1) (2021-06-16)
 
 
