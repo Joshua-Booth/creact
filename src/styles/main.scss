@@ -1,6 +1,9 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
 @import "./utils/variables";
 @import "./utils/mixins";
-@import "./utils/helpers";
 
 @import "./base/base";
 

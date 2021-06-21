@@ -29,7 +29,9 @@ import { isInStandaloneMode, isiOS } from "utils/device";
  */
 function BottomBar({ authenticated }) {
   const renderNavigation = () => (
-    <nav className="bottom-nav navbar">{renderLinks()}</nav>
+    <nav className="bottom-nav flex flex-wrap items-center justify-between p-2">
+      {renderLinks()}
+    </nav>
   );
 
   const renderLinks = () => {

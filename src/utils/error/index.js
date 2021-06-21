@@ -23,7 +23,7 @@ export function showAllErrors(errorProp) {
 
   if (errors && errorProp) {
     [...errors].forEach(function (error) {
-      error.classList.add("d-block");
+      error.classList.add("block");
     });
   }
 }
@@ -39,8 +39,8 @@ export function hideAllErrors() {
   const errors = document.getElementsByClassName("submit-error-message");
   if (errors.length > 0) {
     [...errors].forEach(function (error) {
-      error.classList.remove("d-block");
-      error.classList.add("d-none");
+      error.classList.remove("block");
+      error.classList.add("hidden");
     });
   }
 }

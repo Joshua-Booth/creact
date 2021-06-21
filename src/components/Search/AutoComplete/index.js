@@ -68,7 +68,7 @@ class AutoComplete extends Component {
         <div {...containerProps}>
           <div className="scroll-container scroll-bar">{children}</div>
           <button
-            className="btn view-more"
+            className="btn block text-primary mx-auto text-center"
             onClick={this.onSearchSubmit}
             aria-label="View more results"
           >

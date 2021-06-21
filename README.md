@@ -79,7 +79,7 @@ For more information about this project check out the [wiki].
 
 - :scissors: **Customisable** - Only use the parts that you need for your project
 - :file_folder: **Data management** - Manage state with [Redux] and handle API data with [redux-thunk] and [axios]
-- :iphone: **Responsive design** - Uses [Bootstrap] and custom [Sass] media query mixins
+- :iphone: **Responsive design** - Uses [Tailwind CSS] with [Sass] and custom media query mixins
 - :arrow_right_hook: **Git hooks** - Starter hooks with [Husky]
 - :bookmark: **Versioning** - Automated SemVer versioning, changelogs and releases with [semantic-release]
 - :memo: **Documentation** - Internal docs with JSDoc and a [clean-jsdoc-theme] site
@@ -91,7 +91,7 @@ For more information about this project check out the [wiki].
 [redux]: https://redux.js.org/
 [redux-thunk]: https://github.com/reduxjs/redux-thunk
 [axios]: https://axios-http.com/
-[bootstrap]: https://getbootstrap.com/docs/5.0/getting-started/introduction/
+[tailwind css]: https://tailwindcss.com/
 [sass]: https://sass-lang.com/
 [husky]: https://github.com/typicode/husky
 [semantic-release]: https://github.com/semantic-release/semantic-release

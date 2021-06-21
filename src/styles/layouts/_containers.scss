@@ -1,10 +1,5 @@
 // Contains all the container styles and any grid systems.
 
-.app-container {
-  min-height: 100%;
-  position: relative;
-}
-
 main {
   min-height: 500px;
   padding-bottom: 330px !important;
@@ -51,12 +46,6 @@ main {
     flex-direction: column;
     width: 100%;
   }
-}
-
-.flex {
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
 }
 
 .page-box {

@@ -21,9 +21,6 @@ import { AuthUrls } from "constants/urls";
 import { isAuthenticated } from "selectors/auth";
 import { getError } from "selectors/main";
 
-// Styles
-import "./styles.scss";
-
 // Utilities
 import { showAllErrors, hideAllErrors, resetErrorState } from "utils/error";
 import { setPageTitle, Event, OutboundLink } from "utils/page";
@@ -81,7 +78,11 @@ function Login({ authenticated, error, history }) {
       <main className="content-container">
         <h1 className="pb-5">Log In</h1>
 
-        <form className="page-box login-form" onSubmit={handleSubmit(onSubmit)}>
+        <form
+          className="page-box text-left z-0"
+          style={{ maxWidth: "340px" }}
+          onSubmit={handleSubmit(onSubmit)}
+        >
           {isLoading && (
             <div className="loader-modal">
               <Loader />
@@ -95,7 +96,7 @@ function Login({ authenticated, error, history }) {
             submitError={submitError}
           />
 
-          <p title="Sign Up" className="mt-5 pt-5">
+          <p title="Sign Up" className="mt-20">
             Not registered?{" "}
             <OutboundLink
               className="ml-2"

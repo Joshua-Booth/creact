@@ -47,10 +47,10 @@ function Header({ authenticated }) {
 
   const logoLink = authenticated ? "/dashboard" : "/";
   return (
-    <header className="header navbar navbar-expand-sm position-relative p-0 mb-4">
+    <header className="header navbar navbar-expand-sm relative p-0 mb-4">
       <NavLink
         to={logoLink}
-        className="navbar-brand position-absolute"
+        className="navbar-brand absolute"
         aria-label="Home"
       >
         <Logo className="img-fluid logo" alt="React Frontend Logo" />

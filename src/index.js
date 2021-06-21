@@ -1,5 +1,4 @@
 // Global styles
-import "bootstrap/dist/css/bootstrap.css";
 import "redux-notifications/lib/styles.css";
 import "./styles/main.scss";
 

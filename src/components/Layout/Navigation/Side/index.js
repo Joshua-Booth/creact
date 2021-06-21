@@ -27,7 +27,7 @@ function SideNavigation({ authenticated }) {
   const renderLinks = () => {
     return SIDE_LINKS.map((link, index) => {
       return (
-        <li className="side-nav__link-item d-flex" key={index}>
+        <li className="side-nav__link-item flex" key={index}>
           <NavLink
             to={`/${link.path}`}
             className="side-nav__link nav-link"
@@ -45,8 +45,8 @@ function SideNavigation({ authenticated }) {
   return (
     <>
       {authenticated && (
-        <nav className="side-nav navbar scroll-bar py-0 pl-1 pr-0">
-          <ul className="side-nav__links navbar-nav no-bullet-style ml-4">
+        <nav className="side-nav flex items-center justify-between flex-wrap scroll-bar py-0 pl-1 pr-0">
+          <ul className="side-nav__links flex flex-col mb-0 pl-0 no-bullet-style ml-4">
             {renderLinks()}
           </ul>
         </nav>

@@ -61,17 +61,32 @@ function buildConfig(configDirs) {
         },
         {
           test: /\.css$/,
-          use: [MiniCssExtractPlugin.loader, "css-loader"],
+          use: [
+            MiniCssExtractPlugin.loader,
+            "css-loader",
+            {
+              loader: "postcss-loader",
+              options: {
+                postcssOptions: { config: "./config/postcss.config.js" },
+              },
+            },
+          ],
         },
         {
           test: /\.scss$/,
           use: [
-            MiniCssExtractPlugin.loader,
+            PROD ? MiniCssExtractPlugin.loader : "style-loader",
             {
               loader: "css-loader",
               options: {
                 sourceMap: !PROD,
                 import: false,
+              },
+            },
+            {
+              loader: "postcss-loader",
+              options: {
+                postcssOptions: { config: "./config/postcss.config.js" },
               },
             },
             "resolve-url-loader",
@@ -87,7 +102,6 @@ function buildConfig(configDirs) {
                 patterns: [
                   configDirs.APP_DIR + "/styles/utils/_variables.scss",
                   configDirs.APP_DIR + "/styles/utils/_mixins.scss",
-                  configDirs.APP_DIR + "/styles/utils/_helpers.scss",
                 ],
               },
             },

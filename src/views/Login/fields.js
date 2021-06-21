@@ -59,7 +59,7 @@ function LoginFields({ onFieldChange, register, errors, submitError }) {
       />
 
       <Link
-        className="position-absolute mt-2"
+        className="absolute mt-2"
         to="/reset_password"
         aria-label="Forgot Password"
       >
@@ -68,7 +68,7 @@ function LoginFields({ onFieldChange, register, errors, submitError }) {
       <button
         action="submit"
         type="submit"
-        className="btn btn-primary position-absolute right"
+        className="btn btn-primary absolute right-0"
         aria-label="Login"
         data-testid="login"
       >

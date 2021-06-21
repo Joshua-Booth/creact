@@ -38,7 +38,7 @@ function Logout() {
       <h2 className="pb-5">You have been logged out.</h2>
 
       <Link
-        className="btn btn-primary mt-5 mr-2 text-decoration-none"
+        className="btn btn-primary mt-5 mr-2 no-underline"
         to="/login"
         aria-label="Login"
       >

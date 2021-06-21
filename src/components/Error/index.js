@@ -60,7 +60,7 @@ function Error({ status, response, title }) {
         </h1>
       )}
       <div title="Error" className="page-box" data-testid="error" data-hj-allow>
-        <span className="display-1" data-testid="status-code">
+        <span className="text-6xl" data-testid="status-code">
           {status}
         </span>
         <h1 id="status-text" className="pb-1" data-testid="status-text">
@@ -79,7 +79,7 @@ function Error({ status, response, title }) {
             <a href={`mailto:${SUPPORT_EMAIL}`}>{SUPPORT_EMAIL}</a>.
           </p>
           <button
-            className="text-reset border-0 bg-white p-1 px-2"
+            className="text-current border-0 bg-white p-1 px-2"
             onClick={goBack}
             aria-label="Go Back"
           >
@@ -87,7 +87,7 @@ function Error({ status, response, title }) {
             <span style={{ verticalAlign: "super" }}>Back</span>
           </button>
           <button
-            className="text-reset border-0 bg-white p-1 pl-0 ml-5"
+            className="text-current border-0 bg-white p-1 pl-0 ml-5"
             onClick={reload}
             aria-label="Reload Page"
           >

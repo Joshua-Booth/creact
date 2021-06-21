@@ -34,7 +34,7 @@ function Footer({ user }) {
     const contactType = isUser ? "Support" : "Contact";
 
     return (
-      <div className="footer__links w-100 mb-5">
+      <div className="footer__links w-full mb-5">
         <Link
           className="footer__item-link"
           to="/privacy"
@@ -44,7 +44,7 @@ function Footer({ user }) {
         </Link>
 
         <a
-          className="footer__item-link text-decoration-none"
+          className="footer__item-link no-underline"
           href={`mailto:${SUPPORT_EMAIL}`}
           aria-label="Contact"
         >
@@ -63,7 +63,7 @@ function Footer({ user }) {
   };
 
   const renderSocialLinks = () => (
-    <ul className="footer__social-links flex w-100 mb-2 list-unstyled no-bullet-style">
+    <ul className="footer__social-links flex w-full mb-2 list-none no-bullet-style">
       {SOCIAL_LINKS.map((link, index) => (
         <li className="footer__social-item" key={index}>
           <OutboundLink
@@ -85,15 +85,15 @@ function Footer({ user }) {
     const currentYear = new Date().getFullYear();
 
     return (
-      <span className="copyright d-block text-center mx-auto" data-hj-allow>
+      <span className="copyright block text-center mx-auto" data-hj-allow>
         &copy; All rights reserved Joshua Booth {currentYear}
       </span>
     );
   };
 
   return (
-    <footer className="footer position-absolute mx-auto left right">
-      <div className="footer-wrapper w-100">
+    <footer className="footer absolute mx-auto left-0 right-0">
+      <div className="footer-wrapper w-full">
         {renderSocialLinks()}
         {renderTextLinks()}
         {renderCopyright()}

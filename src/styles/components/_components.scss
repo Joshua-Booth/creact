@@ -160,21 +160,6 @@
   width: fit-content;
 }
 
-// Modal
-.modal {
-  background-color: rgba(0, 0, 0, 0.5);
-}
-
-.modal-dialog--center {
-  margin: auto;
-  top: 50%;
-  transform: translateY(-50%) !important;
-}
-
-.modal-footer {
-  border-top: 0;
-}
-
 .form-group {
   min-height: 70px;
 }

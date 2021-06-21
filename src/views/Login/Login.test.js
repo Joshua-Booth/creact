@@ -1,8 +1,9 @@
 import React from "react";
-import { axe } from "jest-axe";
 import Faker from "faker";
 import user from "@testing-library/user-event";
 import mockConsole from "jest-mock-console";
+
+import { axe } from "jest-axe";
 
 import {
   renderWithProviderRouter as render,
@@ -71,7 +72,7 @@ test("should hide errors on field change", () => {
   user.type(emailField, Faker.internet.email());
 
   const errorContainer = document.querySelector(".submit-error-message");
-  expect(errorContainer).toHaveClass("d-none");
+  expect(errorContainer).toHaveClass("hidden");
 });
 
 test("should have no accessibility violations", async () => {

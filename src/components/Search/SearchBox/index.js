@@ -20,9 +20,9 @@ const onChange = (e, refine) => {
     `.ais-SearchBox-form .ais-SearchBox-reset`
   );
   if (!e.currentTarget.value) {
-    resetButton.classList.add("d-none");
+    resetButton.classList.add("hidden");
   } else {
-    resetButton.classList.remove("d-none");
+    resetButton.classList.remove("hidden");
   }
 };
 
@@ -75,7 +75,7 @@ const SearchBox = ({
     <button
       type="reset"
       title="Clear the search query."
-      className="ais-SearchBox-reset d-none"
+      className="ais-SearchBox-reset hidden"
       onClick={onReset}
     >
       <TimesIcon className="la-xs search-icon" />

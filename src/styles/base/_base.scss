@@ -61,13 +61,6 @@ h2 {
   font-size: 16px;
 }
 
-.landing-header {
-  color: $primary;
-  // font-size: 70px;
-  font-weight: bold;
-  text-align: center;
-}
-
 .button,
 .btn {
   border: 0 !important;
@@ -136,12 +129,4 @@ fieldset {
 
 body:not(:-moz-handler-blocked) fieldset {
   display: table-cell;
-}
-
-.right {
-  right: 0;
-}
-
-.left {
-  left: 0;
 }

@@ -53,7 +53,7 @@ describe("Error Utilities", () => {
     hideAllErrors();
 
     const submitError = document.querySelector(".submit-error-message");
-    expect(submitError).toHaveClass("d-none");
+    expect(submitError).toHaveClass("hidden");
   });
 
   test("should show all errors", () => {
@@ -70,8 +70,8 @@ describe("Error Utilities", () => {
     showAllErrorsMock(error);
 
     const submitError = document.querySelector(".submit-error-message");
-    expect(submitError).not.toHaveClass("d-none");
-    expect(submitError).toHaveClass("d-block");
+    expect(submitError).not.toHaveClass("hidden");
+    expect(submitError).toHaveClass("block");
 
     showAllErrorsMock();
     expect(showAllErrorsMock).toHaveBeenCalledTimes(2);

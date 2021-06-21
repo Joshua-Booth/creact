@@ -73,7 +73,7 @@ const App = ({ history }) => {
   }, []);
 
   return (
-    <div className="app-container">
+    <div className="min-h-full relative">
       {showUpdateAlert && <UpdateAlert />}
       <Header />
       <Router />

@@ -37,7 +37,7 @@ function Intercom() {
     <div title="Intercom Live Chat" role="region" className="intercom">
       <button
         id="intercom_launcher"
-        className="intercom-launcher"
+        className="intercom-launcher w-full h-full border-none"
         onClick={handleNewMessages}
         aria-label="Intercom Chat Button"
       >
