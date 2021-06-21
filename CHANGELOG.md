@@ -1,3 +1,15 @@
+## [1.1.0](https://github.com/Joshua-Booth/creact/compare/v1.0.2...v1.1.0) (2021-06-21)
+
+
+### Features
+
+* tailwindcss ([b1bc8bd](https://github.com/Joshua-Booth/creact/commit/b1bc8bdaef3c2389b02d3e6e82aac24ba15118af))
+
+
+### Chores
+
+* update package-lock version ([cbc54ee](https://github.com/Joshua-Booth/creact/commit/cbc54ee4c8baa4d6676f4bccc6a4525c7c8a1c09))
+
 ### [1.0.2](https://github.com/Joshua-Booth/creact/compare/v1.0.1...v1.0.2) (2021-06-17)
 
 
