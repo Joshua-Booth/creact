@@ -1,3 +1,15 @@
+### [1.1.1](https://github.com/Joshua-Booth/creact/compare/v1.1.0...v1.1.1) (2021-06-22)
+
+
+### Continuous Integration
+
+* **release:** git author and commit values ([d7e9a48](https://github.com/Joshua-Booth/creact/commit/d7e9a4893e6b7d4b4a322be59515d0e8a24def4f))
+
+
+### Chores
+
+* update dependencies ([aade74b](https://github.com/Joshua-Booth/creact/commit/aade74bf89c0f39b54407a6a9022a4289fc3deb3))
+
 ## [1.1.0](https://github.com/Joshua-Booth/creact/compare/v1.0.2...v1.1.0) (2021-06-21)
 
 
