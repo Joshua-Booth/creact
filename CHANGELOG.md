@@ -1,3 +1,10 @@
+### [1.1.3](https://github.com/Joshua-Booth/creact/compare/v1.1.2...v1.1.3) (2021-06-23)
+
+
+### Continuous Integration
+
+* **release:** version bump package-lock ([b0e5a39](https://github.com/Joshua-Booth/creact/commit/b0e5a397865415e73252892f976bd1726bfbd7ef))
+
 ### [1.1.2](https://github.com/Joshua-Booth/creact/compare/v1.1.1...v1.1.2) (2021-06-23)
 
 
