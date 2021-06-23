@@ -1,3 +1,10 @@
+### [1.1.2](https://github.com/Joshua-Booth/creact/compare/v1.1.1...v1.1.2) (2021-06-23)
+
+
+### Continuous Integration
+
+* **release:** bump node version and add step ([4eaa420](https://github.com/Joshua-Booth/creact/commit/4eaa420bc1025ade15c63a6cf6e5fd8ed0c4df70))
+
 ### [1.1.1](https://github.com/Joshua-Booth/creact/compare/v1.1.0...v1.1.1) (2021-06-22)
 
 
