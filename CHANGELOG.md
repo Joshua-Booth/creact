@@ -1,3 +1,15 @@
+### [1.1.4](https://github.com/Joshua-Booth/creact/compare/v1.1.3...v1.1.4) (2021-06-24)
+
+
+### Continuous Integration
+
+* **husky:** clean npm install on post-merge ([8654f14](https://github.com/Joshua-Booth/creact/commit/8654f14c5625fd37a698063d5f06c2bb21385eed))
+
+
+### Chores
+
+* update dependencies ([6e06acc](https://github.com/Joshua-Booth/creact/commit/6e06accf6dbf151a44eaf16cc2e4fa625923e848))
+
 ### [1.1.3](https://github.com/Joshua-Booth/creact/compare/v1.1.2...v1.1.3) (2021-06-23)
 
 
