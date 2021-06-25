@@ -9,7 +9,6 @@ import { withRouter } from "react-router-dom";
 import { loginUser } from "actions/auth";
 
 // Components
-import Dashboard from "views/Dashboard";
 import Error from "components/Error";
 
 import LoginFields from "./fields";
@@ -114,7 +113,6 @@ function Login({ authenticated, error, history }) {
 
   if (authenticated) {
     history.push("/dashboard");
-    return <Dashboard />;
   }
 
   if (error && error.status) {
