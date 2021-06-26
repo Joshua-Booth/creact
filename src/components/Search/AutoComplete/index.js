@@ -3,8 +3,10 @@ import PropTypes from "prop-types";
 import AutoSuggest from "react-autosuggest";
 
 import { Snippet, connectAutoComplete } from "react-instantsearch-dom";
-import { SearchIcon } from "react-line-awesome";
 import { withRouter } from "react-router-dom";
+
+// Assets
+import { SearchIcon } from "assets/icons";
 
 // Components
 import Highlight from "./Highlight";

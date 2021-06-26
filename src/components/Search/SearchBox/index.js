@@ -2,7 +2,9 @@ import React from "react";
 import PropTypes from "prop-types";
 
 import { connectSearchBox } from "react-instantsearch-dom";
-import { SearchIcon, TimesIcon } from "react-line-awesome";
+
+// Assets
+import { SearchIcon, TimesIcon } from "assets/icons";
 
 /**
  * Default search submit action.

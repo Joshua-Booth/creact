@@ -182,7 +182,7 @@ function buildConfig(configDirs) {
       }),
       new CopyPlugin({
         patterns: [
-          { from: "src/assets/icons", to: "public/icons" },
+          { from: "src/assets/favicons", to: "public/icons" },
           { from: "src/manifest.json", to: "public" },
           { from: "public", to: "." },
         ],

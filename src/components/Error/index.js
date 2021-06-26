@@ -1,8 +1,10 @@
 import React from "react";
 import PropTypes from "prop-types";
 
-import { AngleLeftIcon, RedoAltIcon } from "react-line-awesome";
 import { useIntercom } from "react-use-intercom";
+
+// Assets
+import { AngleLeftIcon, RedoAltIcon } from "assets/icons";
 
 // Constants
 import { SUPPORT_EMAIL } from "constants/urls";

@@ -9,6 +9,7 @@
 
 import React from "react";
 
+// Assets
 import {
   UserIcon,
   QuestionCircleIcon,
@@ -19,7 +20,7 @@ import {
   FacebookFIcon,
   InstagramIcon,
   TwitterIcon,
-} from "react-line-awesome";
+} from "assets/icons";
 
 // Constants
 import { SocialUrls } from "constants/urls";

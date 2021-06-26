@@ -3,7 +3,9 @@ import React, { useCallback } from "react";
 import { useSelector } from "react-redux";
 import { withRouter } from "react-router-dom";
 import { useIntercom } from "react-use-intercom";
-import { CommentsIcon } from "react-line-awesome";
+
+// Assets
+import { CommentsIcon } from "assets/icons";
 
 // Selectors
 import { getUser } from "selectors/auth";

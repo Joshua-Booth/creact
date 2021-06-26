@@ -1,7 +1,8 @@
 import React from "react";
 import PropTypes from "prop-types";
 
-import { AngleLeftIcon } from "react-line-awesome";
+// Assets
+import { AngleLeftIcon } from "assets/icons";
 
 /**
  * Renders a back button.
