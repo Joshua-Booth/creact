@@ -1,3 +1,26 @@
+### [1.1.5](https://github.com/Joshua-Booth/creact/compare/v1.1.4...v1.1.5) (2021-06-26)
+
+
+### Performance Improvements
+
+* preconnect to Google font API ([a3434e2](https://github.com/Joshua-Booth/creact/commit/a3434e284fcf9bd5edf6770e10aa9ad65aa35932))
+
+
+### Build System
+
+* concurrently as dev dependency ([10854f8](https://github.com/Joshua-Booth/creact/commit/10854f828b2d39efc0b1a6b4cd6927d7420ab92b))
+
+
+### Code Refactoring
+
+* remove unnecessary dashboard render ([cc7c34b](https://github.com/Joshua-Booth/creact/commit/cc7c34b3d18b3832c4513a31f40271709dfc04d0))
+* separate out and define each icon used ([a999220](https://github.com/Joshua-Booth/creact/commit/a999220dd973a0d0d1d5ff5feff7a46bdc6b830d))
+
+
+### Chores
+
+* update dependencies ([d3d66b9](https://github.com/Joshua-Booth/creact/commit/d3d66b97a7e75077d45ff2dbfd7253fc78827540))
+
 ### [1.1.4](https://github.com/Joshua-Booth/creact/compare/v1.1.3...v1.1.4) (2021-06-24)
 
 
