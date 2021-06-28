@@ -14,3 +14,5 @@
  * @type {string}
  */
 export const APP_TITLE = "React Frontend";
+
+export const COPYRIGHT_HOLDER = "Joshua Booth";

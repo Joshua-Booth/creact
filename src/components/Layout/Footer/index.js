@@ -1,7 +1,11 @@
 import React from "react";
 import PropTypes from "prop-types";
+
 import { Link } from "react-router-dom";
 import { connect } from "react-redux";
+
+// Components
+import Copyright from "./Copyright";
 
 // Constants
 import { SOCIAL_LINKS } from "constants/links";
@@ -81,22 +85,12 @@ function Footer({ user }) {
     </ul>
   );
 
-  const renderCopyright = () => {
-    const currentYear = new Date().getFullYear();
-
-    return (
-      <span className="copyright block text-center mx-auto" data-hj-allow>
-        &copy; All rights reserved Joshua Booth {currentYear}
-      </span>
-    );
-  };
-
   return (
     <footer className="footer absolute mx-auto left-0 right-0">
       <div className="footer-wrapper w-full">
         {renderSocialLinks()}
         {renderTextLinks()}
-        {renderCopyright()}
+        <Copyright />
       </div>
     </footer>
   );
