@@ -1,25 +1,12 @@
 import React from "react";
-import PropTypes from "prop-types";
-
-import { Link } from "react-router-dom";
-import { connect } from "react-redux";
 
 // Components
 import Copyright from "./Copyright";
-
-// Constants
-import { SOCIAL_LINKS } from "constants/links";
-import { SUPPORT_EMAIL } from "constants/urls";
-
-// Selectors
-import { getUser } from "selectors/auth";
+import SocialLinks from "./SocialLinks";
+import TextLinks from "./TextLinks";
 
 // Styles
 import "./styles.scss";
-
-// Utilities
-import { isObjectEmpty } from "utils/error";
-import { OutboundLink } from "utils/page";
 
 /**
  * Footer component containing links to important site pages and social media.
@@ -32,86 +19,16 @@ import { OutboundLink } from "utils/page";
  * )
  * @returns {React.Component} The footer component
  */
-function Footer({ user }) {
-  const renderTextLinks = () => {
-    const isUser = !isObjectEmpty(user);
-    const contactType = isUser ? "Support" : "Contact";
-
-    return (
-      <div className="footer__links w-full mb-5">
-        <Link
-          className="footer__item-link"
-          to="/privacy"
-          aria-label="Privacy Policy"
-        >
-          Privacy Policy
-        </Link>
-
-        <a
-          className="footer__item-link no-underline"
-          href={`mailto:${SUPPORT_EMAIL}`}
-          aria-label="Contact"
-        >
-          {contactType}
-        </a>
-
-        <Link
-          className="footer__item-link"
-          to="/terms-of-use"
-          aria-label="Terms of Use"
-        >
-          Terms of Use
-        </Link>
-      </div>
-    );
-  };
-
-  const renderSocialLinks = () => (
-    <ul className="footer__social-links flex w-full mb-2 list-none no-bullet-style">
-      {SOCIAL_LINKS.map((link, index) => (
-        <li className="footer__social-item" key={index}>
-          <OutboundLink
-            className="footer__social-link font-weight-bold"
-            to={link.path}
-            eventLabel={`${link.label} - Footer Icon`}
-            aria-label={link.label}
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            {link.icon}
-          </OutboundLink>
-        </li>
-      ))}
-    </ul>
-  );
-
+function Footer() {
   return (
-    <footer className="footer absolute mx-auto left-0 right-0">
-      <div className="footer-wrapper w-full">
-        {renderSocialLinks()}
-        {renderTextLinks()}
+    <footer className="footer absolute mx-auto left-0 right-0 w-[300px] z-[1]">
+      <div className="w-full flex flex-row flex-wrap m-auto text-center justify-evenly text-base pb-[20px]">
+        <SocialLinks />
+        <TextLinks />
         <Copyright />
       </div>
     </footer>
   );
 }
 
-Footer.propTypes = {
-  /** An object containing all user information. */
-  user: PropTypes.object,
-};
-
-/**
- * Maps Redux store state to component props.
- *
- * @function
- * @param {object} state The current Redux store state
- * @returns {object} The relevant state as the required props for the component
- */
-function mapStateToProps(state) {
-  return {
-    user: getUser(state),
-  };
-}
-
-export default connect(mapStateToProps)(Footer);
+export default Footer;

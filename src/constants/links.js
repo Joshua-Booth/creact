@@ -23,7 +23,7 @@ import {
 } from "assets/icons";
 
 // Constants
-import { SocialUrls } from "constants/urls";
+import { SocialUrls, SUPPORT_EMAIL } from "constants/urls";
 
 /** Link objects for the more component. */
 export const MORE_LINKS = [
@@ -59,4 +59,10 @@ export const SOCIAL_LINKS = [
   { path: FACEBOOK, label: "Facebook", icon: <FacebookFIcon /> },
   { path: TWITTER, label: "Twitter", icon: <TwitterIcon /> },
   { path: INSTAGRAM, label: "Instagram", icon: <InstagramIcon /> },
+];
+
+export const FOOTER_LINKS = [
+  { label: "Privacy Policy", type: "link", value: "/privacy" },
+  { label: "Contact", type: "mail", value: SUPPORT_EMAIL },
+  { label: "Contact", type: "link", value: "/terms-of-use" },
 ];

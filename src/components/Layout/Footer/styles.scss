@@ -1,57 +1,9 @@
 // Footer
+
 /* stylelint-disable function-parentheses-space-inside */
 .footer {
-  width: 300px;
-  z-index: 1;
-
   @include tablet-lg {
     bottom: 80px;
     height: 150px;
-  }
-
-  &-wrapper {
-    display: flex;
-    flex-direction: row;
-    flex-wrap: wrap;
-    font-size: 16px;
-    justify-content: space-evenly;
-    margin: auto;
-    padding-bottom: 20px;
-    text-align: center;
-  }
-
-  &__links {
-    bottom: 0;
-    display: flex;
-    -ms-flex-wrap: wrap;
-    flex-wrap: wrap;
-    font-size: 0.75em;
-    justify-content: space-between;
-  }
-
-  &__social {
-    &-links {
-      justify-content: space-evenly;
-      margin: auto;
-    }
-
-    &-item {
-      margin-bottom: 5px;
-      padding-bottom: 10px;
-    }
-  }
-
-  &__item-link,
-  &__social-link {
-    color: $dark-grey;
-    text-decoration: none;
-
-    i {
-      font-size: 1.5em;
-    }
-
-    &:hover {
-      color: $primary;
-    }
   }
 }
