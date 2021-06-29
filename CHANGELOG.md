@@ -1,3 +1,11 @@
+## [1.2.0](https://github.com/Joshua-Booth/creact/compare/v1.1.5...v1.2.0) (2021-06-29)
+
+
+### Features
+
+* add Copyright component ([55c7c12](https://github.com/Joshua-Booth/creact/commit/55c7c1215a1b9d76a89c95f759f358de92eea10d))
+* add SocialLinks and TextLinks components ([e5fdfc4](https://github.com/Joshua-Booth/creact/commit/e5fdfc44ed859776b8056e47c0f5fd1970f04bda))
+
 ### [1.1.5](https://github.com/Joshua-Booth/creact/compare/v1.1.4...v1.1.5) (2021-06-26)
 
 
