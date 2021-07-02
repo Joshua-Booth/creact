@@ -1,3 +1,15 @@
+### [1.2.1](https://github.com/Joshua-Booth/creact/compare/v1.2.0...v1.2.1) (2021-07-02)
+
+
+### Code Refactoring
+
+* separate SideNavigation into components ([b75f1f1](https://github.com/Joshua-Booth/creact/commit/b75f1f171147ba8786e731c5db7603784a264de0))
+
+
+### Chores
+
+* update dependencies ([ff41e06](https://github.com/Joshua-Booth/creact/commit/ff41e06ad0252cc82d15d807c666435c6cc45a03))
+
 ## [1.2.0](https://github.com/Joshua-Booth/creact/compare/v1.1.5...v1.2.0) (2021-06-29)
 
 
