@@ -21,8 +21,8 @@ import "./styles.scss";
  */
 function Footer() {
   return (
-    <footer className="footer absolute mx-auto left-0 right-0 w-[300px] z-[1]">
-      <div className="w-full flex flex-row flex-wrap m-auto text-center justify-evenly text-base pb-[20px]">
+    <footer className="footer absolute mx-auto left-0 right-0">
+      <div className="w-full flex flex-row flex-wrap m-auto text-center justify-evenly text-base pb-5">
         <SocialLinks />
         <TextLinks />
         <Copyright />

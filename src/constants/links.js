@@ -64,5 +64,5 @@ export const SOCIAL_LINKS = [
 export const FOOTER_LINKS = [
   { label: "Privacy Policy", type: "link", value: "/privacy" },
   { label: "Contact", type: "mail", value: SUPPORT_EMAIL },
-  { label: "Contact", type: "link", value: "/terms-of-use" },
+  { label: "Terms of Use", type: "link", value: "/terms-of-use" },
 ];
