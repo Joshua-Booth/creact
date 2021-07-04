@@ -1,3 +1,15 @@
+### [1.2.2](https://github.com/Joshua-Booth/creact/compare/v1.2.1...v1.2.2) (2021-07-04)
+
+
+### Bug Fixes
+
+* footer link and styles ([f30be0e](https://github.com/Joshua-Booth/creact/commit/f30be0e9b64909c2bd97bc0d2bcd5ef9f4361443))
+
+
+### Code Refactoring
+
+* remove arbitrary tailwind classes ([c84ac48](https://github.com/Joshua-Booth/creact/commit/c84ac48fde377f673f4c50db399024d568864439))
+
 ### [1.2.1](https://github.com/Joshua-Booth/creact/compare/v1.2.0...v1.2.1) (2021-07-02)
 
 
