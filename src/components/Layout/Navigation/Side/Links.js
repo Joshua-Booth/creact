@@ -18,7 +18,7 @@ function Links() {
   return (
     <ul className="flex flex-col bg-white mb-0 pl-0 no-bullet-style ml-4">
       {SIDE_LINKS.map((link, index) => (
-        <li className="flex py-[20px] px-0" key={index}>
+        <li className="flex py-5 px-0" key={index}>
           <NavLink
             to={`/${link.path}`}
             className="nav-link"
@@ -26,7 +26,7 @@ function Links() {
             aria-label={`${link.label}`}
           >
             {link.icon}
-            <span className="text-xs pl-[16px] relative top-[-15%]">
+            <span className="text-xs pl-4 relative" style={{ top: "-15%" }}>
               {link.label}
             </span>
           </NavLink>
