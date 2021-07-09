@@ -19,12 +19,11 @@ function TextLinks() {
     "footer-link no-underline text-dark-grey hover:text-primary";
 
   return (
-    <div className="flex flex-wrap justify-between bottom-0 w-full mb-5 text-xs">
+    <ul className="flex flex-wrap justify-between bottom-0 w-full mb-5 text-xs no-bullet-style">
       {FOOTER_LINKS.map((link, index) => (
-        <>
+        <li key={index}>
           {link.type == "link" && (
             <Link
-              key={index}
               className={linkClasses}
               to={link.value}
               aria-label={link.label}
@@ -34,7 +33,6 @@ function TextLinks() {
           )}
           {link.type == "mail" && (
             <a
-              key={index}
               className={linkClasses}
               href={`mailto:${link.value}`}
               aria-label={link.label}
@@ -42,9 +40,9 @@ function TextLinks() {
               {link.label}
             </a>
           )}
-        </>
+        </li>
       ))}
-    </div>
+    </ul>
   );
 }
 
