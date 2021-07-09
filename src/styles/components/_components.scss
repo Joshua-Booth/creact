@@ -1,5 +1,11 @@
 // Anything reusable such as buttons, navbars, cards, etc.
 
+@layer components {
+  .alert-error {
+    @apply rounded-md bg-red-100 border border-red-300 text-red-700 p-2 mt-1 mb-0;
+  }
+}
+
 .box-style {
   background: #ffffff 0% 0% no-repeat padding-box;
   border-radius: 30px;

@@ -44,12 +44,12 @@ export default function Input({
         />
       </div>
       {error && (
-        <div className="error-message alert alert-danger p-2 mt-1 mb-0">
+        <div className="error-message alert-error">
           <small>{error.message}</small>
         </div>
       )}
       {submitError && (
-        <div className="submit-error-message alert alert-danger p-2 mt-1 mb-0">
+        <div className="submit-error-message alert-error">
           <small>{submitError}</small>
         </div>
       )}

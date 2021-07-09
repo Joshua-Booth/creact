@@ -12,7 +12,8 @@
           "tailwind",
           "components",
           "utilities",
-          "screen"
+          "screen",
+          "layer"
         ]
       }
     ],
