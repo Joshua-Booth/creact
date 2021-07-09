@@ -11,8 +11,6 @@ import "./styles.scss";
 /**
  * Footer component containing links to important site pages and social media.
  *
- * @param {...object} props Component properties
- * @param {object} props.user The user object
  * @example
  * return (
  *   <Footer />
