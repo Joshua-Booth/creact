@@ -25,6 +25,9 @@ import {
 // Constants
 import { SocialUrls, SUPPORT_EMAIL } from "constants/urls";
 
+/** Link objects for the header component. */
+export const HEADER_LINKS = [{ path: "/login", label: "Login" }];
+
 /** Link objects for the more component. */
 export const MORE_LINKS = [
   { path: "profile", label: "Profile", icon: <UserIcon /> },

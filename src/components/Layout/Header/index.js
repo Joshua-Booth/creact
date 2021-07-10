@@ -1,5 +1,6 @@
 import React from "react";
 import PropTypes from "prop-types";
+
 import { withRouter, NavLink } from "react-router-dom";
 import { connect } from "react-redux";
 
@@ -7,7 +8,11 @@ import { connect } from "react-redux";
 import { ReactComponent as Logo } from "assets/images/logo.svg";
 
 // Components
+import Links from "./Links";
 import { CornerSearch } from "components/Search";
+
+// Constants
+import { HEADER_LINKS } from "constants/links";
 
 // Selectors
 import { isAuthenticated } from "selectors/auth";
@@ -27,38 +32,19 @@ import "./styles.scss";
  * @returns {React.Component} The header component
  */
 function Header({ authenticated }) {
-  const renderLinks = () => {
-    return (
-      <ul className="header__links nav d-none d-md-block no-bullet-style">
-        <li className="header__link-item nav-item" key="login">
-          <NavLink
-            exact
-            className="nav-link mx-auto"
-            to="/login"
-            activeClassName="active-link"
-            aria-label="Login"
-          >
-            Login
-          </NavLink>
-        </li>
-      </ul>
-    );
-  };
-
   const logoLink = authenticated ? "/dashboard" : "/";
+
   return (
-    <header className="header navbar navbar-expand-sm relative p-0 mb-4">
+    <header className="header relative p-0 mb-4">
       <NavLink
         to={logoLink}
-        className="navbar-brand absolute"
+        className="logo-container absolute"
         aria-label="Home"
       >
         <Logo className="img-fluid logo" alt="React Frontend Logo" />
       </NavLink>
 
-      {!authenticated && renderLinks()}
-
-      {authenticated && <CornerSearch />}
+      {authenticated ? <CornerSearch /> : <Links links={HEADER_LINKS} />}
     </header>
   );
 }

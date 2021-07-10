@@ -1,6 +1,6 @@
 // Header
 
-.navbar-brand {
+.logo-container {
   margin-left: 15px;
   top: 0;
 
@@ -23,9 +23,5 @@
     -ms-transform: translate(-50%, -50%);
     transform: translate(-50%, -50%);
     width: 100px;
-  }
-
-  &__link-item {
-    padding: 8px;
   }
 }
