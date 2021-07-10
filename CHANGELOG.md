@@ -1,3 +1,26 @@
+### [1.2.3](https://github.com/Joshua-Booth/creact/compare/v1.2.2...v1.2.3) (2021-07-10)
+
+
+### Bug Fixes
+
+* unique key prop warning ([141c69e](https://github.com/Joshua-Booth/creact/commit/141c69ec5a28e4e1052d86b5277d633340930674))
+* unstyled input error messages ([5f31dbf](https://github.com/Joshua-Booth/creact/commit/5f31dbfddf73bc17af1e71e8b4ee583b48f1bab4))
+
+
+### Chores
+
+* update dependencies ([cc0a53b](https://github.com/Joshua-Booth/creact/commit/cc0a53b8a3f30d09e905eae69882643d9e0de353))
+
+
+### Documentation
+
+* remove irrelevant docstring values ([bb0ca99](https://github.com/Joshua-Booth/creact/commit/bb0ca99139bb231a28e319e7335605bb88d1a973))
+
+
+### Code Refactoring
+
+* header component and styles ([9281d37](https://github.com/Joshua-Booth/creact/commit/9281d37342e8753b532111d432a6b5d39a4b7368))
+
 ### [1.2.2](https://github.com/Joshua-Booth/creact/compare/v1.2.1...v1.2.2) (2021-07-04)
 
 
