@@ -213,6 +213,15 @@
             {
               "type": "chore",
               "release": false
+            },
+            {
+              "type": "chore",
+              "message": "*update*",
+              "release": "patch"
+            },
+            {
+              "message": "*update dependencies*",
+              "release": "patch"
             }
           ]
         }
