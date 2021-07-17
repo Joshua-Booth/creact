@@ -1,3 +1,20 @@
+### [1.2.4](https://github.com/Joshua-Booth/creact/compare/v1.2.3...v1.2.4) (2021-07-17)
+
+
+### Bug Fixes
+
+* remove PurgeCSS Webpack plugin ([f3a67a3](https://github.com/Joshua-Booth/creact/commit/f3a67a359d4ce80be80fc070b36bbc843cf7c029))
+
+
+### Chores
+
+* **deps:** update dependencies ([c10656e](https://github.com/Joshua-Booth/creact/commit/c10656eea3902b858752ab8070abf0b5a8698c6c))
+
+
+### Continuous Integration
+
+* **release:** add commit type rules ([c6b63f4](https://github.com/Joshua-Booth/creact/commit/c6b63f41dcd98c63bceb357430819ce9ed67811d))
+
 ### [1.2.3](https://github.com/Joshua-Booth/creact/compare/v1.2.2...v1.2.3) (2021-07-10)
 
 
