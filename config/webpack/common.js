@@ -1,8 +1,5 @@
-const glob = require("glob");
-
 // CSS
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
-const PurgecssPlugin = require("purgecss-webpack-plugin");
 
 // HTML
 const HtmlWebpackPlugin = require("html-webpack-plugin");
@@ -19,17 +16,6 @@ const BundleAnalyzerPlugin =
   require("webpack-bundle-analyzer").BundleAnalyzerPlugin;
 
 const PROD = process.env.NODE_ENV === "production";
-
-/**
- * Return a list of blobs that match allowed CSS classes for PurgeCSS
- *
- * @returns {object} A object of safe CSS classes to allow
- */
-function collectSafelist() {
-  return {
-    standard: [/^ais-/, /^notif/, /^react-autosuggest/],
-  };
-}
 
 /**
  * The common build config for development and production builds.
@@ -150,12 +136,6 @@ function buildConfig(configDirs) {
     plugins: [
       new MiniCssExtractPlugin({
         filename: PROD ? "[name].[contenthash:8].css" : "styles.css",
-      }),
-      new PurgecssPlugin({
-        paths: glob.sync(`${configDirs.APP_DIR}/**`, {
-          nodir: true,
-        }),
-        safelist: collectSafelist,
       }),
       new WorkboxPlugin.GenerateSW({
         swDest: "./sw.js",
