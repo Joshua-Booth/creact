@@ -18,7 +18,7 @@ function NoMatch() {
 
   return (
     <main className="content-container">
-      <Error status={404} title={"Page Not Found"} />
+      <Error status={404} />
     </main>
   );
 }

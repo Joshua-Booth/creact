@@ -19,7 +19,7 @@ test("should render component", () => {
 
   const header = document.querySelector("h1");
 
-  expect(header).toHaveTextContent(/page not found/i);
+  expect(header).toHaveTextContent(/not found/i);
 });
 
 testError(<NoMatch />);
