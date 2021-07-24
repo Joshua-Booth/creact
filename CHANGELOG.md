@@ -1,3 +1,15 @@
+### [1.2.5](https://github.com/Joshua-Booth/creact/compare/v1.2.4...v1.2.5) (2021-07-24)
+
+
+### Bug Fixes
+
+* remove duplicate title on 404 page ([2285b3f](https://github.com/Joshua-Booth/creact/commit/2285b3fbef4582be0a369b697fedb60cc0b36946))
+
+
+### Chores
+
+* update dependencies ([cb5fbeb](https://github.com/Joshua-Booth/creact/commit/cb5fbeb7f482f228e9258787ee1ac35007d2bd89))
+
 ### [1.2.4](https://github.com/Joshua-Booth/creact/compare/v1.2.3...v1.2.4) (2021-07-17)
 
 
