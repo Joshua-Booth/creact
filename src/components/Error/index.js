@@ -3,8 +3,9 @@ import PropTypes from "prop-types";
 
 import { useIntercom } from "react-use-intercom";
 
-// Assets
-import { AngleLeftIcon, RedoAltIcon } from "assets/icons";
+// Components
+import BackButton from "./BackButton";
+import ReloadButton from "./ReloadButton";
 
 // Constants
 import { SUPPORT_EMAIL } from "constants/urls";
@@ -25,8 +26,6 @@ import { HTTP_STATUS_CODES } from "constants/statusCodes";
 function Error({ status, response, title }) {
   const { show } = useIntercom();
   const showChat = () => show();
-  const goBack = () => window.history.back();
-  const reload = () => window.location.reload(true);
 
   if (!status && !response) {
     return null;
@@ -50,7 +49,7 @@ function Error({ status, response, title }) {
     if (response && response.message && response.message.includes("Error")) {
       statusText = response.message;
     } else {
-      statusText = "Error: " + HTTP_STATUS_CODES[status];
+      statusText = `${HTTP_STATUS_CODES[status]}`;
     }
   }
 
@@ -72,7 +71,7 @@ function Error({ status, response, title }) {
           Oops! Something went wrong{errorType ? " " + errorType : ""}.
         </h2>
         <div className="mx-auto">
-          <p>
+          <p className="mb-3">
             If you believe this is a mistake, you can contact support&nbsp;
             <a href="#" onClick={showChat} aria-label="contact chat">
               here
@@ -80,22 +79,8 @@ function Error({ status, response, title }) {
             &nbsp;or email&nbsp;
             <a href={`mailto:${SUPPORT_EMAIL}`}>{SUPPORT_EMAIL}</a>.
           </p>
-          <button
-            className="text-current border-0 bg-white p-1 px-2"
-            onClick={goBack}
-            aria-label="Go Back"
-          >
-            <AngleLeftIcon className="la-2x" />
-            <span style={{ verticalAlign: "super" }}>Back</span>
-          </button>
-          <button
-            className="text-current border-0 bg-white p-1 pl-0 ml-5"
-            onClick={reload}
-            aria-label="Reload Page"
-          >
-            <RedoAltIcon className="la-2x mr-2" />
-            <span style={{ verticalAlign: "super" }}>Reload</span>
-          </button>
+          <BackButton />
+          <ReloadButton />
         </div>
       </div>
     </>
