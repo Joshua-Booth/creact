@@ -38,12 +38,10 @@ export const AuthUrls = {
  * @type {object}
  * @property {string} PRIVACY_POLICY Privacy policy URL
  * @property {string} TERMS_OF_USE Terms of Use policy URL
- * @property {string} KNOWLEDGE_PAGE Knowledge page URL
  */
 export const AppUrls = {
   PRIVACY_POLICY: `${ROOT_URL}/app/privacy_policy/`,
   TERMS_OF_USE: `${ROOT_URL}/app/terms_of_use/`,
-  KNOWLEDGE_PAGE: `${ROOT_URL}/app/knowledge_page/`,
 };
 
 /** Site support email address. */

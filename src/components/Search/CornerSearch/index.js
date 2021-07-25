@@ -15,10 +15,9 @@ import { searchClient, ENV } from "utils/search";
  */
 function CornerSearch() {
   return (
-    <InstantSearch indexName={`Knowledge_${ENV}`} searchClient={searchClient}>
+    <InstantSearch indexName={`App_${ENV}`} searchClient={searchClient}>
       <Configure hitsPerPage={3} />
       <AutoComplete />
-      <Index indexName={`Knowledge_${ENV}`} />
       <Index indexName={`App_${ENV}`} />
       <Index indexName="SitePages" />
     </InstantSearch>
