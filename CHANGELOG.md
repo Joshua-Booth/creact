@@ -1,3 +1,15 @@
+### [1.2.6](https://github.com/Joshua-Booth/creact/compare/v1.2.5...v1.2.6) (2021-07-31)
+
+
+### Code Refactoring
+
+* separate Error buttons into components ([14422b3](https://github.com/Joshua-Booth/creact/commit/14422b33da7c8d104475999700ed3ac8cf661f70))
+
+
+### Chores
+
+* remove unused knowledge references ([e1d777c](https://github.com/Joshua-Booth/creact/commit/e1d777c409d0e1f6e666e52f34cc728776a4f62e))
+
 ### [1.2.5](https://github.com/Joshua-Booth/creact/compare/v1.2.4...v1.2.5) (2021-07-24)
 
 
