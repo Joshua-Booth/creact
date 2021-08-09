@@ -1,3 +1,10 @@
+### [1.2.7](https://github.com/Joshua-Booth/creact/compare/v1.2.6...v1.2.7) (2021-08-09)
+
+
+### Chores
+
+* update dependencies ([6aac131](https://github.com/Joshua-Booth/creact/commit/6aac13160d58eab854d4b5c8af36d896452206a8))
+
 ### [1.2.6](https://github.com/Joshua-Booth/creact/compare/v1.2.5...v1.2.6) (2021-07-31)
 
 
