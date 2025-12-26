@@ -7,7 +7,7 @@
   </a>
 
   <h2 style="padding-top:0;margin-top:20px">creact</h2>
-  <h4 style="padding-top:20px">A project template for creating awesome React web apps.</h4>
+  <h4 style="padding-top:20px">A modern React web app template with Vite, React Router v7, and TypeScript.</h4>
 
   <br />
 
@@ -60,14 +60,18 @@
 ## About
 
 <p style="padding-bottom: 20px">
-creact is a React JS project template for quickly setting up advanced production web apps.
-Setting up a complex app from scratch takes ages, so this template aims to have 
-as many realistic project features and integrations as possible. However, with the focus on
-being modular - you should be able to remove parts if they aren't a good fit for your project.
+creact is a modern React project template built with the latest web technologies for quickly setting up production-ready web applications. Version 2.0 represents a complete modernization of the stack, featuring:
 
-Take a look at the <a href="#features">features</a> to see what's included. And
-if there's something that you think should be added, feel free to create a
-[feature request](https://github.com/Joshua-Booth/creact/issues/new).
+- **React 19** with the latest features and optimizations
+- **React Router v7** for powerful routing and data loading
+- **Vite** for lightning-fast development and optimized builds
+- **TypeScript** for type-safe development
+- **Zustand** for simple, scalable state management
+- **Tailwind CSS v4** for modern, utility-first styling
+
+The template is designed to be modular - you can easily remove or customize parts that don't fit your project needs.
+
+Take a look at the <a href="#features">features</a> to see what's included. If there's something you think should be added, feel free to create a [feature request](https://github.com/Joshua-Booth/creact/issues/new).
 
 For more information about this project check out the [wiki].
 
@@ -78,125 +82,189 @@ For more information about this project check out the [wiki].
 ## Features
 
 - :scissors: **Customisable** - Only use the parts that you need for your project
-- :file_folder: **Data management** - Manage state with [Redux] and handle API data with [redux-thunk] and [axios]
-- :iphone: **Responsive design** - Uses [Tailwind CSS] with [Sass] and custom media query mixins
-- :arrow_right_hook: **Git hooks** - Starter hooks with [Husky]
+- :zap: **Modern build tooling** - Lightning-fast development with [Vite] and [React Router v7]
+- :file_folder: **Data management** - Simple state management with [Zustand] and API requests with [axios]
+- :iphone: **Responsive design** - Modern styling with [Tailwind CSS v4]
+- :arrow_right_hook: **Git hooks** - Automated code quality checks with [Husky]
 - :bookmark: **Versioning** - Automated SemVer versioning, changelogs and releases with [semantic-release]
-- :shirt: **Linting** - [ESlint], [Prettier], [stylelint], and [commitlint]
-- :white_check_mark: **Testing** - Config and starter tests for unit, integration and end-to-end testing
-- :chart_with_upwards_trend: **Coverage reports** - [Jest] and [Cypress] test coverage results either combined or separate
-- :package: **Third party apps/tools** - [Algolia] and [Intercom] built in
+- :shirt: **Linting** - [ESLint], [Prettier], [stylelint], and [commitlint]
+- :white_check_mark: **Testing** - Unit and integration tests with [Vitest], E2E tests with [Playwright]
+- :chart_with_upwards_trend: **Coverage reports** - Comprehensive test coverage tracking
+- :wrench: **Task runner** - Streamlined development workflows with [mise]
+- :package: **Third party integrations** - [Algolia], [Sentry], and [PostHog] built in
+- :art: **Modern UI components** - [Lucide React] icons and [React Hook Form] for forms
 
-[redux]: https://redux.js.org/
-[redux-thunk]: https://github.com/reduxjs/redux-thunk
+[vite]: https://vite.dev/
+[react router v7]: https://reactrouter.com/
+[zustand]: https://github.com/pmndrs/zustand
 [axios]: https://axios-http.com/
-[tailwind css]: https://tailwindcss.com/
-[sass]: https://sass-lang.com/
+[tailwind css v4]: https://tailwindcss.com/
 [husky]: https://github.com/typicode/husky
 [semantic-release]: https://github.com/semantic-release/semantic-release
 [eslint]: https://eslint.org/
 [prettier]: https://prettier.io/
 [stylelint]: https://stylelint.io/
 [commitlint]: https://commitlint.js.org/#/
-[jest]: https://jestjs.io/
-[cypress]: https://www.cypress.io/
+[vitest]: https://vitest.dev/
+[playwright]: https://playwright.dev/
+[mise]: https://mise.jdx.dev/
 [algolia]: https://www.algolia.com/
-[intercom]: https://www.intercom.com/
+[sentry]: https://sentry.io/
+[posthog]: https://posthog.com/
+[lucide react]: https://lucide.dev/
+[react hook form]: https://react-hook-form.com/
 
 ## Requirements
 
 This project requires the following:
 
 - [Git](https://git-scm.com/downloads)
-- [Node.js 14.16+](https://nodejs.org/en/download/)
-- [npm 7.0.0+](https://nodejs.org/en/download/)
+- [Node.js 24.12.0+](https://nodejs.org/en/download/) (or use [mise] to manage versions automatically)
+- [pnpm 10.26.0+](https://pnpm.io/installation)
+
+### Recommended setup
+
+Install [mise](https://mise.jdx.dev/) for automatic version management:
+
+```sh
+# Install mise (macOS)
+brew install mise
+
+# Install mise (other platforms)
+curl https://mise.run | sh
+```
+
+Once mise is installed, it will automatically install and use the correct Node.js and pnpm versions when you enter the project directory.
 
 ### Other useful global dependencies
 
-- [git-cz](https://www.npmjs.com/package/git-cz)
-- [npm-check-updates](https://www.npmjs.com/package/npm-check-updates)
-- [prettier](https://www.npmjs.com/package/prettier)
+- [git-cz](https://www.npmjs.com/package/git-cz) for conventional commits
+- [prettier](https://www.npmjs.com/package/prettier) for code formatting
 
 ## Installation
 
 ```sh
-> git clone https://github.com/Joshua-Booth/creact.git   # Clone the repository
+# Clone the repository
+git clone https://github.com/Joshua-Booth/creact.git
 
-> cd creact     # Change into the 'creact' directory
+# Change into the 'creact' directory
+cd creact
 
-> npm install   # Install all the project's dependencies
+# Install all the project's dependencies
+pnpm install
 ```
 
-**Ensure the `NODE_ENV` environment variable is either undefined or set to `'development'` before installing dependencies.**
+**Note:** If you're using mise, the correct Node.js and pnpm versions will be automatically installed and activated when you enter the project directory.
 
 ## Setup
 
-Create three env files (.prod, .dev, .test) in an `env` directory in [config](/config).
+Environment variables are configured using `.env` files in the project root. The project includes:
+
+- `.env` - Base configuration (shared across all environments)
+- `.env.development` - Development environment settings
+- `.env.test` - Test environment settings
+- `.env.production` - Production environment settings
+
+For local customization (e.g., custom ports for git worktrees), create a `.env.local` or `.env.development.local` file. These files are gitignored and will override the default settings.
+
+See `.env.example` for a complete list of available configuration options.
+
+### Port Configuration
+
+By default, the application uses:
+
+- Frontend dev server: `http://localhost:8080`
+- Backend API server: `http://localhost:8000`
+
+You can customize these ports and configure integrations using environment variables:
+
+| Variable name       | Required | Description                                                                                                   |
+| ------------------- | -------- | ------------------------------------------------------------------------------------------------------------- |
+| `VITE_PORT`         | False    | Frontend dev server port (default: `8080`)                                                                    |
+| `VITE_API_PORT`     | False    | Backend API server port (default: `8000`)                                                                     |
+| `VITE_API_ROOT_URL` | True     | Your API's URL (e.g. `http://localhost:8000` for dev and `https://api.example.com/` for prod)                 |
+| `VITE_PUBLIC_URL`   | True     | This app's public URL (e.g. `http://localhost:8080/public` for dev and `https://example.com/public` for prod) |
+| `VITE_SENTRY_DSN`   | False    | [Sentry DSN] for error tracking and monitoring                                                                |
+| `SENTRY_ORG`        | False    | Sentry organization slug (for sourcemap uploads during builds)                                                |
+| `SENTRY_PROJECT`    | False    | Sentry project slug (for sourcemap uploads during builds)                                                     |
+| `SENTRY_AUTH_TOKEN` | False    | [Sentry auth token] for sourcemap uploads (build only)                                                        |
+| `VITE_POSTHOG_KEY`  | False    | [PostHog project API key] for product analytics                                                               |
+| `VITE_POSTHOG_HOST` | False    | PostHog API host (default: `https://app.posthog.com`)                                                         |
+
+### Git Worktree Setup
+
+To run multiple branches simultaneously on different ports, create a `.env.development.local` file in each worktree with custom port numbers. Make sure to update all URL variables to match your port configuration:
 
 ```sh
-> mkdir ./config/env
-> cd ./config/env
+# Branch 1 (main) - .env.development.local
+VITE_PORT=8080
+VITE_API_PORT=8000
+VITE_API_ROOT_URL=http://localhost:8000
+VITE_PUBLIC_URL=http://localhost:8080/public
 
-> touch .prod .dev .test   # Windows: cd > .prod && cd > .dev && cd > .test
+# Branch 2 (feature-a) - .env.development.local
+VITE_PORT=8081
+VITE_API_PORT=8001
+VITE_API_ROOT_URL=http://localhost:8001
+VITE_PUBLIC_URL=http://localhost:8081/public
+
+# Branch 3 (feature-b) - .env.development.local
+VITE_PORT=8082
+VITE_API_PORT=8002
+VITE_API_ROOT_URL=http://localhost:8002
+VITE_PUBLIC_URL=http://localhost:8082/public
 ```
 
-Add the following environment variables for development (.dev) and production (.prod):
-
-| Variable name                      | Required | Description                                                                                            |
-| ---------------------------------- | -------- | ------------------------------------------------------------------------------------------------------ |
-| `NODE_VERSION`                     | False    | This app's Node version (should be equal or greater than `14.16`)                                      |
-| `REACT_APP_ROOT_URL`               | True     | Your API's URL (e.g. `localhost:8000` for dev and `https://api.example.com/` for prod)                 |
-| `REACT_APP_PUBLIC_URL`             | True     | This app's public URL (e.g. `localhost:8080/public` for dev and `https://example.com/public` for prod) |
-| `REACT_APP_ALGOLIA_APP_ID`         | False    | [Algolia app id]                                                                                       |
-| `REACT_APP_ALGOLIA_SEARCH_KEY`     | False    | [Algolia search key]                                                                                   |
-| `REACT_APP_INTERCOM_APP_ID`        | False    | [Intercom app id]                                                                                      |
-| `VITE_SENTRY_DSN`                  | False    | [Sentry DSN] for error tracking                                                                        |
-| `SENTRY_ORG`                       | False    | Sentry organization slug (for sourcemap uploads)                                                       |
-| `SENTRY_PROJECT`                   | False    | Sentry project slug (for sourcemap uploads)                                                            |
-| `SENTRY_AUTH_TOKEN`                | False    | [Sentry auth token] for sourcemap uploads (build only)                                                 |
-
-[algolia app id]: https://www.algolia.com/doc/guides/sending-and-managing-data/send-and-update-your-data/how-to/importing-with-the-api/#application-id
-[algolia search key]: https://www.algolia.com/doc/guides/security/api-keys/#search-only-api-key
-[intercom app id]: https://www.intercom.com/help/en/articles/3539-where-can-i-find-my-workspace-id-app-id
 [sentry dsn]: https://docs.sentry.io/product/sentry-basics/dsn-explainer/
 [sentry auth token]: https://docs.sentry.io/api/auth/#auth-tokens
+[posthog project api key]: https://posthog.com/docs/getting-started/send-events#how-to-find-your-project-api-key
 
 ## Usage
 
-To use the application use the following commands:
-
-### Production
-
-Run `npm run build` to build the static files for production.
-
-Run `npm start prod` to serve the production files.
-
-:sparkles: Visit the site on the localhost URL.
+The project uses [mise] for task management. All tasks are defined in `.mise/tasks/`.
 
 ### Development
 
-Run `npm start dev` to start the webpack dev server for the web app.
+```sh
+mise run dev          # Start Vite dev server
+```
 
-:sparkles: Visit the site on the localhost URL.
+Visit the site at `http://localhost:8080` (or the port configured in your `.env` file).
+
+### Production
+
+```sh
+mise run build        # Build static files for production
+mise run preview      # Preview production build locally
+```
 
 ### Testing
 
 ```sh
-> npm t                # Unit tests
-
-> npm start test.it    # Integration tests
-
-> npm start test.e2e   # End-to-end tests
-
-> npm start coverage   # Full test coverage report (unit, integration and e2e combined)
+mise run test         # Run unit/integration tests with Vitest
+mise run test_ui      # Open Vitest UI
+mise run test_e2e     # Run end-to-end tests with Playwright
+mise run test_coverage # Generate test coverage report
 ```
 
-`npm t` starts the unit tests in watch mode, but you can also set the environment variable `CI`
-to run the tests in continuous integration mode (this also works for integration and end-to-end tests).
+### Code Quality
 
-### Other
+```sh
+mise run lint         # Run ESLint
+mise run stylelint    # Run stylelint
+mise run typecheck    # Run TypeScript type checking
+mise run format       # Format code with Prettier
+```
 
-Run `npm start help` for a full list of available commands.
+### Other Tasks
+
+```sh
+mise tasks ls         # List all available tasks
+mise run clean        # Clean build artifacts
+mise run build_analyze # Analyze bundle size
+```
+
+For more details on available tasks, check the `.mise/tasks/` directory or run `mise tasks ls`.
 
 ## Support
 
@@ -215,7 +283,7 @@ Reach out to me for support through the following methods:
 
 This project is the sole property of Joshua Booth.
 
-Copyright &copy; 2026 Joshua Booth
+Copyright &copy; 2025 Joshua Booth
 
 Please see individual licenses contained in the project where third-party
-code was used, as this code is owned by it's respective authors.
+code was used, as this code is owned by its respective authors.

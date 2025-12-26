@@ -1,9 +1,11 @@
 import { defineConfig, devices } from "@playwright/test";
 
+const port = Number(process.env.VITE_PORT) || 8080;
+
 export default defineConfig({
   testDir: "../tests/e2e",
   use: {
-    baseURL: "http://localhost:8080",
+    baseURL: `http://localhost:${port}`,
     headless: true,
   },
   projects: [
@@ -14,7 +16,7 @@ export default defineConfig({
   ],
   webServer: {
     command: "mise run dev",
-    port: 8080,
+    port,
     reuseExistingServer: true,
   },
 });
