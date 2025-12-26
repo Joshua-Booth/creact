@@ -4,3 +4,11 @@ pnpm = "10.26.0"
 
 [env]
 NODE_ENV = "development"
+
+[tasks.steiger]
+description = "Run Steiger FSD linter"
+run = "pnpm exec steiger ./src --config config/steiger.config.ts"
+
+[tasks."steiger:fix"]
+description = "Run Steiger with auto-fix"
+run = "pnpm exec steiger --fix ./src --config config/steiger.config.ts"

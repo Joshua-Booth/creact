@@ -1,7 +1,7 @@
 import { Links, Meta, Outlet, Scripts, ScrollRestoration } from "react-router";
-import { PostHogProvider } from "@/components/PostHogProvider";
-import Header from "@/components/Layout/Header";
-import "./styles/main.css";
+import { PostHogProvider } from "@/app/providers/PostHogProvider";
+import { Header } from "@/widgets/header";
+import "@/app/styles/main.css";
 
 export function Layout({ children }: { children: React.ReactNode }) {
   return (
