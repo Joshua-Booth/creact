@@ -82,7 +82,6 @@ For more information about this project check out the [wiki].
 - :iphone: **Responsive design** - Uses [Tailwind CSS] with [Sass] and custom media query mixins
 - :arrow_right_hook: **Git hooks** - Starter hooks with [Husky]
 - :bookmark: **Versioning** - Automated SemVer versioning, changelogs and releases with [semantic-release]
-- :memo: **Documentation** - Internal docs with JSDoc and a [clean-jsdoc-theme] site
 - :shirt: **Linting** - [ESlint], [Prettier], [stylelint], and [commitlint]
 - :white_check_mark: **Testing** - Config and starter tests for unit, integration and end-to-end testing
 - :chart_with_upwards_trend: **Coverage reports** - [Jest] and [Cypress] test coverage results either combined or separate
@@ -95,7 +94,6 @@ For more information about this project check out the [wiki].
 [sass]: https://sass-lang.com/
 [husky]: https://github.com/typicode/husky
 [semantic-release]: https://github.com/semantic-release/semantic-release
-[clean-jsdoc-theme]: https://github.com/ankitskvmdam/clean-jsdoc-theme
 [eslint]: https://eslint.org/
 [prettier]: https://prettier.io/
 [stylelint]: https://stylelint.io/
