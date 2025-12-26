@@ -43,12 +43,12 @@ export default function TextAreaInput({
         />
       </div>
       {error && (
-        <div className="error-message alert-error">
+        <div className="error-message rounded-md bg-red-100 border border-red-300 text-red-700 p-2 mt-1 mb-0">
           <small>{error.message}</small>
         </div>
       )}
       {submitError && (
-        <div className="submit-error-message alert-error">
+        <div className="submit-error-message rounded-md bg-red-100 border border-red-300 text-red-700 p-2 mt-1 mb-0">
           <small>{submitError}</small>
         </div>
       )}

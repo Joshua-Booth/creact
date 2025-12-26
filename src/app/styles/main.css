@@ -14,9 +14,5 @@
 /* Base Styles */
 @import "./base/base.css";
 
-/* Component Styles */
-@import "./components/buttons.css";
-@import "./components/layout.css";
-@import "./components/navigation.css";
+/* Component Styles - Search functionality only */
 @import "./components/autocomplete.css";
-@import "./components/misc.css";
