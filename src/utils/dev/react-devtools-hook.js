@@ -1,4 +1,6 @@
-if (window.Cypress) {
-  window.__REACT_DEVTOOLS_GLOBAL_HOOK__ =
-    window.parent__REACT_DEVTOOLS_GLOBAL_HOOK__;
+export const __DEV__ = import.meta.env.DEV || false
+export const __REACT_DEVTOOLS_GLOBAL_HOOK__ = () => {
+  if (__DEV__) {
+    // React DevTools is running
+  }
 }
