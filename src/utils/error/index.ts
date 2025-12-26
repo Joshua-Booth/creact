@@ -1,7 +1,4 @@
-export const isObjectEmpty = (obj: unknown): boolean => {
-  if (obj === null || obj === undefined) return true;
-  return Object.keys(obj as object).length === 0;
-};
+export { isEmpty as isObjectEmpty } from 'es-toolkit/compat';
 
 interface ErrorAction {
   type: string;
