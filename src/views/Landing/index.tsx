@@ -1,7 +1,7 @@
-import { setPageTitle } from '@/utils/page'
+import { setPageTitle } from "@/utils/page";
 
 export default function Landing() {
-  setPageTitle()
+  setPageTitle();
 
   return (
     <main className="container mx-auto h-full mt-12">
@@ -14,5 +14,5 @@ export default function Landing() {
         </h2>
       </section>
     </main>
-  )
+  );
 }

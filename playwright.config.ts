@@ -1,19 +1,19 @@
-import { defineConfig, devices } from '@playwright/test'
+import { defineConfig, devices } from "@playwright/test";
 
 export default defineConfig({
-  testDir: './tests/e2e',
+  testDir: "./tests/e2e",
   use: {
-    baseURL: 'http://localhost:8080',
+    baseURL: "http://localhost:8080",
     headless: true,
   },
   projects: [
     {
-      name: 'chromium',
-      use: { ...devices['Desktop Chrome'] },
+      name: "chromium",
+      use: { ...devices["Desktop Chrome"] },
     },
   ],
   webServer: {
-    command: 'mise run dev',
+    command: "mise run dev",
     port: 8080,
   },
-})
+});

@@ -1,15 +1,18 @@
-import React from 'react'
+import React from "react";
 
 interface InputProps {
-  type: string
-  className?: string
-  name: string
-  id?: string
-  label?: string
-  innerRef: (name: string, validation?: any) => { name: string; [key: string]: any }
-  validation?: any
-  error?: any
-  submitError?: string
+  type: string;
+  className?: string;
+  name: string;
+  id?: string;
+  label?: string;
+  innerRef: (
+    name: string,
+    validation?: any,
+  ) => { name: string; [key: string]: any };
+  validation?: any;
+  error?: any;
+  submitError?: string;
 }
 
 export default function Input({
@@ -48,5 +51,5 @@ export default function Input({
         </div>
       )}
     </div>
-  )
+  );
 }

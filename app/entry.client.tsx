@@ -1,4 +1,4 @@
-import { hydrateRoot } from 'react-router/client'
-import { router } from './root'
+import { hydrateRoot } from "react-router/client";
+import { router } from "./root";
 
-hydrateRoot(document.getElementById('root')!, router)
+hydrateRoot(document.getElementById("root")!, router);

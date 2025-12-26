@@ -1,18 +1,15 @@
-import React from 'react'
-import { useNavigate } from 'react-router-dom'
+import React from "react";
+import { useNavigate } from "react-router-dom";
 
 interface BackButtonProps {
-  className?: string
+  className?: string;
 }
 
 export default function BackButton({ className }: BackButtonProps) {
-  const navigate = useNavigate()
+  const navigate = useNavigate();
   return (
-    <button
-      onClick={() => navigate(-1)}
-      className={className}
-    >
+    <button onClick={() => navigate(-1)} className={className}>
       Back
     </button>
-  )
+  );
 }

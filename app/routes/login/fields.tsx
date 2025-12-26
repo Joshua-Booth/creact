@@ -1,8 +1,8 @@
-import React from 'react'
+import React from "react";
 
 interface LoginFieldsProps {
-  register: any
-  errors?: any
+  register: any;
+  errors?: any;
 }
 
 export default function LoginFields({ register, errors }: LoginFieldsProps) {
@@ -13,7 +13,7 @@ export default function LoginFields({ register, errors }: LoginFieldsProps) {
         name="email"
         label="Email"
         id="email"
-        register={register('email', { required: 'Email is required' })}
+        register={register("email", { required: "Email is required" })}
         error={errors?.email}
       />
       <Input
@@ -21,9 +21,9 @@ export default function LoginFields({ register, errors }: LoginFieldsProps) {
         name="password"
         label="Password"
         id="password"
-        register={register('password', { required: 'Password is required' })}
+        register={register("password", { required: "Password is required" })}
         error={errors?.password}
       />
     </>
-  )
+  );
 }

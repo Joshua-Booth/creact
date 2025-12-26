@@ -1,9 +1,9 @@
-import { createBrowserRouter, RouterProvider, Outlet } from 'react-router'
-import { PostHogProvider } from '@/components/PostHogProvider'
+import { createBrowserRouter, RouterProvider, Outlet } from "react-router";
+import { PostHogProvider } from "@/components/PostHogProvider";
 
-import { routes } from './routes'
+import { routes } from "./routes";
 
-export const router = createBrowserRouter(routes)
+export const router = createBrowserRouter(routes);
 
 export default function App() {
   return (
@@ -12,5 +12,5 @@ export default function App() {
         <Outlet />
       </RouterProvider>
     </PostHogProvider>
-  )
+  );
 }

@@ -1,9 +1,9 @@
-import { useLoaderData } from 'react-router'
-import { useAuthStore } from '@/stores/authStore'
-import Loader from '@/components/Loader'
+import { useLoaderData } from "react-router";
+import { useAuthStore } from "@/stores/authStore";
+import Loader from "@/components/Loader";
 
 export async function loader() {
-  return { stats: { users: 150, projects: 45 } }
+  return { stats: { users: 150, projects: 45 } };
 }
 
 export default function Dashboard() {
@@ -11,10 +11,10 @@ export default function Dashboard() {
     user: state.user,
     loading: state.loading,
     error: state.error,
-  }))
+  }));
 
   if (loading) {
-    return <Loader />
+    return <Loader />;
   }
 
   return (
@@ -25,14 +25,14 @@ export default function Dashboard() {
           <p>Welcome, {user.first_name}!</p>
         </div>
       )}
-      {(loading || (!user || error)) && <Loader />}
+      {(loading || !user || error) && <Loader />}
       {error && (
         <div className="pt-4">
           <div className="alert-error">
-            {error.message || 'Failed to load dashboard'}
+            {error.message || "Failed to load dashboard"}
           </div>
         </div>
       )}
     </main>
-  )
+  );
 }

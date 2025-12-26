@@ -1,4 +1,4 @@
-import { Outlet, Link } from 'react-router'
+import { Outlet, Link } from "react-router";
 
 export default function Index() {
   return (
@@ -12,5 +12,5 @@ export default function Index() {
         </h2>
       </section>
     </div>
-  )
+  );
 }

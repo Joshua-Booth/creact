@@ -1,4 +1,4 @@
 export const HEADER_LINKS = [
-  { name: 'Login', path: '/login' },
-  { name: 'Sign Up', path: '/signup' },
-]
+  { name: "Login", path: "/login" },
+  { name: "Sign Up", path: "/signup" },
+];

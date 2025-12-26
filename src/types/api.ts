@@ -1,9 +1,9 @@
 export interface ApiResponse<T> {
-  data: T
+  data: T;
 }
 
 export interface ApiError {
-  status: number
-  message: string
-  response?: any
+  status: number;
+  message: string;
+  response?: any;
 }

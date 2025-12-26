@@ -1,15 +1,18 @@
-import React from 'react'
+import React from "react";
 
 interface TextAreaInputProps {
-  type: string
-  className?: string
-  name: string
-  id?: string
-  label?: string
-  innerRef: (name: string, validation?: any) => { name: string; [key: string]: any }
-  validation?: any
-  error?: any
-  submitError?: string
+  type: string;
+  className?: string;
+  name: string;
+  id?: string;
+  label?: string;
+  innerRef: (
+    name: string,
+    validation?: any,
+  ) => { name: string; [key: string]: any };
+  validation?: any;
+  error?: any;
+  submitError?: string;
 }
 
 export default function TextAreaInput({
@@ -47,5 +50,5 @@ export default function TextAreaInput({
         </div>
       )}
     </div>
-  )
+  );
 }
