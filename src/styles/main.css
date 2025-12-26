@@ -1,0 +1,13 @@
+@import "tailwindcss";
+
+@theme {
+  /* Custom colors from old tailwind.config.js */
+  --color-primary: #5f51fc;
+  --color-grey: #888888;
+  --color-light-grey: #b7bbc2;
+  --color-dark-grey: #343333;
+
+  /* Add other custom theme values as needed */
+}
+
+@source "../src/**/*.{ts,tsx}";
