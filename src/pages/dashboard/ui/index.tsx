@@ -1,10 +1,8 @@
 import { useAuthStore } from "@/entities/user";
 import { useMainStore } from "@/shared/model";
 import { Loader } from "@/shared/ui";
-import { setPageTitle } from "@/shared/lib/page";
 
 export default function Dashboard() {
-  setPageTitle("Dashboard");
   const { user, loading, error } = useAuthStore((state) => ({
     user: state.user,
     loading: state.loading,
@@ -18,6 +16,7 @@ export default function Dashboard() {
 
   return (
     <main className="content-container">
+      <title>Dashboard | Creact</title>
       <h1 className="pb-1">Dashboard</h1>
       {user && !loading && !error && (
         <div className="component-container"></div>
