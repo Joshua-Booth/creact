@@ -1,7 +1,8 @@
 {
   "extends": ["stylelint-config-standard", "stylelint-config-standard-scss"],
   "rules": {
-    "at-rule-no-unknown": [
+    "at-rule-no-unknown": null,
+    "scss/at-rule-no-unknown": [
       true,
       {
         "ignoreAtRules": [
@@ -11,13 +12,24 @@
           "layer",
           "screen",
           "import",
-          "reference"
+          "reference",
+          "include",
+          "mixin",
+          "extend",
+          "function",
+          "return",
+          "if",
+          "else",
+          "each",
+          "for",
+          "while"
         ]
       }
     ],
     "import-notation": "string",
     "selector-class-pattern": null,
     "color-function-notation": "legacy",
+    "color-function-alias-notation": null,
     "alpha-value-notation": "number",
     "media-feature-range-notation": "prefix",
     "declaration-empty-line-before": null,

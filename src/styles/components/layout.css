@@ -56,8 +56,8 @@
 
   .page-box {
     @apply relative w-full mx-auto;
-    flex: 0 0 91.666667%;
-    max-width: 91.666667%;
+    flex: 0 0 91.6667%;
+    max-width: 91.6667%;
   }
 
   @media screen and (min-width: 768px) {
@@ -69,15 +69,15 @@
 
   @media (max-width: 767px) {
     .page-box {
-      flex: 0 0 83.333333%;
-      max-width: 83.333333%;
+      flex: 0 0 83.3333%;
+      max-width: 83.3333%;
     }
   }
 
   @media (max-width: 575px) {
     .page-box {
-      flex: 0 0 91.666667%;
-      max-width: 91.666667%;
+      flex: 0 0 91.6667%;
+      max-width: 91.6667%;
     }
   }
 
