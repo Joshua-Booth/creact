@@ -7,6 +7,7 @@
   "author": "Joshua Booth",
   "license": "UNLICENSED",
   "dependencies": {
+    "@fontsource/inter": "^5.2.8",
     "@react-router/node": "^7.11.0",
     "algoliasearch": "^5.46.2",
     "axios": "^1.13.2",

@@ -12,10 +12,10 @@
   --color-underline: #5f51fc;
 
   /* Fonts */
-  --font-logo: "Comfortaa", cursive;
-  --font-header: "Poppins", cursive;
-  --font-subtitle: "Poppins", sans-serif;
-  --font-primary: "Lato", sans-serif;
+  --font-logo: "Inter", sans-serif;
+  --font-header: "Inter", sans-serif;
+  --font-subtitle: "Inter", sans-serif;
+  --font-primary: "Inter", sans-serif;
 
   /* Breakpoints */
   --breakpoint-mobile-xs: 25rem; /* 400px */
