@@ -1,7 +1,6 @@
-import React from "react";
 import { Link, NavLink } from "react-router";
 import { useAuthStore } from "@/stores/authStore";
-import { ReactComponent as Logo } from "@/assets/images/logo.svg?react";
+import Logo from "@/assets/images/logo.svg?react";
 import { CornerSearch } from "@/components/Search";
 
 function Links({ links }: { links: { name: string; path: string }[] }) {
@@ -17,7 +16,7 @@ function Links({ links }: { links: { name: string; path: string }[] }) {
 }
 
 export default function Header() {
-  const { authenticated } = useAuthStore((state) => state.authenticated);
+  const authenticated = useAuthStore((state) => state.authenticated);
   const logoLink = authenticated ? "/dashboard" : "/";
 
   return (
@@ -27,7 +26,7 @@ export default function Header() {
         className="logo-container absolute"
         aria-label="Home"
       >
-        <Logo className="img-fluid logo" alt="React Frontend Logo" />
+        <Logo className="img-fluid logo" title="React Frontend Logo" />
       </NavLink>
       {authenticated ? <CornerSearch /> : <Links links={HEADER_LINKS} />}
     </header>

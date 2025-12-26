@@ -5,6 +5,8 @@ node_modules
 # Build
 dist
 dist-ssr
+build
+.react-router
 *.local
 
 # Vite cache

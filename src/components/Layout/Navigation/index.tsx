@@ -1,14 +1,14 @@
-import React from "react";
+import { Link } from "react-router";
 
 export default function Navigation() {
   return (
     <nav className="navigation">
       <ul className="nav-links">
         <li>
-          <a href="/">Home</a>
+          <Link to="/">Home</Link>
         </li>
         <li>
-          <a href="/about">About</a>
+          <Link to="/about">About</Link>
         </li>
       </ul>
     </nav>

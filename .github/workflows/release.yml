@@ -9,29 +9,67 @@ on:
       - prerelease
 
 env:
-  NODE_VERSION: "14.16.0"
+  NODE_VERSION: "24"
+  PNPM_VERSION: "10"
 
 jobs:
   release:
     name: Release
     runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      issues: write
+      pull-requests: write
     steps:
       - name: Checkout
-        uses: actions/checkout@v2
+        uses: actions/checkout@v4
         with:
           fetch-depth: 0
+          persist-credentials: false
+
       - name: Setup Node.js
-        uses: actions/setup-node@v2
+        uses: actions/setup-node@v4
         with:
           node-version: ${{ env.NODE_VERSION }}
-      - name: Log npm version
-        run: npm --version
+
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          version: ${{ env.PNPM_VERSION }}
+          run_install: false
+
+      - name: Get pnpm store directory
+        shell: bash
+        run: echo "STORE_PATH=$(pnpm store path --silent)" >> $GITHUB_ENV
+
+      - name: Setup pnpm cache
+        uses: actions/cache@v4
+        with:
+          path: ${{ env.STORE_PATH }}
+          key: ${{ runner.os }}-pnpm-store-${{ hashFiles('**/pnpm-lock.yaml') }}
+          restore-keys: |
+            ${{ runner.os }}-pnpm-store-
+
+      - name: Setup mise
+        uses: jdx/mise-action@v2
+        with:
+          version: latest
+
       - name: Install dependencies
-        run: npm install
+        run: pnpm install --frozen-lockfile
+
+      - name: Lint
+        run: mise run lint
+
+      - name: Type check
+        run: mise run typecheck
+
       - name: Build
-        run: npm run build --if-present
+        run: mise run build
+
       - name: Test
-        run: npm test
+        run: mise run test
+
       - name: Release
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -39,4 +77,4 @@ jobs:
           GIT_AUTHOR_EMAIL: ${{ secrets.GIT_AUTHOR_EMAIL }}
           GIT_COMMITTER_NAME: ${{ secrets.GIT_COMMITTER_NAME }}
           GIT_COMMITTER_EMAIL: ${{ secrets.GIT_COMMITTER_EMAIL }}
-        run: ${{ env.CI}} npx semantic-release
+        run: pnpm exec semantic-release

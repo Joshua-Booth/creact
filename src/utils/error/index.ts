@@ -13,11 +13,11 @@ export const resetErrorState = (dispatch: (action: ErrorAction) => void) => {
 };
 
 export const showAllErrors = () => {
-  const errorElements = document.querySelectorAll(".alert-error");
+  const errorElements = document.querySelectorAll<HTMLElement>(".alert-error");
   errorElements.forEach((el) => (el.style.display = "block"));
 };
 
 export const hideAllErrors = () => {
-  const errorElements = document.querySelectorAll(".alert-error");
+  const errorElements = document.querySelectorAll<HTMLElement>(".alert-error");
   errorElements.forEach((el) => (el.style.display = "none"));
 };

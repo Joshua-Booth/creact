@@ -15,11 +15,11 @@
     "noEmit": true,
     "jsx": "react-jsx",
     "moduleResolution": "bundler",
-    "baseUrl": ".",
+    "baseUrl": "..",
     "paths": {
       "@/*": ["./src/*"]
     }
   },
-  "include": ["src", "app", "tests", "*.ts", "*.tsx"],
-  "exclude": ["node_modules", "dist", "tests/e2e"]
+  "include": ["../src", "../tests", "../*.ts", "../*.tsx", "../.react-router"],
+  "exclude": ["../node_modules", "../dist", "../tests/e2e", "../app"]
 }

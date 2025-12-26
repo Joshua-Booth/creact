@@ -12,5 +12,3 @@ export const Event = (category: string, action: string, label: string) => {
     label,
   });
 };
-
-export { OutboundLink } from "posthog-js/react";

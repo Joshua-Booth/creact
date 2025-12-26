@@ -85,7 +85,7 @@ For more information about this project check out the [wiki].
 - :shirt: **Linting** - [ESlint], [Prettier], [stylelint], and [commitlint]
 - :white_check_mark: **Testing** - Config and starter tests for unit, integration and end-to-end testing
 - :chart_with_upwards_trend: **Coverage reports** - [Jest] and [Cypress] test coverage results either combined or separate
-- :package: **Third party apps/tools** - [Algolia], [Google Analytics], [Hotjar] and [Intercom] built in
+- :package: **Third party apps/tools** - [Algolia] and [Intercom] built in
 
 [redux]: https://redux.js.org/
 [redux-thunk]: https://github.com/reduxjs/redux-thunk
@@ -101,8 +101,6 @@ For more information about this project check out the [wiki].
 [jest]: https://jestjs.io/
 [cypress]: https://www.cypress.io/
 [algolia]: https://www.algolia.com/
-[google analytics]: https://analytics.google.com/analytics/web/
-[hotjar]: https://www.hotjar.com/
 [intercom]: https://www.intercom.com/
 
 ## Requirements
@@ -151,16 +149,17 @@ Add the following environment variables for development (.dev) and production (.
 | `REACT_APP_PUBLIC_URL`             | True     | This app's public URL (e.g. `localhost:8080/public` for dev and `https://example.com/public` for prod) |
 | `REACT_APP_ALGOLIA_APP_ID`         | False    | [Algolia app id]                                                                                       |
 | `REACT_APP_ALGOLIA_SEARCH_KEY`     | False    | [Algolia search key]                                                                                   |
-| `REACT_APP_GA_TRACKING_ID`         | False    | Google Analytics tracking id (e.g. `UA-123456789-1`)                                                   |
-| `REACT_APP_HOTJAR_SNIPPET_VERSION` | False    | Hotjar snippet version (Also called 'hjsv')                                                            |
-| `REACT_APP_HOTJAR_TRACKING_ID`     | False    | Hotjar tracking id (Also called 'hjid')                                                                |
 | `REACT_APP_INTERCOM_APP_ID`        | False    | [Intercom app id]                                                                                      |
-| `REACT_APP_SENTRY_DSN`             | False    | [Sentry DSN]                                                                                           |
+| `VITE_SENTRY_DSN`                  | False    | [Sentry DSN] for error tracking                                                                        |
+| `SENTRY_ORG`                       | False    | Sentry organization slug (for sourcemap uploads)                                                       |
+| `SENTRY_PROJECT`                   | False    | Sentry project slug (for sourcemap uploads)                                                            |
+| `SENTRY_AUTH_TOKEN`                | False    | [Sentry auth token] for sourcemap uploads (build only)                                                 |
 
 [algolia app id]: https://www.algolia.com/doc/guides/sending-and-managing-data/send-and-update-your-data/how-to/importing-with-the-api/#application-id
 [algolia search key]: https://www.algolia.com/doc/guides/security/api-keys/#search-only-api-key
 [intercom app id]: https://www.intercom.com/help/en/articles/3539-where-can-i-find-my-workspace-id-app-id
 [sentry dsn]: https://docs.sentry.io/product/sentry-basics/dsn-explainer/
+[sentry auth token]: https://docs.sentry.io/api/auth/#auth-tokens
 
 ## Usage
 
@@ -210,13 +209,13 @@ Check the [issues](https://github.com/Joshua-Booth/creact/issues) page to see if
 Reach out to me for support through the following methods:
 
 - Email: [contact@joshuabooth.nz](mailto:contact@joshuabooth.nz)
-- Website: [joshuabooth.nz/contact](https://joshuabooth.nz/contact)
+- Website: [joshuabooth.nz/contact](https://joshuabooth.nz)
 
 ## License
 
 This project is the sole property of Joshua Booth.
 
-Copyright &copy; 2021 Joshua Booth
+Copyright &copy; 2026 Joshua Booth
 
 Please see individual licenses contained in the project where third-party
 code was used, as this code is owned by it's respective authors.
