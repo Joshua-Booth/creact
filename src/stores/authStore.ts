@@ -42,13 +42,14 @@ export const useAuthStore = create<AuthState>()(
         try {
           const token = localStorage.getItem('token')
           if (!token) return
-          
+
           const response = await fetch(`${import.meta.env.VITE_API_ROOT_URL}/auth/user/`, {
             headers: {
               'Authorization': `Token ${token}`
             }
           })
           if (!response.ok) throw new Error('Failed to fetch user')
+
           const data = await response.json()
           set({ user: data, loading: false, error: null })
         } catch (error) {
@@ -59,3 +60,4 @@ export const useAuthStore = create<AuthState>()(
     }),
     { name: 'auth-storage' }
   )
+ENDOFFILE && git add src/stores/authStore.ts && git commit -m "fix: syntax error in authStore.ts (extra closing parenthesis)"
