@@ -1,0 +1,37 @@
+/* Button and form components */
+@layer components {
+  .button,
+  .btn {
+    @apply rounded-[10px] min-w-[75px] px-[30px] py-[9px];
+    border: 0 !important;
+  }
+
+  .btn-primary {
+    @apply bg-primary text-white;
+  }
+
+  .btn-secondary {
+    @apply bg-white text-primary;
+    border: solid 1px var(--color-primary) !important;
+  }
+
+  .back-button {
+    @apply bg-transparent text-left w-full;
+  }
+
+  .back-button button {
+    @apply bg-transparent text-grey-dark;
+  }
+
+  .back-button button i {
+    @apply mt-px;
+  }
+
+  .back-button button span {
+    @apply mr-[5px] align-super;
+  }
+
+  .form-group {
+    @apply min-h-[70px];
+  }
+}

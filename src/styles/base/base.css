@@ -1,0 +1,77 @@
+/* Base HTML element styles */
+@layer base {
+  * {
+    box-sizing: border-box;
+  }
+
+  html,
+  body {
+    height: 100%;
+    overflow: hidden;
+    width: 100%;
+  }
+
+  body {
+    @apply bg-white font-primary m-0 min-h-full pb-0 relative;
+  }
+
+  body > div {
+    @apply h-full overflow-x-hidden overflow-y-auto;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  a {
+    @apply text-primary no-underline;
+  }
+
+  a:hover {
+    @apply text-primary underline;
+  }
+
+  textarea {
+    resize: none;
+  }
+
+  h1 {
+    @apply text-grey-dark font-header text-4xl font-bold;
+  }
+
+  h2 {
+    @apply text-grey-light font-subtitle text-base;
+  }
+
+  ul {
+    list-style: none;
+  }
+
+  ul li:not(.no-bullet)::before {
+    @apply text-primary font-bold inline-block;
+    content: "\2022";
+    margin-left: -1.5em;
+    width: 1.5em;
+  }
+
+  ol {
+    counter-reset: count;
+    list-style: none;
+  }
+
+  ol li {
+    counter-increment: count;
+  }
+
+  ol li::before {
+    @apply text-primary;
+    content: counter(count) ". ";
+    margin-left: -18px;
+  }
+
+  fieldset {
+    @apply border-0 m-0 min-w-0;
+    padding: 0.01em 0 0;
+  }
+
+  body:not(:-moz-handler-blocked) fieldset {
+    display: table-cell;
+  }
+}

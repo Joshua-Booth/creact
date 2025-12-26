@@ -1,0 +1,63 @@
+/* Navigation components */
+@layer components {
+  .nav-link {
+    @apply text-grey-dark inline-block font-normal p-0 text-center;
+  }
+
+  .nav-link i {
+    @apply text-[27px] h-[27px] w-[35px];
+  }
+
+  .scroll-bar {
+    scrollbar-width: thin;
+  }
+
+  .scroll-bar::-webkit-scrollbar-track {
+    @apply bg-gray-100 rounded-[10px];
+    box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.1);
+  }
+
+  .scroll-bar::-webkit-scrollbar {
+    @apply bg-gray-100 w-[5px];
+  }
+
+  .scroll-bar::-webkit-scrollbar-thumb {
+    @apply bg-grey-light rounded-[10px];
+  }
+
+  .logo-container {
+    @apply ml-[15px] top-0;
+  }
+
+  @media (max-width: 400px) {
+    .logo-container {
+      @apply ml-[5px];
+    }
+  }
+
+  .header {
+    @apply h-[82px] z-[5];
+  }
+
+  .header__links {
+    @apply text-xs absolute right-0 text-center top-[30px] w-[100px];
+    transform: translate(-50%, -50%);
+  }
+
+  .bottom-nav {
+    @apply bg-white fixed bottom-0 left-0 h-[90px] w-full z-[3];
+    box-shadow: 0 -3px 6px #3876e44f;
+  }
+
+  .bottom-nav__link {
+    @apply mb-[10px] max-h-[48px] max-w-[60px];
+  }
+
+  .bottom-nav__link-label {
+    @apply block text-xs;
+  }
+
+  .side-nav {
+    @apply flex items-center justify-between flex-wrap w-[180px] min-w-[180px] bg-white py-0 pl-1 pr-0 top-[130px] left-0 bottom-[80px] fixed z-[2] overflow-y-auto;
+  }
+}

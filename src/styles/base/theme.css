@@ -1,0 +1,28 @@
+/* Tailwind v4 Theme Configuration */
+@theme {
+  /* Colors */
+  --color-primary: #5f51fc;
+  --color-grey: #888888;
+  --color-grey-light: #b7bbc2;
+  --color-grey-dark: #343333;
+  --color-orange: #f79869;
+  --color-orange-dark: #f36e5e;
+  --color-red-dark: #d85545;
+  --color-green-light: #90ee90;
+  --color-underline: #5f51fc;
+  
+  /* Fonts */
+  --font-logo: "Comfortaa", cursive;
+  --font-header: "Poppins", cursive;
+  --font-subtitle: "Poppins", sans-serif;
+  --font-primary: "Lato", sans-serif;
+  
+  /* Breakpoints */
+  --breakpoint-mobile-xs: 25rem; /* 400px */
+  --breakpoint-mobile: 35.9375rem; /* 575px */
+  --breakpoint-tablet: 47.9375rem; /* 767px */
+  --breakpoint-tablet-lg: 56.5625rem; /* 905px */
+  --breakpoint-desktop: 61.9375rem; /* 991px */
+  --breakpoint-desktop-lg: 75rem; /* 1200px */
+  --breakpoint-desktop-xl: 100rem; /* 1600px */
+}

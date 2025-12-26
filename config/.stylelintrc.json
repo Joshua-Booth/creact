@@ -1,25 +1,22 @@
 {
-  "extends": "stylelint-config-sass-guidelines",
-  "plugins": ["stylelint-scss"],
+  "extends": "stylelint-config-standard",
   "rules": {
-    "at-rule-no-unknown": null,
-    "scss/at-rule-no-unknown": [
+    "at-rule-no-unknown": [
       true,
       {
         "ignoreAtRules": [
-          "extends",
-          "apply",
           "tailwind",
-          "components",
-          "utilities",
+          "apply",
+          "theme",
+          "layer",
           "screen",
-          "layer"
+          "import",
+          "reference"
         ]
       }
     ],
     "color-hex-length": "long",
     "string-quotes": "double",
-    "max-nesting-depth": 2,
     "property-no-vendor-prefix": null,
     "value-no-vendor-prefix": null
   }
