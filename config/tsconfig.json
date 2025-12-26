@@ -20,6 +20,13 @@
       "@/*": ["./src/*"]
     }
   },
-  "include": ["../src", "../tests", "../*.ts", "../*.tsx", "../.react-router"],
+  "include": [
+    "../src",
+    "../tests",
+    "../*.ts",
+    "../*.tsx",
+    "../.react-router",
+    "react-router.config.ts"
+  ],
   "exclude": ["../node_modules", "../dist", "../tests/e2e", "../app"]
 }
