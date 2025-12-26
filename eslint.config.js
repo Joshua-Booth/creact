@@ -1,42 +1,46 @@
-module.exports = {
-  root: true,
-  env: {
-    browser: true,
-    es2021: true,
-    node: true,
-  },
-  extends: [
-    'eslint:recommended',
-    'plugin:react/recommended',
-    'plugin:react-hooks/recommended',
-    'plugin:@typescript-eslint/recommended',
-    'plugin:jsx-a11y/recommended',
-  ],
-  parser: '@typescript-eslint/parser',
-  parserOptions: {
-    ecmaVersion: 'latest',
-    sourceType: 'module',
-    ecmaFeatures: {
-      jsx: true,
+import js from '@eslint/js'
+import reactHooks from 'eslint-plugin-react-hooks'
+import react from 'eslint-plugin-react'
+import typescriptEslint from '@typescript-eslint/eslint-plugin'
+import typescriptParser from '@typescript-eslint/parser'
+import jsxA11y from 'eslint-plugin-jsx-a11y'
+
+export default [
+  js.configs.recommended,
+  react.configs.flat.recommended,
+  reactHooks.configs.flat.recommended,
+  typescriptEslint.configs.recommended,
+  jsxA11y.flatConfigs.recommended,
+  {
+    languageOptions: {
+      ecmaVersion: 'latest',
+      sourceType: 'module',
+      parser: typescriptParser,
+      parserOptions: {
+        ecmaFeatures: { jsx: true },
+        project: './tsconfig.json',
+      },
+      globals: {
+        ...js.configs.recommended.languageOptions.globals,
+      },
     },
-    project: './tsconfig.json',
-  },
-  plugins: [
-    'react',
-    'react-hooks',
-    '@typescript-eslint',
-    'jsx-a11y',
-  ],
-  rules: {
-    'react/react-in-jsx-scope': 'error',
-    'react/prop-types': 'off',
-    '@typescript-eslint/no-explicit-any': 'warn',
-    '@typescript-eslint/no-unused-vars': ['warn', { argsIgnorePattern: '^_' }],
-  },
-  settings: {
-    react: {
-      version: 'detect',
+    plugins: {
+      react,
+      'react-hooks': reactHooks,
+      '@typescript-eslint': typescriptEslint,
+      'jsx-a11y': jsxA11y,
     },
+    rules: {
+      'react/react-in-jsx-scope': 'error',
+      'react/prop-types': 'off',
+      '@typescript-eslint/no-explicit-any': 'warn',
+      '@typescript-eslint/no-unused-vars': ['warn', { argsIgnorePattern: '^_' }],
+    },
+    settings: {
+      react: {
+        version: 'detect',
+      },
+    },
+    ignorePatterns: ['dist', '.d.ts'],
   },
-  ignorePatterns: ['dist', '.d.ts'],
-}
+]
