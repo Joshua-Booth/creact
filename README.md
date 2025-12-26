@@ -27,9 +27,9 @@
       alt="GitHub package.json version" 
       src="https://img.shields.io/github/package-json/v/Joshua-Booth/creact?style=for-the-badge"
     />
-    <img 
+    <img
       alt="Dependencies"
-      src="https://img.shields.io/david/Joshua-Booth/creact?style=for-the-badge"
+      src="https://img.shields.io/librariesio/github/Joshua-Booth/creact?style=for-the-badge"
     />
     <img 
       alt="GitHub last commit" 
