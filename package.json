@@ -2,7 +2,6 @@
   "name": "creact",
   "version": "2.0.0",
   "description": "React Frontend Template - Modern Stack",
-  "main": "src/index.tsx",
   "repository": "https://github.com/Joshua-Booth/creact",
   "type": "module",
   "scripts": {
@@ -25,6 +24,7 @@
   "devDependencies": {
     "@eslint/js": "^9.39.2",
     "@playwright/test": "^1.57.0",
+    "@react-router/dev": "^7.11.0",
     "@sentry/react": "^10.32.1",
     "@sentry/vite-plugin": "^2.22.0",
     "@tailwindcss/vite": "^4.1.18",
@@ -49,7 +49,6 @@
     "semantic-release": "^25.0.2",
     "stylelint": "^16.26.1",
     "stylelint-config-standard": "^39.0.1",
-    "stylelint-config-standard-scss": "^16.0.0",
     "tailwindcss": "^4.1.18",
     "typescript": "^5.9.3",
     "vite": "^7.3.0",
