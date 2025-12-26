@@ -4,6 +4,7 @@
   "description": "React Frontend Template - Modern Stack",
   "main": "src/index.tsx",
   "repository": "https://github.com/Joshua-Booth/creact",
+  "type": "module",
   "scripts": {
     "dev": "vite",
     "build": "vite build",
