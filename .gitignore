@@ -8,6 +8,11 @@ dist
 dist-ssr
 *.local
 
+# Vite cache
+tmp
+.cache
+.vite
+
 # Environment
 .env.local
 .env.*.local

@@ -1,3 +1,4 @@
 #!/usr/bin/env bash
 set -euo pipefail
-pnpm test:e2e
+playwright test
+EOF && git add -A && git commit -m "chore: fix mise tasks to run commands directly (prevent infinite loops)"
