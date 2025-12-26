@@ -5,7 +5,7 @@ import { CornerSearch } from "@/features/search";
 
 function Links({ links }: { links: { name: string; path: string }[] }) {
   return (
-    <nav className="absolute right-4 top-[30px] flex gap-4 text-sm">
+    <nav className="absolute top-[30px] right-4 flex gap-4 text-sm">
       {links.map((link) => (
         <Link
           key={link.path}
@@ -24,13 +24,16 @@ export default function Header() {
   const logoLink = authenticated ? "/dashboard" : "/";
 
   return (
-    <header className="relative h-[82px] z-[5] p-0 mb-4">
+    <header className="relative z-5 mb-4 h-[82px] p-0">
       <NavLink
         to={logoLink}
-        className="absolute ml-[15px] top-0 max-[400px]:ml-[5px]"
+        className="absolute top-0 ml-[15px] max-[400px]:ml-[5px]"
         aria-label="Home"
       >
-        <Logo className="img-fluid h-[50px] mr-[10px]" title="React Frontend Logo" />
+        <Logo
+          className="img-fluid mr-[10px] h-[50px]"
+          title="React Frontend Logo"
+        />
       </NavLink>
       {authenticated ? <CornerSearch /> : <Links links={HEADER_LINKS} />}
     </header>

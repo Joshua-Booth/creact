@@ -1,2 +1,2 @@
 // Public API for landing page
-export { default as LandingPage } from './ui';
+export { default as LandingPage } from "./ui";

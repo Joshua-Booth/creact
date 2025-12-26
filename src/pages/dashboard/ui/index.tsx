@@ -19,7 +19,7 @@ export default function Dashboard() {
       <title>Dashboard | Creact</title>
       <h1 className="pb-1">Dashboard</h1>
       {user && !loading && !error && (
-        <div className="flex flex-wrap mx-auto max-w-[720px] text-center max-xl:max-w-[660px] max-xl:w-auto max-lg:mx-[200px] max-[905px]:mx-auto max-sm:flex-col max-sm:w-full"></div>
+        <div className="mx-auto flex max-w-[720px] flex-wrap text-center max-[905px]:mx-auto max-xl:w-auto max-xl:max-w-[660px] max-lg:mx-[200px] max-sm:w-full max-sm:flex-col"></div>
       )}
       {loading && <Loader />}
       {error && (

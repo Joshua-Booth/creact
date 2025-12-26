@@ -36,19 +36,19 @@ export default function TextAreaInput({
       <div>
         <textarea
           id={id}
-          className="form-control mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
+          className="form-control focus:ring-opacity-50 mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200"
           data-testid={id}
           {...registerProps}
           {...props}
         />
       </div>
       {error && (
-        <div className="error-message rounded-md bg-red-100 border border-red-300 text-red-700 p-2 mt-1 mb-0">
+        <div className="error-message mt-1 mb-0 rounded-md border border-red-300 bg-red-100 p-2 text-red-700">
           <small>{error.message}</small>
         </div>
       )}
       {submitError && (
-        <div className="submit-error-message rounded-md bg-red-100 border border-red-300 text-red-700 p-2 mt-1 mb-0">
+        <div className="submit-error-message mt-1 mb-0 rounded-md border border-red-300 bg-red-100 p-2 text-red-700">
           <small>{submitError}</small>
         </div>
       )}

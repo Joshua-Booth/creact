@@ -1,4 +1,4 @@
-const API_ROOT_URL = import.meta.env.VITE_API_ROOT_URL || '';
+const API_ROOT_URL = import.meta.env.VITE_API_ROOT_URL || "";
 
 export async function fetchUserFromApi(token: string) {
   const response = await fetch(`${API_ROOT_URL}auth/user/`, {
@@ -6,6 +6,6 @@ export async function fetchUserFromApi(token: string) {
       Authorization: `Token ${token}`,
     },
   });
-  if (!response.ok) throw new Error('Failed to fetch user');
+  if (!response.ok) throw new Error("Failed to fetch user");
   return response.json();
 }

@@ -12,7 +12,7 @@
   }
 
   body {
-    @apply bg-white font-primary m-0 min-h-full pb-0 relative;
+    @apply font-primary relative m-0 min-h-full bg-white pb-0;
   }
 
   body > div {
@@ -45,7 +45,7 @@
   }
 
   ul li:not(.no-bullet)::before {
-    @apply text-primary font-bold inline-block;
+    @apply text-primary inline-block font-bold;
     content: "\2022";
     margin-left: -1.5em;
     width: 1.5em;
@@ -67,7 +67,7 @@
   }
 
   fieldset {
-    @apply border-0 m-0 min-w-0;
+    @apply m-0 min-w-0 border-0;
     padding: 0.01em 0 0;
   }
 

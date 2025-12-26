@@ -1,2 +1,2 @@
 // Public API for search feature
-export { CornerSearch } from './ui';
+export { CornerSearch } from "./ui";

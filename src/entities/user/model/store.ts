@@ -1,7 +1,7 @@
-import { create } from 'zustand';
-import { persist } from 'zustand/middleware';
-import type { AuthState } from './types';
-import { fetchUserFromApi } from '../api/api';
+import { create } from "zustand";
+import { persist } from "zustand/middleware";
+import type { AuthState } from "./types";
+import { fetchUserFromApi } from "../api/api";
 
 export const useAuthStore = create<AuthState>()(
   persist(
@@ -12,17 +12,17 @@ export const useAuthStore = create<AuthState>()(
       error: null,
       authenticated: false,
       login: (token) => {
-        localStorage.setItem('token', token);
+        localStorage.setItem("token", token);
         set({ token, authenticated: true, error: null });
       },
       logout: () => {
-        localStorage.removeItem('token');
+        localStorage.removeItem("token");
         set({ token: null, user: null, authenticated: false, error: null });
       },
       fetchUser: async () => {
         set({ loading: true, error: null });
         try {
-          const token = localStorage.getItem('token');
+          const token = localStorage.getItem("token");
           if (!token) return;
 
           const data = await fetchUserFromApi(token);
@@ -33,6 +33,6 @@ export const useAuthStore = create<AuthState>()(
       },
       setError: (error) => set({ error }),
     }),
-    { name: 'auth-storage' }
+    { name: "auth-storage" }
   )
 );
