@@ -1,3 +1,3 @@
 #!/usr/bin/env bash
 set -euo pipefail
-pnpm exec vite
+pnpm exec vite --config ./config/vite.config.ts

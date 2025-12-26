@@ -1,6 +1,6 @@
 #!/bin/sh
 
-# Prevent Husky runnning on commits in CI
+# Prevent Husky running on commits in CI
 [ -n "$CI" ] && exit 0
 
-npm start prepush && exit 0
+mise run test_coverage && exit 0

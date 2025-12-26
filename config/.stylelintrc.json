@@ -1,5 +1,5 @@
 {
-  "extends": "stylelint-config-standard",
+  "extends": ["stylelint-config-standard", "stylelint-config-standard-scss"],
   "rules": {
     "at-rule-no-unknown": [
       true,
@@ -15,8 +15,13 @@
         ]
       }
     ],
-    "color-hex-length": "long",
-    "string-quotes": "double",
+    "import-notation": "string",
+    "selector-class-pattern": null,
+    "color-function-notation": "legacy",
+    "alpha-value-notation": "number",
+    "media-feature-range-notation": "prefix",
+    "declaration-empty-line-before": null,
+    "no-descending-specificity": null,
     "property-no-vendor-prefix": null,
     "value-no-vendor-prefix": null
   }

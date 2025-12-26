@@ -59,6 +59,6 @@ export const useAuthStore = create<AuthState>()(
       },
       setError: (error) => set({ error }),
     }),
-    { name: "auth-storage" },
-  ),
+    { name: "auth-storage" }
+  )
 );
