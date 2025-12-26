@@ -11,4 +11,3 @@ export default defineConfig({
     },
   },
 })
-EOF && git add vitest.config.ts && git commit -m "chore: add vitest config"
