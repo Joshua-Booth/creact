@@ -15,5 +15,6 @@ export default defineConfig({
   webServer: {
     command: "mise run dev",
     port: 8080,
+    reuseExistingServer: true,
   },
 });

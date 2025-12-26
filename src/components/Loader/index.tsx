@@ -3,13 +3,19 @@ import React from "react";
 export default function Loader() {
   return (
     <div title="Loader" role="region" className="loader mx-auto pt-5">
-      <ReactLoading
-        className={"mx-auto"}
-        type={"bubbles"}
-        color={"#3876e4"}
-        height={100}
-        width={100}
-      />
+      <div className="mx-auto" style={{ width: "100px", height: "100px" }}>
+        <div
+          className="spinner"
+          style={{
+            border: "8px solid #f3f3f3",
+            borderTop: "8px solid #3876e4",
+            borderRadius: "50%",
+            width: "100px",
+            height: "100px",
+            animation: "spin 1s linear infinite",
+          }}
+        />
+      </div>
     </div>
   );
 }

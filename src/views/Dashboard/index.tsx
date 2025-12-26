@@ -1,4 +1,3 @@
-import { useLoaderData } from "react-router";
 import { useAuthStore } from "@/stores/authStore";
 import { useMainStore } from "@/stores/mainStore";
 import Loader from "@/components/Loader";
@@ -6,9 +5,6 @@ import { setPageTitle } from "@/utils/page";
 
 export default function Dashboard() {
   setPageTitle("Dashboard");
-  const data = useLoaderData() as {
-    stats?: { users: number; projects: number };
-  };
   const { user, loading, error } = useAuthStore((state) => ({
     user: state.user,
     loading: state.loading,

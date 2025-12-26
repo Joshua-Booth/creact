@@ -3,7 +3,12 @@ export const isObjectEmpty = (obj: unknown): boolean => {
   return Object.keys(obj as object).length === 0;
 };
 
-export const resetErrorState = (dispatch: (action: any) => void) => {
+interface ErrorAction {
+  type: string;
+  payload?: unknown;
+}
+
+export const resetErrorState = (dispatch: (action: ErrorAction) => void) => {
   dispatch({ type: "REMOVE_ERROR" });
 };
 

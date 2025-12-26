@@ -1,7 +1,7 @@
 import { create } from "zustand";
 
 interface MainState {
-  error: { status: number; response: any } | null;
+  error: { status: number; response: unknown } | null;
   setError: (error: MainState["error"]) => void;
   clearError: () => void;
 }

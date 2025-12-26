@@ -1,8 +1,15 @@
 import React from "react";
+import Input from "@/components/Input";
+import { UseFormRegister, FieldErrors } from "react-hook-form";
+
+interface LoginFormData {
+  email: string;
+  password: string;
+}
 
 interface LoginFieldsProps {
-  register: any;
-  errors?: any;
+  register: UseFormRegister<LoginFormData>;
+  errors?: FieldErrors<LoginFormData>;
 }
 
 export default function LoginFields({ register, errors }: LoginFieldsProps) {

@@ -1,12 +1,12 @@
 // Global styles
 import "redux-notifications/lib/styles.css";
-import "./styles/main.scss";
+import "./styles/main.css";
 
 // MUST BE IMPORTED **BEFORE** React
 import "utils/dev/react-devtools-hook";
 
 import React from "react";
-import ReactDOM from "react-dom";
+import { createRoot } from "react-dom/client";
 import ReactGA from "react-ga";
 
 import { BrowserRouter as Router } from "react-router-dom";
@@ -61,7 +61,8 @@ if (token) {
   store.dispatch(authLogin(token));
 }
 
-ReactDOM.render(
+const root = createRoot(document.getElementById("root"));
+root.render(
   <Provider store={store}>
     <IntercomProvider appId={INTERCOM_APP_ID} autoBoot initializeDelay>
       <Router>
@@ -69,8 +70,7 @@ ReactDOM.render(
         <App />
       </Router>
     </IntercomProvider>
-  </Provider>,
-  document.getElementById("root")
+  </Provider>
 );
 
 serviceWorker.register({

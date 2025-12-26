@@ -1,4 +1,3 @@
-import { redirect } from "react-router";
 import { useAuthStore } from "@/stores/authStore";
 
 export default function LogoutPage() {

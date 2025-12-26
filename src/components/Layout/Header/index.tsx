@@ -1,13 +1,23 @@
 import React from "react";
-import { useLocation } from "react-router";
 import { Link, NavLink } from "react-router";
 import { useAuthStore } from "@/stores/authStore";
 import { ReactComponent as Logo } from "@/assets/images/logo.svg?react";
 import { CornerSearch } from "@/components/Search";
 
+function Links({ links }: { links: { name: string; path: string }[] }) {
+  return (
+    <nav>
+      {links.map((link) => (
+        <Link key={link.path} to={link.path}>
+          {link.name}
+        </Link>
+      ))}
+    </nav>
+  );
+}
+
 export default function Header() {
   const { authenticated } = useAuthStore((state) => state.authenticated);
-  const location = useLocation();
   const logoLink = authenticated ? "/dashboard" : "/";
 
   return (

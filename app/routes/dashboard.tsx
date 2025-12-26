@@ -1,4 +1,3 @@
-import { useLoaderData } from "react-router";
 import { useAuthStore } from "@/stores/authStore";
 import Loader from "@/components/Loader";
 

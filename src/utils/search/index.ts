@@ -4,7 +4,6 @@ export const debounce = <T extends unknown>(
 ) => {
   let timeout: NodeJS.Timeout;
   return (...passedArgs: T[]) => {
-    const context = this;
     clearTimeout(timeout);
     timeout = setTimeout(() => {
       func(...passedArgs);

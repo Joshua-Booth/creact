@@ -1,10 +1,8 @@
 import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
 import { useMainStore } from "@/stores/mainStore";
 
 export default function UpdateAlert() {
   const [showUpdateAlert, setShowUpdateAlert] = useState(false);
-  const navigate = useNavigate();
   const clearError = useMainStore((state) => state.clearError);
 
   const handleRefresh = () => {
