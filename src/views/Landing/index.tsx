@@ -1,15 +1,7 @@
-import React from "react";
+import { setPageTitle } from '@/utils/page'
 
-// Utilities
-import { setPageTitle } from "utils/page";
-
-/**
- * Landing page component.
- *
- * @returns {React.Component} The landing component
- */
-function Landing() {
-  setPageTitle();
+export default function Landing() {
+  setPageTitle()
 
   return (
     <main className="container mx-auto h-full mt-12">
@@ -22,7 +14,5 @@ function Landing() {
         </h2>
       </section>
     </main>
-  );
+  )
 }
-
-export default Landing;
