@@ -1,27 +1,3 @@
 #!/usr/bin/env bash
 set -euo pipefail
-vite build
-EOF && cat > .mise/tasks/dev.mise << 'EOF'
-#!/usr/bin/env bash
-set -euo pipefail
-vite
-EOF && cat > .mise/tasks/test.mise << 'EOF'
-#!/usr/bin/env bash
-set -euo pipefail
-vitest
-EOF && cat > .mise/tasks/test:ui.mise << 'EOF'
-#!/usr/bin/env bash
-set -euo pipefail
-vitest --ui
-EOF && cat > .mise/tasks/typecheck.mise << 'EOF'
-#!/usr/bin/env bash
-set -euo pipefail
-tsc --noEmit
-EOF && cat > .mise/tasks/lint.mise << 'EOF'
-#!/usr/bin/env bash
-set -euo pipefail
-eslint . --ext .ts,.tsx
-EOF && cat > .mise/tasks/format.mise << 'EOF'
-#!/usr/bin/env bash
-set -euo pipefail
-prettier --write "**/*.{ts,tsx,css}"
+build
