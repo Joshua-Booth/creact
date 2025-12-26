@@ -4,9 +4,6 @@
   "description": "React Frontend Template - Modern Stack",
   "repository": "https://github.com/Joshua-Booth/creact",
   "type": "module",
-  "scripts": {
-    "semantic-release": "semantic-release -c ./config/.releaserc.json"
-  },
   "author": "Joshua Booth",
   "license": "UNLICENSED",
   "dependencies": {
