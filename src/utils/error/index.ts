@@ -1,4 +1,4 @@
-export { isEmpty as isObjectEmpty } from 'es-toolkit/compat';
+export { isEmpty as isObjectEmpty } from "es-toolkit/compat";
 
 interface ErrorAction {
   type: string;
