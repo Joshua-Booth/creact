@@ -30,7 +30,8 @@ describe("Error utilities", () => {
 
       showAllErrors();
 
-      const errorElements = document.querySelectorAll<HTMLElement>(".alert-error");
+      const errorElements =
+        document.querySelectorAll<HTMLElement>(".alert-error");
       errorElements.forEach((el) => {
         expect(el.style.display).toBe("block");
       });
@@ -63,7 +64,8 @@ describe("Error utilities", () => {
 
       hideAllErrors();
 
-      const errorElements = document.querySelectorAll<HTMLElement>(".alert-error");
+      const errorElements =
+        document.querySelectorAll<HTMLElement>(".alert-error");
       errorElements.forEach((el) => {
         expect(el.style.display).toBe("none");
       });
@@ -90,7 +92,8 @@ describe("Error utilities", () => {
 
       hideAllErrors();
 
-      const errorElements = document.querySelectorAll<HTMLElement>(".alert-error");
+      const errorElements =
+        document.querySelectorAll<HTMLElement>(".alert-error");
       errorElements.forEach((el) => {
         expect(el.style.display).toBe("none");
       });
