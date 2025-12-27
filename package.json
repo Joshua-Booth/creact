@@ -69,7 +69,7 @@
     "posthog-js": "^1.310.1",
     "prettier": "^3.7.4",
     "prettier-plugin-tailwindcss": "^0.7.2",
-    "react-router-devtools": "^5.1.6",
+    "react-router-devtools": "^6.0.1",
     "semantic-release": "^25.0.2",
     "steiger": "^0.5.11",
     "stylelint": "^16.26.1",
