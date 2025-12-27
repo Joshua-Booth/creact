@@ -1,7 +1,6 @@
 import { Links, Meta, Outlet, Scripts, ScrollRestoration } from "react-router";
 import { PostHogProvider } from "@/app/providers/PostHogProvider";
 import { Header } from "@/widgets/header";
-import { EmbeddedDevTools } from "react-router-devtools";
 import "@/app/styles/main.css";
 
 export function Layout({ children }: { children: React.ReactNode }) {
@@ -48,7 +47,6 @@ export default function Root() {
         <Header />
         <Outlet />
       </div>
-      {import.meta.env.DEV && <EmbeddedDevTools />}
     </PostHogProvider>
   );
 }
