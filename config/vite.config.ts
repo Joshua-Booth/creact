@@ -4,13 +4,17 @@ import tailwindcss from "@tailwindcss/vite";
 import svgr from "vite-plugin-svgr";
 import { sentryVitePlugin } from "@sentry/vite-plugin";
 import devtoolsJson from "vite-plugin-devtools-json";
+import { reactRouterDevTools } from "react-router-devtools";
+import tsconfigPaths from "vite-tsconfig-paths";
 import path from "path";
 
 export default defineConfig({
   plugins: [
+    reactRouterDevTools(),
     tailwindcss(),
     svgr(),
     reactRouter(),
+    tsconfigPaths(),
     devtoolsJson(),
     sentryVitePlugin({
       telemetry: false,
@@ -26,6 +30,9 @@ export default defineConfig({
     alias: {
       "@": path.resolve(__dirname, "../src"),
     },
+  },
+  optimizeDeps: {
+    exclude: ["fsevents"],
   },
   server: {
     port: Number(process.env.VITE_PORT) || 8080,
