@@ -3,7 +3,7 @@
     "target": "ES2020",
     "useDefineForClassFields": true,
     "lib": ["ES2020", "DOM", "DOM.Iterable"],
-    "types": ["vite/client"],
+    "types": ["vite/client", "node"],
     "module": "ESNext",
     "skipLibCheck": true,
     "esModuleInterop": true,
@@ -23,10 +23,7 @@
   "include": [
     "../src",
     "../tests",
-    "../*.ts",
-    "../*.tsx",
-    "../.react-router",
-    "react-router.config.ts"
+    "../.react-router"
   ],
   "exclude": ["../node_modules", "../dist", "../tests/e2e", "../app"]
 }
