@@ -1,6 +1,6 @@
 import { useAuthStore } from "@/entities/user";
 import { useMainStore } from "@/shared/model";
-import { Loader } from "@/shared/ui";
+import { Spinner } from "@/shared/ui/spinner";
 
 export default function Dashboard() {
   const { user, loading, error } = useAuthStore((state) => ({
@@ -21,7 +21,7 @@ export default function Dashboard() {
       {user && !loading && !error && (
         <div className="mx-auto flex max-w-[720px] flex-wrap text-center max-[905px]:mx-auto max-xl:w-auto max-xl:max-w-[660px] max-lg:mx-[200px] max-sm:w-full max-sm:flex-col"></div>
       )}
-      {loading && <Loader />}
+      {loading && <Spinner />}
       {error && (
         <div className="pt-4">
           <p>Error loading dashboard</p>
