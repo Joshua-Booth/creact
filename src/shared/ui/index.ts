@@ -14,7 +14,6 @@ export * from "./aspect-ratio";
 export { Avatar } from "./avatar";
 export * from "./avatar";
 
-export { default as BackButton } from "./BackButton";
 export { Badge } from "./badge";
 export * from "./badge";
 
@@ -107,9 +106,6 @@ export * from "./kbd";
 
 export { Label } from "./label";
 export * from "./label";
-
-export { default as Loader } from "./Loader";
-export { default as TextAreaInput } from "./TextAreaInput";
 
 export { Menubar } from "./menubar";
 export * from "./menubar";
