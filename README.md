@@ -7,7 +7,7 @@
   </a>
 
   <h2 style="padding-top:0;margin-top:20px">creact</h2>
-  <h4 style="padding-top:20px">A modern React web app template with Vite, React Router v7, and TypeScript.</h4>
+  <h4 style="padding-top:20px">A React web app template with Vite, React Router v7, and TypeScript.</h4>
 
   <br />
 
@@ -60,16 +60,16 @@
 ## About
 
 <p style="padding-bottom: 20px">
-creact is a modern React project template built with the latest web technologies for quickly setting up production-ready web applications. Version 2.0 represents a complete modernization of the stack, featuring:
+creact is a React project template for quickly setting up new web applications. Built with:
 
-- **React 19** with the latest features and optimizations
-- **React Router v7** for powerful routing and data loading
-- **Vite** for lightning-fast development and optimized builds
-- **TypeScript** for type-safe development
-- **Zustand** for simple, scalable state management
-- **Tailwind CSS v4** for modern, utility-first styling
+- **React 19** with concurrent features and automatic batching
+- **React Router v7** for file-based routing and data loading
+- **Vite** for fast development and optimized production builds
+- **TypeScript** for type safety
+- **Zustand** for lightweight state management
+- **Tailwind CSS v4** for utility-first styling
 
-The template is designed to be modular - you can easily remove or customize parts that don't fit your project needs.
+The template is modular - remove or customize any parts that don't fit your needs.
 
 Take a look at the <a href="#features">features</a> to see what's included. If there's something you think should be added, feel free to create a [feature request](https://github.com/Joshua-Booth/creact/issues/new).
 
@@ -81,18 +81,18 @@ For more information about this project check out the [wiki].
 
 ## Features
 
-- :scissors: **Customisable** - Only use the parts that you need for your project
-- :zap: **Modern build tooling** - Lightning-fast development with [Vite] and [React Router v7]
-- :file_folder: **Data management** - Simple state management with [Zustand] and API requests with [axios]
-- :iphone: **Responsive design** - Modern styling with [Tailwind CSS v4]
+- :scissors: **Customisable** - Only use the parts you need for your project
+- :zap: **Build tooling** - Fast development with [Vite] and [React Router v7]
+- :file_folder: **Data management** - State management with [Zustand] and API requests with [axios]
+- :iphone: **Responsive design** - Utility-first styling with [Tailwind CSS v4]
 - :arrow_right_hook: **Git hooks** - Automated code quality checks with [Husky]
-- :bookmark: **Versioning** - Automated SemVer versioning, changelogs and releases with [semantic-release]
+- :bookmark: **Versioning** - Automated SemVer versioning, changelogs, and releases with [semantic-release]
 - :shirt: **Linting** - [ESLint], [Prettier], [stylelint], and [commitlint]
 - :white_check_mark: **Testing** - Unit and integration tests with [Vitest], E2E tests with [Playwright]
-- :chart_with_upwards_trend: **Coverage reports** - Comprehensive test coverage tracking
-- :wrench: **Task runner** - Streamlined development workflows with [mise]
-- :package: **Third party integrations** - [Algolia], [Sentry], and [PostHog] built in
-- :art: **Modern UI components** - [Lucide React] icons and [React Hook Form] for forms
+- :chart_with_upwards_trend: **Coverage reports** - Test coverage tracking
+- :wrench: **Task runner** - Development workflows with [mise]
+- :package: **Third party integrations** - [Algolia], [Sentry], and [PostHog] ready to configure
+- :art: **UI components** - [Lucide React] icons and [React Hook Form] for forms
 
 [vite]: https://vite.dev/
 [react router v7]: https://reactrouter.com/
