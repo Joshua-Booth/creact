@@ -92,7 +92,7 @@ For more information about this project check out the [wiki].
 - :chart_with_upwards_trend: **Coverage reports** - Test coverage tracking
 - :wrench: **Task runner** - Development workflows with [mise]
 - :package: **Third party integrations** - [Algolia], [Sentry], and [PostHog] ready to configure
-- :art: **UI components** - [Lucide React] icons and [React Hook Form] for forms
+- :art: **UI components** - [shadcn/ui] components, [Lucide React] icons, and [React Hook Form] for forms
 
 [vite]: https://vite.dev/
 [react router v7]: https://reactrouter.com/
@@ -113,6 +113,7 @@ For more information about this project check out the [wiki].
 [posthog]: https://posthog.com/
 [lucide react]: https://lucide.dev/
 [react hook form]: https://react-hook-form.com/
+[shadcn/ui]: https://ui.shadcn.com/
 
 ## Requirements
 
@@ -218,6 +219,35 @@ VITE_PUBLIC_URL=http://localhost:8082/public
 [sentry dsn]: https://docs.sentry.io/product/sentry-basics/dsn-explainer/
 [sentry auth token]: https://docs.sentry.io/api/auth/#auth-tokens
 [posthog project api key]: https://posthog.com/docs/getting-started/send-events#how-to-find-your-project-api-key
+
+## UI Components
+
+The project uses [shadcn/ui] for UI components. Components are organized following the Feature-Sliced Design (FSD) architecture:
+
+- `src/shared/ui/` - Shared UI components (shadcn components and custom components)
+- `src/shared/lib/utils.ts` - Utility functions including the `cn()` helper for className merging
+
+### Adding shadcn/ui Components
+
+To add new shadcn/ui components to your project:
+
+```sh
+pnpm dlx shadcn@latest add [component-name]
+```
+
+For example, to add a dialog component:
+
+```sh
+pnpm dlx shadcn@latest add dialog
+```
+
+Components will be automatically added to `src/shared/ui/` and will use the correct import aliases for the FSD structure.
+
+### Available Components
+
+Check the [shadcn/ui documentation](https://ui.shadcn.com/docs/components) for the full list of available components.
+
+[shadcn/ui]: https://ui.shadcn.com/
 
 ## Usage
 
