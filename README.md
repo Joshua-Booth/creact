@@ -71,6 +71,8 @@ creact is a React project template for quickly setting up new web applications. 
 
 The template is modular - remove or customize any parts that don't fit your needs.
 
+**Rendering Mode:** This template uses Server-Side Rendering (SSR) with React Router v7. SSR is required for proper Tailwind CSS v4 critical CSS injection and hydration. If you need SPA-only mode, consider using Tailwind CSS v3 instead.
+
 Take a look at the <a href="#features">features</a> to see what's included. If there's something you think should be added, feel free to create a [feature request](https://github.com/Joshua-Booth/creact/issues/new).
 
 For more information about this project check out the [wiki].

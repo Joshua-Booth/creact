@@ -10,8 +10,12 @@ import path from "path";
 
 export default defineConfig({
   plugins: [
-    reactRouterDevTools(),
     tailwindcss(),
+    reactRouterDevTools({
+      server: {
+        silent: true,
+      },
+    }),
     svgr(),
     reactRouter(),
     tsconfigPaths(),
@@ -43,5 +47,13 @@ export default defineConfig({
     outDir: "dist",
     emptyOutDir: true,
     sourcemap: true,
+  },
+
+  css: {
+    postcss: {},
+  },
+
+  ssr: {
+    noExternal: ["@tailwindcss/vite"],
   },
 });

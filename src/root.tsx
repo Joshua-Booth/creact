@@ -6,14 +6,36 @@ import "@/app/styles/main.css";
 export function Layout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en" suppressHydrationWarning>
-      <head>
+      <head suppressHydrationWarning>
         <meta charSet="utf-8" />
-        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <meta
+          name="viewport"
+          content="width=device-width, initial-scale=1, maximum-scale=1"
+        />
         <meta name="description" content="React Frontend" />
+        <title>creact - A React Frontend</title>
+
+        {/* PWA Configuration */}
+        <meta name="theme-color" content="#FFFFFF" />
+        <meta name="apple-mobile-web-app-capable" content="yes" />
+        <meta name="apple-mobile-web-app-title" content="React Frontend" />
+        <meta name="apple-mobile-web-app-status-bar-style" content="white" />
+        <meta name="mobile-web-app-capable" content="yes" />
+        <meta name="mobile-web-app-title" content="React Frontend" />
+        <meta name="application-name" content="React Frontend" />
+        <meta name="msapplication-starturl" content="/" />
+
+        {/* Site Icons */}
+        <link rel="icon" type="image/x-icon" href="/icons/favicon.ico" />
+        <link rel="shortcut icon" type="image/x-icon" href="/icons/favicon.ico" />
+        <link rel="apple-touch-icon" href="/icons/apple-icon-180x180.png" />
+        <link rel="manifest" href="/manifest.json" />
+
         <Meta />
         <Links />
       </head>
-      <body>
+      <body suppressHydrationWarning>
+        <noscript>You need to enable JavaScript to run this app.</noscript>
         {children}
         <ScrollRestoration />
         <Scripts />
