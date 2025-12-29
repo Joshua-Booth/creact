@@ -52,6 +52,7 @@
     <a href="#installation">Installation</a> |
     <a href="#installation">Setup</a> |
     <a href="#installation">Usage</a> |
+    <a href="#deployment">Deployment</a> |
     <a href="#support">Support</a> |
     <a href="#license">License</a>
   </p>
@@ -329,6 +330,26 @@ mise run steiger_fix     # Run Steiger with auto-fix (alias: mise run sf)
 ```
 
 For more details on available tasks, run `mise tasks ls` or check `mise.toml`. Most tasks have aliases (e.g., `mise run b` for build, `mise run t` for test).
+
+## Deployment
+
+This project is configured for easy deployment to Vercel and Netlify (both with free tiers).
+
+**Quick Start:**
+
+1. Push code to GitHub
+2. Connect to Vercel or Netlify
+3. Configure environment variables
+4. Deploy - done!
+
+See [DEPLOYMENT.md](./DEPLOYMENT.md) for detailed deployment instructions, environment variable setup, and troubleshooting.
+
+### Key Resources
+
+- [Deployment Guide](./DEPLOYMENT.md) - Complete deployment steps
+- [Environment Variables](./.env.production.example) - Production env var template
+- [Vercel Docs](https://vercel.com/docs)
+- [Netlify Docs](https://docs.netlify.com)
 
 ## Support
 

@@ -1,0 +1,136 @@
+{
+  "name": "creact - React + SSR + TypeScript",
+  "dockerFile": "Dockerfile",
+
+  "features": {
+    "ghcr.io/devcontainers/features/common-utils:2": {
+      "installZsh": true,
+      "installOhMyZsh": true,
+      "upgradePackages": true
+    },
+    "ghcr.io/devcontainers/features/git:1": {
+      "version": "latest"
+    }
+  },
+
+  "forwardPorts": [8080],
+  "portsAttributes": {
+    "8080": {
+      "label": "Vite Dev Server",
+      "onAutoForward": "openBrowser"
+    }
+  },
+
+  "postCreateCommand": "pnpm install && mise trust && mise install",
+
+  "remoteUser": "vscode",
+
+  "customizations": {
+    "vscode": {
+      "extensions": [
+        "dbaeumer.vscode-eslint",
+        "esbenp.prettier-vscode",
+        "bradlc.vscode-tailwindcss",
+        "stylelint.vscode-stylelint",
+        "vitest.explorer",
+        "dsznajder.es7-react-jsnippets",
+        "yoavbls.pretty-ts-errors",
+        "eamodio.gitlens",
+        "donjayamanne.githistory",
+        "waderyan.gitblame",
+        "seatonjiang.gitmoji-vscode",
+        "usernamehw.errorlens",
+        "streetsidesoftware.code-spell-checker",
+        "vscode-icons-team.vscode-icons",
+        "mikestead.dotenv",
+        "tamasfe.even-better-toml",
+        "pranaygp.vscode-css-peek",
+        "wix.vscode-import-cost",
+        "vincaslt.highlight-matching-tag",
+        "editorconfig.editorconfig",
+        "ms-playwright.playwright",
+        "GitHub.copilot",
+        "GitHub.copilot-chat"
+      ],
+      "settings": {
+        "editor.defaultFormatter": "esbenp.prettier-vscode",
+        "editor.formatOnSave": true,
+        "editor.codeActionsOnSave": {
+          "source.fixAll.eslint": "explicit"
+        },
+        "editor.quickSuggestions": {
+          "comments": false,
+          "strings": true,
+          "other": true
+        },
+        "files.associations": {
+          "*.css": "tailwindcss"
+        },
+        "typescript.tsdk": "node_modules/typescript/lib",
+        "typescript.enablePromptUseWorkspaceTsdk": true,
+        "typescript.preferences.autoImportFileExcludePatterns": [
+          "react-router-dom",
+          "@radix-ui/*",
+          "react-day-picker"
+        ],
+        "javascript.updateImportsOnFileMove.enabled": "always",
+        "typescript.updateImportsOnFileMove.enabled": "always",
+        "tailwindCSS.includeLanguages": {
+          "javascript": "javascript",
+          "typescriptreact": "javascript"
+        },
+        "tailwindCSS.validate": true,
+        "tailwindCSS.files.exclude": [
+          "**/.git/**",
+          "**/node_modules/**",
+          "**/.hg/**",
+          "**/.svn/**",
+          "**/*.md",
+          "**/docs/**/*.md"
+        ],
+        "tailwindCSS.experimental.configFile": null,
+        "tailwindCSS.lint.cssConflict": "ignore",
+        "css.validate": false,
+        "css.lint.validProperties": [],
+        "css.lint.duplicateProperties": "ignore",
+        "css.lint.propertyIgnoredDueToDisplay": "ignore",
+        "[markdown]": {
+          "css.validate": false,
+          "css.lint.duplicateProperties": "ignore"
+        },
+        "notebook.defaultFormatter": "esbenp.prettier-vscode",
+        "testing.automaticallyOpenPeekView": "never",
+        "vitest.enable": true,
+        "vitest.rootConfig": "./config/vitest.config.ts",
+        "vitest.commandLine": "NODE_ENV=test pnpm exec vitest",
+        "vitest.include": ["src/**/*.{test,spec}.{js,jsx,ts,tsx}"],
+        "vitest.exclude": [
+          "**/node_modules/**",
+          "**/dist/**",
+          "**/e2e/**",
+          "**/*.e2e.*",
+          "**/.{idea,git,cache,output,temp}/**"
+        ],
+        "vitest.nodeExecutable": "node_modules/.bin/node",
+        "vitest.shellType": "terminal",
+        "terminal.integrated.shellIntegration.enabled": false,
+        "[toml]": {
+          "editor.defaultFormatter": "tamasfe.even-better-toml"
+        }
+      }
+    }
+  },
+
+  "mounts": [
+    "source=${localWorkspaceFolder}/node_modules,target=${containerWorkspaceFolder}/node_modules,type=bind,consistency=cached",
+    "source=${localWorkspaceFolder}/.pnpm-store,target=${containerWorkspaceFolder}/.pnpm-store,type=bind,consistency=cached"
+  ],
+
+  "remoteEnv": {
+    "NODE_ENV": "development",
+    "VITE_PORT": "8080",
+    "VITE_API_PORT": "8000",
+    "VITE_API_ROOT_URL": "http://localhost:8000",
+    "VITE_PUBLIC_URL": "http://localhost:8080/public"
+  }
+}

@@ -1,0 +1,42 @@
+# Basic Dockerfile for local testing of production builds
+# This is NOT used by Vercel or Netlify - they have their own build systems
+# Use this only for local testing of production builds
+
+FROM node:24-alpine
+
+WORKDIR /app
+
+# Copy package files
+COPY package.json pnpm-lock.yaml ./
+
+# Enable pnpm
+RUN corepack enable pnpm
+
+# Install dependencies
+RUN pnpm install --frozen-lockfile
+
+# Copy source code
+COPY . .
+
+# Build arguments for production variables
+ARG VITE_PUBLIC_URL=http://localhost:8080
+ARG VITE_API_ROOT_URL=http://localhost:8000
+ARG VITE_SENTRY_DSN=
+ARG VITE_POSTHOG_KEY=
+ARG VITE_POSTHOG_HOST=https://app.posthog.com
+
+# Set build environment variables
+ENV VITE_PUBLIC_URL=$VITE_PUBLIC_URL
+ENV VITE_API_ROOT_URL=$VITE_API_ROOT_URL
+ENV VITE_SENTRY_DSN=$VITE_SENTRY_DSN
+ENV VITE_POSTHOG_KEY=$VITE_POSTHOG_KEY
+ENV VITE_POSTHOG_HOST=$VITE_POSTHOG_HOST
+
+# Build the application
+RUN pnpm build
+
+# Expose the default port
+EXPOSE 8080
+
+# Default command - run preview server
+CMD ["pnpm", "preview"]
