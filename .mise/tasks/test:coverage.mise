@@ -1,3 +1,0 @@
-#!/usr/bin/env bash
-set -euo pipefail
-pnpm exec vitest run --coverage --config ./config/vitest.config.ts

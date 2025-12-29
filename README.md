@@ -48,6 +48,7 @@
     <a href="#about">About</a> |
     <a href="#requirements">Features</a> |
     <a href="#requirements">Requirements</a> |
+    <a href="#requirements">Dev Container</a> |
     <a href="#installation">Installation</a> |
     <a href="#installation">Setup</a> |
     <a href="#installation">Usage</a> |
@@ -143,6 +144,35 @@ Once mise is installed, it will automatically install and use the correct Node.j
 
 - [git-cz](https://www.npmjs.com/package/git-cz) for conventional commits
 - [prettier](https://www.npmjs.com/package/prettier) for code formatting
+
+### Dev Container (Recommended)
+
+For a consistent, isolated development environment, use the VS Code Dev Container:
+
+**Requirements:**
+
+- [Docker Desktop](https://www.docker.com/products/docker-desktop) or compatible Docker runtime
+- [VS Code](https://code.visualstudio.com/) with the [Dev Containers extension](https://marketplace.visualstudio.com/items?itemName=ms-vscode-remote.remote-containers)
+
+**Quick Start:**
+
+```sh
+# Clone the repository
+git clone https://github.com/Joshua-Booth/creact.git
+cd creact
+
+# Open in VS Code and run: F1 → "Dev Containers: Reopen in Container"
+```
+
+The devcontainer includes:
+
+- Node.js 24.12.0 + pnpm 10.26.0
+- mise for version management
+- Playwright browsers for E2E testing
+- All recommended VS Code extensions
+- Pre-configured environment variables
+
+See [.devcontainer/README.md](./.devcontainer/README.md) for detailed documentation.
 
 ## Installation
 
@@ -253,12 +283,12 @@ Check the [shadcn/ui documentation](https://ui.shadcn.com/docs/components) for t
 
 ## Usage
 
-The project uses [mise] for task management. All tasks are defined in `.mise/tasks/`.
+The project uses [mise] for task management. All tasks are defined in `mise.toml` with descriptions and aliases for easy use.
 
 ### Development
 
 ```sh
-mise run dev          # Start Vite dev server
+mise run dev          # Start Vite dev server (alias: mise run d)
 ```
 
 Visit the site at `http://localhost:8080` (or the port configured in your `.env` file).
@@ -266,37 +296,39 @@ Visit the site at `http://localhost:8080` (or the port configured in your `.env`
 ### Production
 
 ```sh
-mise run build        # Build static files for production
-mise run preview      # Preview production build locally
+mise run build        # Build static files for production (alias: mise run b)
+mise run preview      # Preview production build locally (alias: mise run p)
 ```
 
 ### Testing
 
 ```sh
-mise run test         # Run unit/integration tests with Vitest
-mise run test_ui      # Open Vitest UI
-mise run test_e2e     # Run end-to-end tests with Playwright
-mise run test_coverage # Generate test coverage report
+mise run test         # Run unit/integration tests with Vitest (alias: mise run t)
+mise run test_ui      # Open Vitest UI (alias: mise run tu)
+mise run test_e2e     # Run end-to-end tests with Playwright (alias: mise run te)
+mise run test_coverage # Generate test coverage report (alias: mise run tc)
 ```
 
 ### Code Quality
 
 ```sh
-mise run lint         # Run ESLint
-mise run stylelint    # Run stylelint
-mise run typecheck    # Run TypeScript type checking
-mise run format       # Format code with Prettier
+mise run lint         # Run ESLint (alias: mise run l)
+mise run stylelint    # Run stylelint (alias: mise run sl)
+mise run typecheck    # Run TypeScript type checking (alias: mise run tt)
+mise run format       # Format code with Prettier (alias: mise run f)
 ```
 
 ### Other Tasks
 
 ```sh
-mise tasks ls         # List all available tasks
-mise run clean        # Clean build artifacts
-mise run build_analyze # Analyze bundle size
+mise tasks ls           # List all available tasks
+mise run clean          # Clean build artifacts
+mise run build_analyze   # Analyze bundle size (alias: mise run ba)
+mise run semantic_release # Create a new release (alias: mise run release)
+mise run steiger_fix     # Run Steiger with auto-fix (alias: mise run sf)
 ```
 
-For more details on available tasks, check the `.mise/tasks/` directory or run `mise tasks ls`.
+For more details on available tasks, run `mise tasks ls` or check `mise.toml`. Most tasks have aliases (e.g., `mise run b` for build, `mise run t` for test).
 
 ## Support
 

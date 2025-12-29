@@ -1,4 +1,0 @@
-#!/usr/bin/env bash
-set -euo pipefail
-pnpm exec react-router typegen
-pnpm exec tsc --noEmit --project ./config/tsconfig.json

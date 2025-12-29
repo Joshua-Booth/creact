@@ -1,3 +1,0 @@
-#!/usr/bin/env bash
-set -euo pipefail
-pnpm exec eslint . --ext .ts,.tsx --config ./config/eslint.config.js

@@ -1,3 +1,0 @@
-#!/usr/bin/env bash
-set -euo pipefail
-pnpm exec playwright test --config ./config/playwright.config.ts

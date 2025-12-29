@@ -1,14 +1,110 @@
+min_version = "2024.9.5"
+
 [tools]
 node = "24.12.0"
 pnpm = "10.26.0"
 
 [env]
 NODE_ENV = "development"
+_.path = ["./node_modules/.bin"]
+
+[vars]
+eslint_config = "./config/eslint.config.js"
+prettier_config = "./config/.prettierrc"
+stylelint_config = "./config/.stylelintrc.json"
+vitest_config = "./config/vitest.config.ts"
+playwright_config = "./config/playwright.config.ts"
+steiger_config = "./config/steiger.config.ts"
+releaserc = "./config/.releaserc.json"
+
+[tasks.build]
+description = "Build the application"
+alias = "b"
+run = "react-router build"
+sources = ["src/**/*", "package.json", "vite.config.ts", "tsconfig.json"]
+outputs = ["build/**/*", "build"]
+
+[tasks.build_analyze]
+description = "Analyze bundle size"
+alias = "ba"
+depends = ["build"]
+run = "vite-bundle-analyzer"
+
+[tasks.clean]
+description = "Remove build artifacts and cache"
+confirm = "This will delete dist, coverage, test results, and build caches. Continue?"
+run = "rm -rf dist .vite coverage playwright-report test-results"
+
+[tasks.dev]
+description = "Start development server"
+alias = "d"
+run = "react-router dev"
+
+[tasks.format]
+description = "Format code with Prettier"
+alias = "f"
+run = "prettier --write \"**/*.{ts,tsx,css}\" --config {{vars.prettier_config}}"
+
+[tasks.lint]
+description = "Run ESLint"
+alias = "l"
+run = "eslint . --ext .ts,.tsx --config {{vars.eslint_config}}"
+
+[tasks.lintstaged]
+description = "Run lint-staged on staged files"
+run = "lint-staged --config ./config/.lintstagedrc"
+
+[tasks.preview]
+description = "Preview production build"
+alias = "p"
+depends = ["build"]
+run = "react-router preview"
+
+[tasks.semantic_release]
+description = "Create a new release using semantic-release"
+alias = "release"
+confirm = "This will create a new release. Continue?"
+run = "semantic-release -c {{vars.releaserc}}"
 
 [tasks.steiger]
-description = "Run Steiger FSD linter"
-run = "pnpm exec steiger ./src --config config/steiger.config.ts"
+description = "Run Steiger architecture linter"
+run = "steiger ./src --config {{vars.steiger_config}}"
 
-[tasks."steiger:fix"]
+[tasks.steiger_fix]
 description = "Run Steiger with auto-fix"
-run = "pnpm exec steiger --fix ./src --config config/steiger.config.ts"
+alias = "sf"
+run = "steiger --fix ./src --config {{vars.steiger_config}}"
+
+[tasks.stylelint]
+description = "Run Stylelint for CSS/SCSS"
+alias = "sl"
+run = "stylelint \"**/*.{css,scss}\" --ignore-path .gitignore --config {{vars.stylelint_config}}"
+
+[tasks.test]
+description = "Run unit tests"
+alias = "t"
+depends = ["build"]
+run = "vitest --config {{vars.vitest_config}}"
+
+[tasks.test_coverage]
+description = "Run tests with coverage"
+alias = "tc"
+depends = ["build"]
+run = "vitest run --coverage --config {{vars.vitest_config}}"
+
+[tasks.test_e2e]
+description = "Run end-to-end tests with Playwright"
+alias = "te"
+depends = ["build"]
+run = "playwright test --config {{vars.playwright_config}}"
+
+[tasks.test_ui]
+description = "Open Vitest UI"
+alias = "tu"
+depends = ["build"]
+run = "vitest --ui --config {{vars.vitest_config}}"
+
+[tasks.typecheck]
+description = "Run TypeScript type checking"
+alias = "tt"
+run = "tsc --noEmit"

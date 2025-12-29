@@ -1,3 +1,0 @@
-#!/usr/bin/env bash
-set -euo pipefail
-pnpm exec prettier --write "**/*.{ts,tsx,css}" --config ./config/.prettierrc

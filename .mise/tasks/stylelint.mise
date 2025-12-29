@@ -1,3 +1,0 @@
-#!/usr/bin/env bash
-set -euo pipefail
-pnpm exec stylelint "**/*.{css,scss}" --ignore-path .gitignore --config ./config/.stylelintrc.json
