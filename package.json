@@ -38,6 +38,9 @@
     "zustand": "^5.0.9"
   },
   "devDependencies": {
+    "@commitlint/cli": "^20.2.0",
+    "@commitlint/config-conventional": "^20.2.0",
+    "@commitlint/types": "^20.2.0",
     "@eslint/js": "^9.39.2",
     "@feature-sliced/steiger-plugin": "^0.5.7",
     "@playwright/test": "^1.57.0",
@@ -58,6 +61,8 @@
     "@vitejs/plugin-react": "^5.1.2",
     "@vitest/ui": "^4.0.16",
     "autoprefixer": "^10.4.23",
+    "commitlint-plugin-function-rules": "^4.2.1",
+    "commitlint-plugin-selective-scope": "^1.0.1",
     "conventional-changelog-conventionalcommits": "^9.1.0",
     "eslint": "^9.39.2",
     "eslint-plugin-jsx-a11y": "^6.10.2",
