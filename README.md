@@ -361,7 +361,6 @@ Check the [issues](https://github.com/Joshua-Booth/creact/issues) page to see if
 
 Reach out to me for support through the following methods:
 
-- Email: [contact@joshuabooth.nz](mailto:contact@joshuabooth.nz)
 - Website: [joshuabooth.nz/contact](https://joshuabooth.nz)
 
 ## License
