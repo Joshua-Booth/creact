@@ -6,6 +6,10 @@
   "type": "module",
   "author": "Joshua Booth",
   "license": "UNLICENSED",
+  "packageManager": "pnpm@10.26.0",
+  "engines": {
+    "node": ">=24.12.0"
+  },
   "dependencies": {
     "@base-ui/react": "^1.0.0",
     "@fontsource-variable/inter": "^5.2.8",
@@ -27,7 +31,7 @@
     "react-day-picker": "^9.13.0",
     "react-dom": "^19.2.3",
     "react-hook-form": "^7.69.0",
-    "react-resizable-panels": "^4.0.16",
+    "react-resizable-panels": "^4.1.0",
     "react-router": "^7.11.0",
     "recharts": "2.15.4",
     "shadcn": "^3.6.2",
@@ -56,8 +60,8 @@
     "@types/node": "^25.0.3",
     "@types/react": "^19.2.7",
     "@types/react-dom": "^19.2.3",
-    "@typescript-eslint/eslint-plugin": "^8.50.1",
-    "@typescript-eslint/parser": "^8.50.1",
+    "@typescript-eslint/eslint-plugin": "^8.51.0",
+    "@typescript-eslint/parser": "^8.51.0",
     "@vitejs/plugin-react": "^5.1.2",
     "@vitest/ui": "^4.0.16",
     "autoprefixer": "^10.4.23",
@@ -71,7 +75,7 @@
     "globals": "^16.5.0",
     "happy-dom": "^20.0.11",
     "jsdom": "^27.4.0",
-    "posthog-js": "^1.310.1",
+    "posthog-js": "^1.311.0",
     "prettier": "^3.7.4",
     "prettier-plugin-tailwindcss": "^0.7.2",
     "react-router-devtools": "^6.0.1",
@@ -87,12 +91,5 @@
     "vite-plugin-svgr": "^4.5.0",
     "vite-tsconfig-paths": "^6.0.3",
     "vitest": "^4.0.16"
-  },
-  "pnpm": {
-    "onlyBuiltDependencies": [
-      "@parcel/watcher",
-      "esbuild",
-      "@sentry/cli"
-    ]
   }
 }

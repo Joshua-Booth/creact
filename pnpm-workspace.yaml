@@ -1,0 +1,8 @@
+onlyBuiltDependencies:
+  - "@parcel/watcher"
+  - esbuild
+  - "@sentry/cli"
+  - msw
+
+ignoredBuiltDependencies:
+  - core-js
