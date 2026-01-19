@@ -1,5 +1,6 @@
 import { Links, Meta, Outlet, Scripts, ScrollRestoration } from "react-router";
 import { PostHogProvider } from "@/app/providers/PostHogProvider";
+import { SWRProvider } from "@/app/providers/SWRProvider";
 import { Header } from "@/widgets/header";
 import "@/app/styles/main.css";
 
@@ -65,10 +66,12 @@ export function HydrateFallback() {
 export default function Root() {
   return (
     <PostHogProvider>
-      <div id="app">
-        <Header />
-        <Outlet />
-      </div>
+      <SWRProvider>
+        <div id="app">
+          <Header />
+          <Outlet />
+        </div>
+      </SWRProvider>
     </PostHogProvider>
   );
 }

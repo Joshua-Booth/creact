@@ -8,12 +8,7 @@ export interface User {
 
 export interface AuthState {
   token: string | null;
-  user: User | null;
-  loading: boolean;
-  error: Error | null;
   authenticated: boolean;
   login: (token: string) => void;
   logout: () => void;
-  fetchUser: () => Promise<void>;
-  setError: (error: Error | null) => void;
 }

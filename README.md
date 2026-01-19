@@ -87,7 +87,7 @@ For more information about this project check out the [wiki].
 
 - :scissors: **Customisable** - Only use the parts you need for your project
 - :zap: **Build tooling** - Fast development with [Vite] and [React Router v7]
-- :file_folder: **Data management** - State management with [Zustand] and API requests with [axios]
+- :file_folder: **Data management** - State management with [Zustand], data fetching with [SWR], and API requests with [ky]
 - :iphone: **Responsive design** - Utility-first styling with [Tailwind CSS v4]
 - :arrow_right_hook: **Git hooks** - Automated code quality checks with [Husky]
 - :bookmark: **Versioning** - Automated SemVer versioning, changelogs, and releases with [semantic-release]
@@ -101,7 +101,8 @@ For more information about this project check out the [wiki].
 [vite]: https://vite.dev/
 [react router v7]: https://reactrouter.com/
 [zustand]: https://github.com/pmndrs/zustand
-[axios]: https://axios-http.com/
+[swr]: https://swr.vercel.app/
+[ky]: https://github.com/sindresorhus/ky
 [tailwind css v4]: https://tailwindcss.com/
 [husky]: https://github.com/typicode/husky
 [semantic-release]: https://github.com/semantic-release/semantic-release
