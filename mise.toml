@@ -16,6 +16,7 @@ vitest_config = "./config/vitest.config.ts"
 playwright_config = "./config/playwright.config.ts"
 steiger_config = "./config/steiger.config.ts"
 releaserc = "./config/.releaserc.json"
+knip_config = "./config/knip.config.ts"
 
 [tasks.build]
 description = "Build the application"
@@ -53,6 +54,16 @@ run = "eslint . --ext .ts,.tsx --config {{vars.eslint_config}}"
 [tasks.lintstaged]
 description = "Run lint-staged on staged files"
 run = "lint-staged --config ./config/.lintstagedrc"
+
+[tasks.knip]
+description = "Find unused files, dependencies, and exports"
+alias = "k"
+run = "knip --config {{vars.knip_config}}"
+
+[tasks.knip_fix]
+description = "Auto-remove unused exports"
+alias = "kf"
+run = "knip --config {{vars.knip_config}} --fix"
 
 [tasks.preview]
 description = "Preview production build"
