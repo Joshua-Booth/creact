@@ -91,7 +91,7 @@ For more information about this project check out the [wiki].
 - :iphone: **Responsive design** - Utility-first styling with [Tailwind CSS v4]
 - :arrow_right_hook: **Git hooks** - Automated code quality checks with [Husky]
 - :bookmark: **Versioning** - Automated SemVer versioning, changelogs, and releases with [semantic-release]
-- :shirt: **Linting** - [ESLint], [Prettier], [stylelint], and [commitlint]
+- :shirt: **Linting** - [ESLint], [Prettier], [stylelint], [commitlint], and [knip] for unused code detection
 - :white_check_mark: **Testing** - Unit and integration tests with [Vitest], E2E tests with [Playwright]
 - :chart_with_upwards_trend: **Coverage reports** - Test coverage tracking
 - :wrench: **Task runner** - Development workflows with [mise]
@@ -109,6 +109,7 @@ For more information about this project check out the [wiki].
 [prettier]: https://prettier.io/
 [stylelint]: https://stylelint.io/
 [commitlint]: https://commitlint.js.org/#/
+[knip]: https://knip.dev/
 [vitest]: https://vitest.dev/
 [playwright]: https://playwright.dev/
 [mise]: https://mise.jdx.dev/
@@ -317,6 +318,7 @@ mise run lint         # Run ESLint (alias: mise run l)
 mise run stylelint    # Run stylelint (alias: mise run sl)
 mise run typecheck    # Run TypeScript type checking (alias: mise run tt)
 mise run format       # Format code with Prettier (alias: mise run f)
+mise run knip         # Find unused code, exports, and dependencies
 ```
 
 ### Other Tasks
