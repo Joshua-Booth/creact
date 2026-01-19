@@ -1,12 +1,12 @@
-import { defineConfig } from "vite";
-import { reactRouter } from "@react-router/dev/vite";
-import tailwindcss from "@tailwindcss/vite";
-import svgr from "vite-plugin-svgr";
-import { sentryVitePlugin } from "@sentry/vite-plugin";
-import devtoolsJson from "vite-plugin-devtools-json";
 import { reactRouterDevTools } from "react-router-devtools";
-import tsconfigPaths from "vite-tsconfig-paths";
+import { reactRouter } from "@react-router/dev/vite";
+import { sentryVitePlugin } from "@sentry/vite-plugin";
+import tailwindcss from "@tailwindcss/vite";
 import path from "path";
+import { defineConfig } from "vite";
+import devtoolsJson from "vite-plugin-devtools-json";
+import svgr from "vite-plugin-svgr";
+import tsconfigPaths from "vite-tsconfig-paths";
 
 export default defineConfig({
   plugins: [

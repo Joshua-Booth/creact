@@ -1,6 +1,6 @@
-import { SWRConfig } from "swr";
 import { HTTPError } from "ky";
-import { api, ApiError } from "@/shared/api/client";
+import { SWRConfig } from "swr";
+import { ApiError, api } from "@/shared/api/client";
 
 const fetcher = async <T,>(url: string): Promise<T> => {
   try {

@@ -9,7 +9,6 @@
  *
  * Usage: echo "feat(features): add search" | pnpm commitlint
  */
-
 import type { UserConfig } from "@commitlint/types";
 
 // Parsed commit structure from commitlint
@@ -248,7 +247,14 @@ const config: UserConfig = {
       "always",
       ({ subject }: Commit): RuleResult => {
         if (!subject) return [true];
-        const weakVerbs = ["make", "do", "perform", "execute", "handle", "process"];
+        const weakVerbs = [
+          "make",
+          "do",
+          "perform",
+          "execute",
+          "handle",
+          "process",
+        ];
         const firstWord = subject.split(" ")[0].toLowerCase();
 
         if (weakVerbs.includes(firstWord)) {
@@ -307,11 +313,17 @@ const config: UserConfig = {
           "speed",
           "embed",
         ];
-        if (firstWord.length <= 3 || exceptions.includes(firstWord.toLowerCase())) {
+        if (
+          firstWord.length <= 3 ||
+          exceptions.includes(firstWord.toLowerCase())
+        ) {
           return [true];
         }
 
-        if (/ed$/i.test(firstWord) && !/^(need|seed|feed|speed)$/i.test(firstWord)) {
+        if (
+          /ed$/i.test(firstWord) &&
+          !/^(need|seed|feed|speed)$/i.test(firstWord)
+        ) {
           const imperative = firstWord.replace(/ed$/i, "");
           return [
             false,

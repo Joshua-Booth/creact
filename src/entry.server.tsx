@@ -1,8 +1,8 @@
-import { PassThrough } from "node:stream";
+import { renderToPipeableStream } from "react-dom/server";
 import type { EntryContext } from "react-router";
 import { ServerRouter } from "react-router";
 import { isbot } from "isbot";
-import { renderToPipeableStream } from "react-dom/server";
+import { PassThrough } from "node:stream";
 
 const ABORT_DELAY = 5000;
 

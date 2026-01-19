@@ -1,6 +1,7 @@
 import { Links, Meta, Outlet, Scripts, ScrollRestoration } from "react-router";
 import { PostHogProvider } from "@/app/providers/PostHogProvider";
 import { SWRProvider } from "@/app/providers/SWRProvider";
+import { ErrorBoundary } from "@/shared/ui";
 import { Header } from "@/widgets/header";
 import "@/app/styles/main.css";
 
@@ -67,10 +68,12 @@ export default function Root() {
   return (
     <PostHogProvider>
       <SWRProvider>
-        <div id="app">
-          <Header />
-          <Outlet />
-        </div>
+        <ErrorBoundary>
+          <div id="app">
+            <Header />
+            <Outlet />
+          </div>
+        </ErrorBoundary>
       </SWRProvider>
     </PostHogProvider>
   );
