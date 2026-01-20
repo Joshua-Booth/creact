@@ -1,5 +1,5 @@
 [build]
-command = "pnpm install && pnpm build"
+command = "curl https://mise.run | sh && ~/.local/bin/mise install && ~/.local/bin/mise run build"
 publish = "dist/client"
 
 [build.environment]
