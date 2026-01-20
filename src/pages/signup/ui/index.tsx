@@ -14,10 +14,10 @@ import {
 } from "@/shared/ui/field";
 import { Input } from "@/shared/ui/input";
 import { Button } from "@/shared/ui/button";
-import { useLoginForm } from "../model/useLoginForm";
+import { useSignupForm } from "../model/useSignupForm";
 
-export default function Login() {
-  const { form, isLoading, onSubmit } = useLoginForm();
+export default function Signup() {
+  const { form, isLoading, onSubmit } = useSignupForm();
   const {
     register,
     formState: { errors },
@@ -25,12 +25,12 @@ export default function Login() {
 
   return (
     <main className="flex min-h-[80vh] items-center justify-center px-4">
-      <title>Login | Creact</title>
+      <title>Sign Up | Creact</title>
       <Card className="w-full max-w-md">
         <CardHeader>
-          <CardTitle>Sign in to your account</CardTitle>
+          <CardTitle>Create your account</CardTitle>
           <CardDescription>
-            Enter your email and password to access your dashboard
+            Enter your email and password to get started
           </CardDescription>
         </CardHeader>
         <CardContent>
@@ -55,7 +55,7 @@ export default function Login() {
                 <Input
                   id="password"
                   type="password"
-                  placeholder="Enter your password"
+                  placeholder="Create a password"
                   data-testid="password"
                   disabled={isLoading}
                   aria-invalid={!!errors.password}
@@ -64,36 +64,44 @@ export default function Login() {
                 <FieldError errors={[errors.password]} />
               </Field>
 
+              <Field data-invalid={!!errors.confirmPassword}>
+                <FieldLabel htmlFor="confirmPassword">Confirm Password</FieldLabel>
+                <Input
+                  id="confirmPassword"
+                  type="password"
+                  placeholder="Confirm your password"
+                  data-testid="confirm-password"
+                  disabled={isLoading}
+                  aria-invalid={!!errors.confirmPassword}
+                  {...register("confirmPassword")}
+                />
+                <FieldError errors={[errors.confirmPassword]} />
+              </Field>
+
               {errors.root && (
-                <FieldError data-testid="login-error">
+                <FieldError data-testid="signup-error">
                   {errors.root.message}
                 </FieldError>
               )}
 
               <Button
                 type="submit"
-                data-testid="login"
+                data-testid="signup"
                 disabled={isLoading}
                 className="w-full"
               >
-                {isLoading ? "Signing in..." : "Sign in"}
+                {isLoading ? "Creating account..." : "Create account"}
               </Button>
             </FieldGroup>
           </form>
         </CardContent>
-        <CardFooter className="flex justify-center gap-4 text-sm">
+        <CardFooter className="flex justify-center text-sm">
+          <span className="text-muted-foreground">Already have an account?</span>
           <a
-            href="/forgot-password"
-            className="text-muted-foreground hover:text-foreground"
+            href="/login"
+            className="ml-1 text-muted-foreground hover:text-foreground"
           >
-            Forgot password?
-          </a>
-          <span className="text-muted-foreground">·</span>
-          <a
-            href="/signup"
-            className="text-muted-foreground hover:text-foreground"
-          >
-            Sign up
+            Sign in
           </a>
         </CardFooter>
       </Card>

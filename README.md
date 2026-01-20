@@ -284,6 +284,35 @@ Check the [shadcn/ui documentation](https://ui.shadcn.com/docs/components) for t
 
 [shadcn/ui]: https://ui.shadcn.com/
 
+## AI Assistant Integration
+
+This template includes configuration for the [shadcn MCP server](https://ui.shadcn.com/docs/cli#mcp-server), enabling AI assistants to browse and install shadcn/ui components.
+
+### Supported AI Tools
+
+The `.mcp.json` configuration works with:
+
+- **Claude Code** - Anthropic's CLI tool
+- **Cursor** - AI-first code editor
+- **VS Code Copilot** - GitHub Copilot in VS Code
+
+### Example Prompts
+
+Once connected, you can use natural language to work with components:
+
+- "Show me available shadcn form components"
+- "Add a dialog component to my project"
+- "What input components are available?"
+- "Install the accordion and tabs components"
+
+### Manual Setup (if needed)
+
+If the MCP server isn't automatically detected, you can start it manually:
+
+```sh
+pnpm dlx shadcn@latest mcp
+```
+
 ## Usage
 
 The project uses [mise] for task management. All tasks are defined in `mise.toml` with descriptions and aliases for easy use.
