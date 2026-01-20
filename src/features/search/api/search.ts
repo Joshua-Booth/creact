@@ -19,6 +19,11 @@ export async function search(query: string): Promise<SearchResult> {
     return { hits: [], nbHits: 0, query };
   }
 
+  // Return empty results if Algolia is not configured
+  if (!algoliaClient) {
+    return { hits: [], nbHits: 0, query };
+  }
+
   const { results } = await algoliaClient.search<SearchHit>({
     requests: [
       {
