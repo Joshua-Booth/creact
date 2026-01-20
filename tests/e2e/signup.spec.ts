@@ -1,4 +1,4 @@
-import { test, expect } from "@playwright/test";
+import { expect, test } from "@playwright/test";
 
 test.describe("Signup", () => {
   test("user can signup successfully", async ({ page }) => {
@@ -12,8 +12,7 @@ test.describe("Signup", () => {
     });
 
     await page.goto("/signup");
-    // Wait for the page to be fully hydrated
-    await page.waitForSelector('[data-testid="signup"]');
+    await page.waitForSelector('#app[data-hydrated="true"]');
 
     await page.fill('[data-testid="email"]', "newuser@mail.com");
     await page.fill('[data-testid="password"]', "Password123");
@@ -35,7 +34,7 @@ test.describe("Signup", () => {
     });
 
     await page.goto("/signup");
-    await page.waitForSelector('[data-testid="signup"]');
+    await page.waitForSelector('#app[data-hydrated="true"]');
 
     await page.fill('[data-testid="email"]', "existing@mail.com");
     await page.fill('[data-testid="password"]', "Password123");
@@ -52,7 +51,7 @@ test.describe("Signup", () => {
 
   test("shows validation errors for empty fields", async ({ page }) => {
     await page.goto("/signup");
-    await page.waitForSelector('[data-testid="signup"]');
+    await page.waitForSelector('#app[data-hydrated="true"]');
 
     // Click submit without filling any fields
     await page.click('[data-testid="signup"]');
@@ -64,7 +63,7 @@ test.describe("Signup", () => {
 
   test("shows error when passwords do not match", async ({ page }) => {
     await page.goto("/signup");
-    await page.waitForSelector('[data-testid="signup"]');
+    await page.waitForSelector('#app[data-hydrated="true"]');
 
     await page.fill('[data-testid="email"]', "test@mail.com");
     await page.fill('[data-testid="password"]', "Password123");
@@ -72,7 +71,9 @@ test.describe("Signup", () => {
     await page.click('[data-testid="signup"]');
 
     // Should show password mismatch error and stay on signup page
-    await expect(page.getByRole("alert")).toContainText("Passwords do not match");
+    await expect(page.getByRole("alert")).toContainText(
+      "Passwords do not match"
+    );
     await expect(page).toHaveURL(/\/signup/);
   });
 });

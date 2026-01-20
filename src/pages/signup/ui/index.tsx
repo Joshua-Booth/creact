@@ -1,19 +1,14 @@
+import { Button } from "@/shared/ui/button";
 import {
   Card,
+  CardContent,
+  CardDescription,
+  CardFooter,
   CardHeader,
   CardTitle,
-  CardDescription,
-  CardContent,
-  CardFooter,
 } from "@/shared/ui/card";
-import {
-  Field,
-  FieldLabel,
-  FieldError,
-  FieldGroup,
-} from "@/shared/ui/field";
+import { Field, FieldError, FieldGroup, FieldLabel } from "@/shared/ui/field";
 import { Input } from "@/shared/ui/input";
-import { Button } from "@/shared/ui/button";
 import { useSignupForm } from "../model/useSignupForm";
 
 export default function Signup() {
@@ -34,7 +29,7 @@ export default function Signup() {
           </CardDescription>
         </CardHeader>
         <CardContent>
-          <form onSubmit={onSubmit}>
+          <form method="post" onSubmit={onSubmit}>
             <FieldGroup>
               <Field data-invalid={!!errors.email}>
                 <FieldLabel htmlFor="email">Email</FieldLabel>
@@ -65,7 +60,9 @@ export default function Signup() {
               </Field>
 
               <Field data-invalid={!!errors.confirmPassword}>
-                <FieldLabel htmlFor="confirmPassword">Confirm Password</FieldLabel>
+                <FieldLabel htmlFor="confirmPassword">
+                  Confirm Password
+                </FieldLabel>
                 <Input
                   id="confirmPassword"
                   type="password"
@@ -96,10 +93,12 @@ export default function Signup() {
           </form>
         </CardContent>
         <CardFooter className="flex justify-center text-sm">
-          <span className="text-muted-foreground">Already have an account?</span>
+          <span className="text-muted-foreground">
+            Already have an account?
+          </span>
           <a
             href="/login"
-            className="ml-1 text-muted-foreground hover:text-foreground"
+            className="text-muted-foreground hover:text-foreground ml-1"
           >
             Sign in
           </a>

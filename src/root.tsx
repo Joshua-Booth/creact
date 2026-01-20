@@ -1,9 +1,10 @@
+import { useEffect } from "react";
 import { Links, Meta, Outlet, Scripts, ScrollRestoration } from "react-router";
 import { PostHogProvider } from "@/app/providers/PostHogProvider";
 import { SWRProvider } from "@/app/providers/SWRProvider";
+import "@/app/styles/main.css";
 import { ErrorBoundary } from "@/shared/ui";
 import { Header } from "@/widgets/header";
-import "@/app/styles/main.css";
 
 export function Layout({ children }: { children: React.ReactNode }) {
   return (
@@ -29,7 +30,11 @@ export function Layout({ children }: { children: React.ReactNode }) {
 
         {/* Site Icons */}
         <link rel="icon" type="image/x-icon" href="/icons/favicon.ico" />
-        <link rel="shortcut icon" type="image/x-icon" href="/icons/favicon.ico" />
+        <link
+          rel="shortcut icon"
+          type="image/x-icon"
+          href="/icons/favicon.ico"
+        />
         <link rel="apple-touch-icon" href="/icons/apple-icon-180x180.png" />
         <link rel="manifest" href="/manifest.json" />
 
@@ -65,6 +70,10 @@ export function HydrateFallback() {
 }
 
 export default function Root() {
+  useEffect(() => {
+    document.getElementById("app")?.setAttribute("data-hydrated", "true");
+  }, []);
+
   return (
     <PostHogProvider>
       <SWRProvider>
