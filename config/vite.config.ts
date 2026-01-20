@@ -1,4 +1,5 @@
 import { reactRouterDevTools } from "react-router-devtools";
+import netlifyPlugin from "@netlify/vite-plugin-react-router";
 import { reactRouter } from "@react-router/dev/vite";
 import { sentryVitePlugin } from "@sentry/vite-plugin";
 import tailwindcss from "@tailwindcss/vite";
@@ -18,6 +19,7 @@ export default defineConfig({
     }),
     svgr(),
     reactRouter(),
+    netlifyPlugin(),
     tsconfigPaths(),
     devtoolsJson(),
     sentryVitePlugin({
