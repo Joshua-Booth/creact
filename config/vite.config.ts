@@ -56,6 +56,6 @@ export default defineConfig({
   },
 
   ssr: {
-    noExternal: ["@tailwindcss/vite"],
+    noExternal: ["@tailwindcss/vite", "posthog-js", "@posthog/react"],
   },
 });

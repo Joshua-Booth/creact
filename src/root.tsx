@@ -1,5 +1,4 @@
 import { Links, Meta, Outlet, Scripts, ScrollRestoration } from "react-router";
-import { PostHogProvider } from "@/app/providers/PostHogProvider";
 import { SWRProvider } from "@/app/providers/SWRProvider";
 import "@/app/styles/main.css";
 import { ErrorBoundary } from "@/shared/ui";
@@ -70,15 +69,13 @@ export function HydrateFallback() {
 
 export default function Root() {
   return (
-    <PostHogProvider>
-      <SWRProvider>
-        <ErrorBoundary>
-          <div id="app">
-            <Header />
-            <Outlet />
-          </div>
-        </ErrorBoundary>
-      </SWRProvider>
-    </PostHogProvider>
+    <SWRProvider>
+      <ErrorBoundary>
+        <div id="app">
+          <Header />
+          <Outlet />
+        </div>
+      </ErrorBoundary>
+    </SWRProvider>
   );
 }
