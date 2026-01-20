@@ -12,7 +12,7 @@ test.describe("Signup", () => {
     });
 
     await page.goto("/signup");
-    await page.waitForSelector('#app[data-hydrated="true"]');
+    await page.waitForLoadState("networkidle");
 
     await page.fill('[data-testid="email"]', "newuser@mail.com");
     await page.fill('[data-testid="password"]', "Password123");
@@ -34,7 +34,7 @@ test.describe("Signup", () => {
     });
 
     await page.goto("/signup");
-    await page.waitForSelector('#app[data-hydrated="true"]');
+    await page.waitForLoadState("networkidle");
 
     await page.fill('[data-testid="email"]', "existing@mail.com");
     await page.fill('[data-testid="password"]', "Password123");
@@ -51,7 +51,7 @@ test.describe("Signup", () => {
 
   test("shows validation errors for empty fields", async ({ page }) => {
     await page.goto("/signup");
-    await page.waitForSelector('#app[data-hydrated="true"]');
+    await page.waitForLoadState("networkidle");
 
     // Click submit without filling any fields
     await page.click('[data-testid="signup"]');
@@ -63,7 +63,7 @@ test.describe("Signup", () => {
 
   test("shows error when passwords do not match", async ({ page }) => {
     await page.goto("/signup");
-    await page.waitForSelector('#app[data-hydrated="true"]');
+    await page.waitForLoadState("networkidle");
 
     await page.fill('[data-testid="email"]', "test@mail.com");
     await page.fill('[data-testid="password"]', "Password123");

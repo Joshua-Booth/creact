@@ -1,4 +1,3 @@
-import { useEffect } from "react";
 import { Links, Meta, Outlet, Scripts, ScrollRestoration } from "react-router";
 import { PostHogProvider } from "@/app/providers/PostHogProvider";
 import { SWRProvider } from "@/app/providers/SWRProvider";
@@ -70,10 +69,6 @@ export function HydrateFallback() {
 }
 
 export default function Root() {
-  useEffect(() => {
-    document.getElementById("app")?.setAttribute("data-hydrated", "true");
-  }, []);
-
   return (
     <PostHogProvider>
       <SWRProvider>

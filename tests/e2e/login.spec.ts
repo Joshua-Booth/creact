@@ -12,7 +12,7 @@ test.describe("Login", () => {
     });
 
     await page.goto("/login");
-    await page.waitForSelector('#app[data-hydrated="true"]');
+    await page.waitForLoadState("networkidle");
 
     await page.fill('[data-testid="email"]', "test@mail.com");
     await page.fill('[data-testid="password"]', "password");
@@ -33,7 +33,7 @@ test.describe("Login", () => {
     });
 
     await page.goto("/login");
-    await page.waitForSelector('#app[data-hydrated="true"]');
+    await page.waitForLoadState("networkidle");
 
     await page.fill('[data-testid="email"]', "wrong@mail.com");
     await page.fill('[data-testid="password"]', "wrongpassword");
@@ -49,7 +49,7 @@ test.describe("Login", () => {
 
   test("shows validation errors for empty fields", async ({ page }) => {
     await page.goto("/login");
-    await page.waitForSelector('#app[data-hydrated="true"]');
+    await page.waitForLoadState("networkidle");
 
     // Click submit without filling any fields
     await page.click('[data-testid="login"]');
@@ -72,7 +72,7 @@ test.describe("Login", () => {
     });
 
     await page.goto("/login");
-    await page.waitForSelector('#app[data-hydrated="true"]');
+    await page.waitForLoadState("networkidle");
 
     // Type invalid email character by character to trigger validation
     const emailInput = page.getByTestId("email");
