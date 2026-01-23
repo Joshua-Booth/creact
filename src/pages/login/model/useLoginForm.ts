@@ -1,37 +1,51 @@
-import { useState } from "react";
+import { useEffect } from "react";
 import { useForm } from "react-hook-form";
-import { zodResolver } from "@hookform/resolvers/zod";
-
-import { loginSchema, type LoginFormData } from "@/shared/lib/validation";
+import { useFetcher } from "react-router";
 import { useAuthStore } from "@/entities/user";
-import { navigate } from "@/shared/lib/navigation";
-import { loginApi, parseLoginError } from "../api/login";
+import {
+  type LoginFormData,
+  loginSchema,
+  zodResolver,
+} from "@/shared/lib/validation";
+import type { LoginActionData } from "./action";
 
 export function useLoginForm() {
+  const fetcher = useFetcher<LoginActionData>();
   const login = useAuthStore((state) => state.login);
-  const [isLoading, setIsLoading] = useState(false);
 
   const form = useForm<LoginFormData>({
     resolver: zodResolver(loginSchema),
+    defaultValues: {
+      email: "",
+      password: "",
+    },
   });
 
-  const onSubmit = async (data: LoginFormData) => {
-    setIsLoading(true);
-    try {
-      const response = await loginApi(data);
-      login(response.key);
-      navigate("/dashboard");
-    } catch (error) {
-      const message = await parseLoginError(error);
-      form.setError("root", { message });
-    } finally {
-      setIsLoading(false);
+  const isSubmitting = fetcher.state === "submitting";
+  const actionData = fetcher.data;
+
+  // Handle successful login
+  useEffect(() => {
+    if (actionData?.success) {
+      login(actionData.token);
+      window.location.href = "/dashboard";
     }
-  };
+  }, [actionData, login]);
+
+  // Set server error on form
+  useEffect(() => {
+    if (actionData && !actionData.success) {
+      form.setError("root", { message: actionData.error });
+    }
+  }, [actionData, form]);
+
+  function onSubmit(data: LoginFormData) {
+    fetcher.submit(data, { method: "post" });
+  }
 
   return {
     form,
-    isLoading,
+    isSubmitting,
     onSubmit: form.handleSubmit(onSubmit),
   };
 }

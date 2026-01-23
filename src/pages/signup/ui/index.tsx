@@ -1,3 +1,4 @@
+import { Controller } from "react-hook-form";
 import { Button } from "@/shared/ui/button";
 import {
   Card,
@@ -9,14 +10,17 @@ import {
 } from "@/shared/ui/card";
 import { Field, FieldError, FieldGroup, FieldLabel } from "@/shared/ui/field";
 import { Input } from "@/shared/ui/input";
+import { signupAction } from "../model/action";
 import { useSignupForm } from "../model/useSignupForm";
+import type { Route } from "./+types/index";
+
+export async function clientAction({ request }: Route.ClientActionArgs) {
+  const formData = await request.formData();
+  return signupAction(formData);
+}
 
 export default function Signup() {
-  const { form, isLoading, onSubmit } = useSignupForm();
-  const {
-    register,
-    formState: { errors },
-  } = form;
+  const { form, isSubmitting, onSubmit } = useSignupForm();
 
   return (
     <main className="flex min-h-[80vh] items-center justify-center px-4">
@@ -31,63 +35,87 @@ export default function Signup() {
         <CardContent>
           <form onSubmit={onSubmit}>
             <FieldGroup>
-              <Field data-invalid={!!errors.email}>
-                <FieldLabel htmlFor="email">Email</FieldLabel>
-                <Input
-                  id="email"
-                  type="email"
-                  placeholder="you@example.com"
-                  data-testid="email"
-                  disabled={isLoading}
-                  aria-invalid={!!errors.email}
-                  {...register("email")}
-                />
-                <FieldError errors={[errors.email]} />
-              </Field>
+              <Controller
+                name="email"
+                control={form.control}
+                render={({ field, fieldState }) => (
+                  <Field data-invalid={fieldState.invalid}>
+                    <FieldLabel htmlFor={field.name}>Email</FieldLabel>
+                    <Input
+                      {...field}
+                      id={field.name}
+                      type="email"
+                      placeholder="you@example.com"
+                      data-testid="email"
+                      disabled={isSubmitting}
+                      aria-invalid={fieldState.invalid}
+                    />
+                    {fieldState.invalid && (
+                      <FieldError errors={[fieldState.error]} />
+                    )}
+                  </Field>
+                )}
+              />
 
-              <Field data-invalid={!!errors.password}>
-                <FieldLabel htmlFor="password">Password</FieldLabel>
-                <Input
-                  id="password"
-                  type="password"
-                  placeholder="Create a password"
-                  data-testid="password"
-                  disabled={isLoading}
-                  aria-invalid={!!errors.password}
-                  {...register("password")}
-                />
-                <FieldError errors={[errors.password]} />
-              </Field>
+              <Controller
+                name="password"
+                control={form.control}
+                render={({ field, fieldState }) => (
+                  <Field data-invalid={fieldState.invalid}>
+                    <FieldLabel htmlFor={field.name}>Password</FieldLabel>
+                    <Input
+                      {...field}
+                      id={field.name}
+                      type="password"
+                      placeholder="Create a password"
+                      data-testid="password"
+                      disabled={isSubmitting}
+                      aria-invalid={fieldState.invalid}
+                    />
+                    {fieldState.invalid && (
+                      <FieldError errors={[fieldState.error]} />
+                    )}
+                  </Field>
+                )}
+              />
 
-              <Field data-invalid={!!errors.confirmPassword}>
-                <FieldLabel htmlFor="confirmPassword">
-                  Confirm Password
-                </FieldLabel>
-                <Input
-                  id="confirmPassword"
-                  type="password"
-                  placeholder="Confirm your password"
-                  data-testid="confirm-password"
-                  disabled={isLoading}
-                  aria-invalid={!!errors.confirmPassword}
-                  {...register("confirmPassword")}
-                />
-                <FieldError errors={[errors.confirmPassword]} />
-              </Field>
+              <Controller
+                name="confirmPassword"
+                control={form.control}
+                render={({ field, fieldState }) => (
+                  <Field data-invalid={fieldState.invalid}>
+                    <FieldLabel htmlFor={field.name}>
+                      Confirm Password
+                    </FieldLabel>
+                    <Input
+                      {...field}
+                      id={field.name}
+                      type="password"
+                      placeholder="Confirm your password"
+                      data-testid="confirm-password"
+                      disabled={isSubmitting}
+                      aria-invalid={fieldState.invalid}
+                    />
+                    {fieldState.invalid && (
+                      <FieldError errors={[fieldState.error]} />
+                    )}
+                  </Field>
+                )}
+              />
 
-              {errors.root && (
+              {form.formState.errors.root && (
                 <FieldError data-testid="signup-error">
-                  {errors.root.message}
+                  {form.formState.errors.root.message}
                 </FieldError>
               )}
 
               <Button
                 type="submit"
                 data-testid="signup"
-                disabled={isLoading}
+                disabled={isSubmitting}
                 className="w-full"
               >
-                {isLoading ? "Creating account..." : "Create account"}
+                {isSubmitting ? "Creating account..." : "Create account"}
               </Button>
             </FieldGroup>
           </form>

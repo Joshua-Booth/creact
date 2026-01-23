@@ -17,6 +17,7 @@
     "jsx": "react-jsx",
     "moduleResolution": "bundler",
     "baseUrl": "..",
+    "rootDirs": ["../src", "../.react-router/types/src"],
     "paths": {
       "@/*": ["./src/*"]
     }

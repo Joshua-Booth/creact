@@ -1,3 +1,4 @@
+import { Controller } from "react-hook-form";
 import { Button } from "@/shared/ui/button";
 import {
   Card,
@@ -9,14 +10,17 @@ import {
 } from "@/shared/ui/card";
 import { Field, FieldError, FieldGroup, FieldLabel } from "@/shared/ui/field";
 import { Input } from "@/shared/ui/input";
+import { loginAction } from "../model/action";
 import { useLoginForm } from "../model/useLoginForm";
+import type { Route } from "./+types/index";
+
+export async function clientAction({ request }: Route.ClientActionArgs) {
+  const formData = await request.formData();
+  return loginAction(formData);
+}
 
 export default function Login() {
-  const { form, isLoading, onSubmit } = useLoginForm();
-  const {
-    register,
-    formState: { errors },
-  } = form;
+  const { form, isSubmitting, onSubmit } = useLoginForm();
 
   return (
     <main className="flex min-h-[80vh] items-center justify-center px-4">
@@ -31,47 +35,63 @@ export default function Login() {
         <CardContent>
           <form onSubmit={onSubmit}>
             <FieldGroup>
-              <Field data-invalid={!!errors.email}>
-                <FieldLabel htmlFor="email">Email</FieldLabel>
-                <Input
-                  id="email"
-                  type="email"
-                  placeholder="you@example.com"
-                  data-testid="email"
-                  disabled={isLoading}
-                  aria-invalid={!!errors.email}
-                  {...register("email")}
-                />
-                <FieldError errors={[errors.email]} />
-              </Field>
+              <Controller
+                name="email"
+                control={form.control}
+                render={({ field, fieldState }) => (
+                  <Field data-invalid={fieldState.invalid}>
+                    <FieldLabel htmlFor={field.name}>Email</FieldLabel>
+                    <Input
+                      {...field}
+                      id={field.name}
+                      type="email"
+                      placeholder="you@example.com"
+                      data-testid="email"
+                      disabled={isSubmitting}
+                      aria-invalid={fieldState.invalid}
+                    />
+                    {fieldState.invalid && (
+                      <FieldError errors={[fieldState.error]} />
+                    )}
+                  </Field>
+                )}
+              />
 
-              <Field data-invalid={!!errors.password}>
-                <FieldLabel htmlFor="password">Password</FieldLabel>
-                <Input
-                  id="password"
-                  type="password"
-                  placeholder="Enter your password"
-                  data-testid="password"
-                  disabled={isLoading}
-                  aria-invalid={!!errors.password}
-                  {...register("password")}
-                />
-                <FieldError errors={[errors.password]} />
-              </Field>
+              <Controller
+                name="password"
+                control={form.control}
+                render={({ field, fieldState }) => (
+                  <Field data-invalid={fieldState.invalid}>
+                    <FieldLabel htmlFor={field.name}>Password</FieldLabel>
+                    <Input
+                      {...field}
+                      id={field.name}
+                      type="password"
+                      placeholder="Enter your password"
+                      data-testid="password"
+                      disabled={isSubmitting}
+                      aria-invalid={fieldState.invalid}
+                    />
+                    {fieldState.invalid && (
+                      <FieldError errors={[fieldState.error]} />
+                    )}
+                  </Field>
+                )}
+              />
 
-              {errors.root && (
+              {form.formState.errors.root && (
                 <FieldError data-testid="login-error">
-                  {errors.root.message}
+                  {form.formState.errors.root.message}
                 </FieldError>
               )}
 
               <Button
                 type="submit"
                 data-testid="login"
-                disabled={isLoading}
+                disabled={isSubmitting}
                 className="w-full"
               >
-                {isLoading ? "Signing in..." : "Sign in"}
+                {isSubmitting ? "Signing in..." : "Sign in"}
               </Button>
             </FieldGroup>
           </form>
