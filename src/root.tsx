@@ -1,8 +1,18 @@
+import { useSyncExternalStore } from "react";
 import { Links, Meta, Outlet, Scripts, ScrollRestoration } from "react-router";
 import { SWRProvider } from "@/app/providers/SWRProvider";
 import "@/app/styles/main.css";
 import { ErrorBoundary } from "@/shared/ui";
 import { Header } from "@/widgets/header";
+
+const emptySubscribe = () => () => {};
+function useHydrated() {
+  return useSyncExternalStore(
+    emptySubscribe,
+    () => true,
+    () => false
+  );
+}
 
 export function Layout({ children }: { children: React.ReactNode }) {
   return (
@@ -68,10 +78,12 @@ export function HydrateFallback() {
 }
 
 export default function Root() {
+  const hydrated = useHydrated();
+
   return (
     <SWRProvider>
       <ErrorBoundary>
-        <div id="app">
+        <div id="app" data-hydrated={hydrated || undefined}>
           <Header />
           <Outlet />
         </div>

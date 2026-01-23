@@ -12,7 +12,9 @@ export default defineConfig({
     trace: "on-first-retry",
   },
   retries: process.env.CI ? 1 : 0,
-  reporter: [["html", { outputFolder: "../playwright-report" }]],
+  reporter: process.env.CI
+    ? [["github"], ["html", { outputFolder: "../playwright-report" }]]
+    : [["html", { outputFolder: "../playwright-report" }]],
   projects: [
     {
       name: "chromium",

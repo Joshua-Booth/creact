@@ -1,14 +1,24 @@
 import { errorResponses } from "./mocks";
-import { expect, test } from "./playwright.setup";
+import { expect, test, waitForHydration } from "./playwright.setup";
 
 test.describe("Signup", () => {
   test("user can signup successfully", async ({ network: _network, page }) => {
     await page.goto("/signup");
-    await page.waitForLoadState("networkidle");
+    await waitForHydration(page);
 
-    await page.fill('[data-testid="email"]', "newuser@mail.com");
-    await page.fill('[data-testid="password"]', "Password123");
-    await page.fill('[data-testid="confirm-password"]', "Password123");
+    const emailInput = page.getByTestId("email");
+    const passwordInput = page.getByTestId("password");
+    const confirmPasswordInput = page.getByTestId("confirm-password");
+
+    await emailInput.fill("newuser@mail.com");
+    await expect(emailInput).toHaveValue("newuser@mail.com");
+
+    await passwordInput.fill("Password123");
+    await expect(passwordInput).toHaveValue("Password123");
+
+    await confirmPasswordInput.fill("Password123");
+    await expect(confirmPasswordInput).toHaveValue("Password123");
+
     await page.click('[data-testid="signup"]');
     await expect(page).toHaveURL(/\/dashboard/);
   });
@@ -17,7 +27,7 @@ test.describe("Signup", () => {
     await network.use(errorResponses.signup.emailExists());
 
     await page.goto("/signup");
-    await page.waitForLoadState("networkidle");
+    await waitForHydration(page);
 
     await page.fill('[data-testid="email"]', "existing@mail.com");
     await page.fill('[data-testid="password"]', "Password123");
@@ -37,7 +47,7 @@ test.describe("Signup", () => {
     page,
   }) => {
     await page.goto("/signup");
-    await page.waitForLoadState("networkidle");
+    await waitForHydration(page);
 
     // Click submit without filling any fields
     await page.click('[data-testid="signup"]');
@@ -52,7 +62,7 @@ test.describe("Signup", () => {
     page,
   }) => {
     await page.goto("/signup");
-    await page.waitForLoadState("networkidle");
+    await waitForHydration(page);
 
     await page.fill('[data-testid="email"]', "test@mail.com");
     await page.fill('[data-testid="password"]', "Password123");
