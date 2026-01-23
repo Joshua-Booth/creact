@@ -81,13 +81,14 @@ jobs:
         run: mise run test_e2e
 
       - uses: actions/upload-artifact@v4
-        if: failure()
+        if: ${{ !cancelled() }}
         with:
           name: playwright-report
           path: |
             playwright-report/
             test-results/
           retention-days: 7
+          if-no-files-found: ignore
 
   security-audit:
     name: Security Audit
