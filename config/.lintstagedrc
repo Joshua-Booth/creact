@@ -1,7 +1,11 @@
 {
   "*.{ts,tsx}": [
     "eslint --config ./config/eslint.config.js --fix",
-    "prettier --config ./config/.prettierrc --write"
+    "prettier --config ./config/.prettierrc --write",
+    "cspell --config ./config/cspell.json --no-must-find-files"
+  ],
+  "*.md": [
+    "cspell --config ./config/cspell.json --no-must-find-files"
   ],
   "*.{css,scss}": [
     "stylelint --config ./config/.stylelintrc.json --fix",

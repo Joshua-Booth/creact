@@ -28,6 +28,7 @@ playwright_config = "./config/playwright.config.ts"
 steiger_config = "./config/steiger.config.ts"
 releaserc = "./config/.releaserc.json"
 knip_config = "./config/knip.config.ts"
+cspell_config = "./config/cspell.json"
 
 [tasks.build]
 description = "Build the application"
@@ -81,6 +82,11 @@ description = "Preview production build"
 alias = "p"
 depends = ["build"]
 run = "react-router preview"
+
+[tasks.spell]
+description = "Check spelling with cspell"
+alias = "sp"
+run = "cspell . --config {{vars.cspell_config}}"
 
 [tasks.semantic_release]
 description = "Create a new release using semantic-release"
