@@ -8,7 +8,18 @@ pnpm = "10.26.0"
 NODE_ENV = "development"
 _.path = ["./node_modules/.bin"]
 
+# Development environment - derived from [vars]
+VITE_PORT = "{{vars.port}}"
+VITE_API_PORT = "{{vars.api_port}}"
+VITE_API_ROOT_URL = "http://localhost:{{vars.api_port}}"
+VITE_PUBLIC_URL = "http://localhost:{{vars.port}}/public"
+
 [vars]
+# Port configuration (override in mise.local.toml for worktrees)
+port = "8080"
+api_port = "8000"
+
+# Config paths
 eslint_config = "./config/eslint.config.js"
 prettier_config = "./config/.prettierrc"
 stylelint_config = "./config/.stylelintrc.json"
