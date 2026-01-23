@@ -91,7 +91,7 @@ For more information about this project check out the [wiki].
 - :arrow_right_hook: **Git hooks** - Automated code quality checks with [Husky]
 - :bookmark: **Versioning** - Automated SemVer versioning, changelogs, and releases with [semantic-release]
 - :shirt: **Linting** - [ESLint], [Prettier], [stylelint], [commitlint], and [knip] for unused code detection
-- :white_check_mark: **Testing** - Unit and integration tests with [Vitest], E2E tests with [Playwright]
+- :white_check_mark: **Testing** - Unit and integration tests with [Vitest], E2E tests with [Playwright], API mocking with [MSW]
 - :chart_with_upwards_trend: **Coverage reports** - Test coverage tracking
 - :wrench: **Task runner** - Development workflows with [mise]
 - :package: **Third party integrations** - [Algolia], [Sentry], and [PostHog] ready to configure
@@ -112,6 +112,7 @@ For more information about this project check out the [wiki].
 [knip]: https://knip.dev/
 [vitest]: https://vitest.dev/
 [playwright]: https://playwright.dev/
+[msw]: https://mswjs.io/
 [mise]: https://mise.jdx.dev/
 [algolia]: https://www.algolia.com/
 [sentry]: https://sentry.io/
@@ -125,19 +126,18 @@ For more information about this project check out the [wiki].
 This project requires the following:
 
 - [Git](https://git-scm.com/downloads)
-- [Node.js 24.12.0+](https://nodejs.org/en/download/) (or use [mise] to manage versions automatically)
-- [pnpm 10.26.0+](https://pnpm.io/installation)
+- [mise](https://mise.jdx.dev/) for task running and version management
+- [Node.js 24.12.0+](https://nodejs.org/en/download/) (auto-installed by mise)
+- [pnpm 10.26.0+](https://pnpm.io/installation) (auto-installed by mise)
 
-### Recommended setup
-
-Install [mise](https://mise.jdx.dev/) for automatic version management:
+### Installing mise
 
 ```sh
-# Install mise (macOS)
-brew install mise
 
-# Install mise (other platforms)
+# Install mise
 curl https://mise.run | sh
+
+For more installation options, visit the [mise installation guide](https://mise.jdx.dev/getting-started.html#installing-mise-cli).
 ```
 
 Once mise is installed, it will automatically install and use the correct Node.js and pnpm versions when you enter the project directory.
@@ -309,6 +309,52 @@ mise run test         # Run unit/integration tests with Vitest (alias: mise run 
 mise run test_ui      # Open Vitest UI (alias: mise run tu)
 mise run test_e2e     # Run end-to-end tests with Playwright (alias: mise run te)
 mise run test_coverage # Generate test coverage report (alias: mise run tc)
+```
+
+### API Mocking
+
+E2E tests use a reusable mock system built on Playwright's route interception and [MSW] patterns. Mocks are defined in `tests/e2e/mocks/`.
+
+**Define handlers** in `tests/e2e/mocks/handlers.ts`:
+
+```ts
+export const handlers: MockHandler[] = [
+  {
+    pattern: "**/auth/login/",
+    status: 200,
+    body: { key: "mock-token" },
+  },
+];
+
+export const errorResponses = {
+  login: {
+    invalidCredentials: (): MockHandler => ({
+      pattern: "**/auth/login/",
+      status: 401,
+      body: { non_field_errors: ["Invalid credentials."] },
+    }),
+  },
+};
+```
+
+**Use in tests** with the `network` fixture:
+
+```ts
+import { errorResponses } from "./mocks";
+import { expect, test } from "./playwright.setup";
+
+test("user can login", async ({ network: _network, page }) => {
+  // Default handlers are applied automatically
+  await page.goto("/login");
+  // ...
+});
+
+test("shows error for invalid credentials", async ({ network, page }) => {
+  // Override default handler for this test
+  await network.use(errorResponses.login.invalidCredentials());
+  await page.goto("/login");
+  // ...
+});
 ```
 
 ### Code Quality
