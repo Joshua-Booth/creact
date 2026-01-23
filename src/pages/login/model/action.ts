@@ -1,12 +1,11 @@
+import { redirect } from "react-router";
 import { loginApi, parseLoginError } from "../api/login";
 
-export type LoginActionData =
-  | { success: true; token: string }
-  | { success: false; error: string };
+export type LoginActionData = { success: false; error: string };
 
 export async function loginAction(
   formData: FormData
-): Promise<LoginActionData> {
+): Promise<LoginActionData | Response> {
   const data = {
     email: formData.get("email") as string,
     password: formData.get("password") as string,
@@ -14,7 +13,13 @@ export async function loginAction(
 
   try {
     const response = await loginApi(data);
-    return { success: true, token: response.key };
+    // Store token directly - zustand will rehydrate from localStorage
+    localStorage.setItem("token", response.key);
+    localStorage.setItem(
+      "auth-storage",
+      JSON.stringify({ state: { token: response.key, authenticated: true } })
+    );
+    return redirect("/dashboard");
   } catch (error) {
     const message = await parseLoginError(error);
     return { success: false, error: message };

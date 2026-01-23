@@ -1,7 +1,6 @@
 import { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { useFetcher } from "react-router";
-import { useAuthStore } from "@/entities/user";
 import {
   type LoginFormData,
   loginSchema,
@@ -11,7 +10,6 @@ import type { LoginActionData } from "./action";
 
 export function useLoginForm() {
   const fetcher = useFetcher<LoginActionData>();
-  const login = useAuthStore((state) => state.login);
 
   const form = useForm<LoginFormData>({
     resolver: zodResolver(loginSchema),
@@ -24,17 +22,8 @@ export function useLoginForm() {
   const isSubmitting = fetcher.state === "submitting";
   const actionData = fetcher.data;
 
-  // Handle successful login
   useEffect(() => {
-    if (actionData?.success) {
-      login(actionData.token);
-      window.location.href = "/dashboard";
-    }
-  }, [actionData, login]);
-
-  // Set server error on form
-  useEffect(() => {
-    if (actionData && !actionData.success) {
+    if (actionData) {
       form.setError("root", { message: actionData.error });
     }
   }, [actionData, form]);
