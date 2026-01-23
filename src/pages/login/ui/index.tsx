@@ -29,7 +29,7 @@ export default function Login() {
           </CardDescription>
         </CardHeader>
         <CardContent>
-          <form method="post" onSubmit={onSubmit}>
+          <form onSubmit={onSubmit}>
             <FieldGroup>
               <Field data-invalid={!!errors.email}>
                 <FieldLabel htmlFor="email">Email</FieldLabel>
