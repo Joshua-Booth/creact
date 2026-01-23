@@ -4,10 +4,15 @@ const port = Number(process.env.VITE_PORT) || 8080;
 
 export default defineConfig({
   testDir: "../tests/e2e",
+  outputDir: "../test-results",
   use: {
     baseURL: `http://localhost:${port}`,
     headless: true,
+    screenshot: "only-on-failure",
+    trace: "on-first-retry",
   },
+  retries: process.env.CI ? 1 : 0,
+  reporter: [["html", { outputFolder: "../playwright-report" }]],
   projects: [
     {
       name: "chromium",
