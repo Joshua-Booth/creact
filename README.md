@@ -48,7 +48,6 @@
     <a href="#about">About</a> |
     <a href="#requirements">Features</a> |
     <a href="#requirements">Requirements</a> |
-    <a href="#requirements">Dev Container</a> |
     <a href="#installation">Installation</a> |
     <a href="#installation">Setup</a> |
     <a href="#installation">Usage</a> |
@@ -147,35 +146,6 @@ Once mise is installed, it will automatically install and use the correct Node.j
 
 - [git-cz](https://www.npmjs.com/package/git-cz) for conventional commits
 - [prettier](https://www.npmjs.com/package/prettier) for code formatting
-
-### Dev Container (Recommended)
-
-For a consistent, isolated development environment, use the VS Code Dev Container:
-
-**Requirements:**
-
-- [Docker Desktop](https://www.docker.com/products/docker-desktop) or compatible Docker runtime
-- [VS Code](https://code.visualstudio.com/) with the [Dev Containers extension](https://marketplace.visualstudio.com/items?itemName=ms-vscode-remote.remote-containers)
-
-**Quick Start:**
-
-```sh
-# Clone the repository
-git clone https://github.com/Joshua-Booth/creact.git
-cd creact
-
-# Open in VS Code and run: F1 → "Dev Containers: Reopen in Container"
-```
-
-The devcontainer includes:
-
-- Node.js 24.12.0 + pnpm 10.26.0
-- mise for version management
-- Playwright browsers for E2E testing
-- All recommended VS Code extensions
-- Pre-configured environment variables
-
-See [.devcontainer/README.md](./.devcontainer/README.md) for detailed documentation.
 
 ## Installation
 

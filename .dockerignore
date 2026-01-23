@@ -41,9 +41,6 @@ test-results
 README.md
 *.md
 
-# DevContainer
-.devcontainer
-
 # Editor
 .vscode
 .idea

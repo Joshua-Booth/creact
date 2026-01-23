@@ -20,7 +20,6 @@ tmp
 .env.*.local
 .env.production
 .env.test
-.devcontainer/devcontainer.env.local
 
 # Testing
 coverage
