@@ -115,7 +115,12 @@ alias = "tu"
 depends = ["build"]
 run = "vitest --ui --config {{vars.vitest_config}}"
 
+[tasks.typegen]
+description = "Generate React Router route types"
+run = "react-router typegen"
+
 [tasks.typecheck]
 description = "Run TypeScript type checking"
 alias = "tt"
+depends = ["typegen"]
 run = "tsc --noEmit"
