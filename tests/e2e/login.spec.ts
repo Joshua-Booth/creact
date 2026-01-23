@@ -1,16 +1,8 @@
-import { expect, test } from "@playwright/test";
+import { errorResponses } from "./mocks";
+import { expect, test } from "./playwright.setup";
 
 test.describe("Login", () => {
-  test("user can login successfully", async ({ page }) => {
-    // Mock the login API endpoint
-    await page.route("**/auth/login/", async (route) => {
-      await route.fulfill({
-        status: 200,
-        contentType: "application/json",
-        body: JSON.stringify({ key: "mock-token" }),
-      });
-    });
-
+  test("user can login successfully", async ({ network: _network, page }) => {
     await page.goto("/login");
     await page.waitForLoadState("networkidle");
 
@@ -20,17 +12,8 @@ test.describe("Login", () => {
     await expect(page).toHaveURL(/\/dashboard/);
   });
 
-  test("shows error for invalid credentials", async ({ page }) => {
-    // Mock the login API endpoint with 401 error
-    await page.route("**/auth/login/", async (route) => {
-      await route.fulfill({
-        status: 401,
-        contentType: "application/json",
-        body: JSON.stringify({
-          non_field_errors: ["Unable to log in with provided credentials."],
-        }),
-      });
-    });
+  test("shows error for invalid credentials", async ({ network, page }) => {
+    await network.use(errorResponses.login.invalidCredentials());
 
     await page.goto("/login");
     await page.waitForLoadState("networkidle");
@@ -47,7 +30,10 @@ test.describe("Login", () => {
     await expect(page).toHaveURL(/\/login/);
   });
 
-  test("shows validation errors for empty fields", async ({ page }) => {
+  test("shows validation errors for empty fields", async ({
+    network: _network,
+    page,
+  }) => {
     await page.goto("/login");
     await page.waitForLoadState("networkidle");
 
@@ -59,17 +45,11 @@ test.describe("Login", () => {
     await expect(page).toHaveURL(/\/login/);
   });
 
-  test("prevents submission with invalid email format", async ({ page }) => {
-    // Track if API was called - it should NOT be called due to client-side validation
-    let apiCalled = false;
-    await page.route("**/auth/login/", async (route) => {
-      apiCalled = true;
-      await route.fulfill({
-        status: 200,
-        contentType: "application/json",
-        body: JSON.stringify({ key: "mock-token" }),
-      });
-    });
+  test("prevents submission with invalid email format", async ({
+    network: _network,
+    page,
+  }) => {
+    // Default handler is set up, but client-side validation should prevent API call
 
     await page.goto("/login");
     await page.waitForLoadState("networkidle");

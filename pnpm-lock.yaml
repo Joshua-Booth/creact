@@ -128,6 +128,9 @@ importers:
       '@feature-sliced/steiger-plugin':
         specifier: ^0.5.7
         version: 0.5.7(typescript@5.9.3)
+      '@msw/playwright':
+        specifier: ^0.4.5
+        version: 0.4.5(msw@2.12.7(@types/node@25.0.10)(typescript@5.9.3))
       '@netlify/vite-plugin-react-router':
         specifier: ^2.1.3
         version: 2.1.3(react-router@7.12.0(react-dom@19.2.3(react@19.2.3))(react@19.2.3))(vite@7.3.1(@types/node@25.0.10)(jiti@2.6.1)(lightningcss@1.30.2)(yaml@2.8.2))
@@ -233,6 +236,9 @@ importers:
       lint-staged:
         specifier: ^16.2.7
         version: 16.2.7
+      msw:
+        specifier: ^2.12.7
+        version: 2.12.7(@types/node@25.0.10)(typescript@5.9.3)
       posthog-js:
         specifier: ^1.334.1
         version: 1.334.1
@@ -1066,6 +1072,12 @@ packages:
     peerDependenciesMeta:
       '@cfworker/json-schema':
         optional: true
+
+  '@msw/playwright@0.4.5':
+    resolution: {integrity: sha512-t6tft9LrAmq8busJkzFcWhpPLGuk3h8tEXp5GGv7xhFpiB6xiRo5CgCatZ9x+e1kjcU2PgYi077B4qJ4E9vp4g==}
+    engines: {node: '>=20.0.0'}
+    peerDependencies:
+      msw: ^2.10.3
 
   '@mswjs/interceptors@0.40.0':
     resolution: {integrity: sha512-EFd6cVbHsgLa6wa4RljGj6Wk75qoHxUSyc5asLyyPSyuhIcdS2Q3Phw6ImS1q+CkALthJRShiYfKANcQMuMqsQ==}
@@ -7542,6 +7554,12 @@ snapshots:
     transitivePeerDependencies:
       - hono
       - supports-color
+
+  '@msw/playwright@0.4.5(msw@2.12.7(@types/node@25.0.10)(typescript@5.9.3))':
+    dependencies:
+      '@mswjs/interceptors': 0.40.0
+      msw: 2.12.7(@types/node@25.0.10)(typescript@5.9.3)
+      outvariant: 1.4.3
 
   '@mswjs/interceptors@0.40.0':
     dependencies:

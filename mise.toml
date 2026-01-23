@@ -109,6 +109,11 @@ alias = "te"
 depends = ["build"]
 run = "playwright test --config {{vars.playwright_config}}"
 
+[tasks.test_e2e_ui]
+description = "Run E2E tests in UI mode"
+alias = "teu"
+run = "playwright test --ui --config {{vars.playwright_config}}"
+
 [tasks.test_ui]
 description = "Open Vitest UI"
 alias = "tu"

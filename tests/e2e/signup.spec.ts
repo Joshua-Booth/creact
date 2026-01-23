@@ -1,16 +1,8 @@
-import { expect, test } from "@playwright/test";
+import { errorResponses } from "./mocks";
+import { expect, test } from "./playwright.setup";
 
 test.describe("Signup", () => {
-  test("user can signup successfully", async ({ page }) => {
-    // Mock the signup API endpoint
-    await page.route("**/auth/signup/", async (route) => {
-      await route.fulfill({
-        status: 201,
-        contentType: "application/json",
-        body: JSON.stringify({ key: "mock-token" }),
-      });
-    });
-
+  test("user can signup successfully", async ({ network: _network, page }) => {
     await page.goto("/signup");
     await page.waitForLoadState("networkidle");
 
@@ -21,17 +13,8 @@ test.describe("Signup", () => {
     await expect(page).toHaveURL(/\/dashboard/);
   });
 
-  test("shows error when email already exists", async ({ page }) => {
-    // Mock the signup API endpoint with 400 error
-    await page.route("**/auth/signup/", async (route) => {
-      await route.fulfill({
-        status: 400,
-        contentType: "application/json",
-        body: JSON.stringify({
-          email: ["A user with this email already exists."],
-        }),
-      });
-    });
+  test("shows error when email already exists", async ({ network, page }) => {
+    await network.use(errorResponses.signup.emailExists());
 
     await page.goto("/signup");
     await page.waitForLoadState("networkidle");
@@ -49,7 +32,10 @@ test.describe("Signup", () => {
     await expect(page).toHaveURL(/\/signup/);
   });
 
-  test("shows validation errors for empty fields", async ({ page }) => {
+  test("shows validation errors for empty fields", async ({
+    network: _network,
+    page,
+  }) => {
     await page.goto("/signup");
     await page.waitForLoadState("networkidle");
 
@@ -61,7 +47,10 @@ test.describe("Signup", () => {
     await expect(page).toHaveURL(/\/signup/);
   });
 
-  test("shows error when passwords do not match", async ({ page }) => {
+  test("shows error when passwords do not match", async ({
+    network: _network,
+    page,
+  }) => {
     await page.goto("/signup");
     await page.waitForLoadState("networkidle");
 

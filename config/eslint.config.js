@@ -44,6 +44,6 @@ export default [
     },
   },
   {
-    ignores: ['dist', '**/*.d.ts'],
+    ignores: ['dist', 'coverage', '**/*.d.ts'],
   },
 ]
