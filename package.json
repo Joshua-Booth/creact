@@ -8,7 +8,8 @@
   "license": "UNLICENSED",
   "packageManager": "pnpm@10.26.0",
   "scripts": {
-    "prepare": "husky"
+    "prepare": "husky",
+    "build": "react-router build"
   },
   "engines": {
     "node": ">=22.0.0"
