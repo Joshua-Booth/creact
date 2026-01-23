@@ -11,10 +11,10 @@ interface TestFixtures {
 }
 
 async function waitForHydration(page: Page): Promise<void> {
-  await page.waitForSelector("[data-hydrated]", { timeout: 10000 });
-  // Allow React to fully reconcile the component tree after the hydration marker appears
-  // CI environments are slower, so we need a longer delay
-  await page.waitForTimeout(500);
+  await page.waitForFunction(
+    () => document.getElementById("app")?.hasAttribute("data-hydrated"),
+    { timeout: 10000 }
+  );
 }
 
 async function applyHandler(page: Page, handler: MockHandler): Promise<void> {
