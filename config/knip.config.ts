@@ -8,8 +8,6 @@ const config: KnipConfig = {
     "src/shared/assets/index.ts",
     "src/shared/lib/*/index.ts",
     "src/shared/i18n/index.ts",
-    // Features available for use across the app (exports marked @public)
-    "src/features/*/index.ts",
   ],
 
   project: ["src/**/*.{ts,tsx}", "tests/**/*.{ts,tsx}"],

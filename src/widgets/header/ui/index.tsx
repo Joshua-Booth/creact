@@ -4,6 +4,7 @@ import { useAuthStore } from "@/entities/user";
 import Logo from "@/shared/assets/images/logo.svg?react";
 
 import CornerSearch from "./CornerSearch";
+import { LanguageSwitcher } from "./LanguageSwitcher";
 
 function Links({ links }: { links: { name: string; path: string }[] }) {
   return (
@@ -38,6 +39,9 @@ export default function Header() {
         />
       </NavLink>
       {authenticated ? <CornerSearch /> : <Links links={HEADER_LINKS} />}
+      <div className="absolute top-6 right-36">
+        <LanguageSwitcher />
+      </div>
     </header>
   );
 }
