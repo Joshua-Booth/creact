@@ -13,8 +13,8 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
-  lint:
-    name: Lint
+  eslint:
+    name: ESLint
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -106,8 +106,8 @@ jobs:
       - name: Run security audit
         run: pnpm audit --audit-level=high
 
-  knip:
-    name: Knip
+  dead-code:
+    name: Dead Code Detection
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -122,8 +122,8 @@ jobs:
       - name: Run Knip
         run: mise run knip -- --reporter github-actions
 
-  steiger:
-    name: Steiger
+  fsd:
+    name: FSD Architecture
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -138,8 +138,8 @@ jobs:
       - name: Run Steiger
         run: mise run steiger
 
-  stylelint:
-    name: Stylelint
+  css-lint:
+    name: CSS Lint
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
