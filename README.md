@@ -90,7 +90,8 @@ For more information about this project check out the [wiki].
 - :iphone: **Responsive design** - Utility-first styling with [Tailwind CSS v4]
 - :arrow_right_hook: **Git hooks** - Automated code quality checks with [Husky]
 - :bookmark: **Versioning** - Automated SemVer versioning, changelogs, and releases with [semantic-release]
-- :shirt: **Linting** - [ESLint], [Prettier], [stylelint], [commitlint], and [knip] for unused code detection
+- :shirt: **Linting** - [ESLint], [Prettier], [stylelint], [commitlint], [knip] for unused code detection, and [cspell] for spell checking
+- :building_construction: **Architecture** - [Feature-Sliced Design][fsd] with [Steiger] for architecture linting
 - :white_check_mark: **Testing** - Unit and integration tests with [Vitest], E2E tests with [Playwright], API mocking with [MSW]
 - :chart_with_upwards_trend: **Coverage reports** - Test coverage tracking
 - :wrench: **Task runner** - Development workflows with [mise]
@@ -110,6 +111,9 @@ For more information about this project check out the [wiki].
 [stylelint]: https://stylelint.io/
 [commitlint]: https://commitlint.js.org/#/
 [knip]: https://knip.dev/
+[cspell]: https://cspell.org/
+[fsd]: https://feature-sliced.design/
+[steiger]: https://github.com/feature-sliced/steiger
 [vitest]: https://vitest.dev/
 [playwright]: https://playwright.dev/
 [msw]: https://mswjs.io/
@@ -164,16 +168,14 @@ pnpm install
 
 ## Setup
 
-Environment variables are configured using `.env` files in the project root. The project includes:
+Environment variables are managed through [mise] for development:
 
-- `.env` - Base configuration (shared across all environments)
-- `.env.development` - Development environment settings
-- `.env.test` - Test environment settings
-- `.env.production` - Production environment settings
+- **Development**: Variables are set automatically via `mise.toml`'s `[env]` section
+- **Production**: Set variables in your deployment platform (Vercel, Netlify, etc.)
 
-For local customization (e.g., custom ports for git worktrees), create a `.env.local` or `.env.development.local` file. These files are gitignored and will override the default settings.
+For local customization (e.g., custom ports for git worktrees), create a `mise.local.toml` file (gitignored) to override default values.
 
-See `.env.example` for a complete list of available configuration options.
+See `.env.example` for a complete list of available configuration options and `.env.production.example` for production-specific settings.
 
 ### Port Configuration
 
@@ -182,44 +184,45 @@ By default, the application uses:
 - Frontend dev server: `http://localhost:8080`
 - Backend API server: `http://localhost:8000`
 
-You can customize these ports and configure integrations using environment variables:
+These are configured via `mise.toml` vars and can be customized in `mise.local.toml`.
 
-| Variable name       | Required | Description                                                                                                   |
-| ------------------- | -------- | ------------------------------------------------------------------------------------------------------------- |
-| `VITE_PORT`         | False    | Frontend dev server port (default: `8080`)                                                                    |
-| `VITE_API_PORT`     | False    | Backend API server port (default: `8000`)                                                                     |
-| `VITE_API_ROOT_URL` | True     | Your API's URL (e.g. `http://localhost:8000` for dev and `https://api.example.com/` for prod)                 |
-| `VITE_PUBLIC_URL`   | True     | This app's public URL (e.g. `http://localhost:8080/public` for dev and `https://example.com/public` for prod) |
-| `VITE_SENTRY_DSN`   | False    | [Sentry DSN] for error tracking and monitoring                                                                |
-| `SENTRY_ORG`        | False    | Sentry organization slug (for sourcemap uploads during builds)                                                |
-| `SENTRY_PROJECT`    | False    | Sentry project slug (for sourcemap uploads during builds)                                                     |
-| `SENTRY_AUTH_TOKEN` | False    | [Sentry auth token] for sourcemap uploads (build only)                                                        |
-| `VITE_POSTHOG_KEY`  | False    | [PostHog project API key] for product analytics                                                               |
-| `VITE_POSTHOG_HOST` | False    | PostHog API host (default: `https://app.posthog.com`)                                                         |
+### Environment Variables
+
+The following variables are available. In development, port-related variables are auto-derived from `mise.toml`. For production, set these in your deployment platform:
+
+| Variable name       | Dev        | Prod     | Description                                                   |
+| ------------------- | ---------- | -------- | ------------------------------------------------------------- |
+| `VITE_PORT`         | Auto       | N/A      | Frontend dev server port (default: `8080`)                    |
+| `VITE_API_PORT`     | Auto       | N/A      | Backend API server port (default: `8000`)                     |
+| `VITE_API_ROOT_URL` | Auto       | Required | API URL (e.g. `https://api.example.com/`)                     |
+| `VITE_PUBLIC_URL`   | Auto       | Required | App public URL (e.g. `https://example.com/public`)            |
+| `VITE_SENTRY_DSN`   | Optional   | Optional | [Sentry DSN] for error tracking                               |
+| `SENTRY_ORG`        | N/A        | Optional | Sentry organization slug (for sourcemap uploads)              |
+| `SENTRY_PROJECT`    | N/A        | Optional | Sentry project slug (for sourcemap uploads)                   |
+| `SENTRY_AUTH_TOKEN` | N/A        | Optional | [Sentry auth token] for sourcemap uploads                     |
+| `VITE_POSTHOG_KEY`  | Optional   | Optional | [PostHog project API key] for analytics                       |
+| `VITE_POSTHOG_HOST` | Optional   | Optional | PostHog API host (default: `https://app.posthog.com`)         |
+| `VITE_ALGOLIA_*`    | Optional   | Optional | Algolia search config (see `.env.example`)                    |
 
 ### Git Worktree Setup
 
-To run multiple branches simultaneously on different ports, create a `.env.development.local` file in each worktree with custom port numbers. Make sure to update all URL variables to match your port configuration:
+To run multiple branches simultaneously on different ports, create a `mise.local.toml` file in each worktree. The URL variables are computed automatically from the port values:
 
-```sh
-# Branch 1 (main) - .env.development.local
-VITE_PORT=8080
-VITE_API_PORT=8000
-VITE_API_ROOT_URL=http://localhost:8000
-VITE_PUBLIC_URL=http://localhost:8080/public
+```toml
+# Branch 1 (main) - uses defaults from mise.toml (port 8080, api_port 8000)
 
-# Branch 2 (feature-a) - .env.development.local
-VITE_PORT=8081
-VITE_API_PORT=8001
-VITE_API_ROOT_URL=http://localhost:8001
-VITE_PUBLIC_URL=http://localhost:8081/public
+# Branch 2 (feature-a) - mise.local.toml
+[vars]
+port = "8081"
+api_port = "8001"
 
-# Branch 3 (feature-b) - .env.development.local
-VITE_PORT=8082
-VITE_API_PORT=8002
-VITE_API_ROOT_URL=http://localhost:8002
-VITE_PUBLIC_URL=http://localhost:8082/public
+# Branch 3 (feature-b) - mise.local.toml
+[vars]
+port = "8082"
+api_port = "8002"
 ```
+
+This automatically sets `VITE_PORT`, `VITE_API_PORT`, `VITE_API_ROOT_URL`, and `VITE_PUBLIC_URL` based on the port values.
 
 [sentry dsn]: https://docs.sentry.io/product/sentry-basics/dsn-explainer/
 [sentry auth token]: https://docs.sentry.io/api/auth/#auth-tokens
@@ -331,7 +334,7 @@ export const errorResponses = {
     invalidCredentials: (): MockHandler => ({
       pattern: "**/auth/login/",
       status: 401,
-      body: { non_field_errors: ["Invalid credentials."] },
+      body: { non_field_errors: ["Unable to log in with provided credentials."] },
     }),
   },
 };
@@ -364,7 +367,9 @@ mise run lint         # Run ESLint (alias: mise run l)
 mise run stylelint    # Run stylelint (alias: mise run sl)
 mise run typecheck    # Run TypeScript type checking (alias: mise run tt)
 mise run format       # Format code with Prettier (alias: mise run f)
-mise run knip         # Find unused code, exports, and dependencies
+mise run knip         # Find unused code, exports, and dependencies (alias: mise run k)
+mise run spell        # Check spelling with cspell (alias: mise run sp)
+mise run steiger      # Run FSD architecture linter
 ```
 
 ### Other Tasks
