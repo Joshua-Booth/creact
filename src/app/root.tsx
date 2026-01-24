@@ -1,11 +1,37 @@
-import { useSyncExternalStore } from "react";
-import { Links, Meta, Outlet, Scripts, ScrollRestoration } from "react-router";
+import { useEffect, useSyncExternalStore } from "react";
+import { useTranslation } from "react-i18next";
+import {
+  Links,
+  Meta,
+  Outlet,
+  Scripts,
+  ScrollRestoration,
+  data,
+} from "react-router";
 
-import { I18nProvider } from "@/app/providers/I18nProvider";
 import { SWRProvider } from "@/app/providers/SWRProvider";
 import "@/app/styles/main.css";
 import { ErrorBoundary } from "@/shared/ui/error-boundary";
 import { Header } from "@/widgets/header";
+
+import type { Route } from "./+types/root";
+import {
+  getLocale,
+  i18nextMiddleware,
+  localeCookie,
+} from "./middleware/i18next";
+
+export const middleware = [i18nextMiddleware];
+
+export async function loader({ context }: Route.LoaderArgs) {
+  // Context is a RouterContextProvider when middleware is enabled
+  // Type assertion needed due to generated types not reflecting middleware
+  const locale = getLocale(context as Parameters<typeof getLocale>[0]);
+  return data(
+    { locale },
+    { headers: { "Set-Cookie": await localeCookie.serialize(locale) } }
+  );
+}
 
 const emptySubscribe = () => () => {};
 function useHydrated() {
@@ -17,9 +43,11 @@ function useHydrated() {
 }
 
 export function Layout({ children }: { children: React.ReactNode }) {
+  const { i18n } = useTranslation();
+
   return (
-    <html lang="en" suppressHydrationWarning>
-      <head suppressHydrationWarning>
+    <html lang={i18n.language} dir={i18n.dir(i18n.language)}>
+      <head>
         <meta charSet="utf-8" />
         <meta
           name="viewport"
@@ -51,7 +79,7 @@ export function Layout({ children }: { children: React.ReactNode }) {
         <Meta />
         <Links />
       </head>
-      <body suppressHydrationWarning>
+      <body>
         <noscript>You need to enable JavaScript to run this app.</noscript>
         {children}
         <ScrollRestoration />
@@ -79,19 +107,25 @@ export function HydrateFallback() {
   );
 }
 
-export default function Root() {
+export default function Root({ loaderData: { locale } }: Route.ComponentProps) {
   const hydrated = useHydrated();
+  const { i18n } = useTranslation();
+
+  // Sync client-side i18n with server-detected locale
+  useEffect(() => {
+    if (i18n.language !== locale) {
+      i18n.changeLanguage(locale);
+    }
+  }, [locale, i18n]);
 
   return (
-    <I18nProvider>
-      <SWRProvider>
-        <ErrorBoundary>
-          <div id="app" data-hydrated={hydrated || undefined}>
-            <Header />
-            <Outlet />
-          </div>
-        </ErrorBoundary>
-      </SWRProvider>
-    </I18nProvider>
+    <SWRProvider>
+      <ErrorBoundary>
+        <div id="app" data-hydrated={hydrated || undefined}>
+          <Header />
+          <Outlet />
+        </div>
+      </ErrorBoundary>
+    </SWRProvider>
   );
 }

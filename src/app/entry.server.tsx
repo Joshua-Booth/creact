@@ -1,9 +1,13 @@
 import { renderToPipeableStream } from "react-dom/server";
-import type { EntryContext } from "react-router";
+import { I18nextProvider } from "react-i18next";
+import type { EntryContext, RouterContextProvider } from "react-router";
 import { ServerRouter } from "react-router";
 
+import { createReadableStreamFromReadable } from "@react-router/node";
 import { isbot } from "isbot";
-import { PassThrough, Readable } from "node:stream";
+import { PassThrough } from "node:stream";
+
+import { getInstance } from "./middleware/i18next";
 
 const ABORT_DELAY = 5000;
 
@@ -11,20 +15,23 @@ export default function handleRequest(
   request: Request,
   responseStatusCode: number,
   responseHeaders: Headers,
-  routerContext: EntryContext
+  routerContext: EntryContext,
+  loadContext: RouterContextProvider
 ) {
   return isbot(request.headers.get("user-agent") || "")
     ? handleBotRequest(
         request,
         responseStatusCode,
         responseHeaders,
-        routerContext
+        routerContext,
+        loadContext
       )
     : handleBrowserRequest(
         request,
         responseStatusCode,
         responseHeaders,
-        routerContext
+        routerContext,
+        loadContext
       );
 }
 
@@ -32,18 +39,22 @@ function handleBotRequest(
   request: Request,
   responseStatusCode: number,
   responseHeaders: Headers,
-  routerContext: EntryContext
+  routerContext: EntryContext,
+  loadContext: RouterContextProvider
 ) {
   return new Promise((resolve, reject) => {
     const { pipe, abort } = renderToPipeableStream(
-      <ServerRouter context={routerContext} url={request.url} />,
+      <I18nextProvider i18n={getInstance(loadContext)}>
+        <ServerRouter context={routerContext} url={request.url} />
+      </I18nextProvider>,
       {
         onAllReady() {
           const body = new PassThrough();
+          const stream = createReadableStreamFromReadable(body);
           responseHeaders.set("Content-Type", "text/html");
 
           resolve(
-            new Response(Readable.toWeb(body) as ReadableStream, {
+            new Response(stream, {
               headers: responseHeaders,
               status: responseStatusCode,
             })
@@ -69,18 +80,22 @@ function handleBrowserRequest(
   request: Request,
   responseStatusCode: number,
   responseHeaders: Headers,
-  routerContext: EntryContext
+  routerContext: EntryContext,
+  loadContext: RouterContextProvider
 ) {
   return new Promise((resolve, reject) => {
     const { pipe, abort } = renderToPipeableStream(
-      <ServerRouter context={routerContext} url={request.url} />,
+      <I18nextProvider i18n={getInstance(loadContext)}>
+        <ServerRouter context={routerContext} url={request.url} />
+      </I18nextProvider>,
       {
         onShellReady() {
           const body = new PassThrough();
+          const stream = createReadableStreamFromReadable(body);
           responseHeaders.set("Content-Type", "text/html");
 
           resolve(
-            new Response(Readable.toWeb(body) as ReadableStream, {
+            new Response(stream, {
               headers: responseHeaders,
               status: responseStatusCode,
             })
