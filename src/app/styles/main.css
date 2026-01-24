@@ -20,6 +20,13 @@
 @import "shadcn/tailwind.css";
 @import "@fontsource-variable/inter";
 
+/* Explicitly register source paths for Tailwind to scan */
+@source "../../shared";
+@source "../../entities";
+@source "../../features";
+@source "../../widgets";
+@source "../../pages";
+
 @custom-variant dark (&:is(.dark *));
 
 :root {

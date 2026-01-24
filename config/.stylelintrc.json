@@ -12,7 +12,8 @@
           "screen",
           "import",
           "reference",
-          "custom-variant"
+          "custom-variant",
+          "source"
         ]
       }
     ],
