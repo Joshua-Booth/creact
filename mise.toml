@@ -70,12 +70,12 @@ run = "lint-staged --config ./config/.lintstagedrc"
 [tasks.knip]
 description = "Find unused files, dependencies, and exports"
 alias = "k"
-run = "knip --config {{vars.knip_config}}"
+run = "knip --config {{vars.knip_config}} --no-config-hints"
 
 [tasks.knip_fix]
 description = "Auto-remove unused exports"
 alias = "kf"
-run = "knip --config {{vars.knip_config}} --fix"
+run = "knip --config {{vars.knip_config}} --fix --no-config-hints"
 
 [tasks.preview]
 description = "Preview production build"
