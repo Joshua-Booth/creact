@@ -46,6 +46,8 @@ const config: KnipConfig = {
     "date-fns",
     // CLI tool for adding components
     "shadcn",
+    // Used via --custom-formatter flag in CI
+    "@csstools/stylelint-formatter-github",
   ],
 
   // Build tools
