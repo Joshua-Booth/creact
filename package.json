@@ -52,6 +52,7 @@
     "@commitlint/cli": "^20.3.1",
     "@commitlint/config-conventional": "^20.3.1",
     "@commitlint/types": "^20.3.1",
+    "@csstools/stylelint-formatter-github": "^2.0.0",
     "@eslint/js": "^9.39.2",
     "@feature-sliced/steiger-plugin": "^0.5.7",
     "@msw/playwright": "^0.4.5",
