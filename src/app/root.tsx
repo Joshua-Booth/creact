@@ -4,7 +4,7 @@ import { Links, Meta, Outlet, Scripts, ScrollRestoration } from "react-router";
 import { I18nProvider } from "@/app/providers/I18nProvider";
 import { SWRProvider } from "@/app/providers/SWRProvider";
 import "@/app/styles/main.css";
-import { ErrorBoundary } from "@/shared/ui";
+import { ErrorBoundary } from "@/shared/ui/error-boundary";
 import { Header } from "@/widgets/header";
 
 const emptySubscribe = () => () => {};

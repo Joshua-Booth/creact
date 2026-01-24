@@ -9,7 +9,7 @@ import {
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from "@/shared/ui";
+} from "@/shared/ui/select";
 
 const languageLabels: Record<Language, string> = {
   en: "English",
