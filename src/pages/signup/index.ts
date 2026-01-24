@@ -1,2 +1,3 @@
 // Public API for signup page
-export { default as SignupPage } from "./ui";
+export { SignupPage } from "./ui";
+export { signupAction } from "./model/action";

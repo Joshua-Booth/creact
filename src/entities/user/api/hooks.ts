@@ -1,5 +1,5 @@
-import { useAuthenticatedApi } from "@/shared/api/hooks";
-import { AUTH_URLS } from "@/shared/config/urls";
+import { useAuthenticatedApi } from "@/shared/api";
+import { AUTH_URLS } from "@/shared/config";
 import type { User } from "../model/types";
 
 export function useCurrentUser() {

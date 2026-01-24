@@ -1,4 +1,4 @@
-export default function Logout() {
+export function LogoutPage() {
   return (
     <main className="mx-2 mb-12 pb-2 text-center max-md:pb-6 max-sm:pb-2">
       <title>Logout | Creact</title>

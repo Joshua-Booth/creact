@@ -5,6 +5,7 @@ export const AUTH_URLS = {
   SIGNUP: "/auth/signup/",
 };
 
+/** @public */
 export const API_URLS = {
   ROOT: import.meta.env.VITE_API_ROOT_URL,
   PUBLIC: import.meta.env.VITE_PUBLIC_URL,

@@ -1,6 +1,6 @@
-import { useRouteError, isRouteErrorResponse } from "react-router";
+import { isRouteErrorResponse, useRouteError } from "react-router";
 
-export default function NoMatch() {
+export function NoMatchPage() {
   const error = useRouteError();
 
   return (

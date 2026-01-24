@@ -1,5 +1,6 @@
 import { usePostHog } from "@posthog/react";
 
+/** @public */
 export const useAnalytics = () => {
   const posthog = usePostHog();
 

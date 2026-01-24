@@ -1,4 +1,4 @@
-export default function Landing() {
+export function LandingPage() {
   return (
     <main className="container mx-auto mt-12 h-full">
       <title>Creact</title>

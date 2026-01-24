@@ -27,9 +27,7 @@ export const passwordSchema = z
   .regex(/[0-9]/, "Password must contain at least one number");
 
 // Simple password (no strength requirements, just minimum length)
-export const simplePasswordSchema = z
-  .string()
-  .min(1, "Password is required");
+export const simplePasswordSchema = z.string().min(1, "Password is required");
 
 // Common login form schema
 export const loginSchema = z.object({
@@ -60,6 +58,7 @@ export const contactSchema = z.object({
   message: z.string().min(10, "Message must be at least 10 characters"),
 });
 
+/** @public */
 export type ContactFormData = z.infer<typeof contactSchema>;
 
 // Re-export zod and zodResolver for convenience

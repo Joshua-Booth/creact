@@ -2,19 +2,22 @@ import type { KnipConfig } from "knip";
 
 const config: KnipConfig = {
   entry: [
-    // Page components (referenced by routes.ts)
-    "src/pages/**/ui/index.tsx",
+    // Route entry files (referenced by routes.ts)
+    "src/app/routes/*.tsx",
+    // Shared public APIs (lib segments have individual entry points)
+    "src/shared/assets/index.ts",
+    "src/shared/lib/*/index.ts",
   ],
 
-  project: ["src/**/*.{ts,tsx}", "tests/**/*.ts"],
+  project: ["src/**/*.{ts,tsx}", "tests/**/*.{ts,tsx}"],
 
   ignore: [
     ".react-router/**",
+    ".netlify/**",
+    "coverage/**",
     "dist/**",
-    // FSD shared layer - utilities available for future use
-    "src/shared/**",
-    // FSD page barrel exports (routes.ts imports ./ui directly)
-    "src/pages/*/index.ts",
+    // shadcn UI components - available for use across the app
+    "src/shared/ui/**",
   ],
 
   ignoreDependencies: [
@@ -24,32 +27,22 @@ const config: KnipConfig = {
     "autoprefixer",
     "@fontsource-variable/inter",
     "@fontsource/inter",
-    // shadcn/ui component dependencies (available for future use)
-    "@base-ui/react",
-    "algoliasearch",
-    "axios",
-    "class-variance-authority",
-    "cmdk",
-    "date-fns",
-    "embla-carousel-react",
-    "input-otp",
-    "next-themes",
-    "react-day-picker",
-    "react-hook-form",
-    "react-resizable-panels",
-    "recharts",
-    "shadcn",
-    "sonner",
-    "vaul",
     // Tools without knip plugins
     "@feature-sliced/steiger-plugin",
     "@testing-library/user-event",
     "steiger",
     "vite-bundle-analyzer",
-    // CLI binaries (not imported in config files)
-    "@commitlint/cli",
     // Presets referenced by name, not as direct plugins
     "conventional-changelog-conventionalcommits",
+    // Testing tools (used in playwright tests and mocks)
+    "msw",
+    "@msw/playwright",
+    // Used via husky pre-commit hook
+    "lint-staged",
+    // Peer dependency for react-day-picker
+    "date-fns",
+    // CLI tool for adding components
+    "shadcn",
   ],
 
   // Build tools
@@ -79,6 +72,11 @@ const config: KnipConfig = {
 
   stylelint: {
     config: ["config/.stylelintrc.json"],
+  },
+
+  // Spell checking
+  cspell: {
+    config: ["config/cspell.json"],
   },
 
   // Git hooks & commits

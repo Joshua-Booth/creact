@@ -2,6 +2,7 @@ import useSWR from "swr";
 import type { SWRConfiguration, SWRResponse } from "swr";
 import type { ApiError } from "./client";
 
+/** @public */
 export function useApi<T>(
   endpoint: string | null,
   options?: SWRConfiguration<T, ApiError>

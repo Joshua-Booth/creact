@@ -1,4 +1,4 @@
-import { algoliaClient, ALGOLIA_INDEX_NAME } from "@/shared/config/algolia";
+import { ALGOLIA_INDEX_NAME, algoliaClient } from "@/shared/config";
 
 export interface SearchHit {
   objectID: string;

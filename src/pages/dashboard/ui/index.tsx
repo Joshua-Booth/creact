@@ -2,7 +2,7 @@ import { useCurrentUser } from "@/entities/user";
 import { useMainStore } from "@/shared/model";
 import { Spinner } from "@/shared/ui/spinner";
 
-export default function Dashboard() {
+export function DashboardPage() {
   const { user, isLoading, error } = useCurrentUser();
   const { setError } = useMainStore();
 

@@ -1,11 +1,11 @@
 import { Link, NavLink } from "react-router";
 import { useAuthStore } from "@/entities/user";
 import Logo from "@/shared/assets/images/logo.svg?react";
-import { CornerSearch } from "@/features/search";
+import CornerSearch from "./CornerSearch";
 
 function Links({ links }: { links: { name: string; path: string }[] }) {
   return (
-    <nav className="absolute top-[30px] right-4 flex gap-4 text-sm">
+    <nav className="absolute top-7.5 right-4 flex gap-4 text-sm">
       {links.map((link) => (
         <Link
           key={link.path}

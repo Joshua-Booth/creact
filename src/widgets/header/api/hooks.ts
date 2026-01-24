@@ -1,6 +1,6 @@
-import { useState, useEffect, useCallback, useRef } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { debounce } from "@/shared/lib/search";
-import { search, type SearchResult, type SearchHit } from "./search";
+import { type SearchHit, type SearchResult, search } from "./search";
 
 interface UseSearchOptions {
   debounceMs?: number;

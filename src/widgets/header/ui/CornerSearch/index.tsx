@@ -1,8 +1,7 @@
-import { useState, useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router";
-import { SearchIcon, FileTextIcon, Loader2Icon } from "lucide-react";
+import { FileTextIcon, Loader2Icon, SearchIcon } from "lucide-react";
 import { Button } from "@/shared/ui/button";
-import { Kbd, KbdGroup } from "@/shared/ui/kbd";
 import {
   Command,
   CommandDialog,
@@ -12,6 +11,7 @@ import {
   CommandItem,
   CommandList,
 } from "@/shared/ui/command";
+import { Kbd, KbdGroup } from "@/shared/ui/kbd";
 import { useSearch } from "../../api";
 
 export default function CornerSearch() {
@@ -52,7 +52,7 @@ export default function CornerSearch() {
     <>
       <Button
         variant="outline"
-        className="absolute top-[30px] right-4 gap-2 text-muted-foreground"
+        className="text-muted-foreground absolute top-7.5 right-4 gap-2"
         onClick={() => setOpen(true)}
       >
         <SearchIcon className="size-4" />
@@ -78,7 +78,7 @@ export default function CornerSearch() {
           <CommandList>
             {isLoading && (
               <div className="flex items-center justify-center py-6">
-                <Loader2Icon className="size-4 animate-spin text-muted-foreground" />
+                <Loader2Icon className="text-muted-foreground size-4 animate-spin" />
               </div>
             )}
 
@@ -100,11 +100,11 @@ export default function CornerSearch() {
                     value={hit.objectID}
                     onSelect={() => handleSelect(hit)}
                   >
-                    <FileTextIcon className="size-4 text-muted-foreground" />
+                    <FileTextIcon className="text-muted-foreground size-4" />
                     <div className="flex flex-col gap-0.5">
                       <span>{hit.title}</span>
                       {hit.description && (
-                        <span className="text-xs text-muted-foreground line-clamp-1">
+                        <span className="text-muted-foreground line-clamp-1 text-xs">
                           {hit.description}
                         </span>
                       )}

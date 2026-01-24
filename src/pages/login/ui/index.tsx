@@ -10,16 +10,9 @@ import {
 } from "@/shared/ui/card";
 import { Field, FieldError, FieldGroup, FieldLabel } from "@/shared/ui/field";
 import { Input } from "@/shared/ui/input";
-import { loginAction } from "../model/action";
 import { useLoginForm } from "../model/useLoginForm";
-import type { Route } from "./+types/index";
 
-export async function clientAction({ request }: Route.ClientActionArgs) {
-  const formData = await request.formData();
-  return loginAction(formData);
-}
-
-export default function Login() {
+export function LoginPage() {
   const { form, isSubmitting, onSubmit } = useLoginForm();
 
   return (
