@@ -1,5 +1,5 @@
-import { describe, it, expect, beforeEach, vi } from "vitest";
-import { isMobile, isTablet, isDesktop } from "./index";
+import { beforeEach, describe, expect, it, vi } from "vitest";
+import { isDesktop, isMobile, isTablet } from "./utils";
 
 describe("Device detection utilities", () => {
   beforeEach(() => {

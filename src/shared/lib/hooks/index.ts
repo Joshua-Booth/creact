@@ -1,1 +1,1 @@
-export { useIsMobile } from "./use-mobile";
+export { useIsMobile } from "@/shared/lib/device";
