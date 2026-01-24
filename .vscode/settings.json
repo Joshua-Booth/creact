@@ -1,0 +1,67 @@
+{
+  "editor.defaultFormatter": "esbenp.prettier-vscode",
+  "editor.formatOnSave": true,
+  "editor.codeActionsOnSave": {
+    "source.fixAll.eslint": "explicit"
+  },
+  "editor.quickSuggestions": {
+    "comments": false,
+    "strings": true,
+    "other": true
+  },
+  "files.associations": {
+    "*.css": "tailwindcss"
+  },
+  "typescript.tsdk": "node_modules/typescript/lib",
+  "typescript.enablePromptUseWorkspaceTsdk": true,
+  "typescript.preferences.autoImportFileExcludePatterns": [
+    "react-router-dom",
+    "@radix-ui/*",
+    "react-day-picker"
+  ],
+  "javascript.updateImportsOnFileMove.enabled": "always",
+  "typescript.updateImportsOnFileMove.enabled": "always",
+  "tailwindCSS.includeLanguages": {
+    "javascript": "javascript",
+    "typescriptreact": "javascript"
+  },
+  "tailwindCSS.validate": true,
+  "tailwindCSS.files.exclude": [
+    "**/.git/**",
+    "**/node_modules/**",
+    "**/.hg/**",
+    "**/.svn/**",
+    "**/*.md",
+    "**/docs/**/*.md"
+  ],
+  "tailwindCSS.experimental.configFile": null,
+  "tailwindCSS.lint.cssConflict": "ignore",
+  "css.validate": false,
+  "css.lint.validProperties": [],
+  "css.lint.duplicateProperties": "ignore",
+  "css.lint.propertyIgnoredDueToDisplay": "ignore",
+  "[markdown]": {
+    "css.validate": false,
+    "css.lint.duplicateProperties": "ignore"
+  },
+  "notebook.defaultFormatter": "esbenp.prettier-vscode",
+  "testing.automaticallyOpenPeekView": "never",
+  "vitest.enable": true,
+  "vitest.rootConfig": "./config/vitest.config.ts",
+  "vitest.commandLine": "NODE_ENV=test pnpm exec vitest",
+  "vitest.include": ["src/**/*.{test,spec}.{js,jsx,ts,tsx}"],
+  "vitest.exclude": [
+    "**/node_modules/**",
+    "**/dist/**",
+    "**/e2e/**",
+    "**/*.e2e.*",
+    "**/.{idea,git,cache,output,temp}/**"
+  ],
+  "vitest.nodeExecutable": "node_modules/.bin/node",
+  "vitest.shellType": "terminal",
+  "terminal.integrated.shellIntegration.enabled": false,
+  "[toml]": {
+    "editor.defaultFormatter": "tamasfe.even-better-toml"
+  },
+  "cSpell.words": ["creact", "POSTHOG", "sntrys"]
+}

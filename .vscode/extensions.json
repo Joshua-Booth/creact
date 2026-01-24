@@ -1,0 +1,24 @@
+{
+  "recommendations": [
+    "dbaeumer.vscode-eslint",
+    "esbenp.prettier-vscode",
+    "bradlc.vscode-tailwindcss",
+    "stylelint.vscode-stylelint",
+    "vitest.explorer",
+    "dsznajder.es7-react-js-snippets",
+    "yoavbls.pretty-ts-errors",
+    "eamodio.gitlens",
+    "donjayamanne.githistory",
+    "waderyan.gitblame",
+    "seatonjiang.gitmoji-vscode",
+    "usernamehw.errorlens",
+    "streetsidesoftware.code-spell-checker",
+    "vscode-icons-team.vscode-icons",
+    "mikestead.dotenv",
+    "tamasfe.even-better-toml",
+    "pranaygp.vscode-css-peek",
+    "wix.vscode-import-cost",
+    "vincaslt.highlight-matching-tag",
+    "editorconfig.editorconfig"
+  ]
+}
