@@ -1,6 +1,8 @@
 import { Link, NavLink } from "react-router";
+
 import { useAuthStore } from "@/entities/user";
 import Logo from "@/shared/assets/images/logo.svg?react";
+
 import CornerSearch from "./CornerSearch";
 
 function Links({ links }: { links: { name: string; path: string }[] }) {

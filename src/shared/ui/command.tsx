@@ -1,7 +1,7 @@
-"use client";
-
 import * as React from "react";
+
 import { Command as CommandPrimitive } from "cmdk";
+import { CheckIcon, SearchIcon } from "lucide-react";
 
 import { cn } from "@/shared/lib/utils";
 import {
@@ -12,7 +12,6 @@ import {
   DialogTitle,
 } from "@/shared/ui/dialog";
 import { InputGroup, InputGroupAddon } from "@/shared/ui/input-group";
-import { SearchIcon, CheckIcon } from "lucide-react";
 
 function Command({
   className,
@@ -51,7 +50,10 @@ function CommandDialog({
         <DialogDescription>{description}</DialogDescription>
       </DialogHeader>
       <DialogContent
-        className={cn("overflow-hidden rounded-xl! p-0", className)}
+        className={cn(
+          "top-1/3 translate-y-0 overflow-hidden rounded-xl! p-0",
+          className
+        )}
         showCloseButton={showCloseButton}
       >
         {children}

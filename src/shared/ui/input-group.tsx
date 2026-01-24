@@ -1,10 +1,12 @@
 "use client";
 
 import * as React from "react";
-import { cva, type VariantProps } from "class-variance-authority";
+
+import { type VariantProps, cva } from "class-variance-authority";
 
 import { cn } from "@/shared/lib/utils";
 import { Button } from "@/shared/ui/button";
+import { Input } from "@/shared/ui/input";
 import { Textarea } from "@/shared/ui/textarea";
 
 function InputGroup({ className, ...props }: React.ComponentProps<"div">) {
@@ -48,6 +50,7 @@ function InputGroupAddon({
   ...props
 }: React.ComponentProps<"div"> & VariantProps<typeof inputGroupAddonVariants>) {
   return (
+    // cspell:disable-next-line
     /* eslint-disable jsx-a11y/no-noninteractive-element-interactions,jsx-a11y/click-events-have-key-events */
     <div
       role="group"
@@ -121,7 +124,7 @@ function InputGroupInput({
   ...props
 }: React.ComponentProps<"input">) {
   return (
-    <input
+    <Input
       data-slot="input-group-control"
       className={cn(
         "flex-1 rounded-none border-0 bg-transparent shadow-none ring-0 focus-visible:ring-0 aria-invalid:ring-0 dark:bg-transparent",

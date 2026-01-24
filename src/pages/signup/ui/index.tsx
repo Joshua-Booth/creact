@@ -1,4 +1,6 @@
 import { Controller } from "react-hook-form";
+import { useTranslation } from "react-i18next";
+
 import { Button } from "@/shared/ui/button";
 import {
   Card,
@@ -10,20 +12,20 @@ import {
 } from "@/shared/ui/card";
 import { Field, FieldError, FieldGroup, FieldLabel } from "@/shared/ui/field";
 import { Input } from "@/shared/ui/input";
+
 import { useSignupForm } from "../model/useSignupForm";
 
 export function SignupPage() {
+  const { t } = useTranslation();
   const { form, isSubmitting, onSubmit } = useSignupForm();
 
   return (
     <main className="flex min-h-[80vh] items-center justify-center px-4">
-      <title>Sign Up | Creact</title>
+      <title>{t("pages.signUp.title", { appName: t("app.title") })}</title>
       <Card className="w-full max-w-md">
         <CardHeader>
-          <CardTitle>Create your account</CardTitle>
-          <CardDescription>
-            Enter your email and password to get started
-          </CardDescription>
+          <CardTitle>{t("auth.signUp.title")}</CardTitle>
+          <CardDescription>{t("auth.signUp.description")}</CardDescription>
         </CardHeader>
         <CardContent>
           <form onSubmit={onSubmit}>
@@ -33,12 +35,14 @@ export function SignupPage() {
                 control={form.control}
                 render={({ field, fieldState }) => (
                   <Field data-invalid={fieldState.invalid}>
-                    <FieldLabel htmlFor={field.name}>Email</FieldLabel>
+                    <FieldLabel htmlFor={field.name}>
+                      {t("auth.fields.email")}
+                    </FieldLabel>
                     <Input
                       {...field}
                       id={field.name}
                       type="email"
-                      placeholder="you@example.com"
+                      placeholder={t("auth.fields.emailPlaceholder")}
                       data-testid="email"
                       disabled={isSubmitting}
                       aria-invalid={fieldState.invalid}
@@ -55,12 +59,14 @@ export function SignupPage() {
                 control={form.control}
                 render={({ field, fieldState }) => (
                   <Field data-invalid={fieldState.invalid}>
-                    <FieldLabel htmlFor={field.name}>Password</FieldLabel>
+                    <FieldLabel htmlFor={field.name}>
+                      {t("auth.fields.password")}
+                    </FieldLabel>
                     <Input
                       {...field}
                       id={field.name}
                       type="password"
-                      placeholder="Create a password"
+                      placeholder={t("auth.fields.createPasswordPlaceholder")}
                       data-testid="password"
                       disabled={isSubmitting}
                       aria-invalid={fieldState.invalid}
@@ -78,13 +84,13 @@ export function SignupPage() {
                 render={({ field, fieldState }) => (
                   <Field data-invalid={fieldState.invalid}>
                     <FieldLabel htmlFor={field.name}>
-                      Confirm Password
+                      {t("auth.fields.confirmPassword")}
                     </FieldLabel>
                     <Input
                       {...field}
                       id={field.name}
                       type="password"
-                      placeholder="Confirm your password"
+                      placeholder={t("auth.fields.confirmPasswordPlaceholder")}
                       data-testid="confirm-password"
                       disabled={isSubmitting}
                       aria-invalid={fieldState.invalid}
@@ -108,20 +114,22 @@ export function SignupPage() {
                 disabled={isSubmitting}
                 className="w-full"
               >
-                {isSubmitting ? "Creating account..." : "Create account"}
+                {isSubmitting
+                  ? t("auth.signUp.submitting")
+                  : t("auth.signUp.submit")}
               </Button>
             </FieldGroup>
           </form>
         </CardContent>
         <CardFooter className="flex justify-center text-sm">
           <span className="text-muted-foreground">
-            Already have an account?
+            {t("auth.signUp.hasAccount")}
           </span>
           <a
             href="/login"
             className="text-muted-foreground hover:text-foreground ml-1"
           >
-            Sign in
+            {t("auth.signUp.signIn")}
           </a>
         </CardFooter>
       </Card>

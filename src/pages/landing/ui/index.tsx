@@ -1,14 +1,16 @@
+import { useTranslation } from "react-i18next";
+
 export function LandingPage() {
+  const { t } = useTranslation();
+
   return (
     <main className="container mx-auto mt-12 h-full">
-      <title>Creact</title>
+      <title>{t("app.title")}</title>
       <section>
         <h1 className="text-primary text-center text-3xl font-bold">
-          React Frontend
+          {t("pages.landing.heading")}
         </h1>
-        <h2 className="text-center">
-          A project template for creating awesome React web apps.
-        </h2>
+        <h2 className="text-center">{t("pages.landing.subheading")}</h2>
       </section>
     </main>
   );

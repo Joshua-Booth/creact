@@ -1,12 +1,10 @@
-"use client";
-
 import * as React from "react";
 
 import { cn } from "@/shared/lib/utils";
 
 function Label({ className, ...props }: React.ComponentProps<"label">) {
+  /* eslint-disable jsx-a11y/label-has-associated-control */
   return (
-    /* eslint-disable jsx-a11y/label-has-associated-control */
     <label
       data-slot="label"
       className={cn(

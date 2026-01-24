@@ -14,7 +14,9 @@ interface LoginErrorResponse {
 }
 
 export async function loginApi(data: LoginFormData): Promise<LoginResponse> {
-  return api.post(AUTH_URLS.LOGIN.slice(1), { json: data }).json<LoginResponse>();
+  return api
+    .post(AUTH_URLS.LOGIN.slice(1), { json: data })
+    .json<LoginResponse>();
 }
 
 export async function parseLoginError(error: unknown): Promise<string> {
@@ -22,9 +24,7 @@ export async function parseLoginError(error: unknown): Promise<string> {
     const body = await error.response.json().catch(() => ({}));
     const response = body as LoginErrorResponse;
     return (
-      response.non_field_errors?.[0] ||
-      response.detail ||
-      "Invalid credentials"
+      response.non_field_errors?.[0] || response.detail || "Invalid credentials"
     );
   }
   return "An unexpected error occurred";

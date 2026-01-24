@@ -1,5 +1,6 @@
-import { describe, it, expect, beforeEach, vi } from "vitest";
-import { resetErrorState, showAllErrors, hideAllErrors } from "./index";
+import { beforeEach, describe, expect, it, vi } from "vitest";
+
+import { hideAllErrors, resetErrorState, showAllErrors } from "./index";
 
 describe("Error utilities", () => {
   describe("resetErrorState", () => {

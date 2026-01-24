@@ -62,7 +62,18 @@ export {
   ResizableHandle,
 } from "./resizable";
 export { ScrollArea } from "./scroll-area";
-export { Select } from "./select";
+export {
+  Select,
+  SelectContent,
+  SelectGroup,
+  SelectItem,
+  SelectLabel,
+  SelectScrollDownButton,
+  SelectScrollUpButton,
+  SelectSeparator,
+  SelectTrigger,
+  SelectValue,
+} from "./select";
 export { Separator } from "./separator";
 export { Sheet } from "./sheet";
 export { Sidebar } from "./sidebar";

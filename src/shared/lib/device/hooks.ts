@@ -1,4 +1,5 @@
 import * as React from "react";
+
 import { BREAKPOINTS } from "./breakpoints";
 
 /** Device state indicating which device category the viewport falls into */

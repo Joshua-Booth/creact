@@ -1,4 +1,5 @@
 import { reactRouterDevTools } from "react-router-devtools";
+
 import netlifyPlugin from "@netlify/vite-plugin-react-router";
 import { reactRouter } from "@react-router/dev/vite";
 import { sentryVitePlugin } from "@sentry/vite-plugin";

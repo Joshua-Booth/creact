@@ -1,4 +1,6 @@
 import { Controller } from "react-hook-form";
+import { useTranslation } from "react-i18next";
+
 import { Button } from "@/shared/ui/button";
 import {
   Card,
@@ -10,20 +12,20 @@ import {
 } from "@/shared/ui/card";
 import { Field, FieldError, FieldGroup, FieldLabel } from "@/shared/ui/field";
 import { Input } from "@/shared/ui/input";
+
 import { useLoginForm } from "../model/useLoginForm";
 
 export function LoginPage() {
+  const { t } = useTranslation();
   const { form, isSubmitting, onSubmit } = useLoginForm();
 
   return (
     <main className="flex min-h-[80vh] items-center justify-center px-4">
-      <title>Login | Creact</title>
+      <title>{t("pages.login.title", { appName: t("app.title") })}</title>
       <Card className="w-full max-w-md">
         <CardHeader>
-          <CardTitle>Sign in to your account</CardTitle>
-          <CardDescription>
-            Enter your email and password to access your dashboard
-          </CardDescription>
+          <CardTitle>{t("auth.login.title")}</CardTitle>
+          <CardDescription>{t("auth.login.description")}</CardDescription>
         </CardHeader>
         <CardContent>
           <form onSubmit={onSubmit}>
@@ -33,12 +35,14 @@ export function LoginPage() {
                 control={form.control}
                 render={({ field, fieldState }) => (
                   <Field data-invalid={fieldState.invalid}>
-                    <FieldLabel htmlFor={field.name}>Email</FieldLabel>
+                    <FieldLabel htmlFor={field.name}>
+                      {t("auth.fields.email")}
+                    </FieldLabel>
                     <Input
                       {...field}
                       id={field.name}
                       type="email"
-                      placeholder="you@example.com"
+                      placeholder={t("auth.fields.emailPlaceholder")}
                       data-testid="email"
                       disabled={isSubmitting}
                       aria-invalid={fieldState.invalid}
@@ -55,12 +59,14 @@ export function LoginPage() {
                 control={form.control}
                 render={({ field, fieldState }) => (
                   <Field data-invalid={fieldState.invalid}>
-                    <FieldLabel htmlFor={field.name}>Password</FieldLabel>
+                    <FieldLabel htmlFor={field.name}>
+                      {t("auth.fields.password")}
+                    </FieldLabel>
                     <Input
                       {...field}
                       id={field.name}
                       type="password"
-                      placeholder="Enter your password"
+                      placeholder={t("auth.fields.passwordPlaceholder")}
                       data-testid="password"
                       disabled={isSubmitting}
                       aria-invalid={fieldState.invalid}
@@ -84,7 +90,9 @@ export function LoginPage() {
                 disabled={isSubmitting}
                 className="w-full"
               >
-                {isSubmitting ? "Signing in..." : "Sign in"}
+                {isSubmitting
+                  ? t("auth.login.submitting")
+                  : t("auth.login.submit")}
               </Button>
             </FieldGroup>
           </form>
@@ -94,14 +102,14 @@ export function LoginPage() {
             href="/forgot-password"
             className="text-muted-foreground hover:text-foreground"
           >
-            Forgot password?
+            {t("auth.login.forgotPassword")}
           </a>
           <span className="text-muted-foreground">·</span>
           <a
             href="/signup"
             className="text-muted-foreground hover:text-foreground"
           >
-            Sign up
+            {t("auth.login.signUp")}
           </a>
         </CardFooter>
       </Card>

@@ -27,11 +27,13 @@
     "**/pnpm-lock.yaml",
     "**/playwright-report/**",
     "**/test-results/**",
-    "**/tmp/**"
+    "**/tmp/**",
+    "**/storybook-static/**"
   ],
   "words": [
     "algoliasearch",
     "autoprefixer",
+    "autodocs",
     "clsx",
     "cmdk",
     "commitlint",
@@ -46,6 +48,7 @@
     "joshuabooth",
     "jsdom",
     "knip",
+    "languagedetector",
     "lintstaged",
     "lintstagedrc",
     "lucide",
@@ -76,6 +79,7 @@
     "tsconfig",
     "typecheck",
     "typegen",
+    "unhover",
     "vaul",
     "vercel",
     "vite",

@@ -1,5 +1,7 @@
 import { useCallback, useEffect, useRef, useState } from "react";
+
 import { debounce } from "@/shared/lib/search";
+
 import { type SearchHit, type SearchResult, search } from "./search";
 
 interface UseSearchOptions {

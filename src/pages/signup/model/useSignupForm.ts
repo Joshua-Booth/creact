@@ -1,11 +1,13 @@
 import { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { useFetcher } from "react-router";
+
 import {
   type RegisterFormData,
   registerSchema,
   zodResolver,
 } from "@/shared/lib/validation";
+
 import type { SignupActionData } from "./action";
 
 export function useSignupForm() {

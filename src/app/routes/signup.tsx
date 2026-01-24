@@ -1,4 +1,5 @@
 import { SignupPage, signupAction } from "@/pages/signup";
+
 import type { Route } from "./+types/signup";
 
 export default SignupPage;

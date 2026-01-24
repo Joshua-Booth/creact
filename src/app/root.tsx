@@ -1,5 +1,7 @@
 import { useSyncExternalStore } from "react";
 import { Links, Meta, Outlet, Scripts, ScrollRestoration } from "react-router";
+
+import { I18nProvider } from "@/app/providers/I18nProvider";
 import { SWRProvider } from "@/app/providers/SWRProvider";
 import "@/app/styles/main.css";
 import { ErrorBoundary } from "@/shared/ui";
@@ -81,13 +83,15 @@ export default function Root() {
   const hydrated = useHydrated();
 
   return (
-    <SWRProvider>
-      <ErrorBoundary>
-        <div id="app" data-hydrated={hydrated || undefined}>
-          <Header />
-          <Outlet />
-        </div>
-      </ErrorBoundary>
-    </SWRProvider>
+    <I18nProvider>
+      <SWRProvider>
+        <ErrorBoundary>
+          <div id="app" data-hydrated={hydrated || undefined}>
+            <Header />
+            <Outlet />
+          </div>
+        </ErrorBoundary>
+      </SWRProvider>
+    </I18nProvider>
   );
 }

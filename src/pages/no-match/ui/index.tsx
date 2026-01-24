@@ -1,12 +1,14 @@
+import { useTranslation } from "react-i18next";
 import { isRouteErrorResponse, useRouteError } from "react-router";
 
 export function NoMatchPage() {
+  const { t } = useTranslation();
   const error = useRouteError();
 
   return (
     <main className="mx-2 mb-12 pb-2 text-center max-md:pb-6 max-sm:pb-2">
-      <h1 className="pb-1">404 - Page Not Found</h1>
-      <p>Sorry, the page you are looking for does not exist.</p>
+      <h1 className="pb-1">{t("pages.notFound.heading")}</h1>
+      <p>{t("errors.notFoundDescription")}</p>
       {isRouteErrorResponse(error) && (
         <p>
           {error.status}: {error.statusText}

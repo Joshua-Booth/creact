@@ -1,6 +1,8 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router";
+
 import { FileTextIcon, Loader2Icon, SearchIcon } from "lucide-react";
+
 import { Button } from "@/shared/ui/button";
 import {
   Command,
@@ -12,6 +14,7 @@ import {
   CommandList,
 } from "@/shared/ui/command";
 import { Kbd, KbdGroup } from "@/shared/ui/kbd";
+
 import { useSearch } from "../../api";
 
 export default function CornerSearch() {

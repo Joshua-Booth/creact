@@ -29,6 +29,9 @@ steiger_config = "./config/steiger.config.ts"
 releaserc = "./config/.releaserc.json"
 knip_config = "./config/knip.config.ts"
 cspell_config = "./config/cspell.json"
+storybook_config = "./config/.storybook"
+i18n_config = "./config/i18next-parser.config.ts"
+lintstaged_config = "./config/.lintstagedrc"
 
 [tasks.build]
 description = "Build the application"
@@ -65,7 +68,7 @@ run = "eslint . --ext .ts,.tsx --config {{vars.eslint_config}}"
 
 [tasks.lintstaged]
 description = "Run lint-staged on staged files"
-run = "lint-staged --config ./config/.lintstagedrc"
+run = "lint-staged --config {{vars.lintstaged_config}}"
 
 [tasks.knip]
 description = "Find unused files, dependencies, and exports"
@@ -146,3 +149,18 @@ description = "Run TypeScript type checking"
 alias = "tt"
 depends = ["typegen"]
 run = "tsc --noEmit"
+
+[tasks.storybook]
+description = "Start Storybook dev server"
+alias = "sb"
+run = "storybook dev -p 6006 --config-dir {{vars.storybook_config}}"
+
+[tasks.storybook_build]
+description = "Build Storybook static site"
+alias = "sbb"
+run = "storybook build -o storybook-static --config-dir {{vars.storybook_config}}"
+
+[tasks.i18n_check]
+description = "Extract and validate translation keys"
+alias = "i18n"
+run = "i18next --config {{vars.i18n_config}}"

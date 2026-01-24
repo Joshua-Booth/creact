@@ -1,19 +1,18 @@
-"use client";
-
 import * as React from "react";
 import {
+  type DayButton,
   DayPicker,
   getDefaultClassNames,
-  type DayButton,
 } from "react-day-picker";
+
+import {
+  ChevronDownIcon,
+  ChevronLeftIcon,
+  ChevronRightIcon,
+} from "lucide-react";
 
 import { cn } from "@/shared/lib/utils";
 import { Button, buttonVariants } from "@/shared/ui/button";
-import {
-  ChevronLeftIcon,
-  ChevronRightIcon,
-  ChevronDownIcon,
-} from "lucide-react";
 
 function Calendar({
   className,
@@ -111,7 +110,7 @@ function Calendar({
           defaultClassNames.day
         ),
         range_start: cn(
-          "rounded-l-(--cell-radius) bg-muted elative after:bg-muted after:absolute after:inset-y-0 after:w-4 after:right-0 -z-0 isolate",
+          "rounded-l-(--cell-radius) bg-muted relative after:bg-muted after:absolute after:inset-y-0 after:w-4 after:right-0 -z-0 isolate",
           defaultClassNames.range_start
         ),
         range_middle: cn("rounded-none", defaultClassNames.range_middle),

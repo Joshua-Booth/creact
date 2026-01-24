@@ -169,3 +169,27 @@ jobs:
 
       - name: Run spell check
         run: mise run spell
+
+  storybook:
+    name: Storybook Build
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: jdx/mise-action@v2
+        with:
+          experimental: true
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Build Storybook
+        run: mise run storybook_build
+
+      - uses: actions/upload-artifact@v4
+        if: failure()
+        with:
+          name: storybook-build
+          path: storybook-static/
+          retention-days: 7
+          if-no-files-found: ignore

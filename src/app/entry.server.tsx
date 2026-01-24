@@ -1,8 +1,9 @@
 import { renderToPipeableStream } from "react-dom/server";
 import type { EntryContext } from "react-router";
 import { ServerRouter } from "react-router";
+
 import { isbot } from "isbot";
-import { PassThrough } from "node:stream";
+import { PassThrough, Readable } from "node:stream";
 
 const ABORT_DELAY = 5000;
 
@@ -42,7 +43,7 @@ function handleBotRequest(
           responseHeaders.set("Content-Type", "text/html");
 
           resolve(
-            new Response(body as any, {
+            new Response(Readable.toWeb(body) as ReadableStream, {
               headers: responseHeaders,
               status: responseStatusCode,
             })
@@ -79,7 +80,7 @@ function handleBrowserRequest(
           responseHeaders.set("Content-Type", "text/html");
 
           resolve(
-            new Response(body as any, {
+            new Response(Readable.toWeb(body) as ReadableStream, {
               headers: responseHeaders,
               status: responseStatusCode,
             })

@@ -4,6 +4,7 @@ import react from 'eslint-plugin-react'
 import typescriptEslint from '@typescript-eslint/eslint-plugin'
 import typescriptParser from '@typescript-eslint/parser'
 import jsxA11y from 'eslint-plugin-jsx-a11y'
+import storybook from 'eslint-plugin-storybook'
 import globals from 'globals'
 
 export default [
@@ -11,6 +12,7 @@ export default [
   react.configs.flat.recommended,
   reactHooks.configs.flat.recommended,
   jsxA11y.flatConfigs.recommended,
+  ...storybook.configs['flat/recommended'],
   {
     languageOptions: {
       ecmaVersion: 'latest',
@@ -44,6 +46,6 @@ export default [
     },
   },
   {
-    ignores: ['dist', 'coverage', '**/*.d.ts'],
+    ignores: ['dist', 'coverage', 'storybook-static', '**/*.d.ts'],
   },
 ]

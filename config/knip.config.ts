@@ -7,6 +7,9 @@ const config: KnipConfig = {
     // Shared public APIs (lib segments have individual entry points)
     "src/shared/assets/index.ts",
     "src/shared/lib/*/index.ts",
+    "src/shared/i18n/index.ts",
+    // Features available for use across the app (exports marked @public)
+    "src/features/*/index.ts",
   ],
 
   project: ["src/**/*.{ts,tsx}", "tests/**/*.{ts,tsx}"],
@@ -48,11 +51,26 @@ const config: KnipConfig = {
     "shadcn",
     // Used via --custom-formatter flag in CI
     "@csstools/stylelint-formatter-github",
+    // Storybook addons (loaded via config)
+    "@storybook/addon-a11y",
+    "@storybook/addon-docs",
+    "@storybook/addon-vitest",
+    "@chromatic-com/storybook",
+    "eslint-plugin-storybook",
+    // Playwright for storybook (different from @playwright/test)
+    "playwright",
+    "@vitest/browser-playwright",
+    // i18n tools (CLI)
+    "i18next-parser",
   ],
 
   // Build tools
   vite: {
-    config: ["config/vite.config.ts", "vite.config.ts"],
+    config: [
+      "config/vite.config.ts",
+      "vite.config.ts",
+      "config/.storybook/vite.config.ts",
+    ],
   },
 
   // Testing
@@ -101,6 +119,12 @@ const config: KnipConfig = {
   // TypeScript
   typescript: {
     config: ["config/tsconfig.json"],
+  },
+
+  // Storybook
+  storybook: {
+    config: ["config/.storybook/main.ts"],
+    entry: ["config/.storybook/preview.ts", "src/**/*.stories.tsx"],
   },
 
   ignoreExportsUsedInFile: true,

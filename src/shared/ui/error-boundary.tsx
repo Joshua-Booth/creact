@@ -1,6 +1,8 @@
-import * as Sentry from "@sentry/react";
 import { Component, type ErrorInfo, type ReactNode } from "react";
+
+import * as Sentry from "@sentry/react";
 import { AlertTriangle, RefreshCw } from "lucide-react";
+
 import { Button } from "./button";
 
 interface ErrorBoundaryProps {
@@ -63,12 +65,12 @@ function ErrorFallback({ onReset }: ErrorFallbackProps) {
   return (
     <div className="flex min-h-[400px] flex-col items-center justify-center p-8">
       <div className="flex flex-col items-center gap-4 text-center">
-        <div className="rounded-full bg-destructive/10 p-4">
-          <AlertTriangle className="size-8 text-destructive" />
+        <div className="bg-destructive/10 rounded-full p-4">
+          <AlertTriangle className="text-destructive size-8" />
         </div>
         <div className="space-y-2">
           <h2 className="text-xl font-semibold">Something went wrong</h2>
-          <p className="max-w-md text-muted-foreground">
+          <p className="text-muted-foreground max-w-md">
             An unexpected error occurred. Our team has been notified and is
             working on a fix.
           </p>

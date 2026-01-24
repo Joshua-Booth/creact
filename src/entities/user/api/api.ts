@@ -1,5 +1,6 @@
 import { api } from "@/shared/api";
 import { AUTH_URLS } from "@/shared/config";
+
 import type { User } from "../model/types";
 
 /** @public Available for direct API usage without hooks */
