@@ -1,13 +1,14 @@
 import { Link, NavLink } from "react-router";
 
 import { useAuthStore } from "@/entities/user";
+import { ModeToggle } from "@/shared/ui/mode-toggle";
 import Logo from "@/shared/assets/images/logo.svg?react";
 
 import CornerSearch from "./CornerSearch";
 
 function Links({ links }: { links: { name: string; path: string }[] }) {
   return (
-    <nav className="absolute top-7.5 right-4 flex gap-4 text-sm">
+    <nav className="absolute top-7.5 right-4 flex items-center gap-4 text-sm">
       {links.map((link) => (
         <Link
           key={link.path}
@@ -17,6 +18,7 @@ function Links({ links }: { links: { name: string; path: string }[] }) {
           {link.name}
         </Link>
       ))}
+      <ModeToggle />
     </nav>
   );
 }
@@ -37,7 +39,14 @@ export default function Header() {
           title="React Frontend Logo"
         />
       </NavLink>
-      {authenticated ? <CornerSearch /> : <Links links={HEADER_LINKS} />}
+      {authenticated ? (
+        <div className="absolute top-7.5 right-4 flex items-center gap-4">
+          <CornerSearch />
+          <ModeToggle />
+        </div>
+      ) : (
+        <Links links={HEADER_LINKS} />
+      )}
     </header>
   );
 }

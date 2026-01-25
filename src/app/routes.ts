@@ -3,6 +3,7 @@ import type { RouteConfig } from "@react-router/dev/routes";
 import { index, route } from "@react-router/dev/routes";
 
 export default [
+  route("action/set-theme", "./routes/action.set-theme.ts"),
   index("./routes/landing.tsx"),
   route("dashboard", "./routes/dashboard.tsx"),
   route("login", "./routes/login.tsx"),

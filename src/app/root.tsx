@@ -6,8 +6,15 @@ import {
   Outlet,
   Scripts,
   ScrollRestoration,
+  useRouteLoaderData,
 } from "react-router";
 import { useTranslation } from "react-i18next";
+
+import {
+  PreventFlashOnWrongTheme,
+  ThemeProvider,
+  useTheme,
+} from "remix-themes";
 
 import { SWRProvider } from "@/app/providers/SWRProvider";
 
@@ -22,15 +29,17 @@ import {
   i18nextMiddleware,
   localeCookie,
 } from "./middleware/i18next";
+import { themeSessionResolver } from "./sessions.server";
 
 export const middleware = [i18nextMiddleware];
 
-export async function loader({ context }: Route.LoaderArgs) {
+export async function loader({ request, context }: Route.LoaderArgs) {
+  const { getTheme } = await themeSessionResolver(request);
   // Context is a RouterContextProvider when middleware is enabled
   // Type assertion needed due to generated types not reflecting middleware
   const locale = getLocale(context as Parameters<typeof getLocale>[0]);
   return data(
-    { locale },
+    { locale, theme: getTheme() },
     { headers: { "Set-Cookie": await localeCookie.serialize(locale) } }
   );
 }
@@ -44,11 +53,23 @@ function useHydrated() {
   );
 }
 
-export function Layout({ children }: { children: React.ReactNode }) {
+function InnerLayout({
+  children,
+  ssrTheme,
+}: {
+  children: React.ReactNode;
+  ssrTheme: boolean;
+}) {
   const { i18n } = useTranslation();
+  const [theme] = useTheme();
 
   return (
-    <html lang={i18n.language} dir={i18n.dir(i18n.language)}>
+    <html
+      lang={i18n.language}
+      dir={i18n.dir(i18n.language)}
+      className={theme ?? ""}
+      suppressHydrationWarning
+    >
       <head>
         <meta charSet="utf-8" />
         <meta
@@ -78,6 +99,7 @@ export function Layout({ children }: { children: React.ReactNode }) {
         <link rel="apple-touch-icon" href="/icons/apple-icon-180x180.png" />
         <link rel="manifest" href="/manifest.json" />
 
+        <PreventFlashOnWrongTheme ssrTheme={ssrTheme} />
         <Meta />
         <Links />
       </head>
@@ -88,6 +110,18 @@ export function Layout({ children }: { children: React.ReactNode }) {
         <Scripts />
       </body>
     </html>
+  );
+}
+
+export function Layout({ children }: { children: React.ReactNode }) {
+  const data = useRouteLoaderData<typeof loader>("root");
+  return (
+    <ThemeProvider
+      specifiedTheme={data?.theme ?? null}
+      themeAction="/action/set-theme"
+    >
+      <InnerLayout ssrTheme={Boolean(data?.theme)}>{children}</InnerLayout>
+    </ThemeProvider>
   );
 }
 
