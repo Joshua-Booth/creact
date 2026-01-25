@@ -1,17 +1,16 @@
 import type { Meta, StoryObj } from "@storybook/react-vite";
 
-import { toast } from "sonner";
 import { action } from "storybook/actions";
 import { expect, userEvent, waitFor, within } from "storybook/test";
 
+import { toast, Toaster } from ".";
 import { Button } from "../button";
-import { Toaster } from "./sonner";
 
 /**
  * An opinionated toast component for React.
  */
 const meta: Meta<typeof Toaster> = {
-  title: "ui/Sonner",
+  title: "ui/Toast",
   component: Toaster,
   tags: ["autodocs"],
   argTypes: {},

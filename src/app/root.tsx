@@ -22,6 +22,7 @@ import "@/app/styles/main.css";
 
 import { Header } from "@/widgets/header";
 import { ErrorBoundary } from "@/shared/ui/error-boundary";
+import { ToastProvider } from "@/shared/ui/toast";
 
 import type { Route } from "./+types/root";
 import {
@@ -105,7 +106,7 @@ function InnerLayout({
       </head>
       <body>
         <noscript>You need to enable JavaScript to run this app.</noscript>
-        {children}
+        <ToastProvider>{children}</ToastProvider>
         <ScrollRestoration />
         <Scripts />
       </body>

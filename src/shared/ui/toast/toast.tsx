@@ -11,7 +11,21 @@ import {
 import { useTheme } from "remix-themes";
 import { Toaster as Sonner } from "sonner";
 
-const Toaster = ({ ...props }: ToasterProps) => {
+/**
+ * Themed toast notification component built on top of Sonner.
+ * Automatically syncs with the app's theme (light/dark).
+ *
+ * @example
+ * ```tsx
+ * import { toast } from "@/shared/ui/toast";
+ *
+ * // Trigger toasts anywhere
+ * toast("Event created");
+ * toast.success("Saved successfully");
+ * toast.error("Something went wrong");
+ * ```
+ */
+function Toaster({ ...props }: ToasterProps) {
   const [theme] = useTheme();
 
   return (
@@ -41,6 +55,6 @@ const Toaster = ({ ...props }: ToasterProps) => {
       {...props}
     />
   );
-};
+}
 
 export { Toaster };
