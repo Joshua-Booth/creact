@@ -90,6 +90,7 @@ For more information about this project check out the [wiki].
 - :iphone: **Responsive design** - Utility-first styling with [Tailwind CSS v4]
 - :arrow_right_hook: **Git hooks** - Automated code quality checks with [Husky]
 - :bookmark: **Versioning** - Automated SemVer versioning, changelogs, and releases with [semantic-release]
+- :arrows_counterclockwise: **Dependency updates** - Automated dependency updates with [Renovate]
 - :shirt: **Linting** - [ESLint], [Prettier], [stylelint], [commitlint], [knip] for unused code detection, and [cspell] for spell checking
 - :building_construction: **Architecture** - [Feature-Sliced Design][fsd] with [Steiger] for architecture linting
 - :white_check_mark: **Testing** - Unit and integration tests with [Vitest], E2E tests with [Playwright], API mocking with [MSW]
@@ -106,6 +107,7 @@ For more information about this project check out the [wiki].
 [tailwind css v4]: https://tailwindcss.com/
 [husky]: https://github.com/typicode/husky
 [semantic-release]: https://github.com/semantic-release/semantic-release
+[renovate]: https://github.com/renovatebot/renovate
 [eslint]: https://eslint.org/
 [prettier]: https://prettier.io/
 [stylelint]: https://stylelint.io/
