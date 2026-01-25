@@ -1,0 +1,104 @@
+{
+  "$schema": "https://docs.renovatebot.com/renovate-schema.json",
+  "extends": [
+    "config:recommended",
+    ":semanticCommits",
+    ":maintainLockFilesWeekly",
+    "schedule:weekends",
+    "group:allNonMajor"
+  ],
+
+  "labels": ["dependencies"],
+  "baseBranches": ["master"],
+  "rangeStrategy": "pin",
+
+  "semanticCommitType": "chore",
+  "semanticCommitScope": "deps",
+  "commitMessageAction": "update",
+
+  "prHourlyLimit": 5,
+  "prConcurrentLimit": 10,
+
+  "packageRules": [
+    {
+      "description": "Automerge non-major updates for stable packages",
+      "matchUpdateTypes": ["minor", "patch", "pin", "digest"],
+      "matchCurrentVersion": "!/^0/",
+      "automerge": true,
+      "automergeType": "pr",
+      "platformAutomerge": true,
+      "minimumReleaseAge": "3 days"
+    },
+    {
+      "description": "Require manual review for major updates",
+      "matchUpdateTypes": ["major"],
+      "automerge": false,
+      "labels": ["dependencies", "major"],
+      "dependencyDashboardApproval": true
+    },
+    {
+      "description": "Require review for 0.x packages",
+      "matchCurrentVersion": "/^0/",
+      "automerge": false,
+      "labels": ["dependencies", "unstable"]
+    },
+    {
+      "description": "Group React ecosystem",
+      "matchPackagePatterns": ["^react", "^@react-router", "^react-dom"],
+      "groupName": "react ecosystem"
+    },
+    {
+      "description": "Group TypeScript ecosystem",
+      "matchPackagePatterns": ["^typescript", "^@types/", "^@typescript-eslint/"],
+      "groupName": "typescript ecosystem"
+    },
+    {
+      "description": "Group testing packages",
+      "matchPackagePatterns": ["^vitest", "^@vitest/", "^@testing-library/", "^playwright", "^@playwright/", "^msw"],
+      "groupName": "testing tools"
+    },
+    {
+      "description": "Group Storybook packages",
+      "matchPackagePatterns": ["^storybook", "^@storybook/", "^@chromatic-com/"],
+      "groupName": "storybook"
+    },
+    {
+      "description": "Group ESLint packages",
+      "matchPackagePatterns": ["^eslint", "^@eslint/"],
+      "groupName": "eslint"
+    },
+    {
+      "description": "Group Tailwind packages",
+      "matchPackagePatterns": ["^tailwind", "^@tailwindcss/"],
+      "groupName": "tailwindcss"
+    },
+    {
+      "description": "Group i18n packages",
+      "matchPackagePatterns": ["^i18next", "^react-i18next", "^remix-i18next"],
+      "groupName": "i18n"
+    },
+    {
+      "description": "Group release tooling",
+      "matchPackagePatterns": ["^semantic-release", "^@semantic-release/", "^@commitlint/", "^commitlint-plugin-", "^conventional-changelog"],
+      "groupName": "release tooling"
+    },
+    {
+      "description": "Group Sentry packages",
+      "matchPackagePatterns": ["^@sentry/"],
+      "groupName": "sentry"
+    },
+    {
+      "description": "Group Vite packages",
+      "matchPackagePatterns": ["^vite", "^@vitejs/"],
+      "groupName": "vite"
+    }
+  ],
+
+  "vulnerabilityAlerts": {
+    "enabled": true,
+    "labels": ["dependencies", "security"],
+    "schedule": ["at any time"],
+    "automerge": true,
+    "minimumReleaseAge": "0 days"
+  }
+}
