@@ -45,6 +45,8 @@ const config: KnipConfig = {
     "lint-staged",
     // Peer dependency for react-day-picker
     "date-fns",
+    // CLI tool for dependency analysis
+    "dependency-cruiser",
     // CLI tool for adding components
     "shadcn",
     // Used via --custom-formatter flag in CI

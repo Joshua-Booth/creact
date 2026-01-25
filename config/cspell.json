@@ -19,6 +19,7 @@
     "config/**/*.{ts,js,json}"
   ],
   "ignorePaths": [
+    "**/*.svg",
     "**/node_modules/**",
     "**/dist/**",
     "**/build/**",
@@ -38,10 +39,12 @@
     "cmdk",
     "commitlint",
     "creact",
+    "depcruise",
     "customisable",
     "embla",
     "esbuild",
     "fontsource",
+    "graphviz",
     "hookform",
     "husky",
     "innerhtml",
