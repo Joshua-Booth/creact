@@ -1,13 +1,14 @@
-import { initReactI18next } from "react-i18next";
 import { createCookie } from "react-router";
+import { initReactI18next } from "react-i18next";
 
 import "i18next";
+
 import { createI18nextMiddleware } from "remix-i18next/middleware";
 
 import {
   DEFAULT_LANGUAGE,
-  SUPPORTED_LANGUAGES,
   resources,
+  SUPPORTED_LANGUAGES,
 } from "@/shared/i18n";
 
 // Cookie to store user locale preference

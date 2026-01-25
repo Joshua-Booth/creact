@@ -1,12 +1,9 @@
 import { useEffect } from "react";
-import { useForm } from "react-hook-form";
 import { useFetcher } from "react-router";
+import { useForm } from "react-hook-form";
 
-import {
-  type LoginFormData,
-  loginSchema,
-  zodResolver,
-} from "@/shared/lib/validation";
+import type { LoginFormData } from "@/shared/lib/validation";
+import { loginSchema, zodResolver } from "@/shared/lib/validation";
 
 import type { LoginActionData } from "./action";
 

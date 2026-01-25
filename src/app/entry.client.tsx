@@ -1,7 +1,7 @@
-import { StrictMode, startTransition } from "react";
+import { startTransition, StrictMode } from "react";
 import { hydrateRoot } from "react-dom/client";
-import { I18nextProvider, initReactI18next } from "react-i18next";
 import { HydratedRouter } from "react-router/dom";
+import { I18nextProvider, initReactI18next } from "react-i18next";
 
 import { PostHogProvider } from "@posthog/react";
 import * as Sentry from "@sentry/react";

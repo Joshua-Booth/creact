@@ -1,18 +1,20 @@
 import { useEffect, useSyncExternalStore } from "react";
-import { useTranslation } from "react-i18next";
 import {
+  data,
   Links,
   Meta,
   Outlet,
   Scripts,
   ScrollRestoration,
-  data,
 } from "react-router";
+import { useTranslation } from "react-i18next";
 
 import { SWRProvider } from "@/app/providers/SWRProvider";
+
 import "@/app/styles/main.css";
-import { ErrorBoundary } from "@/shared/ui/error-boundary";
+
 import { Header } from "@/widgets/header";
+import { ErrorBoundary } from "@/shared/ui/error-boundary";
 
 import type { Route } from "./+types/root";
 import {

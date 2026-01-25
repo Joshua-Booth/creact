@@ -1,5 +1,5 @@
-import useSWR from "swr";
 import type { SWRConfiguration, SWRResponse } from "swr";
+import useSWR from "swr";
 
 import type { ApiError } from "./client";
 

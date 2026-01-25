@@ -1,8 +1,8 @@
 import { HTTPError } from "ky";
 
+import type { LoginFormData } from "@/shared/lib/validation";
 import { api } from "@/shared/api";
 import { AUTH_URLS } from "@/shared/config";
-import type { LoginFormData } from "@/shared/lib/validation";
 
 interface LoginResponse {
   key: string;

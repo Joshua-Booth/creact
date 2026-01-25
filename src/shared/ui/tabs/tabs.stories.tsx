@@ -1,4 +1,5 @@
 import type { Meta, StoryObj } from "@storybook/react-vite";
+
 import { expect, userEvent, waitFor } from "storybook/test";
 
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "./tabs";

@@ -17,10 +17,38 @@
   "useTabs": false,
   "vueIndentScriptAndStyle": false,
   "plugins": [
-    "@trivago/prettier-plugin-sort-imports",
+    "@ianvs/prettier-plugin-sort-imports",
     "prettier-plugin-tailwindcss"
   ],
-  "importOrder": ["^react", "<THIRD_PARTY_MODULES>", "^@/(.*)$", "^[./]"],
-  "importOrderSeparation": true,
-  "importOrderSortSpecifiers": true
+  "importOrder": [
+    "<TYPES>",
+    "<BUILTIN_MODULES>",
+    "",
+    "^react$",
+    "^react-dom(/.*)?$",
+    "^react-router(/.*)?$",
+    "^react-hook-form$",
+    "^react-i18next$",
+    "",
+    "<TYPES>^[^@/.]",
+    "<THIRD_PARTY_MODULES>",
+    "",
+    "<TYPES>^@/",
+    "^@/app(/.*)?$",
+    "^@/pages(/.*)?$",
+    "^@/widgets(/.*)?$",
+    "^@/features(/.*)?$",
+    "^@/entities(/.*)?$",
+    "^@/shared/api(/.*)?$",
+    "^@/shared/config(/.*)?$",
+    "^@/shared/model(/.*)?$",
+    "^@/shared/lib(/.*)?$",
+    "^@/shared/i18n(/.*)?$",
+    "^@/shared/ui(/.*)?$",
+    "^@/shared/assets(/.*)?$",
+    "",
+    "<TYPES>^[.]",
+    "^[.]"
+  ],
+  "importOrderTypeScriptVersion": "5.0.0"
 }

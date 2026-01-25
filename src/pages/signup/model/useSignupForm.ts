@@ -1,12 +1,9 @@
 import { useEffect } from "react";
-import { useForm } from "react-hook-form";
 import { useFetcher } from "react-router";
+import { useForm } from "react-hook-form";
 
-import {
-  type RegisterFormData,
-  registerSchema,
-  zodResolver,
-} from "@/shared/lib/validation";
+import type { RegisterFormData } from "@/shared/lib/validation";
+import { registerSchema, zodResolver } from "@/shared/lib/validation";
 
 import type { SignupActionData } from "./action";
 

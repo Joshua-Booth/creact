@@ -1,5 +1,5 @@
-import { useTranslation } from "react-i18next";
 import { isRouteErrorResponse, useRouteError } from "react-router";
+import { useTranslation } from "react-i18next";
 
 export function NoMatchPage() {
   const { t } = useTranslation();

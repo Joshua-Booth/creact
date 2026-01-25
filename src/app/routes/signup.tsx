@@ -1,4 +1,4 @@
-import { SignupPage, signupAction } from "@/pages/signup";
+import { signupAction, SignupPage } from "@/pages/signup";
 
 import type { Route } from "./+types/signup";
 

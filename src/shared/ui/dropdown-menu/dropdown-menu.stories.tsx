@@ -1,4 +1,5 @@
 import type { Meta, StoryObj } from "@storybook/react-vite";
+
 import { Mail, Plus, PlusCircle, Search, UserPlus } from "lucide-react";
 import { expect, userEvent, within } from "storybook/test";
 

@@ -1,4 +1,4 @@
-import { LoginPage, loginAction } from "@/pages/login";
+import { loginAction, LoginPage } from "@/pages/login";
 
 import type { Route } from "./+types/login";
 

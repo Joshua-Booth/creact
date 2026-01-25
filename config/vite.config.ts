@@ -1,10 +1,10 @@
-import { reactRouterDevTools } from "react-router-devtools";
+import path from "path";
 
 import netlifyPlugin from "@netlify/vite-plugin-react-router";
 import { reactRouter } from "@react-router/dev/vite";
 import { sentryVitePlugin } from "@sentry/vite-plugin";
 import tailwindcss from "@tailwindcss/vite";
-import path from "path";
+import { reactRouterDevTools } from "react-router-devtools";
 import { defineConfig } from "vite";
 import devtoolsJson from "vite-plugin-devtools-json";
 import svgr from "vite-plugin-svgr";

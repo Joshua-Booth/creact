@@ -1,6 +1,7 @@
-import tailwindcss from "@tailwindcss/vite";
 import path from "path";
 import { fileURLToPath } from "url";
+
+import tailwindcss from "@tailwindcss/vite";
 import { defineConfig } from "vite";
 import svgr from "vite-plugin-svgr";
 

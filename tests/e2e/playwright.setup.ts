@@ -1,7 +1,8 @@
 /* eslint-disable react-hooks/rules-of-hooks -- `use` is Playwright's fixture callback, not a React Hook */
-import { Page, expect, test as testBase } from "@playwright/test";
+import { expect, Page, test as testBase } from "@playwright/test";
 
-import { type MockHandler, handlers } from "./mocks";
+import type { MockHandler } from "./mocks";
+import { handlers } from "./mocks";
 
 interface NetworkMock {
   use: (handler: MockHandler) => Promise<void>;

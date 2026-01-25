@@ -1,11 +1,12 @@
-import { renderToPipeableStream } from "react-dom/server";
-import { I18nextProvider } from "react-i18next";
-import type { EntryContext, RouterContextProvider } from "react-router";
-import { ServerRouter } from "react-router";
+import { PassThrough } from "node:stream";
 
+import { renderToPipeableStream } from "react-dom/server";
+import { ServerRouter } from "react-router";
+import { I18nextProvider } from "react-i18next";
+
+import type { EntryContext, RouterContextProvider } from "react-router";
 import { createReadableStreamFromReadable } from "@react-router/node";
 import { isbot } from "isbot";
-import { PassThrough } from "node:stream";
 
 import { getInstance } from "./middleware/i18next";
 
