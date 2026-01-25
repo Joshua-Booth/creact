@@ -1,4 +1,4 @@
-/* eslint-disable react-hooks/rules-of-hooks -- `use` is Playwright's fixture callback, not a React Hook */
+/* eslint-disable react-hooks/rules-of-hooks, @eslint-react/no-unnecessary-use-prefix -- `use` is Playwright's fixture callback, not a React Hook */
 import { expect, Page, test as testBase } from "@playwright/test";
 
 import type { MockHandler } from "./mocks";
