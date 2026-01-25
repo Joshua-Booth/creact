@@ -1,0 +1,54 @@
+name: PR Title
+
+on:
+  pull_request:
+    types: [opened, edited, synchronize]
+
+jobs:
+  validate:
+    name: Validate PR Title
+    runs-on: ubuntu-latest
+    steps:
+      # Configuration mirrors config/commitlint.config.ts
+      # Note: This action doesn't support external commitlint config files,
+      # so types/scopes must be kept in sync manually with commitlint.config.ts
+      - uses: amannn/action-semantic-pull-request@v6
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          # Must match type-enum in commitlint.config.ts
+          types: |
+            feat
+            fix
+            docs
+            style
+            refactor
+            perf
+            test
+            build
+            ci
+            chore
+            revert
+            ops
+          # Must match ALL_SCOPES in commitlint.config.ts
+          # FSD: app, pages, features, entities, widgets, shared
+          # Tech: ui, config, tests, deps, types, styles, release
+          scopes: |
+            app
+            pages
+            features
+            entities
+            widgets
+            shared
+            ui
+            config
+            tests
+            deps
+            types
+            styles
+            release
+          requireScope: false
+          subjectPattern: ^[a-z].*$
+          subjectPatternError: |
+            Subject must start with lowercase letter.
+            Example: "feat(app): add dark mode"
