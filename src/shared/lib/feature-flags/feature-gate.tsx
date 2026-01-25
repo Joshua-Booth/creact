@@ -19,6 +19,7 @@ interface FeatureGateProps {
 /**
  * Declarative component for conditional rendering based on feature flags.
  *
+ * @public
  * @example Boolean flag
  * ```tsx
  * <FeatureGate flag="new-dashboard" fallback={<OldDashboard />}>

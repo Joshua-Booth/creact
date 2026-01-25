@@ -1,4 +1,7 @@
-/** Possible values returned by feature flag hooks. */
+/**
+ * Possible values returned by feature flag hooks.
+ * @public
+ */
 export type FeatureFlagValue = boolean | string | undefined;
 
 /** Custom JSON payload attached to a feature flag. */

@@ -12,5 +12,8 @@ export type FeatureFlagKey =
   // Add your feature flags here
   "example-flag";
 
-/** Accepts known flags with autocomplete, plus arbitrary strings for dynamic keys. */
+/**
+ * Accepts known flags with autocomplete, plus arbitrary strings for dynamic keys.
+ * @public
+ */
 export type ExtendedFlagKey = FeatureFlagKey | (string & {});

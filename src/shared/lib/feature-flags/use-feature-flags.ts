@@ -49,6 +49,7 @@ export const useFeatureFlagVariant = (
 /**
  * Get custom JSON payload attached to a feature flag.
  *
+ * @public
  * @example
  * ```tsx
  * interface Config { maxItems: number }
@@ -67,6 +68,7 @@ export const useFeatureFlagConfig = <T = FeatureFlagPayload>(
 /**
  * Get all currently active feature flag keys. Useful for debugging.
  *
+ * @public
  * @example
  * ```tsx
  * const activeFlags = useActiveFlags();
