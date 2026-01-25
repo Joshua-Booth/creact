@@ -1,4 +1,4 @@
-import { getSiteUrl } from "@/shared/config/seo";
+import { getSiteUrl } from "@/shared/config";
 
 export function loader() {
   const siteUrl = getSiteUrl();

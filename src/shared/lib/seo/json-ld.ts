@@ -1,4 +1,4 @@
-import { getSiteUrl, SITE_NAME } from "@/shared/config/seo";
+import { getSiteUrl, SITE_NAME } from "@/shared/config";
 
 /** Organization schema for structured data */
 export interface OrganizationSchema {

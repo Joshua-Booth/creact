@@ -4,7 +4,7 @@ import {
   getSiteUrl,
   SITE_NAME,
   TWITTER_HANDLE,
-} from "@/shared/config/seo";
+} from "@/shared/config";
 import {
   DEFAULT_LANGUAGE,
   resources,

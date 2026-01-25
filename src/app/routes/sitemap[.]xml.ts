@@ -1,4 +1,4 @@
-import { getSiteUrl } from "@/shared/config/seo";
+import { getSiteUrl } from "@/shared/config";
 
 interface SitemapEntry {
   loc: string;
