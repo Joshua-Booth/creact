@@ -21,7 +21,13 @@ import { SWRProvider } from "@/app/providers/SWRProvider";
 import "@/app/styles/main.css";
 
 import { Header } from "@/widgets/header";
+import {
+  generateMeta,
+  generateOrganizationJsonLd,
+  generateWebSiteJsonLd,
+} from "@/shared/lib/seo";
 import { ErrorBoundary } from "@/shared/ui/error-boundary";
+import { JsonLd } from "@/shared/ui/json-ld";
 import { ToastProvider } from "@/shared/ui/toast";
 
 import type { Route } from "./+types/root";
@@ -34,6 +40,13 @@ import { themeSessionResolver } from "./sessions.server";
 
 export const middleware = [i18nextMiddleware];
 
+export function meta() {
+  return generateMeta({
+    title: "Creact",
+    description: "A modern React frontend template with SSR support.",
+  });
+}
+
 export async function loader({ request, context }: Route.LoaderArgs) {
   const { getTheme } = await themeSessionResolver(request);
   // Context is a RouterContextProvider when middleware is enabled
@@ -44,6 +57,9 @@ export async function loader({ request, context }: Route.LoaderArgs) {
     { headers: { "Set-Cookie": await localeCookie.serialize(locale) } }
   );
 }
+
+/** Root loader data type for use in child route meta functions */
+export type RootLoaderData = Awaited<ReturnType<typeof loader>>["data"];
 
 const emptySubscribe = () => () => {};
 function useHydrated() {
@@ -77,8 +93,10 @@ function InnerLayout({
           name="viewport"
           content="width=device-width, initial-scale=1, maximum-scale=1"
         />
-        <meta name="description" content="React Frontend" />
-        <title>creact - A React Frontend</title>
+
+        {/* JSON-LD Structured Data */}
+        <JsonLd data={generateOrganizationJsonLd()} />
+        <JsonLd data={generateWebSiteJsonLd()} />
 
         {/* PWA Configuration */}
         <meta name="theme-color" content="#FFFFFF" />

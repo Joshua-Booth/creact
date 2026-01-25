@@ -1,0 +1,18 @@
+/** SEO configuration constants */
+
+/** Site URL from environment, with fallback for development */
+export function getSiteUrl(): string {
+  return (
+    (typeof import.meta !== "undefined" && import.meta.env?.VITE_PUBLIC_URL) ||
+    "https://creact.netlify.app"
+  );
+}
+
+/** Twitter handle for social cards */
+export const TWITTER_HANDLE = "@joshuaboothnz";
+
+/** Default Open Graph image path (relative to site root) */
+export const DEFAULT_OG_IMAGE = "/og-image.png";
+
+/** Site name for meta tags */
+export const SITE_NAME = "Creact";

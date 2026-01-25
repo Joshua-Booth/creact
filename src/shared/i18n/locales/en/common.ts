@@ -2,6 +2,32 @@ export default {
   app: {
     title: "Creact",
   },
+  seo: {
+    siteName: "Creact",
+    defaultDescription: "A modern React frontend template with SSR support.",
+    pages: {
+      home: {
+        title: "Home",
+        description: "Welcome to Creact - A modern React frontend template.",
+      },
+      login: {
+        title: "Login",
+        description: "Sign in to your account.",
+      },
+      signup: {
+        title: "Sign Up",
+        description: "Create a new account.",
+      },
+      dashboard: {
+        title: "Dashboard",
+        description: "Your personal dashboard.",
+      },
+      notFound: {
+        title: "Page Not Found",
+        description: "The page you're looking for doesn't exist.",
+      },
+    },
+  },
   auth: {
     fields: {
       confirmPassword: "Confirm Password",
