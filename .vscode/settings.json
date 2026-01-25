@@ -64,5 +64,5 @@
   "[toml]": {
     "editor.defaultFormatter": "tamasfe.even-better-toml"
   },
-  "cSpell.words": ["creact", "POSTHOG", "sntrys"]
+  "cSpell.import": ["./config/cspell.json"]
 }
