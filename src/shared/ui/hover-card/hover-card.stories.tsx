@@ -36,14 +36,19 @@ type Story = StoryObj<typeof meta>;
 export const Default: Story = {};
 
 /**
- * Use the `openDelay` and `closeDelay` props to control the delay before the
- * hover card opens and closes.
+ * Use the `delay` and `closeDelay` props on the trigger to control timing.
  */
 export const Instant: Story = {
-  args: {
-    openDelay: 0,
-    closeDelay: 0,
-  },
+  render: (args) => (
+    <HoverCard {...args}>
+      <HoverCardTrigger delay={0} closeDelay={0}>
+        Hover
+      </HoverCardTrigger>
+      <HoverCardContent>
+        The React Framework - created and maintained by @vercel.
+      </HoverCardContent>
+    </HoverCard>
+  ),
 };
 
 export const ShouldShowOnHover: Story = {
@@ -51,26 +56,25 @@ export const ShouldShowOnHover: Story = {
   tags: ["!dev", "!autodocs"],
   play: async ({ canvasElement, step }) => {
     const canvasBody = within(canvasElement.ownerDocument.body);
+    const getHoverCard = () =>
+      canvasElement.ownerDocument.body.querySelector(
+        '[data-slot="hover-card-content"]'
+      );
 
     await step("Hover over the trigger element", async () => {
       await userEvent.hover(await canvasBody.findByText(/hover/i));
-      await waitFor(() =>
-        expect(
-          canvasElement.ownerDocument.body.querySelector(
-            "[data-radix-popper-content-wrapper]"
-          )
-        ).toBeVisible()
-      );
+      await waitFor(() => {
+        const hoverCard = getHoverCard();
+        expect(hoverCard).toBeInTheDocument();
+        expect(hoverCard).toHaveAttribute("data-open");
+      });
     });
     await step("Unhover the trigger element", async () => {
       await userEvent.unhover(await canvasBody.findByText(/hover/i));
-      await waitFor(() =>
-        expect(
-          canvasElement.ownerDocument.body.querySelector(
-            "[data-radix-popper-content-wrapper]"
-          )
-        ).toBeNull()
-      );
+      await waitFor(() => {
+        const hoverCard = getHoverCard();
+        expect(hoverCard).toHaveAttribute("data-closed");
+      });
     });
   },
 };

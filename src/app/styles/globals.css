@@ -8,12 +8,6 @@
 /* Import Tailwind CSS */
 @import "tailwindcss";
 
-/* Theme Configuration */
-@import "./base/theme.css";
-
-/* Base Styles */
-@import "./base/base.css";
-
 /* Component Styles - Search functionality only */
 @import "./components/autocomplete.css";
 @import "tw-animate-css";

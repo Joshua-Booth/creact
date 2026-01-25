@@ -91,25 +91,25 @@ export const ShouldShowOnHover: Story = {
   play: async ({ canvasElement, step }) => {
     const canvasBody = within(canvasElement.ownerDocument.body);
     const triggerBtn = await canvasBody.findByRole("button", { name: /add/i });
+    const getTooltip = () =>
+      canvasElement.ownerDocument.body.querySelector(
+        '[data-slot="tooltip-content"]'
+      );
 
     await step("hover over trigger", async () => {
       await userEvent.hover(triggerBtn);
-      await waitFor(() =>
-        expect(
-          canvasElement.ownerDocument.body.querySelector(
-            "[data-radix-popper-content-wrapper]"
-          )
-        ).toBeVisible()
-      );
+      await waitFor(() => {
+        const tooltip = getTooltip();
+        expect(tooltip).toBeInTheDocument();
+        expect(tooltip).toHaveAttribute("data-open");
+      });
     });
 
     await step("unhover trigger", async () => {
       await userEvent.unhover(triggerBtn);
       await waitFor(() => {
-        const tooltipElement = canvasElement.ownerDocument.body.querySelector(
-          "[data-radix-popper-content-wrapper]"
-        );
-        expect(tooltipElement).toBeNull();
+        const tooltip = getTooltip();
+        expect(tooltip).toHaveAttribute("data-closed");
       });
     });
   },

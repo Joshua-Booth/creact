@@ -50,22 +50,24 @@ export const ShouldChangeTabs: Story = {
     const tabs = await canvas.findAllByRole("tab");
 
     for (let i = 0; i < tabs.length; i++) {
-      await step(`click the '${tabs[i].innerText}' tab`, async () => {
-        await userEvent.click(tabs[i]);
+      const tab = tabs[i]!;
+      await step(`click the '${tab.innerText}' tab`, async () => {
+        await userEvent.click(tab);
         await waitFor(() =>
-          expect(tabs[i]).toHaveAttribute("aria-selected", "true")
+          expect(tab).toHaveAttribute("aria-selected", "true")
         );
         await expect(
-          await canvas.queryByRole("tabpanel", { name: tabs[i].innerText })
+          await canvas.queryByRole("tabpanel", { name: tab.innerText })
         ).toBeVisible();
       });
 
       await step("check other tabs are not selected", async () => {
         for (let j = 0; j < tabs.length; j++) {
           if (j !== i) {
-            expect(tabs[j]).toHaveAttribute("aria-selected", "false");
+            const otherTab = tabs[j]!;
+            expect(otherTab).toHaveAttribute("aria-selected", "false");
             expect(
-              await canvas.queryByRole("tabpanel", { name: tabs[j].innerText })
+              await canvas.queryByRole("tabpanel", { name: otherTab.innerText })
             ).toBeNull();
           }
         }

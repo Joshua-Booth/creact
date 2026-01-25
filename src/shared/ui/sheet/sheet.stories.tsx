@@ -78,7 +78,7 @@ export const ShouldOpenCloseWithSubmit: Story = {
       );
       const sheet = await canvasBody.findByRole("dialog");
       expect(sheet).toBeInTheDocument();
-      expect(sheet).toHaveAttribute("data-state", "open");
+      expect(sheet).toHaveAttribute("data-open");
     });
 
     await step("close the sheet", async () => {
@@ -86,8 +86,7 @@ export const ShouldOpenCloseWithSubmit: Story = {
         await canvasBody.findByRole("button", { name: /submit/i })
       );
       expect(await canvasBody.findByRole("dialog")).toHaveAttribute(
-        "data-state",
-        "closed"
+        "data-closed"
       );
     });
   },
@@ -105,7 +104,7 @@ export const ShouldOpenCloseWithCancel: Story = {
       );
       const sheet = await canvasBody.findByRole("dialog");
       expect(sheet).toBeInTheDocument();
-      expect(sheet).toHaveAttribute("data-state", "open");
+      expect(sheet).toHaveAttribute("data-open");
     });
 
     await step("close the sheet", async () => {
@@ -113,8 +112,7 @@ export const ShouldOpenCloseWithCancel: Story = {
         await canvasBody.findByRole("button", { name: /cancel/i })
       );
       expect(await canvasBody.findByRole("dialog")).toHaveAttribute(
-        "data-state",
-        "closed"
+        "data-closed"
       );
     });
   },
@@ -132,7 +130,7 @@ export const ShouldOpenCloseWithClose: Story = {
       );
       const sheet = await canvasBody.findByRole("dialog");
       expect(sheet).toBeInTheDocument();
-      expect(sheet).toHaveAttribute("data-state", "open");
+      expect(sheet).toHaveAttribute("data-open");
     });
 
     await step("close the sheet", async () => {
@@ -140,8 +138,7 @@ export const ShouldOpenCloseWithClose: Story = {
         await canvasBody.findByRole("button", { name: /close/i })
       );
       expect(await canvasBody.findByRole("dialog")).toHaveAttribute(
-        "data-state",
-        "closed"
+        "data-closed"
       );
     });
   },

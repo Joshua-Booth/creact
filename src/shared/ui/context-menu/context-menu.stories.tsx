@@ -6,6 +6,7 @@ import {
   ContextMenu,
   ContextMenuCheckboxItem,
   ContextMenuContent,
+  ContextMenuGroup,
   ContextMenuItem,
   ContextMenuLabel,
   ContextMenuRadioGroup,
@@ -144,11 +145,13 @@ export const WithRadioGroup: Story = {
         Right click here
       </ContextMenuTrigger>
       <ContextMenuContent className="w-64">
-        <ContextMenuRadioGroup value="light">
+        <ContextMenuGroup>
           <ContextMenuLabel inset>Theme</ContextMenuLabel>
-          <ContextMenuRadioItem value="light">Light</ContextMenuRadioItem>
-          <ContextMenuRadioItem value="dark">Dark</ContextMenuRadioItem>
-        </ContextMenuRadioGroup>
+          <ContextMenuRadioGroup value="light">
+            <ContextMenuRadioItem value="light">Light</ContextMenuRadioItem>
+            <ContextMenuRadioItem value="dark">Dark</ContextMenuRadioItem>
+          </ContextMenuRadioGroup>
+        </ContextMenuGroup>
       </ContextMenuContent>
     </ContextMenu>
   ),
@@ -175,7 +178,7 @@ export const ShouldOpenClose: Story = {
     expect(items).toHaveLength(4);
 
     step("Click the first menu item", async () => {
-      await userEvent.click(items[0], { delay: 100 });
+      await userEvent.click(items[0]!, { delay: 100 });
     });
   },
 };

@@ -18,7 +18,7 @@ import {
 
 import { SWRProvider } from "@/app/providers/SWRProvider";
 
-import "@/app/styles/main.css";
+import "@/app/styles/globals.css";
 
 import { Header } from "@/widgets/header";
 import {

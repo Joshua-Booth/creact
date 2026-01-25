@@ -1,5 +1,7 @@
 import type { Meta, StoryObj } from "@storybook/react-vite";
 
+import { expect, fn, userEvent } from "storybook/test";
+
 import { Slider } from "./slider";
 
 /**
@@ -14,6 +16,10 @@ const meta = {
     defaultValue: [33],
     max: 100,
     step: 1,
+    onValueChange: fn(),
+  },
+  parameters: {
+    layout: "centered",
   },
 } satisfies Meta<typeof Slider>;
 
@@ -27,19 +33,37 @@ type Story = StoryObj<typeof meta>;
 export const Default: Story = {};
 
 /**
- * Use the `inverted` prop to have the slider fill from right to left.
- */
-export const Inverted: Story = {
-  args: {
-    inverted: true,
-  },
-};
-
-/**
  * Use the `disabled` prop to disable the slider.
  */
 export const Disabled: Story = {
   args: {
     disabled: true,
+  },
+};
+
+export const ShouldAdjustWithKeyboard: Story = {
+  name: "when using keyboard arrows, should adjust slider value",
+  tags: ["!dev", "!autodocs"],
+  args: {
+    defaultValue: [50],
+    className: "w-64",
+  },
+  play: async ({ args, canvas, step }) => {
+    const slider = await canvas.findByRole("slider");
+
+    await step("focus the slider", async () => {
+      await userEvent.click(slider);
+      await expect(slider).toHaveFocus();
+    });
+
+    await step("increase value with ArrowRight", async () => {
+      await userEvent.keyboard("{ArrowRight}");
+      await expect(args.onValueChange).toHaveBeenCalled();
+    });
+
+    await step("decrease value with ArrowLeft", async () => {
+      await userEvent.keyboard("{ArrowLeft}");
+      await expect(args.onValueChange).toHaveBeenCalled();
+    });
   },
 };

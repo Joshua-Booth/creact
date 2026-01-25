@@ -62,21 +62,3 @@ export function useDevice(): DeviceState {
 
   return state;
 }
-
-/**
- * React hook that returns whether the viewport is mobile-sized.
- * Convenience wrapper around `useDevice()`.
- *
- * @returns `true` if viewport is below 768px
- *
- * @example
- * ```tsx
- * function Component() {
- *   const isMobile = useIsMobile();
- *   return isMobile ? <MobileView /> : <DesktopView />;
- * }
- * ```
- */
-export function useIsMobile(): boolean {
-  return useDevice().isMobile;
-}

@@ -34,12 +34,14 @@ const meta = {
     <DropdownMenu {...args}>
       <DropdownMenuTrigger>Open</DropdownMenuTrigger>
       <DropdownMenuContent className="w-44">
-        <DropdownMenuLabel>My Account</DropdownMenuLabel>
-        <DropdownMenuSeparator />
-        <DropdownMenuItem>Profile</DropdownMenuItem>
-        <DropdownMenuItem>Billing</DropdownMenuItem>
-        <DropdownMenuItem>Team</DropdownMenuItem>
-        <DropdownMenuItem>Subscription</DropdownMenuItem>
+        <DropdownMenuGroup>
+          <DropdownMenuLabel>My Account</DropdownMenuLabel>
+          <DropdownMenuSeparator />
+          <DropdownMenuItem>Profile</DropdownMenuItem>
+          <DropdownMenuItem>Billing</DropdownMenuItem>
+          <DropdownMenuItem>Team</DropdownMenuItem>
+          <DropdownMenuItem>Subscription</DropdownMenuItem>
+        </DropdownMenuGroup>
       </DropdownMenuContent>
     </DropdownMenu>
   ),
@@ -65,15 +67,17 @@ export const WithShortcuts: Story = {
     <DropdownMenu {...args}>
       <DropdownMenuTrigger>Open</DropdownMenuTrigger>
       <DropdownMenuContent className="w-44">
-        <DropdownMenuLabel>Controls</DropdownMenuLabel>
-        <DropdownMenuItem>
-          Back
-          <DropdownMenuShortcut>⌘[</DropdownMenuShortcut>
-        </DropdownMenuItem>
-        <DropdownMenuItem disabled>
-          Forward
-          <DropdownMenuShortcut>⌘]</DropdownMenuShortcut>
-        </DropdownMenuItem>
+        <DropdownMenuGroup>
+          <DropdownMenuLabel>Controls</DropdownMenuLabel>
+          <DropdownMenuItem>
+            Back
+            <DropdownMenuShortcut>⌘[</DropdownMenuShortcut>
+          </DropdownMenuItem>
+          <DropdownMenuItem disabled>
+            Forward
+            <DropdownMenuShortcut>⌘]</DropdownMenuShortcut>
+          </DropdownMenuItem>
+        </DropdownMenuGroup>
       </DropdownMenuContent>
     </DropdownMenu>
   ),
@@ -131,12 +135,16 @@ export const WithRadioItems: Story = {
     <DropdownMenu {...args}>
       <DropdownMenuTrigger>Open</DropdownMenuTrigger>
       <DropdownMenuContent className="w-44">
-        <DropdownMenuLabel inset>Status</DropdownMenuLabel>
-        <DropdownMenuRadioGroup value="warning">
-          <DropdownMenuRadioItem value="info">Info</DropdownMenuRadioItem>
-          <DropdownMenuRadioItem value="warning">Warning</DropdownMenuRadioItem>
-          <DropdownMenuRadioItem value="error">Error</DropdownMenuRadioItem>
-        </DropdownMenuRadioGroup>
+        <DropdownMenuGroup>
+          <DropdownMenuLabel inset>Status</DropdownMenuLabel>
+          <DropdownMenuRadioGroup value="warning">
+            <DropdownMenuRadioItem value="info">Info</DropdownMenuRadioItem>
+            <DropdownMenuRadioItem value="warning">
+              Warning
+            </DropdownMenuRadioItem>
+            <DropdownMenuRadioItem value="error">Error</DropdownMenuRadioItem>
+          </DropdownMenuRadioGroup>
+        </DropdownMenuGroup>
       </DropdownMenuContent>
     </DropdownMenu>
   ),
@@ -174,7 +182,7 @@ export const ShouldOpenClose: Story = {
     expect(items).toHaveLength(4);
 
     await step("Click the first menu item", async () => {
-      await userEvent.click(items[0], { delay: 100 });
+      await userEvent.click(items[0]!, { delay: 100 });
     });
   },
 };

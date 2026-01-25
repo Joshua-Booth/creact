@@ -11,16 +11,10 @@ const meta = {
   title: "ui/ToggleGroup",
   component: ToggleGroup,
   tags: ["autodocs"],
-  argTypes: {
-    type: {
-      options: ["multiple", "single"],
-      control: { type: "radio" },
-    },
-  },
+  argTypes: {},
   args: {
     variant: "default",
     size: "default",
-    type: "multiple",
     disabled: false,
   },
   render: (args) => (
@@ -57,16 +51,6 @@ export const Default: Story = {};
 export const Outline: Story = {
   args: {
     variant: "outline",
-  },
-};
-
-/**
- * Use the `single` type to create exclusive selection within the button
- * group, allowing only one button to be active at a time.
- */
-export const Single: Story = {
-  args: {
-    type: "single",
   },
 };
 

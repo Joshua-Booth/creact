@@ -1,17 +1,15 @@
 import { z } from "zod";
 
 /**
- * Common validation schemas for use with react-hook-form and zodResolver.
+ * Reusable validation schemas for use with react-hook-form and zodResolver.
  *
  * @example
  * ```tsx
  * import { useForm } from "react-hook-form";
- * import { zodResolver } from "@hookform/resolvers/zod";
- * import { loginSchema, type LoginFormData } from "@/shared/lib/validation";
+ * import { zodResolver, emailSchema } from "@/shared/lib/validation";
  *
- * const form = useForm<LoginFormData>({
- *   resolver: zodResolver(loginSchema),
- * });
+ * const schema = z.object({ email: emailSchema });
+ * const form = useForm({ resolver: zodResolver(schema) });
  * ```
  */
 
@@ -26,30 +24,8 @@ export const passwordSchema = z
   .regex(/[a-z]/, "Password must contain at least one lowercase letter")
   .regex(/[0-9]/, "Password must contain at least one number");
 
-// Simple password (no strength requirements, just minimum length)
+// Simple password (no strength requirements, just non-empty)
 export const simplePasswordSchema = z.string().min(1, "Password is required");
-
-// Common login form schema
-export const loginSchema = z.object({
-  email: emailSchema,
-  password: simplePasswordSchema,
-});
-
-export type LoginFormData = z.infer<typeof loginSchema>;
-
-// Registration form schema with password confirmation
-export const registerSchema = z
-  .object({
-    email: emailSchema,
-    password: passwordSchema,
-    confirmPassword: z.string(),
-  })
-  .refine((data) => data.password === data.confirmPassword, {
-    message: "Passwords do not match",
-    path: ["confirmPassword"],
-  });
-
-export type RegisterFormData = z.infer<typeof registerSchema>;
 
 // Contact form schema
 export const contactSchema = z.object({

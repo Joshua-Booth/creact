@@ -28,7 +28,7 @@ export function SignupPage() {
           <CardDescription>{t("auth.signUp.description")}</CardDescription>
         </CardHeader>
         <CardContent>
-          <form onSubmit={onSubmit}>
+          <form onSubmit={onSubmit} noValidate>
             <FieldGroup>
               <Controller
                 name="email"

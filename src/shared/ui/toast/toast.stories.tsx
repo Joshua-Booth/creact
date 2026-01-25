@@ -1,5 +1,6 @@
 import type { Meta, StoryObj } from "@storybook/react-vite";
 
+import { Theme, ThemeProvider } from "remix-themes";
 import { action } from "storybook/actions";
 import { expect, userEvent, waitFor, within } from "storybook/test";
 
@@ -17,6 +18,16 @@ const meta: Meta<typeof Toaster> = {
   args: {
     position: "bottom-right",
   },
+  decorators: [
+    (Story) => (
+      <ThemeProvider
+        specifiedTheme={Theme.LIGHT}
+        themeAction="/action/set-theme"
+      >
+        <Story />
+      </ThemeProvider>
+    ),
+  ],
   parameters: {
     layout: "fullscreen",
   },

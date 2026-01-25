@@ -47,13 +47,13 @@ export const ShouldToggleRadio: Story = {
     expect(radios).toHaveLength(3);
 
     await step("click the default radio button", async () => {
-      await userEvent.click(radios[0]);
+      await userEvent.click(radios[0]!);
       await waitFor(() => expect(radios[0]).toBeChecked());
       await waitFor(() => expect(radios[1]).not.toBeChecked());
     });
 
     await step("click the comfortable radio button", async () => {
-      await userEvent.click(radios[1]);
+      await userEvent.click(radios[1]!);
       await waitFor(() => expect(radios[1]).toBeChecked());
       await waitFor(() => expect(radios[0]).not.toBeChecked());
     });

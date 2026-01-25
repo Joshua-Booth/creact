@@ -2,10 +2,11 @@ import { useEffect } from "react";
 import { useFetcher } from "react-router";
 import { useForm } from "react-hook-form";
 
-import type { LoginFormData } from "@/shared/lib/validation";
-import { loginSchema, zodResolver } from "@/shared/lib/validation";
+import { zodResolver } from "@/shared/lib/validation";
 
 import type { LoginActionData } from "./action";
+import type { LoginFormData } from "./schema";
+import { loginSchema } from "./schema";
 
 export function useLoginForm() {
   const fetcher = useFetcher<LoginActionData>();

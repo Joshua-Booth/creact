@@ -30,7 +30,7 @@ releaserc = "./config/.releaserc.json"
 knip_config = "./config/knip.config.ts"
 depcruise_config = "./config/.dependency-cruiser.js"
 cspell_config = "./config/cspell.json"
-storybook_config = "./config/.storybook"
+storybook_config = "./.storybook"
 i18n_config = "./config/i18next-parser.config.ts"
 lintstaged_config = "./config/.lintstagedrc"
 
@@ -150,6 +150,11 @@ description = "Open Vitest UI"
 alias = "tu"
 depends = ["build"]
 run = "vitest --ui --config {{vars.vitest_config}}"
+
+[tasks.test_storybook]
+description = "Run Storybook component tests"
+alias = "tsb"
+run = "vitest --config {{vars.storybook_config}}/vitest.config.ts"
 
 [tasks.typegen]
 description = "Generate React Router route types"

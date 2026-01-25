@@ -18,23 +18,16 @@ const meta = {
   component: Accordion,
   tags: ["autodocs"],
   argTypes: {
-    type: {
-      control: "radio",
-      description: "Type of accordion behavior",
-      options: ["single", "multiple"],
-    },
-    collapsible: {
+    multiple: {
       control: "boolean",
-      description: "Can an open accordion be collapsed using the trigger",
-      if: { arg: "type", eq: "single" },
+      description: "Whether multiple items can be open at the same time",
     },
     disabled: {
       control: "boolean",
     },
   },
   args: {
-    type: "single",
-    collapsible: true,
+    multiple: false,
     disabled: false,
   },
   render: (args) => (
@@ -75,64 +68,57 @@ export const Default: Story = {};
 export const ShouldOnlyOpenOneWhenSingleType: Story = {
   name: "when accordions are clicked, should open only one item at a time",
   args: {
-    type: "single" as const,
+    multiple: false,
   },
   tags: ["!dev", "!autodocs"],
   play: async ({ canvasElement }) => {
     const canvas = within(canvasElement);
     const accordions = await canvas.getAllByRole("button");
+    const getOpenPanels = () =>
+      canvasElement.querySelectorAll(
+        '[data-slot="accordion-content"][data-open]'
+      );
 
     // Open the tabs one at a time
     for (const trigger of accordions) {
       await userEvent.click(trigger);
-      await waitFor(async () => {
-        const content = await canvas.findAllByRole("region");
-        return expect(content.length).toBe(1);
-      });
+      await waitFor(() => expect(getOpenPanels().length).toBe(1));
     }
 
     // Close the last opened tab
-    await userEvent.click(accordions[accordions.length - 1]);
-    await waitFor(async () => {
-      const content = await canvas.queryByRole("region");
-      return expect(content).toBeFalsy();
-    });
+    await userEvent.click(accordions[accordions.length - 1]!);
+    await waitFor(() => expect(getOpenPanels().length).toBe(0));
   },
 };
 
 export const ShouldOpenAllWhenMultipleType: Story = {
   name: "when accordions are clicked, should open all items one at a time",
   args: {
-    type: "multiple",
+    multiple: true,
   },
   tags: ["!dev", "!autodocs"],
   play: async ({ canvasElement }) => {
     const canvas = within(canvasElement);
     const accordions = await canvas.getAllByRole("button");
+    const getOpenPanels = () =>
+      canvasElement.querySelectorAll(
+        '[data-slot="accordion-content"][data-open]'
+      );
 
     // Open all tabs one at a time
     for (let i = 0; i < accordions.length; i++) {
-      await userEvent.click(accordions[i]);
-      await waitFor(async () => {
-        const content = await canvas.findAllByRole("region");
-        return expect(content.length).toBe(i + 1);
-      });
+      await userEvent.click(accordions[i]!);
+      await waitFor(() => expect(getOpenPanels().length).toBe(i + 1));
     }
 
     // Close all tabs one at a time
     for (let i = accordions.length - 1; i > 0; i--) {
-      await userEvent.click(accordions[i]);
-      await waitFor(async () => {
-        const content = await canvas.findAllByRole("region");
-        return expect(content.length).toBe(i);
-      });
+      await userEvent.click(accordions[i]!);
+      await waitFor(() => expect(getOpenPanels().length).toBe(i));
     }
 
     // Close the last opened tab
-    await userEvent.click(accordions[0]);
-    await waitFor(async () => {
-      const content = await canvas.queryByRole("region");
-      return expect(content).toBeFalsy();
-    });
+    await userEvent.click(accordions[0]!);
+    await waitFor(() => expect(getOpenPanels().length).toBe(0));
   },
 };

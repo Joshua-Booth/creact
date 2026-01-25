@@ -68,7 +68,7 @@ export const ShouldOpenCloseWithContinue: Story = {
       );
       const dialog = await canvasBody.findByRole("dialog");
       expect(dialog).toBeInTheDocument();
-      expect(dialog).toHaveAttribute("data-state", "open");
+      expect(dialog).toHaveAttribute("data-open");
     });
 
     await step("Close the dialog", async () => {
@@ -76,8 +76,7 @@ export const ShouldOpenCloseWithContinue: Story = {
         await canvasBody.findByRole("button", { name: /continue/i })
       );
       expect(await canvasBody.findByRole("dialog")).toHaveAttribute(
-        "data-state",
-        "closed"
+        "data-closed"
       );
     });
   },
@@ -95,7 +94,7 @@ export const ShouldOpenCloseWithCancel: Story = {
       );
       const dialog = await canvasBody.findByRole("dialog");
       expect(dialog).toBeInTheDocument();
-      expect(dialog).toHaveAttribute("data-state", "open");
+      expect(dialog).toHaveAttribute("data-open");
     });
 
     await step("Close the dialog", async () => {
@@ -103,8 +102,7 @@ export const ShouldOpenCloseWithCancel: Story = {
         await canvasBody.findByRole("button", { name: /cancel/i })
       );
       expect(await canvasBody.findByRole("dialog")).toHaveAttribute(
-        "data-state",
-        "closed"
+        "data-closed"
       );
     });
   },
@@ -122,7 +120,7 @@ export const ShouldOpenCloseCross: Story = {
       );
       const dialog = await canvasBody.findByRole("dialog");
       expect(dialog).toBeInTheDocument();
-      expect(dialog).toHaveAttribute("data-state", "open");
+      expect(dialog).toHaveAttribute("data-open");
     });
 
     await step("Close the dialog", async () => {
@@ -130,8 +128,7 @@ export const ShouldOpenCloseCross: Story = {
         await canvasBody.findByRole("button", { name: /close/i })
       );
       expect(await canvasBody.findByRole("dialog")).toHaveAttribute(
-        "data-state",
-        "closed"
+        "data-closed"
       );
     });
   },

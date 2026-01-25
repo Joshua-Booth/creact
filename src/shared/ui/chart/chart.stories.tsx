@@ -14,12 +14,8 @@ import {
   XAxis,
 } from "recharts";
 
-import {
-  ChartConfig,
-  ChartContainer,
-  ChartTooltip,
-  ChartTooltipContent,
-} from "./chart";
+import type { ChartConfig } from "./chart";
+import { ChartContainer, ChartTooltip, ChartTooltipContent } from "./chart";
 
 const multiSeriesData = [
   { month: "January", desktop: 186, mobile: 80 },

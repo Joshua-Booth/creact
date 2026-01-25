@@ -144,7 +144,7 @@ export const ShouldOpenClose: Story = {
     expect(items).toHaveLength(5);
 
     await step("click the first item to close the menubar", async () => {
-      await userEvent.click(items[0], { delay: 100 });
+      await userEvent.click(items[0]!, { delay: 100 });
     });
   },
 };

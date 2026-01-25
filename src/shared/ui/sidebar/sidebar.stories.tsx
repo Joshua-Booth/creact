@@ -123,7 +123,6 @@ export const Simple: Story = {
                 <SidebarMenuItem key={item.title}>
                   <SidebarMenuButton
                     render={<a href={item.url} aria-label={item.title} />}
-                    nativeButton={false}
                   >
                     <item.icon />
                     <span>{item.title}</span>

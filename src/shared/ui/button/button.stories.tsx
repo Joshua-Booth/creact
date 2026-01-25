@@ -1,6 +1,7 @@
 import type { Meta, StoryObj } from "@storybook/react-vite";
 
 import { Loader2, Mail } from "lucide-react";
+import { expect, fn, userEvent } from "storybook/test";
 
 import { Button } from "./button";
 
@@ -34,11 +35,6 @@ const meta: Meta<typeof Button> = {
     disabled: {
       control: "boolean",
     },
-    asChild: {
-      table: {
-        disable: true,
-      },
-    },
   },
   parameters: {
     layout: "centered",
@@ -48,6 +44,7 @@ const meta: Meta<typeof Button> = {
     size: "default",
     children: "Button",
     disabled: false,
+    onClick: fn(),
   },
 } satisfies Meta<typeof Button>;
 
@@ -204,5 +201,38 @@ export const IconLarge: Story = {
 export const Disabled: Story = {
   args: {
     disabled: true,
+  },
+};
+
+export const ShouldTriggerOnClick: Story = {
+  name: "when clicking the button, should trigger onClick",
+  tags: ["!dev", "!autodocs"],
+  play: async ({ args, canvas, step }) => {
+    const button = await canvas.findByRole("button");
+
+    await step("click the button", async () => {
+      await userEvent.click(button);
+      await expect(args.onClick).toHaveBeenCalledTimes(1);
+    });
+
+    await step("click the button again", async () => {
+      await userEvent.click(button);
+      await expect(args.onClick).toHaveBeenCalledTimes(2);
+    });
+  },
+};
+
+export const ShouldNotTriggerWhenDisabled: Story = {
+  name: "when button is disabled, should not trigger onClick",
+  tags: ["!dev", "!autodocs"],
+  args: {
+    disabled: true,
+  },
+  play: async ({ args, canvas }) => {
+    const button = await canvas.findByRole("button");
+    expect(button).toBeDisabled();
+    // Use pointerEventsCheck: 0 to skip check since disabled buttons have pointer-events: none
+    await userEvent.click(button, { pointerEventsCheck: 0 });
+    await expect(args.onClick).not.toHaveBeenCalled();
   },
 };

@@ -1,8 +1,9 @@
 import { HTTPError } from "ky";
 
-import type { RegisterFormData } from "@/shared/lib/validation";
 import { api } from "@/shared/api";
 import { AUTH_URLS } from "@/shared/config";
+
+import type { RegisterFormData } from "../model/schema";
 
 interface SignupResponse {
   key: string;

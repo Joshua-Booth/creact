@@ -28,7 +28,7 @@ export function LoginPage() {
           <CardDescription>{t("auth.login.description")}</CardDescription>
         </CardHeader>
         <CardContent>
-          <form onSubmit={onSubmit}>
+          <form onSubmit={onSubmit} noValidate>
             <FieldGroup>
               <Controller
                 name="email"

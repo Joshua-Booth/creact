@@ -1,5 +1,7 @@
 import type { Meta, StoryObj } from "@storybook/react-vite";
 
+import { expect, userEvent } from "storybook/test";
+
 import { Button } from "../button";
 import { Label } from "../label";
 import { Textarea } from "./textarea";
@@ -76,4 +78,20 @@ export const WithButton: Story = {
       <Button type="submit">Send Message</Button>
     </div>
   ),
+};
+
+export const ShouldEnterText: Story = {
+  name: "when user types into textarea, should display the text",
+  tags: ["!dev", "!autodocs"],
+  play: async ({ canvas, step }) => {
+    const textarea = await canvas.findByRole("textbox");
+    const message = "Hello, this is a test message.";
+
+    await step("focus and type into the textarea", async () => {
+      await userEvent.click(textarea);
+      await userEvent.type(textarea, message);
+    });
+
+    await expect(textarea).toHaveValue(message);
+  },
 };
