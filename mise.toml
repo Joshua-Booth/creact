@@ -28,6 +28,7 @@ playwright_config = "./config/playwright.config.ts"
 steiger_config = "./config/steiger.config.ts"
 releaserc = "./config/.releaserc.json"
 knip_config = "./config/knip.config.ts"
+depcruise_config = "./config/.dependency-cruiser.cjs"
 cspell_config = "./config/cspell.json"
 storybook_config = "./config/.storybook"
 i18n_config = "./config/i18next-parser.config.ts"
@@ -50,6 +51,16 @@ run = "vite-bundle-analyzer"
 description = "Remove build artifacts and cache"
 confirm = "This will delete dist, coverage, test results, and build caches. Continue?"
 run = "rm -rf dist .vite coverage playwright-report test-results"
+
+[tasks.depcruise]
+description = "Check for circular dependencies and other dependency issues"
+alias = "dc"
+run = "depcruise src --config {{vars.depcruise_config}}"
+
+[tasks.depcruise_graph]
+description = "Generate visual dependency graph (requires graphviz)"
+alias = "dcg"
+run = "depcruise src --config {{vars.depcruise_config}} --output-type dot | dot -T svg > dependency-graph.svg && echo 'Generated: dependency-graph.svg'"
 
 [tasks.dev]
 description = "Start development server"
