@@ -1,7 +1,5 @@
 import type { Meta, StoryObj } from "@storybook/react-vite";
 
-import { useMemo } from "react";
-
 import {
   Area,
   AreaChart,
@@ -48,6 +46,11 @@ const singleSeriesData = [
   { browser: "safari", visitors: 200, fill: "var(--color-safari)" },
   { browser: "other", visitors: 190, fill: "var(--color-other)" },
 ];
+
+const totalVisitors = singleSeriesData.reduce(
+  (acc, curr) => acc + curr.visitors,
+  0
+);
 
 const singleSeriesConfig = {
   visitors: {
@@ -219,9 +222,6 @@ export const DoughnutChart: Story = {
     config: singleSeriesConfig,
   },
   render: (args) => {
-    const totalVisitors = useMemo(() => {
-      return singleSeriesData.reduce((acc, curr) => acc + curr.visitors, 0);
-    }, []);
     return (
       <ChartContainer {...args}>
         <PieChart>

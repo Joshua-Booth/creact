@@ -11,7 +11,7 @@ import globals from 'globals'
 
 export default [
   js.configs.recommended,
-  eslintReact.configs['recommended-typescript'],
+  eslintReact.configs['strict-typescript'],
   reactHooks.configs.flat.recommended,
   jsxA11y.flatConfigs.recommended,
   ...storybook.configs['flat/recommended'],
@@ -34,8 +34,8 @@ export default [
       '@typescript-eslint': typescriptEslint,
     },
     rules: {
-      '@typescript-eslint/no-explicit-any': 'warn',
-      '@typescript-eslint/no-unused-vars': ['warn', { argsIgnorePattern: '^_' }],
+      '@typescript-eslint/no-explicit-any': 'error',
+      '@typescript-eslint/no-unused-vars': ['error', { argsIgnorePattern: '^_' }],
       'no-unused-vars': 'off',
       'no-undef': 'off',
     },

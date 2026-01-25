@@ -75,7 +75,7 @@ run = "prettier --write \"**/*.{ts,tsx,css}\" --config {{vars.prettier_config}}"
 [tasks.lint]
 description = "Run ESLint"
 alias = "l"
-run = "eslint . --ext .ts,.tsx --config {{vars.eslint_config}}"
+run = "eslint . --ext .ts,.tsx --config {{vars.eslint_config}} --max-warnings 0"
 
 [tasks.lintstaged]
 description = "Run lint-staged on staged files"
