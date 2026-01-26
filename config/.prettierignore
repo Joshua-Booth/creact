@@ -102,3 +102,7 @@ temp/
 out/
 
 CHANGELOG.md
+pnpm-lock.yaml
+.react-router
+test-results
+playwright-report

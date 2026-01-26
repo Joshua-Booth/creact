@@ -22,6 +22,7 @@ api_port = "8000"
 # Config paths
 eslint_config = "./config/eslint.config.js"
 prettier_config = "./config/.prettierrc"
+prettier_ignore = "./config/.prettierignore"
 stylelint_config = "./config/.stylelintrc.json"
 vitest_config = "./config/vitest.config.ts"
 playwright_config = "./config/playwright.config.ts"
@@ -70,7 +71,7 @@ run = "react-router dev"
 [tasks.format]
 description = "Format code with Prettier"
 alias = "f"
-run = "prettier --write \"**/*.{ts,tsx,css,json}\" --config {{vars.prettier_config}}"
+run = "prettier --write \"**/*.{ts,tsx,css,json,yml,yaml}\" --config {{vars.prettier_config}} --ignore-path {{vars.prettier_ignore}}"
 
 [tasks.lint]
 description = "Run ESLint"

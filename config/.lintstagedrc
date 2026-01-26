@@ -7,6 +7,9 @@
   "*.json": [
     "prettier --config ./config/.prettierrc --write"
   ],
+  "*.{yml,yaml}": [
+    "prettier --config ./config/.prettierrc --write"
+  ],
   "*.md": [
     "cspell --config ./config/cspell.json --no-must-find-files"
   ],

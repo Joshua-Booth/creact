@@ -186,6 +186,22 @@ jobs:
       - name: Run spell check
         run: mise run spell
 
+  build:
+    name: Build
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: jdx/mise-action@v2
+        with:
+          experimental: true
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Build application
+        run: mise run build
+
   storybook:
     name: Storybook Build
     runs-on: ubuntu-latest
