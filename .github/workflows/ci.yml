@@ -218,8 +218,8 @@ jobs:
       - name: Build application
         run: mise run build
 
-  storybook:
-    name: Storybook Build
+  test-storybook:
+    name: Storybook Tests
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -231,13 +231,39 @@ jobs:
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
 
-      - name: Build Storybook
-        run: mise run storybook_build
+      - name: Install Playwright browsers
+        run: pnpm exec playwright install --with-deps chromium
 
-      - uses: actions/upload-artifact@v4
-        if: failure()
-        with:
-          name: storybook-build
-          path: storybook-static/
-          retention-days: 7
-          if-no-files-found: ignore
+      - name: Run Storybook tests
+        run: mise run test_storybook -- --reporter=github-actions
+
+# Uncomment when Chromatic is set up:
+# 1. Create project at chromatic.com
+# 2. Add CHROMATIC_PROJECT_TOKEN secret to GitHub
+#
+#  chromatic:
+#    name: Chromatic Visual Tests
+#    runs-on: ubuntu-latest
+#    steps:
+#      - uses: actions/checkout@v4
+#        with:
+#          fetch-depth: 0
+#
+#      - uses: jdx/mise-action@v2
+#        with:
+#          experimental: true
+#
+#      - name: Install dependencies
+#        run: pnpm install --frozen-lockfile
+#
+#      - name: Build Storybook
+#        run: mise run storybook_build
+#
+#      - name: Run Chromatic
+#        uses: chromaui/action@latest
+#        with:
+#          projectToken: ${{ secrets.CHROMATIC_PROJECT_TOKEN }}
+#          storybookBuildDir: storybook-static
+#          exitZeroOnChanges: true
+#          onlyChanged: true
+#          autoAcceptChanges: master
