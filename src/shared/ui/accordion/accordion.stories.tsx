@@ -27,6 +27,7 @@ const meta = {
     },
   },
   args: {
+    className: "w-96",
     multiple: false,
     disabled: false,
   },
