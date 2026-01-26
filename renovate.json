@@ -49,17 +49,31 @@
     },
     {
       "description": "Group TypeScript ecosystem",
-      "matchPackagePatterns": ["^typescript", "^@types/", "^@typescript-eslint/"],
+      "matchPackagePatterns": [
+        "^typescript",
+        "^@types/",
+        "^@typescript-eslint/"
+      ],
       "groupName": "typescript ecosystem"
     },
     {
       "description": "Group testing packages",
-      "matchPackagePatterns": ["^vitest", "^@vitest/", "^@testing-library/", "^playwright", "^@playwright/", "^msw"],
+      "matchPackagePatterns": [
+        "^vitest",
+        "^@vitest/",
+        "^playwright",
+        "^@playwright/",
+        "^msw"
+      ],
       "groupName": "testing tools"
     },
     {
       "description": "Group Storybook packages",
-      "matchPackagePatterns": ["^storybook", "^@storybook/", "^@chromatic-com/"],
+      "matchPackagePatterns": [
+        "^storybook",
+        "^@storybook/",
+        "^@chromatic-com/"
+      ],
       "groupName": "storybook"
     },
     {
@@ -79,7 +93,13 @@
     },
     {
       "description": "Group release tooling",
-      "matchPackagePatterns": ["^semantic-release", "^@semantic-release/", "^@commitlint/", "^commitlint-plugin-", "^conventional-changelog"],
+      "matchPackagePatterns": [
+        "^semantic-release",
+        "^@semantic-release/",
+        "^@commitlint/",
+        "^commitlint-plugin-",
+        "^conventional-changelog"
+      ],
       "groupName": "release tooling"
     },
     {

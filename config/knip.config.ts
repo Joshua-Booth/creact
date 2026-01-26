@@ -33,7 +33,6 @@ const config: KnipConfig = {
     "@fontsource/inter",
     // Tools without knip plugins
     "@feature-sliced/steiger-plugin",
-    "@testing-library/user-event",
     "steiger",
     "vite-bundle-analyzer",
     // Presets referenced by name, not as direct plugins
