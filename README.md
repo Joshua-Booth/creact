@@ -98,6 +98,9 @@ For more information about this project check out the [wiki].
 - :wrench: **Task runner** - Development workflows with [mise]
 - :package: **Third party integrations** - [Algolia], [Sentry], and [PostHog] ready to configure
 - :art: **UI components** - [shadcn/ui] components, [Lucide React] icons, and [React Hook Form] for forms
+- :books: **Component docs** - Interactive component library with [Storybook]
+- :globe_with_meridians: **Internationalization** - Multi-language support with [react-i18next]
+- :shield: **Validation** - Type-safe schema validation with [Zod]
 
 [vite]: https://vite.dev/
 [react router v7]: https://reactrouter.com/
@@ -126,6 +129,9 @@ For more information about this project check out the [wiki].
 [lucide react]: https://lucide.dev/
 [react hook form]: https://react-hook-form.com/
 [shadcn/ui]: https://ui.shadcn.com/
+[storybook]: https://storybook.js.org/
+[react-i18next]: https://react.i18next.com/
+[zod]: https://zod.dev/
 
 ## Requirements
 
@@ -192,19 +198,19 @@ These are configured via `mise.toml` vars and can be customized in `mise.local.t
 
 The following variables are available. In development, port-related variables are auto-derived from `mise.toml`. For production, set these in your deployment platform:
 
-| Variable name       | Dev        | Prod     | Description                                                   |
-| ------------------- | ---------- | -------- | ------------------------------------------------------------- |
-| `VITE_PORT`         | Auto       | N/A      | Frontend dev server port (default: `8080`)                    |
-| `VITE_API_PORT`     | Auto       | N/A      | Backend API server port (default: `8000`)                     |
-| `VITE_API_ROOT_URL` | Auto       | Required | API URL (e.g. `https://api.example.com/`)                     |
-| `VITE_PUBLIC_URL`   | Auto       | Required | App public URL (e.g. `https://example.com/public`)            |
-| `VITE_SENTRY_DSN`   | Optional   | Optional | [Sentry DSN] for error tracking                               |
-| `SENTRY_ORG`        | N/A        | Optional | Sentry organization slug (for sourcemap uploads)              |
-| `SENTRY_PROJECT`    | N/A        | Optional | Sentry project slug (for sourcemap uploads)                   |
-| `SENTRY_AUTH_TOKEN` | N/A        | Optional | [Sentry auth token] for sourcemap uploads                     |
-| `VITE_POSTHOG_KEY`  | Optional   | Optional | [PostHog project API key] for analytics                       |
-| `VITE_POSTHOG_HOST` | Optional   | Optional | PostHog API host (default: `https://app.posthog.com`)         |
-| `VITE_ALGOLIA_*`    | Optional   | Optional | Algolia search config (see `.env.example`)                    |
+| Variable name       | Dev      | Prod     | Description                                           |
+| ------------------- | -------- | -------- | ----------------------------------------------------- |
+| `VITE_PORT`         | Auto     | N/A      | Frontend dev server port (default: `8080`)            |
+| `VITE_API_PORT`     | Auto     | N/A      | Backend API server port (default: `8000`)             |
+| `VITE_API_ROOT_URL` | Auto     | Required | API URL (e.g. `https://api.example.com/`)             |
+| `VITE_PUBLIC_URL`   | Auto     | Required | App public URL (e.g. `https://example.com/public`)    |
+| `VITE_SENTRY_DSN`   | Optional | Optional | [Sentry DSN] for error tracking                       |
+| `SENTRY_ORG`        | N/A      | Optional | Sentry organization slug (for sourcemap uploads)      |
+| `SENTRY_PROJECT`    | N/A      | Optional | Sentry project slug (for sourcemap uploads)           |
+| `SENTRY_AUTH_TOKEN` | N/A      | Optional | [Sentry auth token] for sourcemap uploads             |
+| `VITE_POSTHOG_KEY`  | Optional | Optional | [PostHog project API key] for analytics               |
+| `VITE_POSTHOG_HOST` | Optional | Optional | PostHog API host (default: `https://app.posthog.com`) |
+| `VITE_ALGOLIA_*`    | Optional | Optional | Algolia search config (see `.env.example`)            |
 
 ### Git Worktree Setup
 
@@ -336,7 +342,9 @@ export const errorResponses = {
     invalidCredentials: (): MockHandler => ({
       pattern: "**/auth/login/",
       status: 401,
-      body: { non_field_errors: ["Unable to log in with provided credentials."] },
+      body: {
+        non_field_errors: ["Unable to log in with provided credentials."],
+      },
     }),
   },
 };
@@ -377,11 +385,18 @@ mise run steiger      # Run FSD architecture linter
 ### Other Tasks
 
 ```sh
-mise tasks ls           # List all available tasks
-mise run clean          # Clean build artifacts
+mise tasks ls            # List all available tasks
+mise run clean           # Clean build artifacts
 mise run build_analyze   # Analyze bundle size (alias: mise run ba)
 mise run semantic_release # Create a new release (alias: mise run release)
 mise run steiger_fix     # Run Steiger with auto-fix (alias: mise run sf)
+mise run storybook       # Start Storybook dev server (alias: mise run sb)
+mise run storybook_build # Build Storybook static site (alias: mise run sbb)
+mise run depcruise       # Check for circular dependencies (alias: mise run dc)
+mise run test_e2e_ui     # Run E2E tests in UI mode (alias: mise run teu)
+mise run test_storybook  # Run Storybook component tests (alias: mise run tsb)
+mise run knip_fix        # Auto-remove unused exports (alias: mise run kf)
+mise run typegen         # Generate React Router route types
 ```
 
 For more details on available tasks, run `mise tasks ls` or check `mise.toml`. Most tasks have aliases (e.g., `mise run b` for build, `mise run t` for test).
