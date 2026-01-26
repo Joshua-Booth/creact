@@ -32,7 +32,6 @@
     "**/storybook-static/**"
   ],
   "words": [
-    "algoliasearch",
     "autoprefixer",
     "autodocs",
     "clsx",

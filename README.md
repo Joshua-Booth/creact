@@ -96,7 +96,7 @@ For more information about this project check out the [wiki].
 - :white_check_mark: **Testing** - Unit and integration tests with [Vitest], E2E tests with [Playwright], API mocking with [MSW]
 - :chart_with_upwards_trend: **Coverage reports** - Test coverage tracking
 - :wrench: **Task runner** - Development workflows with [mise]
-- :package: **Third party integrations** - [Algolia], [Sentry], and [PostHog] ready to configure
+- :package: **Third party integrations** - [Sentry] and [PostHog] ready to configure
 - :art: **UI components** - [shadcn/ui] components, [Lucide React] icons, and [React Hook Form] for forms
 - :books: **Component docs** - Interactive component library with [Storybook]
 - :globe_with_meridians: **Internationalization** - Multi-language support with [react-i18next]
@@ -123,7 +123,6 @@ For more information about this project check out the [wiki].
 [playwright]: https://playwright.dev/
 [msw]: https://mswjs.io/
 [mise]: https://mise.jdx.dev/
-[algolia]: https://www.algolia.com/
 [sentry]: https://sentry.io/
 [posthog]: https://posthog.com/
 [lucide react]: https://lucide.dev/
@@ -183,8 +182,6 @@ Environment variables are managed through [mise] for development:
 
 For local customization (e.g., custom ports for git worktrees), create a `mise.local.toml` file (gitignored) to override default values.
 
-See `.env.example` for a complete list of available configuration options and `.env.production.example` for production-specific settings.
-
 ### Port Configuration
 
 By default, the application uses:
@@ -210,7 +207,6 @@ The following variables are available. In development, port-related variables ar
 | `SENTRY_AUTH_TOKEN` | N/A      | Optional | [Sentry auth token] for sourcemap uploads             |
 | `VITE_POSTHOG_KEY`  | Optional | Optional | [PostHog project API key] for analytics               |
 | `VITE_POSTHOG_HOST` | Optional | Optional | PostHog API host (default: `https://app.posthog.com`) |
-| `VITE_ALGOLIA_*`    | Optional | Optional | Algolia search config (see `.env.example`)            |
 
 ### Git Worktree Setup
 
@@ -304,7 +300,7 @@ The project uses [mise] for task management. All tasks are defined in `mise.toml
 mise run dev          # Start Vite dev server (alias: mise run d)
 ```
 
-Visit the site at `http://localhost:8080` (or the port configured in your `.env` file).
+Visit the site at `http://localhost:8080` (or the port configured in `mise.local.toml`).
 
 ### Production
 
@@ -409,15 +405,12 @@ This project is configured for easy deployment to Vercel and Netlify (both with 
 
 1. Push code to GitHub
 2. Connect to Vercel or Netlify
-3. Configure environment variables
+3. Configure environment variables (see [Environment Variables](#environment-variables))
 4. Deploy - done!
 
-See [DEPLOYMENT.md](./DEPLOYMENT.md) for detailed deployment instructions, environment variable setup, and troubleshooting.
+### Resources
 
-### Key Resources
-
-- [Deployment Guide](./DEPLOYMENT.md) - Complete deployment steps
-- [Environment Variables](./.env.production.example) - Production env var template
+- [Deployment Guide](./docs/DEPLOYMENT.md) - Detailed deployment instructions
 - [Vercel Docs](https://vercel.com/docs)
 - [Netlify Docs](https://docs.netlify.com)
 

@@ -4,8 +4,6 @@ import { useAuthStore } from "@/entities/user";
 import { ModeToggle } from "@/shared/ui/mode-toggle";
 import Logo from "@/shared/assets/images/logo.svg?react";
 
-import CornerSearch from "./CornerSearch";
-
 function Links({ links }: { links: { name: string; path: string }[] }) {
   return (
     <nav className="absolute top-7.5 right-4 flex items-center gap-4 text-sm">
@@ -41,7 +39,6 @@ export default function Header() {
       </NavLink>
       {authenticated ? (
         <div className="absolute top-7.5 right-4 flex items-center gap-4">
-          <CornerSearch />
           <ModeToggle />
         </div>
       ) : (
