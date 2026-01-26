@@ -122,9 +122,16 @@ function InnerLayout({
         <Meta />
         <Links />
       </head>
-      <body>
+      <body className="relative">
         <noscript>You need to enable JavaScript to run this app.</noscript>
-        <ToastProvider>{children}</ToastProvider>
+        <ToastProvider>
+          {/* We need to set relative on the body for iOS Safari 26 and isolate for portals to work properly
+              See: https://base-ui.com/react/overview/quick-start#set-up
+          */}
+          <div className="relative isolate flex min-h-svh flex-col">
+            {children}
+          </div>
+        </ToastProvider>
         <ScrollRestoration />
         <Scripts />
       </body>

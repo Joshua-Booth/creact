@@ -7,9 +7,6 @@
 
 /* Import Tailwind CSS */
 @import "tailwindcss";
-
-/* Component Styles - Search functionality only */
-@import "./components/autocomplete.css";
 @import "tw-animate-css";
 @import "shadcn/tailwind.css";
 @import "@fontsource-variable/inter";
