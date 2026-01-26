@@ -23,11 +23,7 @@
       "@/*": ["./src/*"]
     }
   },
-  "include": [
-    "../src",
-    "../tests",
-    "../.react-router"
-  ],
+  "include": ["../src", "../tests", "../.react-router"],
   "exclude": [
     "../node_modules",
     "../dist",

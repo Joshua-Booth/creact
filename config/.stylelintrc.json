@@ -26,10 +26,13 @@
     "hue-degree-notation": null,
     "media-feature-range-notation": "prefix",
     "declaration-empty-line-before": null,
-    "rule-empty-line-before": ["always", {
-      "except": ["first-nested"],
-      "ignore": ["after-comment"]
-    }],
+    "rule-empty-line-before": [
+      "always",
+      {
+        "except": ["first-nested"],
+        "ignore": ["after-comment"]
+      }
+    ],
     "no-descending-specificity": null,
     "property-no-vendor-prefix": null,
     "value-no-vendor-prefix": null

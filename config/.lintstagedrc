@@ -4,6 +4,9 @@
     "prettier --config ./config/.prettierrc --write",
     "cspell --config ./config/cspell.json --no-must-find-files"
   ],
+  "*.json": [
+    "prettier --config ./config/.prettierrc --write"
+  ],
   "*.md": [
     "cspell --config ./config/cspell.json --no-must-find-files"
   ],

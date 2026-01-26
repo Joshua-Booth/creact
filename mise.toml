@@ -70,7 +70,7 @@ run = "react-router dev"
 [tasks.format]
 description = "Format code with Prettier"
 alias = "f"
-run = "prettier --write \"**/*.{ts,tsx,css}\" --config {{vars.prettier_config}}"
+run = "prettier --write \"**/*.{ts,tsx,css,json}\" --config {{vars.prettier_config}}"
 
 [tasks.lint]
 description = "Run ESLint"
