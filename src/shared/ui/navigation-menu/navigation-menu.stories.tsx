@@ -26,36 +26,34 @@ const meta = {
             Overview
           </NavigationMenuLink>
         </NavigationMenuItem>
-        <NavigationMenuList>
-          <NavigationMenuItem>
-            <NavigationMenuTrigger className={navigationMenuTriggerStyle()}>
-              Documentation
-            </NavigationMenuTrigger>
-            <NavigationMenuContent>
-              <ul className="grid w-96 p-2">
-                <li>
-                  <NavigationMenuLink className={navigationMenuTriggerStyle()}>
-                    API Reference
-                  </NavigationMenuLink>
-                </li>
-                <li>
-                  <NavigationMenuLink className={navigationMenuTriggerStyle()}>
-                    Getting Started
-                  </NavigationMenuLink>
-                </li>
-                <li>
-                  <NavigationMenuLink className={navigationMenuTriggerStyle()}>
-                    Guides
-                  </NavigationMenuLink>
-                </li>
-              </ul>
-            </NavigationMenuContent>
-          </NavigationMenuItem>
-        </NavigationMenuList>
+        <NavigationMenuItem>
+          <NavigationMenuTrigger className={navigationMenuTriggerStyle()}>
+            Documentation
+          </NavigationMenuTrigger>
+          <NavigationMenuContent>
+            <ul className="grid w-96 p-2">
+              <li>
+                <NavigationMenuLink className={navigationMenuTriggerStyle()}>
+                  API Reference
+                </NavigationMenuLink>
+              </li>
+              <li>
+                <NavigationMenuLink className={navigationMenuTriggerStyle()}>
+                  Getting Started
+                </NavigationMenuLink>
+              </li>
+              <li>
+                <NavigationMenuLink className={navigationMenuTriggerStyle()}>
+                  Guides
+                </NavigationMenuLink>
+              </li>
+            </ul>
+          </NavigationMenuContent>
+        </NavigationMenuItem>
         <NavigationMenuItem>
           <NavigationMenuLink
             className={navigationMenuTriggerStyle()}
-            href="https:www.google.com"
+            href="https://www.google.com"
             target="_blank"
           >
             External
