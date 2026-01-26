@@ -2,7 +2,7 @@ import type { Meta, StoryObj } from "@storybook/react-vite";
 
 import { expect, userEvent, within } from "storybook/test";
 
-import { Label } from "../label";
+import { Field, FieldLabel } from "../field";
 import { Checkbox } from "./checkbox";
 
 /**
@@ -14,14 +14,15 @@ const meta: Meta<typeof Checkbox> = {
   tags: ["autodocs"],
   argTypes: {},
   args: {
-    id: "terms",
     disabled: false,
   },
   render: (args) => (
-    <div className="flex space-x-2">
-      <Checkbox {...args} />
-      <Label htmlFor={args.id}>Accept terms and conditions</Label>
-    </div>
+    <Field>
+      <FieldLabel className="flex items-center gap-2">
+        <Checkbox {...args} />
+        Accept terms and conditions
+      </FieldLabel>
+    </Field>
   ),
   parameters: {
     layout: "centered",
@@ -42,7 +43,6 @@ export const Default: Story = {};
  */
 export const Disabled: Story = {
   args: {
-    id: "disabled-terms",
     disabled: true,
   },
 };

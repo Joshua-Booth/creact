@@ -1,12 +1,13 @@
 export {
   Field,
-  FieldLabel,
+  FieldContent,
   FieldDescription,
   FieldError,
   FieldGroup,
+  FieldLabel,
   FieldLegend,
+  FieldLegendDescription,
   FieldSeparator,
   FieldSet,
-  FieldContent,
   FieldTitle,
 } from "./field";

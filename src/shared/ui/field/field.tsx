@@ -1,15 +1,18 @@
+"use client";
+
 import { useMemo } from "react";
 
 import type { VariantProps } from "class-variance-authority";
+import { Field as FieldPrimitive } from "@base-ui/react/field";
+import { Fieldset as FieldsetPrimitive } from "@base-ui/react/fieldset";
 import { cva } from "class-variance-authority";
 
 import { cn } from "@/shared/lib/utils";
-import { Label } from "@/shared/ui/label";
 import { Separator } from "@/shared/ui/separator";
 
-function FieldSet({ className, ...props }: React.ComponentProps<"fieldset">) {
+function FieldSet({ className, ...props }: FieldsetPrimitive.Root.Props) {
   return (
-    <fieldset
+    <FieldsetPrimitive.Root
       data-slot="field-set"
       className={cn(
         "flex flex-col gap-6 has-[>[data-slot=checkbox-group]]:gap-3 has-[>[data-slot=radio-group]]:gap-3",
@@ -24,13 +27,34 @@ function FieldLegend({
   className,
   variant = "legend",
   ...props
-}: React.ComponentProps<"legend"> & { variant?: "legend" | "label" }) {
+}: FieldsetPrimitive.Legend.Props & { variant?: "legend" | "label" }) {
   return (
-    <legend
+    <FieldsetPrimitive.Legend
       data-slot="field-legend"
       data-variant={variant}
       className={cn(
         "mb-3 font-medium data-[variant=label]:text-sm data-[variant=legend]:text-base",
+        className
+      )}
+      {...props}
+    />
+  );
+}
+
+/**
+ * Plain description for use outside Field context (e.g., after FieldLegend).
+ * Use FieldDescription inside Field for proper aria-describedby association.
+ */
+function FieldLegendDescription({
+  className,
+  ...props
+}: React.ComponentProps<"p">) {
+  return (
+    <p
+      data-slot="field-description"
+      className={cn(
+        "text-muted-foreground text-left text-sm leading-normal font-normal [[data-variant=legend]+&]:-mt-1.5",
+        "[&>a:hover]:text-primary [&>a]:underline [&>a]:underline-offset-4",
         className
       )}
       {...props}
@@ -52,7 +76,7 @@ function FieldGroup({ className, ...props }: React.ComponentProps<"div">) {
 }
 
 const fieldVariants = cva(
-  "data-[invalid=true]:text-destructive gap-3 group/field flex w-full",
+  "data-[invalid]:text-destructive gap-3 group/field flex w-full",
   {
     variants: {
       orientation: {
@@ -73,10 +97,9 @@ function Field({
   className,
   orientation = "vertical",
   ...props
-}: React.ComponentProps<"div"> & VariantProps<typeof fieldVariants>) {
+}: FieldPrimitive.Root.Props & VariantProps<typeof fieldVariants>) {
   return (
-    <div
-      role="group"
+    <FieldPrimitive.Root
       data-slot="field"
       data-orientation={orientation}
       className={cn(fieldVariants({ orientation }), className)}
@@ -98,15 +121,12 @@ function FieldContent({ className, ...props }: React.ComponentProps<"div">) {
   );
 }
 
-function FieldLabel({
-  className,
-  ...props
-}: React.ComponentProps<typeof Label>) {
+function FieldLabel({ className, ...props }: FieldPrimitive.Label.Props) {
   return (
-    <Label
+    <FieldPrimitive.Label
       data-slot="field-label"
       className={cn(
-        "has-data-checked:bg-primary/5 has-data-checked:border-primary dark:has-data-checked:bg-primary/10 group/field-label peer/field-label flex w-fit gap-2 leading-snug group-data-[disabled=true]/field:opacity-50 has-[>[data-slot=field]]:rounded-md has-[>[data-slot=field]]:border [&>*]:data-[slot=field]:p-3",
+        "has-data-checked:bg-primary/5 has-data-checked:border-primary dark:has-data-checked:bg-primary/10 group/field-label peer/field-label flex w-fit gap-2 leading-snug group-data-[disabled=true]/field:opacity-50 has-[>[data-slot=field]]:rounded-md has-[>[data-slot=field]]:border *:data-[slot=field]:p-3",
         "has-[>[data-slot=field]]:w-full has-[>[data-slot=field]]:flex-col",
         className
       )}
@@ -128,12 +148,15 @@ function FieldTitle({ className, ...props }: React.ComponentProps<"div">) {
   );
 }
 
-function FieldDescription({ className, ...props }: React.ComponentProps<"p">) {
+function FieldDescription({
+  className,
+  ...props
+}: FieldPrimitive.Description.Props) {
   return (
-    <p
+    <FieldPrimitive.Description
       data-slot="field-description"
       className={cn(
-        "text-muted-foreground text-left text-sm leading-normal font-normal group-has-[[data-orientation=horizontal]]/field:text-balance [[data-variant=legend]+&]:-mt-1.5",
+        "text-muted-foreground text-left text-sm leading-normal font-normal group-has-data-[orientation=horizontal]/field:text-balance",
         "last:mt-0 nth-last-2:-mt-1",
         "[&>a:hover]:text-primary [&>a]:underline [&>a]:underline-offset-4",
         className
@@ -173,6 +196,11 @@ function FieldSeparator({
   );
 }
 
+/**
+ * Error message component that works both inside and outside Field context.
+ * When inside Field.Root, provides proper aria-describedby association.
+ * When standalone (e.g., form-level errors), renders as a plain div with role="alert".
+ */
 function FieldError({
   className,
   children,
@@ -226,13 +254,14 @@ function FieldError({
 
 export {
   Field,
-  FieldLabel,
+  FieldContent,
   FieldDescription,
   FieldError,
   FieldGroup,
+  FieldLabel,
   FieldLegend,
+  FieldLegendDescription,
   FieldSeparator,
   FieldSet,
-  FieldContent,
   FieldTitle,
 };

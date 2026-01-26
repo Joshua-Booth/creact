@@ -2,7 +2,7 @@ import type { Meta, StoryObj } from "@storybook/react-vite";
 
 import { expect, userEvent } from "storybook/test";
 
-import { Label } from "../label";
+import { Field, FieldLabel } from "../field";
 import { Switch } from "./switch";
 
 /**
@@ -17,10 +17,12 @@ const meta = {
     layout: "centered",
   },
   render: (args) => (
-    <div className="flex items-center space-x-2">
-      <Switch {...args} />
-      <Label htmlFor={args.id}>Airplane Mode</Label>
-    </div>
+    <Field>
+      <FieldLabel className="flex items-center gap-2">
+        <Switch {...args} />
+        Airplane Mode
+      </FieldLabel>
+    </Field>
   ),
 } satisfies Meta<typeof Switch>;
 
@@ -31,18 +33,13 @@ type Story = StoryObj<typeof meta>;
 /**
  * The default form of the switch.
  */
-export const Default: Story = {
-  args: {
-    id: "default-switch",
-  },
-};
+export const Default: Story = {};
 
 /**
  * Use the `disabled` prop to disable the switch.
  */
 export const Disabled: Story = {
   args: {
-    id: "disabled-switch",
     disabled: true,
   },
 };

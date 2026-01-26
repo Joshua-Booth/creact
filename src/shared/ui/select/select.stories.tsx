@@ -26,10 +26,10 @@ const meta: Meta<typeof Select> = {
   },
   render: (args) => (
     <Select {...args}>
-      <SelectTrigger title="Select" className="w-96">
+      <SelectTrigger aria-label="Select a food" className="w-96">
         <SelectValue placeholder="Select a fruit" />
       </SelectTrigger>
-      <SelectContent>
+      <SelectContent aria-label="Food options">
         <SelectGroup>
           <SelectLabel>Fruits</SelectLabel>
           <SelectItem value="apple">Apple</SelectItem>

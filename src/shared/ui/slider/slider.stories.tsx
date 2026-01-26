@@ -2,6 +2,7 @@ import type { Meta, StoryObj } from "@storybook/react-vite";
 
 import { expect, fn, userEvent } from "storybook/test";
 
+import { Field, FieldLabel } from "../field";
 import { Slider } from "./slider";
 
 /**
@@ -18,6 +19,12 @@ const meta = {
     step: 1,
     onValueChange: fn(),
   },
+  render: (args) => (
+    <Field className="w-64">
+      <FieldLabel>Volume</FieldLabel>
+      <Slider {...args} />
+    </Field>
+  ),
   parameters: {
     layout: "centered",
   },
@@ -46,7 +53,6 @@ export const ShouldAdjustWithKeyboard: Story = {
   tags: ["!dev", "!autodocs"],
   args: {
     defaultValue: [50],
-    className: "w-64",
   },
   play: async ({ args, canvas, step }) => {
     const slider = await canvas.findByRole("slider");

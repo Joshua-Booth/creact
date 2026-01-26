@@ -2,7 +2,7 @@ import type { Meta, StoryObj } from "@storybook/react-vite";
 
 import { expect, userEvent, waitFor } from "storybook/test";
 
-import { Label } from "../label";
+import { Field, FieldLabel } from "../field";
 import { RadioGroup, RadioGroupItem } from "./radio-group";
 
 /**
@@ -16,16 +16,28 @@ const meta = {
   argTypes: {},
   args: {
     defaultValue: "comfortable",
-    className: "grid gap-2 grid-cols-[1rem_1fr] items-center",
+    className: "flex flex-col gap-2",
   },
   render: (args) => (
     <RadioGroup {...args}>
-      <RadioGroupItem value="default" id="r1" />
-      <Label htmlFor="r1">Default</Label>
-      <RadioGroupItem value="comfortable" id="r2" />
-      <Label htmlFor="r2">Comfortable</Label>
-      <RadioGroupItem value="compact" id="r3" />
-      <Label htmlFor="r3">Compact</Label>
+      <Field>
+        <FieldLabel className="flex items-center gap-2">
+          <RadioGroupItem value="default" />
+          Default
+        </FieldLabel>
+      </Field>
+      <Field>
+        <FieldLabel className="flex items-center gap-2">
+          <RadioGroupItem value="comfortable" />
+          Comfortable
+        </FieldLabel>
+      </Field>
+      <Field>
+        <FieldLabel className="flex items-center gap-2">
+          <RadioGroupItem value="compact" />
+          Compact
+        </FieldLabel>
+      </Field>
     </RadioGroup>
   ),
 } satisfies Meta<typeof RadioGroup>;
