@@ -2,7 +2,14 @@ import type { Meta, StoryObj } from "@storybook/react-vite";
 
 import { expect, userEvent, within } from "storybook/test";
 
-import { Popover, PopoverContent, PopoverTrigger } from "./popover";
+import {
+  Popover,
+  PopoverContent,
+  PopoverDescription,
+  PopoverHeader,
+  PopoverTitle,
+  PopoverTrigger,
+} from "./popover";
 
 /**
  * Displays rich content in a portal, triggered by a button.
@@ -16,7 +23,14 @@ const meta = {
   render: (args) => (
     <Popover {...args}>
       <PopoverTrigger>Open</PopoverTrigger>
-      <PopoverContent>Place content for the popover here.</PopoverContent>
+      <PopoverContent>
+        <PopoverHeader>
+          <PopoverTitle>Popover</PopoverTitle>
+          <PopoverDescription>
+            Place content for the popover here.
+          </PopoverDescription>
+        </PopoverHeader>
+      </PopoverContent>
     </Popover>
   ),
   parameters: {
