@@ -7,10 +7,12 @@ export function LandingPage() {
     <main className="container mx-auto mt-12 h-full">
       <title>{t("app.title")}</title>
       <section>
-        <h1 className="text-primary text-center text-3xl font-bold">
+        <h1 className="text-accent-foreground text-center text-3xl font-bold">
           {t("pages.landing.heading")}
         </h1>
-        <h2 className="text-center">{t("pages.landing.subheading")}</h2>
+        <h2 className="text-muted-foreground text-center">
+          {t("pages.landing.subheading")}
+        </h2>
       </section>
     </main>
   );
