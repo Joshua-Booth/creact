@@ -40,6 +40,8 @@ export default {
           '^src/pages/', // Pages layer (FSD - routing determines entry)
           '\\.(test|spec|stories)\\.(ts|tsx)$', // Test and story files
           'vitest\\.setup\\.ts$', // Test setup files
+          'shared/lib/analytics/index\\.ts$', // Analytics hook (future use)
+          'shared/assets/index\\.ts$', // FSD placeholder (intentionally empty)
         ],
       },
       to: {},
