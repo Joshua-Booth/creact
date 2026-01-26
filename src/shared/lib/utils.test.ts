@@ -8,8 +8,10 @@ describe("cn", () => {
   });
 
   it("should handle conditional classes", () => {
-    expect(cn("foo", false && "bar", "baz")).toBe("foo baz");
-    expect(cn("foo", true && "bar", "baz")).toBe("foo bar baz");
+    const isDisabled = false;
+    const isActive = true;
+    expect(cn("foo", isDisabled && "bar", "baz")).toBe("foo baz");
+    expect(cn("foo", isActive && "bar", "baz")).toBe("foo bar baz");
   });
 
   it("should handle undefined and null values", () => {
