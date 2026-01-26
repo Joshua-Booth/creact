@@ -186,6 +186,22 @@ jobs:
       - name: Run spell check
         run: mise run spell
 
+  depcruise:
+    name: Dependency Check
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: jdx/mise-action@v2
+        with:
+          experimental: true
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Check for circular dependencies
+        run: mise run depcruise
+
   build:
     name: Build
     runs-on: ubuntu-latest

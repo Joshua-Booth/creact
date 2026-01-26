@@ -32,7 +32,6 @@ knip_config = "./config/knip.config.ts"
 depcruise_config = "./config/.dependency-cruiser.js"
 cspell_config = "./config/cspell.json"
 storybook_config = "./.storybook"
-i18n_config = "./config/i18next-parser.config.ts"
 lintstaged_config = "./config/.lintstagedrc"
 
 [tasks.build]
@@ -177,7 +176,3 @@ description = "Build Storybook static site"
 alias = "sbb"
 run = "storybook build -o storybook-static --config-dir {{vars.storybook_config}}"
 
-[tasks.i18n_check]
-description = "Extract and validate translation keys"
-alias = "i18n"
-run = "i18next --config {{vars.i18n_config}}"
