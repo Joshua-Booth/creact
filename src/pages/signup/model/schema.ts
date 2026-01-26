@@ -1,4 +1,4 @@
-import { z } from "zod";
+import * as z from "zod";
 
 import { emailSchema, passwordSchema } from "@/shared/lib/validation";
 
@@ -9,7 +9,7 @@ export const registerSchema = z
     confirmPassword: z.string(),
   })
   .refine((data) => data.password === data.confirmPassword, {
-    message: "Passwords do not match",
+    error: "Passwords do not match",
     path: ["confirmPassword"],
   });
 

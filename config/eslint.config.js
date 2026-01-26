@@ -7,6 +7,7 @@ import jsxA11y from 'eslint-plugin-jsx-a11y'
 import storybook from 'eslint-plugin-storybook'
 import depend from 'eslint-plugin-depend'
 import barrel from 'eslint-plugin-barrel-files'
+import eslintPluginZod from 'eslint-plugin-zod'
 import globals from 'globals'
 
 export default [
@@ -16,6 +17,7 @@ export default [
   jsxA11y.flatConfigs.recommended,
   ...storybook.configs['flat/recommended'],
   depend.configs['flat/recommended'],
+  eslintPluginZod.configs.recommended,
   {
     languageOptions: {
       ecmaVersion: 'latest',

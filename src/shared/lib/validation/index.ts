@@ -1,4 +1,4 @@
-import { z } from "zod";
+import * as z from "zod";
 
 /**
  * Reusable validation schemas for use with react-hook-form and zodResolver.
@@ -37,6 +37,5 @@ export const contactSchema = z.object({
 /** @public */
 export type ContactFormData = z.infer<typeof contactSchema>;
 
-// Re-export zod and zodResolver for convenience
-export { z } from "zod";
+// Re-export zodResolver for convenience
 export { zodResolver } from "@hookform/resolvers/zod";
