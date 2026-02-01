@@ -186,7 +186,10 @@ export const Sizes: Story = {
 export const Dropdown: Story = {
   render: (args) => (
     <DropdownMenu>
-      <DropdownMenuTrigger className="cursor-pointer rounded-full">
+      <DropdownMenuTrigger
+        className="cursor-pointer rounded-full"
+        aria-label="User menu"
+      >
         <Avatar {...args}>
           <AvatarImage src="https://github.com/shadcn.png" />
           <AvatarFallback>CN</AvatarFallback>
@@ -219,7 +222,10 @@ export const ShouldOpenDropdownOnClick: Story = {
   tags: ["!dev", "!autodocs"],
   render: (args) => (
     <DropdownMenu>
-      <DropdownMenuTrigger className="cursor-pointer rounded-full">
+      <DropdownMenuTrigger
+        className="cursor-pointer rounded-full"
+        aria-label="User menu"
+      >
         <Avatar {...args}>
           <AvatarImage src="https://github.com/shadcn.png" />
           <AvatarFallback>CN</AvatarFallback>
