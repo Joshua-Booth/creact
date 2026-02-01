@@ -42,6 +42,9 @@ importers:
       date-fns:
         specifier: ^4.1.0
         version: 4.1.0
+      embla-carousel-autoplay:
+        specifier: ^8.6.0
+        version: 8.6.0(embla-carousel@8.6.0)
       embla-carousel-react:
         specifier: ^8.6.0
         version: 8.6.0(react@19.2.3)
@@ -290,8 +293,8 @@ importers:
         specifier: ^25.0.2
         version: 25.0.2(typescript@5.9.3)
       shadcn:
-        specifier: ^3.7.0
-        version: 3.7.0(@types/node@25.0.10)(hono@4.11.5)(typescript@5.9.3)
+        specifier: ^3.8.1
+        version: 3.8.1(@types/node@25.0.10)(hono@4.11.5)(typescript@5.9.3)
       steiger:
         specifier: ^0.5.11
         version: 0.5.11(typescript@5.9.3)
@@ -6179,6 +6182,14 @@ packages:
         integrity: sha512-wKXFZw4erWmmOz5N/grBoJ2XrNJGDFMu2+W5ACHza5rHtvsqrK4gb6rnLC7XxKB9WlJ+RmyQatuEXmtm86xbnw==,
       }
 
+  embla-carousel-autoplay@8.6.0:
+    resolution:
+      {
+        integrity: sha512-OBu5G3nwaSXkZCo1A6LTaFMZ8EpkYbwIaH+bPqdBnDGQ2fh4+NbzjXjs2SktoPNKCtflfVMc75njaDHOYXcrsA==,
+      }
+    peerDependencies:
+      embla-carousel: 8.6.0
+
   embla-carousel-react@8.6.0:
     resolution:
       {
@@ -10728,10 +10739,10 @@ packages:
         integrity: sha512-E5LDX7Wrp85Kil5bhZv46j8jOeboKq5JMmYM3gVGdGH8xFpPWXUMsNrlODCrkoxMEeNi/XZIwuRvY4XNwYMJpw==,
       }
 
-  shadcn@3.7.0:
+  shadcn@3.8.1:
     resolution:
       {
-        integrity: sha512-zOXNAIFclguSYmmoibyXyKiYA6qjEJtXDSvloAMziSREW9Q0R/dLqBUYdb81lOejmZkDYuZApGabbMLH7G8qvQ==,
+        integrity: sha512-3bu1gxtBvFrFnf55WzLX9QQuM6qik1sv0nXum1bhwgAfcJHDAENBPq2AYDaJaRlskETBqLH/8iacVhpPyyTr3A==,
       }
     hasBin: true
 
@@ -16209,6 +16220,10 @@ snapshots:
 
   electron-to-chromium@1.5.277: {}
 
+  embla-carousel-autoplay@8.6.0(embla-carousel@8.6.0):
+    dependencies:
+      embla-carousel: 8.6.0
+
   embla-carousel-react@8.6.0(react@19.2.3):
     dependencies:
       embla-carousel: 8.6.0
@@ -19037,7 +19052,7 @@ snapshots:
 
   setprototypeof@1.2.0: {}
 
-  shadcn@3.7.0(@types/node@25.0.10)(hono@4.11.5)(typescript@5.9.3):
+  shadcn@3.8.1(@types/node@25.0.10)(hono@4.11.5)(typescript@5.9.3):
     dependencies:
       "@antfu/ni": 25.0.0
       "@babel/core": 7.28.6

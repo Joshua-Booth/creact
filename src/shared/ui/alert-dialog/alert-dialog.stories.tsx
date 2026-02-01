@@ -1,5 +1,6 @@
 import type { Meta, StoryObj } from "@storybook/react-vite";
 
+import { AlertTriangleIcon } from "lucide-react";
 import { userEvent, within } from "storybook/test";
 
 import {
@@ -10,6 +11,7 @@ import {
   AlertDialogDescription,
   AlertDialogFooter,
   AlertDialogHeader,
+  AlertDialogMedia,
   AlertDialogTitle,
   AlertDialogTrigger,
 } from "./alert-dialog";
@@ -78,4 +80,80 @@ export const ShouldOpenClose: Story = {
       );
     });
   },
+};
+
+/**
+ * A smaller alert dialog variant for compact interfaces.
+ */
+export const Small: Story = {
+  render: (args) => (
+    <AlertDialog {...args}>
+      <AlertDialogTrigger>Open</AlertDialogTrigger>
+      <AlertDialogContent size="sm">
+        <AlertDialogHeader>
+          <AlertDialogTitle>Delete item?</AlertDialogTitle>
+          <AlertDialogDescription>
+            This action cannot be undone.
+          </AlertDialogDescription>
+        </AlertDialogHeader>
+        <AlertDialogFooter>
+          <AlertDialogCancel>Cancel</AlertDialogCancel>
+          <AlertDialogAction>Delete</AlertDialogAction>
+        </AlertDialogFooter>
+      </AlertDialogContent>
+    </AlertDialog>
+  ),
+};
+
+/**
+ * An alert dialog with an icon in the header for visual emphasis.
+ */
+export const WithMedia: Story = {
+  render: (args) => (
+    <AlertDialog {...args}>
+      <AlertDialogTrigger>Open</AlertDialogTrigger>
+      <AlertDialogContent>
+        <AlertDialogHeader>
+          <AlertDialogMedia>
+            <AlertTriangleIcon className="text-amber-500" />
+          </AlertDialogMedia>
+          <AlertDialogTitle>Warning</AlertDialogTitle>
+          <AlertDialogDescription>
+            You are about to perform an action that may have unintended
+            consequences. Please review before proceeding.
+          </AlertDialogDescription>
+        </AlertDialogHeader>
+        <AlertDialogFooter>
+          <AlertDialogCancel>Cancel</AlertDialogCancel>
+          <AlertDialogAction>Proceed</AlertDialogAction>
+        </AlertDialogFooter>
+      </AlertDialogContent>
+    </AlertDialog>
+  ),
+};
+
+/**
+ * A destructive alert dialog for dangerous actions with red styling.
+ */
+export const Destructive: Story = {
+  render: (args) => (
+    <AlertDialog {...args}>
+      <AlertDialogTrigger>Open</AlertDialogTrigger>
+      <AlertDialogContent>
+        <AlertDialogHeader>
+          <AlertDialogTitle>Delete account</AlertDialogTitle>
+          <AlertDialogDescription>
+            Are you sure you want to delete your account? All of your data will
+            be permanently removed. This action cannot be undone.
+          </AlertDialogDescription>
+        </AlertDialogHeader>
+        <AlertDialogFooter>
+          <AlertDialogCancel>Cancel</AlertDialogCancel>
+          <AlertDialogAction variant="destructive">
+            Delete account
+          </AlertDialogAction>
+        </AlertDialogFooter>
+      </AlertDialogContent>
+    </AlertDialog>
+  ),
 };

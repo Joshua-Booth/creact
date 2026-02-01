@@ -1,5 +1,7 @@
 import type { Meta, StoryObj } from "@storybook/react-vite";
 
+import * as React from "react";
+
 import { expect, fn, userEvent } from "storybook/test";
 
 import { Field, FieldLabel } from "../field";
@@ -46,6 +48,76 @@ export const Disabled: Story = {
   args: {
     disabled: true,
   },
+};
+
+/**
+ * Use an array with two values to create a range slider with two thumbs.
+ */
+export const Range: Story = {
+  args: {
+    defaultValue: [25, 75],
+  },
+  render: (args) => (
+    <Field className="w-64">
+      <FieldLabel>Price Range</FieldLabel>
+      <Slider {...args} />
+    </Field>
+  ),
+};
+
+/**
+ * Use the `step` prop to specify discrete steps for the slider.
+ */
+export const WithSteps: Story = {
+  args: {
+    defaultValue: [50],
+    step: 10,
+  },
+  render: (args) => (
+    <Field className="w-64">
+      <FieldLabel>Volume (steps of 10)</FieldLabel>
+      <Slider {...args} />
+    </Field>
+  ),
+};
+
+/**
+ * A controlled slider that displays its current value.
+ */
+export const WithValue: Story = {
+  render: function WithValueStory() {
+    const [value, setValue] = React.useState([33]);
+
+    return (
+      <Field className="w-64">
+        <FieldLabel>Temperature: {value[0]}%</FieldLabel>
+        <Slider
+          value={value}
+          onValueChange={(val) =>
+            setValue(Array.isArray(val) ? [...val] : [val])
+          }
+          max={100}
+          step={1}
+        />
+      </Field>
+    );
+  },
+};
+
+/**
+ * Use `orientation="vertical"` for a vertical slider.
+ */
+export const Vertical: Story = {
+  args: {
+    defaultValue: [50],
+    orientation: "vertical",
+  },
+  render: (args) => (
+    <Field className="h-40">
+      <FieldLabel>Volume</FieldLabel>
+      <Slider {...args} />
+    </Field>
+  ),
 };
 
 export const ShouldAdjustWithKeyboard: Story = {
