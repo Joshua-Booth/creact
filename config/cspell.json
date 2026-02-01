@@ -32,7 +32,11 @@
     "**/storybook-static/**"
   ],
   "words": [
+    "acst",
+    "aest",
+    "akst",
     "autoprefixer",
+    "awst",
     "autodocs",
     "clsx",
     "cmdk",
@@ -63,6 +67,7 @@
     "noninteractive",
     "nosniff",
     "nums",
+    "nzst",
     "organise",
     "pipeable",
     "pnpm",
@@ -88,6 +93,7 @@
     "vercel",
     "vite",
     "vitest",
+    "wita",
     "worktree",
     "worktrees",
     "wrongpassword",
