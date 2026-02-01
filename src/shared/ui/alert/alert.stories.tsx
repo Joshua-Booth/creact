@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from "@storybook/react-vite";
 
-import { AlertCircle } from "lucide-react";
+import { AlertCircle, Terminal } from "lucide-react";
 
 import { Alert, AlertDescription, AlertTitle } from "./alert";
 
@@ -44,7 +44,7 @@ export const Default: Story = {};
 export const Destructive: Story = {
   render: (args) => (
     <Alert {...args}>
-      <AlertCircle className="h-4 w-4" />
+      <AlertCircle className="size-4" />
       <AlertTitle>Error</AlertTitle>
       <AlertDescription>
         Your session has expired. Please log in again.
@@ -54,4 +54,19 @@ export const Destructive: Story = {
   args: {
     variant: "destructive",
   },
+};
+
+/**
+ * Use a leading icon to draw attention to the alert.
+ */
+export const WithIcon: Story = {
+  render: (args) => (
+    <Alert {...args}>
+      <Terminal className="size-4" />
+      <AlertTitle>Heads up!</AlertTitle>
+      <AlertDescription>
+        You can add components to your app using the cli.
+      </AlertDescription>
+    </Alert>
+  ),
 };

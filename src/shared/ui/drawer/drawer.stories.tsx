@@ -56,6 +56,68 @@ type Story = StoryObj<typeof meta>;
  */
 export const Default: Story = {};
 
+/**
+ * Drawer opening from the left side of the screen.
+ */
+export const Left: Story = {
+  args: {
+    direction: "left",
+  },
+};
+
+/**
+ * Drawer opening from the right side of the screen.
+ */
+export const Right: Story = {
+  args: {
+    direction: "right",
+  },
+};
+
+/**
+ * Drawer opening from the top of the screen.
+ */
+export const Top: Story = {
+  args: {
+    direction: "top",
+  },
+};
+
+/**
+ * Drawer with scrollable content for long forms or lists.
+ */
+export const Scrollable: Story = {
+  render: (args) => (
+    <Drawer {...args}>
+      <DrawerTrigger>Open</DrawerTrigger>
+      <DrawerContent>
+        <DrawerHeader>
+          <DrawerTitle>Scrollable Content</DrawerTitle>
+          <DrawerDescription>
+            This drawer contains scrollable content.
+          </DrawerDescription>
+        </DrawerHeader>
+        <div className="overflow-y-auto px-4">
+          {Array.from({ length: 20 }, (_, i) => (
+            <p key={i} className="py-2">
+              {/* cspell:disable */}
+              Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do
+              eiusmod tempor incididunt ut labore et dolore magna aliqua. Item{" "}
+              {/* cspell:enable */}
+              {i + 1}.
+            </p>
+          ))}
+        </div>
+        <DrawerFooter>
+          <DrawerClose className="bg-primary text-primary-foreground rounded px-4 py-2">
+            Close
+          </DrawerClose>
+        </DrawerFooter>
+      </DrawerContent>
+    </Drawer>
+  ),
+};
+
 export const ShouldOpenCloseWithSubmit: Story = {
   name: "when clicking Submit button, should close the drawer",
   tags: ["!dev", "!autodocs"],
