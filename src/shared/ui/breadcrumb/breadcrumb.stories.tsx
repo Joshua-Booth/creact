@@ -125,7 +125,10 @@ export const WithDropdown: Story = {
         <BreadcrumbSeparator />
         <BreadcrumbItem>
           <DropdownMenu>
-            <DropdownMenuTrigger className="flex items-center gap-1">
+            <DropdownMenuTrigger
+              className="flex items-center gap-1"
+              aria-label="Show more breadcrumb items"
+            >
               <BreadcrumbEllipsis />
             </DropdownMenuTrigger>
             <DropdownMenuContent align="start">
