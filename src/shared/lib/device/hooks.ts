@@ -23,9 +23,7 @@ function getDeviceState(width: number): DeviceState {
 /**
  * React hook that returns reactive device state based on viewport width.
  * Automatically updates when the viewport crosses breakpoint boundaries.
- *
- * @returns Object with `isMobile`, `isTablet`, and `isDesktop` booleans
- *
+ * @returns {DeviceState} Object with `isMobile`, `isTablet`, and `isDesktop` booleans
  * @example
  * ```tsx
  * function Component() {

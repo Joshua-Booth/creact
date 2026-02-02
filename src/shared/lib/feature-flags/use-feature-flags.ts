@@ -11,7 +11,9 @@ import type { FeatureFlagOptions, FeatureFlagPayload } from "./types";
 /**
  * Check if a boolean feature flag is enabled.
  * Returns `undefined` while loading, or falls back to `defaultValue`.
- *
+ * @param key - Feature flag key to check
+ * @param options - Configuration including optional defaultValue
+ * @returns Whether the feature flag is enabled, or undefined while loading
  * @example
  * ```tsx
  * const isEnabled = useFeatureFlag("new-feature", { defaultValue: false });
@@ -28,7 +30,9 @@ export const useFeatureFlag = (
 
 /**
  * Get the variant key for multivariate/A/B test flags.
- *
+ * @param key - Feature flag key to check
+ * @param options - Configuration including optional defaultValue
+ * @returns The variant key string, or undefined while loading
  * @example
  * ```tsx
  * const variant = useFeatureFlagVariant("pricing-test", { defaultValue: "control" });
@@ -48,7 +52,9 @@ export const useFeatureFlagVariant = (
 
 /**
  * Get custom JSON payload attached to a feature flag.
- *
+ * @param key - Feature flag key to check
+ * @param options - Configuration including optional defaultValue
+ * @returns The payload data, or undefined while loading
  * @public
  * @example
  * ```tsx
@@ -67,7 +73,7 @@ export const useFeatureFlagConfig = <T = FeatureFlagPayload>(
 
 /**
  * Get all currently active feature flag keys. Useful for debugging.
- *
+ * @returns Array of active feature flag keys
  * @public
  * @example
  * ```tsx

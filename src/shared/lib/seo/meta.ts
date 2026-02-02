@@ -23,6 +23,8 @@ interface MetaMatch {
 
 /**
  * Type guard to check if a value is a valid Language.
+ * @param value - Value to check
+ * @returns True if value is a supported language
  */
 function isLanguage(value: unknown): value is Language {
   return (
@@ -33,6 +35,8 @@ function isLanguage(value: unknown): value is Language {
 /**
  * Extracts locale from route matches in a type-safe way.
  * Looks for the root match and extracts its locale.
+ * @param matches - Array of route matches from React Router
+ * @returns The extracted language or default language
  */
 export function getLocaleFromMatches(
   matches: readonly (MetaMatch | undefined)[]
@@ -57,6 +61,9 @@ export function getLocaleFromMatches(
 /**
  * Gets SEO translations directly from resources.
  * This avoids issues with i18next instance not being initialized in meta functions.
+ * @param locale - Language locale code
+ * @param pageKey - Key of the SEO page translations
+ * @returns Object with title and description strings
  */
 export function getSeoTranslation(
   locale: Language,
@@ -73,6 +80,8 @@ export function getSeoTranslation(
 /**
  * Generates an array of meta descriptors for React Router v7.
  * Accepts pre-translated strings for title and description.
+ * @param pageMeta - Page metadata including title, description, and optional fields
+ * @returns Array of meta descriptor objects
  */
 export function generateMeta(pageMeta: PageMeta): MetaDescriptor[] {
   const siteUrl = getSiteUrl();

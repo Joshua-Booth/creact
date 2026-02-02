@@ -46,6 +46,9 @@ function FieldLegend({
 /**
  * Plain description for use outside Field context (e.g., after FieldLegend).
  * Use FieldDescription inside Field for proper aria-describedby association.
+ * @param props - Paragraph element props including className
+ * @param props.className - Additional CSS classes
+ * @returns Description paragraph element
  */
 function FieldLegendDescription({
   className,
@@ -203,6 +206,11 @@ function FieldSeparator({
  * Error message component that works both inside and outside Field context.
  * When inside Field.Root, provides proper aria-describedby association.
  * When standalone (e.g., form-level errors), renders as a plain div with role="alert".
+ * @param props - Component props
+ * @param props.className - Additional CSS classes
+ * @param props.children - Custom error content
+ * @param props.errors - Array of error objects with message property
+ * @returns Error message element or null
  */
 function FieldError({
   className,

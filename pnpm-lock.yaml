@@ -247,6 +247,9 @@ importers:
       eslint-plugin-depend:
         specifier: ^1.4.0
         version: 1.4.0
+      eslint-plugin-jsdoc:
+        specifier: ^62.5.0
+        version: 62.5.0(eslint@9.39.2(jiti@2.6.1))
       eslint-plugin-jsx-a11y:
         specifier: ^6.10.2
         version: 6.10.2(eslint@9.39.2(jiti@2.6.1))
@@ -1464,6 +1467,20 @@ packages:
       {
         integrity: sha512-WI0DdZ8xFSbgMjR1sFsKABJ/C5OnRrjT06JXbZKexJGrDuPTzZdDYfFlsgcCXCyf+suG5QU2e/y1Wo2V/OapLQ==,
       }
+
+  "@es-joy/jsdoccomment@0.83.0":
+    resolution:
+      {
+        integrity: sha512-e1MHSEPJ4m35zkBvNT6kcdeH1SvMaJDsPC3Xhfseg3hvF50FUE3f46Yn36jgbrPYYXezlWUQnevv23c+lx2MCA==,
+      }
+    engines: { node: ^20.19.0 || ^22.13.0 || >=24 }
+
+  "@es-joy/resolve.exports@1.2.0":
+    resolution:
+      {
+        integrity: sha512-Q9hjxWI5xBM+qW2enxfe8wDKdFWMfd0Z29k5ZJnuBqD/CasY5Zryj09aCA6owbGATWz+39p5uIdaHXpopOcG8g==,
+      }
+    engines: { node: ">=10" }
 
   "@esbuild/aix-ppc64@0.27.2":
     resolution:
@@ -3598,6 +3615,13 @@ packages:
       }
     engines: { node: ">= 14" }
 
+  "@sindresorhus/base62@1.0.0":
+    resolution:
+      {
+        integrity: sha512-TeheYy0ILzBEI/CO55CP6zJCSdSWeRtGnHy8U8dWSUH4I68iqTsy7HkMktR4xakThc9jotkPQUXT4ITdbV7cHA==,
+      }
+    engines: { node: ">=18" }
+
   "@sindresorhus/is@4.6.0":
     resolution:
       {
@@ -4767,6 +4791,13 @@ packages:
       }
     engines: { node: ">= 8" }
 
+  are-docs-informative@0.0.2:
+    resolution:
+      {
+        integrity: sha512-ixiS0nLNNG5jNQzgZJNoUpBKdo9yTYZMGJ+QgT2jmjR7G7+QHRCc4v6LQ3NgE7EBJq+o0ams3waJwkrlBom8Ig==,
+      }
+    engines: { node: ">=14" }
+
   arg@5.0.2:
     resolution:
       {
@@ -5369,6 +5400,13 @@ packages:
         integrity: sha512-taEtr3ozUmOB7it68Jll7s0Pwm+aoiHyXKrEC8SEodL4rNpdfDLqa7PfBlrgFoCNNdR8ImL+muti5IGvktJAAg==,
       }
     engines: { node: ">= 6" }
+
+  comment-parser@1.4.5:
+    resolution:
+      {
+        integrity: sha512-aRDkn3uyIlCFfk5NUA+VdwMmMsh8JGhc4hapfV4yxymHGQ3BVskMQfoXGpCo5IoBuQ9tS5iiVKhCpTcB4pW4qw==,
+      }
+    engines: { node: ">= 12.0.0" }
 
   commitlint-plugin-function-rules@4.3.1:
     resolution:
@@ -6603,6 +6641,15 @@ packages:
         integrity: sha512-MQs+m4nHSfgAO9bJDsBzqw0ofK/AOA0vfeY/6ahofqcUMLeM6/D1sTYs21fOhc17kNU/gn58YCtj20XaAssh2A==,
       }
 
+  eslint-plugin-jsdoc@62.5.0:
+    resolution:
+      {
+        integrity: sha512-D+1haMVDzW/ZMoPwOnsbXCK07rJtsq98Z1v+ApvDKxSzYTTcPgmFc/nyUDCGmxm2cP7g7hszyjYHO7Zodl/43w==,
+      }
+    engines: { node: ^20.19.0 || ^22.13.0 || >=24 }
+    peerDependencies:
+      eslint: ^7.0.0 || ^8.0.0 || ^9.0.0
+
   eslint-plugin-jsx-a11y@6.10.2:
     resolution:
       {
@@ -6714,6 +6761,13 @@ packages:
       }
     engines: { node: ^18.18.0 || ^20.9.0 || >=21.1.0 }
 
+  eslint-visitor-keys@5.0.0:
+    resolution:
+      {
+        integrity: sha512-A0XeIi7CXU7nPlfHS9loMYEKxUaONu/hTEzHTGba9Huu94Cq1hPivf+DE5erJozZOky0LfvXAyrV/tcswpLI0Q==,
+      }
+    engines: { node: ^20.19.0 || ^22.13.0 || >=24 }
+
   eslint@9.39.2:
     resolution:
       {
@@ -6733,6 +6787,13 @@ packages:
         integrity: sha512-j6PAQ2uUr79PZhBjP5C5fhl8e39FmRnOjsD5lGnWrFU8i2G776tBK7+nP8KuQUTTyAZUwfQqXAgrVH5MbH9CYQ==,
       }
     engines: { node: ^18.18.0 || ^20.9.0 || >=21.1.0 }
+
+  espree@11.1.0:
+    resolution:
+      {
+        integrity: sha512-WFWYhO1fV4iYkqOOvq8FbqIhr2pYfoDY0kCotMkDeNtGpiGGkZ1iov2u8ydjtgM8yF8rzK7oaTbw2NAzbAbehw==,
+      }
+    engines: { node: ^20.19.0 || ^22.13.0 || >=24 }
 
   esprima@4.0.1:
     resolution:
@@ -7621,6 +7682,12 @@ packages:
       }
     engines: { node: ^20.19.0 || ^22.12.0 || >=24.0.0 }
 
+  html-entities@2.6.0:
+    resolution:
+      {
+        integrity: sha512-kig+rMn/QOVRvr7c86gQ8lWXq+Hkv6CbAH1hLu+RG338StTpE8Z0b44SDVaqVu7HGKf27frdmUYEs9hTUX/cLQ==,
+      }
+
   html-escaper@2.0.2:
     resolution:
       {
@@ -8346,6 +8413,13 @@ packages:
         integrity: sha512-qQKT4zQxXl8lLwBtHMWwaTcGfFOZviOJet3Oy/xmGk2gZH677CJM9EvtfdSkgWcATZhj/55JZ0rmy3myCT5lsA==,
       }
     hasBin: true
+
+  jsdoc-type-pratt-parser@7.1.0:
+    resolution:
+      {
+        integrity: sha512-SX7q7XyCwzM/MEDCYz0l8GgGbJAACGFII9+WfNYr5SLEKukHWRy2Jk3iWRe7P+lpYJNs7oQ+OSei4JtKGUjd7A==,
+      }
+    engines: { node: ">=20.0.0" }
 
   jsdom@27.4.0:
     resolution:
@@ -9354,6 +9428,12 @@ packages:
         integrity: sha512-rJgTQnkUnH1sFw8yT6VSU3zD3sWmu6sZhIseY8VX+GRu3P6F7Fu+JNDoXfklElbLJSnc3FUQHVe4cU5hj+BcUg==,
       }
     engines: { node: ">=0.10.0" }
+
+  object-deep-merge@2.0.0:
+    resolution:
+      {
+        integrity: sha512-3DC3UMpeffLTHiuXSy/UG4NOIYTLlY9u3V82+djSCLYClWobZiS4ivYzpIUWrRY/nfsJ8cWsKyG3QfyLePmhvg==,
+      }
 
   object-inspect@1.13.4:
     resolution:
@@ -10553,6 +10633,13 @@ packages:
         integrity: sha512-K/BG6eIky/SBpzfHZv/dd+9JBFiS4SWV7FIujVyJRux6e45+73RaUHXLmIR1f7WOMaQ0U1km6qwklRQxpJJY0w==,
       }
 
+  reserved-identifiers@1.2.0:
+    resolution:
+      {
+        integrity: sha512-yE7KUfFvaBFzGPs5H3Ops1RevfUEsDc5Iz65rOwWg4lE8HJSYtle77uul3+573457oHvBKuHYDl/xqUkKpEEdw==,
+      }
+    engines: { node: ">=18" }
+
   resolve-from@4.0.0:
     resolution:
       {
@@ -10975,6 +11062,12 @@ packages:
     resolution:
       {
         integrity: sha512-cbqHunsQWnJNE6KhVSMsMeH5H/L9EpymbzqTQ3uLwNCLZ1Q481oWaofqH7nO6V07xlXwY6PhQdQ2IedWx/ZK4Q==,
+      }
+
+  spdx-expression-parse@4.0.0:
+    resolution:
+      {
+        integrity: sha512-Clya5JIij/7C6bRR22+tnGXbc4VKlibKSVj2iHvVeX5iMW7s1SIQlqu699JkODJJIhh/pUu8L0/VLh8xflD+LQ==,
       }
 
   spdx-license-ids@3.0.22:
@@ -11478,6 +11571,13 @@ packages:
         integrity: sha512-65P7iz6X5yEr1cwcgvQxbbIw7Uk3gOy5dIdtZ4rDveLqhrdJP+Li/Hx6tyK0NEb+2GCyneCMJiGqrADCSNk8sQ==,
       }
     engines: { node: ">=8.0" }
+
+  to-valid-identifier@1.0.0:
+    resolution:
+      {
+        integrity: sha512-41wJyvKep3yT2tyPqX/4blcfybknGB4D+oETKLs7Q76UiPqRpUJK3hr1nxelyYO0PHKVzJwlu0aCeEAsGI6rpw==,
+      }
+    engines: { node: ">=20" }
 
   toidentifier@1.0.1:
     resolution:
@@ -13264,6 +13364,16 @@ snapshots:
       tslib: 2.8.1
     optional: true
 
+  "@es-joy/jsdoccomment@0.83.0":
+    dependencies:
+      "@types/estree": 1.0.8
+      "@typescript-eslint/types": 8.53.1
+      comment-parser: 1.4.5
+      esquery: 1.7.0
+      jsdoc-type-pratt-parser: 7.1.0
+
+  "@es-joy/resolve.exports@1.2.0": {}
+
   "@esbuild/aix-ppc64@0.27.2":
     optional: true
 
@@ -14568,6 +14678,8 @@ snapshots:
       - encoding
       - supports-color
 
+  "@sindresorhus/base62@1.0.0": {}
+
   "@sindresorhus/is@4.6.0": {}
 
   "@sindresorhus/merge-streams@2.3.0": {}
@@ -15426,6 +15538,8 @@ snapshots:
       normalize-path: 3.0.0
       picomatch: 2.3.1
 
+  are-docs-informative@0.0.2: {}
+
   arg@5.0.2: {}
 
   argparse@2.0.1: {}
@@ -15784,6 +15898,8 @@ snapshots:
       array-timsort: 1.0.3
       core-util-is: 1.0.3
       esprima: 4.0.1
+
+  comment-parser@1.4.5: {}
 
   commitlint-plugin-function-rules@4.3.1(@commitlint/lint@20.3.1):
     dependencies:
@@ -16561,6 +16677,26 @@ snapshots:
       module-replacements: 2.11.0
       semver: 7.7.3
 
+  eslint-plugin-jsdoc@62.5.0(eslint@9.39.2(jiti@2.6.1)):
+    dependencies:
+      "@es-joy/jsdoccomment": 0.83.0
+      "@es-joy/resolve.exports": 1.2.0
+      are-docs-informative: 0.0.2
+      comment-parser: 1.4.5
+      debug: 4.4.3
+      escape-string-regexp: 4.0.0
+      eslint: 9.39.2(jiti@2.6.1)
+      espree: 11.1.0
+      esquery: 1.7.0
+      html-entities: 2.6.0
+      object-deep-merge: 2.0.0
+      parse-imports-exports: 0.2.4
+      semver: 7.7.3
+      spdx-expression-parse: 4.0.0
+      to-valid-identifier: 1.0.0
+    transitivePeerDependencies:
+      - supports-color
+
   eslint-plugin-jsx-a11y@6.10.2(eslint@9.39.2(jiti@2.6.1)):
     dependencies:
       aria-query: 5.3.2
@@ -16713,6 +16849,8 @@ snapshots:
 
   eslint-visitor-keys@4.2.1: {}
 
+  eslint-visitor-keys@5.0.0: {}
+
   eslint@9.39.2(jiti@2.6.1):
     dependencies:
       "@eslint-community/eslint-utils": 4.9.1(eslint@9.39.2(jiti@2.6.1))
@@ -16759,6 +16897,12 @@ snapshots:
       acorn: 8.15.0
       acorn-jsx: 5.3.2(acorn@8.15.0)
       eslint-visitor-keys: 4.2.1
+
+  espree@11.1.0:
+    dependencies:
+      acorn: 8.15.0
+      acorn-jsx: 5.3.2(acorn@8.15.0)
+      eslint-visitor-keys: 5.0.0
 
   esprima@4.0.1: {}
 
@@ -17299,6 +17443,8 @@ snapshots:
       - "@noble/hashes"
     optional: true
 
+  html-entities@2.6.0: {}
+
   html-escaper@2.0.2: {}
 
   html-parse-stringify@3.0.1:
@@ -17659,6 +17805,8 @@ snapshots:
   js-yaml@4.1.1:
     dependencies:
       argparse: 2.0.1
+
+  jsdoc-type-pratt-parser@7.1.0: {}
 
   jsdom@27.4.0(@noble/hashes@1.8.0):
     dependencies:
@@ -18159,6 +18307,8 @@ snapshots:
 
   object-assign@4.1.1: {}
 
+  object-deep-merge@2.0.0: {}
+
   object-inspect@1.13.4: {}
 
   object-keys@1.1.1: {}
@@ -18353,7 +18503,6 @@ snapshots:
   parse-imports-exports@0.2.4:
     dependencies:
       parse-statements: 1.0.11
-    optional: true
 
   parse-json@4.0.0:
     dependencies:
@@ -18375,8 +18524,7 @@ snapshots:
 
   parse-ms@4.0.0: {}
 
-  parse-statements@1.0.11:
-    optional: true
+  parse-statements@1.0.11: {}
 
   parse5-htmlparser2-tree-adapter@6.0.1:
     dependencies:
@@ -18935,6 +19083,8 @@ snapshots:
 
   reselect@5.1.1: {}
 
+  reserved-identifiers@1.2.0: {}
+
   resolve-from@4.0.0: {}
 
   resolve-from@5.0.0: {}
@@ -19295,6 +19445,11 @@ snapshots:
       spdx-exceptions: 2.5.0
       spdx-license-ids: 3.0.22
 
+  spdx-expression-parse@4.0.0:
+    dependencies:
+      spdx-exceptions: 2.5.0
+      spdx-license-ids: 3.0.22
+
   spdx-license-ids@3.0.22: {}
 
   split2@1.0.0:
@@ -19631,6 +19786,11 @@ snapshots:
   to-regex-range@5.0.1:
     dependencies:
       is-number: 7.0.0
+
+  to-valid-identifier@1.0.0:
+    dependencies:
+      "@sindresorhus/base62": 1.0.0
+      reserved-identifiers: 1.2.0
 
   toidentifier@1.0.1: {}
 

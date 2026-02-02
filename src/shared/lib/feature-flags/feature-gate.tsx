@@ -18,7 +18,13 @@ interface FeatureGateProps {
 
 /**
  * Declarative component for conditional rendering based on feature flags.
- *
+ * @param props - Component props
+ * @param props.flag - Feature flag key to check
+ * @param props.children - Content to show when flag is enabled
+ * @param props.variant - Specific variant to match for multivariate flags
+ * @param props.fallback - Content to show when flag is disabled
+ * @param props.loading - Content to show while flag is loading
+ * @returns Rendered children, fallback, or loading content based on flag state
  * @public
  * @example Boolean flag
  * ```tsx
@@ -26,7 +32,6 @@ interface FeatureGateProps {
  *   <NewDashboard />
  * </FeatureGate>
  * ```
- *
  * @example Multivariate flag
  * ```tsx
  * <FeatureGate flag="pricing-test" variant="discount">

@@ -2,7 +2,6 @@ import * as z from "zod";
 
 /**
  * Reusable validation schemas for use with react-hook-form and zodResolver.
- *
  * @example
  * ```tsx
  * import { useForm } from "react-hook-form";

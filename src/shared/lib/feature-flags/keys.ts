@@ -1,6 +1,5 @@
 /**
  * Known feature flag keys. Add new flags here for type safety and autocomplete.
- *
  * @example
  * ```ts
  * export type FeatureFlagKey =

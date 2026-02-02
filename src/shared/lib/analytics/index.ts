@@ -1,6 +1,10 @@
 import { usePostHog } from "@posthog/react";
 
-/** @public */
+/**
+ * Hook providing analytics tracking methods.
+ * @returns Object with trackEvent method
+ * @public
+ */
 export const useAnalytics = () => {
   const posthog = usePostHog();
 

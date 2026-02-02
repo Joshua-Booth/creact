@@ -1,6 +1,9 @@
 /** SEO configuration constants */
 
-/** Site URL from environment, with fallback for development */
+/**
+ * Site URL from environment, with fallback for development.
+ * @returns Site URL string
+ */
 export function getSiteUrl(): string {
   return (
     (typeof import.meta !== "undefined" && import.meta.env?.VITE_PUBLIC_URL) ||

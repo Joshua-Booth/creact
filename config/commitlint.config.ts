@@ -176,8 +176,11 @@ const config: UserConfig = {
     // =========================================================================
 
     /**
-     * Imperative mood enforcement
-     * Blocks non-imperative patterns: third person (adds), past tense (added), continuous (adding)
+     * Imperative mood enforcement.
+     * Blocks non-imperative patterns: third person (adds), past tense (added), continuous (adding).
+     * @param commit - Commit object
+     * @param commit.subject - Commit subject line
+     * @returns Rule result tuple
      */
     "function-rules/subject-case": [
       ERROR,
@@ -240,7 +243,10 @@ const config: UserConfig = {
     ],
 
     /**
-     * No weak verbs that don't describe the actual change
+     * No weak verbs that don't describe the actual change.
+     * @param commit - Commit object
+     * @param commit.subject - Commit subject line
+     * @returns Rule result tuple
      */
     "function-rules/subject-empty": [
       ERROR,
@@ -268,7 +274,10 @@ const config: UserConfig = {
     ],
 
     /**
-     * No vague words that don't convey meaning
+     * No vague words that don't convey meaning.
+     * @param commit - Commit object
+     * @param commit.subject - Commit subject line
+     * @returns Rule result tuple
      */
     "function-rules/subject-min-length": [
       ERROR,
@@ -288,7 +297,10 @@ const config: UserConfig = {
     ],
 
     /**
-     * No past tense (-ed endings)
+     * No past tense (-ed endings).
+     * @param commit - Commit object
+     * @param commit.subject - Commit subject line
+     * @returns Rule result tuple
      */
     "function-rules/subject-max-length": [
       ERROR,
@@ -335,8 +347,13 @@ const config: UserConfig = {
     ],
 
     /**
-     * JB-XXX ticket format validation (when present)
-     * Allows but doesn't require ticket references
+     * JB-XXX ticket format validation (when present).
+     * Allows but doesn't require ticket references.
+     * @param commit - Commit object
+     * @param commit.header - Commit header line
+     * @param commit.body - Commit body text
+     * @param commit.footer - Commit footer text
+     * @returns Rule result tuple
      */
     "function-rules/header-case": [
       ERROR,
@@ -361,7 +378,12 @@ const config: UserConfig = {
     ],
 
     /**
-     * Block placeholder ticket references
+     * Block placeholder ticket references.
+     * @param commit - Commit object
+     * @param commit.header - Commit header line
+     * @param commit.body - Commit body text
+     * @param commit.footer - Commit footer text
+     * @returns Rule result tuple
      */
     "function-rules/header-full-stop": [
       ERROR,
@@ -382,8 +404,11 @@ const config: UserConfig = {
     ],
 
     /**
-     * Atomic commit warning - detect "and" suggesting multiple changes
-     * Level 1 = warning only, doesn't block commit
+     * Atomic commit warning - detect "and" suggesting multiple changes.
+     * Level 1 = warning only, doesn't block commit.
+     * @param commit - Commit object
+     * @param commit.subject - Commit subject line
+     * @returns Rule result tuple
      */
     "function-rules/scope-enum": [
       WARNING,
@@ -403,7 +428,12 @@ const config: UserConfig = {
     ],
 
     /**
-     * No GitHub issue references - use Linear tickets instead
+     * No GitHub issue references - use Linear tickets instead.
+     * @param commit - Commit object
+     * @param commit.header - Commit header line
+     * @param commit.body - Commit body text
+     * @param commit.footer - Commit footer text
+     * @returns Rule result tuple
      */
     "function-rules/scope-case": [
       ERROR,
@@ -424,7 +454,12 @@ const config: UserConfig = {
     ],
 
     /**
-     * Breaking changes require detailed body explanation
+     * Breaking changes require detailed body explanation.
+     * @param commit - Commit object
+     * @param commit.header - Commit header line
+     * @param commit.body - Commit body text
+     * @param commit.footer - Commit footer text
+     * @returns Rule result tuple
      */
     "function-rules/body-case": [
       ERROR,

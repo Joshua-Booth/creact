@@ -16,7 +16,10 @@ export interface WebSiteSchema {
   url: string;
 }
 
-/** Generates Organization JSON-LD structured data */
+/**
+ * Generates Organization JSON-LD structured data.
+ * @returns Organization schema object
+ */
 export function generateOrganizationJsonLd(): OrganizationSchema {
   return {
     "@context": "https://schema.org",
@@ -26,7 +29,10 @@ export function generateOrganizationJsonLd(): OrganizationSchema {
   };
 }
 
-/** Generates WebSite JSON-LD structured data */
+/**
+ * Generates WebSite JSON-LD structured data.
+ * @returns WebSite schema object
+ */
 export function generateWebSiteJsonLd(): WebSiteSchema {
   return {
     "@context": "https://schema.org",

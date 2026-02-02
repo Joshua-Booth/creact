@@ -14,7 +14,8 @@ import { Toaster as Sonner } from "sonner";
 /**
  * Themed toast notification component built on top of Sonner.
  * Automatically syncs with the app's theme (light/dark).
- *
+ * @param props - Sonner Toaster props
+ * @returns Sonner Toaster component with theme
  * @example
  * ```tsx
  * import { toast } from "@/shared/ui/toast";

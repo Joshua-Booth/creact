@@ -4,7 +4,6 @@ import { Skeleton } from "./skeleton";
 
 /**
  * Displays a placeholder preview of content before the data gets loaded.
- *
  * @see https://ui.shadcn.com/docs/components/skeleton
  */
 const meta = {

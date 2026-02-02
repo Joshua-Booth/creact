@@ -3,7 +3,12 @@ interface JsonLdProps {
   data: Record<string, any>;
 }
 
-/** Renders JSON-LD structured data as a script tag */
+/**
+ * Renders JSON-LD structured data as a script tag.
+ * @param props - Component props
+ * @param props.data - JSON-LD data object to serialize
+ * @returns Script element with JSON-LD data
+ */
 export function JsonLd({ data }: JsonLdProps) {
   return (
     <script

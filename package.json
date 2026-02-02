@@ -95,6 +95,7 @@
     "eslint": "^9.39.2",
     "eslint-plugin-barrel-files": "^3.0.1",
     "eslint-plugin-depend": "^1.4.0",
+    "eslint-plugin-jsdoc": "^62.5.0",
     "eslint-plugin-jsx-a11y": "^6.10.2",
     "eslint-plugin-react-hooks": "^7.0.1",
     "eslint-plugin-storybook": "^10.2.0",
