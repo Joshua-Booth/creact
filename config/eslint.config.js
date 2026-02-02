@@ -55,11 +55,10 @@ export default [
   {
     // Require JSDoc for public API hooks and utilities
     files: [
-      "src/shared/lib/**/*.ts",
-      "src/shared/lib/**/*.tsx",
-      "src/shared/api/**/*.ts",
-      "src/shared/api/**/*.tsx",
+      "src/shared/lib/**/*.{ts,tsx}",
+      "src/shared/api/**/*.{ts,tsx}",
       "src/shared/config/**/*.ts",
+      "src/entities/*/api/**/*.{ts,tsx}",
     ],
     ignores: ["**/*.stories.*", "**/*.test.*"],
     rules: {
