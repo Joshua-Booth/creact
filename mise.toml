@@ -179,3 +179,9 @@ description = "Build Storybook static site"
 alias = "sbb"
 run = "storybook build -o storybook-static --config-dir {{vars.storybook_config}}"
 
+[tasks.check]
+description = "Run all CI checks locally"
+alias = "c"
+depends = ["lint", "stylelint", "typecheck", "test_coverage", "test_e2e", "test_storybook", "storybook_build", "knip", "depcruise", "steiger", "spell"]
+run = "echo 'All checks passed!'"
+
