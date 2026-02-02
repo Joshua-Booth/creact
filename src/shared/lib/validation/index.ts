@@ -13,7 +13,7 @@ import * as z from "zod";
  */
 
 // Email validation
-export const emailSchema = z.string().email("Please enter a valid email");
+export const emailSchema = z.email("Please enter a valid email");
 
 // Password validation with strength requirements
 export const passwordSchema = z

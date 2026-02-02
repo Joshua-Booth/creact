@@ -352,6 +352,6 @@ export const ShouldEnterText: Story = {
       await userEvent.type(input, mockedInput);
     });
 
-    expect(input).toHaveValue(mockedInput);
+    await expect(input).toHaveValue(mockedInput);
   },
 };

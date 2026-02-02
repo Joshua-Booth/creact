@@ -10,7 +10,7 @@ import { I18N_CONFIG, resources } from "../../../shared/i18n";
 import { SignupPage } from "./index";
 
 // Initialize i18n for stories
-i18n.use(initReactI18next).init({
+void i18n.use(initReactI18next).init({
   lng: "en",
   resources,
   ...I18N_CONFIG,
@@ -23,7 +23,7 @@ function RouterDecorator({ children }: { children: React.ReactNode }) {
       {
         path: "/signup",
         element: children,
-        action: async () => ({ success: false, error: "Registration failed" }),
+        action: () => ({ success: false, error: "Registration failed" }),
       },
       { path: "/login", element: <div>Login</div> },
     ],
@@ -70,9 +70,9 @@ export const ShouldShowValidationErrors: Story = {
     });
 
     await step("verify email validation error", async () => {
-      await waitFor(() => {
+      await waitFor(async () => {
         const emailInput = canvas.getByTestId("email");
-        expect(emailInput).toHaveAttribute("aria-invalid", "true");
+        await expect(emailInput).toHaveAttribute("aria-invalid", "true");
       });
     });
   },
@@ -104,9 +104,9 @@ export const ShouldValidatePasswordStrength: Story = {
     });
 
     await step("verify password validation error", async () => {
-      await waitFor(() => {
+      await waitFor(async () => {
         const passwordInput = canvas.getByTestId("password");
-        expect(passwordInput).toHaveAttribute("aria-invalid", "true");
+        await expect(passwordInput).toHaveAttribute("aria-invalid", "true");
       });
     });
   },
@@ -138,9 +138,9 @@ export const ShouldValidatePasswordMatch: Story = {
     });
 
     await step("verify confirmation validation error", async () => {
-      await waitFor(() => {
+      await waitFor(async () => {
         const confirmInput = canvas.getByTestId("confirm-password");
-        expect(confirmInput).toHaveAttribute("aria-invalid", "true");
+        await expect(confirmInput).toHaveAttribute("aria-invalid", "true");
       });
     });
   },
@@ -175,9 +175,9 @@ export const ShouldAcceptValidInput: Story = {
     });
 
     await step("verify no validation errors on inputs", async () => {
-      await waitFor(() => {
+      await waitFor(async () => {
         const emailInput = canvas.getByTestId("email");
-        expect(emailInput).not.toHaveAttribute("aria-invalid", "true");
+        await expect(emailInput).not.toHaveAttribute("aria-invalid", "true");
       });
     });
   },

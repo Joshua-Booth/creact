@@ -5,10 +5,7 @@
  * @returns Site URL string
  */
 export function getSiteUrl(): string {
-  return (
-    (import.meta?.env?.VITE_PUBLIC_URL) ||
-    "https://creact.netlify.app"
-  );
+  return import.meta.env.VITE_PUBLIC_URL ?? "https://creact.netlify.app";
 }
 
 /** Twitter handle for social cards */

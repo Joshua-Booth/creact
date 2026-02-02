@@ -111,12 +111,12 @@ export const ShouldAcceptTextWhenTyping: Story = {
     await step("type into input textbox", async () => {
       await userEvent.click(inputTextbox);
       await userEvent.type(inputTextbox, "mocked");
-      expect(args.onChange).toHaveBeenCalledTimes(6);
+      await expect(args.onChange).toHaveBeenCalledTimes(6);
     });
 
     await step("finish typing by pressing Enter", async () => {
       await userEvent.keyboard("{enter}");
-      expect(args.onComplete).toHaveBeenCalledTimes(1);
+      await expect(args.onComplete).toHaveBeenCalledTimes(1);
     });
   },
 };
@@ -131,17 +131,17 @@ export const ShouldAcceptOnlyNumbersWhenRestricted: Story = {
     await step("type text into input textbox", async () => {
       await userEvent.click(inputTextbox);
       await userEvent.type(inputTextbox, "mocked");
-      expect(args.onChange).toHaveBeenCalledTimes(0);
+      await expect(args.onChange).toHaveBeenCalledTimes(0);
     });
 
     await step("type numbers into input textbox", async () => {
       await userEvent.type(inputTextbox, "123456");
-      expect(args.onChange).toHaveBeenCalledTimes(6);
+      await expect(args.onChange).toHaveBeenCalledTimes(6);
     });
 
     await step("finish typing by pressing Enter", async () => {
       await userEvent.keyboard("{enter}");
-      expect(args.onComplete).toHaveBeenCalledTimes(1);
+      await expect(args.onComplete).toHaveBeenCalledTimes(1);
     });
   },
 };

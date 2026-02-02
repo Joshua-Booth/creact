@@ -84,7 +84,7 @@ export const ShouldNavigate: Story = {
   tags: ["!dev", "!autodocs"],
   play: async ({ canvas, step }) => {
     const slides = await canvas.findAllByRole("group");
-    expect(slides).toHaveLength(5);
+    await expect(slides).toHaveLength(5);
     const nextBtn = await canvas.findByRole("button", { name: /next/i });
     const prevBtn = await canvas.findByRole("button", {
       name: /previous/i,

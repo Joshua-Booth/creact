@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-non-null-assertion -- Test assertions on known DOM elements */
 import type { Meta, StoryObj } from "@storybook/react-vite";
 
 import { expect, userEvent, waitFor } from "storybook/test";
@@ -249,7 +250,7 @@ export const ShouldToggleRadio: Story = {
   tags: ["!dev", "!autodocs"],
   play: async ({ canvas, step }) => {
     const radios = await canvas.findAllByRole("radio");
-    expect(radios).toHaveLength(3);
+    await expect(radios).toHaveLength(3);
 
     await step("click the default radio button", async () => {
       await userEvent.click(radios[0]!);

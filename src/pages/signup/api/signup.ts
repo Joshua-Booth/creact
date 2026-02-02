@@ -26,13 +26,15 @@ export async function signupApi(
 
 export async function parseSignupError(error: unknown): Promise<string> {
   if (error instanceof HTTPError) {
-    const body = await error.response.json().catch(() => ({}));
-    const response = body as SignupErrorResponse;
+    // eslint-disable-next-line promise/no-promise-in-callback -- Intentional: gracefully handle JSON parse errors
+    const body = (await error.response
+      .json()
+      .catch(() => ({}))) as SignupErrorResponse;
     return (
-      response.email?.[0] ||
-      response.password?.[0] ||
-      response.non_field_errors?.[0] ||
-      response.detail ||
+      body.email?.[0] ??
+      body.password?.[0] ??
+      body.non_field_errors?.[0] ??
+      body.detail ??
       "Registration failed"
     );
   }

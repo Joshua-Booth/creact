@@ -4,7 +4,7 @@ import { resources } from "@/shared/i18n";
 
 import type { Route } from "./+types/locales";
 
-export async function loader({ params }: Route.LoaderArgs) {
+export function loader({ params }: Route.LoaderArgs) {
   const { lng, ns } = params;
 
   // Validate language

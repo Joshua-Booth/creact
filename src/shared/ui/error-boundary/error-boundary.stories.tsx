@@ -239,7 +239,7 @@ export const ShouldShowFallbackOnError: Story = {
     const canvas = within(canvasElement);
 
     await step("verify normal content is shown initially", async () => {
-      expect(
+      await expect(
         canvas.getByText(/This content is wrapped in an ErrorBoundary/)
       ).toBeVisible();
     });
@@ -250,8 +250,10 @@ export const ShouldShowFallbackOnError: Story = {
       });
       await userEvent.click(triggerButton);
 
-      expect(canvas.getByText(/something went wrong/i)).toBeVisible();
-      expect(canvas.getByRole("button", { name: /try again/i })).toBeVisible();
+      await expect(canvas.getByText(/something went wrong/i)).toBeVisible();
+      await expect(
+        canvas.getByRole("button", { name: /try again/i })
+      ).toBeVisible();
     });
   },
 };
@@ -274,14 +276,14 @@ export const ShouldRecoverOnReset: Story = {
         name: /trigger error/i,
       });
       await userEvent.click(triggerButton);
-      expect(canvas.getByText(/something went wrong/i)).toBeVisible();
+      await expect(canvas.getByText(/something went wrong/i)).toBeVisible();
     });
 
     await step("click reset and verify recovery", async () => {
       const resetButton = canvas.getByRole("button", { name: /reset/i });
       await userEvent.click(resetButton);
 
-      expect(
+      await expect(
         canvas.getByText(/This content is wrapped in an ErrorBoundary/)
       ).toBeVisible();
     });

@@ -98,18 +98,18 @@ export const ShouldShowOnHover: Story = {
 
     await step("hover over trigger", async () => {
       await userEvent.hover(triggerBtn);
-      await waitFor(() => {
+      await waitFor(async () => {
         const tooltip = getTooltip();
-        expect(tooltip).toBeInTheDocument();
-        expect(tooltip).toHaveAttribute("data-open");
+        await expect(tooltip).toBeInTheDocument();
+        await expect(tooltip).toHaveAttribute("data-open");
       });
     });
 
     await step("unhover trigger", async () => {
       await userEvent.unhover(triggerBtn);
-      await waitFor(() => {
+      await waitFor(async () => {
         const tooltip = getTooltip();
-        expect(tooltip).toHaveAttribute("data-closed");
+        await expect(tooltip).toHaveAttribute("data-closed");
       });
     });
   },

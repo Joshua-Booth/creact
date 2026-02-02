@@ -82,5 +82,5 @@ export const useFeatureFlagConfig = <T = FeatureFlagPayload>(
  * ```
  */
 export const useActiveFlags = (): string[] => {
-  return useActiveFeatureFlags() ?? [];
+  return useActiveFeatureFlags();
 };

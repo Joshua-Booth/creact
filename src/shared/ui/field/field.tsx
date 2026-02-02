@@ -220,6 +220,7 @@ function FieldError({
 }: FieldPrimitive.Error.Props & {
   errors?: ({ message?: string } | undefined)[];
 }) {
+  // eslint-disable-next-line sonarjs/function-return-type -- Different return types represent different renderable content
   const content = useMemo(() => {
     if (children) {
       return children;
@@ -233,7 +234,7 @@ function FieldError({
       ...new Map(errors.map((error) => [error?.message, error])).values(),
     ];
 
-    if (uniqueErrors?.length == 1) {
+    if (uniqueErrors.length === 1) {
       return uniqueErrors[0]?.message;
     }
 

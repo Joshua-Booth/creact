@@ -442,8 +442,8 @@ export const ShouldOpenClose: Story = {
     });
 
     await step("Verify menu content is visible", async () => {
-      expect(await body.findByText("Introduction")).toBeInTheDocument();
-      expect(await body.findByText("Installation")).toBeInTheDocument();
+      await expect(await body.findByText("Introduction")).toBeInTheDocument();
+      await expect(await body.findByText("Installation")).toBeInTheDocument();
     });
   },
 };

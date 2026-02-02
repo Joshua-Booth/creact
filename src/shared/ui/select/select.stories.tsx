@@ -83,12 +83,12 @@ export const ShouldSelectOption: Story = {
       await userEvent.click(
         await canvasBody.findByRole("option", { name: /banana/i })
       );
-      expect(select).toHaveTextContent(/banana/i);
+      await expect(select).toHaveTextContent(/banana/i);
     });
 
     await step("verify the selected option", async () => {
       await userEvent.click(select);
-      expect(
+      await expect(
         await canvasBody.findByRole("option", { name: /banana/i })
       ).toHaveAttribute("data-selected");
       await userEvent.click(

@@ -61,7 +61,12 @@ export async function loader({ request, context }: Route.LoaderArgs) {
 /** Root loader data type for use in child route meta functions */
 export type RootLoaderData = Awaited<ReturnType<typeof loader>>["data"];
 
-const emptySubscribe = () => () => {};
+function noop() {
+  // Intentionally empty - used as a stable no-op callback reference
+}
+function emptySubscribe() {
+  return noop;
+}
 function useHydrated() {
   return useSyncExternalStore(
     emptySubscribe,
@@ -176,7 +181,7 @@ export default function Root({ loaderData: { locale } }: Route.ComponentProps) {
   // Sync client-side i18n with server-detected locale
   useEffect(() => {
     if (i18n.language !== locale) {
-      i18n.changeLanguage(locale);
+      void i18n.changeLanguage(locale);
     }
   }, [locale, i18n]);
 

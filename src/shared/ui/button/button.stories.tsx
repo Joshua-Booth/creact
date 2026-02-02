@@ -231,7 +231,7 @@ export const ShouldNotTriggerWhenDisabled: Story = {
   },
   play: async ({ args, canvas }) => {
     const button = await canvas.findByRole("button");
-    expect(button).toBeDisabled();
+    await expect(button).toBeDisabled();
     // Use pointerEventsCheck: 0 to skip check since disabled buttons have pointer-events: none
     await userEvent.click(button, { pointerEventsCheck: 0 });
     await expect(args.onClick).not.toHaveBeenCalled();

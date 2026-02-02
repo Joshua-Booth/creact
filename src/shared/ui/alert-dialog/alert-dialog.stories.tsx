@@ -65,7 +65,7 @@ export const ShouldOpenClose: Story = {
 
     await step("open the alert dialog", async () => {
       await userEvent.click(
-        await canvas.getByRole("button", {
+        canvas.getByRole("button", {
           name: /open/i,
         })
       );
@@ -73,7 +73,7 @@ export const ShouldOpenClose: Story = {
 
     await step("close the alert dialog", async () => {
       await userEvent.click(
-        await canvasBody.getByRole("button", {
+        canvasBody.getByRole("button", {
           name: /cancel/i,
         }),
         { delay: 100 }

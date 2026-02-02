@@ -258,11 +258,11 @@ export const ShouldOpenDropdownOnClick: Story = {
     await userEvent.click(trigger);
 
     const menu = await canvasBody.findByRole("menu");
-    expect(menu).toBeInTheDocument();
+    await expect(menu).toBeInTheDocument();
 
     const profileItem = await canvasBody.findByRole("menuitem", {
       name: /profile/i,
     });
-    expect(profileItem).toBeInTheDocument();
+    await expect(profileItem).toBeInTheDocument();
   },
 };

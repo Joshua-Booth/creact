@@ -580,16 +580,18 @@ export const ShouldRenderWithMedia: Story = {
     const canvas = within(canvasElement);
 
     await step("verify title is rendered", async () => {
-      expect(canvas.getByText("Test Document")).toBeVisible();
+      await expect(canvas.getByText("Test Document")).toBeVisible();
     });
 
     await step("verify description is rendered", async () => {
-      expect(canvas.getByText("This is a test description")).toBeVisible();
+      await expect(
+        canvas.getByText("This is a test description")
+      ).toBeVisible();
     });
 
     await step("verify media is rendered", async () => {
       const media = canvas.getByTestId("item-media");
-      expect(media).toBeVisible();
+      await expect(media).toBeVisible();
     });
   },
 };
@@ -646,8 +648,8 @@ export const ShouldHandleActionClicks: Story = {
       await userEvent.click(favoriteButton);
       await userEvent.click(moreButton);
 
-      expect(favoriteButton).toBeEnabled();
-      expect(moreButton).toBeEnabled();
+      await expect(favoriteButton).toBeEnabled();
+      await expect(moreButton).toBeEnabled();
     });
   },
 };

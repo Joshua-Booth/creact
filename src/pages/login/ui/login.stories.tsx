@@ -10,7 +10,7 @@ import { I18N_CONFIG, resources } from "../../../shared/i18n";
 import { LoginPage } from "./index";
 
 // Initialize i18n for stories
-i18n.use(initReactI18next).init({
+void i18n.use(initReactI18next).init({
   lng: "en",
   resources,
   ...I18N_CONFIG,
@@ -23,7 +23,7 @@ function RouterDecorator({ children }: { children: React.ReactNode }) {
       {
         path: "/login",
         element: children,
-        action: async () => ({ success: false, error: "Invalid credentials" }),
+        action: () => ({ success: false, error: "Invalid credentials" }),
       },
       { path: "/dashboard", element: <div>Dashboard</div> },
     ],
@@ -70,9 +70,9 @@ export const ShouldShowValidationErrors: Story = {
     });
 
     await step("verify email validation error", async () => {
-      await waitFor(() => {
+      await waitFor(async () => {
         const emailInput = canvas.getByTestId("email");
-        expect(emailInput).toHaveAttribute("aria-invalid", "true");
+        await expect(emailInput).toHaveAttribute("aria-invalid", "true");
       });
     });
   },
@@ -102,9 +102,9 @@ export const ShouldAcceptValidInput: Story = {
     });
 
     await step("verify no validation errors on inputs", async () => {
-      await waitFor(() => {
+      await waitFor(async () => {
         const emailInput = canvas.getByTestId("email");
-        expect(emailInput).not.toHaveAttribute("aria-invalid", "true");
+        await expect(emailInput).not.toHaveAttribute("aria-invalid", "true");
       });
     });
   },
@@ -131,9 +131,9 @@ export const ShouldShowInvalidEmailError: Story = {
     });
 
     await step("verify email validation error", async () => {
-      await waitFor(() => {
+      await waitFor(async () => {
         const emailInput = canvas.getByTestId("email");
-        expect(emailInput).toHaveAttribute("aria-invalid", "true");
+        await expect(emailInput).toHaveAttribute("aria-invalid", "true");
       });
     });
   },

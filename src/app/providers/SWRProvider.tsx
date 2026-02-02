@@ -13,7 +13,7 @@ const fetcher = async <T,>(url: string): Promise<T> => {
         .json()
         .catch(() => error.response.clone().text());
       throw new ApiError(
-        (body as { message?: string })?.message ||
+        (body as { message?: string }).message ??
           `Request failed: ${error.response.status}`,
         error.response.status,
         body

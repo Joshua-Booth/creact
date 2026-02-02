@@ -137,14 +137,17 @@ export const ShouldOpenClose: Story = {
       await userEvent.click(
         await canvasBody.findByRole("menuitem", { name: /file/i })
       );
-      expect(await canvasBody.findByRole("menu")).toBeInTheDocument();
+      await expect(await canvasBody.findByRole("menu")).toBeInTheDocument();
     });
 
     const items = await canvasBody.findAllByRole("menuitem");
-    expect(items).toHaveLength(5);
+    await expect(items).toHaveLength(5);
 
     await step("click the first item to close the menubar", async () => {
-      await userEvent.click(items[0]!, { delay: 100 });
+      const item = items[0];
+      if (item) {
+        await userEvent.click(item, { delay: 100 });
+      }
     });
   },
 };

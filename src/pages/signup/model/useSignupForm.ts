@@ -30,7 +30,7 @@ export function useSignupForm() {
   }, [actionData, form]);
 
   function onSubmit(data: RegisterFormData) {
-    fetcher.submit(
+    void fetcher.submit(
       { email: data.email, password: data.password },
       { method: "post" }
     );

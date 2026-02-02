@@ -269,7 +269,7 @@ export const ShouldFocusInputOnClick: Story = {
 
       await userEvent.click(label);
 
-      expect(input).toHaveFocus();
+      await expect(input).toHaveFocus();
     });
   },
 };

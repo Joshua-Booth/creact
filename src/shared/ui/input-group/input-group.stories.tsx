@@ -318,7 +318,7 @@ export const ShouldEnterTextWithAddon: Story = {
 
       await userEvent.type(input, "mysite.com");
 
-      expect(input).toHaveValue("mysite.com");
+      await expect(input).toHaveValue("mysite.com");
     });
   },
 };
@@ -346,7 +346,7 @@ export const ShouldFocusInputOnAddonClick: Story = {
 
       await userEvent.click(addon);
 
-      expect(input).toHaveFocus();
+      await expect(input).toHaveFocus();
     });
   },
 };
@@ -371,7 +371,7 @@ export const ShouldClickButtonInAddon: Story = {
     await step("verify button is clickable", async () => {
       const button = canvas.getByTestId("search-button");
 
-      expect(button).toBeEnabled();
+      await expect(button).toBeEnabled();
       await userEvent.click(button);
     });
   },
@@ -397,14 +397,14 @@ export const ShouldRespectDisabledState: Story = {
     await step("verify input is disabled", async () => {
       const input = canvas.getByPlaceholderText("Search...");
 
-      expect(input).toBeDisabled();
+      await expect(input).toBeDisabled();
     });
 
     await step("verify input group has disabled data attribute", async () => {
       const inputGroup = canvas
         .getByPlaceholderText("Search...")
         .closest("[data-slot='input-group']");
-      expect(inputGroup).toHaveAttribute("data-disabled", "true");
+      await expect(inputGroup).toHaveAttribute("data-disabled", "true");
     });
   },
 };

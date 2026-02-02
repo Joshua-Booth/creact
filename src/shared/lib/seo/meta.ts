@@ -41,9 +41,7 @@ function isLanguage(value: unknown): value is Language {
 export function getLocaleFromMatches(
   matches: readonly (MetaMatch | undefined)[]
 ): Language {
-  const rootMatch = matches.find(
-    (m): m is MetaMatch => m?.id === "root"
-  );
+  const rootMatch = matches.find((m): m is MetaMatch => m?.id === "root");
   const loaderData = rootMatch?.loaderData;
 
   if (
@@ -69,7 +67,7 @@ export function getSeoTranslation(
   locale: Language,
   pageKey: SeoPageKey
 ): { title: string; description: string } {
-  const seo = resources[locale]?.common?.seo ?? resources.en.common.seo;
+  const seo = resources[locale].common.seo;
   const page = seo.pages[pageKey];
   return {
     title: page.title,

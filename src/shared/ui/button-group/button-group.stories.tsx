@@ -384,9 +384,9 @@ export const ShouldHandleButtonClicks: Story = {
       await userEvent.click(secondButton);
       await userEvent.click(thirdButton);
 
-      expect(firstButton).toBeEnabled();
-      expect(secondButton).toBeEnabled();
-      expect(thirdButton).toBeEnabled();
+      await expect(firstButton).toBeEnabled();
+      await expect(secondButton).toBeEnabled();
+      await expect(thirdButton).toBeEnabled();
     });
   },
 };

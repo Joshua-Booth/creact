@@ -248,15 +248,15 @@ export const ShouldOpenCloseWithSave: Story = {
         await canvasBody.findByRole("button", { name: /open dialog/i })
       );
       const dialog = await canvasBody.findByRole("dialog");
-      expect(dialog).toBeInTheDocument();
-      expect(dialog).toHaveAttribute("data-open");
+      await expect(dialog).toBeInTheDocument();
+      await expect(dialog).toHaveAttribute("data-open");
     });
 
     await step("Close the dialog", async () => {
       await userEvent.click(
         await canvasBody.findByRole("button", { name: /save changes/i })
       );
-      expect(await canvasBody.findByRole("dialog")).toHaveAttribute(
+      await expect(await canvasBody.findByRole("dialog")).toHaveAttribute(
         "data-closed"
       );
     });
@@ -274,15 +274,15 @@ export const ShouldOpenCloseWithCancel: Story = {
         await canvasBody.findByRole("button", { name: /open dialog/i })
       );
       const dialog = await canvasBody.findByRole("dialog");
-      expect(dialog).toBeInTheDocument();
-      expect(dialog).toHaveAttribute("data-open");
+      await expect(dialog).toBeInTheDocument();
+      await expect(dialog).toHaveAttribute("data-open");
     });
 
     await step("Close the dialog", async () => {
       await userEvent.click(
         await canvasBody.findByRole("button", { name: /cancel/i })
       );
-      expect(await canvasBody.findByRole("dialog")).toHaveAttribute(
+      await expect(await canvasBody.findByRole("dialog")).toHaveAttribute(
         "data-closed"
       );
     });
@@ -300,15 +300,15 @@ export const ShouldOpenCloseCross: Story = {
         await canvasBody.findByRole("button", { name: /open dialog/i })
       );
       const dialog = await canvasBody.findByRole("dialog");
-      expect(dialog).toBeInTheDocument();
-      expect(dialog).toHaveAttribute("data-open");
+      await expect(dialog).toBeInTheDocument();
+      await expect(dialog).toHaveAttribute("data-open");
     });
 
     await step("Close the dialog", async () => {
       await userEvent.click(
         await canvasBody.findByRole("button", { name: /close/i })
       );
-      expect(await canvasBody.findByRole("dialog")).toHaveAttribute(
+      await expect(await canvasBody.findByRole("dialog")).toHaveAttribute(
         "data-closed"
       );
     });

@@ -19,7 +19,7 @@ export default function handleRequest(
   routerContext: EntryContext,
   loadContext: RouterContextProvider
 ) {
-  return isbot(request.headers.get("user-agent") || "")
+  return isbot(request.headers.get("user-agent") ?? "")
     ? handleBotRequest(
         request,
         responseStatusCode,
@@ -64,7 +64,7 @@ function handleBotRequest(
           pipe(body);
         },
         onShellError(error: unknown) {
-          reject(error);
+          reject(error instanceof Error ? error : new Error(String(error)));
         },
         onError(error: unknown) {
           responseStatusCode = 500;
@@ -105,7 +105,7 @@ function handleBrowserRequest(
           pipe(body);
         },
         onShellError(error: unknown) {
-          reject(error);
+          reject(error instanceof Error ? error : new Error(String(error)));
         },
         onError(error: unknown) {
           console.error(error);

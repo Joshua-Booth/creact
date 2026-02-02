@@ -22,11 +22,11 @@ export async function loginApi(data: LoginFormData): Promise<LoginResponse> {
 
 export async function parseLoginError(error: unknown): Promise<string> {
   if (error instanceof HTTPError) {
-    const body = await error.response.json().catch(() => ({}));
-    const response = body as LoginErrorResponse;
-    return (
-      response.non_field_errors?.[0] || response.detail || "Invalid credentials"
-    );
+    // eslint-disable-next-line promise/no-promise-in-callback -- Intentional: gracefully handle JSON parse errors
+    const body = (await error.response
+      .json()
+      .catch(() => ({}))) as LoginErrorResponse;
+    return body.non_field_errors?.[0] ?? body.detail ?? "Invalid credentials";
   }
   return "An unexpected error occurred";
 }

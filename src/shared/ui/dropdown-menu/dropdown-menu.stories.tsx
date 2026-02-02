@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-non-null-assertion -- Test assertions on known DOM elements */
 import type { Meta, StoryObj } from "@storybook/react-vite";
 
 import { useState } from "react";
@@ -839,10 +840,10 @@ export const ShouldOpenClose: Story = {
 
     await step("Open the dropdown menu", async () => {
       await userEvent.click(await body.findByRole("button", { name: /open/i }));
-      expect(await body.findByRole("menu")).toBeInTheDocument();
+      await expect(await body.findByRole("menu")).toBeInTheDocument();
     });
     const items = await body.findAllByRole("menuitem");
-    expect(items).toHaveLength(10);
+    await expect(items).toHaveLength(10);
 
     await step("Click the first menu item", async () => {
       await userEvent.click(items[0]!, { delay: 100 });

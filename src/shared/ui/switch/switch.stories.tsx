@@ -287,9 +287,9 @@ export const ShouldSubmitForm: Story = {
   ),
   play: async ({ canvasElement, step }) => {
     const canvas = within(canvasElement);
-    const switchBtn = canvas.getByRole("switch");
-    const submitBtn = canvas.getByRole("button", { name: "Submit" });
-    const form = canvas.getByTestId("test-form");
+    const switchBtn = await canvas.findByRole("switch");
+    const submitBtn = await canvas.findByRole("button", { name: "Submit" });
+    const form = await canvas.findByTestId("test-form");
 
     await step("enable the switch", async () => {
       await userEvent.click(switchBtn);

@@ -62,14 +62,14 @@ export const ShouldOpenClose: Story = {
       await userEvent.click(
         await canvasBody.findByRole("button", { name: /open popover/i })
       );
-      expect(await canvasBody.findByRole("dialog")).toBeInTheDocument();
+      await expect(await canvasBody.findByRole("dialog")).toBeInTheDocument();
     });
 
     await step("click the trigger to close the popover", async () => {
       await userEvent.click(
         await canvasBody.findByRole("button", { name: /open popover/i })
       );
-      expect(await canvasBody.findByRole("dialog")).toHaveAttribute(
+      await expect(await canvasBody.findByRole("dialog")).toHaveAttribute(
         "data-closed"
       );
     });

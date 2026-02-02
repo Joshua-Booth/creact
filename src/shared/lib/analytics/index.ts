@@ -9,7 +9,7 @@ export const useAnalytics = () => {
   const posthog = usePostHog();
 
   const trackEvent = (category: string, action: string, label: string) => {
-    posthog?.capture(action, {
+    posthog.capture(action, {
       category,
       label,
     });

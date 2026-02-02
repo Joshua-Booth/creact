@@ -73,7 +73,8 @@ export const Default: Story = {
 /**
  * Field in an error state with error message.
  */
-export const Error: Story = {
+export const ErrorState: Story = {
+  name: "Error",
   render: (args) => (
     <Field {...args} className="w-80">
       <FieldLabel>Email</FieldLabel>
@@ -389,14 +390,14 @@ export const ShouldShowErrorState: Story = {
     const canvas = within(canvasElement);
 
     await step("verify error message is visible", async () => {
-      expect(
+      await expect(
         canvas.getByText("Please enter a valid email address.")
       ).toBeVisible();
     });
 
     await step("verify input has aria-invalid attribute", async () => {
       const input = canvas.getByPlaceholderText("Enter email");
-      expect(input).toHaveAttribute("aria-invalid", "true");
+      await expect(input).toHaveAttribute("aria-invalid", "true");
     });
   },
 };
@@ -422,7 +423,7 @@ export const ShouldAssociateLabelWithInput: Story = {
 
       await userEvent.click(label);
 
-      expect(input).toHaveFocus();
+      await expect(input).toHaveFocus();
     });
   },
 };

@@ -63,17 +63,17 @@ export const ShouldShowOnHover: Story = {
 
     await step("Hover over the trigger element", async () => {
       await userEvent.hover(await canvasBody.findByText(/hover/i));
-      await waitFor(() => {
+      await waitFor(async () => {
         const hoverCard = getHoverCard();
-        expect(hoverCard).toBeInTheDocument();
-        expect(hoverCard).toHaveAttribute("data-open");
+        await expect(hoverCard).toBeInTheDocument();
+        await expect(hoverCard).toHaveAttribute("data-open");
       });
     });
     await step("Unhover the trigger element", async () => {
       await userEvent.unhover(await canvasBody.findByText(/hover/i));
-      await waitFor(() => {
+      await waitFor(async () => {
         const hoverCard = getHoverCard();
-        expect(hoverCard).toHaveAttribute("data-closed");
+        await expect(hoverCard).toHaveAttribute("data-closed");
       });
     });
   },

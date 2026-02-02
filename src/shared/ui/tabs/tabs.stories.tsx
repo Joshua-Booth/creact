@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-non-null-assertion -- Test assertions on known DOM elements */
 import type { Meta, StoryObj } from "@storybook/react-vite";
 
 import { Music, Settings, User } from "lucide-react";
@@ -154,7 +155,7 @@ export const ShouldChangeTabs: Story = {
           expect(tab).toHaveAttribute("aria-selected", "true")
         );
         await expect(
-          await canvas.queryByRole("tabpanel", { name: tab.innerText })
+          canvas.queryByRole("tabpanel", { name: tab.innerText })
         ).toBeVisible();
       });
 
@@ -162,9 +163,9 @@ export const ShouldChangeTabs: Story = {
         for (let j = 0; j < tabs.length; j++) {
           if (j !== i) {
             const otherTab = tabs[j]!;
-            expect(otherTab).toHaveAttribute("aria-selected", "false");
-            expect(
-              await canvas.queryByRole("tabpanel", { name: otherTab.innerText })
+            await expect(otherTab).toHaveAttribute("aria-selected", "false");
+            await expect(
+              canvas.queryByRole("tabpanel", { name: otherTab.innerText })
             ).toBeNull();
           }
         }

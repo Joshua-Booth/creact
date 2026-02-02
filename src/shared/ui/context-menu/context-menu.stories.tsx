@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-non-null-assertion -- Test assertions on known DOM elements */
 import type { Meta, StoryObj } from "@storybook/react-vite";
 
 import { useState } from "react";
@@ -400,7 +401,7 @@ export const ShouldOpenClose: Story = {
   play: async ({ canvasElement, canvas, step }) => {
     const canvasBody = within(canvasElement.ownerDocument.body);
 
-    step("Right-click on the trigger area", async () => {
+    await step("Right-click on the trigger area", async () => {
       await userEvent.pointer({
         keys: "[MouseRight>]",
         target: await canvas.findByText(/click here/i),
@@ -410,11 +411,11 @@ export const ShouldOpenClose: Story = {
         },
       });
     });
-    expect(await canvasBody.findByRole("menu")).toBeInTheDocument();
+    await expect(await canvasBody.findByRole("menu")).toBeInTheDocument();
     const items = await canvasBody.findAllByRole("menuitem");
-    expect(items).toHaveLength(3);
+    await expect(items).toHaveLength(3);
 
-    step("Click the first menu item", async () => {
+    await step("Click the first menu item", async () => {
       await userEvent.click(items[0]!, { delay: 100 });
     });
   },

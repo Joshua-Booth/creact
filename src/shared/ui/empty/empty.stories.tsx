@@ -331,22 +331,24 @@ export const ShouldRenderAllChildComponents: Story = {
     const canvas = within(canvasElement);
 
     await step("verify title is rendered", async () => {
-      expect(canvas.getByText("Empty State Title")).toBeVisible();
+      await expect(canvas.getByText("Empty State Title")).toBeVisible();
     });
 
     await step("verify description is rendered", async () => {
-      expect(
+      await expect(
         canvas.getByText("This is the description text for the empty state.")
       ).toBeVisible();
     });
 
     await step("verify action button is rendered", async () => {
-      expect(canvas.getByRole("button", { name: "Take Action" })).toBeVisible();
+      await expect(
+        canvas.getByRole("button", { name: "Take Action" })
+      ).toBeVisible();
     });
 
     await step("verify icon media is rendered", async () => {
       const media = canvas.getByTestId("empty-media");
-      expect(media).toBeVisible();
+      await expect(media).toBeVisible();
     });
   },
 };

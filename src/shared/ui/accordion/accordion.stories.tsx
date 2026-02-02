@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-non-null-assertion -- Test assertions on known DOM elements */
 import type { Meta, StoryObj } from "@storybook/react-vite";
 
 import { expect, userEvent, waitFor, within } from "storybook/test";
@@ -15,6 +16,12 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from "./accordion";
+
+function getOpenPanels(container: HTMLElement) {
+  return container.querySelectorAll(
+    '[data-slot="accordion-content"][data-open]'
+  );
+}
 
 /**
  * A vertically stacked set of interactive headings that each reveal a section
@@ -212,26 +219,22 @@ export const ShouldOnlyOpenOneWhenSingleType: Story = {
   tags: ["!dev", "!autodocs"],
   play: async ({ canvasElement }) => {
     const canvas = within(canvasElement);
-    const accordions = await canvas.getAllByRole("button");
-    const getOpenPanels = () =>
-      canvasElement.querySelectorAll(
-        '[data-slot="accordion-content"][data-open]'
-      );
+    const accordions = canvas.getAllByRole("button");
 
     // First item is already open via defaultValue
-    await waitFor(() => expect(getOpenPanels().length).toBe(1));
+    await waitFor(() => expect(getOpenPanels(canvasElement).length).toBe(1));
 
     // Click second item - first should close, second should open
     await userEvent.click(accordions[1]!);
-    await waitFor(() => expect(getOpenPanels().length).toBe(1));
+    await waitFor(() => expect(getOpenPanels(canvasElement).length).toBe(1));
 
     // Click third item - second should close, third should open
     await userEvent.click(accordions[2]!);
-    await waitFor(() => expect(getOpenPanels().length).toBe(1));
+    await waitFor(() => expect(getOpenPanels(canvasElement).length).toBe(1));
 
     // Close the last opened tab
     await userEvent.click(accordions[2]!);
-    await waitFor(() => expect(getOpenPanels().length).toBe(0));
+    await waitFor(() => expect(getOpenPanels(canvasElement).length).toBe(0));
   },
 };
 
@@ -244,29 +247,27 @@ export const ShouldOpenAllWhenMultipleType: Story = {
   tags: ["!dev", "!autodocs"],
   play: async ({ canvasElement }) => {
     const canvas = within(canvasElement);
-    const accordions = await canvas.getAllByRole("button");
-    const getOpenPanels = () =>
-      canvasElement.querySelectorAll(
-        '[data-slot="accordion-content"][data-open]'
-      );
+    const accordions = canvas.getAllByRole("button");
 
     // First item is already open via defaultValue
-    await waitFor(() => expect(getOpenPanels().length).toBe(1));
+    await waitFor(() => expect(getOpenPanels(canvasElement).length).toBe(1));
 
     // Open remaining tabs one at a time (starting from index 1)
     for (let i = 1; i < accordions.length; i++) {
       await userEvent.click(accordions[i]!);
-      await waitFor(() => expect(getOpenPanels().length).toBe(i + 1));
+      await waitFor(() =>
+        expect(getOpenPanels(canvasElement).length).toBe(i + 1)
+      );
     }
 
     // Close all tabs one at a time
     for (let i = accordions.length - 1; i > 0; i--) {
       await userEvent.click(accordions[i]!);
-      await waitFor(() => expect(getOpenPanels().length).toBe(i));
+      await waitFor(() => expect(getOpenPanels(canvasElement).length).toBe(i));
     }
 
     // Close the last opened tab
     await userEvent.click(accordions[0]!);
-    await waitFor(() => expect(getOpenPanels().length).toBe(0));
+    await waitFor(() => expect(getOpenPanels(canvasElement).length).toBe(0));
   },
 };

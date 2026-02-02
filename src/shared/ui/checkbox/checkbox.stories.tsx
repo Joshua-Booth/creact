@@ -242,6 +242,7 @@ export const InTable: Story = {
     const selectAll = selectedRows.size === tableData.length;
 
     const handleSelectAll = (checked: boolean) => {
+      // eslint-disable-next-line sonarjs/no-selector-parameter -- Standard checkbox handler pattern
       if (checked) {
         setSelectedRows(new Set(tableData.map((row) => row.id)));
       } else {
@@ -312,12 +313,12 @@ export const ShouldToggleCheck: Story = {
   tags: ["!dev", "!autodocs"],
   play: async ({ canvasElement }) => {
     const canvas = within(canvasElement);
-    const checkbox = await canvas.getByRole("checkbox");
+    const checkbox = canvas.getByRole("checkbox");
     await userEvent.click(checkbox);
-    expect(checkbox).toBeChecked();
+    await expect(checkbox).toBeChecked();
     await userEvent.click(checkbox, { delay: 100 });
-    expect(checkbox).not.toBeChecked();
+    await expect(checkbox).not.toBeChecked();
     await userEvent.click(checkbox, { delay: 100 });
-    expect(checkbox).toBeChecked();
+    await expect(checkbox).toBeChecked();
   },
 };

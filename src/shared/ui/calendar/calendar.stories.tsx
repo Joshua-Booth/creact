@@ -140,15 +140,15 @@ export const ShouldNavigateMonthsWhenClicked: Story = {
     const steps = 6;
     for (let i = 0; i < steps / 2; i++) {
       await userEvent.click(backBtn);
-      expect(title).not.toHaveTextContent(startTitle);
+      await expect(title).not.toHaveTextContent(startTitle);
     }
     for (let i = 0; i < steps; i++) {
       await userEvent.click(nextBtn);
       if (i == steps / 2 - 1) {
-        expect(title).toHaveTextContent(startTitle);
+        await expect(title).toHaveTextContent(startTitle);
         continue;
       }
-      expect(title).not.toHaveTextContent(startTitle);
+      await expect(title).not.toHaveTextContent(startTitle);
     }
   },
 };
@@ -520,6 +520,21 @@ function CalendarCustomDays() {
   },
 };
 
+// eslint-disable-next-line sonarjs/function-return-type -- All returns are valid ReactNode types
+function formatDateRange(date: DateRange | undefined): React.ReactNode {
+  if (!date?.from) {
+    return <span>Pick a date</span>;
+  }
+  if (date.to) {
+    return (
+      <>
+        {format(date.from, "LLL dd, y")} - {format(date.to, "LLL dd, y")}
+      </>
+    );
+  }
+  return format(date.from, "LLL dd, y");
+}
+
 function DatePickerDemo({ className }: React.HTMLAttributes<HTMLDivElement>) {
   const [date, setDate] = React.useState<DateRange | undefined>(() => ({
     from: new Date(),
@@ -540,18 +555,7 @@ function DatePickerDemo({ className }: React.HTMLAttributes<HTMLDivElement>) {
               )}
             >
               <CalendarIcon className="mr-2 size-4" />
-              {date?.from ? (
-                date.to ? (
-                  <>
-                    {format(date.from, "LLL dd, y")} -{" "}
-                    {format(date.to, "LLL dd, y")}
-                  </>
-                ) : (
-                  format(date.from, "LLL dd, y")
-                )
-              ) : (
-                <span>Pick a date</span>
-              )}
+              {formatDateRange(date)}
             </Button>
           }
         />

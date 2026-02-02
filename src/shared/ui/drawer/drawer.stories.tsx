@@ -131,8 +131,8 @@ export const ShouldOpenCloseWithSubmit: Story = {
       await expect(args.onOpenChange).toHaveBeenCalled();
 
       const dialog = await canvasBody.findByRole("dialog");
-      expect(dialog).toBeInTheDocument();
-      expect(dialog).toHaveAttribute("data-state", "open");
+      await expect(dialog).toBeInTheDocument();
+      await expect(dialog).toHaveAttribute("data-state", "open");
     });
 
     await step("Close the drawer", async () => {
@@ -141,7 +141,7 @@ export const ShouldOpenCloseWithSubmit: Story = {
         { delay: 100 }
       );
       await expect(args.onClose).toHaveBeenCalled();
-      expect(await canvasBody.findByRole("dialog")).toHaveAttribute(
+      await expect(await canvasBody.findByRole("dialog")).toHaveAttribute(
         "data-state",
         "closed"
       );
@@ -162,8 +162,8 @@ export const ShouldOpenCloseWithCancel: Story = {
       await expect(args.onOpenChange).toHaveBeenCalled();
 
       const dialog = await canvasBody.findByRole("dialog");
-      expect(dialog).toBeInTheDocument();
-      expect(dialog).toHaveAttribute("data-state", "open");
+      await expect(dialog).toBeInTheDocument();
+      await expect(dialog).toHaveAttribute("data-state", "open");
     });
 
     await step("Close the drawer", async () => {
@@ -172,7 +172,7 @@ export const ShouldOpenCloseWithCancel: Story = {
         { delay: 100 }
       );
       await expect(args.onClose).toHaveBeenCalled();
-      expect(await canvasBody.findByRole("dialog")).toHaveAttribute(
+      await expect(await canvasBody.findByRole("dialog")).toHaveAttribute(
         "data-state",
         "closed"
       );

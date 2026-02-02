@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/no-unsafe-assignment -- Combobox render props have loosely-typed item parameters */
+/* eslint-disable @typescript-eslint/no-non-null-assertion -- Test assertions on known DOM elements */
 import type { Meta, StoryObj } from "@storybook/react-vite";
 
 import { useRef, useState } from "react";
@@ -423,8 +425,8 @@ export const ShouldSelectItem: Story = {
       const input = canvas.getByPlaceholderText("Select a fruit...");
       await userEvent.click(input);
 
-      await waitFor(() => {
-        expect(
+      await waitFor(async () => {
+        await expect(
           canvasBody.getByRole("option", { name: "Banana" })
         ).toBeVisible();
       });
@@ -434,7 +436,7 @@ export const ShouldSelectItem: Story = {
 
     await step("verify input shows selected value", async () => {
       const input = canvas.getByPlaceholderText("Select a fruit...");
-      expect(input).toHaveValue("Banana");
+      await expect(input).toHaveValue("Banana");
     });
   },
 };
@@ -482,12 +484,12 @@ export const ShouldFilterOptions: Story = {
       await userEvent.click(input);
       await userEvent.type(input, "Blu");
 
-      expect(input).toHaveValue("Blu");
+      await expect(input).toHaveValue("Blu");
     });
 
     await step("verify matching option is visible", async () => {
-      await waitFor(() => {
-        expect(
+      await waitFor(async () => {
+        await expect(
           canvasBody.getByRole("option", { name: "Blueberry" })
         ).toBeVisible();
       });
@@ -538,8 +540,8 @@ export const ShouldShowEmptyState: Story = {
     });
 
     await step("verify empty state message is shown", async () => {
-      await waitFor(() => {
-        expect(canvasBody.getByText("No results found.")).toBeVisible();
+      await waitFor(async () => {
+        await expect(canvasBody.getByText("No results found.")).toBeVisible();
       });
     });
   },
@@ -588,7 +590,7 @@ export const ShouldClearSelection: Story = {
 
     await step("verify initial value is set", async () => {
       const input = canvas.getByPlaceholderText("Select a fruit...");
-      expect(input).toHaveValue("Apple");
+      await expect(input).toHaveValue("Apple");
     });
 
     await step("click clear button and verify value is cleared", async () => {
@@ -599,7 +601,7 @@ export const ShouldClearSelection: Story = {
       await userEvent.click(clearButton);
 
       const input = canvas.getByPlaceholderText("Select a fruit...");
-      expect(input).toHaveValue("");
+      await expect(input).toHaveValue("");
     });
   },
 };

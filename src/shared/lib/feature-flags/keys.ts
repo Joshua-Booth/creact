@@ -15,4 +15,5 @@ export type FeatureFlagKey =
  * Accepts known flags with autocomplete, plus arbitrary strings for dynamic keys.
  * @public
  */
+// eslint-disable-next-line sonarjs/no-useless-intersection -- Intentional pattern for autocomplete with arbitrary strings
 export type ExtendedFlagKey = FeatureFlagKey | (string & {});

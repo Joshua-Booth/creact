@@ -164,15 +164,15 @@ export const ShouldOpenCloseWithSubmit: Story = {
         await canvasBody.findByRole("button", { name: /open/i })
       );
       const sheet = await canvasBody.findByRole("dialog");
-      expect(sheet).toBeInTheDocument();
-      expect(sheet).toHaveAttribute("data-open");
+      await expect(sheet).toBeInTheDocument();
+      await expect(sheet).toHaveAttribute("data-open");
     });
 
     await step("close the sheet", async () => {
       await userEvent.click(
         await canvasBody.findByRole("button", { name: /save changes/i })
       );
-      expect(await canvasBody.findByRole("dialog")).toHaveAttribute(
+      await expect(await canvasBody.findByRole("dialog")).toHaveAttribute(
         "data-closed"
       );
     });
@@ -190,15 +190,15 @@ export const ShouldOpenCloseWithClose: Story = {
         await canvasBody.findByRole("button", { name: /open/i })
       );
       const sheet = await canvasBody.findByRole("dialog");
-      expect(sheet).toBeInTheDocument();
-      expect(sheet).toHaveAttribute("data-open");
+      await expect(sheet).toBeInTheDocument();
+      await expect(sheet).toHaveAttribute("data-open");
     });
 
     await step("close the sheet", async () => {
       await userEvent.click(
         await canvasBody.findByRole("button", { name: /close/i })
       );
-      expect(await canvasBody.findByRole("dialog")).toHaveAttribute(
+      await expect(await canvasBody.findByRole("dialog")).toHaveAttribute(
         "data-closed"
       );
     });

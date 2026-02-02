@@ -64,12 +64,12 @@ export const ShouldOpenClose: Story = {
 
     await step("Open the collapsible", async () => {
       await userEvent.click(trigger, { delay: 100 });
-      expect(await canvas.queryByText(/yes/i, { exact: true })).toBeVisible();
+      await expect(canvas.queryByText(/yes/i, { exact: true })).toBeVisible();
     });
 
     await step("Close the collapsible", async () => {
       await userEvent.click(trigger, { delay: 100 });
-      expect(await canvas.queryByText(/yes/i, { exact: true })).toBeNull();
+      await expect(canvas.queryByText(/yes/i, { exact: true })).toBeNull();
     });
   },
 };

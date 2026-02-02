@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-unsafe-call, @typescript-eslint/no-unsafe-return -- Recharts has poor TypeScript types */
 import type { Meta, StoryObj } from "@storybook/react-vite";
 
 import {
@@ -251,7 +252,7 @@ export const DoughnutChart: Story = {
                       </tspan>
                       <tspan
                         x={viewBox.cx}
-                        y={(viewBox.cy || 0) + 24}
+                        y={(viewBox.cy ?? 0) + 24}
                         className="fill-muted-foreground"
                       >
                         Visitors
