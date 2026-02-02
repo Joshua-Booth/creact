@@ -61,6 +61,8 @@ const config: KnipConfig = {
     "@vitest/browser-playwright",
     // i18n tools (CLI)
     "i18next-parser",
+    // Utility library (kept for future use)
+    "es-toolkit",
   ],
 
   // Build tools
