@@ -236,7 +236,7 @@ export const InTable: Story = {
   },
   render: function Render(args) {
     const [selectedRows, setSelectedRows] = useState<Set<string>>(
-      new Set(["1"])
+      () => new Set(["1"])
     );
 
     const selectAll = selectedRows.size === tableData.length;
