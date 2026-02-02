@@ -207,7 +207,12 @@ export const InputStory: Story = {
       <Button variant="outline" size="icon" aria-label="Decrease">
         <MinusIcon />
       </Button>
-      <Input type="number" defaultValue={5} className="w-16 text-center" />
+      <Input
+        type="number"
+        defaultValue={5}
+        className="w-16 text-center"
+        aria-label="Quantity"
+      />
       <Button variant="outline" size="icon" aria-label="Increase">
         <PlusIcon />
       </Button>
@@ -242,7 +247,7 @@ export const SelectStory: Story = {
   render: (args) => (
     <ButtonGroup {...args}>
       <Select defaultValue="all">
-        <SelectTrigger className="w-32">
+        <SelectTrigger className="w-32" aria-label="Filter status">
           <SelectValue />
         </SelectTrigger>
         <SelectContent>
