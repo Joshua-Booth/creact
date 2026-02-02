@@ -2,7 +2,10 @@ import { redirect } from "react-router";
 
 import { parseSignupError, signupApi } from "../api/signup";
 
-export type SignupActionData = { success: false; error: string };
+export interface SignupActionData {
+  success: false;
+  error: string;
+}
 
 export async function signupAction(
   formData: FormData
