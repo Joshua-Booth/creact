@@ -93,9 +93,13 @@ export const WithValue: Story = {
         <FieldLabel>Temperature: {value[0]}%</FieldLabel>
         <Slider
           value={value}
-          onValueChange={(val) =>
-            setValue(Array.isArray(val) ? [...val] : [val])
-          }
+          onValueChange={(val) => {
+            if (typeof val === "number") {
+              setValue([val]);
+            } else {
+              setValue([...val]);
+            }
+          }}
           max={100}
           step={1}
         />

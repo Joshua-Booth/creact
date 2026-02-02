@@ -24,11 +24,5 @@
     }
   },
   "include": ["../src", "../tests", "../.react-router"],
-  "exclude": [
-    "../node_modules",
-    "../dist",
-    "../tests/e2e",
-    "../app",
-    "../src/**/*.stories.tsx"
-  ]
+  "exclude": ["../node_modules", "../dist", "../tests/e2e", "../app"]
 }
