@@ -5,9 +5,7 @@
 export type FeatureFlagValue = boolean | string | undefined;
 
 /** Custom JSON payload attached to a feature flag. */
-export interface FeatureFlagPayload {
-  [key: string]: unknown;
-}
+export type FeatureFlagPayload = Record<string, unknown>;
 
 /** Options for feature flag hooks. */
 export interface FeatureFlagOptions<T = undefined> {
