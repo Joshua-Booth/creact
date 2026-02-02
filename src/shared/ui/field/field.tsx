@@ -218,7 +218,7 @@ function FieldError({
   errors,
   ...props
 }: FieldPrimitive.Error.Props & {
-  errors?: Array<{ message?: string } | undefined>;
+  errors?: ({ message?: string } | undefined)[];
 }) {
   const content = useMemo(() => {
     if (children) {

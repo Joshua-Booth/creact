@@ -6,7 +6,7 @@
  */
 export function getSiteUrl(): string {
   return (
-    (typeof import.meta !== "undefined" && import.meta.env?.VITE_PUBLIC_URL) ||
+    (import.meta?.env?.VITE_PUBLIC_URL) ||
     "https://creact.netlify.app"
   );
 }

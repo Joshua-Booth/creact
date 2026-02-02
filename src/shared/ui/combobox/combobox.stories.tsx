@@ -122,7 +122,7 @@ export const Multiple: Story = {
         items={fruitNames}
         multiple
         value={values}
-        onValueChange={(newValues) => setValues(newValues as string[])}
+        onValueChange={(newValues) => setValues(newValues)}
       >
         <ComboboxChips ref={anchorRef} className="w-80">
           {values.map((value) => (
@@ -331,7 +331,7 @@ export const Popup: Story = {
       <Combobox
         items={fruitNames}
         value={value}
-        onValueChange={(newValue) => setValue(newValue as string | null)}
+        onValueChange={(newValue) => setValue(newValue)}
       >
         <ComboboxTrigger
           ref={anchorRef}
@@ -595,7 +595,7 @@ export const ShouldClearSelection: Story = {
       // Clear button is icon-only, find by data-slot attribute
       const clearButton = canvasElement.querySelector(
         '[data-slot="combobox-clear"]'
-      ) as HTMLButtonElement;
+      )!;
       await userEvent.click(clearButton);
 
       const input = canvas.getByPlaceholderText("Select a fruit...");

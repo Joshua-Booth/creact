@@ -250,7 +250,7 @@ export const ShouldShowFallbackOnError: Story = {
       });
       await userEvent.click(triggerButton);
 
-      expect(canvas.getByText(/Something went wrong/i)).toBeVisible();
+      expect(canvas.getByText(/something went wrong/i)).toBeVisible();
       expect(canvas.getByRole("button", { name: /try again/i })).toBeVisible();
     });
   },
@@ -274,7 +274,7 @@ export const ShouldRecoverOnReset: Story = {
         name: /trigger error/i,
       });
       await userEvent.click(triggerButton);
-      expect(canvas.getByText(/Something went wrong/i)).toBeVisible();
+      expect(canvas.getByText(/something went wrong/i)).toBeVisible();
     });
 
     await step("click reset and verify recovery", async () => {

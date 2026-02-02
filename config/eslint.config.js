@@ -1,31 +1,65 @@
 import eslintReact from "@eslint-react/eslint-plugin";
 import js from "@eslint/js";
-import typescriptEslint from "@typescript-eslint/eslint-plugin";
-import typescriptParser from "@typescript-eslint/parser";
+import vitest from "@vitest/eslint-plugin";
+import { defineConfig } from "eslint/config";
 import barrel from "eslint-plugin-barrel-files";
 import depend from "eslint-plugin-depend";
 import jsdoc from "eslint-plugin-jsdoc";
 import jsxA11y from "eslint-plugin-jsx-a11y";
+import n from "eslint-plugin-n";
+import promise from "eslint-plugin-promise";
+import reactCompiler from "eslint-plugin-react-compiler";
 import reactHooks from "eslint-plugin-react-hooks";
+import security from "eslint-plugin-security";
+import sonarjs from "eslint-plugin-sonarjs";
 import storybook from "eslint-plugin-storybook";
+import unicorn from "eslint-plugin-unicorn";
 import eslintPluginZod from "eslint-plugin-zod";
 import globals from "globals";
+import tseslint from "typescript-eslint";
 
-export default [
+export default defineConfig([
+  // JavaScript recommended
   js.configs.recommended,
+
+  // TypeScript strict type-checked (type-aware linting)
+  ...tseslint.configs.strictTypeChecked,
+  ...tseslint.configs.stylisticTypeChecked,
+
+  // React
   eslintReact.configs["strict-typescript"],
   reactHooks.configs.flat.recommended,
   jsxA11y.flatConfigs.recommended,
+
+  // Promise handling
+  promise.configs["flat/recommended"],
+
+  // Code quality / smells
+  sonarjs.configs.recommended,
+
+  // Security
+  security.configs.recommended,
+
+  // Storybook
   ...storybook.configs["flat/recommended"],
+
+  // Dependencies
   depend.configs["flat/recommended"],
+
+  // Zod
   eslintPluginZod.configs.recommended,
+
+  // JSDoc
   jsdoc.configs["flat/recommended-typescript-flavor"],
+
+  // Base language options
   {
     languageOptions: {
       ecmaVersion: "latest",
       sourceType: "module",
-      parser: typescriptParser,
       parserOptions: {
+        projectService: true,
+        tsconfigRootDir: import.meta.dirname,
         ecmaFeatures: { jsx: true },
       },
       globals: {
@@ -33,18 +67,39 @@ export default [
         ...globals.node,
       },
     },
-    plugins: {
-      "react-hooks": reactHooks,
-      "@typescript-eslint": typescriptEslint,
-    },
     rules: {
-      "@typescript-eslint/no-explicit-any": "error",
+      // TypeScript overrides
       "@typescript-eslint/no-unused-vars": [
         "error",
         { argsIgnorePattern: "^_" },
       ],
+      "@typescript-eslint/consistent-type-imports": "error",
+      "@typescript-eslint/consistent-type-exports": "error",
       "no-unused-vars": "off",
       "no-undef": "off",
+
+      // Relax some strict rules that conflict with React patterns
+      "@typescript-eslint/no-confusing-void-expression": [
+        "error",
+        { ignoreArrowShorthand: true },
+      ],
+
+      // SonarJS tuning
+      "sonarjs/cognitive-complexity": ["error", 20],
+      "sonarjs/todo-tag": "off", // TODOs are acceptable during development
+      "sonarjs/no-hardcoded-passwords": "off", // Too many false positives (i18n strings, test fixtures)
+      "sonarjs/prefer-read-only-props": "off", // TypeScript already enforces immutability at compile time
+      "sonarjs/deprecation": "off", // Already covered by @typescript-eslint/no-deprecated
+
+      // Security - disable overly noisy rules
+      "security/detect-object-injection": "off", // Too many false positives for legitimate array access
+
+      // TypeScript tuning - relax rules that conflict with common patterns
+      "@typescript-eslint/restrict-template-expressions": [
+        "error",
+        { allowNumber: true },
+      ],
+
       // JSDoc: TypeScript already provides types in function signatures
       "jsdoc/require-returns-type": "off",
       "jsdoc/require-param-type": "off",
@@ -52,8 +107,51 @@ export default [
       "jsdoc/require-jsdoc": "off",
     },
   },
+
+  // React Compiler (preparing for adoption)
   {
-    // Require JSDoc for public API hooks and utilities
+    plugins: { "react-compiler": reactCompiler },
+    rules: {
+      "react-compiler/react-compiler": "error",
+    },
+  },
+
+  // Unicorn (selective modern JS patterns)
+  {
+    plugins: { unicorn },
+    rules: {
+      "unicorn/better-regex": "error",
+      "unicorn/catch-error-name": "error",
+      "unicorn/consistent-function-scoping": "error",
+      "unicorn/error-message": "error",
+      "unicorn/no-array-for-each": "error",
+      "unicorn/no-array-reduce": "error",
+      "unicorn/no-useless-undefined": "error",
+      "unicorn/prefer-array-find": "error",
+      "unicorn/prefer-array-flat-map": "error",
+      "unicorn/prefer-array-some": "error",
+      "unicorn/prefer-at": "error",
+      "unicorn/prefer-includes": "error",
+      "unicorn/prefer-modern-math-apis": "error",
+      "unicorn/prefer-negative-index": "error",
+      "unicorn/prefer-number-properties": "error",
+      "unicorn/prefer-optional-catch-binding": "error",
+      "unicorn/prefer-string-replace-all": "error",
+      "unicorn/prefer-ternary": "error",
+      "unicorn/throw-new-error": "error",
+    },
+  },
+
+  // Barrel files (FSD architecture)
+  {
+    plugins: { "barrel-files": barrel },
+    rules: {
+      "barrel-files/avoid-re-export-all": "error",
+    },
+  },
+
+  // Require JSDoc for public API hooks and utilities
+  {
     files: [
       "src/shared/lib/**/*.{ts,tsx}",
       "src/shared/api/**/*.{ts,tsx}",
@@ -77,16 +175,45 @@ export default [
       ],
     },
   },
+
+  // Unit tests (Vitest)
   {
-    // Conservative barrel file rules - prevent export * patterns while keeping FSD-compatible explicit re-exports
-    plugins: {
-      "barrel-files": barrel,
-    },
+    files: ["src/**/*.test.{ts,tsx}", "src/**/*.spec.{ts,tsx}"],
+    ...vitest.configs.recommended,
     rules: {
-      "barrel-files/avoid-re-export-all": "error",
+      ...vitest.configs.recommended.rules,
+      "vitest/consistent-test-it": ["error", { fn: "it" }],
+      "vitest/no-focused-tests": "error",
+      "vitest/no-disabled-tests": "error",
+      "vitest/expect-expect": "error",
+      "vitest/no-identical-title": "error",
+      "vitest/require-top-level-describe": "error",
+      "vitest/no-conditional-expect": "error",
     },
   },
+
+  // Server-side files (Node.js rules)
   {
-    ignores: ["dist", "coverage", "storybook-static", "**/*.d.ts"],
+    files: ["**/*.server.ts", "**/server/**/*.ts"],
+    ...n.configs["flat/recommended"],
   },
-];
+
+  // Ignores
+  {
+    ignores: [
+      "dist",
+      "coverage",
+      "storybook-static",
+      "**/*.d.ts",
+      "tests/e2e/**",
+      // Generated files
+      ".react-router/**",
+      ".netlify/**",
+      // Config files (not part of main project tsconfig)
+      "config/**",
+      "react-router.config.ts",
+      "vite.config.ts",
+      "vitest.config.ts",
+    ],
+  },
+]);

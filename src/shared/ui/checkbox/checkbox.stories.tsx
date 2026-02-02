@@ -292,7 +292,7 @@ export const InTable: Story = {
                   aria-label={`Select ${row.name}`}
                   checked={selectedRows.has(row.id)}
                   onCheckedChange={(checked) =>
-                    handleSelectRow(row.id, checked === true)
+                    handleSelectRow(row.id, checked)
                   }
                 />
               </TableCell>

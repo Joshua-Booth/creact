@@ -338,7 +338,7 @@ export const CheckboxesIcons: Story = {
             <DropdownMenuCheckboxItem
               checked={notifications.email}
               onCheckedChange={(checked) =>
-                setNotifications({ ...notifications, email: checked === true })
+                setNotifications({ ...notifications, email: checked })
               }
             >
               <Mail />
@@ -347,7 +347,7 @@ export const CheckboxesIcons: Story = {
             <DropdownMenuCheckboxItem
               checked={notifications.sms}
               onCheckedChange={(checked) =>
-                setNotifications({ ...notifications, sms: checked === true })
+                setNotifications({ ...notifications, sms: checked })
               }
             >
               <MessageSquare />
@@ -356,7 +356,7 @@ export const CheckboxesIcons: Story = {
             <DropdownMenuCheckboxItem
               checked={notifications.push}
               onCheckedChange={(checked) =>
-                setNotifications({ ...notifications, push: checked === true })
+                setNotifications({ ...notifications, push: checked })
               }
             >
               <Bell />
@@ -605,7 +605,7 @@ export const Complex: Story = {
             <DropdownMenuCheckboxItem
               checked={notifications.email}
               onCheckedChange={(checked) =>
-                setNotifications({ ...notifications, email: checked === true })
+                setNotifications({ ...notifications, email: checked })
               }
             >
               <Eye />
@@ -614,7 +614,7 @@ export const Complex: Story = {
             <DropdownMenuCheckboxItem
               checked={notifications.sms}
               onCheckedChange={(checked) =>
-                setNotifications({ ...notifications, sms: checked === true })
+                setNotifications({ ...notifications, sms: checked })
               }
             >
               <Layout />
@@ -696,7 +696,7 @@ export const Complex: Story = {
                               onCheckedChange={(checked) =>
                                 setNotifications({
                                   ...notifications,
-                                  push: checked === true,
+                                  push: checked,
                                 })
                               }
                             >
@@ -708,7 +708,7 @@ export const Complex: Story = {
                               onCheckedChange={(checked) =>
                                 setNotifications({
                                   ...notifications,
-                                  email: checked === true,
+                                  email: checked,
                                 })
                               }
                             >

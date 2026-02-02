@@ -42,7 +42,7 @@ export function getLocaleFromMatches(
   matches: readonly (MetaMatch | undefined)[]
 ): Language {
   const rootMatch = matches.find(
-    (m): m is MetaMatch => m !== undefined && m.id === "root"
+    (m): m is MetaMatch => m?.id === "root"
   );
   const loaderData = rootMatch?.loaderData;
 
