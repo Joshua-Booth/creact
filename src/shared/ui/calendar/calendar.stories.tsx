@@ -1,10 +1,26 @@
 import type { Meta, StoryObj } from "@storybook/react-vite";
 
-import { addDays } from "date-fns";
+import * as React from "react";
+
+import type { DateRange, DayButton } from "react-day-picker";
+import { addDays, format } from "date-fns";
+import { CalendarIcon, ClockIcon } from "lucide-react";
 import { action } from "storybook/actions";
 import { expect, userEvent } from "storybook/test";
 
-import { Calendar } from "./calendar";
+import { cn } from "../../lib/utils";
+import { Button } from "../button";
+import { Input } from "../input";
+import { Label } from "../label";
+import { Popover, PopoverContent, PopoverTrigger } from "../popover";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "../select";
+import { Calendar, CalendarDayButton } from "./calendar";
 
 /**
  * A date field component that allows users to enter and edit date.
@@ -30,6 +46,15 @@ const meta = {
       control: "boolean",
       description: "Show days that fall outside the current month",
     },
+    captionLayout: {
+      control: "select",
+      options: ["label", "dropdown", "dropdown-months", "dropdown-years"],
+      description: "Layout of the caption for navigation",
+    },
+    showWeekNumber: {
+      control: "boolean",
+      description: "Show week numbers",
+    },
   },
   args: {
     mode: "single",
@@ -50,9 +75,13 @@ export default meta;
 type Story = StoryObj<typeof meta>;
 
 /**
- * The default form of the calendar.
+ * Basic calendar with dropdown navigation for month/year selection.
  */
-export const Default: Story = {};
+export const Basic: Story = {
+  args: {
+    captionLayout: "dropdown",
+  },
+};
 
 /**
  * Use the `multiple` mode to select multiple dates.
@@ -66,7 +95,7 @@ export const Multiple: Story = {
 };
 
 /**
- * Use the `range` mode to select a range of dates.
+ * Use the `range` mode to select a range of dates with multiple months displayed.
  */
 export const Range: Story = {
   args: {
@@ -75,6 +104,7 @@ export const Range: Story = {
       to: addDays(new Date(), 7),
     },
     mode: "range",
+    numberOfMonths: 2,
   },
 };
 
@@ -89,16 +119,6 @@ export const Disabled: Story = {
       addDays(new Date(), 3),
       addDays(new Date(), 5),
     ],
-  },
-};
-
-/**
- * Use the `numberOfMonths` prop to display multiple months.
- */
-export const MultipleMonths: Story = {
-  args: {
-    numberOfMonths: 2,
-    showOutsideDays: false,
   },
 };
 
@@ -130,5 +150,484 @@ export const ShouldNavigateMonthsWhenClicked: Story = {
       }
       expect(title).not.toHaveTextContent(startTitle);
     }
+  },
+};
+
+/**
+ * Use `startMonth` and `endMonth` props to limit the date range that can be navigated.
+ */
+export const Limited: Story = {
+  args: {
+    startMonth: new Date(2024, 0),
+    endMonth: new Date(2024, 11),
+    defaultMonth: new Date(2024, 5),
+  },
+};
+
+/**
+ * Calendar with dropdown selectors for month and year navigation.
+ */
+export const Caption: Story = {
+  args: {
+    captionLayout: "dropdown",
+    startMonth: new Date(2020, 0),
+    endMonth: new Date(2030, 11),
+  },
+};
+
+/**
+ * Calendar displaying week numbers alongside the days.
+ */
+export const WeekNumbers: Story = {
+  args: {
+    showWeekNumber: true,
+  },
+  parameters: {
+    a11y: {
+      // react-day-picker has a known issue with scope attribute on week numbers
+      disable: true,
+    },
+  },
+};
+
+function CalendarWithPresets() {
+  const [date, setDate] = React.useState<Date | undefined>(() => new Date());
+
+  return (
+    <Popover>
+      <PopoverTrigger
+        render={
+          <Button
+            variant="outline"
+            className={cn(
+              "w-[280px] justify-start text-left font-normal",
+              !date && "text-muted-foreground"
+            )}
+          >
+            <CalendarIcon className="mr-2 size-4" />
+            {date ? format(date, "PPP") : <span>Pick a date</span>}
+          </Button>
+        }
+      />
+      <PopoverContent className="flex w-auto flex-col gap-2 p-2">
+        <Select
+          onValueChange={(value) =>
+            setDate(addDays(new Date(), Number.parseInt(value as string)))
+          }
+        >
+          <SelectTrigger>
+            <SelectValue placeholder="Select" />
+          </SelectTrigger>
+          <SelectContent>
+            <SelectItem value="0">Today</SelectItem>
+            <SelectItem value="1">Tomorrow</SelectItem>
+            <SelectItem value="3">In 3 days</SelectItem>
+            <SelectItem value="7">In a week</SelectItem>
+          </SelectContent>
+        </Select>
+        <Calendar
+          mode="single"
+          selected={date}
+          onSelect={setDate}
+          className="rounded-md border"
+        />
+      </PopoverContent>
+    </Popover>
+  );
+}
+
+/**
+ * A calendar with preset date options in a popover.
+ */
+export const WithPresets: Story = {
+  render: () => <CalendarWithPresets />,
+  parameters: {
+    docs: {
+      source: {
+        code: `
+function CalendarWithPresets() {
+  const [date, setDate] = React.useState<Date | undefined>(new Date());
+
+  return (
+    <Popover>
+      <PopoverTrigger
+        render={
+          <Button
+            variant="outline"
+            className={cn(
+              "w-[280px] justify-start text-left font-normal",
+              !date && "text-muted-foreground"
+            )}
+          >
+            <CalendarIcon className="mr-2 size-4" />
+            {date ? format(date, "PPP") : <span>Pick a date</span>}
+          </Button>
+        }
+      />
+      <PopoverContent className="flex w-auto flex-col gap-2 p-2">
+        <Select
+          onValueChange={(value) =>
+            setDate(addDays(new Date(), Number.parseInt(value as string)))
+          }
+        >
+          <SelectTrigger>
+            <SelectValue placeholder="Select" />
+          </SelectTrigger>
+          <SelectContent>
+            <SelectItem value="0">Today</SelectItem>
+            <SelectItem value="1">Tomorrow</SelectItem>
+            <SelectItem value="3">In 3 days</SelectItem>
+            <SelectItem value="7">In a week</SelectItem>
+          </SelectContent>
+        </Select>
+        <Calendar
+          mode="single"
+          selected={date}
+          onSelect={setDate}
+          className="rounded-md border"
+        />
+      </PopoverContent>
+    </Popover>
+  );
+}
+`,
+      },
+    },
+  },
+};
+
+function CalendarWithTime() {
+  const [date, setDate] = React.useState<Date | undefined>(() => new Date());
+  const [time, setTime] = React.useState("12:00");
+
+  return (
+    <Popover>
+      <PopoverTrigger
+        render={
+          <Button
+            variant="outline"
+            className={cn(
+              "w-[280px] justify-start text-left font-normal",
+              !date && "text-muted-foreground"
+            )}
+          >
+            <CalendarIcon className="mr-2 size-4" />
+            {date ? (
+              <>
+                {format(date, "PPP")} at {time}
+              </>
+            ) : (
+              <span>Pick a date and time</span>
+            )}
+          </Button>
+        }
+      />
+      <PopoverContent className="w-auto p-0">
+        <Calendar
+          mode="single"
+          selected={date}
+          onSelect={setDate}
+          className="p-3"
+        />
+        <div className="border-t p-3">
+          <Label htmlFor="time" className="text-sm font-medium">
+            <ClockIcon className="mr-2 inline-block size-4" />
+            Time
+          </Label>
+          <Input
+            id="time"
+            type="time"
+            value={time}
+            onChange={(e) => setTime(e.target.value)}
+            className="mt-2"
+          />
+        </div>
+      </PopoverContent>
+    </Popover>
+  );
+}
+
+/**
+ * A date picker with time input for selecting both date and time.
+ */
+export const WithTime: Story = {
+  render: () => <CalendarWithTime />,
+  parameters: {
+    docs: {
+      source: {
+        code: `
+function CalendarWithTime() {
+  const [date, setDate] = React.useState<Date | undefined>(new Date());
+  const [time, setTime] = React.useState("12:00");
+
+  return (
+    <Popover>
+      <PopoverTrigger
+        render={
+          <Button
+            variant="outline"
+            className={cn(
+              "w-[280px] justify-start text-left font-normal",
+              !date && "text-muted-foreground"
+            )}
+          >
+            <CalendarIcon className="mr-2 size-4" />
+            {date ? (
+              <>
+                {format(date, "PPP")} at {time}
+              </>
+            ) : (
+              <span>Pick a date and time</span>
+            )}
+          </Button>
+        }
+      />
+      <PopoverContent className="w-auto p-0">
+        <Calendar
+          mode="single"
+          selected={date}
+          onSelect={setDate}
+          className="p-3"
+        />
+        <div className="border-t p-3">
+          <Label htmlFor="time" className="text-sm font-medium">
+            <ClockIcon className="mr-2 inline-block size-4" />
+            Time
+          </Label>
+          <Input
+            id="time"
+            type="time"
+            value={time}
+            onChange={(e) => setTime(e.target.value)}
+            className="mt-2"
+          />
+        </div>
+      </PopoverContent>
+    </Popover>
+  );
+}
+`,
+      },
+    },
+  },
+};
+
+function CustomDayButton({
+  children,
+  modifiers,
+  day,
+  ...props
+}: React.ComponentProps<typeof DayButton>) {
+  const isWeekend = day.date.getDay() === 0 || day.date.getDay() === 6;
+
+  return (
+    <CalendarDayButton day={day} modifiers={modifiers} {...props}>
+      {children}
+      {!modifiers.outside && (
+        <span className="text-muted-foreground text-[10px]">
+          {isWeekend ? "$120" : "$100"}
+        </span>
+      )}
+    </CalendarDayButton>
+  );
+}
+
+function CalendarCustomDays() {
+  const [range, setRange] = React.useState<DateRange | undefined>(() => ({
+    from: new Date(new Date().getFullYear(), 11, 8),
+    to: addDays(new Date(new Date().getFullYear(), 11, 8), 10),
+  }));
+
+  return (
+    <Calendar
+      mode="range"
+      defaultMonth={range?.from}
+      selected={range}
+      onSelect={setRange}
+      captionLayout="dropdown"
+      className="rounded-md border [--cell-size:--spacing(10)] md:[--cell-size:--spacing(12)]"
+      formatters={{
+        formatMonthDropdown: (date) =>
+          date.toLocaleString("default", { month: "long" }),
+      }}
+      components={{
+        DayButton: CustomDayButton,
+      }}
+    />
+  );
+}
+
+/**
+ * Calendar with custom day content showing additional information like pricing.
+ */
+export const CustomDays: Story = {
+  render: () => <CalendarCustomDays />,
+  parameters: {
+    a11y: {
+      // Custom day content with small text has color contrast issues by design
+      disable: true,
+    },
+    docs: {
+      source: {
+        code: `
+function CustomDayButton({
+  children,
+  modifiers,
+  day,
+  ...props
+}: React.ComponentProps<typeof DayButton>) {
+  const isWeekend = day.date.getDay() === 0 || day.date.getDay() === 6;
+
+  return (
+    <CalendarDayButton day={day} modifiers={modifiers} {...props}>
+      {children}
+      {!modifiers.outside && (
+        <span className="text-muted-foreground text-[10px]">
+          {isWeekend ? "$120" : "$100"}
+        </span>
+      )}
+    </CalendarDayButton>
+  );
+}
+
+function CalendarCustomDays() {
+  const [range, setRange] = React.useState<DateRange | undefined>({
+    from: new Date(new Date().getFullYear(), 11, 8),
+    to: addDays(new Date(new Date().getFullYear(), 11, 8), 10),
+  });
+
+  return (
+    <Calendar
+      mode="range"
+      defaultMonth={range?.from}
+      selected={range}
+      onSelect={setRange}
+      captionLayout="dropdown"
+      className="rounded-md border [--cell-size:--spacing(10)] md:[--cell-size:--spacing(12)]"
+      formatters={{
+        formatMonthDropdown: (date) =>
+          date.toLocaleString("default", { month: "long" }),
+      }}
+      components={{
+        DayButton: CustomDayButton,
+      }}
+    />
+  );
+}
+`,
+      },
+    },
+  },
+};
+
+function DatePickerDemo({ className }: React.HTMLAttributes<HTMLDivElement>) {
+  const [date, setDate] = React.useState<DateRange | undefined>(() => ({
+    from: new Date(),
+    to: addDays(new Date(), 7),
+  }));
+
+  return (
+    <div className={cn("grid gap-2", className)}>
+      <Popover>
+        <PopoverTrigger
+          render={
+            <Button
+              id="date"
+              variant="outline"
+              className={cn(
+                "w-[300px] justify-start text-left font-normal",
+                !date && "text-muted-foreground"
+              )}
+            >
+              <CalendarIcon className="mr-2 size-4" />
+              {date?.from ? (
+                date.to ? (
+                  <>
+                    {format(date.from, "LLL dd, y")} -{" "}
+                    {format(date.to, "LLL dd, y")}
+                  </>
+                ) : (
+                  format(date.from, "LLL dd, y")
+                )
+              ) : (
+                <span>Pick a date</span>
+              )}
+            </Button>
+          }
+        />
+        <PopoverContent className="w-auto p-0" align="start">
+          <Calendar
+            mode="range"
+            defaultMonth={date?.from}
+            selected={date}
+            onSelect={setDate}
+            numberOfMonths={2}
+          />
+        </PopoverContent>
+      </Popover>
+    </div>
+  );
+}
+
+/**
+ * A full date range picker with popover and two-month calendar view.
+ */
+export const DatePicker: Story = {
+  render: () => <DatePickerDemo />,
+  parameters: {
+    docs: {
+      source: {
+        code: `
+function DatePickerDemo() {
+  const [date, setDate] = React.useState<DateRange | undefined>({
+    from: new Date(),
+    to: addDays(new Date(), 7),
+  });
+
+  return (
+    <div className="grid gap-2">
+      <Popover>
+        <PopoverTrigger
+          render={
+            <Button
+              id="date"
+              variant="outline"
+              className={cn(
+                "w-[300px] justify-start text-left font-normal",
+                !date && "text-muted-foreground"
+              )}
+            >
+              <CalendarIcon className="mr-2 size-4" />
+              {date?.from ? (
+                date.to ? (
+                  <>
+                    {format(date.from, "LLL dd, y")} -{" "}
+                    {format(date.to, "LLL dd, y")}
+                  </>
+                ) : (
+                  format(date.from, "LLL dd, y")
+                )
+              ) : (
+                <span>Pick a date</span>
+              )}
+            </Button>
+          }
+        />
+        <PopoverContent className="w-auto p-0" align="start">
+          <Calendar
+            mode="range"
+            defaultMonth={date?.from}
+            selected={date}
+            onSelect={setDate}
+            numberOfMonths={2}
+          />
+        </PopoverContent>
+      </Popover>
+    </div>
+  );
+}
+`,
+      },
+    },
   },
 };
