@@ -10,6 +10,8 @@ import { cva } from "class-variance-authority";
 import { cn } from "@/shared/lib/utils";
 import { Separator } from "@/shared/ui/separator";
 
+import { Label } from "../label";
+
 function FieldSet({ className, ...props }: FieldsetPrimitive.Root.Props) {
   return (
     <FieldsetPrimitive.Root
@@ -51,9 +53,9 @@ function FieldLegendDescription({
 }: React.ComponentProps<"p">) {
   return (
     <p
-      data-slot="field-description"
+      data-slot="field-legend-description"
       className={cn(
-        "text-muted-foreground text-left text-sm leading-normal font-normal [[data-variant=legend]+&]:-mt-1.5",
+        "text-muted-foreground mb-3 text-left text-sm leading-normal font-normal [[data-variant=legend]+&]:-mt-6",
         "[&>a:hover]:text-primary [&>a]:underline [&>a]:underline-offset-4",
         className
       )}
@@ -124,9 +126,10 @@ function FieldContent({ className, ...props }: React.ComponentProps<"div">) {
 function FieldLabel({ className, ...props }: FieldPrimitive.Label.Props) {
   return (
     <FieldPrimitive.Label
+      render={<Label />}
       data-slot="field-label"
       className={cn(
-        "has-data-checked:bg-primary/5 has-data-checked:border-primary dark:has-data-checked:bg-primary/10 group/field-label peer/field-label flex w-fit gap-2 leading-snug group-data-[disabled=true]/field:opacity-50 has-[>[data-slot=field]]:rounded-md has-[>[data-slot=field]]:border *:data-[slot=field]:p-3",
+        "has-data-checked:border-primary/50 dark:has-data-checked:bg-primary/10 group/field-label peer/field-label flex w-fit gap-2 leading-snug group-data-[disabled=true]/field:opacity-50 has-[>[data-slot=field]]:rounded-md has-[>[data-slot=field]]:border *:data-[slot=field]:p-3",
         "has-[>[data-slot=field]]:w-full has-[>[data-slot=field]]:flex-col",
         className
       )}
@@ -206,7 +209,7 @@ function FieldError({
   children,
   errors,
   ...props
-}: React.ComponentProps<"div"> & {
+}: FieldPrimitive.Error.Props & {
   errors?: Array<{ message?: string } | undefined>;
 }) {
   const content = useMemo(() => {
@@ -229,8 +232,8 @@ function FieldError({
     return (
       <ul className="ml-4 flex list-disc flex-col gap-1">
         {uniqueErrors.map(
-          (error) =>
-            error?.message && <li key={error.message}>{error.message}</li>
+          (error, index) =>
+            error?.message && <li key={index}>{error.message}</li>
         )}
       </ul>
     );
@@ -252,6 +255,20 @@ function FieldError({
   );
 }
 
+// Additional Base UI primitives for form integration
+const FieldControl = FieldPrimitive.Control;
+const FieldValidity = FieldPrimitive.Validity;
+
+function FieldItem({ className, ...props }: FieldPrimitive.Item.Props) {
+  return (
+    <FieldPrimitive.Item
+      data-slot="field-item"
+      className={cn("flex", className)}
+      {...props}
+    />
+  );
+}
+
 export {
   Field,
   FieldContent,
@@ -264,4 +281,7 @@ export {
   FieldSeparator,
   FieldSet,
   FieldTitle,
+  FieldControl,
+  FieldValidity,
+  FieldItem,
 };
