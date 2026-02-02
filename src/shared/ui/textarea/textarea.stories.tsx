@@ -3,7 +3,7 @@ import type { Meta, StoryObj } from "@storybook/react-vite";
 import { expect, userEvent } from "storybook/test";
 
 import { Button } from "../button";
-import { Label } from "../label";
+import { Field, FieldDescription, FieldError, FieldLabel } from "../field";
 import { Textarea } from "./textarea";
 
 /**
@@ -17,6 +17,7 @@ const meta = {
   args: {
     placeholder: "Type your message here.",
     disabled: false,
+    className: "w-96",
   },
 } satisfies Meta<typeof Textarea>;
 
@@ -39,36 +40,36 @@ export const Disabled: Story = {
 };
 
 /**
- * Use the `Label` component to includes a clear, descriptive label above or
- * alongside the text area to guide users.
+ * Use the `Field` component to add a label and description to the textarea.
  */
-export const WithLabel: Story = {
+export const WithField: Story = {
   render: (args) => (
-    <div className="grid w-full gap-1.5">
-      <Label htmlFor="message">Your message</Label>
-      <Textarea {...args} id="message" />
-    </div>
-  ),
-};
-
-/**
- * Use a text element below the text area to provide additional instructions
- * or information to users.
- */
-export const WithText: Story = {
-  render: (args) => (
-    <div className="grid w-full gap-1.5">
-      <Label htmlFor="message-2">Your Message</Label>
-      <Textarea {...args} id="message-2" />
-      <p className="text-sm text-slate-500">
+    <Field className={args.className}>
+      <FieldLabel>Your message</FieldLabel>
+      <Textarea {...args} />
+      <FieldDescription>
         Your message will be copied to the support team.
-      </p>
-    </div>
+      </FieldDescription>
+    </Field>
   ),
 };
 
 /**
- * Use the `Button` component to indicate that the text area can be submitted
+ * Use the `data-invalid` attribute and `FieldError` component to display
+ * validation errors.
+ */
+export const Invalid: Story = {
+  render: (args) => (
+    <Field data-invalid className={args.className}>
+      <FieldLabel>Your message</FieldLabel>
+      <Textarea {...args} aria-invalid />
+      <FieldError>Please enter a message.</FieldError>
+    </Field>
+  ),
+};
+
+/**
+ * Use the `Button` component to indicate that the textarea can be submitted
  * or used to trigger an action.
  */
 export const WithButton: Story = {
