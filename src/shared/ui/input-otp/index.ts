@@ -1,6 +1,6 @@
 export {
   InputOTP,
   InputOTPGroup,
-  InputOTPSlot,
   InputOTPSeparator,
+  InputOTPSlot,
 } from "./input-otp";

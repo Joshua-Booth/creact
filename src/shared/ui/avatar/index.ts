@@ -1,8 +1,8 @@
 export {
   Avatar,
-  AvatarImage,
+  AvatarBadge,
   AvatarFallback,
   AvatarGroup,
   AvatarGroupCount,
-  AvatarBadge,
+  AvatarImage,
 } from "./avatar";

@@ -524,7 +524,7 @@ function SidebarMenuButton({
       },
       props
     ),
-    render: !tooltip ? render : TooltipTrigger,
+    render: tooltip == null ? render : TooltipTrigger,
     state: {
       slot: "sidebar-menu-button",
       sidebar: "menu-button",
@@ -533,7 +533,7 @@ function SidebarMenuButton({
     },
   });
 
-  if (!tooltip) {
+  if (tooltip == null) {
     return comp;
   }
 

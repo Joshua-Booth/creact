@@ -17,9 +17,6 @@ import {
 } from "remix-themes";
 
 import { SWRProvider } from "@/app/providers/SWRProvider";
-
-import "@/app/styles/globals.css";
-
 import { Header } from "@/widgets/header";
 import {
   generateMeta,
@@ -37,6 +34,8 @@ import {
   localeCookie,
 } from "./middleware/i18next";
 import { themeSessionResolver } from "./sessions.server";
+
+import "@/app/styles/globals.css";
 
 export const middleware = [i18nextMiddleware];
 

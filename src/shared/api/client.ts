@@ -19,7 +19,9 @@ export const api = ky.create({
     beforeRequest: [
       (request) => {
         const token = localStorage.getItem("token");
-        if (token) request.headers.set("Authorization", `Token ${token}`);
+        // eslint-disable-next-line security/detect-possible-timing-attacks -- False positive: checking existence, not comparing secrets
+        if (token !== null)
+          request.headers.set("Authorization", `Token ${token}`);
       },
     ],
   },

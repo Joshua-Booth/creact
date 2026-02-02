@@ -182,7 +182,7 @@ function FieldSeparator({
   return (
     <div
       data-slot="field-separator"
-      data-content={!!children}
+      data-content={children != null}
       className={cn(
         "relative -my-2 h-5 text-sm group-data-[variant=outline]/field-group:-mb-2",
         className
@@ -190,7 +190,7 @@ function FieldSeparator({
       {...props}
     >
       <Separator className="absolute inset-0 top-1/2" />
-      {children && (
+      {children != null && (
         <span
           className="text-muted-foreground bg-background relative mx-auto block w-fit px-2"
           data-slot="field-separator-content"
@@ -222,11 +222,11 @@ function FieldError({
 }) {
   // eslint-disable-next-line sonarjs/function-return-type -- Different return types represent different renderable content
   const content = useMemo(() => {
-    if (children) {
+    if (children != null) {
       return children;
     }
 
-    if (!errors?.length) {
+    if (errors === undefined || errors.length === 0) {
       return null;
     }
 
@@ -248,7 +248,7 @@ function FieldError({
     );
   }, [children, errors]);
 
-  if (!content) {
+  if (content == null) {
     return null;
   }
 
@@ -281,16 +281,16 @@ function FieldItem({ className, ...props }: FieldPrimitive.Item.Props) {
 export {
   Field,
   FieldContent,
+  FieldControl,
   FieldDescription,
   FieldError,
   FieldGroup,
+  FieldItem,
   FieldLabel,
   FieldLegend,
   FieldLegendDescription,
   FieldSeparator,
   FieldSet,
   FieldTitle,
-  FieldControl,
   FieldValidity,
-  FieldItem,
 };

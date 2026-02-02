@@ -1,5 +1,5 @@
 export { api, ApiError } from "./client";
-export { useApi, useAuthenticatedApi, mutate } from "./hooks";
+export { mutate, useApi, useAuthenticatedApi } from "./hooks";
 
 /**
  * Get auth headers from localStorage token.
@@ -8,7 +8,7 @@ export { useApi, useAuthenticatedApi, mutate } from "./hooks";
  */
 export const auth = () => {
   const token = localStorage.getItem("token");
-  return token ? { Authorization: `Token ${token}` } : {};
+  return token !== null ? { Authorization: `Token ${token}` } : {};
 };
 
 /**

@@ -278,7 +278,7 @@ export const WithSlider: Story = {
         <Slider
           value={value}
           onValueChange={(val: number | readonly number[]) =>
-            setValue(typeof val === "number" ? [val] : Array.from(val))
+            setValue(typeof val === "number" ? [val] : [...val])
           }
           max={100}
           step={1}

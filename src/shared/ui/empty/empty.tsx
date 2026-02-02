@@ -94,9 +94,9 @@ function EmptyContent({ className, ...props }: React.ComponentProps<"div">) {
 
 export {
   Empty,
-  EmptyHeader,
-  EmptyTitle,
-  EmptyDescription,
   EmptyContent,
+  EmptyDescription,
+  EmptyHeader,
   EmptyMedia,
+  EmptyTitle,
 };

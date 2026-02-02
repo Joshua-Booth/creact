@@ -5,7 +5,7 @@ export {
   NavigationMenuItem,
   NavigationMenuLink,
   NavigationMenuList,
+  NavigationMenuPositioner,
   NavigationMenuTrigger,
   navigationMenuTriggerStyle,
-  NavigationMenuPositioner,
 } from "./navigation-menu";

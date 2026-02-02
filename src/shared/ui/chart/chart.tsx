@@ -73,10 +73,10 @@ function ChartContainer({
 
 const ChartStyle = ({ id, config }: { id: string; config: ChartConfig }) => {
   const colorConfig = Object.entries(config).filter(
-    ([, config]) => config.theme ?? config.color
+    ([, config]) => config.theme !== undefined || config.color !== undefined
   );
 
-  if (!colorConfig.length) {
+  if (colorConfig.length === 0) {
     return null;
   }
 
@@ -108,7 +108,7 @@ ${colorConfig
 
 const ChartTooltip = RechartsPrimitive.Tooltip;
 
-/* eslint-disable @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-unsafe-argument -- Recharts payload objects are typed as any */
+/* eslint-disable @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-unsafe-argument, @typescript-eslint/strict-boolean-expressions -- Recharts payload objects are typed as any */
 function ChartTooltipContent({
   active,
   payload,
@@ -254,11 +254,11 @@ function ChartTooltipContent({
     </div>
   );
 }
-/* eslint-enable @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-unsafe-argument */
+/* eslint-enable @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-unsafe-argument, @typescript-eslint/strict-boolean-expressions */
 
 const ChartLegend = RechartsPrimitive.Legend;
 
-/* eslint-disable @typescript-eslint/no-unsafe-assignment, @typescript-eslint/restrict-template-expressions -- Recharts LegendProps payload is typed with DataKey<any> */
+/* eslint-disable @typescript-eslint/no-unsafe-assignment, @typescript-eslint/restrict-template-expressions, @typescript-eslint/strict-boolean-expressions -- Recharts LegendProps payload is typed with DataKey<any> */
 function ChartLegendContent({
   className,
   hideIcon = false,
@@ -314,7 +314,7 @@ function ChartLegendContent({
     </div>
   );
 }
-/* eslint-enable @typescript-eslint/no-unsafe-assignment, @typescript-eslint/restrict-template-expressions */
+/* eslint-enable @typescript-eslint/no-unsafe-assignment, @typescript-eslint/restrict-template-expressions, @typescript-eslint/strict-boolean-expressions */
 
 function getPayloadConfigFromPayload(
   config: ChartConfig,
@@ -354,9 +354,9 @@ function getPayloadConfigFromPayload(
 
 export {
   ChartContainer,
-  ChartTooltip,
-  ChartTooltipContent,
   ChartLegend,
   ChartLegendContent,
   ChartStyle,
+  ChartTooltip,
+  ChartTooltipContent,
 };

@@ -130,7 +130,7 @@ export const ShouldNavigateMonthsWhenClicked: Story = {
   },
   play: async ({ canvas }) => {
     const title = await canvas.findByText(/2000/i);
-    const startTitle = title.textContent || "";
+    const startTitle = title.textContent;
     const backBtn = await canvas.findByRole("button", {
       name: /previous/i,
     });

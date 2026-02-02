@@ -45,7 +45,7 @@ export function getLocaleFromMatches(
   const loaderData = rootMatch?.loaderData;
 
   if (
-    loaderData &&
+    loaderData != null &&
     typeof loaderData === "object" &&
     "locale" in loaderData &&
     isLanguage(loaderData.locale)

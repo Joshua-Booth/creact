@@ -1,7 +1,7 @@
 export {
   Tabs,
-  TabsList,
-  TabsTrigger,
   TabsContent,
+  TabsList,
   tabsListVariants,
+  TabsTrigger,
 } from "./tabs";

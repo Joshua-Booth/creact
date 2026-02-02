@@ -1,3 +1,3 @@
-export type { User, LoginCredentials, AuthResponse } from "./auth";
-export type { ApiResponse, ApiError } from "./api";
+export type { AuthResponse, LoginCredentials, User } from "./auth";
+export type { ApiError, ApiResponse } from "./api";
 export { useMainStore } from "./mainStore";

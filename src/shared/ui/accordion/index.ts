@@ -1,6 +1,6 @@
 export {
   Accordion,
+  AccordionContent,
   AccordionItem,
   AccordionTrigger,
-  AccordionContent,
 } from "./accordion";
