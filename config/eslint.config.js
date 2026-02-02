@@ -7,6 +7,7 @@ import depend from "eslint-plugin-depend";
 import jsdoc from "eslint-plugin-jsdoc";
 import jsxA11y from "eslint-plugin-jsx-a11y";
 import n from "eslint-plugin-n";
+import perfectionist from "eslint-plugin-perfectionist";
 import promise from "eslint-plugin-promise";
 import reactCompiler from "eslint-plugin-react-compiler";
 import reactHooks from "eslint-plugin-react-hooks";
@@ -48,6 +49,17 @@ export default defineConfig([
 
   // Zod
   eslintPluginZod.configs.recommended,
+
+  // Import/export sorting (named items only - statement order handled by Prettier)
+  {
+    plugins: { perfectionist },
+    rules: {
+      // Sort named exports alphabetically: export { a, b, c }
+      "perfectionist/sort-named-exports": ["error", { type: "natural" }],
+      // Sort named imports alphabetically: import { a, b, c } from "x"
+      "perfectionist/sort-named-imports": ["error", { type: "natural" }],
+    },
+  },
 
   // JSDoc
   jsdoc.configs["flat/recommended-typescript-flavor"],
@@ -100,6 +112,75 @@ export default defineConfig([
         { allowNumber: true },
       ],
 
+      // Strict boolean expressions - require explicit boolean checks
+      "@typescript-eslint/strict-boolean-expressions": [
+        "error",
+        {
+          allowString: false,
+          allowNumber: false,
+          allowNullableObject: true, // Allow `if (obj)` for nullable objects
+          allowNullableBoolean: true, // Allow `if (bool)` for nullable booleans
+          allowNullableString: true, // Allow `if (str)` for optional string props (common in React)
+          allowNullableNumber: false,
+          allowNullableEnum: false,
+          allowAny: false,
+        },
+      ],
+
+      // Naming conventions for consistent code style
+      "@typescript-eslint/naming-convention": [
+        "error",
+        // Default: camelCase for everything
+        {
+          selector: "default",
+          format: ["camelCase"],
+          leadingUnderscore: "allow",
+        },
+        // Variables: camelCase, UPPER_CASE for constants, PascalCase for React components
+        {
+          selector: "variable",
+          format: ["camelCase", "UPPER_CASE", "PascalCase"],
+          leadingUnderscore: "allow",
+        },
+        // Allow Node.js __dirname, __filename
+        {
+          selector: "variable",
+          format: null,
+          filter: { regex: "^__dirname|__filename$", match: true },
+        },
+        // Functions: camelCase or PascalCase (for React components)
+        {
+          selector: "function",
+          format: ["camelCase", "PascalCase"],
+        },
+        // Parameters: camelCase, PascalCase for Storybook Story type
+        {
+          selector: "parameter",
+          format: ["camelCase", "PascalCase"],
+          leadingUnderscore: "allow",
+        },
+        // Types, interfaces, enums: PascalCase
+        {
+          selector: "typeLike",
+          format: ["PascalCase"],
+        },
+        // Enum members: UPPER_CASE or PascalCase
+        {
+          selector: "enumMember",
+          format: ["UPPER_CASE", "PascalCase"],
+        },
+        // Object/type properties: allow any format (for API responses, JSON-LD, HTML attributes)
+        {
+          selector: ["objectLiteralProperty", "typeProperty"],
+          format: null,
+        },
+        // Import names: any format (external libraries may use different conventions)
+        {
+          selector: "import",
+          format: null,
+        },
+      ],
+
       // JSDoc: TypeScript already provides types in function signatures
       "jsdoc/require-returns-type": "off",
       "jsdoc/require-param-type": "off",
@@ -139,6 +220,21 @@ export default defineConfig([
       "unicorn/prefer-string-replace-all": "error",
       "unicorn/prefer-ternary": "error",
       "unicorn/throw-new-error": "error",
+      // Additional strict rules
+      "unicorn/no-typeof-undefined": "error",
+      "unicorn/no-unnecessary-await": "error",
+      "unicorn/prefer-date-now": "error",
+      "unicorn/prefer-default-parameters": "error",
+      "unicorn/prefer-logical-operator-over-ternary": "error",
+      "unicorn/prefer-math-min-max": "error",
+      "unicorn/prefer-native-coercion-functions": "error",
+      "unicorn/prefer-regexp-test": "error",
+      "unicorn/prefer-set-has": "error",
+      "unicorn/prefer-spread": "error",
+      "unicorn/prefer-string-slice": "error",
+      "unicorn/prefer-structured-clone": "error",
+      "unicorn/prefer-switch": "error",
+      "unicorn/require-number-to-fixed-digits-argument": "error",
     },
   },
 
