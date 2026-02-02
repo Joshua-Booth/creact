@@ -58,7 +58,9 @@ export default [
       "src/shared/lib/**/*.{ts,tsx}",
       "src/shared/api/**/*.{ts,tsx}",
       "src/shared/config/**/*.ts",
+      "src/shared/model/**/*.{ts,tsx}",
       "src/entities/*/api/**/*.{ts,tsx}",
+      "src/entities/*/model/**/*.{ts,tsx}",
     ],
     ignores: ["**/*.stories.*", "**/*.test.*"],
     rules: {

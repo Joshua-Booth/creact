@@ -6,6 +6,9 @@ interface MainState {
   clearError: () => void;
 }
 
+/**
+ * Global error state store for handling application-wide errors.
+ */
 export const useMainStore = create<MainState>((set) => ({
   error: null,
   setError: (error) => set({ error }),
