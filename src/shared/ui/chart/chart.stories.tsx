@@ -77,6 +77,10 @@ const meta = {
   argTypes: {},
   args: {
     children: <div />,
+    className: "min-h-[200px] w-full",
+    // Suppress ResponsiveContainer warnings in Storybook (SSR/test environment)
+    width: 320,
+    aspect: 1.6,
   },
 } satisfies Meta<typeof ChartContainer>;
 
@@ -97,8 +101,10 @@ export const StackedAreaChart: Story = {
         accessibilityLayer
         data={multiSeriesData}
         margin={{
-          left: 12,
+          top: 0,
           right: 12,
+          bottom: 0,
+          left: 12,
         }}
       >
         <CartesianGrid vertical={false} />
@@ -176,8 +182,10 @@ export const MultiLineChart: Story = {
         accessibilityLayer
         data={multiSeriesData}
         margin={{
-          left: 12,
+          top: 0,
           right: 12,
+          bottom: 0,
+          left: 12,
         }}
       >
         <CartesianGrid vertical={false} />
@@ -252,7 +260,7 @@ export const DoughnutChart: Story = {
                       </tspan>
                       <tspan
                         x={viewBox.cx}
-                        y={(viewBox.cy ?? 0) + 24}
+                        y={viewBox.cy + 24}
                         className="fill-muted-foreground"
                       >
                         Visitors

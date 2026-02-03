@@ -1,5 +1,9 @@
 import * as React from "react";
 
+import type {
+  NameType,
+  ValueType,
+} from "recharts/types/component/DefaultTooltipContent";
 import * as RechartsPrimitive from "recharts";
 
 import { cn } from "@/shared/lib/utils";
@@ -39,12 +43,18 @@ function ChartContainer({
   className,
   children,
   config,
+  width,
+  aspect,
   ...props
 }: React.ComponentProps<"div"> & {
   config: ChartConfig;
   children: React.ComponentProps<
     typeof RechartsPrimitive.ResponsiveContainer
   >["children"];
+  /** Width for ResponsiveContainer. Set in test/SSR environments to prevent warnings. */
+  width?: number;
+  /** Aspect ratio (width/height) for ResponsiveContainer. Set in test/SSR environments to prevent warnings. */
+  aspect?: number;
 }) {
   const uniqueId = React.useId();
   // eslint-disable-next-line unicorn/prefer-string-replace-all -- Project targets ES2020, replaceAll requires ES2021
@@ -63,7 +73,7 @@ function ChartContainer({
         {...props}
       >
         <ChartStyle id={chartId} config={config} />
-        <RechartsPrimitive.ResponsiveContainer>
+        <RechartsPrimitive.ResponsiveContainer width={width} aspect={aspect}>
           {children}
         </RechartsPrimitive.ResponsiveContainer>
       </div>
@@ -130,7 +140,10 @@ function ChartTooltipContent({
     indicator?: "line" | "dot" | "dashed";
     nameKey?: string;
     labelKey?: string;
-  }) {
+  } & Omit<
+    RechartsPrimitive.DefaultTooltipContentProps<ValueType, NameType>,
+    "accessibilityLayer"
+  >) {
   const { config } = useChart();
 
   const tooltipLabel = React.useMemo(() => {
@@ -139,7 +152,7 @@ function ChartTooltipContent({
     }
 
     const [item] = payload;
-    const key = `${labelKey ?? item?.dataKey ?? item?.name ?? "value"}`;
+    const key = String(labelKey ?? item?.dataKey ?? item?.name ?? "value");
     const itemConfig = getPayloadConfigFromPayload(config, item, key);
     const value =
       !labelKey && typeof label === "string"
@@ -187,13 +200,13 @@ function ChartTooltipContent({
         {payload
           .filter((item) => item.type !== "none")
           .map((item, index) => {
-            const key = `${nameKey ?? item.name ?? item.dataKey ?? "value"}`;
+            const key = String(nameKey ?? item.name ?? item.dataKey ?? "value");
             const itemConfig = getPayloadConfigFromPayload(config, item, key);
             const indicatorColor = color ?? item.payload?.fill ?? item.color;
 
             return (
               <div
-                key={item.dataKey}
+                key={key}
                 className={cn(
                   "[&>svg]:text-muted-foreground flex w-full flex-wrap items-stretch gap-2 [&>svg]:h-2.5 [&>svg]:w-2.5",
                   indicator === "dot" && "items-center"
@@ -239,9 +252,11 @@ function ChartTooltipContent({
                           {itemConfig?.label ?? item.name}
                         </span>
                       </div>
-                      {item.value && (
+                      {item.value != null && (
                         <span className="text-foreground font-mono font-medium tabular-nums">
-                          {item.value.toLocaleString()}
+                          {typeof item.value === "number"
+                            ? item.value.toLocaleString()
+                            : String(item.value)}
                         </span>
                       )}
                     </div>
@@ -258,18 +273,17 @@ function ChartTooltipContent({
 
 const ChartLegend = RechartsPrimitive.Legend;
 
-/* eslint-disable @typescript-eslint/no-unsafe-assignment, @typescript-eslint/restrict-template-expressions, @typescript-eslint/strict-boolean-expressions -- Recharts LegendProps payload is typed with DataKey<any> */
+/* eslint-disable @typescript-eslint/restrict-template-expressions, @typescript-eslint/strict-boolean-expressions -- Recharts LegendProps payload is typed with DataKey<any> */
 function ChartLegendContent({
   className,
   hideIcon = false,
-  payload,
-  verticalAlign = "bottom",
   nameKey,
-}: React.ComponentProps<"div"> &
-  Pick<RechartsPrimitive.LegendProps, "payload" | "verticalAlign"> & {
-    hideIcon?: boolean;
-    nameKey?: string;
-  }) {
+  payload,
+  verticalAlign,
+}: React.ComponentProps<"div"> & {
+  hideIcon?: boolean;
+  nameKey?: string;
+} & RechartsPrimitive.DefaultLegendContentProps) {
   const { config } = useChart();
 
   if (!payload?.length) {
@@ -314,7 +328,7 @@ function ChartLegendContent({
     </div>
   );
 }
-/* eslint-enable @typescript-eslint/no-unsafe-assignment, @typescript-eslint/restrict-template-expressions, @typescript-eslint/strict-boolean-expressions */
+/* eslint-enable @typescript-eslint/restrict-template-expressions, @typescript-eslint/strict-boolean-expressions */
 
 function getPayloadConfigFromPayload(
   config: ChartConfig,
