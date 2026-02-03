@@ -16,32 +16,32 @@ const meta: Meta<typeof ResizablePanelGroup> = {
   component: ResizablePanelGroup,
   tags: ["autodocs"],
   argTypes: {
-    onLayout: {
+    onLayoutChange: {
       control: false,
     },
   },
   args: {
-    onLayout: fn(),
+    onLayoutChange: fn(),
     className: "max-w-md rounded-lg border md:min-w-[450px]",
-    direction: "horizontal",
+    orientation: "horizontal",
   },
   render: (args) => (
     <ResizablePanelGroup {...args}>
-      <ResizablePanel defaultSize={50}>
+      <ResizablePanel defaultSize="50%">
         <div className="flex h-[200px] items-center justify-center p-6">
           <span className="font-semibold">One</span>
         </div>
       </ResizablePanel>
       <ResizableHandle />
-      <ResizablePanel defaultSize={50}>
-        <ResizablePanelGroup direction="vertical">
-          <ResizablePanel defaultSize={25}>
+      <ResizablePanel defaultSize="50%">
+        <ResizablePanelGroup orientation="vertical">
+          <ResizablePanel defaultSize="25%">
             <div className="flex h-full items-center justify-center p-6">
               <span className="font-semibold">Two</span>
             </div>
           </ResizablePanel>
           <ResizableHandle />
-          <ResizablePanel defaultSize={75}>
+          <ResizablePanel defaultSize="75%">
             <div className="flex h-full items-center justify-center p-6">
               <span className="font-semibold">Three</span>
             </div>
@@ -66,18 +66,18 @@ export const Default: Story = {};
  */
 export const Vertical: Story = {
   args: {
-    direction: "vertical",
+    orientation: "vertical",
     className: "min-h-[200px] max-w-md rounded-lg border md:min-w-[450px]",
   },
   render: (args) => (
     <ResizablePanelGroup {...args}>
-      <ResizablePanel defaultSize={25}>
+      <ResizablePanel defaultSize="25%">
         <div className="flex h-full items-center justify-center p-6">
           <span className="font-semibold">Header</span>
         </div>
       </ResizablePanel>
       <ResizableHandle />
-      <ResizablePanel defaultSize={75}>
+      <ResizablePanel defaultSize="75%">
         <div className="flex h-full items-center justify-center p-6">
           <span className="font-semibold">Content</span>
         </div>
@@ -92,13 +92,13 @@ export const Vertical: Story = {
 export const Handle: Story = {
   render: (args) => (
     <ResizablePanelGroup {...args}>
-      <ResizablePanel defaultSize={25}>
+      <ResizablePanel defaultSize="25%">
         <div className="flex h-[200px] items-center justify-center p-6">
           <span className="font-semibold">Sidebar</span>
         </div>
       </ResizablePanel>
       <ResizableHandle withHandle />
-      <ResizablePanel defaultSize={75}>
+      <ResizablePanel defaultSize="75%">
         <div className="flex h-full items-center justify-center p-6">
           <span className="font-semibold">Content</span>
         </div>
@@ -113,21 +113,21 @@ export const Handle: Story = {
 export const WithHandle: Story = {
   render: (args) => (
     <ResizablePanelGroup {...args}>
-      <ResizablePanel defaultSize={50}>
+      <ResizablePanel defaultSize="50%">
         <div className="flex h-[200px] items-center justify-center p-6">
           <span className="font-semibold">One</span>
         </div>
       </ResizablePanel>
       <ResizableHandle withHandle />
-      <ResizablePanel defaultSize={50}>
-        <ResizablePanelGroup direction="vertical">
-          <ResizablePanel defaultSize={25}>
+      <ResizablePanel defaultSize="50%">
+        <ResizablePanelGroup orientation="vertical">
+          <ResizablePanel defaultSize="25%">
             <div className="flex h-full items-center justify-center p-6">
               <span className="font-semibold">Two</span>
             </div>
           </ResizablePanel>
           <ResizableHandle withHandle />
-          <ResizablePanel defaultSize={75}>
+          <ResizablePanel defaultSize="75%">
             <div className="flex h-full items-center justify-center p-6">
               <span className="font-semibold">Three</span>
             </div>
@@ -143,13 +143,13 @@ export const ShouldResizeWithKeyboard: Story = {
   tags: ["!dev", "!autodocs"],
   render: (args) => (
     <ResizablePanelGroup {...args}>
-      <ResizablePanel defaultSize={50}>
+      <ResizablePanel defaultSize="50%">
         <div className="flex h-[200px] items-center justify-center p-6">
           <span className="font-semibold">Left</span>
         </div>
       </ResizablePanel>
       <ResizableHandle />
-      <ResizablePanel defaultSize={50}>
+      <ResizablePanel defaultSize="50%">
         <div className="flex h-full items-center justify-center p-6">
           <span className="font-semibold">Right</span>
         </div>
@@ -166,12 +166,12 @@ export const ShouldResizeWithKeyboard: Story = {
 
     await step("resize with ArrowRight", async () => {
       await userEvent.keyboard("{ArrowRight}");
-      await expect(args.onLayout).toHaveBeenCalled();
+      await expect(args.onLayoutChange).toHaveBeenCalled();
     });
 
     await step("resize with ArrowLeft", async () => {
       await userEvent.keyboard("{ArrowLeft}");
-      await expect(args.onLayout).toHaveBeenCalled();
+      await expect(args.onLayoutChange).toHaveBeenCalled();
     });
   },
 };
