@@ -30,9 +30,11 @@ export default defineConfig([
   // React
   eslintReact.configs["strict-typescript"],
   reactHooks.configs.flat.recommended,
+  // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
   jsxA11y.flatConfigs.recommended,
 
   // Promise handling
+  // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
   promise.configs["flat/recommended"],
 
   // Code quality / smells
@@ -70,8 +72,11 @@ export default defineConfig([
       ecmaVersion: "latest",
       sourceType: "module",
       parserOptions: {
-        projectService: true,
-        tsconfigRootDir: import.meta.dirname,
+        projectService: {
+          allowDefaultProject: ["config/*.js", "config/*.ts"],
+          defaultProject: "tsconfig.node.json",
+        },
+        tsconfigRootDir: import.meta.dirname + "/..",
         ecmaFeatures: { jsx: true },
       },
       globals: {
