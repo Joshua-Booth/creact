@@ -235,6 +235,15 @@ export default defineConfig([
       "unicorn/prefer-structured-clone": "error",
       "unicorn/prefer-switch": "error",
       "unicorn/require-number-to-fixed-digits-argument": "error",
+      // Code quality and consistency rules
+      "unicorn/no-empty-file": "error",
+      "unicorn/no-instanceof-array": "error",
+      "unicorn/no-static-only-class": "error",
+      "unicorn/no-abusive-eslint-disable": "error",
+      "unicorn/no-lonely-if": "error",
+      "unicorn/no-negated-condition": "error",
+      "unicorn/no-nested-ternary": "error",
+      "unicorn/consistent-destructuring": "error",
     },
   },
 
@@ -285,6 +294,15 @@ export default defineConfig([
       "vitest/no-identical-title": "error",
       "vitest/require-top-level-describe": "error",
       "vitest/no-conditional-expect": "error",
+      // Assertion style
+      "vitest/prefer-to-be": "error",
+      "vitest/prefer-to-have-length": "error",
+      // Test organization
+      "vitest/prefer-lowercase-title": [
+        "error",
+        { ignoreTopLevelDescribe: true },
+      ],
+      "vitest/no-duplicate-hooks": "error",
     },
   },
 
