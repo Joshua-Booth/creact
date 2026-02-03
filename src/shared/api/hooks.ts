@@ -29,8 +29,8 @@ export function useAuthenticatedApi<T>(
   options?: SWRConfiguration<T, ApiError>
 ): SWRResponse<T, ApiError> {
   const token =
-    typeof window !== "undefined" ? localStorage.getItem("token") : null;
-  return useSWR<T, ApiError>(token !== null ? endpoint : null, options);
+    typeof window === "undefined" ? null : localStorage.getItem("token");
+  return useSWR<T, ApiError>(token === null ? null : endpoint, options);
 }
 
 export { mutate } from "swr";

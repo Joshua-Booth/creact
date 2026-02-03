@@ -8,7 +8,7 @@ export { mutate, useApi, useAuthenticatedApi } from "./hooks";
  */
 export const auth = () => {
   const token = localStorage.getItem("token");
-  return token !== null ? { Authorization: `Token ${token}` } : {};
+  return token === null ? {} : { Authorization: `Token ${token}` };
 };
 
 /**
