@@ -1,7 +1,6 @@
 import eslintReact from "@eslint-react/eslint-plugin";
 import js from "@eslint/js";
 import vitest from "@vitest/eslint-plugin";
-import { defineConfig } from "eslint/config";
 import barrel from "eslint-plugin-barrel-files";
 import depend from "eslint-plugin-depend";
 import jsdoc from "eslint-plugin-jsdoc";
@@ -16,6 +15,7 @@ import sonarjs from "eslint-plugin-sonarjs";
 import storybook from "eslint-plugin-storybook";
 import unicorn from "eslint-plugin-unicorn";
 import eslintPluginZod from "eslint-plugin-zod";
+import { defineConfig } from "eslint/config";
 import globals from "globals";
 import tseslint from "typescript-eslint";
 

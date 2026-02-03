@@ -78,6 +78,7 @@ run = "prettier --write \"**/*.{ts,tsx,css,json,yml,yaml}\" --config {{vars.pret
 [tasks.lint]
 description = "Run ESLint"
 alias = "l"
+depends = ["typegen"]
 run = "eslint . --ext .ts,.tsx --config {{vars.eslint_config}} --max-warnings 0"
 
 [tasks.lintstaged]
