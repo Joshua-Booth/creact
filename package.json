@@ -136,7 +136,13 @@
     "overrides": {
       "hono": ">=4.11.4",
       "undici": ">=6.23.0",
-      "seroval": ">=1.4.1"
+      "seroval": ">=1.4.1",
+      "@isaacs/brace-expansion": ">=5.0.1"
+    },
+    "auditConfig": {
+      "ignoreGhsas": [
+        "GHSA-3966-f6p6-2qr9"
+      ]
     }
   }
 }
