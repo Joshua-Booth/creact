@@ -8,7 +8,7 @@ const sessionStorage = createCookieSessionStorage({
     path: "/",
     httpOnly: true,
     sameSite: "lax",
-    secrets: ["s3cr3t"], // TODO: use env variable in production
+    secrets: [process.env.SESSION_SECRET ?? "dev-secret-change-in-production"],
   },
 });
 

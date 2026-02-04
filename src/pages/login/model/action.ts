@@ -1,6 +1,7 @@
-import { redirect } from "react-router";
+import { setAuthTokenAndRedirect } from "@/entities/user";
 
 import { loginApi, parseLoginError } from "../api/login";
+import { loginSchema } from "./schema";
 
 export interface LoginActionData {
   success: false;
@@ -10,20 +11,21 @@ export interface LoginActionData {
 export async function loginAction(
   formData: FormData
 ): Promise<LoginActionData | Response> {
-  const data = {
-    email: formData.get("email") as string,
-    password: formData.get("password") as string,
-  };
+  const result = loginSchema.safeParse({
+    email: formData.get("email"),
+    password: formData.get("password"),
+  });
+
+  if (!result.success) {
+    return {
+      success: false,
+      error: result.error.issues[0]?.message ?? "Invalid form data",
+    };
+  }
 
   try {
-    const response = await loginApi(data);
-    // Store token directly - zustand will rehydrate from localStorage
-    localStorage.setItem("token", response.key);
-    localStorage.setItem(
-      "auth-storage",
-      JSON.stringify({ state: { token: response.key, authenticated: true } })
-    );
-    return redirect("/dashboard");
+    const response = await loginApi(result.data);
+    return setAuthTokenAndRedirect(response.key);
   } catch (error) {
     const message = await parseLoginError(error);
     return { success: false, error: message };

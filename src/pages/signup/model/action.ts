@@ -1,6 +1,7 @@
-import { redirect } from "react-router";
+import { setAuthTokenAndRedirect } from "@/entities/user";
 
 import { parseSignupError, signupApi } from "../api/signup";
+import { registerSchema } from "./schema";
 
 export interface SignupActionData {
   success: false;
@@ -10,19 +11,25 @@ export interface SignupActionData {
 export async function signupAction(
   formData: FormData
 ): Promise<SignupActionData | Response> {
-  const data = {
-    email: formData.get("email") as string,
-    password: formData.get("password") as string,
-  };
+  const result = registerSchema.safeParse({
+    email: formData.get("email"),
+    password: formData.get("password"),
+    confirmPassword: formData.get("confirmPassword"),
+  });
+
+  if (!result.success) {
+    return {
+      success: false,
+      error: result.error.issues[0]?.message ?? "Invalid form data",
+    };
+  }
 
   try {
-    const response = await signupApi(data);
-    localStorage.setItem("token", response.key);
-    localStorage.setItem(
-      "auth-storage",
-      JSON.stringify({ state: { token: response.key, authenticated: true } })
-    );
-    return redirect("/dashboard");
+    const response = await signupApi({
+      email: result.data.email,
+      password: result.data.password,
+    });
+    return setAuthTokenAndRedirect(response.key);
   } catch (error) {
     const message = await parseSignupError(error);
     return { success: false, error: message };
