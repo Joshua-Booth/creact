@@ -31,7 +31,11 @@ export function useSignupForm() {
 
   function onSubmit(data: RegisterFormData) {
     void fetcher.submit(
-      { email: data.email, password: data.password },
+      {
+        email: data.email,
+        password: data.password,
+        confirmPassword: data.confirmPassword,
+      },
       { method: "post" }
     );
   }

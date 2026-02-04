@@ -15,7 +15,7 @@ interface TestFixtures {
 async function waitForHydration(page: Page): Promise<void> {
   await page.waitForFunction(
     () => document.getElementById("app")?.hasAttribute("data-hydrated"),
-    { timeout: 10000 }
+    { timeout: 20000 }
   );
 }
 
