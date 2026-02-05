@@ -75,9 +75,20 @@ description = "Format code with Prettier"
 alias = "f"
 run = "prettier --write \"**/*.{ts,tsx,css,json,yml,yaml}\" --config {{vars.prettier_config}} --ignore-path {{vars.prettier_ignore}}"
 
+[tasks.format_check]
+description = "Check code formatting with Prettier"
+alias = "fc"
+run = "prettier --check \"**/*.{ts,tsx,css,json,yml,yaml}\" --config {{vars.prettier_config}} --ignore-path {{vars.prettier_ignore}}"
+
 [tasks.lint]
-description = "Run ESLint"
+description = "Fix code with ESLint"
 alias = "l"
+depends = ["typegen"]
+run = "eslint . --ext .ts,.tsx --config {{vars.eslint_config}} --max-warnings 0 --fix"
+
+[tasks.lint_check]
+description = "Check code with ESLint"
+alias = "lc"
 depends = ["typegen"]
 run = "eslint . --ext .ts,.tsx --config {{vars.eslint_config}} --max-warnings 0"
 
@@ -122,8 +133,13 @@ alias = "sf"
 run = "steiger --fix ./src --config {{vars.steiger_config}}"
 
 [tasks.stylelint]
-description = "Run Stylelint for CSS/SCSS"
+description = "Fix CSS/SCSS with Stylelint"
 alias = "sl"
+run = "stylelint \"**/*.{css,scss}\" --ignore-path .gitignore --config {{vars.stylelint_config}} --fix"
+
+[tasks.stylelint_check]
+description = "Check CSS/SCSS with Stylelint"
+alias = "slc"
 run = "stylelint \"**/*.{css,scss}\" --ignore-path .gitignore --config {{vars.stylelint_config}}"
 
 [tasks.test]
@@ -184,8 +200,9 @@ run = "storybook build -o storybook-static --config-dir {{vars.storybook_config}
 description = "Run all CI checks locally"
 alias = "c"
 depends = [
-    "lint",
-    "stylelint",
+    "format_check",
+    "lint_check",
+    "stylelint_check",
     "typecheck",
     "test_coverage",
     "test_e2e",

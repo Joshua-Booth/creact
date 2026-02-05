@@ -330,11 +330,14 @@ export default defineConfig([
       "dist",
       "coverage",
       "storybook-static",
+      "test-results",
+      "playwright-report",
       "**/*.d.ts",
       "tests/e2e/**",
       // Generated files
       ".react-router/**",
       ".netlify/**",
+      "public/mockServiceWorker.js",
       // Config files (not part of main project tsconfig)
       "config/**",
       "react-router.config.ts",

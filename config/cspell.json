@@ -29,7 +29,8 @@
     "**/playwright-report/**",
     "**/test-results/**",
     "**/tmp/**",
-    "**/storybook-static/**"
+    "**/storybook-static/**",
+    "**/mockServiceWorker.js"
   ],
   "words": [
     "Duarte",
