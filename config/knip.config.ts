@@ -47,7 +47,12 @@ const config: KnipConfig = {
     "@csstools/stylelint-formatter-github",
     // Utility library (kept for future use)
     "es-toolkit",
+    // CLI tool for spell checking (run via mise tasks)
+    "cspell",
   ],
+
+  // System tools (not npm packages)
+  ignoreBinaries: ["mise"],
 
   // Build tools
   vite: {
