@@ -337,6 +337,8 @@ export default defineConfig([
       ".react-router/**",
       ".netlify/**",
       "public/mockServiceWorker.js",
+      // CommonJS config files (not type-checked)
+      "config/.dependency-cruiser.js",
     ],
   },
 ]);

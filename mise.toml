@@ -73,7 +73,7 @@ run = "react-router dev"
 [tasks.format]
 description = "Format code with Prettier"
 alias = "f"
-run = "prettier --write \"**/*.{ts,tsx,css,json,yml,yaml}\" --config {{vars.prettier_config}} --ignore-path {{vars.prettier_ignore}}"
+run = "prettier --write \"**/*.{ts,tsx,js,css,json,yml,yaml}\" --config {{vars.prettier_config}} --ignore-path {{vars.prettier_ignore}}"
 
 [tasks.format_files]
 description = "Format specific files (for lint-staged)"
@@ -82,7 +82,7 @@ run = "prettier --config {{vars.prettier_config}} --write"
 [tasks.format_check]
 description = "Check code formatting with Prettier"
 alias = "fc"
-run = "prettier --check \"**/*.{ts,tsx,css,json,yml,yaml}\" --config {{vars.prettier_config}} --ignore-path {{vars.prettier_ignore}}"
+run = "prettier --check \"**/*.{ts,tsx,js,css,json,yml,yaml}\" --config {{vars.prettier_config}} --ignore-path {{vars.prettier_ignore}}"
 
 [tasks.lint]
 description = "Fix code with ESLint"

@@ -4,6 +4,10 @@
     "mise run format_files",
     "mise run spell_files"
   ],
+  "**/*.js": [
+    "mise run format_files",
+    "mise run spell_files"
+  ],
   "**/*.json": [
     "mise run format_files"
   ],
