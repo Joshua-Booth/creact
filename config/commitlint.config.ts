@@ -191,6 +191,7 @@ const config: UserConfig = {
 
         // Only match non-imperative forms (NOT the base imperative form)
         const nonImperative =
+          // eslint-disable-next-line sonarjs/regex-complexity
           /^(adds|added|adding|fixes|fixed|fixing|updates|updated|updating|removes|removed|removing|changes|changed|changing|creates|created|creating|implements|implemented|implementing|moves|moved|moving|renames|renamed|renaming|deletes|deleted|deleting|improves|improved|improving|refactors|refactored|refactoring)$/;
 
         if (nonImperative.test(firstWord)) {
@@ -362,7 +363,7 @@ const config: UserConfig = {
         const fullMessage = `${header ?? ""} ${body ?? ""} ${footer ?? ""}`;
 
         // Only validate if JB- pattern is present
-        if (!/JB-/i.test(fullMessage)) {
+        if (!/jb-/i.test(fullMessage)) {
           return [true]; // No ticket reference, that's OK
         }
 
@@ -392,7 +393,7 @@ const config: UserConfig = {
         const fullMessage = `${header ?? ""} ${body ?? ""} ${footer ?? ""}`;
 
         // Placeholder patterns: JB-0, JB-00, JB-000, JB-XXX, JB-xxx
-        const placeholders = /JB-(0+|XXX|xxx)/i;
+        const placeholders = /jb-(0+|xxx)/i;
         if (placeholders.test(fullMessage)) {
           return [
             false,
@@ -417,6 +418,7 @@ const config: UserConfig = {
         if (!subject) return [true];
 
         // Match " and " but not in compound nouns like "drag-and-drop"
+        // eslint-disable-next-line sonarjs/slow-regex
         if (/\s+and\s+/i.test(subject) && !/-and-/i.test(subject)) {
           return [
             false,
@@ -442,7 +444,7 @@ const config: UserConfig = {
         const fullMessage = `${header ?? ""} ${body ?? ""} ${footer ?? ""}`;
 
         // Match #123 but not in URLs or code references
-        const githubIssue = /(?<![/\w])#\d+(?!\d)/;
+        const githubIssue = /(?<![\w/])#\d+(?!\d)/;
         if (githubIssue.test(fullMessage)) {
           return [
             false,
@@ -466,16 +468,14 @@ const config: UserConfig = {
       "always",
       ({ header, body, footer }: Commit): RuleResult => {
         const isBreaking =
-          (header && header.includes("!")) ||
-          (footer && /BREAKING[\s-]?CHANGE/i.test(footer));
+          (header?.includes("!") ?? false) ||
+          (footer != null && /breaking[\s-]?change/i.test(footer));
 
-        if (isBreaking) {
-          if (!body || body.trim().length < 20) {
-            return [
-              false,
-              "Breaking changes require a detailed body explanation (minimum 20 characters describing the breaking change and migration path)",
-            ];
-          }
+        if (isBreaking && (!body || body.trim().length < 20)) {
+          return [
+            false,
+            "Breaking changes require a detailed body explanation (minimum 20 characters describing the breaking change and migration path)",
+          ];
         }
         return [true];
       },

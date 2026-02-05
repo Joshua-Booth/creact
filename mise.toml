@@ -75,6 +75,10 @@ description = "Format code with Prettier"
 alias = "f"
 run = "prettier --write \"**/*.{ts,tsx,css,json,yml,yaml}\" --config {{vars.prettier_config}} --ignore-path {{vars.prettier_ignore}}"
 
+[tasks.format_files]
+description = "Format specific files (for lint-staged)"
+run = "prettier --config {{vars.prettier_config}} --write"
+
 [tasks.format_check]
 description = "Check code formatting with Prettier"
 alias = "fc"
@@ -85,6 +89,10 @@ description = "Fix code with ESLint"
 alias = "l"
 depends = ["typegen"]
 run = "eslint . --ext .ts,.tsx --config {{vars.eslint_config}} --max-warnings 0 --fix"
+
+[tasks.lint_files]
+description = "Lint specific files (for lint-staged)"
+run = "eslint --config {{vars.eslint_config}} --fix"
 
 [tasks.lint_check]
 description = "Check code with ESLint"
@@ -117,6 +125,10 @@ description = "Check spelling with cspell"
 alias = "sp"
 run = "cspell . --config {{vars.cspell_config}}"
 
+[tasks.spell_files]
+description = "Spell check specific files (for lint-staged)"
+run = "cspell --config {{vars.cspell_config}} --no-must-find-files"
+
 [tasks.semantic_release]
 description = "Create a new release using semantic-release"
 alias = "release"
@@ -136,6 +148,10 @@ run = "steiger --fix ./src --config {{vars.steiger_config}}"
 description = "Fix CSS/SCSS with Stylelint"
 alias = "sl"
 run = "stylelint \"**/*.{css,scss}\" --ignore-path .gitignore --config {{vars.stylelint_config}} --fix"
+
+[tasks.stylelint_files]
+description = "Lint specific CSS files (for lint-staged)"
+run = "stylelint --config {{vars.stylelint_config}} --fix"
 
 [tasks.stylelint_check]
 description = "Check CSS/SCSS with Stylelint"

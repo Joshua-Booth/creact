@@ -1,20 +1,20 @@
 {
   "*.{ts,tsx}": [
-    "eslint --config ./config/eslint.config.js --fix",
-    "prettier --config ./config/.prettierrc --write",
-    "cspell --config ./config/cspell.json --no-must-find-files"
+    "mise run lint_files",
+    "mise run format_files",
+    "mise run spell_files"
   ],
   "*.json": [
-    "prettier --config ./config/.prettierrc --write"
+    "mise run format_files"
   ],
   "*.{yml,yaml}": [
-    "prettier --config ./config/.prettierrc --write"
+    "mise run format_files"
   ],
   "*.md": [
-    "cspell --config ./config/cspell.json --no-must-find-files"
+    "mise run spell_files"
   ],
   "*.{css,scss}": [
-    "stylelint --config ./config/.stylelintrc.json --fix",
-    "prettier --config ./config/.prettierrc --write"
+    "mise run stylelint_files",
+    "mise run format_files"
   ]
 }
