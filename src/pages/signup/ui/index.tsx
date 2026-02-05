@@ -34,7 +34,7 @@ export function SignupPage() {
                 name="email"
                 control={form.control}
                 render={({ field, fieldState }) => (
-                  <Field data-invalid={fieldState.invalid}>
+                  <Field data-invalid={fieldState.invalid || undefined}>
                     <FieldLabel htmlFor={field.name}>
                       {t("auth.fields.email")}
                     </FieldLabel>
@@ -58,7 +58,7 @@ export function SignupPage() {
                 name="password"
                 control={form.control}
                 render={({ field, fieldState }) => (
-                  <Field data-invalid={fieldState.invalid}>
+                  <Field data-invalid={fieldState.invalid || undefined}>
                     <FieldLabel htmlFor={field.name}>
                       {t("auth.fields.password")}
                     </FieldLabel>
@@ -82,7 +82,7 @@ export function SignupPage() {
                 name="confirmPassword"
                 control={form.control}
                 render={({ field, fieldState }) => (
-                  <Field data-invalid={fieldState.invalid}>
+                  <Field data-invalid={fieldState.invalid || undefined}>
                     <FieldLabel htmlFor={field.name}>
                       {t("auth.fields.confirmPassword")}
                     </FieldLabel>
