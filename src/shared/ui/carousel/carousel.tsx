@@ -93,6 +93,7 @@ function Carousel({
 
   React.useEffect(() => {
     if (!api || !setApi) return;
+    // eslint-disable-next-line react-you-might-not-need-an-effect/no-pass-data-to-parent -- Exposing imperative API to parent is intentional; the parent needs the api instance created by useEmblaCarousel
     setApi(api);
   }, [api, setApi]);
 

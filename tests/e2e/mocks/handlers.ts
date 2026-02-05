@@ -1,37 +1,31 @@
-export interface MockHandler {
-  pattern: string;
-  status: number;
-  body: unknown;
-}
+import { http, HttpResponse } from "msw";
 
-export const handlers: MockHandler[] = [
-  {
-    pattern: "**/auth/login/",
-    status: 200,
-    body: { key: "mock-token" },
-  },
-  {
-    pattern: "**/auth/signup/",
-    status: 201,
-    body: { key: "mock-token" },
-  },
+export const handlers = [
+  http.post("**/auth/login/", () => {
+    return HttpResponse.json({ key: "mock-token" }, { status: 200 });
+  }),
+  http.post("**/auth/signup/", () => {
+    return HttpResponse.json({ key: "mock-token" }, { status: 201 });
+  }),
 ];
 
 export const errorResponses = {
   login: {
-    invalidCredentials: (): MockHandler => ({
-      pattern: "**/auth/login/",
-      status: 401,
-      body: {
-        non_field_errors: ["Unable to log in with provided credentials."],
-      },
-    }),
+    invalidCredentials: () =>
+      http.post("**/auth/login/", () => {
+        return HttpResponse.json(
+          { non_field_errors: ["Unable to log in with provided credentials."] },
+          { status: 401 }
+        );
+      }),
   },
   signup: {
-    emailExists: (): MockHandler => ({
-      pattern: "**/auth/signup/",
-      status: 400,
-      body: { email: ["A user with this email already exists."] },
-    }),
+    emailExists: () =>
+      http.post("**/auth/signup/", () => {
+        return HttpResponse.json(
+          { email: ["A user with this email already exists."] },
+          { status: 400 }
+        );
+      }),
   },
 };

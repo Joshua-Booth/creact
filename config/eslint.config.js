@@ -2,6 +2,7 @@ import eslintReact from "@eslint-react/eslint-plugin";
 import js from "@eslint/js";
 import vitest from "@vitest/eslint-plugin";
 import barrel from "eslint-plugin-barrel-files";
+import baselineJs from "eslint-plugin-baseline-js";
 import depend from "eslint-plugin-depend";
 import jsdoc from "eslint-plugin-jsdoc";
 import jsxA11y from "eslint-plugin-jsx-a11y";
@@ -10,6 +11,7 @@ import perfectionist from "eslint-plugin-perfectionist";
 import promise from "eslint-plugin-promise";
 import reactCompiler from "eslint-plugin-react-compiler";
 import reactHooks from "eslint-plugin-react-hooks";
+import reactYouMightNotNeedAnEffect from "eslint-plugin-react-you-might-not-need-an-effect";
 import security from "eslint-plugin-security";
 import sonarjs from "eslint-plugin-sonarjs";
 import storybook from "eslint-plugin-storybook";
@@ -30,6 +32,7 @@ export default defineConfig([
   // React
   eslintReact.configs["strict-typescript"],
   reactHooks.configs.flat.recommended,
+  reactYouMightNotNeedAnEffect.configs.recommended,
   // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
   jsxA11y.flatConfigs.recommended,
 
@@ -51,6 +54,10 @@ export default defineConfig([
 
   // Zod
   eslintPluginZod.configs.recommended,
+
+  // Baseline JS (browser compatibility)
+  { plugins: { "baseline-js": baselineJs } },
+  baselineJs.configs.recommended({ available: "widely", level: "warn" }),
 
   // Import/export sorting (named items only - statement order handled by Prettier)
   {

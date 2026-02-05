@@ -155,21 +155,22 @@ export const Spacing: Story = {
 
 function CarouselWithDots(args: React.ComponentProps<typeof Carousel>) {
   const [api, setApi] = React.useState<CarouselApi>();
-  const [current, setCurrent] = React.useState(0);
-  const [count, setCount] = React.useState(0);
 
-  React.useEffect(() => {
-    if (!api) return;
+  // Use useSyncExternalStore for subscribing to carousel API state
+  const current = React.useSyncExternalStore(
+    React.useCallback(
+      (callback) => {
+        api?.on("select", callback);
+        return () => api?.off("select", callback);
+      },
+      [api]
+    ),
+    () => api?.selectedScrollSnap() ?? 0,
+    () => 0
+  );
 
-    // eslint-disable-next-line @eslint-react/hooks-extra/no-direct-set-state-in-use-effect -- Syncing state with external carousel API is intentional
-    setCount(api.scrollSnapList().length);
-    // eslint-disable-next-line @eslint-react/hooks-extra/no-direct-set-state-in-use-effect -- Syncing state with external carousel API is intentional
-    setCurrent(api.selectedScrollSnap());
-
-    api.on("select", () => {
-      setCurrent(api.selectedScrollSnap());
-    });
-  }, [api]);
+  // Derive count directly from API during render
+  const count = api?.scrollSnapList().length ?? 0;
 
   return (
     <div className="w-full max-w-xs">
@@ -267,7 +268,6 @@ export const Loop: Story = {
 function CarouselWithThumbnails(args: React.ComponentProps<typeof Carousel>) {
   const [api, setApi] = React.useState<CarouselApi>();
   const [thumbApi, setThumbApi] = React.useState<CarouselApi>();
-  const [current, setCurrent] = React.useState(0);
 
   const images = [
     "https://images.unsplash.com/photo-1559827260-dc66d52bef19?w=800&h=600&fit=crop",
@@ -277,18 +277,23 @@ function CarouselWithThumbnails(args: React.ComponentProps<typeof Carousel>) {
     "https://images.unsplash.com/photo-1579613832125-5d34a13ffe2a?w=800&h=600&fit=crop",
   ];
 
+  // Use useSyncExternalStore for subscribing to carousel API state
+  const current = React.useSyncExternalStore(
+    React.useCallback(
+      (callback) => {
+        api?.on("select", callback);
+        return () => api?.off("select", callback);
+      },
+      [api]
+    ),
+    () => api?.selectedScrollSnap() ?? 0,
+    () => 0
+  );
+
+  // Sync thumbnail carousel with main carousel selection
   React.useEffect(() => {
-    if (!api) return;
-
-    // eslint-disable-next-line @eslint-react/hooks-extra/no-direct-set-state-in-use-effect -- Syncing state with external carousel API is intentional
-    setCurrent(api.selectedScrollSnap());
-
-    api.on("select", () => {
-      const selected = api.selectedScrollSnap();
-      setCurrent(selected);
-      thumbApi?.scrollTo(selected);
-    });
-  }, [api, thumbApi]);
+    thumbApi?.scrollTo(current);
+  }, [current, thumbApi]);
 
   const handleThumbClick = (index: number) => {
     api?.scrollTo(index);

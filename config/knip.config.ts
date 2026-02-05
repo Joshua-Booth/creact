@@ -37,30 +37,14 @@ const config: KnipConfig = {
     "vite-bundle-analyzer",
     // Presets referenced by name, not as direct plugins
     "conventional-changelog-conventionalcommits",
-    // Testing tools (used in playwright tests and mocks)
-    "msw",
-    "@msw/playwright",
     // Used via husky pre-commit hook
     "lint-staged",
-    // Peer dependency for react-day-picker
-    "date-fns",
     // CLI tool for dependency analysis
     "dependency-cruiser",
     // CLI tool for adding components
     "shadcn",
     // Used via --custom-formatter flag in CI
     "@csstools/stylelint-formatter-github",
-    // Storybook addons (loaded via config)
-    "@storybook/addon-a11y",
-    "@storybook/addon-docs",
-    "@storybook/addon-vitest",
-    "@chromatic-com/storybook",
-    "eslint-plugin-storybook",
-    // Playwright for storybook (different from @playwright/test)
-    "playwright",
-    "@vitest/browser-playwright",
-    // i18n tools (CLI)
-    "i18next-parser",
     // Utility library (kept for future use)
     "es-toolkit",
   ],
@@ -70,7 +54,7 @@ const config: KnipConfig = {
     config: [
       "config/vite.config.ts",
       "vite.config.ts",
-      "config/.storybook/vite.config.ts",
+      ".storybook/vite.config.ts",
     ],
   },
 
@@ -124,8 +108,8 @@ const config: KnipConfig = {
 
   // Storybook
   storybook: {
-    config: ["config/.storybook/main.ts"],
-    entry: ["config/.storybook/preview.ts", "src/**/*.stories.tsx"],
+    config: [".storybook/main.ts"],
+    entry: [".storybook/preview.ts", "src/**/*.stories.tsx"],
   },
 
   ignoreExportsUsedInFile: true,
