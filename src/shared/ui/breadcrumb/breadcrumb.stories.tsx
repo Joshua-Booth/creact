@@ -158,7 +158,7 @@ export const ShouldOpenDropdown: Story = {
   name: "when clicking ellipsis, should reveal dropdown menu items",
   tags: ["!dev", "!autodocs"],
   render: WithDropdown.render,
-  play: async ({ canvas, step }) => {
+  play: async ({ canvas, canvasElement, step }) => {
     const trigger = await canvas.findByRole("button", {
       name: "Show more breadcrumb items",
     });
@@ -168,7 +168,7 @@ export const ShouldOpenDropdown: Story = {
     });
 
     await step("verify dropdown menu items appear", async () => {
-      const body = within(document.body);
+      const body = within(canvasElement.ownerDocument.body);
       await expect(
         await body.findByRole("menuitem", { name: "Products" })
       ).toBeInTheDocument();

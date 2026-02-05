@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-non-null-assertion -- Test assertions on known DOM elements */
 import type { Meta, StoryObj } from "@storybook/react-vite";
 
-import { expect, userEvent, waitFor, within } from "storybook/test";
+import { expect, userEvent, waitFor } from "storybook/test";
 
 import {
   Card,
@@ -217,24 +217,27 @@ export const ShouldOnlyOpenOneWhenSingleType: Story = {
     defaultValue: ["item-1"],
   },
   tags: ["!dev", "!autodocs"],
-  play: async ({ canvasElement }) => {
-    const canvas = within(canvasElement);
+  play: async ({ canvas, canvasElement, step }) => {
     const accordions = canvas.getAllByRole("button");
 
-    // First item is already open via defaultValue
-    await waitFor(() => expect(getOpenPanels(canvasElement).length).toBe(1));
+    await step("verify first item is open via defaultValue", async () => {
+      await waitFor(() => expect(getOpenPanels(canvasElement).length).toBe(1));
+    });
 
-    // Click second item - first should close, second should open
-    await userEvent.click(accordions[1]!);
-    await waitFor(() => expect(getOpenPanels(canvasElement).length).toBe(1));
+    await step("click second item, only second should be open", async () => {
+      await userEvent.click(accordions[1]!);
+      await waitFor(() => expect(getOpenPanels(canvasElement).length).toBe(1));
+    });
 
-    // Click third item - second should close, third should open
-    await userEvent.click(accordions[2]!);
-    await waitFor(() => expect(getOpenPanels(canvasElement).length).toBe(1));
+    await step("click third item, only third should be open", async () => {
+      await userEvent.click(accordions[2]!);
+      await waitFor(() => expect(getOpenPanels(canvasElement).length).toBe(1));
+    });
 
-    // Close the last opened tab
-    await userEvent.click(accordions[2]!);
-    await waitFor(() => expect(getOpenPanels(canvasElement).length).toBe(0));
+    await step("click third item again, all should be closed", async () => {
+      await userEvent.click(accordions[2]!);
+      await waitFor(() => expect(getOpenPanels(canvasElement).length).toBe(0));
+    });
   },
 };
 
@@ -245,29 +248,82 @@ export const ShouldOpenAllWhenMultipleType: Story = {
     defaultValue: ["item-1"],
   },
   tags: ["!dev", "!autodocs"],
-  play: async ({ canvasElement }) => {
-    const canvas = within(canvasElement);
+  play: async ({ canvas, canvasElement, step }) => {
     const accordions = canvas.getAllByRole("button");
 
-    // First item is already open via defaultValue
-    await waitFor(() => expect(getOpenPanels(canvasElement).length).toBe(1));
+    await step("verify first item is open via defaultValue", async () => {
+      await waitFor(() => expect(getOpenPanels(canvasElement).length).toBe(1));
+    });
 
-    // Open remaining tabs one at a time (starting from index 1)
-    for (let i = 1; i < accordions.length; i++) {
-      await userEvent.click(accordions[i]!);
-      await waitFor(() =>
-        expect(getOpenPanels(canvasElement).length).toBe(i + 1)
-      );
-    }
+    await step("open remaining items one at a time", async () => {
+      for (let i = 1; i < accordions.length; i++) {
+        await userEvent.click(accordions[i]!);
+        await waitFor(() =>
+          expect(getOpenPanels(canvasElement).length).toBe(i + 1)
+        );
+      }
+    });
 
-    // Close all tabs one at a time
-    for (let i = accordions.length - 1; i > 0; i--) {
-      await userEvent.click(accordions[i]!);
-      await waitFor(() => expect(getOpenPanels(canvasElement).length).toBe(i));
-    }
+    await step("close all items one at a time", async () => {
+      for (let i = accordions.length - 1; i > 0; i--) {
+        await userEvent.click(accordions[i]!);
+        await waitFor(() =>
+          expect(getOpenPanels(canvasElement).length).toBe(i)
+        );
+      }
+    });
 
-    // Close the last opened tab
-    await userEvent.click(accordions[0]!);
-    await waitFor(() => expect(getOpenPanels(canvasElement).length).toBe(0));
+    await step("close the last item", async () => {
+      await userEvent.click(accordions[0]!);
+      await waitFor(() => expect(getOpenPanels(canvasElement).length).toBe(0));
+    });
+  },
+};
+
+export const ShouldNavigateWithKeyboard: Story = {
+  name: "when using keyboard, should navigate and toggle accordion items",
+  args: {
+    multiple: false,
+    defaultValue: [],
+  },
+  tags: ["!dev", "!autodocs"],
+  play: async ({ canvas, canvasElement, step }) => {
+    const triggers = canvas.getAllByRole("button");
+
+    await step("tab to focus first trigger", async () => {
+      await userEvent.tab();
+      await expect(triggers[0]).toHaveFocus();
+    });
+
+    await step("press Enter to open first item", async () => {
+      await userEvent.keyboard("{Enter}");
+      await waitFor(() => expect(getOpenPanels(canvasElement).length).toBe(1));
+    });
+
+    await step("press ArrowDown to move to second trigger", async () => {
+      await userEvent.keyboard("{ArrowDown}");
+      await expect(triggers[1]).toHaveFocus();
+    });
+
+    await step("press Space to open second item", async () => {
+      await userEvent.keyboard(" ");
+      await waitFor(() => expect(getOpenPanels(canvasElement).length).toBe(1));
+    });
+
+    await step("press ArrowUp to move back to first trigger", async () => {
+      await userEvent.keyboard("{ArrowUp}");
+      await expect(triggers[0]).toHaveFocus();
+    });
+
+    await step("press Home to jump to first trigger", async () => {
+      await userEvent.keyboard("{ArrowDown}");
+      await userEvent.keyboard("{Home}");
+      await expect(triggers[0]).toHaveFocus();
+    });
+
+    await step("press End to jump to last trigger", async () => {
+      await userEvent.keyboard("{End}");
+      await expect(triggers[2]).toHaveFocus();
+    });
   },
 };

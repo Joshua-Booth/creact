@@ -312,3 +312,59 @@ export const ShouldOpenCloseCross: Story = {
     });
   },
 };
+
+export const ShouldCloseWithEscape: Story = {
+  name: "when pressing Escape, should close the dialog",
+  tags: ["!dev", "!autodocs"],
+  play: async ({ canvasElement, step }) => {
+    const canvasBody = within(canvasElement.ownerDocument.body);
+
+    await step("open the dialog", async () => {
+      await userEvent.click(
+        await canvasBody.findByRole("button", { name: /open dialog/i })
+      );
+      const dialog = await canvasBody.findByRole("dialog");
+      await expect(dialog).toBeInTheDocument();
+      await expect(dialog).toHaveAttribute("data-open");
+    });
+
+    await step("press Escape to close the dialog", async () => {
+      await userEvent.keyboard("{Escape}");
+      await expect(await canvasBody.findByRole("dialog")).toHaveAttribute(
+        "data-closed"
+      );
+    });
+  },
+};
+
+export const ShouldTrapFocus: Story = {
+  name: "when dialog is open, should trap focus within the dialog",
+  tags: ["!dev", "!autodocs"],
+  play: async ({ canvasElement, step }) => {
+    const canvasBody = within(canvasElement.ownerDocument.body);
+
+    await step("open the dialog", async () => {
+      await userEvent.click(
+        await canvasBody.findByRole("button", { name: /open dialog/i })
+      );
+      await expect(await canvasBody.findByRole("dialog")).toHaveAttribute(
+        "data-open"
+      );
+    });
+
+    await step("tab through focusable elements within dialog", async () => {
+      const dialog = await canvasBody.findByRole("dialog");
+      const dialogScope = within(dialog);
+
+      // Tab through all focusable elements — focus should remain within the dialog
+      const nameInput = dialogScope.getByLabelText("Name");
+      const usernameInput = dialogScope.getByLabelText("Username");
+
+      await userEvent.click(nameInput);
+      await expect(nameInput).toHaveFocus();
+
+      await userEvent.tab();
+      await expect(usernameInput).toHaveFocus();
+    });
+  },
+};

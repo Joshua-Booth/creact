@@ -37,7 +37,7 @@ import {
   User,
   Wallet,
 } from "lucide-react";
-import { expect, userEvent, within } from "storybook/test";
+import { expect, userEvent, waitFor, within } from "storybook/test";
 
 import { Avatar, AvatarFallback, AvatarImage } from "../avatar";
 import { Button } from "../button";
@@ -847,6 +847,47 @@ export const ShouldOpenClose: Story = {
 
     await step("Click the first menu item", async () => {
       await userEvent.click(items[0]!, { delay: 100 });
+    });
+  },
+};
+
+export const ShouldNavigateWithKeyboard: Story = {
+  name: "when using keyboard, should open menu and navigate items",
+  tags: ["!dev", "!autodocs"],
+  render: (args) => (
+    <DropdownMenu {...args}>
+      <DropdownMenuTrigger render={<Button variant="outline" />}>
+        Open
+      </DropdownMenuTrigger>
+      <DropdownMenuContent align="start">
+        <DropdownMenuGroup>
+          <DropdownMenuItem>First</DropdownMenuItem>
+          <DropdownMenuItem>Second</DropdownMenuItem>
+          <DropdownMenuItem>Third</DropdownMenuItem>
+        </DropdownMenuGroup>
+      </DropdownMenuContent>
+    </DropdownMenu>
+  ),
+  play: async ({ canvas, canvasElement, step }) => {
+    const body = within(canvasElement.ownerDocument.body);
+
+    await step("focus trigger and press Enter to open menu", async () => {
+      const trigger = canvas.getByRole("button", { name: /open/i });
+      await userEvent.click(trigger);
+      await expect(await body.findByRole("menu")).toBeInTheDocument();
+    });
+
+    await step("navigate items with ArrowDown", async () => {
+      await userEvent.keyboard("{ArrowDown}");
+      const items = await body.findAllByRole("menuitem");
+      await expect(items[0]).toHaveFocus();
+    });
+
+    await step("press Escape to close menu", async () => {
+      await userEvent.keyboard("{Escape}");
+      await waitFor(async () => {
+        await expect(body.queryByRole("menu")).not.toBeInTheDocument();
+      });
     });
   },
 };

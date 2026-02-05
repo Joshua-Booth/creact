@@ -417,8 +417,7 @@ export const ShouldSelectItem: Story = {
       </ComboboxContent>
     </Combobox>
   ),
-  play: async ({ canvasElement, step }) => {
-    const canvas = within(canvasElement);
+  play: async ({ canvas, canvasElement, step }) => {
     const canvasBody = within(canvasElement.ownerDocument.body);
 
     await step("open combobox and select an item", async () => {
@@ -475,8 +474,7 @@ export const ShouldFilterOptions: Story = {
       </ComboboxContent>
     </Combobox>
   ),
-  play: async ({ canvasElement, step }) => {
-    const canvas = within(canvasElement);
+  play: async ({ canvas, canvasElement, step }) => {
     const canvasBody = within(canvasElement.ownerDocument.body);
 
     await step("type in input and verify value updates", async () => {
@@ -529,8 +527,7 @@ export const ShouldShowEmptyState: Story = {
       </ComboboxContent>
     </Combobox>
   ),
-  play: async ({ canvasElement, step }) => {
-    const canvas = within(canvasElement);
+  play: async ({ canvas, canvasElement, step }) => {
     const canvasBody = within(canvasElement.ownerDocument.body);
 
     await step("type non-matching text", async () => {
@@ -585,9 +582,7 @@ export const ShouldClearSelection: Story = {
       </ComboboxContent>
     </Combobox>
   ),
-  play: async ({ canvasElement, step }) => {
-    const canvas = within(canvasElement);
-
+  play: async ({ canvas, canvasElement, step }) => {
     await step("verify initial value is set", async () => {
       const input = canvas.getByPlaceholderText("Select a fruit...");
       await expect(input).toHaveValue("Apple");
@@ -602,6 +597,90 @@ export const ShouldClearSelection: Story = {
 
       const input = canvas.getByPlaceholderText("Select a fruit...");
       await expect(input).toHaveValue("");
+    });
+  },
+};
+
+/**
+ * When using keyboard, should navigate and select options.
+ */
+export const ShouldNavigateWithKeyboard: Story = {
+  name: "when using keyboard, should navigate and select options",
+  tags: ["!dev", "!autodocs"],
+  parameters: {
+    a11y: {
+      config: {
+        rules: [
+          { id: "button-name", enabled: false },
+          // Base UI focus guards have aria-hidden with tabindex causing violations
+          { id: "aria-hidden-focus", enabled: false },
+          // Base UI Combobox internals cause these violations
+          { id: "aria-input-field-name", enabled: false },
+          { id: "scrollable-region-focusable", enabled: false },
+        ],
+      },
+    },
+  },
+  render: (args) => (
+    <Combobox {...args} items={fruitNames}>
+      <ComboboxInput placeholder="Select a fruit..." className="w-64" />
+      <ComboboxContent>
+        <ComboboxList>
+          {(item) => (
+            <ComboboxItem key={item} value={item}>
+              {item}
+            </ComboboxItem>
+          )}
+        </ComboboxList>
+      </ComboboxContent>
+    </Combobox>
+  ),
+  play: async ({ canvas, canvasElement, step }) => {
+    const canvasBody = within(canvasElement.ownerDocument.body);
+
+    await step("focus input and press ArrowDown to open listbox", async () => {
+      const input = canvas.getByPlaceholderText("Select a fruit...");
+      await userEvent.click(input);
+      await userEvent.keyboard("{ArrowDown}");
+
+      await waitFor(async () => {
+        await expect(canvasBody.getByRole("listbox")).toBeVisible();
+      });
+    });
+
+    await step("press ArrowDown to highlight an option", async () => {
+      await userEvent.keyboard("{ArrowDown}");
+
+      await waitFor(async () => {
+        const options = canvasBody.getAllByRole("option");
+        const highlighted = options.find(
+          (opt) => opt.getAttribute("data-highlighted") !== null
+        );
+        await expect(highlighted).toBeDefined();
+      });
+    });
+
+    await step("press Enter to select highlighted option", async () => {
+      await userEvent.keyboard("{Enter}");
+      const input = canvas.getByPlaceholderText("Select a fruit...");
+      await waitFor(async () => {
+        await expect(input).not.toHaveValue("");
+      });
+    });
+
+    await step("press ArrowDown to reopen and Escape to close", async () => {
+      const input = canvas.getByPlaceholderText("Select a fruit...");
+      await userEvent.clear(input);
+      await userEvent.type(input, "App");
+
+      await waitFor(async () => {
+        await expect(canvasBody.getByRole("listbox")).toBeVisible();
+      });
+
+      await userEvent.keyboard("{Escape}");
+      await waitFor(async () => {
+        await expect(canvasBody.queryByRole("listbox")).not.toBeInTheDocument();
+      });
     });
   },
 };
