@@ -6,7 +6,7 @@
   "type": "module",
   "author": "Joshua Booth",
   "license": "UNLICENSED",
-  "packageManager": "pnpm@10.26.0",
+  "packageManager": "pnpm@10.28.0",
   "scripts": {
     "prepare": "husky",
     "build": "react-router build"

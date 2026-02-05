@@ -2,7 +2,7 @@ min_version = "2024.9.5"
 
 [tools]
 node = "24.12.0"
-pnpm = "10.26.0"
+pnpm = "10.28.0"
 
 [env]
 NODE_ENV = "development"
@@ -183,6 +183,17 @@ run = "storybook build -o storybook-static --config-dir {{vars.storybook_config}
 [tasks.check]
 description = "Run all CI checks locally"
 alias = "c"
-depends = ["lint", "stylelint", "typecheck", "test_coverage", "test_e2e", "test_storybook", "storybook_build", "knip", "depcruise", "steiger", "spell"]
+depends = [
+    "lint",
+    "stylelint",
+    "typecheck",
+    "test_coverage",
+    "test_e2e",
+    "test_storybook",
+    "storybook_build",
+    "knip",
+    "depcruise",
+    "steiger",
+    "spell",
+]
 run = "echo 'All checks passed!'"
-
