@@ -1,5 +1,6 @@
 import { defineConfig, devices } from "@playwright/test";
 
+// eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
 const port = Number(process.env.VITE_PORT) || 8080;
 
 export default defineConfig({

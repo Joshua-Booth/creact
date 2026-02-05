@@ -150,5 +150,10 @@
         "GHSA-3966-f6p6-2qr9"
       ]
     }
+  },
+  "msw": {
+    "workerDirectory": [
+      "public"
+    ]
   }
 }
