@@ -1,19 +1,19 @@
 {
-  "*.{ts,tsx}": [
+  "**/*.{ts,tsx}": [
     "mise run lint_files",
     "mise run format_files",
     "mise run spell_files"
   ],
-  "*.json": [
+  "**/*.json": [
     "mise run format_files"
   ],
-  "*.{yml,yaml}": [
+  "**/*.{yml,yaml}": [
     "mise run format_files"
   ],
-  "*.md": [
+  "**/*.md": [
     "mise run spell_files"
   ],
-  "*.{css,scss}": [
+  "**/*.{css,scss}": [
     "mise run stylelint_files",
     "mise run format_files"
   ]

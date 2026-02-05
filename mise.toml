@@ -200,7 +200,7 @@ run = "react-router typegen"
 description = "Run TypeScript type checking"
 alias = "tt"
 depends = ["typegen"]
-run = "tsc --noEmit"
+run = "tsc --noEmit && tsc --noEmit --project config/tsconfig.node.json"
 
 [tasks.storybook]
 description = "Start Storybook dev server"

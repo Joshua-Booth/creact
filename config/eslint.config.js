@@ -44,6 +44,7 @@ export default defineConfig([
   sonarjs.configs.recommended,
 
   // Security
+  // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access -- incomplete types
   security.configs.recommended,
 
   // Storybook
@@ -79,10 +80,7 @@ export default defineConfig([
       ecmaVersion: "latest",
       sourceType: "module",
       parserOptions: {
-        projectService: {
-          allowDefaultProject: ["config/*.js", "config/*.ts"],
-          defaultProject: "tsconfig.node.json",
-        },
+        project: ["tsconfig.json", "config/tsconfig.node.json"],
         tsconfigRootDir: import.meta.dirname + "/..",
         ecmaFeatures: { jsx: true },
       },
@@ -261,6 +259,7 @@ export default defineConfig([
 
   // Barrel files (FSD architecture)
   {
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment -- incomplete types
     plugins: { "barrel-files": barrel },
     rules: {
       "barrel-files/avoid-re-export-all": "error",
@@ -338,11 +337,6 @@ export default defineConfig([
       ".react-router/**",
       ".netlify/**",
       "public/mockServiceWorker.js",
-      // Config files (not part of main project tsconfig)
-      "config/**",
-      "react-router.config.ts",
-      "vite.config.ts",
-      "vitest.config.ts",
     ],
   },
 ]);

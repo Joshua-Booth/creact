@@ -44,7 +44,9 @@ export default defineConfig({
     exclude: ["fsevents"],
   },
   server: {
-    port: Number(process.env.VITE_PORT) || 8080,
+    port: Number.isNaN(Number(process.env.VITE_PORT))
+      ? 8080
+      : Number(process.env.VITE_PORT),
     open: true,
   },
 
