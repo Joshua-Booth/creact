@@ -1,6 +1,7 @@
 import type { Meta, StoryObj } from "@storybook/react-vite";
 
 import { ArrowRightIcon } from "lucide-react";
+import { expect, userEvent, within } from "storybook/test";
 
 import {
   DropdownMenu,
@@ -151,6 +152,34 @@ export const WithDropdown: Story = {
       </BreadcrumbList>
     </Breadcrumb>
   ),
+};
+
+export const ShouldOpenDropdown: Story = {
+  name: "when clicking ellipsis, should reveal dropdown menu items",
+  tags: ["!dev", "!autodocs"],
+  render: WithDropdown.render,
+  play: async ({ canvas, step }) => {
+    const trigger = await canvas.findByRole("button", {
+      name: "Show more breadcrumb items",
+    });
+
+    await step("click ellipsis trigger", async () => {
+      await userEvent.click(trigger);
+    });
+
+    await step("verify dropdown menu items appear", async () => {
+      const body = within(document.body);
+      await expect(
+        await body.findByRole("menuitem", { name: "Products" })
+      ).toBeInTheDocument();
+      await expect(
+        await body.findByRole("menuitem", { name: "Categories" })
+      ).toBeInTheDocument();
+      await expect(
+        await body.findByRole("menuitem", { name: "Electronics" })
+      ).toBeInTheDocument();
+    });
+  },
 };
 
 /**

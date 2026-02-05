@@ -1,6 +1,7 @@
 import type { Meta, StoryObj } from "@storybook/react-vite";
 
 import { Bold, Italic, Underline } from "lucide-react";
+import { expect, userEvent } from "storybook/test";
 
 import { ToggleGroup, ToggleGroupItem } from "./toggle-group";
 
@@ -80,5 +81,48 @@ export const Large: Story = {
 export const Disabled: Story = {
   args: {
     disabled: true,
+  },
+};
+
+export const ShouldToggleItems: Story = {
+  name: "when clicking items, should toggle their pressed state",
+  tags: ["!dev", "!autodocs"],
+  play: async ({ canvas, step }) => {
+    const buttons = await canvas.findAllByRole("button");
+    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion -- findAllByRole throws if no elements found
+    const first = buttons[0]!;
+    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion -- findAllByRole throws if no elements found
+    const second = buttons[1]!;
+
+    await step("click first item to press it", async () => {
+      await userEvent.click(first);
+      await expect(first).toHaveAttribute("aria-pressed", "true");
+    });
+
+    await step("click second item, first deselects", async () => {
+      await userEvent.click(second);
+      await expect(first).toHaveAttribute("aria-pressed", "false");
+      await expect(second).toHaveAttribute("aria-pressed", "true");
+    });
+
+    await step("click second again to deselect it", async () => {
+      await userEvent.click(second);
+      await expect(second).toHaveAttribute("aria-pressed", "false");
+    });
+  },
+};
+
+export const ShouldNotToggleWhenDisabled: Story = {
+  name: "when group is disabled, should not toggle items",
+  tags: ["!dev", "!autodocs"],
+  args: {
+    disabled: true,
+  },
+  play: async ({ canvas }) => {
+    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion -- findAllByRole throws if no elements found
+    const first = (await canvas.findAllByRole("button"))[0]!;
+    await expect(first).toHaveAttribute("aria-pressed", "false");
+    await userEvent.click(first, { pointerEventsCheck: 0 });
+    await expect(first).toHaveAttribute("aria-pressed", "false");
   },
 };

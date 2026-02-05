@@ -1,6 +1,7 @@
 import type { Meta, StoryObj } from "@storybook/react-vite";
 
 import { Bold, Italic } from "lucide-react";
+import { expect, userEvent } from "storybook/test";
 
 import { Toggle } from "./toggle";
 
@@ -84,5 +85,37 @@ export const Large: Story = {
 export const Disabled: Story = {
   args: {
     disabled: true,
+  },
+};
+
+export const ShouldToggle: Story = {
+  name: "when clicking the toggle, should toggle pressed state",
+  tags: ["!dev", "!autodocs"],
+  play: async ({ canvas, step }) => {
+    const toggle = await canvas.findByRole("button");
+
+    await step("click to press", async () => {
+      await userEvent.click(toggle);
+      await expect(toggle).toHaveAttribute("aria-pressed", "true");
+    });
+
+    await step("click to deselect", async () => {
+      await userEvent.click(toggle);
+      await expect(toggle).toHaveAttribute("aria-pressed", "false");
+    });
+  },
+};
+
+export const ShouldNotToggleWhenDisabled: Story = {
+  name: "when toggle is disabled, should not toggle pressed state",
+  tags: ["!dev", "!autodocs"],
+  args: {
+    disabled: true,
+  },
+  play: async ({ canvas }) => {
+    const toggle = await canvas.findByRole("button");
+    await expect(toggle).toHaveAttribute("aria-pressed", "false");
+    await userEvent.click(toggle, { pointerEventsCheck: 0 });
+    await expect(toggle).toHaveAttribute("aria-pressed", "false");
   },
 };
