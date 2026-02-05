@@ -1,6 +1,2 @@
 #!/bin/sh
-
-# Prevent Husky running on commits in CI
-[ -n "$CI" ] && exit 0
-
 mise run format_check ::: lint_check ::: stylelint_check ::: typecheck ::: test_coverage ::: spell ::: knip ::: steiger && exit 0

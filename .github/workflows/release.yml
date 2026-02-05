@@ -9,6 +9,7 @@ on:
       - prerelease
 
 env:
+  HUSKY: 0
   NODE_VERSION: "24"
   PNPM_VERSION: "10"
 
