@@ -54,7 +54,7 @@ const meta: Meta<typeof SheetContent> = {
             </Label>
             <Input
               id="name"
-              defaultValue="Pedro Duarte"
+              defaultValue="Alex Johnson"
               className="col-span-3"
             />
           </div>
@@ -62,11 +62,7 @@ const meta: Meta<typeof SheetContent> = {
             <Label htmlFor="username" className="text-right">
               Username
             </Label>
-            <Input
-              id="username"
-              defaultValue="@peduarte"
-              className="col-span-3"
-            />
+            <Input id="username" defaultValue="@alex" className="col-span-3" />
           </div>
         </div>
         <SheetFooter>
@@ -118,7 +114,7 @@ export const Side: Story = {
                   </Label>
                   <Input
                     id={`name-${side}`}
-                    defaultValue="Pedro Duarte"
+                    defaultValue="Alex Johnson"
                     className="col-span-3"
                   />
                 </div>
@@ -128,7 +124,7 @@ export const Side: Story = {
                   </Label>
                   <Input
                     id={`username-${side}`}
-                    defaultValue="@peduarte"
+                    defaultValue="@alex"
                     className="col-span-3"
                   />
                 </div>

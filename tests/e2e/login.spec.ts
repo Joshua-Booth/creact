@@ -26,7 +26,7 @@ test.describe("Login", () => {
     await waitForHydration(page);
 
     await page.fill('[data-testid="email"]', "wrong@mail.com");
-    await page.fill('[data-testid="password"]', "wrongpassword");
+    await page.fill('[data-testid="password"]', "wrong-password");
     await page.click('[data-testid="login"]');
 
     // Should show error message and stay on login page

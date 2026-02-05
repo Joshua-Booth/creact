@@ -149,6 +149,7 @@ export const Scrollable: Story = {
       <SelectTrigger aria-label="Select a timezone" className="w-72">
         <SelectValue placeholder="Select a timezone" />
       </SelectTrigger>
+      {/* cspell:disable -- timezone abbreviations */}
       <SelectContent aria-label="Timezone options">
         <SelectGroup>
           <SelectLabel>North America</SelectLabel>
@@ -203,6 +204,7 @@ export const Scrollable: Story = {
           <SelectItem value="clt">Chile Standard Time (CLT)</SelectItem>
         </SelectGroup>
       </SelectContent>
+      {/* cspell:enable */}
     </Select>
   ),
 };

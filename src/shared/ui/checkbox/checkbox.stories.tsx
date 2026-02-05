@@ -210,8 +210,8 @@ const tableData = [
   },
   {
     id: "3",
-    name: "Priya Patel",
-    email: "priya.patel@example.com",
+    name: "Emma Patel",
+    email: "emma.patel@example.com",
     role: "User",
   },
   {

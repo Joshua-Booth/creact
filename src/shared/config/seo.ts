@@ -9,6 +9,7 @@ export function getSiteUrl(): string {
 }
 
 /** Twitter handle for social cards */
+// cspell:disable-next-line
 export const TWITTER_HANDLE = "@joshuaboothnz";
 
 /** Default Open Graph image path (relative to site root) */

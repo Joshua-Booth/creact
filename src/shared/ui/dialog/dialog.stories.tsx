@@ -87,13 +87,11 @@ const meta = {
           <FieldGroup>
             <Field>
               <Label htmlFor="name-1">Name</Label>
-              {/* cspell:disable-next-line */}
-              <Input id="name-1" name="name" defaultValue="Pedro Duarte" />
+              <Input id="name-1" name="name" defaultValue="Alex Johnson" />
             </Field>
             <Field>
               <Label htmlFor="username-1">Username</Label>
-              {/* cspell:disable-next-line */}
-              <Input id="username-1" name="username" defaultValue="@peduarte" />
+              <Input id="username-1" name="username" defaultValue="@alex" />
             </Field>
           </FieldGroup>
           <DialogFooter>
