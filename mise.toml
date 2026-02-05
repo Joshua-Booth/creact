@@ -42,7 +42,7 @@ description = "Build the application"
 alias = "b"
 run = "react-router build"
 sources = ["src/**/*", "package.json", "vite.config.ts", "tsconfig.json"]
-outputs = ["build/**/*", "build"]
+outputs = ["dist/**/*"]
 
 [tasks.build_analyze]
 description = "Analyze bundle size"
