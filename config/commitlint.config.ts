@@ -191,7 +191,7 @@ const config: UserConfig = {
 
         // Only match non-imperative forms (NOT the base imperative form)
         const nonImperative =
-          // eslint-disable-next-line sonarjs/regex-complexity
+          // eslint-disable-next-line sonarjs/regex-complexity -- enumerates all verb conjugation forms
           /^(adds|added|adding|fixes|fixed|fixing|updates|updated|updating|removes|removed|removing|changes|changed|changing|creates|created|creating|implements|implemented|implementing|moves|moved|moving|renames|renamed|renaming|deletes|deleted|deleting|improves|improved|improving|refactors|refactored|refactoring)$/;
 
         if (nonImperative.test(firstWord)) {
@@ -418,7 +418,7 @@ const config: UserConfig = {
         if (!subject) return [true];
 
         // Match " and " but not in compound nouns like "drag-and-drop"
-        // eslint-disable-next-line sonarjs/slow-regex
+        // eslint-disable-next-line sonarjs/slow-regex -- simple word-boundary check, input is short commit subject
         if (/\s+and\s+/i.test(subject) && !/-and-/i.test(subject)) {
           return [
             false,

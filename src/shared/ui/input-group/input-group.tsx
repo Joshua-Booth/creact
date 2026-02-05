@@ -51,8 +51,7 @@ function InputGroupAddon({
   ...props
 }: React.ComponentProps<"div"> & VariantProps<typeof inputGroupAddonVariants>) {
   return (
-    // cspell:disable-next-line
-    /* eslint-disable jsx-a11y/no-noninteractive-element-interactions,jsx-a11y/click-events-have-key-events */
+    // eslint-disable-next-line jsx-a11y/no-noninteractive-element-interactions, jsx-a11y/click-events-have-key-events -- addon click delegates focus to child input
     <div
       role="group"
       data-slot="input-group-addon"

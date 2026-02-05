@@ -113,7 +113,7 @@ ${colorConfig
       }}
     />
   );
-  /* eslint-enable @eslint-react/dom/no-dangerously-set-innerhtml */
+  /* eslint-enable @eslint-react/dom/no-dangerously-set-innerhtml -- re-enable after injecting chart CSS variables */
 };
 
 const ChartTooltip = RechartsPrimitive.Tooltip;
@@ -269,7 +269,7 @@ function ChartTooltipContent({
     </div>
   );
 }
-/* eslint-enable @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-unsafe-argument, @typescript-eslint/strict-boolean-expressions */
+/* eslint-enable @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-unsafe-argument, @typescript-eslint/strict-boolean-expressions -- re-enable after Recharts untyped tooltip rendering */
 
 const ChartLegend = RechartsPrimitive.Legend;
 
@@ -328,7 +328,7 @@ function ChartLegendContent({
     </div>
   );
 }
-/* eslint-enable @typescript-eslint/restrict-template-expressions, @typescript-eslint/strict-boolean-expressions */
+/* eslint-enable @typescript-eslint/restrict-template-expressions, @typescript-eslint/strict-boolean-expressions -- re-enable after Recharts untyped legend rendering */
 
 function getPayloadConfigFromPayload(
   config: ChartConfig,

@@ -1,3 +1,4 @@
+import comments from "@eslint-community/eslint-plugin-eslint-comments/configs";
 import eslintReact from "@eslint-react/eslint-plugin";
 import js from "@eslint/js";
 import vitest from "@vitest/eslint-plugin";
@@ -25,6 +26,18 @@ export default defineConfig([
   // JavaScript recommended
   js.configs.recommended,
 
+  // ESLint directive comments best practices
+  comments.recommended,
+  {
+    rules: {
+      "@eslint-community/eslint-comments/disable-enable-pair": [
+        "error",
+        { allowWholeFile: true },
+      ],
+      "@eslint-community/eslint-comments/require-description": "warn",
+    },
+  },
+
   // TypeScript strict type-checked (type-aware linting)
   ...tseslint.configs.strictTypeChecked,
   ...tseslint.configs.stylisticTypeChecked,
@@ -33,11 +46,11 @@ export default defineConfig([
   eslintReact.configs["strict-typescript"],
   reactHooks.configs.flat.recommended,
   reactYouMightNotNeedAnEffect.configs.recommended,
-  // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
+  // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access -- incomplete types in jsx-a11y
   jsxA11y.flatConfigs.recommended,
 
   // Promise handling
-  // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
+  // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access -- incomplete types in eslint-plugin-promise
   promise.configs["flat/recommended"],
 
   // Code quality / smells
@@ -249,7 +262,6 @@ export default defineConfig([
       "unicorn/no-empty-file": "error",
       "unicorn/no-instanceof-array": "error",
       "unicorn/no-static-only-class": "error",
-      "unicorn/no-abusive-eslint-disable": "error",
       "unicorn/no-lonely-if": "error",
       "unicorn/no-negated-condition": "error",
       "unicorn/no-nested-ternary": "error",

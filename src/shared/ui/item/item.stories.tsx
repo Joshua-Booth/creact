@@ -281,7 +281,7 @@ export const AsLink: Story = {
         </Item>
       </div>
     );
-    /* eslint-enable jsx-a11y/anchor-has-content */
+    /* eslint-enable jsx-a11y/anchor-has-content -- re-enable after anchor rendered via asChild prop */
   },
 };
 
