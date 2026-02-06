@@ -22,7 +22,7 @@ function Links({ links }: { links: { name: string; path: string }[] }) {
   );
 }
 
-export default function Header() {
+export function Header() {
   const authenticated = useAuthStore((state) => state.authenticated);
   const logoLink = authenticated ? "/dashboard" : "/";
 
