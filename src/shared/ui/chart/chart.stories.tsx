@@ -1,6 +1,5 @@
 /* eslint-disable @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-unsafe-call, @typescript-eslint/no-unsafe-return -- Recharts has poor TypeScript types */
-import type { Meta, StoryObj } from "@storybook/react-vite";
-
+import preview from "@/storybook/preview";
 import {
   Area,
   AreaChart,
@@ -17,6 +16,8 @@ import {
 
 import type { ChartConfig } from "./chart";
 import { ChartContainer, ChartTooltip, ChartTooltipContent } from "./chart";
+
+// --- Helpers ---
 
 const multiSeriesData = [
   { month: "January", desktop: 186, mobile: 80 },
@@ -70,10 +71,9 @@ const singleSeriesConfig = {
 /**
  * Beautiful charts. Built using Recharts. Copy and paste into your apps.
  */
-const meta = {
+const meta = preview.meta({
   title: "ui/Chart",
   component: ChartContainer,
-  tags: ["autodocs"],
   argTypes: {},
   args: {
     children: <div />,
@@ -82,16 +82,14 @@ const meta = {
     width: 320,
     aspect: 1.6,
   },
-} satisfies Meta<typeof ChartContainer>;
+});
 
-export default meta;
-
-type Story = StoryObj<typeof meta>;
+// --- Stories ---
 
 /**
  * Combine multiple Area components to create a stacked area chart.
  */
-export const StackedAreaChart: Story = {
+export const StackedAreaChart = meta.story({
   args: {
     config: multiSeriesConfig,
   },
@@ -138,12 +136,12 @@ export const StackedAreaChart: Story = {
       </AreaChart>
     </ChartContainer>
   ),
-};
+});
 
 /**
  * Combine multiple Bar components to create a stacked bar chart.
  */
-export const StackedBarChart: Story = {
+export const StackedBarChart = meta.story({
   args: {
     config: multiSeriesConfig,
   },
@@ -167,12 +165,12 @@ export const StackedBarChart: Story = {
       </BarChart>
     </ChartContainer>
   ),
-};
+});
 
 /**
  * Combine multiple Line components to create a single line chart.
  */
-export const MultiLineChart: Story = {
+export const MultiLineChart = meta.story({
   args: {
     config: multiSeriesConfig,
   },
@@ -217,12 +215,12 @@ export const MultiLineChart: Story = {
       </LineChart>
     </ChartContainer>
   ),
-};
+});
 
 /**
  * Combine Pie and Label components to create a doughnut chart.
  */
-export const DoughnutChart: Story = {
+export const DoughnutChart = meta.story({
   args: {
     config: singleSeriesConfig,
   },
@@ -275,4 +273,4 @@ export const DoughnutChart: Story = {
       </ChartContainer>
     );
   },
-};
+});

@@ -1,5 +1,4 @@
-import type { Meta, StoryObj } from "@storybook/react-vite";
-
+import preview from "@/storybook/preview";
 import { expect, userEvent, within } from "storybook/test";
 
 import {
@@ -24,10 +23,9 @@ import {
  * A visually persistent menu common in desktop applications that provides
  * quick access to a consistent set of commands.
  */
-const meta = {
+const meta = preview.meta({
   title: "ui/Menubar",
   component: Menubar,
-  tags: ["autodocs"],
   argTypes: {},
 
   render: (args) => (
@@ -50,21 +48,19 @@ const meta = {
   parameters: {
     layout: "centered",
   },
-} satisfies Meta<typeof Menubar>;
+});
 
-export default meta;
-
-type Story = StoryObj<typeof meta>;
+// --- Stories ---
 
 /**
  * The default form of the menubar.
  */
-export const Default: Story = {};
+export const Default = meta.story();
 
 /**
  * A menubar with a submenu.
  */
-export const WithSubmenu: Story = {
+export const WithSubmenu = meta.story({
   render: (args) => (
     <Menubar {...args}>
       <MenubarMenu>
@@ -83,12 +79,12 @@ export const WithSubmenu: Story = {
       </MenubarMenu>
     </Menubar>
   ),
-};
+});
 
 /**
  * A menubar with radio items.
  */
-export const WithRadioItems: Story = {
+export const WithRadioItems = meta.story({
   render: (args) => (
     <Menubar {...args}>
       <MenubarMenu>
@@ -104,12 +100,12 @@ export const WithRadioItems: Story = {
       </MenubarMenu>
     </Menubar>
   ),
-};
+});
 
 /**
  * A menubar with checkbox items.
  */
-export const WithCheckboxItems: Story = {
+export const WithCheckboxItems = meta.story({
   render: (args) => (
     <Menubar {...args}>
       <MenubarMenu>
@@ -125,12 +121,13 @@ export const WithCheckboxItems: Story = {
       </MenubarMenu>
     </Menubar>
   ),
-};
+});
 
-export const ShouldOpenClose: Story = {
-  name: "when clicking an item, should close the menubar",
-  tags: ["!dev", "!autodocs"],
-  play: async ({ canvasElement, step }) => {
+// --- Tests ---
+
+Default.test(
+  "when clicking an item, should close the menubar",
+  async ({ canvasElement, step }) => {
     const canvasBody = within(canvasElement.ownerDocument.body);
 
     await step("open the menubar", async () => {
@@ -149,5 +146,5 @@ export const ShouldOpenClose: Story = {
         await userEvent.click(item, { delay: 100 });
       }
     });
-  },
-};
+  }
+);

@@ -1,8 +1,7 @@
 /* eslint-disable @typescript-eslint/no-non-null-assertion -- Test assertions on known DOM elements */
-import type { Meta, StoryObj } from "@storybook/react-vite";
-
 import { useState } from "react";
 
+import preview from "@/storybook/preview";
 import {
   BadgeCheck,
   Bell,
@@ -63,10 +62,9 @@ import {
  * Displays a menu to the user — such as a set of actions or functions —
  * triggered by a button.
  */
-const meta = {
+const meta = preview.meta({
   title: "ui/DropdownMenu",
   component: DropdownMenu,
-  tags: ["autodocs"],
   argTypes: {},
   render: (args) => (
     <DropdownMenu {...args}>
@@ -127,21 +125,19 @@ const meta = {
   parameters: {
     layout: "centered",
   },
-} satisfies Meta<typeof DropdownMenu>;
+});
 
-export default meta;
-
-type Story = StoryObj<typeof meta>;
+// --- Stories ---
 
 /**
  * The default form of the dropdown menu.
  */
-export const Default: Story = {};
+export const Default = meta.story();
 
 /**
  * A basic dropdown menu with labels and separators.
  */
-export const Basic: Story = {
+export const Basic = meta.story({
   render: (args) => (
     <DropdownMenu {...args}>
       <DropdownMenuTrigger render={<Button variant="outline" />}>
@@ -161,12 +157,12 @@ export const Basic: Story = {
       </DropdownMenuContent>
     </DropdownMenu>
   ),
-};
+});
 
 /**
  * Use `DropdownMenuSub` to nest secondary actions.
  */
-export const Submenu: Story = {
+export const Submenu = meta.story({
   render: (args) => (
     <DropdownMenu {...args}>
       <DropdownMenuTrigger render={<Button variant="outline" />}>
@@ -205,12 +201,12 @@ export const Submenu: Story = {
       </DropdownMenuContent>
     </DropdownMenu>
   ),
-};
+});
 
 /**
  * Add `DropdownMenuShortcut` to show keyboard hints.
  */
-export const Shortcuts: Story = {
+export const Shortcuts = meta.story({
   render: (args) => (
     <DropdownMenu {...args}>
       <DropdownMenuTrigger render={<Button variant="outline" />}>
@@ -240,12 +236,12 @@ export const Shortcuts: Story = {
       </DropdownMenuContent>
     </DropdownMenu>
   ),
-};
+});
 
 /**
  * Combine icons with labels for quick scanning.
  */
-export const Icons: Story = {
+export const Icons = meta.story({
   render: (args) => (
     <DropdownMenu {...args}>
       <DropdownMenuTrigger render={<Button variant="outline" />}>
@@ -272,12 +268,12 @@ export const Icons: Story = {
       </DropdownMenuContent>
     </DropdownMenu>
   ),
-};
+});
 
 /**
  * Use `DropdownMenuCheckboxItem` for toggles.
  */
-export const Checkboxes: Story = {
+export const Checkboxes = meta.story({
   render: function Render(args) {
     const [showStatusBar, setShowStatusBar] = useState(true);
     const [showActivityBar, setShowActivityBar] = useState(false);
@@ -315,12 +311,12 @@ export const Checkboxes: Story = {
       </DropdownMenu>
     );
   },
-};
+});
 
 /**
  * Add icons to checkbox items.
  */
-export const CheckboxesIcons: Story = {
+export const CheckboxesIcons = meta.story({
   render: function Render(args) {
     const [notifications, setNotifications] = useState({
       email: true,
@@ -368,12 +364,12 @@ export const CheckboxesIcons: Story = {
       </DropdownMenu>
     );
   },
-};
+});
 
 /**
  * Use `DropdownMenuRadioGroup` for exclusive choices.
  */
-export const RadioGroup: Story = {
+export const RadioGroup = meta.story({
   render: function Render(args) {
     const [position, setPosition] = useState("bottom");
 
@@ -400,12 +396,12 @@ export const RadioGroup: Story = {
       </DropdownMenu>
     );
   },
-};
+});
 
 /**
  * Show radio options with icons.
  */
-export const RadioIcons: Story = {
+export const RadioIcons = meta.story({
   render: function Render(args) {
     const [paymentMethod, setPaymentMethod] = useState("card");
 
@@ -439,12 +435,12 @@ export const RadioIcons: Story = {
       </DropdownMenu>
     );
   },
-};
+});
 
 /**
  * Use `variant="destructive"` for irreversible actions.
  */
-export const Destructive: Story = {
+export const Destructive = meta.story({
   render: (args) => (
     <DropdownMenu {...args}>
       <DropdownMenuTrigger render={<Button variant="outline" />}>
@@ -471,12 +467,12 @@ export const Destructive: Story = {
       </DropdownMenuContent>
     </DropdownMenu>
   ),
-};
+});
 
 /**
  * An account switcher dropdown triggered by an avatar.
  */
-export const WithAvatar: Story = {
+export const WithAvatar = meta.story({
   render: (args) => (
     <DropdownMenu {...args}>
       <DropdownMenuTrigger
@@ -510,12 +506,12 @@ export const WithAvatar: Story = {
       </DropdownMenuContent>
     </DropdownMenu>
   ),
-};
+});
 
 /**
  * A richer example combining groups, icons, and submenus.
  */
-export const Complex: Story = {
+export const Complex = meta.story({
   render: function Render(args) {
     const [notifications, setNotifications] = useState({
       email: true,
@@ -755,12 +751,12 @@ export const Complex: Story = {
       </DropdownMenu>
     );
   },
-};
+});
 
 /**
  * Dropdown menus with different positions and alignments.
  */
-export const Positions: Story = {
+export const Positions = meta.story({
   render: (args) => (
     <div className="flex flex-wrap items-center justify-center gap-8 p-16">
       <DropdownMenu {...args}>
@@ -830,12 +826,13 @@ export const Positions: Story = {
       </DropdownMenu>
     </div>
   ),
-};
+});
 
-export const ShouldOpenClose: Story = {
-  name: "when clicking an item, should close the dropdown menu",
-  tags: ["!dev", "!autodocs"],
-  play: async ({ canvasElement, step }) => {
+// --- Tests ---
+
+Default.test(
+  "when clicking an item, should close the dropdown menu",
+  async ({ canvasElement, step }) => {
     const body = within(canvasElement.ownerDocument.body);
 
     await step("Open the dropdown menu", async () => {
@@ -848,27 +845,28 @@ export const ShouldOpenClose: Story = {
     await step("Click the first menu item", async () => {
       await userEvent.click(items[0]!, { delay: 100 });
     });
-  },
-};
+  }
+);
 
-export const ShouldNavigateWithKeyboard: Story = {
-  name: "when using keyboard, should open menu and navigate items",
-  tags: ["!dev", "!autodocs"],
-  render: (args) => (
-    <DropdownMenu {...args}>
-      <DropdownMenuTrigger render={<Button variant="outline" />}>
-        Open
-      </DropdownMenuTrigger>
-      <DropdownMenuContent align="start">
-        <DropdownMenuGroup>
-          <DropdownMenuItem>First</DropdownMenuItem>
-          <DropdownMenuItem>Second</DropdownMenuItem>
-          <DropdownMenuItem>Third</DropdownMenuItem>
-        </DropdownMenuGroup>
-      </DropdownMenuContent>
-    </DropdownMenu>
-  ),
-  play: async ({ canvas, canvasElement, step }) => {
+Default.test(
+  "when using keyboard, should open menu and navigate items",
+  {
+    render: (args) => (
+      <DropdownMenu {...args}>
+        <DropdownMenuTrigger render={<Button variant="outline" />}>
+          Open
+        </DropdownMenuTrigger>
+        <DropdownMenuContent align="start">
+          <DropdownMenuGroup>
+            <DropdownMenuItem>First</DropdownMenuItem>
+            <DropdownMenuItem>Second</DropdownMenuItem>
+            <DropdownMenuItem>Third</DropdownMenuItem>
+          </DropdownMenuGroup>
+        </DropdownMenuContent>
+      </DropdownMenu>
+    ),
+  },
+  async ({ canvas, canvasElement, step }) => {
     const body = within(canvasElement.ownerDocument.body);
 
     await step("focus trigger and press Enter to open menu", async () => {
@@ -889,5 +887,5 @@ export const ShouldNavigateWithKeyboard: Story = {
         await expect(body.queryByRole("menu")).not.toBeInTheDocument();
       });
     });
-  },
-};
+  }
+);

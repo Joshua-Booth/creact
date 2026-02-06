@@ -1,4 +1,4 @@
-import type { Meta, StoryObj } from "@storybook/react-vite";
+import preview from "@/storybook/preview";
 
 import { Progress } from "./progress";
 
@@ -6,10 +6,9 @@ import { Progress } from "./progress";
  * Displays an indicator showing the completion progress of a task, typically
  * displayed as a progress bar.
  */
-const meta = {
+const meta = preview.meta({
   title: "ui/Progress",
   component: Progress,
-  tags: ["autodocs"],
   argTypes: {},
   args: {
     "aria-label": "Progress",
@@ -23,31 +22,29 @@ const meta = {
       </div>
     ),
   ],
-} satisfies Meta<typeof Progress>;
+});
 
-export default meta;
-
-type Story = StoryObj<typeof meta>;
+// --- Stories ---
 
 /**
  * The default form of the progress.
  */
-export const Default: Story = {};
+export const Default = meta.story();
 
 /**
  * When the progress is indeterminate.
  */
-export const Indeterminate: Story = {
+export const Indeterminate = meta.story({
   args: {
     value: undefined,
   },
-};
+});
 
 /**
  * When the progress is completed.
  */
-export const Completed: Story = {
+export const Completed = meta.story({
   args: {
     value: 100,
   },
-};
+});

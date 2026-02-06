@@ -1,5 +1,4 @@
-import type { Meta, StoryObj } from "@storybook/react-vite";
-
+import preview from "@/storybook/preview";
 import { ArrowRightIcon } from "lucide-react";
 import { expect, userEvent, within } from "storybook/test";
 
@@ -22,10 +21,9 @@ import {
 /**
  * Displays the path to the current resource using a hierarchy of links.
  */
-const meta = {
+const meta = preview.meta({
   title: "ui/Breadcrumb",
   component: Breadcrumb,
-  tags: ["autodocs"],
   argTypes: {},
   args: {},
   render: (args) => (
@@ -48,21 +46,19 @@ const meta = {
   parameters: {
     layout: "centered",
   },
-} satisfies Meta<typeof Breadcrumb>;
+});
 
-export default meta;
-
-type Story = StoryObj<typeof meta>;
+// --- Stories ---
 
 /**
  * Basic breadcrumb navigation showing hierarchical path.
  */
-export const Default: Story = {};
+export const Default = meta.story();
 
 /**
  * Customize the separator between breadcrumb items with any icon or element.
  */
-export const WithCustomSeparator: Story = {
+export const WithCustomSeparator = meta.story({
   render: (args) => (
     <Breadcrumb {...args}>
       <BreadcrumbList>
@@ -84,12 +80,12 @@ export const WithCustomSeparator: Story = {
       </BreadcrumbList>
     </Breadcrumb>
   ),
-};
+});
 
 /**
  * For long paths, collapse intermediate items with an ellipsis to save space.
  */
-export const Collapsed: Story = {
+export const Collapsed = meta.story({
   render: (args) => (
     <Breadcrumb {...args}>
       <BreadcrumbList>
@@ -111,12 +107,12 @@ export const Collapsed: Story = {
       </BreadcrumbList>
     </Breadcrumb>
   ),
-};
+});
 
 /**
  * Combine the ellipsis with a dropdown menu to reveal hidden path segments on demand.
  */
-export const WithDropdown: Story = {
+export const WithDropdown = meta.story({
   render: (args) => (
     <Breadcrumb {...args}>
       <BreadcrumbList>
@@ -152,13 +148,16 @@ export const WithDropdown: Story = {
       </BreadcrumbList>
     </Breadcrumb>
   ),
-};
+});
 
-export const ShouldOpenDropdown: Story = {
-  name: "when clicking ellipsis, should reveal dropdown menu items",
-  tags: ["!dev", "!autodocs"],
-  render: WithDropdown.render,
-  play: async ({ canvas, canvasElement, step }) => {
+// --- Tests ---
+
+Default.test(
+  "when clicking ellipsis, should reveal dropdown menu items",
+  {
+    render: WithDropdown.input.render,
+  },
+  async ({ canvas, canvasElement, step }) => {
     const trigger = await canvas.findByRole("button", {
       name: "Show more breadcrumb items",
     });
@@ -179,13 +178,13 @@ export const ShouldOpenDropdown: Story = {
         await body.findByRole("menuitem", { name: "Electronics" })
       ).toBeInTheDocument();
     });
-  },
-};
+  }
+);
 
 /**
  * Use the `render` prop to integrate with React Router's Link component for client-side navigation.
  */
-export const WithRenderProp: Story = {
+export const WithRenderProp = meta.story({
   render: (args) => (
     <Breadcrumb {...args}>
       <BreadcrumbList>
@@ -214,4 +213,4 @@ export const WithRenderProp: Story = {
       </BreadcrumbList>
     </Breadcrumb>
   ),
-};
+});

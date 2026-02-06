@@ -1,7 +1,6 @@
-import type { Meta, StoryObj } from "@storybook/react-vite";
-
 import * as React from "react";
 
+import preview from "@/storybook/preview";
 import { expect, fn, userEvent } from "storybook/test";
 
 import { Field, FieldLabel } from "../field";
@@ -10,10 +9,9 @@ import { Slider } from "./slider";
 /**
  * An input where the user selects a value from within a given range.
  */
-const meta = {
+const meta = preview.meta({
   title: "ui/Slider",
   component: Slider,
-  tags: ["autodocs"],
   argTypes: {},
   args: {
     defaultValue: [33],
@@ -30,30 +28,28 @@ const meta = {
   parameters: {
     layout: "centered",
   },
-} satisfies Meta<typeof Slider>;
+});
 
-export default meta;
-
-type Story = StoryObj<typeof meta>;
+// --- Stories ---
 
 /**
  * The default form of the slider.
  */
-export const Default: Story = {};
+export const Default = meta.story();
 
 /**
  * Use the `disabled` prop to disable the slider.
  */
-export const Disabled: Story = {
+export const Disabled = meta.story({
   args: {
     disabled: true,
   },
-};
+});
 
 /**
  * Use an array with two values to create a range slider with two thumbs.
  */
-export const Range: Story = {
+export const Range = meta.story({
   args: {
     defaultValue: [25, 75],
   },
@@ -63,12 +59,12 @@ export const Range: Story = {
       <Slider {...args} />
     </Field>
   ),
-};
+});
 
 /**
  * Use the `step` prop to specify discrete steps for the slider.
  */
-export const WithSteps: Story = {
+export const WithSteps = meta.story({
   args: {
     defaultValue: [50],
     step: 10,
@@ -79,12 +75,12 @@ export const WithSteps: Story = {
       <Slider {...args} />
     </Field>
   ),
-};
+});
 
 /**
  * A controlled slider that displays its current value.
  */
-export const WithValue: Story = {
+export const WithValue = meta.story({
   render: function WithValueStory() {
     const [value, setValue] = React.useState([33]);
 
@@ -106,12 +102,12 @@ export const WithValue: Story = {
       </Field>
     );
   },
-};
+});
 
 /**
  * Use `orientation="vertical"` for a vertical slider.
  */
-export const Vertical: Story = {
+export const Vertical = meta.story({
   args: {
     defaultValue: [50],
     orientation: "vertical",
@@ -122,15 +118,18 @@ export const Vertical: Story = {
       <Slider {...args} />
     </Field>
   ),
-};
+});
 
-export const ShouldAdjustWithKeyboard: Story = {
-  name: "when using keyboard arrows, should adjust slider value",
-  tags: ["!dev", "!autodocs"],
-  args: {
-    defaultValue: [50],
+// --- Tests ---
+
+Default.test(
+  "when using keyboard arrows, should adjust slider value",
+  {
+    args: {
+      defaultValue: [50],
+    },
   },
-  play: async ({ args, canvas, step }) => {
+  async ({ args, canvas, step }) => {
     const slider = await canvas.findByRole("slider");
 
     await step("focus the slider", async () => {
@@ -147,5 +146,5 @@ export const ShouldAdjustWithKeyboard: Story = {
       await userEvent.keyboard("{ArrowLeft}");
       await expect(args.onValueChange).toHaveBeenCalled();
     });
-  },
-};
+  }
+);

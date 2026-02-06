@@ -1,6 +1,6 @@
-import type { StorybookConfig } from "@storybook/react-vite";
+import { defineMain } from "@storybook/react-vite/node";
 
-const config: StorybookConfig = {
+export default defineMain({
   stories: ["../src/**/*.stories.tsx"],
   addons: [
     "@storybook/addon-docs",
@@ -8,7 +8,6 @@ const config: StorybookConfig = {
     "@chromatic-com/storybook",
     "@storybook/addon-vitest",
     "@storybook/addon-mcp",
-    "storybook-addon-tag-badges",
   ],
   framework: {
     name: "@storybook/react-vite",
@@ -21,6 +20,7 @@ const config: StorybookConfig = {
   core: {
     disableTelemetry: true,
   },
-};
-
-export default config;
+  features: {
+    experimentalTestSyntax: true,
+  },
+});

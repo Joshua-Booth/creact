@@ -13,7 +13,11 @@
     "isolatedModules": true,
     "verbatimModuleSyntax": true,
     "resolveJsonModule": true,
-    "types": ["node"]
+    "types": ["node"],
+    "baseUrl": "..",
+    "paths": {
+      "@/storybook/*": ["./.storybook/*"]
+    }
   },
   "include": [
     "./*.ts",

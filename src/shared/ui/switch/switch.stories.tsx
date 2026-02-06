@@ -1,5 +1,4 @@
-import type { Meta, StoryObj } from "@storybook/react-vite";
-
+import preview from "@/storybook/preview";
 import { expect, userEvent, within } from "storybook/test";
 
 import { Button } from "../button";
@@ -16,10 +15,9 @@ import { Switch } from "./switch";
 /**
  * A control that allows the user to toggle between checked and not checked.
  */
-const meta = {
+const meta = preview.meta({
   title: "ui/Switch",
   component: Switch,
-  tags: ["autodocs"],
   argTypes: {},
   parameters: {
     layout: "centered",
@@ -32,21 +30,19 @@ const meta = {
       </FieldLabel>
     </Field>
   ),
-} satisfies Meta<typeof Switch>;
+});
 
-export default meta;
-
-type Story = StoryObj<typeof meta>;
+// --- Stories ---
 
 /**
  * The default form of the switch.
  */
-export const Default: Story = {};
+export const Default = meta.story();
 
 /**
  * Use the `disabled` prop to disable the switch.
  */
-export const Disabled: Story = {
+export const Disabled = meta.story({
   args: {
     disabled: true,
   },
@@ -58,12 +54,12 @@ export const Disabled: Story = {
       </FieldLabel>
     </Field>
   ),
-};
+});
 
 /**
  * Switch with description text providing additional context.
  */
-export const Description: Story = {
+export const Description = meta.story({
   parameters: {
     a11y: {
       config: {
@@ -86,13 +82,13 @@ export const Description: Story = {
       <Switch {...args} id="marketing" />
     </Field>
   ),
-};
+});
 
 /**
  * Card-style switch where the entire field is clickable.
  * The FieldLabel wraps the inner Field to make the whole card interactive.
  */
-export const ChoiceCard: Story = {
+export const ChoiceCard = meta.story({
   parameters: {
     a11y: {
       config: {
@@ -135,12 +131,12 @@ export const ChoiceCard: Story = {
       </Field>
     </FieldGroup>
   ),
-};
+});
 
 /**
  * Switch with validation error state using `aria-invalid`.
  */
-export const Invalid: Story = {
+export const Invalid = meta.story({
   parameters: {
     a11y: {
       config: {
@@ -163,12 +159,12 @@ export const Invalid: Story = {
       <Switch {...args} id="terms" aria-invalid="true" />
     </Field>
   ),
-};
+});
 
 /**
  * Switch comes in two sizes: `default` and `sm`.
  */
-export const Size: Story = {
+export const Size = meta.story({
   render: () => (
     <FieldGroup className="w-40">
       <Field orientation="horizontal">
@@ -185,12 +181,12 @@ export const Size: Story = {
       </Field>
     </FieldGroup>
   ),
-};
+});
 
 /**
  * Switch used within a form with submit functionality.
  */
-export const WithForm: Story = {
+export const WithForm = meta.story({
   parameters: {
     a11y: {
       config: {
@@ -225,12 +221,13 @@ export const WithForm: Story = {
       </Button>
     </form>
   ),
-};
+});
 
-export const ShouldToggle: Story = {
-  name: "when clicking the switch, should toggle it on and off",
-  tags: ["!dev", "!autodocs"],
-  play: async ({ canvas, step }) => {
+// --- Tests ---
+
+Default.test(
+  "when clicking the switch, should toggle it on and off",
+  async ({ canvas, step }) => {
     const switchBtn = await canvas.findByRole("switch");
 
     await step("toggle the switch on", async () => {
@@ -242,50 +239,52 @@ export const ShouldToggle: Story = {
       await userEvent.click(switchBtn);
       await expect(switchBtn).not.toBeChecked();
     });
-  },
-};
+  }
+);
 
-export const ShouldSubmitForm: Story = {
-  name: "when submitting the form with switch enabled, should submit",
-  tags: ["!dev", "!autodocs"],
-  parameters: {
-    a11y: {
-      config: {
-        rules: [
-          // Base UI Switch with FieldTitle uses aria-describedby for association
-          // but axe expects aria-labelledby, which would be redundant
-          { id: "aria-toggle-field-name", enabled: false },
-        ],
+Default.test(
+  "when submitting the form with switch enabled, should submit",
+  {
+    parameters: {
+      a11y: {
+        config: {
+          rules: [
+            // Base UI Switch with FieldTitle uses aria-describedby for association
+            // but axe expects aria-labelledby, which would be redundant
+            { id: "aria-toggle-field-name", enabled: false },
+          ],
+        },
       },
     },
+    render: (args) => (
+      <form
+        data-testid="test-form"
+        className="flex w-96 flex-col gap-4"
+        onSubmit={(e) => {
+          e.preventDefault();
+          const formData = new FormData(e.currentTarget);
+          const form = e.currentTarget;
+          form.dataset.submitted = "true";
+          form.dataset.value =
+            formData.get("marketing") === "on" ? "on" : "off";
+        }}
+      >
+        <Field orientation="horizontal">
+          <Switch {...args} name="marketing" id="marketing-test" />
+          <FieldContent>
+            <FieldTitle>Marketing emails</FieldTitle>
+            <FieldDescription>
+              Receive emails about new products, features, and more.
+            </FieldDescription>
+          </FieldContent>
+        </Field>
+        <Button type="submit" className="w-fit">
+          Submit
+        </Button>
+      </form>
+    ),
   },
-  render: (args) => (
-    <form
-      data-testid="test-form"
-      className="flex w-96 flex-col gap-4"
-      onSubmit={(e) => {
-        e.preventDefault();
-        const formData = new FormData(e.currentTarget);
-        const form = e.currentTarget;
-        form.dataset.submitted = "true";
-        form.dataset.value = formData.get("marketing") === "on" ? "on" : "off";
-      }}
-    >
-      <Field orientation="horizontal">
-        <Switch {...args} name="marketing" id="marketing-test" />
-        <FieldContent>
-          <FieldTitle>Marketing emails</FieldTitle>
-          <FieldDescription>
-            Receive emails about new products, features, and more.
-          </FieldDescription>
-        </FieldContent>
-      </Field>
-      <Button type="submit" className="w-fit">
-        Submit
-      </Button>
-    </form>
-  ),
-  play: async ({ canvasElement, step }) => {
+  async ({ canvasElement, step }) => {
     const canvas = within(canvasElement);
     const switchBtn = await canvas.findByRole("switch");
     const submitBtn = await canvas.findByRole("button", { name: "Submit" });
@@ -301,5 +300,5 @@ export const ShouldSubmitForm: Story = {
       await expect(form).toHaveAttribute("data-submitted", "true");
       await expect(form).toHaveAttribute("data-value", "on");
     });
-  },
-};
+  }
+);

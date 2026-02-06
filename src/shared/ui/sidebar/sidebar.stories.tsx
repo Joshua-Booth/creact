@@ -1,5 +1,4 @@
-import type { Meta, StoryObj } from "@storybook/react-vite";
-
+import preview from "@/storybook/preview";
 import {
   Calendar,
   ChevronUp,
@@ -35,10 +34,9 @@ import {
 /**
  * A composable, themeable and customizable sidebar component.
  */
-const meta = {
+const meta = preview.meta({
   title: "ui/Sidebar",
   component: Sidebar,
-  tags: ["autodocs"],
   argTypes: {
     side: {
       options: ["left", "right"],
@@ -72,11 +70,7 @@ const meta = {
       </SidebarProvider>
     ),
   ],
-} satisfies Meta<typeof Sidebar>;
-
-export default meta;
-
-type Story = StoryObj<typeof Sidebar>;
+});
 
 // Menu items.
 const items = [
@@ -107,10 +101,12 @@ const items = [
   },
 ];
 
+// --- Stories ---
+
 /**
  * A simple sidebar with a group of menu items.
  */
-export const Simple: Story = {
+export const Simple = meta.story({
   render: (args) => (
     <Sidebar {...args}>
       <SidebarHeader />
@@ -136,12 +132,12 @@ export const Simple: Story = {
       <SidebarFooter />
     </Sidebar>
   ),
-};
+});
 
 /**
  * A simple sidebar with a footer menu item.
  */
-export const Footer: Story = {
+export const Footer = meta.story({
   render: (args) => (
     <Sidebar {...args}>
       <SidebarHeader />
@@ -175,13 +171,13 @@ export const Footer: Story = {
       </SidebarFooter>
     </Sidebar>
   ),
-};
+});
 
-export const ShouldCloseOpen: Story = {
-  ...Simple,
-  name: "when clicking the trigger, should close and open the sidebar",
-  tags: ["!dev", "!autodocs"],
-  play: async ({ canvas, step }) => {
+// --- Tests ---
+
+Simple.test(
+  "when clicking the trigger, should close and open the sidebar",
+  async ({ canvas, step }) => {
     const sidebarBtn = await canvas.findByRole("button", {
       name: /toggle/i,
     });
@@ -192,5 +188,5 @@ export const ShouldCloseOpen: Story = {
     await step("reopen the sidebar", async () => {
       await userEvent.click(sidebarBtn);
     });
-  },
-};
+  }
+);

@@ -1,5 +1,4 @@
-import type { Meta, StoryObj } from "@storybook/react-vite";
-
+import preview from "@/storybook/preview";
 import { expect, fn, userEvent, within } from "storybook/test";
 
 import {
@@ -16,10 +15,9 @@ import {
 /**
  * A drawer component for React.
  */
-const meta = {
+const meta = preview.meta({
   title: "ui/Drawer",
   component: Drawer,
-  tags: ["autodocs"],
   args: {
     onOpenChange: fn(),
     onClose: fn(),
@@ -34,7 +32,9 @@ const meta = {
           <DrawerDescription>This action cannot be undone.</DrawerDescription>
         </DrawerHeader>
         <DrawerFooter>
-          <DrawerClose className="bg-primary text-primary-foreground rounded-sm px-4 py-2">
+          <DrawerClose
+            className="bg-primary text-primary-foreground rounded-sm px-4 py-2"
+          >
             Submit
           </DrawerClose>
           <DrawerClose className="hover:underline">Cancel</DrawerClose>
@@ -45,48 +45,46 @@ const meta = {
   parameters: {
     layout: "centered",
   },
-} satisfies Meta<typeof Drawer>;
+});
 
-export default meta;
-
-type Story = StoryObj<typeof meta>;
+// --- Stories ---
 
 /**
  * The default form of the drawer.
  */
-export const Default: Story = {};
+export const Default = meta.story({});
 
 /**
  * Drawer opening from the left side of the screen.
  */
-export const Left: Story = {
+export const Left = meta.story({
   args: {
     direction: "left",
   },
-};
+});
 
 /**
  * Drawer opening from the right side of the screen.
  */
-export const Right: Story = {
+export const Right = meta.story({
   args: {
     direction: "right",
   },
-};
+});
 
 /**
  * Drawer opening from the top of the screen.
  */
-export const Top: Story = {
+export const Top = meta.story({
   args: {
     direction: "top",
   },
-};
+});
 
 /**
  * Drawer with scrollable content for long forms or lists.
  */
-export const Scrollable: Story = {
+export const Scrollable = meta.story({
   render: (args) => (
     <Drawer {...args}>
       <DrawerTrigger>Open</DrawerTrigger>
@@ -118,12 +116,13 @@ export const Scrollable: Story = {
       </DrawerContent>
     </Drawer>
   ),
-};
+});
 
-export const ShouldOpenCloseWithSubmit: Story = {
-  name: "when clicking Submit button, should close the drawer",
-  tags: ["!dev", "!autodocs"],
-  play: async ({ args, canvasElement, step }) => {
+// --- Tests ---
+
+Default.test(
+  "when clicking Submit button, should close the drawer",
+  async ({ args, canvasElement, step }) => {
     const canvasBody = within(canvasElement.ownerDocument.body);
 
     await step("Open the drawer", async () => {
@@ -148,13 +147,12 @@ export const ShouldOpenCloseWithSubmit: Story = {
         "closed"
       );
     });
-  },
-};
+  }
+);
 
-export const ShouldOpenCloseWithCancel: Story = {
-  name: "when clicking Cancel button, should close the drawer",
-  tags: ["!dev", "!autodocs"],
-  play: async ({ args, canvasElement, step }) => {
+Default.test(
+  "when clicking Cancel button, should close the drawer",
+  async ({ args, canvasElement, step }) => {
     const canvasBody = within(canvasElement.ownerDocument.body);
 
     await step("Open the drawer", async () => {
@@ -179,5 +177,5 @@ export const ShouldOpenCloseWithCancel: Story = {
         "closed"
       );
     });
-  },
-};
+  }
+);

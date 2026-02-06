@@ -1,5 +1,4 @@
-import type { Meta, StoryObj } from "@storybook/react-vite";
-
+import preview from "@/storybook/preview";
 import { SearchIcon } from "lucide-react";
 import { expect, userEvent } from "storybook/test";
 
@@ -27,10 +26,9 @@ import { Input } from "./input";
 /**
  * Displays a form input field or a component that looks like an input field.
  */
-const meta = {
+const meta = preview.meta({
   title: "ui/Input",
   component: Input,
-  tags: ["autodocs"],
   argTypes: {},
   args: {
     className: "w-96",
@@ -41,22 +39,20 @@ const meta = {
   parameters: {
     layout: "centered",
   },
-} satisfies Meta<typeof Input>;
+});
 
-export default meta;
-
-type Story = StoryObj<typeof meta>;
+// --- Stories ---
 
 /**
  * The default form of the input field.
  */
-export const Default: Story = {};
+export const Default = meta.story();
 
 /**
  * Use the `Field` component with `FieldLabel` and `FieldDescription` for
  * accessible form fields with proper labeling and helper text.
  */
-export const WithField: Story = {
+export const WithField = meta.story({
   render: (args) => (
     <Field className={args.className}>
       <FieldLabel htmlFor="username">Username</FieldLabel>
@@ -66,13 +62,13 @@ export const WithField: Story = {
       </FieldDescription>
     </Field>
   ),
-};
+});
 
 /**
  * Use `FieldSet` and `FieldGroup` to group multiple related fields together
  * in a form layout.
  */
-export const WithFieldGroup: Story = {
+export const WithFieldGroup = meta.story({
   render: (args) => (
     <FieldSet className={args.className}>
       <FieldGroup>
@@ -96,13 +92,13 @@ export const WithFieldGroup: Story = {
       </FieldGroup>
     </FieldSet>
   ),
-};
+});
 
 /**
  * Use the `disabled` prop to make the input non-interactive and appears faded,
  * indicating that input is not currently accepted.
  */
-export const Disabled: Story = {
+export const Disabled = meta.story({
   args: { disabled: true },
   render: (args) => (
     <Field data-disabled className={args.className}>
@@ -117,13 +113,13 @@ export const Disabled: Story = {
       <FieldDescription>This field is currently disabled.</FieldDescription>
     </Field>
   ),
-};
+});
 
 /**
  * Use `aria-invalid` to indicate that the input value is invalid.
  * Combine with `FieldError` to display an error message.
  */
-export const Invalid: Story = {
+export const Invalid = meta.story({
   render: (args) => (
     <Field className={args.className} data-invalid>
       <FieldLabel htmlFor="email-invalid" aria-invalid="true">
@@ -133,13 +129,13 @@ export const Invalid: Story = {
       <FieldError>Please enter a valid email address.</FieldError>
     </Field>
   ),
-};
+});
 
 /**
  * Use `type="file"` to create a file input that allows users to select files
  * from their device.
  */
-export const File: Story = {
+export const File = meta.story({
   render: (args) => (
     <Field>
       <FieldLabel htmlFor="picture">Picture</FieldLabel>
@@ -147,13 +143,13 @@ export const File: Story = {
       <FieldDescription>Select a picture to upload.</FieldDescription>
     </Field>
   ),
-};
+});
 
 /**
  * Use `Field` with `orientation="horizontal"` for inline form layouts
  * where the label appears beside the input.
  */
-export const Inline: Story = {
+export const Inline = meta.story({
   render: (args) => (
     <Field orientation="horizontal" className="w-[500px]">
       <FieldLabel>Email</FieldLabel>
@@ -163,12 +159,12 @@ export const Inline: Story = {
       </div>
     </Field>
   ),
-};
+});
 
 /**
  * Use `FieldGroup` to arrange multiple fields in a responsive grid layout.
  */
-export const Grid: Story = {
+export const Grid = meta.story({
   render: (args) => (
     <FieldGroup className={args.className}>
       <Field>
@@ -181,12 +177,12 @@ export const Grid: Story = {
       </Field>
     </FieldGroup>
   ),
-};
+});
 
 /**
  * Use the `required` prop and visual indicators to mark required fields.
  */
-export const Required: Story = {
+export const Required = meta.story({
   render: (args) => (
     <Field className={args.className}>
       <FieldLabel htmlFor="required-field">
@@ -201,12 +197,12 @@ export const Required: Story = {
       <FieldDescription>This field must be filled out.</FieldDescription>
     </Field>
   ),
-};
+});
 
 /**
  * Use the `Badge` component inside `FieldLabel` to highlight special status.
  */
-export const WithBadge: Story = {
+export const WithBadge = meta.story({
   render: (args) => (
     <Field className={args.className}>
       <FieldLabel htmlFor="webhook-url">
@@ -222,26 +218,26 @@ export const WithBadge: Story = {
       />
     </Field>
   ),
-};
+});
 
 /**
  * Use the `Button` component to indicate that the input field can be submitted
  * or used to trigger an action.
  */
-export const WithButton: Story = {
+export const WithButton = meta.story({
   render: (args) => (
     <div className="flex items-center space-x-2">
       <Input {...args} />
       <Button type="submit">Subscribe</Button>
     </div>
   ),
-};
+});
 
 /**
  * Use `InputGroup` for inputs with icons or addons. See the InputGroup
  * component for more examples including password toggles, clear buttons, and more.
  */
-export const WithInputGroup: Story = {
+export const WithInputGroup = meta.story({
   render: (args) => (
     <InputGroup className={args.className}>
       <InputGroupAddon align="inline-start">
@@ -250,12 +246,12 @@ export const WithInputGroup: Story = {
       <InputGroupInput type="search" placeholder="Search..." />
     </InputGroup>
   ),
-};
+});
 
 /**
  * Use `ButtonGroup` to combine an input with action buttons in a cohesive group.
  */
-export const WithButtonGroup: Story = {
+export const WithButtonGroup = meta.story({
   render: (args) => (
     <Field className={args.className}>
       <FieldLabel htmlFor="search-input">Search</FieldLabel>
@@ -270,13 +266,13 @@ export const WithButtonGroup: Story = {
       </ButtonGroup>
     </Field>
   ),
-};
+});
 
 /**
  * Combine multiple field types to build complete forms with inputs, selects,
  * and action buttons.
  */
-export const Form: Story = {
+export const Form = meta.story({
   render: (args) => (
     <form className="w-96">
       <FieldGroup>
@@ -338,12 +334,13 @@ export const Form: Story = {
       </FieldGroup>
     </form>
   ),
-};
+});
 
-export const ShouldEnterText: Story = {
-  name: "when user enters text, should see it in the input field",
-  tags: ["!dev", "!autodocs"],
-  play: async ({ canvas, step }) => {
+// --- Tests ---
+
+Default.test(
+  "when user enters text, should see it in the input field",
+  async ({ canvas, step }) => {
     const input = await canvas.findByPlaceholderText(/email/i);
     const mockedInput = "mocked@shadcn.com";
 
@@ -353,5 +350,5 @@ export const ShouldEnterText: Story = {
     });
 
     await expect(input).toHaveValue(mockedInput);
-  },
-};
+  }
+);

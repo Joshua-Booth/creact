@@ -1,12 +1,13 @@
-import type { Meta, StoryObj } from "@storybook/react-vite";
-
 import { useState } from "react";
 
+import preview from "@/storybook/preview";
 import { AlertTriangle, RefreshCw, WifiOff } from "lucide-react";
 import { expect, userEvent, within } from "storybook/test";
 
 import { Button } from "../button";
 import { ErrorBoundary } from "./error-boundary";
+
+// --- Helpers ---
 
 function BuggyComponent({ shouldThrow }: { shouldThrow: boolean }) {
   if (shouldThrow) {
@@ -102,44 +103,41 @@ function CustomFallbackDemo() {
 /**
  * Catches JavaScript errors in child components and displays a fallback UI.
  */
-const meta = {
+const meta = preview.meta({
   title: "ui/ErrorBoundary",
   component: ErrorBoundary,
-  tags: ["autodocs"],
   parameters: {
     layout: "centered",
   },
-} satisfies Meta<typeof ErrorBoundary>;
+});
 
-export default meta;
-
-type Story = StoryObj<typeof meta>;
+// --- Stories ---
 
 /**
  * The default error boundary behavior. Click "Trigger Error" to see the
  * fallback UI, then use "Try again" or "Reset" to recover.
  */
-export const Default: Story = {
+export const Default = meta.story({
   args: { children: null },
   render: function Render(_args) {
     return <ErrorBoundaryDemo />;
   },
-};
+});
 
 /**
  * ErrorBoundary with a custom fallback component passed via the `fallback` prop.
  */
-export const CustomFallback: Story = {
+export const CustomFallback = meta.story({
   args: { children: null },
   render: function Render(_args) {
     return <CustomFallbackDemo />;
   },
-};
+});
 
 /**
  * A preview of the default fallback UI that displays when an error is caught.
  */
-export const DefaultFallbackPreview: Story = {
+export const DefaultFallbackPreview = meta.story({
   args: { children: null },
   render: (_args) => (
     <div className="flex min-h-96 flex-col items-center justify-center p-8">
@@ -161,12 +159,12 @@ export const DefaultFallbackPreview: Story = {
       </div>
     </div>
   ),
-};
+});
 
 /**
  * A compact error fallback style for smaller spaces.
  */
-export const CompactFallbackPreview: Story = {
+export const CompactFallbackPreview = meta.story({
   args: { children: null },
   render: (_args) => (
     <div className="flex items-center gap-3 rounded-md border p-4">
@@ -182,7 +180,7 @@ export const CompactFallbackPreview: Story = {
       </Button>
     </div>
   ),
-};
+});
 
 function ErrorBoundaryTestDemo({
   onTrigger,
@@ -228,14 +226,18 @@ function ErrorBoundaryTestDemo({
 /**
  * When an error is triggered, should display fallback UI.
  */
-export const ShouldShowFallbackOnError: Story = {
-  name: "when error is triggered, should display fallback UI",
-  tags: ["!dev", "!autodocs"],
-  args: { children: null },
-  render: function Render(_args) {
-    return <ErrorBoundaryTestDemo />;
+
+// --- Tests ---
+
+Default.test(
+  "when error is triggered, should display fallback UI",
+  {
+    args: { children: null },
+    render: function Render(_args) {
+      return <ErrorBoundaryTestDemo />;
+    },
   },
-  play: async ({ canvasElement, step }) => {
+  async ({ canvasElement, step }) => {
     const canvas = within(canvasElement);
 
     await step("verify normal content is shown initially", async () => {
@@ -255,20 +257,21 @@ export const ShouldShowFallbackOnError: Story = {
         canvas.getByRole("button", { name: /try again/i })
       ).toBeVisible();
     });
-  },
-};
+  }
+);
 
 /**
  * When reset is clicked after error, should recover and show normal content.
  */
-export const ShouldRecoverOnReset: Story = {
-  name: "when reset is clicked after error, should recover",
-  tags: ["!dev", "!autodocs"],
-  args: { children: null },
-  render: function Render(_args) {
-    return <ErrorBoundaryTestDemo />;
+Default.test(
+  "when reset is clicked after error, should recover",
+  {
+    args: { children: null },
+    render: function Render(_args) {
+      return <ErrorBoundaryTestDemo />;
+    },
   },
-  play: async ({ canvasElement, step }) => {
+  async ({ canvasElement, step }) => {
     const canvas = within(canvasElement);
 
     await step("trigger error first", async () => {
@@ -287,5 +290,5 @@ export const ShouldRecoverOnReset: Story = {
         canvas.getByText(/This content is wrapped in an ErrorBoundary/)
       ).toBeVisible();
     });
-  },
-};
+  }
+);

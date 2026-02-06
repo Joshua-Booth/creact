@@ -1,7 +1,6 @@
-import type { Meta, StoryObj } from "@storybook/react-vite";
-
 import { useState } from "react";
 
+import preview from "@/storybook/preview";
 import { expect, userEvent, within } from "storybook/test";
 
 import { Checkbox } from "../checkbox";
@@ -34,10 +33,9 @@ import {
 /**
  * Provides accessible form field layouts with labels, descriptions, and error states.
  */
-const meta = {
+const meta = preview.meta({
   title: "ui/Field",
   component: Field,
-  tags: ["autodocs"],
   argTypes: {
     orientation: {
       control: "select",
@@ -51,16 +49,14 @@ const meta = {
   parameters: {
     layout: "centered",
   },
-} satisfies Meta<typeof Field>;
+});
 
-export default meta;
-
-type Story = StoryObj<typeof meta>;
+// --- Stories ---
 
 /**
  * A simple field with label, input, and description.
  */
-export const Default: Story = {
+export const Default = meta.story({
   render: (args) => (
     <Field {...args} className="w-80">
       <FieldLabel>Email</FieldLabel>
@@ -68,12 +64,12 @@ export const Default: Story = {
       <FieldDescription>Enter your email address.</FieldDescription>
     </Field>
   ),
-};
+});
 
 /**
  * Field in an error state with error message.
  */
-export const ErrorState: Story = {
+export const ErrorState = meta.story({
   name: "Error",
   render: (args) => (
     <Field {...args} className="w-80">
@@ -87,12 +83,12 @@ export const ErrorState: Story = {
       <FieldError>Please enter a valid email address.</FieldError>
     </Field>
   ),
-};
+});
 
 /**
  * Field with a textarea for longer text input.
  */
-export const WithTextarea: Story = {
+export const WithTextarea = meta.story({
   args: {
     orientation: "horizontal",
   },
@@ -107,12 +103,12 @@ export const WithTextarea: Story = {
       </FieldContent>
     </Field>
   ),
-};
+});
 
 /**
  * Field with a checkbox control.
  */
-export const WithCheckbox: Story = {
+export const WithCheckbox = meta.story({
   args: {
     orientation: "horizontal",
   },
@@ -139,12 +135,12 @@ export const WithCheckbox: Story = {
       </FieldContent>
     </Field>
   ),
-};
+});
 
 /**
  * FieldSet with FieldLegend for grouping related fields.
  */
-export const Fieldset: Story = {
+export const Fieldset = meta.story({
   render: () => (
     <FieldSet className="w-80">
       <FieldLegend>Personal Information</FieldLegend>
@@ -167,12 +163,12 @@ export const Fieldset: Story = {
       </FieldGroup>
     </FieldSet>
   ),
-};
+});
 
 /**
  * FieldGroup with separator between field sections.
  */
-export const WithSeparator: Story = {
+export const WithSeparator = meta.story({
   render: () => (
     <FieldGroup className="w-80">
       <Field>
@@ -186,12 +182,12 @@ export const WithSeparator: Story = {
       </Field>
     </FieldGroup>
   ),
-};
+});
 
 /**
  * FieldSet with radio group.
  */
-export const WithRadioGroup: Story = {
+export const WithRadioGroup = meta.story({
   parameters: {
     a11y: {
       config: {
@@ -238,12 +234,12 @@ export const WithRadioGroup: Story = {
       </RadioGroup>
     </FieldSet>
   ),
-};
+});
 
 /**
  * Field with a select dropdown.
  */
-export const WithSelect: Story = {
+export const WithSelect = meta.story({
   render: (args) => (
     <Field {...args} className="w-80">
       <FieldLabel>Role</FieldLabel>
@@ -260,12 +256,12 @@ export const WithSelect: Story = {
       <FieldDescription>Select your account role.</FieldDescription>
     </Field>
   ),
-};
+});
 
 /**
  * Field with a slider and dynamic value display.
  */
-export const WithSlider: Story = {
+export const WithSlider = meta.story({
   render: function SliderStory(args) {
     const [value, setValue] = useState([50]);
 
@@ -287,12 +283,12 @@ export const WithSlider: Story = {
       </Field>
     );
   },
-};
+});
 
 /**
  * Field with a switch toggle.
  */
-export const WithSwitch: Story = {
+export const WithSwitch = meta.story({
   args: {
     orientation: "horizontal",
   },
@@ -307,12 +303,12 @@ export const WithSwitch: Story = {
       <Switch aria-labelledby="marketing-label" />
     </Field>
   ),
-};
+});
 
 /**
  * FieldError with multiple errors from an array.
  */
-export const MultipleErrors: Story = {
+export const MultipleErrors = meta.story({
   render: (args) => (
     <Field {...args} className="w-80">
       <FieldLabel>Password</FieldLabel>
@@ -326,12 +322,12 @@ export const MultipleErrors: Story = {
       />
     </Field>
   ),
-};
+});
 
 /**
  * Responsive field that switches layout based on container width.
  */
-export const ResponsiveLayout: Story = {
+export const ResponsiveLayout = meta.story({
   args: {
     orientation: "responsive",
   },
@@ -353,12 +349,12 @@ export const ResponsiveLayout: Story = {
       </Field>
     </FieldGroup>
   ),
-};
+});
 
 /**
  * Disabled field state.
  */
-export const Disabled: Story = {
+export const Disabled = meta.story({
   render: (args) => (
     <Field {...args} className="w-80" disabled>
       <FieldLabel>Email</FieldLabel>
@@ -366,27 +362,31 @@ export const Disabled: Story = {
       <FieldDescription>This field is disabled.</FieldDescription>
     </Field>
   ),
-};
+});
 
 /**
  * When field has error, should show aria-invalid and error message.
  */
-export const ShouldShowErrorState: Story = {
-  name: "when field has error, should show aria-invalid and error message",
-  tags: ["!dev", "!autodocs"],
-  render: (args) => (
-    <Field {...args} className="w-80">
-      <FieldLabel htmlFor="error-input">Email</FieldLabel>
-      <Input
-        id="error-input"
-        type="email"
-        aria-invalid="true"
-        placeholder="Enter email"
-      />
-      <FieldError>Please enter a valid email address.</FieldError>
-    </Field>
-  ),
-  play: async ({ canvasElement, step }) => {
+
+// --- Tests ---
+
+Default.test(
+  "when field has error, should show aria-invalid and error message",
+  {
+    render: (args) => (
+      <Field {...args} className="w-80">
+        <FieldLabel htmlFor="error-input">Email</FieldLabel>
+        <Input
+          id="error-input"
+          type="email"
+          aria-invalid="true"
+          placeholder="Enter email"
+        />
+        <FieldError>Please enter a valid email address.</FieldError>
+      </Field>
+    ),
+  },
+  async ({ canvasElement, step }) => {
     const canvas = within(canvasElement);
 
     await step("verify error message is visible", async () => {
@@ -399,22 +399,23 @@ export const ShouldShowErrorState: Story = {
       const input = canvas.getByPlaceholderText("Enter email");
       await expect(input).toHaveAttribute("aria-invalid", "true");
     });
-  },
-};
+  }
+);
 
 /**
  * When clicking label, should focus associated input.
  */
-export const ShouldAssociateLabelWithInput: Story = {
-  name: "when clicking label, should focus associated input",
-  tags: ["!dev", "!autodocs"],
-  render: (args) => (
-    <Field {...args} className="w-80">
-      <FieldLabel htmlFor="label-test-input">Username</FieldLabel>
-      <Input id="label-test-input" placeholder="Enter username" />
-    </Field>
-  ),
-  play: async ({ canvasElement, step }) => {
+Default.test(
+  "when clicking label, should focus associated input",
+  {
+    render: (args) => (
+      <Field {...args} className="w-80">
+        <FieldLabel htmlFor="label-test-input">Username</FieldLabel>
+        <Input id="label-test-input" placeholder="Enter username" />
+      </Field>
+    ),
+  },
+  async ({ canvasElement, step }) => {
     const canvas = within(canvasElement);
 
     await step("click label and verify input receives focus", async () => {
@@ -425,5 +426,5 @@ export const ShouldAssociateLabelWithInput: Story = {
 
       await expect(input).toHaveFocus();
     });
-  },
-};
+  }
+);

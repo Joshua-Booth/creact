@@ -1,5 +1,4 @@
-import type { Meta, StoryObj } from "@storybook/react-vite";
-
+import preview from "@/storybook/preview";
 import { LogOut, Plus, Settings, User } from "lucide-react";
 import { expect, userEvent, within } from "storybook/test";
 
@@ -24,10 +23,9 @@ import {
 /**
  * An image element with a fallback for representing the user.
  */
-const meta = {
+const meta = preview.meta({
   title: "ui/Avatar",
   component: Avatar,
-  tags: ["autodocs"],
   argTypes: {
     size: {
       options: ["default", "sm", "lg"],
@@ -46,21 +44,19 @@ const meta = {
   parameters: {
     layout: "centered",
   },
-} satisfies Meta<typeof Avatar>;
+});
 
-export default meta;
-
-type Story = StoryObj<typeof meta>;
+// --- Stories ---
 
 /**
  * The default form of the avatar.
  */
-export const Default: Story = {};
+export const Default = meta.story();
 
 /**
  * An avatar with a badge indicator to show status or notifications.
  */
-export const Badge: Story = {
+export const Badge = meta.story({
   render: (args) => (
     <Avatar {...args}>
       <AvatarImage src="https://github.com/shadcn.png" />
@@ -68,12 +64,12 @@ export const Badge: Story = {
       <AvatarBadge />
     </Avatar>
   ),
-};
+});
 
 /**
  * An avatar with an icon inside the badge for additional context.
  */
-export const BadgeWithIcon: Story = {
+export const BadgeWithIcon = meta.story({
   render: (args) => (
     <Avatar {...args}>
       <AvatarImage src="https://github.com/shadcn.png" />
@@ -83,12 +79,12 @@ export const BadgeWithIcon: Story = {
       </AvatarBadge>
     </Avatar>
   ),
-};
+});
 
 /**
  * Multiple avatars grouped together with overlapping edges.
  */
-export const AvatarGroupStory: Story = {
+export const AvatarGroupStory = meta.story({
   name: "AvatarGroup",
   render: () => (
     <AvatarGroup>
@@ -106,12 +102,12 @@ export const AvatarGroupStory: Story = {
       </Avatar>
     </AvatarGroup>
   ),
-};
+});
 
 /**
  * An avatar group with a count indicator showing additional avatars.
  */
-export const AvatarGroupCountStory: Story = {
+export const AvatarGroupCountStory = meta.story({
   name: "AvatarGroupCount",
   render: () => (
     <AvatarGroup>
@@ -130,12 +126,12 @@ export const AvatarGroupCountStory: Story = {
       <AvatarGroupCount>+5</AvatarGroupCount>
     </AvatarGroup>
   ),
-};
+});
 
 /**
  * An avatar group with an icon in the count display for actions.
  */
-export const AvatarGroupWithIcon: Story = {
+export const AvatarGroupWithIcon = meta.story({
   render: () => (
     <AvatarGroup>
       <Avatar>
@@ -155,12 +151,12 @@ export const AvatarGroupWithIcon: Story = {
       </AvatarGroupCount>
     </AvatarGroup>
   ),
-};
+});
 
 /**
  * Different avatar size options: small, default, and large.
  */
-export const Sizes: Story = {
+export const Sizes = meta.story({
   render: () => (
     <div className="flex items-center gap-4">
       <Avatar size="sm">
@@ -177,13 +173,13 @@ export const Sizes: Story = {
       </Avatar>
     </div>
   ),
-};
+});
 
 /**
  * An avatar used as a trigger for a dropdown menu, commonly used for user
  * account menus.
  */
-export const Dropdown: Story = {
+export const Dropdown = meta.story({
   render: (args) => (
     <DropdownMenu>
       <DropdownMenuTrigger
@@ -215,43 +211,46 @@ export const Dropdown: Story = {
       </DropdownMenuContent>
     </DropdownMenu>
   ),
-};
+});
 
-export const ShouldOpenDropdownOnClick: Story = {
-  name: "when clicking the avatar, should open the dropdown menu",
-  tags: ["!dev", "!autodocs"],
-  render: (args) => (
-    <DropdownMenu>
-      <DropdownMenuTrigger
-        className="cursor-pointer rounded-full"
-        aria-label="User menu"
-      >
-        <Avatar {...args}>
-          <AvatarImage src="https://github.com/shadcn.png" />
-          <AvatarFallback>CN</AvatarFallback>
-        </Avatar>
-      </DropdownMenuTrigger>
-      <DropdownMenuContent align="end" className="w-56">
-        <DropdownMenuGroup>
-          <DropdownMenuLabel>My Account</DropdownMenuLabel>
+// --- Tests ---
+
+Default.test(
+  "when clicking the avatar, should open the dropdown menu",
+  {
+    render: (args) => (
+      <DropdownMenu>
+        <DropdownMenuTrigger
+          className="cursor-pointer rounded-full"
+          aria-label="User menu"
+        >
+          <Avatar {...args}>
+            <AvatarImage src="https://github.com/shadcn.png" />
+            <AvatarFallback>CN</AvatarFallback>
+          </Avatar>
+        </DropdownMenuTrigger>
+        <DropdownMenuContent align="end" className="w-56">
+          <DropdownMenuGroup>
+            <DropdownMenuLabel>My Account</DropdownMenuLabel>
+            <DropdownMenuItem>
+              <User />
+              <span>Profile</span>
+            </DropdownMenuItem>
+            <DropdownMenuItem>
+              <Settings />
+              <span>Settings</span>
+            </DropdownMenuItem>
+          </DropdownMenuGroup>
+          <DropdownMenuSeparator />
           <DropdownMenuItem>
-            <User />
-            <span>Profile</span>
+            <LogOut />
+            <span>Log out</span>
           </DropdownMenuItem>
-          <DropdownMenuItem>
-            <Settings />
-            <span>Settings</span>
-          </DropdownMenuItem>
-        </DropdownMenuGroup>
-        <DropdownMenuSeparator />
-        <DropdownMenuItem>
-          <LogOut />
-          <span>Log out</span>
-        </DropdownMenuItem>
-      </DropdownMenuContent>
-    </DropdownMenu>
-  ),
-  play: async ({ canvasElement }) => {
+        </DropdownMenuContent>
+      </DropdownMenu>
+    ),
+  },
+  async ({ canvasElement }) => {
     const canvasBody = within(canvasElement.ownerDocument.body);
     const trigger = await canvasBody.findByRole("button");
 
@@ -264,5 +263,5 @@ export const ShouldOpenDropdownOnClick: Story = {
       name: /profile/i,
     });
     await expect(profileItem).toBeInTheDocument();
-  },
-};
+  }
+);

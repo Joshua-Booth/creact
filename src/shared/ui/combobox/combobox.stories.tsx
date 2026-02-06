@@ -1,9 +1,8 @@
 /* eslint-disable @typescript-eslint/no-unsafe-assignment -- Combobox render props have loosely-typed item parameters */
 /* eslint-disable @typescript-eslint/no-non-null-assertion -- Test assertions on known DOM elements */
-import type { Meta, StoryObj } from "@storybook/react-vite";
-
 import { useRef, useState } from "react";
 
+import preview from "@/storybook/preview";
 import { SearchIcon } from "lucide-react";
 import { expect, userEvent, waitFor, within } from "storybook/test";
 
@@ -26,6 +25,8 @@ import {
   ComboboxTrigger,
   ComboboxValue,
 } from "./combobox";
+
+// --- Helpers ---
 
 const fruitNames = [
   "Apple",
@@ -66,10 +67,9 @@ const countries = [
 /**
  * An autocomplete input with a filterable list of options.
  */
-const meta: Meta<typeof Combobox> = {
+const meta = preview.meta({
   title: "ui/Combobox",
   component: Combobox,
-  tags: ["autodocs"],
   argTypes: {},
   args: {},
   parameters: {
@@ -84,16 +84,14 @@ const meta: Meta<typeof Combobox> = {
       },
     },
   },
-} satisfies Meta<typeof Combobox>;
+});
 
-export default meta;
-
-type Story = StoryObj<typeof meta>;
+// --- Stories ---
 
 /**
  * The default combobox with single selection.
  */
-export const Default: Story = {
+export const Default = meta.story({
   render: (args) => (
     <Combobox {...args} items={fruitNames}>
       <ComboboxInput placeholder="Select a fruit..." className="w-64" />
@@ -109,12 +107,12 @@ export const Default: Story = {
       </ComboboxContent>
     </Combobox>
   ),
-};
+});
 
 /**
  * Multi-select combobox with chips for displaying selected values.
  */
-export const Multiple: Story = {
+export const Multiple = meta.story({
   render: function MultipleStory() {
     const [values, setValues] = useState<string[]>(["Apple"]);
     const anchorRef = useRef<HTMLDivElement>(null);
@@ -145,12 +143,12 @@ export const Multiple: Story = {
       </Combobox>
     );
   },
-};
+});
 
 /**
  * Combobox with a clear button to reset the selection.
  */
-export const ClearButton: Story = {
+export const ClearButton = meta.story({
   render: (args) => (
     <Combobox {...args} items={fruitNames} defaultValue="Apple">
       <ComboboxInput
@@ -169,12 +167,12 @@ export const ClearButton: Story = {
       </ComboboxContent>
     </Combobox>
   ),
-};
+});
 
 /**
  * Combobox with grouped options and labels.
  */
-export const Groups: Story = {
+export const Groups = meta.story({
   render: (args) => (
     <Combobox {...args}>
       <ComboboxInput placeholder="Select food..." className="w-64" />
@@ -210,12 +208,12 @@ export const Groups: Story = {
       </ComboboxContent>
     </Combobox>
   ),
-};
+});
 
 /**
  * Combobox with custom item content including descriptions.
  */
-export const CustomItems: Story = {
+export const CustomItems = meta.story({
   render: (args) => (
     <Combobox
       {...args}
@@ -244,12 +242,12 @@ export const CustomItems: Story = {
       </ComboboxContent>
     </Combobox>
   ),
-};
+});
 
 /**
  * Combobox in an invalid/error state.
  */
-export const Invalid: Story = {
+export const Invalid = meta.story({
   render: (args) => (
     <Field data-invalid className="w-64">
       <FieldLabel>Favorite Fruit</FieldLabel>
@@ -268,12 +266,12 @@ export const Invalid: Story = {
       <FieldError>Please select a fruit.</FieldError>
     </Field>
   ),
-};
+});
 
 /**
  * Disabled combobox state.
  */
-export const Disabled: Story = {
+export const Disabled = meta.story({
   args: {
     disabled: true,
   },
@@ -295,12 +293,12 @@ export const Disabled: Story = {
       </ComboboxContent>
     </Combobox>
   ),
-};
+});
 
 /**
  * Combobox with auto-highlight enabled to automatically highlight the first matching option.
  */
-export const AutoHighlight: Story = {
+export const AutoHighlight = meta.story({
   args: {
     autoHighlight: true,
   },
@@ -319,12 +317,12 @@ export const AutoHighlight: Story = {
       </ComboboxContent>
     </Combobox>
   ),
-};
+});
 
 /**
  * Combobox triggered by a button with dropdown popup.
  */
-export const Popup: Story = {
+export const Popup = meta.story({
   render: function PopupStory() {
     const [value, setValue] = useState<string | null>(null);
     const anchorRef = useRef<HTMLButtonElement>(null);
@@ -355,12 +353,12 @@ export const Popup: Story = {
       </Combobox>
     );
   },
-};
+});
 
 /**
  * Combobox with InputGroup addon for a search icon.
  */
-export const InputGroupStory: Story = {
+export const InputGroupStory = meta.story({
   name: "Input Group",
   render: (args) => (
     <Combobox {...args} items={fruitNames}>
@@ -381,43 +379,47 @@ export const InputGroupStory: Story = {
       </ComboboxContent>
     </Combobox>
   ),
-};
+});
 
 /**
  * When an item is clicked, should update the input value.
  */
-export const ShouldSelectItem: Story = {
-  name: "when item is clicked, should update input value",
-  tags: ["!dev", "!autodocs"],
-  parameters: {
-    a11y: {
-      config: {
-        rules: [
-          { id: "button-name", enabled: false },
-          // Base UI focus guards have aria-hidden with tabindex causing violations
-          { id: "aria-hidden-focus", enabled: false },
-          // Base UI Combobox internals cause these violations
-          { id: "aria-input-field-name", enabled: false },
-          { id: "scrollable-region-focusable", enabled: false },
-        ],
+
+// --- Tests ---
+
+Default.test(
+  "when item is clicked, should update input value",
+  {
+    parameters: {
+      a11y: {
+        config: {
+          rules: [
+            { id: "button-name", enabled: false },
+            // Base UI focus guards have aria-hidden with tabindex causing violations
+            { id: "aria-hidden-focus", enabled: false },
+            // Base UI Combobox internals cause these violations
+            { id: "aria-input-field-name", enabled: false },
+            { id: "scrollable-region-focusable", enabled: false },
+          ],
+        },
       },
     },
+    render: (args) => (
+      <Combobox {...args} items={fruitNames}>
+        <ComboboxInput placeholder="Select a fruit..." className="w-64" />
+        <ComboboxContent>
+          <ComboboxList>
+            {(item) => (
+              <ComboboxItem key={item} value={item}>
+                {item}
+              </ComboboxItem>
+            )}
+          </ComboboxList>
+        </ComboboxContent>
+      </Combobox>
+    ),
   },
-  render: (args) => (
-    <Combobox {...args} items={fruitNames}>
-      <ComboboxInput placeholder="Select a fruit..." className="w-64" />
-      <ComboboxContent>
-        <ComboboxList>
-          {(item) => (
-            <ComboboxItem key={item} value={item}>
-              {item}
-            </ComboboxItem>
-          )}
-        </ComboboxList>
-      </ComboboxContent>
-    </Combobox>
-  ),
-  play: async ({ canvas, canvasElement, step }) => {
+  async ({ canvas, canvasElement, step }) => {
     const canvasBody = within(canvasElement.ownerDocument.body);
 
     await step("open combobox and select an item", async () => {
@@ -437,44 +439,45 @@ export const ShouldSelectItem: Story = {
       const input = canvas.getByPlaceholderText("Select a fruit...");
       await expect(input).toHaveValue("Banana");
     });
-  },
-};
+  }
+);
 
 /**
  * When typing in the input, should update input value and show matching options.
  */
-export const ShouldFilterOptions: Story = {
-  name: "when typing, should update input and show matching option",
-  tags: ["!dev", "!autodocs"],
-  parameters: {
-    a11y: {
-      config: {
-        rules: [
-          { id: "button-name", enabled: false },
-          // Base UI focus guards have aria-hidden with tabindex causing violations
-          { id: "aria-hidden-focus", enabled: false },
-          // Base UI Combobox internals cause these violations
-          { id: "aria-input-field-name", enabled: false },
-          { id: "scrollable-region-focusable", enabled: false },
-        ],
+Default.test(
+  "when typing, should update input and show matching option",
+  {
+    parameters: {
+      a11y: {
+        config: {
+          rules: [
+            { id: "button-name", enabled: false },
+            // Base UI focus guards have aria-hidden with tabindex causing violations
+            { id: "aria-hidden-focus", enabled: false },
+            // Base UI Combobox internals cause these violations
+            { id: "aria-input-field-name", enabled: false },
+            { id: "scrollable-region-focusable", enabled: false },
+          ],
+        },
       },
     },
+    render: (args) => (
+      <Combobox {...args} items={fruitNames}>
+        <ComboboxInput placeholder="Search fruits..." className="w-64" />
+        <ComboboxContent>
+          <ComboboxList>
+            {(item) => (
+              <ComboboxItem key={item} value={item}>
+                {item}
+              </ComboboxItem>
+            )}
+          </ComboboxList>
+        </ComboboxContent>
+      </Combobox>
+    ),
   },
-  render: (args) => (
-    <Combobox {...args} items={fruitNames}>
-      <ComboboxInput placeholder="Search fruits..." className="w-64" />
-      <ComboboxContent>
-        <ComboboxList>
-          {(item) => (
-            <ComboboxItem key={item} value={item}>
-              {item}
-            </ComboboxItem>
-          )}
-        </ComboboxList>
-      </ComboboxContent>
-    </Combobox>
-  ),
-  play: async ({ canvas, canvasElement, step }) => {
+  async ({ canvas, canvasElement, step }) => {
     const canvasBody = within(canvasElement.ownerDocument.body);
 
     await step("type in input and verify value updates", async () => {
@@ -492,42 +495,43 @@ export const ShouldFilterOptions: Story = {
         ).toBeVisible();
       });
     });
-  },
-};
+  }
+);
 
 /**
  * When no matches found, should show empty state message.
  */
-export const ShouldShowEmptyState: Story = {
-  name: "when no matches found, should show empty state",
-  tags: ["!dev", "!autodocs"],
-  parameters: {
-    a11y: {
-      config: {
-        rules: [
-          { id: "button-name", enabled: false },
-          // Base UI focus guards have aria-hidden with tabindex causing violations
-          { id: "aria-hidden-focus", enabled: false },
-        ],
+Default.test(
+  "when no matches found, should show empty state",
+  {
+    parameters: {
+      a11y: {
+        config: {
+          rules: [
+            { id: "button-name", enabled: false },
+            // Base UI focus guards have aria-hidden with tabindex causing violations
+            { id: "aria-hidden-focus", enabled: false },
+          ],
+        },
       },
     },
+    render: (args) => (
+      <Combobox {...args} items={fruitNames}>
+        <ComboboxInput placeholder="Search fruits..." className="w-64" />
+        <ComboboxContent>
+          <ComboboxEmpty>No results found.</ComboboxEmpty>
+          <ComboboxList>
+            {(item) => (
+              <ComboboxItem key={item} value={item}>
+                {item}
+              </ComboboxItem>
+            )}
+          </ComboboxList>
+        </ComboboxContent>
+      </Combobox>
+    ),
   },
-  render: (args) => (
-    <Combobox {...args} items={fruitNames}>
-      <ComboboxInput placeholder="Search fruits..." className="w-64" />
-      <ComboboxContent>
-        <ComboboxEmpty>No results found.</ComboboxEmpty>
-        <ComboboxList>
-          {(item) => (
-            <ComboboxItem key={item} value={item}>
-              {item}
-            </ComboboxItem>
-          )}
-        </ComboboxList>
-      </ComboboxContent>
-    </Combobox>
-  ),
-  play: async ({ canvas, canvasElement, step }) => {
+  async ({ canvas, canvasElement, step }) => {
     const canvasBody = within(canvasElement.ownerDocument.body);
 
     await step("type non-matching text", async () => {
@@ -541,48 +545,49 @@ export const ShouldShowEmptyState: Story = {
         await expect(canvasBody.getByText("No results found.")).toBeVisible();
       });
     });
-  },
-};
+  }
+);
 
 /**
  * When clear button is clicked, should reset selection.
  */
-export const ShouldClearSelection: Story = {
-  name: "when clear button is clicked, should reset selection",
-  tags: ["!dev", "!autodocs"],
-  args: {
-    defaultValue: "Apple",
-  },
-  parameters: {
-    a11y: {
-      config: {
-        rules: [
-          { id: "button-name", enabled: false },
-          // Base UI focus guards have aria-hidden with tabindex causing violations
-          { id: "aria-hidden-focus", enabled: false },
-        ],
+Default.test(
+  "when clear button is clicked, should reset selection",
+  {
+    args: {
+      defaultValue: "Apple",
+    },
+    parameters: {
+      a11y: {
+        config: {
+          rules: [
+            { id: "button-name", enabled: false },
+            // Base UI focus guards have aria-hidden with tabindex causing violations
+            { id: "aria-hidden-focus", enabled: false },
+          ],
+        },
       },
     },
+    render: (args) => (
+      <Combobox {...args} items={fruitNames}>
+        <ComboboxInput
+          placeholder="Select a fruit..."
+          className="w-64"
+          showClear
+        />
+        <ComboboxContent>
+          <ComboboxList>
+            {(item) => (
+              <ComboboxItem key={item} value={item}>
+                {item}
+              </ComboboxItem>
+            )}
+          </ComboboxList>
+        </ComboboxContent>
+      </Combobox>
+    ),
   },
-  render: (args) => (
-    <Combobox {...args} items={fruitNames}>
-      <ComboboxInput
-        placeholder="Select a fruit..."
-        className="w-64"
-        showClear
-      />
-      <ComboboxContent>
-        <ComboboxList>
-          {(item) => (
-            <ComboboxItem key={item} value={item}>
-              {item}
-            </ComboboxItem>
-          )}
-        </ComboboxList>
-      </ComboboxContent>
-    </Combobox>
-  ),
-  play: async ({ canvas, canvasElement, step }) => {
+  async ({ canvas, canvasElement, step }) => {
     await step("verify initial value is set", async () => {
       const input = canvas.getByPlaceholderText("Select a fruit...");
       await expect(input).toHaveValue("Apple");
@@ -598,44 +603,45 @@ export const ShouldClearSelection: Story = {
       const input = canvas.getByPlaceholderText("Select a fruit...");
       await expect(input).toHaveValue("");
     });
-  },
-};
+  }
+);
 
 /**
  * When using keyboard, should navigate and select options.
  */
-export const ShouldNavigateWithKeyboard: Story = {
-  name: "when using keyboard, should navigate and select options",
-  tags: ["!dev", "!autodocs"],
-  parameters: {
-    a11y: {
-      config: {
-        rules: [
-          { id: "button-name", enabled: false },
-          // Base UI focus guards have aria-hidden with tabindex causing violations
-          { id: "aria-hidden-focus", enabled: false },
-          // Base UI Combobox internals cause these violations
-          { id: "aria-input-field-name", enabled: false },
-          { id: "scrollable-region-focusable", enabled: false },
-        ],
+Default.test(
+  "when using keyboard, should navigate and select options",
+  {
+    parameters: {
+      a11y: {
+        config: {
+          rules: [
+            { id: "button-name", enabled: false },
+            // Base UI focus guards have aria-hidden with tabindex causing violations
+            { id: "aria-hidden-focus", enabled: false },
+            // Base UI Combobox internals cause these violations
+            { id: "aria-input-field-name", enabled: false },
+            { id: "scrollable-region-focusable", enabled: false },
+          ],
+        },
       },
     },
+    render: (args) => (
+      <Combobox {...args} items={fruitNames}>
+        <ComboboxInput placeholder="Select a fruit..." className="w-64" />
+        <ComboboxContent>
+          <ComboboxList>
+            {(item) => (
+              <ComboboxItem key={item} value={item}>
+                {item}
+              </ComboboxItem>
+            )}
+          </ComboboxList>
+        </ComboboxContent>
+      </Combobox>
+    ),
   },
-  render: (args) => (
-    <Combobox {...args} items={fruitNames}>
-      <ComboboxInput placeholder="Select a fruit..." className="w-64" />
-      <ComboboxContent>
-        <ComboboxList>
-          {(item) => (
-            <ComboboxItem key={item} value={item}>
-              {item}
-            </ComboboxItem>
-          )}
-        </ComboboxList>
-      </ComboboxContent>
-    </Combobox>
-  ),
-  play: async ({ canvas, canvasElement, step }) => {
+  async ({ canvas, canvasElement, step }) => {
     const canvasBody = within(canvasElement.ownerDocument.body);
 
     await step("focus input and press ArrowDown to open listbox", async () => {
@@ -682,5 +688,5 @@ export const ShouldNavigateWithKeyboard: Story = {
         await expect(canvasBody.queryByRole("listbox")).not.toBeInTheDocument();
       });
     });
-  },
-};
+  }
+);

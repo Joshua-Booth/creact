@@ -1,6 +1,5 @@
 /* eslint-disable @typescript-eslint/no-non-null-assertion -- Test assertions on known DOM elements */
-import type { Meta, StoryObj } from "@storybook/react-vite";
-
+import preview from "@/storybook/preview";
 import { expect, userEvent, waitFor } from "storybook/test";
 
 import {
@@ -17,6 +16,8 @@ import {
   AccordionTrigger,
 } from "./accordion";
 
+// --- Helpers ---
+
 function getOpenPanels(container: HTMLElement) {
   return container.querySelectorAll(
     '[data-slot="accordion-content"][data-open]'
@@ -27,10 +28,9 @@ function getOpenPanels(container: HTMLElement) {
  * A vertically stacked set of interactive headings that each reveal a section
  * of content.
  */
-const meta = {
+const meta = preview.meta({
   title: "ui/Accordion",
   component: Accordion,
-  tags: ["autodocs"],
   argTypes: {
     multiple: {
       control: "boolean",
@@ -73,33 +73,31 @@ const meta = {
       </AccordionItem>
     </Accordion>
   ),
-} satisfies Meta<typeof Accordion>;
+});
 
-export default meta;
-
-type Story = StoryObj<typeof meta>;
+// --- Stories ---
 
 /**
  * The default behavior of the accordion allows only one item to be open.
  */
-export const Default: Story = {};
+export const Default = meta.story();
 
 /**
  * When `multiple` is set to `true`, multiple accordion items can be open at
  * the same time.
  */
-export const Multiple: Story = {
+export const Multiple = meta.story({
   args: {
     multiple: true,
     defaultValue: ["item-1"],
   },
-};
+});
 
 /**
  * Individual accordion items can be disabled to prevent interaction while
  * keeping other items functional.
  */
-export const Disabled: Story = {
+export const Disabled = meta.story({
   render: (args) => (
     <Accordion {...args} defaultValue={["item-1"]}>
       <AccordionItem value="item-1">
@@ -127,12 +125,12 @@ export const Disabled: Story = {
       </AccordionItem>
     </Accordion>
   ),
-};
+});
 
 /**
  * Accordion items styled with borders for visual separation.
  */
-export const WithBorders: Story = {
+export const WithBorders = meta.story({
   render: (args) => (
     <Accordion
       {...args}
@@ -162,12 +160,12 @@ export const WithBorders: Story = {
       </AccordionItem>
     </Accordion>
   ),
-};
+});
 
 /**
  * Accordion wrapped in a Card component for a cohesive grouped appearance.
  */
-export const WithCard: Story = {
+export const WithCard = meta.story({
   render: (args) => (
     <Card className="w-96">
       <CardHeader>
@@ -208,16 +206,19 @@ export const WithCard: Story = {
       </CardContent>
     </Card>
   ),
-};
+});
 
-export const ShouldOnlyOpenOneWhenSingleType: Story = {
-  name: "when accordions are clicked, should open only one item at a time",
-  args: {
-    multiple: false,
-    defaultValue: ["item-1"],
+// --- Tests ---
+
+Default.test(
+  "when accordions are clicked, should open only one item at a time",
+  {
+    args: {
+      multiple: false,
+      defaultValue: ["item-1"],
+    },
   },
-  tags: ["!dev", "!autodocs"],
-  play: async ({ canvas, canvasElement, step }) => {
+  async ({ canvas, canvasElement, step }) => {
     const accordions = canvas.getAllByRole("button");
 
     await step("verify first item is open via defaultValue", async () => {
@@ -238,17 +239,18 @@ export const ShouldOnlyOpenOneWhenSingleType: Story = {
       await userEvent.click(accordions[2]!);
       await waitFor(() => expect(getOpenPanels(canvasElement).length).toBe(0));
     });
-  },
-};
+  }
+);
 
-export const ShouldOpenAllWhenMultipleType: Story = {
-  name: "when accordions are clicked, should open all items one at a time",
-  args: {
-    multiple: true,
-    defaultValue: ["item-1"],
+Default.test(
+  "when accordions are clicked, should open all items one at a time",
+  {
+    args: {
+      multiple: true,
+      defaultValue: ["item-1"],
+    },
   },
-  tags: ["!dev", "!autodocs"],
-  play: async ({ canvas, canvasElement, step }) => {
+  async ({ canvas, canvasElement, step }) => {
     const accordions = canvas.getAllByRole("button");
 
     await step("verify first item is open via defaultValue", async () => {
@@ -277,17 +279,18 @@ export const ShouldOpenAllWhenMultipleType: Story = {
       await userEvent.click(accordions[0]!);
       await waitFor(() => expect(getOpenPanels(canvasElement).length).toBe(0));
     });
-  },
-};
+  }
+);
 
-export const ShouldNavigateWithKeyboard: Story = {
-  name: "when using keyboard, should navigate and toggle accordion items",
-  args: {
-    multiple: false,
-    defaultValue: [],
+Default.test(
+  "when using keyboard, should navigate and toggle accordion items",
+  {
+    args: {
+      multiple: false,
+      defaultValue: [],
+    },
   },
-  tags: ["!dev", "!autodocs"],
-  play: async ({ canvas, canvasElement, step }) => {
+  async ({ canvas, canvasElement, step }) => {
     const triggers = canvas.getAllByRole("button");
 
     await step("tab to focus first trigger", async () => {
@@ -325,5 +328,5 @@ export const ShouldNavigateWithKeyboard: Story = {
       await userEvent.keyboard("{End}");
       await expect(triggers[2]).toHaveFocus();
     });
-  },
-};
+  }
+);

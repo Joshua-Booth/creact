@@ -1,5 +1,4 @@
-import type { Meta, StoryObj } from "@storybook/react-vite";
-
+import preview from "@/storybook/preview";
 import {
   ChevronDownIcon,
   CopyIcon,
@@ -42,10 +41,9 @@ import {
 /**
  * Groups related buttons together with consistent styling and spacing.
  */
-const meta = {
+const meta = preview.meta({
   title: "ui/ButtonGroup",
   component: ButtonGroup,
-  tags: ["autodocs"],
   argTypes: {
     orientation: {
       control: "select",
@@ -66,21 +64,19 @@ const meta = {
       <Button variant="outline">Third</Button>
     </ButtonGroup>
   ),
-} satisfies Meta<typeof ButtonGroup>;
+});
 
-export default meta;
-
-type Story = StoryObj<typeof meta>;
+// --- Stories ---
 
 /**
  * The default horizontal button group layout.
  */
-export const Default: Story = {};
+export const Default = meta.story();
 
 /**
  * A vertically stacked button group.
  */
-export const Orientation: Story = {
+export const Orientation = meta.story({
   args: {
     orientation: "vertical",
   },
@@ -91,24 +87,24 @@ export const Orientation: Story = {
       <Button variant="outline">Bottom</Button>
     </ButtonGroup>
   ),
-};
+});
 
 /**
  * Button group with a text addon for displaying additional context.
  */
-export const WithTextAddon: Story = {
+export const WithTextAddon = meta.story({
   render: (args) => (
     <ButtonGroup {...args}>
       <ButtonGroupText>https://</ButtonGroupText>
       <Button variant="outline">example.com</Button>
     </ButtonGroup>
   ),
-};
+});
 
 /**
  * Button group with icons inside buttons.
  */
-export const WithIcons: Story = {
+export const WithIcons = meta.story({
   render: (args) => (
     <ButtonGroup {...args}>
       <Button variant="outline">
@@ -121,7 +117,7 @@ export const WithIcons: Story = {
       </Button>
     </ButtonGroup>
   ),
-};
+});
 
 /**
  * Button group with an icon-only button and separator.
@@ -129,7 +125,7 @@ export const WithIcons: Story = {
  * Buttons with variant `outline` do not need a separator since they have a border.
  * For other variants, a separator is recommended to improve the visual hierarchy.
  */
-export const Separator: Story = {
+export const Separator = meta.story({
   render: (args) => (
     <ButtonGroup {...args}>
       <Button variant="secondary">Save</Button>
@@ -139,12 +135,12 @@ export const Separator: Story = {
       </Button>
     </ButtonGroup>
   ),
-};
+});
 
 /**
  * Button groups with different button sizes.
  */
-export const Size: Story = {
+export const Size = meta.story({
   render: (args) => (
     <div className="flex flex-col items-center gap-4">
       <ButtonGroup {...args}>
@@ -176,12 +172,12 @@ export const Size: Story = {
       </ButtonGroup>
     </div>
   ),
-};
+});
 
 /**
  * Nested button groups with spacing between them.
  */
-export const Nested: Story = {
+export const Nested = meta.story({
   render: (args) => (
     <ButtonGroup {...args}>
       <ButtonGroup>
@@ -195,12 +191,12 @@ export const Nested: Story = {
       </ButtonGroup>
     </ButtonGroup>
   ),
-};
+});
 
 /**
  * Button group wrapping an input field.
  */
-export const InputStory: Story = {
+export const InputStory = meta.story({
   name: "Input",
   render: (args) => (
     <ButtonGroup {...args}>
@@ -218,12 +214,12 @@ export const InputStory: Story = {
       </Button>
     </ButtonGroup>
   ),
-};
+});
 
 /**
  * Button group with an InputGroup component.
  */
-export const InputGroupStory: Story = {
+export const InputGroupStory = meta.story({
   name: "InputGroup",
   render: (args) => (
     <ButtonGroup {...args}>
@@ -237,12 +233,12 @@ export const InputGroupStory: Story = {
       <Button variant="outline">Clear</Button>
     </ButtonGroup>
   ),
-};
+});
 
 /**
  * Button group with a Select component.
  */
-export const SelectStory: Story = {
+export const SelectStory = meta.story({
   name: "Select",
   render: (args) => (
     <ButtonGroup {...args}>
@@ -262,12 +258,12 @@ export const SelectStory: Story = {
       </Button>
     </ButtonGroup>
   ),
-};
+});
 
 /**
  * Button group with a Popover for additional options.
  */
-export const PopoverStory: Story = {
+export const PopoverStory = meta.story({
   name: "Popover",
   render: (args) => (
     <ButtonGroup {...args}>
@@ -299,12 +295,12 @@ export const PopoverStory: Story = {
       </Popover>
     </ButtonGroup>
   ),
-};
+});
 
 /**
  * A split button pattern with main action and dropdown menu.
  */
-export const DropdownMenuStory: Story = {
+export const DropdownMenuStory = meta.story({
   name: "DropdownMenu",
   render: (args) => (
     <ButtonGroup {...args}>
@@ -333,46 +329,50 @@ export const DropdownMenuStory: Story = {
       </DropdownMenu>
     </ButtonGroup>
   ),
-};
+});
 
 /**
  * When buttons are clicked, should call their respective handlers.
  */
-export const ShouldHandleButtonClicks: Story = {
-  name: "when buttons are clicked, should call handlers",
-  tags: ["!dev", "!autodocs"],
-  render: (args) => {
-    const onFirstClick = fn();
-    const onSecondClick = fn();
-    const onThirdClick = fn();
 
-    return (
-      <ButtonGroup {...args}>
-        <Button
-          variant="outline"
-          onClick={onFirstClick}
-          data-testid="first-btn"
-        >
-          First
-        </Button>
-        <Button
-          variant="outline"
-          onClick={onSecondClick}
-          data-testid="second-btn"
-        >
-          Second
-        </Button>
-        <Button
-          variant="outline"
-          onClick={onThirdClick}
-          data-testid="third-btn"
-        >
-          Third
-        </Button>
-      </ButtonGroup>
-    );
+// --- Tests ---
+
+Default.test(
+  "when buttons are clicked, should call handlers",
+  {
+    render: (args) => {
+      const onFirstClick = fn();
+      const onSecondClick = fn();
+      const onThirdClick = fn();
+
+      return (
+        <ButtonGroup {...args}>
+          <Button
+            variant="outline"
+            onClick={onFirstClick}
+            data-testid="first-btn"
+          >
+            First
+          </Button>
+          <Button
+            variant="outline"
+            onClick={onSecondClick}
+            data-testid="second-btn"
+          >
+            Second
+          </Button>
+          <Button
+            variant="outline"
+            onClick={onThirdClick}
+            data-testid="third-btn"
+          >
+            Third
+          </Button>
+        </ButtonGroup>
+      );
+    },
   },
-  play: async ({ canvasElement, step }) => {
+  async ({ canvasElement, step }) => {
     const canvas = within(canvasElement);
 
     await step("click each button and verify they are clickable", async () => {
@@ -388,5 +388,5 @@ export const ShouldHandleButtonClicks: Story = {
       await expect(secondButton).toBeEnabled();
       await expect(thirdButton).toBeEnabled();
     });
-  },
-};
+  }
+);

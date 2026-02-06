@@ -1,5 +1,4 @@
-import type { Meta, StoryObj } from "@storybook/react-vite";
-
+import preview from "@/storybook/preview";
 import { ArrowUpIcon } from "lucide-react";
 
 import { Badge } from "../badge";
@@ -24,10 +23,9 @@ import { Spinner } from "./spinner";
 /**
  * Displays a loading spinner to indicate ongoing processes.
  */
-const meta = {
+const meta = preview.meta({
   title: "ui/Spinner",
   component: Spinner,
-  tags: ["autodocs"],
   argTypes: {
     className: {
       control: "text",
@@ -38,21 +36,19 @@ const meta = {
   parameters: {
     layout: "centered",
   },
-} satisfies Meta<typeof Spinner>;
+});
 
-export default meta;
-
-type Story = StoryObj<typeof meta>;
+// --- Stories ---
 
 /**
  * The default spinner size (16px / size-4).
  */
-export const Default: Story = {};
+export const Default = meta.story();
 
 /**
  * Size variants displayed together for comparison.
  */
-export const Size: Story = {
+export const Size = meta.story({
   render: (args) => (
     <div className="flex items-end gap-4">
       <Spinner {...args} className="size-3" />
@@ -61,12 +57,12 @@ export const Size: Story = {
       <Spinner {...args} className="size-8" />
     </div>
   ),
-};
+});
 
 /**
  * Spinners in buttons using the data-icon pattern.
  */
-export const ButtonStory: Story = {
+export const ButtonStory = meta.story({
   name: "Button",
   render: (args) => (
     <div className="flex gap-4">
@@ -84,12 +80,12 @@ export const ButtonStory: Story = {
       </Button>
     </div>
   ),
-};
+});
 
 /**
  * Spinners in badges using the data-icon pattern.
  */
-export const BadgeStory: Story = {
+export const BadgeStory = meta.story({
   name: "Badge",
   render: (args) => (
     <div className="flex gap-4">
@@ -107,12 +103,12 @@ export const BadgeStory: Story = {
       </Badge>
     </div>
   ),
-};
+});
 
 /**
  * Spinners in input groups for loading states.
  */
-export const InputGroupStory: Story = {
+export const InputGroupStory = meta.story({
   name: "InputGroup",
   render: (args) => (
     <div className="flex w-80 flex-col gap-4">
@@ -134,12 +130,12 @@ export const InputGroupStory: Story = {
       </InputGroup>
     </div>
   ),
-};
+});
 
 /**
  * Spinner in an empty state component for loading.
  */
-export const EmptyStory: Story = {
+export const EmptyStory = meta.story({
   name: "Empty",
   render: (args) => (
     <Empty className="w-full">
@@ -159,4 +155,4 @@ export const EmptyStory: Story = {
       </EmptyContent>
     </Empty>
   ),
-};
+});

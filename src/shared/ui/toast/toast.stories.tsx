@@ -1,7 +1,6 @@
-import type { Meta, StoryObj } from "@storybook/react-vite";
-
 import { useState } from "react";
 
+import preview from "@/storybook/preview";
 import { Theme, ThemeProvider } from "remix-themes";
 import { action } from "storybook/actions";
 import { expect, userEvent, waitFor, within } from "storybook/test";
@@ -13,10 +12,9 @@ import { Button } from "../button";
 /**
  * An opinionated toast component for React.
  */
-const meta: Meta<typeof Toaster> = {
+const meta = preview.meta({
   title: "ui/Toast",
   component: Toaster,
-  tags: ["autodocs"],
   argTypes: {},
   args: {
     position: "bottom-right",
@@ -52,21 +50,19 @@ const meta: Meta<typeof Toaster> = {
       <Toaster {...args} />
     </div>
   ),
-} satisfies Meta<typeof Toaster>;
+});
 
-export default meta;
-
-type Story = StoryObj<typeof meta>;
+// --- Stories ---
 
 /**
  * The default form of the toast.
  */
-export const Default: Story = {};
+export const Default = meta.story();
 
 /**
  * Toast types for different states and feedback.
  */
-export const Types: Story = {
+export const Types = meta.story({
   render: (args) => (
     <div className="flex min-h-96 items-center justify-center">
       <div className="flex flex-wrap gap-2">
@@ -123,12 +119,12 @@ export const Types: Story = {
       <Toaster {...args} />
     </div>
   ),
-};
+});
 
 /**
  * A toast with additional description text.
  */
-export const Description: Story = {
+export const Description = meta.story({
   render: (args) => (
     <div className="flex min-h-96 items-center justify-center">
       <Button
@@ -144,12 +140,12 @@ export const Description: Story = {
       <Toaster {...args} />
     </div>
   ),
-};
+});
 
 /**
  * Toast position options.
  */
-export const Position: Story = {
+export const Position = meta.story({
   render: () => {
     const [position, setPosition] =
       useState<ToasterProps["position"]>("bottom-right");
@@ -216,12 +212,13 @@ export const Position: Story = {
       </div>
     );
   },
-};
+});
 
-export const ShouldShowToast: Story = {
-  name: "when clicking Show Toast button, should show a toast",
-  tags: ["!dev", "!autodocs"],
-  play: async ({ canvasElement, step }) => {
+// --- Tests ---
+
+Default.test(
+  "when clicking Show Toast button, should show a toast",
+  async ({ canvasElement, step }) => {
     const canvasBody = within(canvasElement.ownerDocument.body);
     const triggerBtn = await canvasBody.findByRole("button", {
       name: /show/i,
@@ -241,13 +238,12 @@ export const ShouldShowToast: Story = {
         expect(canvasBody.getAllByRole("listitem")).toHaveLength(3)
       );
     });
-  },
-};
+  }
+);
 
-export const ShouldCloseToast: Story = {
-  name: "when clicking the close button, should close the toast",
-  tags: ["!dev", "!autodocs"],
-  play: async ({ canvasElement, step }) => {
+Default.test(
+  "when clicking the close button, should close the toast",
+  async ({ canvasElement, step }) => {
     const canvasBody = within(canvasElement.ownerDocument.body);
     const triggerBtn = await canvasBody.findByRole("button", {
       name: /show/i,
@@ -265,5 +261,5 @@ export const ShouldCloseToast: Story = {
         expect(canvasBody.queryByRole("listitem")).not.toBeInTheDocument()
       );
     });
-  },
-};
+  }
+);

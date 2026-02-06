@@ -1,7 +1,6 @@
-import type { Meta, StoryObj } from "@storybook/react-vite";
-
 import { useState } from "react";
 
+import preview from "@/storybook/preview";
 import {
   Calculator,
   Calendar,
@@ -31,10 +30,9 @@ import {
 /**
  * Fast, composable, unstyled command menu for React.
  */
-const meta = {
+const meta = preview.meta({
   title: "ui/Command",
   component: Command,
-  tags: ["autodocs"],
   argTypes: {},
   args: {
     className: "rounded-lg w-96 border shadow-md",
@@ -61,18 +59,16 @@ const meta = {
   parameters: {
     layout: "centered",
   },
-} satisfies Meta<typeof Command>;
+});
 
-export default meta;
-
-type Story = StoryObj<typeof meta>;
+// --- Stories ---
 
 /**
  * The default form of the command.
  */
-export const Default: Story = {};
+export const Default = meta.story();
 
-export const TypingInCombobox: Story = {
+export const TypingInCombobox = meta.story({
   name: "when typing into the combobox, should filter results",
   tags: ["!dev", "!autodocs"],
   play: async ({ canvasElement }) => {
@@ -104,12 +100,12 @@ export const TypingInCombobox: Story = {
     ).toHaveLength(0);
     await expect(canvas.getByText(/no results/i)).toBeVisible();
   },
-};
+});
 
 /**
  * Command menu inside a dialog, typically triggered with a keyboard shortcut.
  */
-export const Dialog: Story = {
+export const Dialog = meta.story({
   render: function Render(args) {
     const [open, setOpen] = useState(false);
 
@@ -167,12 +163,12 @@ export const Dialog: Story = {
       </>
     );
   },
-};
+});
 
 /**
  * Command menu as a dropdown/combobox triggered by a popover.
  */
-export const PopoverStory: Story = {
+export const PopoverStory = meta.story({
   name: "Popover",
   render: function Render(args) {
     const [open, setOpen] = useState(false);
@@ -207,12 +203,12 @@ export const PopoverStory: Story = {
       </Popover>
     );
   },
-};
+});
 
 /**
  * Command with grouped items, icons, and keyboard shortcuts.
  */
-export const WithGroups: Story = {
+export const WithGroups = meta.story({
   render: (args) => (
     <Command {...args}>
       <CommandInput placeholder="Type a command or search..." />
@@ -253,12 +249,12 @@ export const WithGroups: Story = {
       </CommandList>
     </Command>
   ),
-};
+});
 
 /**
  * Command items with keyboard shortcuts for quick access.
  */
-export const Shortcuts: Story = {
+export const Shortcuts = meta.story({
   render: (args) => (
     <Command {...args}>
       <CommandInput placeholder="Type a command or search..." />
@@ -308,12 +304,12 @@ export const Shortcuts: Story = {
       </CommandList>
     </Command>
   ),
-};
+});
 
 /**
  * Command with many items demonstrating scrollable list behavior.
  */
-export const ManyItems: Story = {
+export const ManyItems = meta.story({
   render: (args) => (
     <Command {...args}>
       <CommandInput placeholder="Type a command or search..." />
@@ -400,4 +396,4 @@ export const ManyItems: Story = {
       </CommandList>
     </Command>
   ),
-};
+});

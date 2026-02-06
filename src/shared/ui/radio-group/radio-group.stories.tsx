@@ -1,6 +1,5 @@
 /* eslint-disable @typescript-eslint/no-non-null-assertion -- Test assertions on known DOM elements */
-import type { Meta, StoryObj } from "@storybook/react-vite";
-
+import preview from "@/storybook/preview";
 import { expect, userEvent, waitFor } from "storybook/test";
 
 import {
@@ -20,10 +19,9 @@ import { RadioGroup, RadioGroupItem } from "./radio-group";
  * A set of checkable buttons—known as radio buttons—where no more than one of
  * the buttons can be checked at a time.
  */
-const meta = {
+const meta = preview.meta({
   title: "ui/RadioGroup",
   component: RadioGroup,
-  tags: ["autodocs"],
   argTypes: {},
   args: {
     defaultValue: "comfortable",
@@ -51,30 +49,28 @@ const meta = {
       </Field>
     </RadioGroup>
   ),
-} satisfies Meta<typeof RadioGroup>;
+});
 
-export default meta;
-
-type Story = StoryObj<typeof meta>;
+// --- Stories ---
 
 /**
  * The default form of the radio group.
  */
-export const Default: Story = {};
+export const Default = meta.story();
 
 /**
  * Use the `disabled` prop to disable the radio group.
  */
-export const Disabled: Story = {
+export const Disabled = meta.story({
   args: {
     disabled: true,
   },
-};
+});
 
 /**
  * Radio group with fieldset, legend, and description for grouped selections.
  */
-export const Fieldset: Story = {
+export const Fieldset = meta.story({
   render: (args) => (
     <div className="w-md">
       <FieldSet>
@@ -105,12 +101,12 @@ export const Fieldset: Story = {
       </FieldSet>
     </div>
   ),
-};
+});
 
 /**
  * Radio items with description text for additional context.
  */
-export const Description: Story = {
+export const Description = meta.story({
   parameters: {
     a11y: {
       config: {
@@ -154,12 +150,12 @@ export const Description: Story = {
       </Field>
     </RadioGroup>
   ),
-};
+});
 
 /**
  * Card-style radio selections with rich content and descriptions.
  */
-export const ChoiceCard: Story = {
+export const ChoiceCard = meta.story({
   parameters: {
     a11y: {
       config: {
@@ -224,12 +220,12 @@ export const ChoiceCard: Story = {
       </FieldSet>
     </div>
   ),
-};
+});
 
 /**
  * Radio group with validation error state.
  */
-export const Invalid: Story = {
+export const Invalid = meta.story({
   render: (args) => (
     <RadioGroup {...args} aria-invalid="true" defaultValue="">
       <Field orientation="horizontal" data-invalid>
@@ -246,12 +242,13 @@ export const Invalid: Story = {
       </Field>
     </RadioGroup>
   ),
-};
+});
 
-export const ShouldToggleRadio: Story = {
-  name: "when clicking on a radio button, it should toggle its state",
-  tags: ["!dev", "!autodocs"],
-  play: async ({ canvas, step }) => {
+// --- Tests ---
+
+Default.test(
+  "when clicking on a radio button, it should toggle its state",
+  async ({ canvas, step }) => {
     const radios = await canvas.findAllByRole("radio");
     await expect(radios).toHaveLength(3);
 
@@ -266,5 +263,5 @@ export const ShouldToggleRadio: Story = {
       await waitFor(() => expect(radios[1]).toBeChecked());
       await waitFor(() => expect(radios[0]).not.toBeChecked());
     });
-  },
-};
+  }
+);

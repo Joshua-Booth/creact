@@ -20,9 +20,10 @@
     "baseUrl": "..",
     "rootDirs": ["../src", "../.react-router/types/src"],
     "paths": {
-      "@/*": ["./src/*"]
+      "@/*": ["./src/*"],
+      "@/storybook/*": ["./.storybook/*"]
     }
   },
-  "include": ["../src", "../tests", "../.react-router"],
+  "include": ["../src", "../tests", "../.react-router", "../.storybook"],
   "exclude": ["../node_modules", "../dist", "../tests/e2e", "../app"]
 }

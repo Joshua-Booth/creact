@@ -1,5 +1,4 @@
-import type { Meta, StoryObj } from "@storybook/react-vite";
-
+import preview from "@/storybook/preview";
 import { expect, userEvent, within } from "storybook/test";
 
 import { Button } from "../button";
@@ -16,16 +15,17 @@ import {
   SheetTrigger,
 } from "./sheet";
 
+// --- Helpers ---
+
 const SHEET_SIDES = ["top", "right", "bottom", "left"] as const;
 
 /**
  * Extends the Dialog component to display content that complements the main
  * content of the screen.
  */
-const meta: Meta<typeof SheetContent> = {
+const meta = preview.meta({
   title: "ui/Sheet",
-  component: Sheet,
-  tags: ["autodocs"],
+  component: SheetContent,
   argTypes: {
     side: {
       options: ["top", "bottom", "left", "right"],
@@ -74,21 +74,19 @@ const meta: Meta<typeof SheetContent> = {
   parameters: {
     layout: "centered",
   },
-} satisfies Meta<typeof SheetContent>;
+});
 
-export default meta;
-
-type Story = StoryObj<typeof meta>;
+// --- Stories ---
 
 /**
  * The default form of the sheet with a profile editing form.
  */
-export const Default: Story = {};
+export const Default = meta.story();
 
 /**
  * Use the `side` prop to display the sheet from different edges of the screen.
  */
-export const Side: Story = {
+export const Side = meta.story({
   render: function Side(args) {
     return (
       <div className="grid grid-cols-2 gap-2">
@@ -138,21 +136,22 @@ export const Side: Story = {
       </div>
     );
   },
-};
+});
 
 /**
  * Use `showCloseButton={false}` to hide the close button in the corner.
  */
-export const NoCloseButton: Story = {
+export const NoCloseButton = meta.story({
   args: {
     showCloseButton: false,
   },
-};
+});
 
-export const ShouldOpenCloseWithSubmit: Story = {
-  name: "when clicking Save changes button, should close the sheet",
-  tags: ["!dev", "!autodocs"],
-  play: async ({ canvasElement, step }) => {
+// --- Tests ---
+
+Default.test(
+  "when clicking Save changes button, should close the sheet",
+  async ({ canvasElement, step }) => {
     const canvasBody = within(canvasElement.ownerDocument.body);
 
     await step("open the sheet", async () => {
@@ -172,13 +171,12 @@ export const ShouldOpenCloseWithSubmit: Story = {
         "data-closed"
       );
     });
-  },
-};
+  }
+);
 
-export const ShouldOpenCloseWithClose: Story = {
-  name: "when clicking Close icon, should close the sheet",
-  tags: ["!dev", "!autodocs"],
-  play: async ({ canvasElement, step }) => {
+Default.test(
+  "when clicking Close icon, should close the sheet",
+  async ({ canvasElement, step }) => {
     const canvasBody = within(canvasElement.ownerDocument.body);
 
     await step("open the sheet", async () => {
@@ -198,5 +196,5 @@ export const ShouldOpenCloseWithClose: Story = {
         "data-closed"
       );
     });
-  },
-};
+  }
+);

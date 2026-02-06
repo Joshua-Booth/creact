@@ -1,6 +1,5 @@
 /* eslint-disable @typescript-eslint/no-non-null-assertion -- Test assertions on known DOM elements */
-import type { Meta, StoryObj } from "@storybook/react-vite";
-
+import preview from "@/storybook/preview";
 import { Music, Settings, User } from "lucide-react";
 import { expect, userEvent, waitFor } from "storybook/test";
 
@@ -10,10 +9,9 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "./tabs";
  * A set of layered sections of content—known as tab panels—that are displayed
  * one at a time.
  */
-const meta = {
+const meta = preview.meta({
   title: "ui/Tabs",
   component: Tabs,
-  tags: ["autodocs"],
   argTypes: {},
   args: {
     defaultValue: "account",
@@ -34,21 +32,19 @@ const meta = {
   parameters: {
     layout: "centered",
   },
-} satisfies Meta<typeof Tabs>;
+});
 
-export default meta;
-
-type Story = StoryObj<typeof meta>;
+// --- Stories ---
 
 /**
  * The default form of the tabs.
  */
-export const Default: Story = {};
+export const Default = meta.story();
 
 /**
  * Use `variant="line"` on the TabsList for an underlined tab style.
  */
-export const Line: Story = {
+export const Line = meta.story({
   render: (args) => (
     <Tabs {...args}>
       <TabsList variant="line">
@@ -61,13 +57,13 @@ export const Line: Story = {
       <TabsContent value="reports">Reports content goes here.</TabsContent>
     </Tabs>
   ),
-};
+});
 
 /**
  * Use `orientation="vertical"` for a vertical tab layout where tabs are
  * stacked on the side.
  */
-export const Vertical: Story = {
+export const Vertical = meta.story({
   args: {
     orientation: "vertical",
     className: "w-[400px]",
@@ -86,13 +82,13 @@ export const Vertical: Story = {
       <TabsContent value="settings">Manage your settings here.</TabsContent>
     </Tabs>
   ),
-};
+});
 
 /**
  * Add the `disabled` prop to a tab trigger to prevent interactions with
  * that tab.
  */
-export const WithDisabled: Story = {
+export const WithDisabled = meta.story({
   render: (args) => (
     <Tabs {...args}>
       <TabsList className="grid grid-cols-3">
@@ -109,13 +105,13 @@ export const WithDisabled: Story = {
       <TabsContent value="settings">Manage your settings here.</TabsContent>
     </Tabs>
   ),
-};
+});
 
 /**
  * Add icons to tab triggers to enhance visual communication and provide
  * additional context for each tab.
  */
-export const WithIcons: Story = {
+export const WithIcons = meta.story({
   render: (args) => (
     <Tabs {...args}>
       <TabsList className="grid grid-cols-3">
@@ -139,12 +135,13 @@ export const WithIcons: Story = {
       <TabsContent value="music">Manage your music library here.</TabsContent>
     </Tabs>
   ),
-};
+});
 
-export const ShouldChangeTabs: Story = {
-  name: "when clicking a tab, should change the content",
-  tags: ["!dev", "!autodocs"],
-  play: async ({ canvas, step }) => {
+// --- Tests ---
+
+Default.test(
+  "when clicking a tab, should change the content",
+  async ({ canvas, step }) => {
     const tabs = await canvas.findAllByRole("tab");
 
     for (let i = 0; i < tabs.length; i++) {
@@ -171,5 +168,5 @@ export const ShouldChangeTabs: Story = {
         }
       });
     }
-  },
-};
+  }
+);

@@ -1,25 +1,22 @@
-import type { Meta, StoryObj } from "@storybook/react-vite";
+import preview from "@/storybook/preview";
 
 import { Separator } from "./separator";
 
 /**
  * Visually or semantically separates content.
  */
-const meta = {
+const meta = preview.meta({
   title: "ui/Separator",
   component: Separator,
-  tags: ["autodocs"],
   argTypes: {},
-} satisfies Meta<typeof Separator>;
+});
 
-export default meta;
-
-type Story = StoryObj<typeof meta>;
+// --- Stories ---
 
 /**
  * The default horizontal separator between vertical items.
  */
-export const Default: Story = {
+export const Default = meta.story({
   render: () => (
     <div className="flex flex-col items-center justify-center gap-2">
       <div>Top</div>
@@ -27,12 +24,12 @@ export const Default: Story = {
       <div>Bottom</div>
     </div>
   ),
-};
+});
 
 /**
  * Use `orientation="vertical"` for a vertical separator between horizontal items.
  */
-export const Vertical: Story = {
+export const Vertical = meta.story({
   render: () => (
     <div className="flex h-12 items-center justify-center gap-2">
       <div>Left</div>
@@ -40,4 +37,4 @@ export const Vertical: Story = {
       <div>Right</div>
     </div>
   ),
-};
+});

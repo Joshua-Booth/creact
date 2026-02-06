@@ -1,5 +1,4 @@
-import type { Meta, StoryObj } from "@storybook/react-vite";
-
+import preview from "@/storybook/preview";
 import { AlertTriangleIcon } from "lucide-react";
 import { userEvent, within } from "storybook/test";
 
@@ -21,10 +20,9 @@ import {
  * A modal dialog that interrupts the user with important content and expects
  * a response.
  */
-const meta = {
+const meta = preview.meta({
   title: "ui/AlertDialog",
   component: AlertDialog,
-  tags: ["autodocs"],
   argTypes: {},
   render: (args) => (
     <AlertDialog {...args}>
@@ -49,21 +47,20 @@ const meta = {
   parameters: {
     layout: "centered",
   },
-} satisfies Meta<typeof AlertDialog>;
+});
 
-export default meta;
-
-type Story = StoryObj<typeof meta>;
+// --- Stories ---
 
 /**
  * The default form of the alert dialog.
  */
-export const Default: Story = {};
+export const Default = meta.story();
 
-export const ShouldOpenClose: Story = {
-  name: "when alert dialog trigger is pressed, should open the dialog and be able to close it",
-  tags: ["!dev", "!autodocs"],
-  play: async ({ canvasElement, canvas, step }) => {
+// --- Tests ---
+
+Default.test(
+  "when alert dialog trigger is pressed, should open the dialog and be able to close it",
+  async ({ canvasElement, canvas, step }) => {
     const canvasBody = within(canvasElement.ownerDocument.body);
 
     await step("open the alert dialog", async () => {
@@ -82,13 +79,13 @@ export const ShouldOpenClose: Story = {
         { delay: 100 }
       );
     });
-  },
-};
+  }
+);
 
 /**
  * A smaller alert dialog variant for compact interfaces.
  */
-export const Small: Story = {
+export const Small = meta.story({
   render: (args) => (
     <AlertDialog {...args}>
       <AlertDialogTrigger
@@ -108,12 +105,12 @@ export const Small: Story = {
       </AlertDialogContent>
     </AlertDialog>
   ),
-};
+});
 
 /**
  * An alert dialog with an icon in the header for visual emphasis.
  */
-export const WithMedia: Story = {
+export const WithMedia = meta.story({
   render: (args) => (
     <AlertDialog {...args}>
       <AlertDialogTrigger
@@ -137,12 +134,12 @@ export const WithMedia: Story = {
       </AlertDialogContent>
     </AlertDialog>
   ),
-};
+});
 
 /**
  * A destructive alert dialog for dangerous actions with red styling.
  */
-export const Destructive: Story = {
+export const Destructive = meta.story({
   render: (args) => (
     <AlertDialog {...args}>
       <AlertDialogTrigger
@@ -165,4 +162,4 @@ export const Destructive: Story = {
       </AlertDialogContent>
     </AlertDialog>
   ),
-};
+});

@@ -1,8 +1,7 @@
 /* eslint-disable @typescript-eslint/no-non-null-assertion -- Test assertions on known DOM elements */
-import type { Meta, StoryObj } from "@storybook/react-vite";
-
 import { useState } from "react";
 
+import preview from "@/storybook/preview";
 import {
   Clipboard,
   Copy,
@@ -36,15 +35,17 @@ import {
  * Displays a menu to the user — such as a set of actions or functions —
  * triggered by right-clicking.
  */
-const meta = {
+const meta = preview.meta({
   title: "ui/ContextMenu",
   component: ContextMenu,
-  tags: ["autodocs"],
   argTypes: {},
   args: {},
   render: (args) => (
     <ContextMenu {...args}>
-      <ContextMenuTrigger className="bg-accent flex h-48 w-96 items-center justify-center rounded-md border border-dashed text-sm">
+      <ContextMenuTrigger
+        className="bg-accent flex h-48 w-96 items-center justify-center
+          rounded-md border border-dashed text-sm"
+      >
         Right click here
       </ContextMenuTrigger>
       <ContextMenuContent className="w-44">
@@ -66,21 +67,19 @@ const meta = {
   parameters: {
     layout: "centered",
   },
-} satisfies Meta<typeof ContextMenu>;
+});
 
-export default meta;
-
-type Story = StoryObj<typeof meta>;
+// --- Stories ---
 
 /**
  * A basic context menu with navigation actions.
  */
-export const Basic: Story = {};
+export const Basic = meta.story();
 
 /**
  * A context menu with keyboard shortcuts.
  */
-export const Shortcuts: Story = {
+export const Shortcuts = meta.story({
   render: (args) => (
     <ContextMenu {...args}>
       <ContextMenuTrigger
@@ -114,12 +113,12 @@ export const Shortcuts: Story = {
       </ContextMenuContent>
     </ContextMenu>
   ),
-};
+});
 
 /**
  * A context menu with nested submenus.
  */
-export const Submenu: Story = {
+export const Submenu = meta.story({
   render: (args) => (
     <ContextMenu {...args}>
       <ContextMenuTrigger
@@ -161,12 +160,12 @@ export const Submenu: Story = {
       </ContextMenuContent>
     </ContextMenu>
   ),
-};
+});
 
 /**
  * A context menu with checkbox items for toggling options.
  */
-export const Checkboxes: Story = {
+export const Checkboxes = meta.story({
   render: function Render(args) {
     const [statusBar, setStatusBar] = useState(true);
     const [activityBar, setActivityBar] = useState(false);
@@ -204,12 +203,12 @@ export const Checkboxes: Story = {
       </ContextMenu>
     );
   },
-};
+});
 
 /**
  * A context menu with radio items for selecting one option.
  */
-export const RadioGroup: Story = {
+export const RadioGroup = meta.story({
   render: function Render(args) {
     const [position, setPosition] = useState("bottom");
 
@@ -235,12 +234,12 @@ export const RadioGroup: Story = {
       </ContextMenu>
     );
   },
-};
+});
 
 /**
  * A context menu with icons on menu items.
  */
-export const Icons: Story = {
+export const Icons = meta.story({
   render: (args) => (
     <ContextMenu {...args}>
       <ContextMenuTrigger
@@ -274,12 +273,12 @@ export const Icons: Story = {
       </ContextMenuContent>
     </ContextMenu>
   ),
-};
+});
 
 /**
  * A context menu with grouped items using labels and separators.
  */
-export const Groups: Story = {
+export const Groups = meta.story({
   render: (args) => (
     <ContextMenu {...args}>
       <ContextMenuTrigger
@@ -324,12 +323,12 @@ export const Groups: Story = {
       </ContextMenuContent>
     </ContextMenu>
   ),
-};
+});
 
 /**
  * A context menu with placement control using the side prop.
  */
-export const Sides: Story = {
+export const Sides = meta.story({
   render: () => (
     <div className="grid w-sm grid-cols-2 gap-4">
       <ContextMenu>
@@ -394,12 +393,12 @@ export const Sides: Story = {
       </ContextMenu>
     </div>
   ),
-};
+});
 
 /**
  * A context menu with a destructive action.
  */
-export const Destructive: Story = {
+export const Destructive = meta.story({
   render: (args) => (
     <ContextMenu {...args}>
       <ContextMenuTrigger
@@ -426,12 +425,13 @@ export const Destructive: Story = {
       </ContextMenuContent>
     </ContextMenu>
   ),
-};
+});
 
-export const ShouldOpenClose: Story = {
-  name: "when right-clicking the trigger area, the menu appears and can be interacted with",
-  tags: ["!dev", "!autodocs"],
-  play: async ({ canvasElement, canvas, step }) => {
+// --- Tests ---
+
+Basic.test(
+  "when right-clicking the trigger area, the menu appears and can be interacted with",
+  async ({ canvasElement, canvas, step }) => {
     const canvasBody = within(canvasElement.ownerDocument.body);
 
     await step("Right-click on the trigger area", async () => {
@@ -451,5 +451,5 @@ export const ShouldOpenClose: Story = {
     await step("Click the first menu item", async () => {
       await userEvent.click(items[0]!, { delay: 100 });
     });
-  },
-};
+  }
+);

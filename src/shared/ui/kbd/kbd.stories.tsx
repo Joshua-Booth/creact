@@ -1,5 +1,4 @@
-import type { Meta, StoryObj } from "@storybook/react-vite";
-
+import preview from "@/storybook/preview";
 import { CommandIcon, PrinterIcon, SearchIcon } from "lucide-react";
 
 import { Button } from "../button";
@@ -15,10 +14,9 @@ import { Kbd, KbdGroup } from "./kbd";
 /**
  * Displays keyboard keys or shortcuts in a styled format.
  */
-const meta = {
+const meta = preview.meta({
   title: "ui/Kbd",
   component: Kbd,
-  tags: ["autodocs"],
   argTypes: {
     children: {
       control: "text",
@@ -31,21 +29,19 @@ const meta = {
   parameters: {
     layout: "centered",
   },
-} satisfies Meta<typeof Kbd>;
+});
 
-export default meta;
-
-type Story = StoryObj<typeof meta>;
+// --- Stories ---
 
 /**
  * A single keyboard key.
  */
-export const Default: Story = {};
+export const Default = meta.story();
 
 /**
  * Use KbdGroup to display keyboard shortcut combinations.
  */
-export const Group: Story = {
+export const Group = meta.story({
   render: (args) => (
     <KbdGroup>
       <Kbd>
@@ -54,12 +50,12 @@ export const Group: Story = {
       <Kbd {...args} />
     </KbdGroup>
   ),
-};
+});
 
 /**
  * Kbd can be placed inside a Button to indicate a keyboard shortcut.
  */
-export const WithButton: Story = {
+export const WithButton = meta.story({
   args: {
     children: "↵",
   },
@@ -69,12 +65,12 @@ export const WithButton: Story = {
       <Kbd data-icon="inline-end" {...args} />
     </Button>
   ),
-};
+});
 
 /**
  * Combine tooltips with Kbd to show keyboard shortcuts on hover.
  */
-export const WithTooltip: Story = {
+export const WithTooltip = meta.story({
   args: {
     children: "S",
   },
@@ -111,12 +107,12 @@ export const WithTooltip: Story = {
       </div>
     </TooltipProvider>
   ),
-};
+});
 
 /**
  * Kbd can be used inside an InputGroup to show search shortcuts.
  */
-export const WithInputGroup: Story = {
+export const WithInputGroup = meta.story({
   render: (args) => (
     <InputGroup className="w-64">
       <InputGroupAddon align="inline-start">
@@ -133,4 +129,4 @@ export const WithInputGroup: Story = {
       </InputGroupAddon>
     </InputGroup>
   ),
-};
+});

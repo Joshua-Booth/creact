@@ -1,7 +1,6 @@
-import type { Meta, StoryObj } from "@storybook/react-vite";
-
 import { useState } from "react";
 
+import preview from "@/storybook/preview";
 import { REGEXP_ONLY_DIGITS, REGEXP_ONLY_DIGITS_AND_CHARS } from "input-otp";
 import { RefreshCwIcon } from "lucide-react";
 import { expect, fn, userEvent } from "storybook/test";
@@ -26,10 +25,9 @@ import {
 /**
  * Accessible one-time password component with copy paste functionality.
  */
-const meta = {
+const meta = preview.meta({
   title: "ui/InputOTP",
   component: InputOTP,
-  tags: ["autodocs"],
   argTypes: {},
   args: {
     maxLength: 6,
@@ -58,30 +56,28 @@ const meta = {
   parameters: {
     layout: "centered",
   },
-} satisfies Meta<typeof InputOTP>;
+});
 
-export default meta;
-
-type Story = StoryObj<typeof meta>;
+// --- Stories ---
 
 /**
  * The default form of the InputOTP field.
  */
-export const Default: Story = {};
+export const Default = meta.story();
 
 /**
  * The number form of the InputOTP field.
  */
-export const OnlyNumbers: Story = {
+export const OnlyNumbers = meta.story({
   args: {
     pattern: REGEXP_ONLY_DIGITS,
   },
-};
+});
 
 /**
  * Use the `<InputOTPSeparator />` component to add a separator between input groups.
  */
-export const Separator: Story = {
+export const Separator = meta.story({
   render: (args) => (
     <InputOTP {...args} render={undefined}>
       <InputOTPGroup>
@@ -100,12 +96,13 @@ export const Separator: Story = {
       </InputOTPGroup>
     </InputOTP>
   ),
-};
+});
 
-export const ShouldAcceptTextWhenTyping: Story = {
-  name: "when typing text, should call onChange and onComplete",
-  tags: ["!dev", "!autodocs"],
-  play: async ({ args, canvas, step }) => {
+// --- Tests ---
+
+Default.test(
+  "when typing text, should call onChange and onComplete",
+  async ({ args, canvas, step }) => {
     const inputTextbox = await canvas.findByRole("textbox");
 
     await step("type into input textbox", async () => {
@@ -118,14 +115,15 @@ export const ShouldAcceptTextWhenTyping: Story = {
       await userEvent.keyboard("{enter}");
       await expect(args.onComplete).toHaveBeenCalledTimes(1);
     });
-  },
-};
+  }
+);
 
-export const ShouldAcceptOnlyNumbersWhenRestricted: Story = {
-  ...OnlyNumbers,
-  name: "when only numbers are allowed, should call onChange for numbers and onComplete",
-  tags: ["!dev", "!autodocs"],
-  play: async ({ args, canvas, step }) => {
+Default.test(
+  "when only numbers are allowed, should call onChange for numbers and onComplete",
+  {
+    ...OnlyNumbers.input,
+  },
+  async ({ args, canvas, step }) => {
     const inputTextbox = await canvas.findByRole("textbox");
 
     await step("type text into input textbox", async () => {
@@ -143,22 +141,22 @@ export const ShouldAcceptOnlyNumbersWhenRestricted: Story = {
       await userEvent.keyboard("{enter}");
       await expect(args.onComplete).toHaveBeenCalledTimes(1);
     });
-  },
-};
+  }
+);
 
 /**
  * Use the `disabled` prop to disable the input and prevent interactions.
  */
-export const Disabled: Story = {
+export const Disabled = meta.story({
   args: {
     disabled: true,
   },
-};
+});
 
 /**
  * Use the `value` and `onChange` props to control the input value externally.
  */
-export const Controlled: Story = {
+export const Controlled = meta.story({
   render: function ControlledStory(args) {
     const [value, setValue] = useState("");
 
@@ -189,12 +187,12 @@ export const Controlled: Story = {
       </div>
     );
   },
-};
+});
 
 /**
  * Use `aria-invalid` on slots to indicate an invalid or error state.
  */
-export const Invalid: Story = {
+export const Invalid = meta.story({
   render: (args) => (
     <InputOTP {...args} render={undefined}>
       <InputOTPGroup aria-invalid="true">
@@ -207,12 +205,12 @@ export const Invalid: Story = {
       </InputOTPGroup>
     </InputOTP>
   ),
-};
+});
 
 /**
  * A 4-digit OTP variant commonly used for PIN codes.
  */
-export const FourDigits: Story = {
+export const FourDigits = meta.story({
   args: {
     maxLength: 4,
     pattern: REGEXP_ONLY_DIGITS,
@@ -227,12 +225,12 @@ export const FourDigits: Story = {
       </InputOTPGroup>
     </InputOTP>
   ),
-};
+});
 
 /**
  * OTP input integrated with a form using Field and Card components.
  */
-export const Form: Story = {
+export const Form = meta.story({
   render: (args) => (
     <Card className="mx-auto max-w-md">
       <CardHeader>
@@ -302,4 +300,4 @@ export const Form: Story = {
       </CardFooter>
     </Card>
   ),
-};
+});

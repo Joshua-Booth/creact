@@ -1,7 +1,6 @@
-import type { Meta, StoryObj } from "@storybook/react-vite";
-
 import { useState } from "react";
 
+import preview from "@/storybook/preview";
 import {
   AppleIcon,
   CherryIcon,
@@ -32,19 +31,51 @@ import {
   SelectValue,
 } from "./select";
 
+// --- Helpers ---
+
+const fruitItems = [
+  { value: "apple", label: "Apple" },
+  { value: "banana", label: "Banana" },
+  { value: "blueberry", label: "Blueberry" },
+  { value: "grapes", label: "Grapes" },
+  { value: "pineapple", label: "Pineapple" },
+];
+
+const foodItems = [
+  ...fruitItems,
+  { value: "aubergine", label: "Aubergine" },
+  { value: "broccoli", label: "Broccoli" },
+  { value: "carrot", label: "Carrot" },
+  { value: "courgette", label: "Courgette" },
+  { value: "leek", label: "Leek" },
+  { value: "beef", label: "Beef" },
+  { value: "chicken", label: "Chicken" },
+  { value: "lamb", label: "Lamb" },
+  { value: "pork", label: "Pork" },
+];
+
+const themeItems = [
+  { value: "light", label: "Light" },
+  { value: "dark", label: "Dark" },
+  { value: "system", label: "System" },
+  { value: "apple", label: "Apple" },
+  { value: "cherry", label: "Cherry" },
+  { value: "grape", label: "Grape" },
+  { value: "citrus", label: "Citrus" },
+];
+
 /**
  * Displays a list of options for the user to pick from—triggered by a button.
  */
-const meta: Meta<typeof Select> = {
+const meta = preview.meta({
   title: "ui/Select",
   component: Select,
-  tags: ["autodocs"],
   argTypes: {},
   args: {
     onValueChange: fn(),
   },
   render: (args) => (
-    <Select {...args}>
+    <Select {...args} items={fruitItems}>
       <SelectTrigger aria-label="Select a fruit" className="w-48">
         <SelectValue placeholder="Select a fruit" />
       </SelectTrigger>
@@ -60,50 +91,49 @@ const meta: Meta<typeof Select> = {
   parameters: {
     layout: "centered",
   },
-} satisfies Meta<typeof Select>;
+});
 
-export default meta;
-
-type Story = StoryObj<typeof meta>;
+// --- Stories ---
 
 /**
  * The default form of the select.
  */
-export const Default: Story = {};
+export const Default = meta.story();
 
-export const ShouldSelectOption: Story = {
-  name: "when an option is selected, should be checked",
-  tags: ["!dev", "!autodocs"],
-  play: async ({ canvasElement, step }) => {
+// --- Tests ---
+
+Default.test(
+  "when an option is selected, should be checked",
+  async ({ canvasElement, step }) => {
     const canvasBody = within(canvasElement.ownerDocument.body);
     const select = await canvasBody.findByRole("combobox");
 
     await step("open and select item", async () => {
       await userEvent.click(select);
       await userEvent.click(
-        await canvasBody.findByRole("option", { name: /banana/i })
+        await canvasBody.findByRole("option", { name: /Banana/ })
       );
-      await expect(select).toHaveTextContent(/banana/i);
+      await expect(select).toHaveTextContent(/Banana/);
     });
 
     await step("verify the selected option", async () => {
       await userEvent.click(select);
       await expect(
-        await canvasBody.findByRole("option", { name: /banana/i })
+        await canvasBody.findByRole("option", { name: /Banana/ })
       ).toHaveAttribute("data-selected");
       await userEvent.click(
-        await canvasBody.findByRole("option", { name: /banana/i })
+        await canvasBody.findByRole("option", { name: /Banana/ })
       );
     });
-  },
-};
+  }
+);
 
 /**
  * Use SelectGroup, SelectLabel, and SelectSeparator to organize items.
  */
-export const Groups: Story = {
+export const Groups = meta.story({
   render: (args) => (
-    <Select {...args}>
+    <Select {...args} items={foodItems}>
       <SelectTrigger aria-label="Select a food" className="w-48">
         <SelectValue placeholder="Select a food" />
       </SelectTrigger>
@@ -138,12 +168,12 @@ export const Groups: Story = {
       </SelectContent>
     </Select>
   ),
-};
+});
 
 /**
  * A scrollable select with many items grouped by region.
  */
-export const Scrollable: Story = {
+export const Scrollable = meta.story({
   render: (args) => (
     <Select {...args}>
       <SelectTrigger aria-label="Select a timezone" className="w-72">
@@ -153,69 +183,69 @@ export const Scrollable: Story = {
       <SelectContent aria-label="Timezone options">
         <SelectGroup>
           <SelectLabel>North America</SelectLabel>
-          <SelectItem value="est">Eastern Standard Time (EST)</SelectItem>
-          <SelectItem value="cst">Central Standard Time (CST)</SelectItem>
-          <SelectItem value="mst">Mountain Standard Time (MST)</SelectItem>
-          <SelectItem value="pst">Pacific Standard Time (PST)</SelectItem>
-          <SelectItem value="akst">Alaska Standard Time (AKST)</SelectItem>
-          <SelectItem value="hst">Hawaii Standard Time (HST)</SelectItem>
+          <SelectItem value="EST">Eastern Standard Time (EST)</SelectItem>
+          <SelectItem value="CST">Central Standard Time (CST)</SelectItem>
+          <SelectItem value="MST">Mountain Standard Time (MST)</SelectItem>
+          <SelectItem value="PST">Pacific Standard Time (PST)</SelectItem>
+          <SelectItem value="AKST">Alaska Standard Time (AKST)</SelectItem>
+          <SelectItem value="HST">Hawaii Standard Time (HST)</SelectItem>
         </SelectGroup>
         <SelectGroup>
           <SelectLabel>Europe & Africa</SelectLabel>
-          <SelectItem value="gmt">Greenwich Mean Time (GMT)</SelectItem>
-          <SelectItem value="cet">Central European Time (CET)</SelectItem>
-          <SelectItem value="eet">Eastern European Time (EET)</SelectItem>
-          <SelectItem value="west">
+          <SelectItem value="GMT">Greenwich Mean Time (GMT)</SelectItem>
+          <SelectItem value="CET">Central European Time (CET)</SelectItem>
+          <SelectItem value="EET">Eastern European Time (EET)</SelectItem>
+          <SelectItem value="WEST">
             Western European Summer Time (WEST)
           </SelectItem>
-          <SelectItem value="cat">Central Africa Time (CAT)</SelectItem>
-          <SelectItem value="eat">East Africa Time (EAT)</SelectItem>
+          <SelectItem value="CAT">Central Africa Time (CAT)</SelectItem>
+          <SelectItem value="EAT">East Africa Time (EAT)</SelectItem>
         </SelectGroup>
         <SelectGroup>
           <SelectLabel>Asia</SelectLabel>
-          <SelectItem value="msk">Moscow Time (MSK)</SelectItem>
-          <SelectItem value="ist">India Standard Time (IST)</SelectItem>
-          <SelectItem value="cst_china">China Standard Time (CST)</SelectItem>
-          <SelectItem value="jst">Japan Standard Time (JST)</SelectItem>
-          <SelectItem value="kst">Korea Standard Time (KST)</SelectItem>
-          <SelectItem value="ist_indonesia">
+          <SelectItem value="MSK">Moscow Time (MSK)</SelectItem>
+          <SelectItem value="IST">India Standard Time (IST)</SelectItem>
+          <SelectItem value="CST (China)">China Standard Time (CST)</SelectItem>
+          <SelectItem value="JST">Japan Standard Time (JST)</SelectItem>
+          <SelectItem value="KST">Korea Standard Time (KST)</SelectItem>
+          <SelectItem value="WITA">
             Indonesia Central Standard Time (WITA)
           </SelectItem>
         </SelectGroup>
         <SelectGroup>
           <SelectLabel>Australia & Pacific</SelectLabel>
-          <SelectItem value="awst">
+          <SelectItem value="AWST">
             Australian Western Standard Time (AWST)
           </SelectItem>
-          <SelectItem value="acst">
+          <SelectItem value="ACST">
             Australian Central Standard Time (ACST)
           </SelectItem>
-          <SelectItem value="aest">
+          <SelectItem value="AEST">
             Australian Eastern Standard Time (AEST)
           </SelectItem>
-          <SelectItem value="nzst">New Zealand Standard Time (NZST)</SelectItem>
-          <SelectItem value="fjt">Fiji Time (FJT)</SelectItem>
+          <SelectItem value="NZST">New Zealand Standard Time (NZST)</SelectItem>
+          <SelectItem value="FJT">Fiji Time (FJT)</SelectItem>
         </SelectGroup>
         <SelectGroup>
           <SelectLabel>South America</SelectLabel>
-          <SelectItem value="art">Argentina Time (ART)</SelectItem>
-          <SelectItem value="bot">Bolivia Time (BOT)</SelectItem>
-          <SelectItem value="brt">Brasilia Time (BRT)</SelectItem>
-          <SelectItem value="clt">Chile Standard Time (CLT)</SelectItem>
+          <SelectItem value="ART">Argentina Time (ART)</SelectItem>
+          <SelectItem value="BOT">Bolivia Time (BOT)</SelectItem>
+          <SelectItem value="BRT">Brasilia Time (BRT)</SelectItem>
+          <SelectItem value="CLT">Chile Standard Time (CLT)</SelectItem>
         </SelectGroup>
       </SelectContent>
       {/* cspell:enable */}
     </Select>
   ),
-};
+});
 
 /**
  * Use the `disabled` prop to disable the select, preventing user interaction.
  * Individual items can also be disabled.
  */
-export const Disabled: Story = {
+export const Disabled = meta.story({
   render: (args) => (
-    <Select {...args} disabled>
+    <Select {...args} items={fruitItems} disabled>
       <SelectTrigger aria-label="Select a fruit" className="w-48">
         <SelectValue placeholder="Select a fruit" />
       </SelectTrigger>
@@ -226,12 +256,12 @@ export const Disabled: Story = {
       </SelectContent>
     </Select>
   ),
-};
+});
 
 /**
  * Select integrated within a Field component.
  */
-export const WithField: Story = {
+export const WithField = meta.story({
   name: "Field",
   render: (args) => (
     <Field className="w-64">
@@ -251,12 +281,12 @@ export const WithField: Story = {
       </FieldDescription>
     </Field>
   ),
-};
+});
 
 /**
  * An invalid select displaying an error state with FieldError.
  */
-export const Invalid: Story = {
+export const Invalid = meta.story({
   render: (args) => (
     <Field data-invalid className="w-64">
       <FieldLabel>Email</FieldLabel>
@@ -273,12 +303,12 @@ export const Invalid: Story = {
       <FieldError>Please select an email to display.</FieldError>
     </Field>
   ),
-};
+});
 
 /**
  * Toggle popup alignment with the trigger using `alignItemWithTrigger`.
  */
-export const AlignItemWithTrigger: Story = {
+export const AlignItemWithTrigger = meta.story({
   render: function Render(args) {
     const [alignItemWithTrigger, setAlignItemWithTrigger] = useState(true);
 
@@ -298,7 +328,7 @@ export const AlignItemWithTrigger: Story = {
         </Field>
 
         <div className="flex justify-center">
-          <Select {...args} defaultValue="banana">
+          <Select {...args} items={fruitItems} defaultValue="banana">
             <SelectTrigger aria-label="Select a fruit" className="w-48">
               <SelectValue placeholder="Select a fruit" />
             </SelectTrigger>
@@ -314,14 +344,14 @@ export const AlignItemWithTrigger: Story = {
       </div>
     );
   },
-};
+});
 
 /**
  * Select items with icons displayed alongside the text.
  */
-export const WithIcons: Story = {
+export const WithIcons = meta.story({
   render: (args) => (
-    <Select {...args} defaultValue="light">
+    <Select {...args} items={themeItems} defaultValue="light">
       <SelectTrigger aria-label="Select a theme" className="w-48">
         <SelectValue placeholder="Select a theme" />
       </SelectTrigger>
@@ -364,4 +394,4 @@ export const WithIcons: Story = {
       </SelectContent>
     </Select>
   ),
-};
+});

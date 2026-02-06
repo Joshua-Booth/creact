@@ -1,5 +1,4 @@
-import type { Meta, StoryObj } from "@storybook/react-vite";
-
+import preview from "@/storybook/preview";
 import {
   CircleCheckIcon,
   CircleHelpIcon,
@@ -24,19 +23,14 @@ import {
 /**
  * A collection of links for navigating websites.
  */
-const meta = {
+const meta = preview.meta({
   title: "ui/NavigationMenu",
   component: NavigationMenu,
-  tags: ["autodocs"],
   argTypes: {},
   parameters: {
     layout: "centered",
   },
-} satisfies Meta<typeof NavigationMenu>;
-
-export default meta;
-
-type Story = StoryObj<typeof meta>;
+});
 
 function ListItem({
   className,
@@ -68,10 +62,12 @@ function ListItem({
   );
 }
 
+// --- Stories ---
+
 /**
  * The default form of the navigation menu with a simple trigger and dropdown.
  */
-export const Default: Story = {
+export const Default = meta.story({
   render: (args) => (
     <NavigationMenu {...args}>
       <NavigationMenuList>
@@ -99,7 +95,7 @@ export const Default: Story = {
       </NavigationMenuList>
     </NavigationMenu>
   ),
-};
+});
 
 const gettingStartedItems = [
   {
@@ -160,7 +156,7 @@ const components = [
 /**
  * Navigation menu with a "Getting Started" panel featuring description cards and a highlighted hero item.
  */
-export const GettingStarted: Story = {
+export const GettingStarted = meta.story({
   render: (args) => (
     <NavigationMenu {...args}>
       <NavigationMenuList>
@@ -205,12 +201,12 @@ export const GettingStarted: Story = {
       </NavigationMenuList>
     </NavigationMenu>
   ),
-};
+});
 
 /**
  * Navigation menu with a components list panel showing a grid of component descriptions.
  */
-export const Components: Story = {
+export const Components = meta.story({
   render: (args) => (
     <NavigationMenu {...args}>
       <NavigationMenuList>
@@ -244,7 +240,7 @@ export const Components: Story = {
       </NavigationMenuList>
     </NavigationMenu>
   ),
-};
+});
 
 const listItems = [
   {
@@ -267,7 +263,7 @@ const listItems = [
 /**
  * Navigation menu with a list of links showing title and description.
  */
-export const List: Story = {
+export const List = meta.story({
   render: (args) => (
     <NavigationMenu {...args}>
       <NavigationMenuList>
@@ -294,7 +290,7 @@ export const List: Story = {
       </NavigationMenuList>
     </NavigationMenu>
   ),
-};
+});
 
 const simpleItems = [
   { title: "Introduction", href: "/docs/introduction" },
@@ -306,7 +302,7 @@ const simpleItems = [
 /**
  * Navigation menu with simple text-only links.
  */
-export const Simple: Story = {
+export const Simple = meta.story({
   render: (args) => (
     <NavigationMenu {...args}>
       <NavigationMenuList>
@@ -340,12 +336,12 @@ export const Simple: Story = {
       </NavigationMenuList>
     </NavigationMenu>
   ),
-};
+});
 
 /**
  * Navigation menu items with icons for visual context.
  */
-export const WithIcon: Story = {
+export const WithIcon = meta.story({
   render: (args) => (
     <NavigationMenu {...args}>
       <NavigationMenuList>
@@ -421,39 +417,42 @@ export const WithIcon: Story = {
       </NavigationMenuList>
     </NavigationMenu>
   ),
-};
+});
 
-export const ShouldOpenClose: Story = {
-  name: "when clicking trigger, should open and display content",
-  tags: ["!dev", "!autodocs"],
-  render: (args) => (
-    <NavigationMenu {...args} aria-label="Main navigation">
-      <NavigationMenuList>
-        <NavigationMenuItem>
-          <NavigationMenuTrigger>Getting Started</NavigationMenuTrigger>
-          <NavigationMenuContent>
-            <ul className="grid w-52 gap-1 p-2">
-              <ListItem title="Introduction" href="/docs/introduction">
-                Getting started with the library.
-              </ListItem>
-              <ListItem title="Installation" href="/docs/installation">
-                How to install and configure.
-              </ListItem>
-            </ul>
-          </NavigationMenuContent>
-        </NavigationMenuItem>
-        <NavigationMenuItem>
-          <NavigationMenuLink
-            className={navigationMenuTriggerStyle()}
-            href="/docs"
-          >
-            Documentation
-          </NavigationMenuLink>
-        </NavigationMenuItem>
-      </NavigationMenuList>
-    </NavigationMenu>
-  ),
-  play: async ({ canvasElement, step }) => {
+// --- Tests ---
+
+Default.test(
+  "when clicking trigger, should open and display content",
+  {
+    render: (args) => (
+      <NavigationMenu {...args} aria-label="Main navigation">
+        <NavigationMenuList>
+          <NavigationMenuItem>
+            <NavigationMenuTrigger>Getting Started</NavigationMenuTrigger>
+            <NavigationMenuContent>
+              <ul className="grid w-52 gap-1 p-2">
+                <ListItem title="Introduction" href="/docs/introduction">
+                  Getting started with the library.
+                </ListItem>
+                <ListItem title="Installation" href="/docs/installation">
+                  How to install and configure.
+                </ListItem>
+              </ul>
+            </NavigationMenuContent>
+          </NavigationMenuItem>
+          <NavigationMenuItem>
+            <NavigationMenuLink
+              className={navigationMenuTriggerStyle()}
+              href="/docs"
+            >
+              Documentation
+            </NavigationMenuLink>
+          </NavigationMenuItem>
+        </NavigationMenuList>
+      </NavigationMenu>
+    ),
+  },
+  async ({ canvasElement, step }) => {
     const body = within(canvasElement.ownerDocument.body);
     const canvas = within(canvasElement);
 
@@ -467,5 +466,5 @@ export const ShouldOpenClose: Story = {
       await expect(await body.findByText("Introduction")).toBeInTheDocument();
       await expect(await body.findByText("Installation")).toBeInTheDocument();
     });
-  },
-};
+  }
+);

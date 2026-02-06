@@ -1,5 +1,4 @@
-import type { Meta, StoryObj } from "@storybook/react-vite";
-
+import preview from "@/storybook/preview";
 import {
   ArrowUpRightIcon,
   BellIcon,
@@ -32,25 +31,22 @@ import {
 /**
  * Displays an empty state with customizable icon, title, description, and actions.
  */
-const meta = {
+const meta = preview.meta({
   title: "ui/Empty",
   component: Empty,
-  tags: ["autodocs"],
   argTypes: {},
   args: {},
   parameters: {
     layout: "centered",
   },
-} satisfies Meta<typeof Empty>;
+});
 
-export default meta;
-
-type Story = StoryObj<typeof meta>;
+// --- Stories ---
 
 /**
  * The default empty state with icon, title, description, two buttons, and a link.
  */
-export const Default: Story = {
+export const Default = meta.story({
   render: () => (
     <Empty>
       <EmptyHeader>
@@ -78,12 +74,12 @@ export const Default: Story = {
       </button>
     </Empty>
   ),
-};
+});
 
 /**
  * Empty state with a dashed border outline.
  */
-export const Outline: Story = {
+export const Outline = meta.story({
   render: () => (
     <Empty className="border border-dashed">
       <EmptyHeader>
@@ -102,12 +98,12 @@ export const Outline: Story = {
       </EmptyContent>
     </Empty>
   ),
-};
+});
 
 /**
  * Empty state with a gradient background.
  */
-export const Background: Story = {
+export const Background = meta.story({
   render: () => (
     <Empty
       className="from-muted/50 to-background h-full bg-linear-to-b from-30%"
@@ -129,12 +125,12 @@ export const Background: Story = {
       </EmptyContent>
     </Empty>
   ),
-};
+});
 
 /**
  * Empty state with a single avatar in the media slot.
  */
-export const WithAvatar: Story = {
+export const WithAvatar = meta.story({
   render: () => (
     <Empty>
       <EmptyHeader>
@@ -158,12 +154,12 @@ export const WithAvatar: Story = {
       </EmptyContent>
     </Empty>
   ),
-};
+});
 
 /**
  * Empty state with multiple avatars in a group.
  */
-export const WithAvatarGroup: Story = {
+export const WithAvatarGroup = meta.story({
   render: () => (
     <Empty>
       <EmptyHeader>
@@ -200,12 +196,12 @@ export const WithAvatarGroup: Story = {
       </EmptyContent>
     </Empty>
   ),
-};
+});
 
 /**
  * Empty state with an input group for searching (404 page pattern).
  */
-export const WithInputGroup: Story = {
+export const WithInputGroup = meta.story({
   render: () => (
     <Empty>
       <EmptyHeader>
@@ -234,12 +230,12 @@ export const WithInputGroup: Story = {
       </EmptyContent>
     </Empty>
   ),
-};
+});
 
 /**
  * Grid of icon-based empty states without actions.
  */
-export const Icon: Story = {
+export const Icon = meta.story({
   render: () => (
     <div className="grid gap-8 md:grid-cols-2">
       <Empty>
@@ -291,12 +287,12 @@ export const Icon: Story = {
       </Empty>
     </div>
   ),
-};
+});
 
 /**
  * Empty state without action buttons.
  */
-export const WithoutAction: Story = {
+export const WithoutAction = meta.story({
   render: () => (
     <Empty>
       <EmptyHeader>
@@ -310,31 +306,35 @@ export const WithoutAction: Story = {
       </EmptyHeader>
     </Empty>
   ),
-};
+});
 
 /**
  * Should render all child components (heading, description, action).
  */
-export const ShouldRenderAllChildComponents: Story = {
-  name: "should render all child components",
-  tags: ["!dev", "!autodocs"],
-  render: () => (
-    <Empty data-testid="empty-container">
-      <EmptyHeader>
-        <EmptyMedia variant="icon" data-testid="empty-media">
-          <InboxIcon />
-        </EmptyMedia>
-        <EmptyTitle data-testid="empty-title">Empty State Title</EmptyTitle>
-        <EmptyDescription data-testid="empty-description">
-          This is the description text for the empty state.
-        </EmptyDescription>
-      </EmptyHeader>
-      <EmptyContent>
-        <Button data-testid="empty-action">Take Action</Button>
-      </EmptyContent>
-    </Empty>
-  ),
-  play: async ({ canvasElement, step }) => {
+
+// --- Tests ---
+
+Default.test(
+  "should render all child components",
+  {
+    render: () => (
+      <Empty data-testid="empty-container">
+        <EmptyHeader>
+          <EmptyMedia variant="icon" data-testid="empty-media">
+            <InboxIcon />
+          </EmptyMedia>
+          <EmptyTitle data-testid="empty-title">Empty State Title</EmptyTitle>
+          <EmptyDescription data-testid="empty-description">
+            This is the description text for the empty state.
+          </EmptyDescription>
+        </EmptyHeader>
+        <EmptyContent>
+          <Button data-testid="empty-action">Take Action</Button>
+        </EmptyContent>
+      </Empty>
+    ),
+  },
+  async ({ canvasElement, step }) => {
     const canvas = within(canvasElement);
 
     await step("verify title is rendered", async () => {
@@ -357,5 +357,5 @@ export const ShouldRenderAllChildComponents: Story = {
       const media = canvas.getByTestId("empty-media");
       await expect(media).toBeVisible();
     });
-  },
-};
+  }
+);

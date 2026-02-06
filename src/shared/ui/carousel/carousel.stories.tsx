@@ -1,7 +1,6 @@
-import type { Meta, StoryObj } from "@storybook/react-vite";
-
 import * as React from "react";
 
+import preview from "@/storybook/preview";
 import Autoplay from "embla-carousel-autoplay";
 import { expect, userEvent } from "storybook/test";
 
@@ -18,10 +17,9 @@ import {
 /**
  * A carousel with motion and swipe built using Embla.
  */
-const meta: Meta<typeof Carousel> = {
+const meta = preview.meta({
   title: "ui/Carousel",
   component: Carousel,
-  tags: ["autodocs"],
   argTypes: {},
   args: {
     className: "w-full max-w-xs",
@@ -31,7 +29,10 @@ const meta: Meta<typeof Carousel> = {
       <CarouselContent>
         {Array.from({ length: 5 }).map((_, index) => (
           <CarouselItem key={`slide-${index + 1}`}>
-            <div className="bg-card flex aspect-square items-center justify-center rounded-sm border p-6">
+            <div
+              className="bg-card flex aspect-square items-center justify-center
+                rounded-sm border p-6"
+            >
               <span className="text-4xl font-semibold">{index + 1}</span>
             </div>
           </CarouselItem>
@@ -44,21 +45,19 @@ const meta: Meta<typeof Carousel> = {
   parameters: {
     layout: "centered",
   },
-} satisfies Meta<typeof Carousel>;
+});
 
-export default meta;
-
-type Story = StoryObj<typeof meta>;
+// --- Stories ---
 
 /**
  * The default form of the carousel.
  */
-export const Default: Story = {};
+export const Default = meta.story();
 
 /**
  * Use the `basis` utility class to change the size of the carousel.
  */
-export const Size: Story = {
+export const Size = meta.story({
   render: (args) => (
     <Carousel {...args} className="mx-12 w-full max-w-xs">
       <CarouselContent>
@@ -80,12 +79,13 @@ export const Size: Story = {
   args: {
     className: "mx-12 w-full max-w-xs",
   },
-};
+});
 
-export const ShouldNavigate: Story = {
-  name: "when clicking next/previous buttons, should navigate through slides",
-  tags: ["!dev", "!autodocs"],
-  play: async ({ canvas, step }) => {
+// --- Tests ---
+
+Default.test(
+  "when clicking next/previous buttons, should navigate through slides",
+  async ({ canvas, step }) => {
     const slides = await canvas.findAllByRole("group");
     await expect(slides).toHaveLength(5);
     const nextBtn = await canvas.findByRole("button", { name: /next/i });
@@ -104,13 +104,13 @@ export const ShouldNavigate: Story = {
         await userEvent.click(prevBtn);
       }
     });
-  },
-};
+  }
+);
 
 /**
  * Use the `orientation` prop to set the carousel to vertical.
  */
-export const Orientation: Story = {
+export const Orientation = meta.story({
   render: (args) => (
     <Carousel {...args} orientation="vertical" className="w-full max-w-xs">
       <CarouselContent className="-mt-1 h-[200px]">
@@ -129,13 +129,13 @@ export const Orientation: Story = {
       <CarouselNext />
     </Carousel>
   ),
-};
+});
 
 /**
  * Use custom margin/padding classes on `CarouselContent` and `CarouselItem` to
  * control the spacing between items.
  */
-export const Spacing: Story = {
+export const Spacing = meta.story({
   render: (args) => (
     <Carousel {...args} className="w-full max-w-sm">
       <CarouselContent className="-ml-2 md:-ml-4">
@@ -160,7 +160,7 @@ export const Spacing: Story = {
   args: {
     className: "mx-12 w-full max-w-sm",
   },
-};
+});
 
 function CarouselWithDots(args: React.ComponentProps<typeof Carousel>) {
   const [api, setApi] = React.useState<CarouselApi>();
@@ -223,14 +223,14 @@ function CarouselWithDots(args: React.ComponentProps<typeof Carousel>) {
 /**
  * Use the `setApi` prop to access the carousel API and create dot indicators.
  */
-export const API: Story = {
+export const API = meta.story({
   render: (args) => <CarouselWithDots {...args} />,
-};
+});
 
 /**
  * Use the `embla-carousel-autoplay` plugin to create an auto-playing carousel.
  */
-export const AutoPlay: Story = {
+export const AutoPlay = meta.story({
   render: (args) => (
     <Carousel
       {...args}
@@ -257,12 +257,12 @@ export const AutoPlay: Story = {
       <CarouselNext />
     </Carousel>
   ),
-};
+});
 
 /**
  * Use the `loop` option to create a carousel that wraps around.
  */
-export const Loop: Story = {
+export const Loop = meta.story({
   render: (args) => (
     <Carousel {...args} opts={{ loop: true }} className="w-full max-w-xs">
       <CarouselContent>
@@ -281,7 +281,7 @@ export const Loop: Story = {
       <CarouselNext />
     </Carousel>
   ),
-};
+});
 
 function CarouselWithThumbnails(args: React.ComponentProps<typeof Carousel>) {
   const [api, setApi] = React.useState<CarouselApi>();
@@ -377,6 +377,6 @@ function CarouselWithThumbnails(args: React.ComponentProps<typeof Carousel>) {
 /**
  * Use the `setApi` prop to sync two carousels and create thumbnail navigation.
  */
-export const Thumbnails: Story = {
+export const Thumbnails = meta.story({
   render: (args) => <CarouselWithThumbnails {...args} />,
-};
+});

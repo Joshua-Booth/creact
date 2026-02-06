@@ -1,5 +1,4 @@
-import type { Meta, StoryObj } from "@storybook/react-vite";
-
+import preview from "@/storybook/preview";
 import { expect, userEvent, within } from "storybook/test";
 
 import { Button } from "../button";
@@ -28,10 +27,9 @@ import { Label } from "./label";
 /**
  * Renders an accessible label associated with controls.
  */
-const meta = {
+const meta = preview.meta({
   title: "ui/Label",
   component: Label,
-  tags: ["autodocs"],
   argTypes: {
     children: {
       control: { type: "text" },
@@ -41,21 +39,19 @@ const meta = {
     children: "Your email address",
     htmlFor: "email",
   },
-} satisfies Meta<typeof Label>;
+});
 
-export default meta;
-
-type Story = StoryObj<typeof Label>;
+// --- Stories ---
 
 /**
  * The default form of the label.
  */
-export const Default: Story = {};
+export const Default = meta.story();
 
 /**
  * Label associated with an input field via htmlFor.
  */
-export const WithInput: Story = {
+export const WithInput = meta.story({
   render: (args) => (
     <div className="flex flex-col gap-2">
       <Label {...args} htmlFor="email-input">
@@ -64,12 +60,12 @@ export const WithInput: Story = {
       <Input id="email-input" type="email" placeholder="Enter your email" />
     </div>
   ),
-};
+});
 
 /**
  * Label associated with a checkbox control.
  */
-export const WithCheckbox: Story = {
+export const WithCheckbox = meta.story({
   render: (args) => (
     <div className="flex items-center space-x-2">
       <Checkbox id="terms" aria-labelledby="terms-label" />
@@ -78,12 +74,12 @@ export const WithCheckbox: Story = {
       </Label>
     </div>
   ),
-};
+});
 
 /**
  * Label with a required field indicator (red asterisk).
  */
-export const Required: Story = {
+export const Required = meta.story({
   render: (args) => (
     <div className="flex flex-col gap-2">
       <Label {...args} htmlFor="required-input">
@@ -93,12 +89,12 @@ export const Required: Story = {
       <Input id="required-input" placeholder="Enter username" required />
     </div>
   ),
-};
+});
 
 /**
  * Label with an optional indicator suffix.
  */
-export const Optional: Story = {
+export const Optional = meta.story({
   render: (args) => (
     <div className="flex flex-col gap-2">
       <Label {...args} htmlFor="optional-input">
@@ -108,12 +104,12 @@ export const Optional: Story = {
       <Input id="optional-input" placeholder="Tell us about yourself" />
     </div>
   ),
-};
+});
 
 /**
  * Label in a disabled state via group data attribute.
  */
-export const Disabled: Story = {
+export const Disabled = meta.story({
   render: (args) => (
     <div className="group flex flex-col gap-2" data-disabled="true">
       <Label {...args} htmlFor="disabled-input">
@@ -122,12 +118,12 @@ export const Disabled: Story = {
       <Input id="disabled-input" placeholder="Cannot edit" disabled />
     </div>
   ),
-};
+});
 
 /**
  * Label with long text showing truncation behavior.
  */
-export const LongText: Story = {
+export const LongText = meta.story({
   render: (args) => (
     <div className="flex w-48 flex-col gap-2">
       <Label {...args} htmlFor="long-input" className="block truncate">
@@ -137,12 +133,12 @@ export const LongText: Story = {
       <Input id="long-input" placeholder="Enter value" />
     </div>
   ),
-};
+});
 
 /**
  * A comprehensive payment form demonstrating labels in real-world context.
  */
-export const PaymentForm: Story = {
+export const PaymentForm = meta.story({
   render: (args) => (
     <div className="w-md">
       <form>
@@ -246,21 +242,25 @@ export const PaymentForm: Story = {
       </form>
     </div>
   ),
-};
+});
 
 /**
  * When clicking label, should focus associated input.
  */
-export const ShouldFocusInputOnClick: Story = {
-  name: "when clicking label, should focus associated input",
-  tags: ["!dev", "!autodocs"],
-  render: () => (
-    <div className="flex flex-col gap-2">
-      <Label htmlFor="focus-test-input">Click me to focus input</Label>
-      <Input id="focus-test-input" placeholder="I should receive focus" />
-    </div>
-  ),
-  play: async ({ canvasElement, step }) => {
+
+// --- Tests ---
+
+Default.test(
+  "when clicking label, should focus associated input",
+  {
+    render: () => (
+      <div className="flex flex-col gap-2">
+        <Label htmlFor="focus-test-input">Click me to focus input</Label>
+        <Input id="focus-test-input" placeholder="I should receive focus" />
+      </div>
+    ),
+  },
+  async ({ canvasElement, step }) => {
     const canvas = within(canvasElement);
 
     await step("click label and verify input receives focus", async () => {
@@ -271,5 +271,5 @@ export const ShouldFocusInputOnClick: Story = {
 
       await expect(input).toHaveFocus();
     });
-  },
-};
+  }
+);

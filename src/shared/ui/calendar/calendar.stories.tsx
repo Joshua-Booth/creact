@@ -1,8 +1,7 @@
-import type { Meta, StoryObj } from "@storybook/react-vite";
-
 import * as React from "react";
 
 import type { DateRange, DayButton } from "react-day-picker";
+import preview from "@/storybook/preview";
 import { addDays, format } from "date-fns";
 import { CalendarIcon, ClockIcon } from "lucide-react";
 import { action } from "storybook/actions";
@@ -25,10 +24,9 @@ import { Calendar, CalendarDayButton } from "./calendar";
 /**
  * A date field component that allows users to enter and edit date.
  */
-const meta = {
+const meta = preview.meta({
   title: "ui/Calendar",
   component: Calendar,
-  tags: ["autodocs"],
   argTypes: {
     mode: {
       table: {
@@ -68,36 +66,34 @@ const meta = {
   parameters: {
     layout: "centered",
   },
-} satisfies Meta<typeof Calendar>;
+});
 
-export default meta;
-
-type Story = StoryObj<typeof meta>;
+// --- Stories ---
 
 /**
  * Basic calendar with dropdown navigation for month/year selection.
  */
-export const Basic: Story = {
+export const Basic = meta.story({
   args: {
     captionLayout: "dropdown",
   },
-};
+});
 
 /**
  * Use the `multiple` mode to select multiple dates.
  */
-export const Multiple: Story = {
+export const Multiple = meta.story({
   args: {
     min: 1,
     selected: [new Date(), addDays(new Date(), 2), addDays(new Date(), 8)],
     mode: "multiple",
   },
-};
+});
 
 /**
  * Use the `range` mode to select a range of dates with multiple months displayed.
  */
-export const Range: Story = {
+export const Range = meta.story({
   args: {
     selected: {
       from: new Date(),
@@ -106,12 +102,12 @@ export const Range: Story = {
     mode: "range",
     numberOfMonths: 2,
   },
-};
+});
 
 /**
  * Use the `disabled` prop to disable specific dates.
  */
-export const Disabled: Story = {
+export const Disabled = meta.story({
   args: {
     disabled: [
       addDays(new Date(), 1),
@@ -120,15 +116,19 @@ export const Disabled: Story = {
       addDays(new Date(), 5),
     ],
   },
-};
+});
 
-export const ShouldNavigateMonthsWhenClicked: Story = {
-  name: "when using the calendar navigation, should change months",
-  tags: ["!dev", "!autodocs"],
-  args: {
-    defaultMonth: new Date(2000, 8),
+// --- Tests ---
+
+Basic.test(
+  "when using the calendar navigation, should change months",
+  {
+    args: {
+      captionLayout: "label",
+      defaultMonth: new Date(2000, 8),
+    },
   },
-  play: async ({ canvas }) => {
+  async ({ canvas }) => {
     const title = await canvas.findByText(/2000/i);
     const startTitle = title.textContent;
     const backBtn = await canvas.findByRole("button", {
@@ -150,35 +150,35 @@ export const ShouldNavigateMonthsWhenClicked: Story = {
       }
       await expect(title).not.toHaveTextContent(startTitle);
     }
-  },
-};
+  }
+);
 
 /**
  * Use `startMonth` and `endMonth` props to limit the date range that can be navigated.
  */
-export const Limited: Story = {
+export const Limited = meta.story({
   args: {
     startMonth: new Date(2024, 0),
     endMonth: new Date(2024, 11),
     defaultMonth: new Date(2024, 5),
   },
-};
+});
 
 /**
  * Calendar with dropdown selectors for month and year navigation.
  */
-export const Caption: Story = {
+export const Caption = meta.story({
   args: {
     captionLayout: "dropdown",
     startMonth: new Date(2020, 0),
     endMonth: new Date(2030, 11),
   },
-};
+});
 
 /**
  * Calendar displaying week numbers alongside the days.
  */
-export const WeekNumbers: Story = {
+export const WeekNumbers = meta.story({
   args: {
     showWeekNumber: true,
   },
@@ -188,7 +188,7 @@ export const WeekNumbers: Story = {
       disable: true,
     },
   },
-};
+});
 
 function CalendarWithPresets() {
   const [date, setDate] = React.useState<Date | undefined>(() => new Date());
@@ -239,7 +239,7 @@ function CalendarWithPresets() {
 /**
  * A calendar with preset date options in a popover.
  */
-export const WithPresets: Story = {
+export const WithPresets = meta.story({
   render: () => <CalendarWithPresets />,
   parameters: {
     docs: {
@@ -294,7 +294,7 @@ function CalendarWithPresets() {
       },
     },
   },
-};
+});
 
 function CalendarWithTime() {
   const [date, setDate] = React.useState<Date | undefined>(() => new Date());
@@ -350,7 +350,7 @@ function CalendarWithTime() {
 /**
  * A date picker with time input for selecting both date and time.
  */
-export const WithTime: Story = {
+export const WithTime = meta.story({
   render: () => <CalendarWithTime />,
   parameters: {
     docs: {
@@ -410,7 +410,7 @@ function CalendarWithTime() {
       },
     },
   },
-};
+});
 
 function CustomDayButton({
   children,
@@ -461,7 +461,7 @@ function CalendarCustomDays() {
 /**
  * Calendar with custom day content showing additional information like pricing.
  */
-export const CustomDays: Story = {
+export const CustomDays = meta.story({
   render: () => <CalendarCustomDays />,
   parameters: {
     a11y: {
@@ -519,7 +519,7 @@ function CalendarCustomDays() {
       },
     },
   },
-};
+});
 
 // eslint-disable-next-line sonarjs/function-return-type -- All returns are valid ReactNode types
 function formatDateRange(date: DateRange | undefined): React.ReactNode {
@@ -577,7 +577,7 @@ function DatePickerDemo({ className }: React.HTMLAttributes<HTMLDivElement>) {
 /**
  * A full date range picker with popover and two-month calendar view.
  */
-export const DatePicker: Story = {
+export const DatePicker = meta.story({
   render: () => <DatePickerDemo />,
   parameters: {
     docs: {
@@ -635,4 +635,4 @@ function DatePickerDemo() {
       },
     },
   },
-};
+});

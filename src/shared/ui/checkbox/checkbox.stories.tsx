@@ -1,7 +1,6 @@
-import type { Meta, StoryObj } from "@storybook/react-vite";
-
 import { useState } from "react";
 
+import preview from "@/storybook/preview";
 import { MinusIcon } from "lucide-react";
 import { expect, userEvent, within } from "storybook/test";
 
@@ -28,10 +27,9 @@ import { Checkbox } from "./checkbox";
 /**
  * A control that allows the user to toggle between checked and not checked.
  */
-const meta: Meta<typeof Checkbox> = {
+const meta = preview.meta({
   title: "ui/Checkbox",
   component: Checkbox,
-  tags: ["autodocs"],
   argTypes: {},
   args: {
     disabled: false,
@@ -47,21 +45,19 @@ const meta: Meta<typeof Checkbox> = {
   parameters: {
     layout: "centered",
   },
-} satisfies Meta<typeof Checkbox>;
+});
 
-export default meta;
-
-type Story = StoryObj<typeof meta>;
+// --- Stories ---
 
 /**
  * The default form of the checkbox.
  */
-export const Default: Story = {};
+export const Default = meta.story();
 
 /**
  * Use the `disabled` prop to disable the checkbox.
  */
-export const Disabled: Story = {
+export const Disabled = meta.story({
   args: {
     disabled: true,
   },
@@ -73,13 +69,13 @@ export const Disabled: Story = {
       </FieldLabel>
     </Field>
   ),
-};
+});
 
 /**
  * Use the `indeterminate` prop to show a partially checked state.
  * This is useful for "select all" checkboxes when only some items are selected.
  */
-export const Indeterminate: Story = {
+export const Indeterminate = meta.story({
   args: {
     indeterminate: true,
   },
@@ -98,12 +94,12 @@ export const Indeterminate: Story = {
       </FieldLabel>
     </Field>
   ),
-};
+});
 
 /**
  * Checkbox with a description providing additional context below the label.
  */
-export const WithDescription: Story = {
+export const WithDescription = meta.story({
   parameters: {
     a11y: {
       config: {
@@ -127,13 +123,13 @@ export const WithDescription: Story = {
       </FieldContent>
     </Field>
   ),
-};
+});
 
 /**
  * Multiple checkboxes grouped together using FieldSet and FieldLegend.
  * Useful for selecting multiple items from a list of options.
  */
-export const Group: Story = {
+export const Group = meta.story({
   parameters: {
     a11y: {
       config: {
@@ -193,7 +189,7 @@ export const Group: Story = {
       </FieldSet>
     );
   },
-};
+});
 
 const tableData = [
   {
@@ -226,7 +222,7 @@ const tableData = [
  * Checkboxes integrated within a data table for row selection.
  * Includes a "select all" checkbox in the header that manages selection state.
  */
-export const InTable: Story = {
+export const InTable = meta.story({
   parameters: {
     a11y: {
       config: {
@@ -306,12 +302,13 @@ export const InTable: Story = {
       </Table>
     );
   },
-};
+});
 
-export const ShouldToggleCheck: Story = {
-  name: "when the checkbox is clicked, should toggle between checked and not checked",
-  tags: ["!dev", "!autodocs"],
-  play: async ({ canvasElement }) => {
+// --- Tests ---
+
+Default.test(
+  "when the checkbox is clicked, should toggle between checked and not checked",
+  async ({ canvasElement }) => {
     const canvas = within(canvasElement);
     const checkbox = canvas.getByRole("checkbox");
     await userEvent.click(checkbox);
@@ -320,5 +317,5 @@ export const ShouldToggleCheck: Story = {
     await expect(checkbox).not.toBeChecked();
     await userEvent.click(checkbox, { delay: 100 });
     await expect(checkbox).toBeChecked();
-  },
-};
+  }
+);

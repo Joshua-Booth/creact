@@ -1,22 +1,22 @@
-import type { Preview } from "@storybook/react-vite";
+import * as addonA11y from "@storybook/addon-a11y/preview";
+import * as addonDocs from "@storybook/addon-docs/preview";
+import { definePreview } from "@storybook/react-vite";
 
 import "../src/app/styles/globals.css";
 
-const preview: Preview = {
+export default definePreview({
+  addons: [addonDocs, addonA11y],
   parameters: {
     layout: "centered",
-
     controls: {
       matchers: {
         color: /(background|color)$/i,
         date: /date$/i,
       },
     },
-
     docs: {
       toc: true,
     },
-
     a11y: {
       // 'todo' - show a11y violations in the test UI only
       // 'error' - fail CI on a11y violations
@@ -37,6 +37,4 @@ const preview: Preview = {
     },
   },
   tags: ["autodocs"],
-};
-
-export default preview;
+});

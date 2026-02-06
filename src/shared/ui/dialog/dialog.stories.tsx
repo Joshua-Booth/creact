@@ -1,5 +1,4 @@
-import type { Meta, StoryObj } from "@storybook/react-vite";
-
+import preview from "@/storybook/preview";
 import { expect, userEvent, within } from "storybook/test";
 
 import { Button } from "../button";
@@ -16,6 +15,8 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "./dialog";
+
+// --- Helpers ---
 
 // cspell:disable
 const LOREM_PARAGRAPHS = [
@@ -66,10 +67,9 @@ const LOREM_PARAGRAPHS = [
  * A window overlaid on either the primary window or another dialog window,
  * rendering the content underneath inert.
  */
-const meta = {
+const meta = preview.meta({
   title: "ui/Dialog",
   component: Dialog,
-  tags: ["autodocs"],
   argTypes: {},
   render: (args) => (
     <Dialog {...args}>
@@ -109,21 +109,19 @@ const meta = {
   parameters: {
     layout: "centered",
   },
-} satisfies Meta<typeof Dialog>;
+});
 
-export default meta;
-
-type Story = StoryObj<typeof meta>;
+// --- Stories ---
 
 /**
  * The default form of the dialog with an edit profile form.
  */
-export const Default: Story = {};
+export const Default = meta.story();
 
 /**
  * Dialog with a custom close button in the footer for sharing links.
  */
-export const CustomCloseButton: Story = {
+export const CustomCloseButton = meta.story({
   render: (args) => (
     <Dialog {...args}>
       <DialogTrigger render={<Button variant="outline" />}>Share</DialogTrigger>
@@ -152,12 +150,12 @@ export const CustomCloseButton: Story = {
       </DialogContent>
     </Dialog>
   ),
-};
+});
 
 /**
  * Dialog without the default close button in the top-right corner.
  */
-export const NoCloseButton: Story = {
+export const NoCloseButton = meta.story({
   render: (args) => (
     <Dialog {...args}>
       <DialogTrigger render={<Button variant="outline" />}>
@@ -173,12 +171,12 @@ export const NoCloseButton: Story = {
       </DialogContent>
     </Dialog>
   ),
-};
+});
 
 /**
  * Dialog with a sticky footer that stays visible while the content scrolls.
  */
-export const StickyFooter: Story = {
+export const StickyFooter = meta.story({
   render: (args) => (
     <Dialog {...args}>
       <DialogTrigger render={<Button variant="outline" />}>
@@ -205,12 +203,12 @@ export const StickyFooter: Story = {
       </DialogContent>
     </Dialog>
   ),
-};
+});
 
 /**
  * Dialog with scrollable content and no footer.
  */
-export const ScrollableContent: Story = {
+export const ScrollableContent = meta.story({
   render: (args) => (
     <Dialog {...args}>
       <DialogTrigger render={<Button variant="outline" />}>
@@ -233,12 +231,13 @@ export const ScrollableContent: Story = {
       </DialogContent>
     </Dialog>
   ),
-};
+});
 
-export const ShouldOpenCloseWithSave: Story = {
-  name: "when clicking Save changes button, should close the dialog",
-  tags: ["!dev", "!autodocs"],
-  play: async ({ canvasElement, step }) => {
+// --- Tests ---
+
+Default.test(
+  "when clicking Save changes button, should close the dialog",
+  async ({ canvasElement, step }) => {
     const canvasBody = within(canvasElement.ownerDocument.body);
 
     await step("Open the dialog", async () => {
@@ -258,13 +257,12 @@ export const ShouldOpenCloseWithSave: Story = {
         "data-closed"
       );
     });
-  },
-};
+  }
+);
 
-export const ShouldOpenCloseWithCancel: Story = {
-  name: "when clicking Cancel button, should close the dialog",
-  tags: ["!dev", "!autodocs"],
-  play: async ({ canvasElement, step }) => {
+Default.test(
+  "when clicking Cancel button, should close the dialog",
+  async ({ canvasElement, step }) => {
     const canvasBody = within(canvasElement.ownerDocument.body);
 
     await step("Open the dialog", async () => {
@@ -284,13 +282,12 @@ export const ShouldOpenCloseWithCancel: Story = {
         "data-closed"
       );
     });
-  },
-};
+  }
+);
 
-export const ShouldOpenCloseCross: Story = {
-  name: "when clicking Close icon, should close the dialog",
-  tags: ["!dev", "!autodocs"],
-  play: async ({ canvasElement, step }) => {
+Default.test(
+  "when clicking Close icon, should close the dialog",
+  async ({ canvasElement, step }) => {
     const canvasBody = within(canvasElement.ownerDocument.body);
 
     await step("Open the dialog", async () => {
@@ -310,13 +307,12 @@ export const ShouldOpenCloseCross: Story = {
         "data-closed"
       );
     });
-  },
-};
+  }
+);
 
-export const ShouldCloseWithEscape: Story = {
-  name: "when pressing Escape, should close the dialog",
-  tags: ["!dev", "!autodocs"],
-  play: async ({ canvasElement, step }) => {
+Default.test(
+  "when pressing Escape, should close the dialog",
+  async ({ canvasElement, step }) => {
     const canvasBody = within(canvasElement.ownerDocument.body);
 
     await step("open the dialog", async () => {
@@ -334,13 +330,12 @@ export const ShouldCloseWithEscape: Story = {
         "data-closed"
       );
     });
-  },
-};
+  }
+);
 
-export const ShouldTrapFocus: Story = {
-  name: "when dialog is open, should trap focus within the dialog",
-  tags: ["!dev", "!autodocs"],
-  play: async ({ canvasElement, step }) => {
+Default.test(
+  "when dialog is open, should trap focus within the dialog",
+  async ({ canvasElement, step }) => {
     const canvasBody = within(canvasElement.ownerDocument.body);
 
     await step("open the dialog", async () => {
@@ -366,5 +361,5 @@ export const ShouldTrapFocus: Story = {
       await userEvent.tab();
       await expect(usernameInput).toHaveFocus();
     });
-  },
-};
+  }
+);

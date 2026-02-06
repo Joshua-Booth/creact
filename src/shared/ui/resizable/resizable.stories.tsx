@@ -1,5 +1,4 @@
-import type { Meta, StoryObj } from "@storybook/react-vite";
-
+import preview from "@/storybook/preview";
 import { expect, fn, userEvent } from "storybook/test";
 
 import {
@@ -11,10 +10,9 @@ import {
 /**
  * Accessible resizable panel groups and layouts with keyboard support.
  */
-const meta: Meta<typeof ResizablePanelGroup> = {
+const meta = preview.meta({
   title: "ui/ResizablePanelGroup",
   component: ResizablePanelGroup,
-  tags: ["autodocs"],
   argTypes: {
     onLayoutChange: {
       control: false,
@@ -50,21 +48,19 @@ const meta: Meta<typeof ResizablePanelGroup> = {
       </ResizablePanel>
     </ResizablePanelGroup>
   ),
-} satisfies Meta<typeof ResizablePanelGroup>;
+});
 
-export default meta;
-
-type Story = StoryObj<typeof meta>;
+// --- Stories ---
 
 /**
  * The default form of the resizable panel group.
  */
-export const Default: Story = {};
+export const Default = meta.story();
 
 /**
  * Vertical direction resizable panels.
  */
-export const Vertical: Story = {
+export const Vertical = meta.story({
   args: {
     orientation: "vertical",
     className: "min-h-[200px] max-w-md rounded-lg border md:min-w-[450px]",
@@ -84,12 +80,12 @@ export const Vertical: Story = {
       </ResizablePanel>
     </ResizablePanelGroup>
   ),
-};
+});
 
 /**
  * Horizontal layout with visible drag handle indicator.
  */
-export const Handle: Story = {
+export const Handle = meta.story({
   render: (args) => (
     <ResizablePanelGroup {...args}>
       <ResizablePanel defaultSize="25%">
@@ -105,12 +101,12 @@ export const Handle: Story = {
       </ResizablePanel>
     </ResizablePanelGroup>
   ),
-};
+});
 
 /**
  * Nested layout with visible drag handle indicators on all handles.
  */
-export const WithHandle: Story = {
+export const WithHandle = meta.story({
   render: (args) => (
     <ResizablePanelGroup {...args}>
       <ResizablePanel defaultSize="50%">
@@ -136,27 +132,30 @@ export const WithHandle: Story = {
       </ResizablePanel>
     </ResizablePanelGroup>
   ),
-};
+});
 
-export const ShouldResizeWithKeyboard: Story = {
-  name: "when using keyboard arrows, should resize panels",
-  tags: ["!dev", "!autodocs"],
-  render: (args) => (
-    <ResizablePanelGroup {...args}>
-      <ResizablePanel defaultSize="50%">
-        <div className="flex h-[200px] items-center justify-center p-6">
-          <span className="font-semibold">Left</span>
-        </div>
-      </ResizablePanel>
-      <ResizableHandle />
-      <ResizablePanel defaultSize="50%">
-        <div className="flex h-full items-center justify-center p-6">
-          <span className="font-semibold">Right</span>
-        </div>
-      </ResizablePanel>
-    </ResizablePanelGroup>
-  ),
-  play: async ({ args, canvas, step }) => {
+// --- Tests ---
+
+Default.test(
+  "when using keyboard arrows, should resize panels",
+  {
+    render: (args) => (
+      <ResizablePanelGroup {...args}>
+        <ResizablePanel defaultSize="50%">
+          <div className="flex h-[200px] items-center justify-center p-6">
+            <span className="font-semibold">Left</span>
+          </div>
+        </ResizablePanel>
+        <ResizableHandle />
+        <ResizablePanel defaultSize="50%">
+          <div className="flex h-full items-center justify-center p-6">
+            <span className="font-semibold">Right</span>
+          </div>
+        </ResizablePanel>
+      </ResizablePanelGroup>
+    ),
+  },
+  async ({ args, canvas, step }) => {
     const separator = await canvas.findByRole("separator");
 
     await step("focus the resize handle", async () => {
@@ -173,5 +172,5 @@ export const ShouldResizeWithKeyboard: Story = {
       await userEvent.keyboard("{ArrowLeft}");
       await expect(args.onLayoutChange).toHaveBeenCalled();
     });
-  },
-};
+  }
+);

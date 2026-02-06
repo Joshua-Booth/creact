@@ -1,5 +1,4 @@
-import type { Meta, StoryObj } from "@storybook/react-vite";
-
+import preview from "@/storybook/preview";
 import { expect, userEvent } from "storybook/test";
 
 import { Button } from "../button";
@@ -9,40 +8,37 @@ import { Textarea } from "./textarea";
 /**
  * Displays a form textarea or a component that looks like a textarea.
  */
-const meta = {
+const meta = preview.meta({
   title: "ui/Textarea",
   component: Textarea,
-  tags: ["autodocs"],
   argTypes: {},
   args: {
     placeholder: "Type your message here.",
     disabled: false,
     className: "w-96",
   },
-} satisfies Meta<typeof Textarea>;
+});
 
-export default meta;
-
-type Story = StoryObj<typeof meta>;
+// --- Stories ---
 
 /**
  * The default form of the textarea.
  */
-export const Default: Story = {};
+export const Default = meta.story();
 
 /**
  * Use the `disabled` prop to disable the textarea.
  */
-export const Disabled: Story = {
+export const Disabled = meta.story({
   args: {
     disabled: true,
   },
-};
+});
 
 /**
  * Use the `Field` component to add a label and description to the textarea.
  */
-export const WithField: Story = {
+export const WithField = meta.story({
   render: (args) => (
     <Field className={args.className}>
       <FieldLabel>Your message</FieldLabel>
@@ -52,13 +48,13 @@ export const WithField: Story = {
       </FieldDescription>
     </Field>
   ),
-};
+});
 
 /**
  * Use the `data-invalid` attribute and `FieldError` component to display
  * validation errors.
  */
-export const Invalid: Story = {
+export const Invalid = meta.story({
   render: (args) => (
     <Field data-invalid className={args.className}>
       <FieldLabel>Your message</FieldLabel>
@@ -66,25 +62,26 @@ export const Invalid: Story = {
       <FieldError>Please enter a message.</FieldError>
     </Field>
   ),
-};
+});
 
 /**
  * Use the `Button` component to indicate that the textarea can be submitted
  * or used to trigger an action.
  */
-export const WithButton: Story = {
+export const WithButton = meta.story({
   render: (args) => (
     <div className="grid w-full gap-2">
       <Textarea {...args} />
       <Button type="submit">Send Message</Button>
     </div>
   ),
-};
+});
 
-export const ShouldEnterText: Story = {
-  name: "when user types into textarea, should display the text",
-  tags: ["!dev", "!autodocs"],
-  play: async ({ canvas, step }) => {
+// --- Tests ---
+
+Default.test(
+  "when user types into textarea, should display the text",
+  async ({ canvas, step }) => {
     const textarea = await canvas.findByRole("textbox");
     const message = "Hello, this is a test message.";
 
@@ -94,5 +91,5 @@ export const ShouldEnterText: Story = {
     });
 
     await expect(textarea).toHaveValue(message);
-  },
-};
+  }
+);

@@ -1,4 +1,4 @@
-import type { Meta, StoryObj } from "@storybook/react-vite";
+import preview from "@/storybook/preview";
 
 import { Field, FieldLabel } from "../field/field";
 import {
@@ -21,10 +21,9 @@ import {
 /**
  * Pagination with page navigation, next and previous links.
  */
-const meta = {
+const meta = preview.meta({
   title: "ui/Pagination",
   component: Pagination,
-  tags: ["autodocs"],
   argTypes: {},
   render: (args) => (
     <Pagination {...args}>
@@ -55,21 +54,19 @@ const meta = {
   parameters: {
     layout: "centered",
   },
-} satisfies Meta<typeof Pagination>;
+});
 
-export default meta;
-
-type Story = StoryObj<typeof meta>;
+// --- Stories ---
 
 /**
  * The default form of the pagination.
  */
-export const Default: Story = {};
+export const Default = meta.story();
 
 /**
  * Pagination with rows per page selector and prev/next icons.
  */
-export const IconsOnly: Story = {
+export const IconsOnly = meta.story({
   render: (args) => (
     <div className="flex items-center gap-4">
       <Field className="flex-row items-center gap-2">
@@ -99,12 +96,12 @@ export const IconsOnly: Story = {
       </Pagination>
     </div>
   ),
-};
+});
 
 /**
  * Simple pagination with just page numbers.
  */
-export const Simple: Story = {
+export const Simple = meta.story({
   render: (args) => (
     <Pagination {...args}>
       <PaginationContent>
@@ -128,4 +125,4 @@ export const Simple: Story = {
       </PaginationContent>
     </Pagination>
   ),
-};
+});

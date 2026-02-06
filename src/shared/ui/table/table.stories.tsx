@@ -1,5 +1,4 @@
-import type { Meta, StoryObj } from "@storybook/react-vite";
-
+import preview from "@/storybook/preview";
 import { MoreHorizontal } from "lucide-react";
 
 import { Button } from "../button";
@@ -22,6 +21,8 @@ import {
   TableHeader,
   TableRow,
 } from "./table";
+
+// --- Helpers ---
 
 const invoices = [
   {
@@ -71,24 +72,21 @@ const invoices = [
 /**
  * Powerful table and datagrids built using TanStack Table.
  */
-const meta = {
+const meta = preview.meta({
   title: "ui/Table",
   component: Table,
-  tags: ["autodocs"],
   argTypes: {},
   args: {
     className: "w-lg",
   },
-} satisfies Meta<typeof Table>;
+});
 
-export default meta;
-
-type Story = StoryObj<typeof meta>;
+// --- Stories ---
 
 /**
  * A complete table with header, body, footer, and caption.
  */
-export const Demo: Story = {
+export const Demo = meta.story({
   render: (args) => (
     <Table {...args}>
       <TableCaption>A list of your recent invoices.</TableCaption>
@@ -118,12 +116,12 @@ export const Demo: Story = {
       </TableFooter>
     </Table>
   ),
-};
+});
 
 /**
  * A table with action buttons per row using a dropdown menu.
  */
-export const Actions: Story = {
+export const Actions = meta.story({
   render: (args) => (
     <Table {...args}>
       <TableCaption>A list of your recent invoices.</TableCaption>
@@ -171,4 +169,4 @@ export const Actions: Story = {
       </TableBody>
     </Table>
   ),
-};
+});

@@ -1,4 +1,4 @@
-import type { Meta, StoryObj } from "@storybook/react-vite";
+import preview from "@/storybook/preview";
 
 import { Skeleton } from "../skeleton";
 import { AspectRatio } from "./aspect-ratio";
@@ -6,10 +6,9 @@ import { AspectRatio } from "./aspect-ratio";
 /**
  * Displays content within a desired aspect ratio.
  */
-const meta = {
+const meta = preview.meta({
   title: "ui/AspectRatio",
   component: AspectRatio,
-  tags: ["autodocs"],
   argTypes: {
     ratio: {
       control: "number",
@@ -33,21 +32,19 @@ const meta = {
       </AspectRatio>
     </div>
   ),
-} satisfies Meta<typeof AspectRatio>;
+});
 
-export default meta;
-
-type Story = StoryObj<typeof meta>;
+// --- Stories ---
 
 /**
  * The default 16:9 aspect ratio, commonly used for video content and hero images.
  */
-export const Default: Story = {};
+export const Default = meta.story();
 
 /**
  * A 1:1 square aspect ratio, ideal for profile images or thumbnails.
  */
-export const Square: Story = {
+export const Square = meta.story({
   args: {
     ratio: 1,
   },
@@ -62,12 +59,12 @@ export const Square: Story = {
       </AspectRatio>
     </div>
   ),
-};
+});
 
 /**
  * A 9:16 portrait aspect ratio, suitable for mobile or vertical content.
  */
-export const Portrait: Story = {
+export const Portrait = meta.story({
   args: {
     ratio: 9 / 16,
   },
@@ -82,12 +79,12 @@ export const Portrait: Story = {
       </AspectRatio>
     </div>
   ),
-};
+});
 
 /**
  * Aspect ratio with a video player placeholder.
  */
-export const WithVideo: Story = {
+export const WithVideo = meta.story({
   render: (args) => (
     <div className="w-[500px]">
       <AspectRatio {...args} className="bg-muted rounded-md">
@@ -110,12 +107,12 @@ export const WithVideo: Story = {
       </AspectRatio>
     </div>
   ),
-};
+});
 
 /**
  * Aspect ratio with a loading skeleton placeholder.
  */
-export const WithPlaceholder: Story = {
+export const WithPlaceholder = meta.story({
   render: (args) => (
     <div className="w-[450px]">
       <AspectRatio {...args} className="rounded-md">
@@ -123,4 +120,4 @@ export const WithPlaceholder: Story = {
       </AspectRatio>
     </div>
   ),
-};
+});

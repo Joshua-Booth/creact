@@ -1,5 +1,4 @@
-import type { Meta, StoryObj } from "@storybook/react-vite";
-
+import preview from "@/storybook/preview";
 import { Info } from "lucide-react";
 import { expect, userEvent } from "storybook/test";
 
@@ -12,10 +11,9 @@ import {
 /**
  * An interactive component which expands/collapses a panel.
  */
-const meta = {
+const meta = preview.meta({
   title: "ui/Collapsible",
   component: Collapsible,
-  tags: ["autodocs"],
   argTypes: {},
   args: {
     className: "w-96",
@@ -36,30 +34,29 @@ const meta = {
   parameters: {
     layout: "centered",
   },
-} satisfies Meta<typeof Collapsible>;
+});
 
-export default meta;
-
-type Story = StoryObj<typeof meta>;
+// --- Stories ---
 
 /**
  * The default form of the collapsible.
  */
-export const Default: Story = {};
+export const Default = meta.story();
 
 /**
  * Use the `disabled` prop to disable the interaction.
  */
-export const Disabled: Story = {
+export const Disabled = meta.story({
   args: {
     disabled: true,
   },
-};
+});
 
-export const ShouldOpenClose: Story = {
-  name: "when collapsable trigger is clicked, should show content",
-  tags: ["!dev", "!autodocs"],
-  play: async ({ canvas, step }) => {
+// --- Tests ---
+
+Default.test(
+  "when collapsable trigger is clicked, should show content",
+  async ({ canvas, step }) => {
     const trigger = await canvas.findByRole("button");
 
     await step("Open the collapsible", async () => {
@@ -71,5 +68,5 @@ export const ShouldOpenClose: Story = {
       await userEvent.click(trigger, { delay: 100 });
       await expect(canvas.queryByText(/yes/i, { exact: true })).toBeNull();
     });
-  },
-};
+  }
+);

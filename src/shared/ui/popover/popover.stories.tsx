@@ -1,5 +1,4 @@
-import type { Meta, StoryObj } from "@storybook/react-vite";
-
+import preview from "@/storybook/preview";
 import { expect, userEvent, within } from "storybook/test";
 
 import { Button } from "../button";
@@ -17,10 +16,9 @@ import {
 /**
  * Displays rich content in a portal, triggered by a button.
  */
-const meta = {
+const meta = preview.meta({
   title: "ui/Popover",
   component: Popover,
-  tags: ["autodocs"],
   argTypes: {},
 
   render: (args) => (
@@ -41,21 +39,20 @@ const meta = {
   parameters: {
     layout: "centered",
   },
-} satisfies Meta<typeof Popover>;
+});
 
-export default meta;
-
-type Story = StoryObj<typeof meta>;
+// --- Stories ---
 
 /**
  * The default form of the popover.
  */
-export const Default: Story = {};
+export const Default = meta.story();
 
-export const ShouldOpenClose: Story = {
-  name: "when clicking the trigger, should open and close the popover",
-  tags: ["!dev", "!autodocs"],
-  play: async ({ canvasElement, step }) => {
+// --- Tests ---
+
+Default.test(
+  "when clicking the trigger, should open and close the popover",
+  async ({ canvasElement, step }) => {
     const canvasBody = within(canvasElement.ownerDocument.body);
 
     await step("click the trigger to open the popover", async () => {
@@ -73,13 +70,13 @@ export const ShouldOpenClose: Story = {
         "data-closed"
       );
     });
-  },
-};
+  }
+);
 
 /**
  * A popover containing a form with input fields.
  */
-export const WithForm: Story = {
+export const WithForm = meta.story({
   render: (args) => (
     <Popover {...args}>
       <PopoverTrigger
@@ -121,12 +118,12 @@ export const WithForm: Story = {
       </PopoverContent>
     </Popover>
   ),
-};
+});
 
 /**
  * Popovers can be positioned on different sides of the trigger element.
  */
-export const Positions: Story = {
+export const Positions = meta.story({
   render: (args) => (
     <div className="flex items-center gap-4">
       <Popover {...args}>
@@ -178,12 +175,12 @@ export const Positions: Story = {
       </Popover>
     </div>
   ),
-};
+});
 
 /**
  * Popovers can be aligned along the edge of the trigger element.
  */
-export const Align: Story = {
+export const Align = meta.story({
   render: (args) => (
     <div className="flex items-center gap-4">
       <Popover {...args}>
@@ -223,4 +220,4 @@ export const Align: Story = {
       </Popover>
     </div>
   ),
-};
+});

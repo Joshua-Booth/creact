@@ -1,4 +1,4 @@
-import type { Meta, StoryObj } from "@storybook/react-vite";
+import preview from "@/storybook/preview";
 
 import { Skeleton } from "./skeleton";
 
@@ -6,24 +6,21 @@ import { Skeleton } from "./skeleton";
  * Displays a placeholder preview of content before the data gets loaded.
  * @see https://ui.shadcn.com/docs/components/skeleton
  */
-const meta = {
+const meta = preview.meta({
   title: "ui/Skeleton",
   component: Skeleton,
-  tags: ["autodocs"],
   argTypes: {},
   parameters: {
     layout: "centered",
   },
-} satisfies Meta<typeof Skeleton>;
+});
 
-export default meta;
-
-type Story = StoryObj<typeof Skeleton>;
+// --- Stories ---
 
 /**
  * Avatar circle with text lines, commonly used for list items.
  */
-export const Default: Story = {
+export const Default = meta.story({
   render: (args) => (
     <div className="flex items-center space-x-4">
       <Skeleton {...args} className="size-12 rounded-full" />
@@ -33,12 +30,12 @@ export const Default: Story = {
       </div>
     </div>
   ),
-};
+});
 
 /**
  * Card layout with image placeholder and text lines.
  */
-export const Card: Story = {
+export const Card = meta.story({
   render: (args) => (
     <div className="flex flex-col space-y-3">
       <Skeleton {...args} className="h-32 w-64 rounded-xl" />
@@ -48,12 +45,12 @@ export const Card: Story = {
       </div>
     </div>
   ),
-};
+});
 
 /**
  * Multiple lines for paragraph placeholder.
  */
-export const Text: Story = {
+export const Text = meta.story({
   render: (args) => (
     <div className="w-80 space-y-2">
       <Skeleton {...args} className="h-4 w-full" />
@@ -61,12 +58,12 @@ export const Text: Story = {
       <Skeleton {...args} className="h-4 w-3/4" />
     </div>
   ),
-};
+});
 
 /**
  * Table rows skeleton pattern.
  */
-export const Table: Story = {
+export const Table = meta.story({
   render: (args) => (
     <div className="w-[500px] space-y-3">
       {/* Header row */}
@@ -87,12 +84,12 @@ export const Table: Story = {
       ))}
     </div>
   ),
-};
+});
 
 /**
  * Form fields skeleton pattern.
  */
-export const Form: Story = {
+export const Form = meta.story({
   render: (args) => (
     <div className="w-80 space-y-6">
       <div className="space-y-2">
@@ -110,4 +107,4 @@ export const Form: Story = {
       <Skeleton {...args} className="h-10 w-full rounded-md" />
     </div>
   ),
-};
+});

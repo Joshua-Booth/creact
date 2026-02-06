@@ -1,15 +1,15 @@
-import type { Meta, StoryObj } from "@storybook/react-vite";
-
 import { createMemoryRouter, RouterProvider } from "react-router";
 import { I18nextProvider, initReactI18next } from "react-i18next";
 
+import preview from "@/storybook/preview";
 import i18n from "i18next";
 import { expect, userEvent, waitFor, within } from "storybook/test";
 
 import { I18N_CONFIG, resources } from "../../../shared/i18n";
 import { LoginPage } from "./index";
 
-// Initialize i18n for stories
+// --- Helpers ---
+
 void i18n.use(initReactI18next).init({
   lng: "en",
   resources,
@@ -33,7 +33,7 @@ function RouterDecorator({ children }: { children: React.ReactNode }) {
   return <RouterProvider router={router} />;
 }
 
-const meta = {
+const meta = preview.meta({
   title: "pages/Login",
   component: LoginPage,
   decorators: [
@@ -48,18 +48,17 @@ const meta = {
   parameters: {
     layout: "fullscreen",
   },
-} satisfies Meta<typeof LoginPage>;
+});
 
-export default meta;
+// --- Stories ---
 
-type Story = StoryObj<typeof meta>;
+export const Default = meta.story();
 
-export const Default: Story = {};
+// --- Tests ---
 
-export const ShouldShowValidationErrors: Story = {
-  name: "when submitting empty form, should show validation errors",
-  tags: ["!dev", "!autodocs"],
-  play: async ({ canvasElement, step }) => {
+Default.test(
+  "when submitting empty form, should show validation errors",
+  async ({ canvasElement, step }) => {
     const canvas = within(canvasElement);
 
     await step("submit empty form", async () => {
@@ -75,13 +74,12 @@ export const ShouldShowValidationErrors: Story = {
         await expect(emailInput).toHaveAttribute("aria-invalid", "true");
       });
     });
-  },
-};
+  }
+);
 
-export const ShouldAcceptValidInput: Story = {
-  name: "when entering valid credentials, should enable form submission",
-  tags: ["!dev", "!autodocs"],
-  play: async ({ canvasElement, step }) => {
+Default.test(
+  "when entering valid credentials, should enable form submission",
+  async ({ canvasElement, step }) => {
     const canvas = within(canvasElement);
 
     await step("enter valid email", async () => {
@@ -107,13 +105,12 @@ export const ShouldAcceptValidInput: Story = {
         await expect(emailInput).not.toHaveAttribute("aria-invalid", "true");
       });
     });
-  },
-};
+  }
+);
 
-export const ShouldShowInvalidEmailError: Story = {
-  name: "when entering invalid email, should show email validation error",
-  tags: ["!dev", "!autodocs"],
-  play: async ({ canvasElement, step }) => {
+Default.test(
+  "when entering invalid email, should show email validation error",
+  async ({ canvasElement, step }) => {
     const canvas = within(canvasElement);
 
     await step("enter invalid email", async () => {
@@ -136,5 +133,5 @@ export const ShouldShowInvalidEmailError: Story = {
         await expect(emailInput).toHaveAttribute("aria-invalid", "true");
       });
     });
-  },
-};
+  }
+);

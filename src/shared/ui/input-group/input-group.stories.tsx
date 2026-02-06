@@ -1,7 +1,6 @@
-import type { Meta, StoryObj } from "@storybook/react-vite";
-
 import { useState } from "react";
 
+import preview from "@/storybook/preview";
 import {
   AtSignIcon,
   DollarSignIcon,
@@ -32,10 +31,9 @@ import {
 /**
  * Groups input elements with addons like icons, buttons, and text.
  */
-const meta = {
+const meta = preview.meta({
   title: "ui/InputGroup",
   component: InputGroup,
-  tags: ["autodocs"],
   argTypes: {},
   args: {
     className: "w-96",
@@ -51,21 +49,19 @@ const meta = {
   parameters: {
     layout: "centered",
   },
-} satisfies Meta<typeof InputGroup>;
+});
 
-export default meta;
-
-type Story = StoryObj<typeof meta>;
+// --- Stories ---
 
 /**
  * Basic input group with a search icon.
  */
-export const Default: Story = {};
+export const Default = meta.story();
 
 /**
  * Input group with a text prefix.
  */
-export const WithTextPrefix: Story = {
+export const WithTextPrefix = meta.story({
   render: (args) => (
     <InputGroup {...args}>
       <InputGroupInput placeholder="example.com" />
@@ -74,12 +70,12 @@ export const WithTextPrefix: Story = {
       </InputGroupAddon>
     </InputGroup>
   ),
-};
+});
 
 /**
  * Input group with a text suffix.
  */
-export const WithTextSuffix: Story = {
+export const WithTextSuffix = meta.story({
   render: (args) => (
     <InputGroup {...args}>
       <InputGroupInput placeholder="username" />
@@ -88,12 +84,12 @@ export const WithTextSuffix: Story = {
       </InputGroupAddon>
     </InputGroup>
   ),
-};
+});
 
 /**
  * Input group with currency prefix and suffix.
  */
-export const WithCurrency: Story = {
+export const WithCurrency = meta.story({
   render: (args) => (
     <InputGroup {...args}>
       <InputGroupInput placeholder="0.00" type="number" />
@@ -105,12 +101,12 @@ export const WithCurrency: Story = {
       </InputGroupAddon>
     </InputGroup>
   ),
-};
+});
 
 /**
  * Input group with a search button.
  */
-export const WithSearchButton: Story = {
+export const WithSearchButton = meta.story({
   render: (args) => (
     <InputGroup {...args}>
       <InputGroupInput placeholder="Enter URL" />
@@ -122,12 +118,12 @@ export const WithSearchButton: Story = {
       </InputGroupAddon>
     </InputGroup>
   ),
-};
+});
 
 /**
  * Input group with a password visibility toggle.
  */
-export const WithPasswordToggle: Story = {
+export const WithPasswordToggle = meta.story({
   render: (args) => (
     <InputGroup {...args}>
       <InputGroupInput placeholder="Enter password" type="password" />
@@ -138,12 +134,12 @@ export const WithPasswordToggle: Story = {
       </InputGroupAddon>
     </InputGroup>
   ),
-};
+});
 
 /**
  * Input group with a keyboard shortcut indicator.
  */
-export const WithKeyboardShortcut: Story = {
+export const WithKeyboardShortcut = meta.story({
   render: (args) => (
     <InputGroup {...args}>
       <InputGroupInput placeholder="Search commands..." />
@@ -155,12 +151,12 @@ export const WithKeyboardShortcut: Story = {
       </InputGroupAddon>
     </InputGroup>
   ),
-};
+});
 
 /**
  * Input group with a dropdown for filtering.
  */
-export const WithDropdown: Story = {
+export const WithDropdown = meta.story({
   render: (args) => (
     <InputGroup {...args}>
       <InputGroupInput placeholder="Search..." />
@@ -187,12 +183,12 @@ export const WithDropdown: Story = {
       </InputGroupAddon>
     </InputGroup>
   ),
-};
+});
 
 /**
  * Input group with a loading state.
  */
-export const WithSpinner: Story = {
+export const WithSpinner = meta.story({
   render: (args) => (
     <InputGroup {...args}>
       <InputGroupInput placeholder="Saving..." disabled />
@@ -202,12 +198,12 @@ export const WithSpinner: Story = {
       </InputGroupAddon>
     </InputGroup>
   ),
-};
+});
 
 /**
  * Textarea with a character counter.
  */
-export const TextareaWithCharacterCounter: Story = {
+export const TextareaWithCharacterCounter = meta.story({
   render: function Render(args) {
     const [value, setValue] = useState("");
     const maxLength = 280;
@@ -232,12 +228,12 @@ export const TextareaWithCharacterCounter: Story = {
       </InputGroup>
     );
   },
-};
+});
 
 /**
  * Textarea with a footer containing actions.
  */
-export const TextareaWithFooter: Story = {
+export const TextareaWithFooter = meta.story({
   render: (args) => (
     <InputGroup {...args}>
       <InputGroupTextarea placeholder="Write a comment..." rows={3} />
@@ -247,12 +243,12 @@ export const TextareaWithFooter: Story = {
       </InputGroupAddon>
     </InputGroup>
   ),
-};
+});
 
 /**
  * Input group with a block-start (top) addon.
  */
-export const WithBlockStartAddon: Story = {
+export const WithBlockStartAddon = meta.story({
   render: (args) => (
     <InputGroup {...args}>
       <InputGroupInput placeholder="Enter value" />
@@ -261,13 +257,13 @@ export const WithBlockStartAddon: Story = {
       </InputGroupAddon>
     </InputGroup>
   ),
-};
+});
 
 /**
  * Custom input with the data-slot attribute for focus handling.
  * Use `data-slot="input-group-control"` on custom or third-party inputs.
  */
-export const WithCustomInput: Story = {
+export const WithCustomInput = meta.story({
   render: (args) => (
     <InputGroup {...args}>
       <input
@@ -282,12 +278,12 @@ export const WithCustomInput: Story = {
       </InputGroupAddon>
     </InputGroup>
   ),
-};
+});
 
 /**
  * Disabled input group state.
  */
-export const Disabled: Story = {
+export const Disabled = meta.story({
   render: (args) => (
     <InputGroup {...args} data-disabled="true">
       <InputGroupInput placeholder="Search..." disabled />
@@ -296,23 +292,27 @@ export const Disabled: Story = {
       </InputGroupAddon>
     </InputGroup>
   ),
-};
+});
 
 /**
  * When typing in input with addon, should update value.
  */
-export const ShouldEnterTextWithAddon: Story = {
-  name: "when typing in input with addon, should update value",
-  tags: ["!dev", "!autodocs"],
-  render: (args) => (
-    <InputGroup {...args}>
-      <InputGroupInput placeholder="example.com" />
-      <InputGroupAddon align="inline-start">
-        <InputGroupText>https://</InputGroupText>
-      </InputGroupAddon>
-    </InputGroup>
-  ),
-  play: async ({ canvasElement, step }) => {
+
+// --- Tests ---
+
+Default.test(
+  "when typing in input with addon, should update value",
+  {
+    render: (args) => (
+      <InputGroup {...args}>
+        <InputGroupInput placeholder="example.com" />
+        <InputGroupAddon align="inline-start">
+          <InputGroupText>https://</InputGroupText>
+        </InputGroupAddon>
+      </InputGroup>
+    ),
+  },
+  async ({ canvasElement, step }) => {
     const canvas = within(canvasElement);
 
     await step("type in input and verify value", async () => {
@@ -322,24 +322,25 @@ export const ShouldEnterTextWithAddon: Story = {
 
       await expect(input).toHaveValue("mysite.com");
     });
-  },
-};
+  }
+);
 
 /**
  * Clicking on an addon should focus the input.
  */
-export const ShouldFocusInputOnAddonClick: Story = {
-  name: "when clicking addon, should focus input",
-  tags: ["!dev", "!autodocs"],
-  render: (args) => (
-    <InputGroup {...args}>
-      <InputGroupInput placeholder="Search..." />
-      <InputGroupAddon align="inline-start" data-testid="addon">
-        <SearchIcon />
-      </InputGroupAddon>
-    </InputGroup>
-  ),
-  play: async ({ canvasElement, step }) => {
+Default.test(
+  "when clicking addon, should focus input",
+  {
+    render: (args) => (
+      <InputGroup {...args}>
+        <InputGroupInput placeholder="Search..." />
+        <InputGroupAddon align="inline-start" data-testid="addon">
+          <SearchIcon />
+        </InputGroupAddon>
+      </InputGroup>
+    ),
+  },
+  async ({ canvasElement, step }) => {
     const canvas = within(canvasElement);
 
     await step("click addon and verify input is focused", async () => {
@@ -350,24 +351,27 @@ export const ShouldFocusInputOnAddonClick: Story = {
 
       await expect(input).toHaveFocus();
     });
-  },
-};
+  }
+);
 
 /**
  * Button inside addon should be clickable.
  */
-export const ShouldClickButtonInAddon: Story = {
-  name: "when clicking button in addon, should trigger click handler",
-  tags: ["!dev", "!autodocs"],
-  render: (args) => (
-    <InputGroup {...args}>
-      <InputGroupInput placeholder="Enter URL" />
-      <InputGroupAddon align="inline-end">
-        <InputGroupButton data-testid="search-button">Search</InputGroupButton>
-      </InputGroupAddon>
-    </InputGroup>
-  ),
-  play: async ({ canvasElement, step }) => {
+Default.test(
+  "when clicking button in addon, should trigger click handler",
+  {
+    render: (args) => (
+      <InputGroup {...args}>
+        <InputGroupInput placeholder="Enter URL" />
+        <InputGroupAddon align="inline-end">
+          <InputGroupButton data-testid="search-button">
+            Search
+          </InputGroupButton>
+        </InputGroupAddon>
+      </InputGroup>
+    ),
+  },
+  async ({ canvasElement, step }) => {
     const canvas = within(canvasElement);
 
     await step("verify button is clickable", async () => {
@@ -376,24 +380,25 @@ export const ShouldClickButtonInAddon: Story = {
       await expect(button).toBeEnabled();
       await userEvent.click(button);
     });
-  },
-};
+  }
+);
 
 /**
  * When input is disabled, should not accept input.
  */
-export const ShouldRespectDisabledState: Story = {
-  name: "when input is disabled, should not accept input",
-  tags: ["!dev", "!autodocs"],
-  render: (args) => (
-    <InputGroup {...args} data-disabled="true">
-      <InputGroupInput placeholder="Search..." disabled />
-      <InputGroupAddon align="inline-start">
-        <SearchIcon />
-      </InputGroupAddon>
-    </InputGroup>
-  ),
-  play: async ({ canvasElement, step }) => {
+Default.test(
+  "when input is disabled, should not accept input",
+  {
+    render: (args) => (
+      <InputGroup {...args} data-disabled="true">
+        <InputGroupInput placeholder="Search..." disabled />
+        <InputGroupAddon align="inline-start">
+          <SearchIcon />
+        </InputGroupAddon>
+      </InputGroup>
+    ),
+  },
+  async ({ canvasElement, step }) => {
     const canvas = within(canvasElement);
 
     await step("verify input is disabled", async () => {
@@ -408,5 +413,5 @@ export const ShouldRespectDisabledState: Story = {
         .closest("[data-slot='input-group']");
       await expect(inputGroup).toHaveAttribute("data-disabled", "true");
     });
-  },
-};
+  }
+);

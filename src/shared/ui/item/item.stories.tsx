@@ -1,5 +1,4 @@
-import type { Meta, StoryObj } from "@storybook/react-vite";
-
+import preview from "@/storybook/preview";
 import {
   ChevronDownIcon,
   ChevronRightIcon,
@@ -37,10 +36,9 @@ import {
 /**
  * Displays a list item with customizable media, content, and actions.
  */
-const meta = {
+const meta = preview.meta({
   title: "ui/Item",
   component: Item,
-  tags: ["autodocs"],
   argTypes: {
     variant: {
       control: "select",
@@ -60,16 +58,14 @@ const meta = {
   parameters: {
     layout: "centered",
   },
-} satisfies Meta<typeof Item>;
+});
 
-export default meta;
-
-type Story = StoryObj<typeof meta>;
+// --- Stories ---
 
 /**
  * The default item with title and description.
  */
-export const Default: Story = {
+export const Default = meta.story({
   render: (args) => (
     <Item {...args} className="w-96">
       <ItemContent>
@@ -80,12 +76,12 @@ export const Default: Story = {
       </ItemContent>
     </Item>
   ),
-};
+});
 
 /**
  * Item with an icon media element showing a security alert pattern.
  */
-export const WithIcon: Story = {
+export const WithIcon = meta.story({
   render: (args) => (
     <Item {...args} className="w-96" variant="outline">
       <ItemMedia variant="icon">
@@ -104,12 +100,12 @@ export const WithIcon: Story = {
       </ItemActions>
     </Item>
   ),
-};
+});
 
 /**
  * Item with an Avatar component for user profiles.
  */
-export const WithAvatar: Story = {
+export const WithAvatar = meta.story({
   render: (args) => (
     <div className="flex w-96 flex-col gap-4">
       <Item {...args} variant="outline">
@@ -149,12 +145,12 @@ export const WithAvatar: Story = {
       </Item>
     </div>
   ),
-};
+});
 
 /**
  * Item with an image media element for music playlist style.
  */
-export const WithImage: Story = {
+export const WithImage = meta.story({
   render: (args) => (
     <ItemGroup className="w-96">
       <Item {...args} render={<div role="listitem" />} variant="outline">
@@ -189,12 +185,12 @@ export const WithImage: Story = {
       </Item>
     </ItemGroup>
   ),
-};
+});
 
 /**
  * Item with action buttons.
  */
-export const WithActions: Story = {
+export const WithActions = meta.story({
   render: (args) => (
     <Item {...args} className="w-96" variant="outline">
       <ItemMedia variant="icon">
@@ -214,12 +210,12 @@ export const WithActions: Story = {
       </ItemActions>
     </Item>
   ),
-};
+});
 
 /**
  * Item with ItemHeader for grid-style layouts.
  */
-export const WithHeader: Story = {
+export const WithHeader = meta.story({
   render: (args) => (
     <Item {...args} className="w-96" variant="outline">
       <ItemHeader>
@@ -241,12 +237,12 @@ export const WithHeader: Story = {
       </ItemContent>
     </Item>
   ),
-};
+});
 
 /**
  * Items rendered as clickable links.
  */
-export const AsLink: Story = {
+export const AsLink = meta.story({
   render: (args) => {
     /* eslint-disable jsx-a11y/anchor-has-content -- content provided by Item children via render prop */
     return (
@@ -283,12 +279,12 @@ export const AsLink: Story = {
     );
     /* eslint-enable jsx-a11y/anchor-has-content -- re-enable after anchor rendered via asChild prop */
   },
-};
+});
 
 /**
  * All three variants displayed together.
  */
-export const Variants: Story = {
+export const Variants = meta.story({
   render: (args) => (
     <div className="flex w-96 flex-col gap-4">
       <Item {...args} variant="default">
@@ -320,12 +316,12 @@ export const Variants: Story = {
       </Item>
     </div>
   ),
-};
+});
 
 /**
  * Default and small sizes displayed together.
  */
-export const Sizes: Story = {
+export const Sizes = meta.story({
   render: (args) => (
     <div className="flex w-96 flex-col gap-4">
       <Item {...args} size="default" variant="outline">
@@ -357,12 +353,12 @@ export const Sizes: Story = {
       </Item>
     </div>
   ),
-};
+});
 
 /**
  * Items inside a dropdown menu.
  */
-export const InDropdown: Story = {
+export const InDropdown = meta.story({
   render: (args) => (
     <DropdownMenu>
       <DropdownMenuTrigger
@@ -421,12 +417,12 @@ export const InDropdown: Story = {
       </DropdownMenuContent>
     </DropdownMenu>
   ),
-};
+});
 
 /**
  * Item with a badge in the title.
  */
-export const WithBadge: Story = {
+export const WithBadge = meta.story({
   render: (args) => (
     <Item {...args} className="w-96" variant="outline">
       <ItemMedia variant="icon">
@@ -441,12 +437,12 @@ export const WithBadge: Story = {
       </ItemContent>
     </Item>
   ),
-};
+});
 
 /**
  * ItemGroup with multiple items.
  */
-export const Group: Story = {
+export const Group = meta.story({
   render: (args) => (
     <ItemGroup className="w-96">
       <Item {...args} variant="outline" render={<div role="listitem" />}>
@@ -487,12 +483,12 @@ export const Group: Story = {
       </Item>
     </ItemGroup>
   ),
-};
+});
 
 /**
  * ItemGroup with separator between items.
  */
-export const GroupWithSeparator: Story = {
+export const GroupWithSeparator = meta.story({
   parameters: {
     a11y: {
       config: {
@@ -555,28 +551,32 @@ export const GroupWithSeparator: Story = {
       </Item>
     </ItemGroup>
   ),
-};
+});
 
 /**
  * Should render item with media, title, and description.
  */
-export const ShouldRenderWithMedia: Story = {
-  name: "should render item with media, title, and description",
-  tags: ["!dev", "!autodocs"],
-  render: (args) => (
-    <Item {...args} className="w-96">
-      <ItemMedia variant="icon" data-testid="item-media">
-        <FileIcon />
-      </ItemMedia>
-      <ItemContent>
-        <ItemTitle data-testid="item-title">Test Document</ItemTitle>
-        <ItemDescription data-testid="item-description">
-          This is a test description
-        </ItemDescription>
-      </ItemContent>
-    </Item>
-  ),
-  play: async ({ canvasElement, step }) => {
+
+// --- Tests ---
+
+Default.test(
+  "should render item with media, title, and description",
+  {
+    render: (args) => (
+      <Item {...args} className="w-96">
+        <ItemMedia variant="icon" data-testid="item-media">
+          <FileIcon />
+        </ItemMedia>
+        <ItemContent>
+          <ItemTitle data-testid="item-title">Test Document</ItemTitle>
+          <ItemDescription data-testid="item-description">
+            This is a test description
+          </ItemDescription>
+        </ItemContent>
+      </Item>
+    ),
+  },
+  async ({ canvasElement, step }) => {
     const canvas = within(canvasElement);
 
     await step("verify title is rendered", async () => {
@@ -593,50 +593,51 @@ export const ShouldRenderWithMedia: Story = {
       const media = canvas.getByTestId("item-media");
       await expect(media).toBeVisible();
     });
-  },
-};
+  }
+);
 
 /**
  * When action buttons are clicked, should trigger handlers.
  */
-export const ShouldHandleActionClicks: Story = {
-  name: "when action buttons are clicked, should trigger handlers",
-  tags: ["!dev", "!autodocs"],
-  render: (args) => {
-    const onFavoriteClick = fn();
-    const onMoreClick = fn();
+Default.test(
+  "when action buttons are clicked, should trigger handlers",
+  {
+    render: (args) => {
+      const onFavoriteClick = fn();
+      const onMoreClick = fn();
 
-    return (
-      <Item {...args} className="w-96">
-        <ItemMedia variant="icon">
-          <FolderIcon />
-        </ItemMedia>
-        <ItemContent>
-          <ItemTitle>Project Files</ItemTitle>
-          <ItemDescription>12 items</ItemDescription>
-        </ItemContent>
-        <ItemActions>
-          <Button
-            variant="ghost"
-            size="icon-sm"
-            title="Add to favorites"
-            onClick={onFavoriteClick}
-          >
-            <StarIcon />
-          </Button>
-          <Button
-            variant="ghost"
-            size="icon-sm"
-            title="More options"
-            onClick={onMoreClick}
-          >
-            <MoreHorizontalIcon />
-          </Button>
-        </ItemActions>
-      </Item>
-    );
+      return (
+        <Item {...args} className="w-96">
+          <ItemMedia variant="icon">
+            <FolderIcon />
+          </ItemMedia>
+          <ItemContent>
+            <ItemTitle>Project Files</ItemTitle>
+            <ItemDescription>12 items</ItemDescription>
+          </ItemContent>
+          <ItemActions>
+            <Button
+              variant="ghost"
+              size="icon-sm"
+              title="Add to favorites"
+              onClick={onFavoriteClick}
+            >
+              <StarIcon />
+            </Button>
+            <Button
+              variant="ghost"
+              size="icon-sm"
+              title="More options"
+              onClick={onMoreClick}
+            >
+              <MoreHorizontalIcon />
+            </Button>
+          </ItemActions>
+        </Item>
+      );
+    },
   },
-  play: async ({ canvasElement, step }) => {
+  async ({ canvasElement, step }) => {
     const canvas = within(canvasElement);
 
     await step("click action buttons and verify they respond", async () => {
@@ -651,5 +652,5 @@ export const ShouldHandleActionClicks: Story = {
       await expect(favoriteButton).toBeEnabled();
       await expect(moreButton).toBeEnabled();
     });
-  },
-};
+  }
+);

@@ -1,5 +1,4 @@
-import type { Meta, StoryObj } from "@storybook/react-vite";
-
+import preview from "@/storybook/preview";
 import { expect, userEvent, waitFor, within } from "storybook/test";
 
 import { HoverCard, HoverCardContent, HoverCardTrigger } from "./hover-card";
@@ -7,10 +6,9 @@ import { HoverCard, HoverCardContent, HoverCardTrigger } from "./hover-card";
 /**
  * For sighted users to preview content available behind a link.
  */
-const meta = {
+const meta = preview.meta({
   title: "ui/HoverCard",
   component: HoverCard,
-  tags: ["autodocs"],
   argTypes: {},
   args: {},
   render: (args) => (
@@ -24,21 +22,19 @@ const meta = {
   parameters: {
     layout: "centered",
   },
-} satisfies Meta<typeof HoverCard>;
+});
 
-export default meta;
-
-type Story = StoryObj<typeof meta>;
+// --- Stories ---
 
 /**
  * The default form of the hover card.
  */
-export const Default: Story = {};
+export const Default = meta.story();
 
 /**
  * Use the `delay` and `closeDelay` props on the trigger to control timing.
  */
-export const Instant: Story = {
+export const Instant = meta.story({
   render: (args) => (
     <HoverCard {...args}>
       <HoverCardTrigger delay={0} closeDelay={0}>
@@ -49,12 +45,13 @@ export const Instant: Story = {
       </HoverCardContent>
     </HoverCard>
   ),
-};
+});
 
-export const ShouldShowOnHover: Story = {
-  name: "when hovering over trigger, should show hover card content",
-  tags: ["!dev", "!autodocs"],
-  play: async ({ canvasElement, step }) => {
+// --- Tests ---
+
+Default.test(
+  "when hovering over trigger, should show hover card content",
+  async ({ canvasElement, step }) => {
     const canvasBody = within(canvasElement.ownerDocument.body);
     const getHoverCard = () =>
       canvasElement.ownerDocument.body.querySelector(
@@ -76,5 +73,5 @@ export const ShouldShowOnHover: Story = {
         await expect(hoverCard).toHaveAttribute("data-closed");
       });
     });
-  },
-};
+  }
+);
