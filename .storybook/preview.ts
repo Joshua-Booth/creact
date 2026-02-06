@@ -3,10 +3,17 @@ import * as addonDocs from "@storybook/addon-docs/preview";
 import { definePreview } from "@storybook/react-vite";
 
 import "../src/app/styles/globals.css";
+import "./storybook-dark.css";
 
 export default definePreview({
   addons: [addonDocs, addonA11y],
   parameters: {
+    darkMode: {
+      darkClass: "dark",
+      lightClass: "light",
+      classTarget: "html",
+      stylePreview: true,
+    },
     layout: "centered",
     controls: {
       matchers: {

@@ -24,6 +24,8 @@
     "./*.js",
     "./.*.js",
     "../*.config.ts",
-    "../.storybook/*.ts"
+    "../.storybook/main.ts",
+    "../.storybook/vite.config.ts",
+    "../.storybook/vitest.config.ts"
   ]
 }

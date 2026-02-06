@@ -1,0 +1,145 @@
+/*
+ * Dark mode overrides for Storybook docs addon.
+ *
+ * The docs addon renders with hardcoded light theme emotion CSS
+ * (high specificity). When @vueless/storybook-dark-mode applies
+ * .dark to <html>, these overrides restyle docs elements using
+ * the app's CSS custom properties. Uses !important to beat
+ * emotion-generated inline-like specificity.
+ */
+
+/* Main docs wrapper */
+html.dark .sbdocs-wrapper {
+  background-color: var(--background) !important;
+  color: var(--foreground) !important;
+}
+
+/* Page title */
+html.dark .sbdocs-title {
+  color: var(--foreground) !important;
+}
+
+/* Story preview blocks within docs */
+html.dark .sbdocs-preview {
+  background-color: var(--card) !important;
+  border-color: var(--border) !important;
+  box-shadow: none !important;
+}
+
+/* Inner wrappers within story preview (emotion-generated containers) */
+html.dark .sbdocs-preview > div,
+html.dark .sbdocs-preview .docs-story > div {
+  background-color: var(--card) !important;
+  color: var(--foreground) !important;
+}
+
+/* Border between story preview and code toggle */
+html.dark .sbdocs-preview .docs-story {
+  border-bottom: 1px solid oklch(1 0 0 / 15%) !important;
+}
+
+/* "Show code" toggle button */
+html.dark .docblock-code-toggle {
+  background-color: var(--card) !important;
+  color: var(--muted-foreground) !important;
+  border-color: var(--border) !important;
+}
+
+/* Args/props table */
+html.dark .docblock-argstable {
+  color: var(--foreground) !important;
+}
+
+html.dark .docblock-argstable th {
+  color: var(--muted-foreground) !important;
+  border-color: var(--border) !important;
+  background-color: transparent !important;
+}
+
+html.dark .docblock-argstable td {
+  color: var(--foreground) !important;
+  border-color: var(--border) !important;
+  background-color: transparent !important;
+}
+
+html.dark .docblock-argstable tr {
+  border-color: var(--border) !important;
+  background-color: transparent !important;
+}
+
+/* Table sub-containers (emotion wrappers around cell content) */
+html.dark .docblock-argstable td > div,
+html.dark .docblock-argstable td > span {
+  color: var(--foreground) !important;
+  background-color: transparent !important;
+}
+
+/* Type annotation badges deep inside cells (emotion sets dark text directly) */
+html.dark .docblock-argstable td div span {
+  color: var(--foreground) !important;
+  background-color: oklch(1 0 0 / 6%) !important;
+}
+
+/* Source code blocks */
+html.dark .docblock-source {
+  background-color: var(--muted) !important;
+  color: var(--foreground) !important;
+}
+
+/* TOC sidebar in docs */
+html.dark .sbdocs-toc--custom a {
+  color: var(--muted-foreground) !important;
+}
+
+html.dark .sbdocs-toc--custom a[data-active="true"] {
+  color: var(--foreground) !important;
+}
+
+/* Screen-reader-only headings */
+html.dark .sb-sr-only {
+  color: var(--foreground) !important;
+}
+
+/* Story description text and headings */
+html.dark .sbdocs-content p,
+html.dark .sbdocs-content h2,
+html.dark .sbdocs-content h3 {
+  color: var(--foreground) !important;
+}
+
+/* Inline code in descriptions */
+html.dark .sbdocs-content code {
+  color: var(--foreground) !important;
+  background-color: var(--muted) !important;
+}
+
+/* Controls within args table */
+html.dark .docblock-argstable select,
+html.dark .docblock-argstable input[type="text"],
+html.dark .docblock-argstable textarea {
+  color: var(--foreground) !important;
+  background-color: var(--input) !important;
+  border-color: var(--border) !important;
+}
+
+/* Boolean toggle control wrapper */
+html.dark .docblock-argstable label:has(input[role="switch"]) {
+  background-color: var(--secondary) !important;
+}
+
+/* Boolean toggle: inactive option text */
+html.dark
+  .docblock-argstable
+  input[role="switch"]:not(:checked)
+  ~ span[aria-hidden="true"]:last-of-type,
+html.dark
+  .docblock-argstable
+  input[role="switch"]:checked
+  ~ span[aria-hidden="true"]:first-of-type {
+  color: var(--muted-foreground) !important;
+}
+
+/* Reset controls button */
+html.dark .docblock-argstable button[title="Reset controls"] {
+  color: var(--muted-foreground) !important;
+}
