@@ -48,26 +48,81 @@ export const Default = meta.story();
 export const Outline = meta.story({
   args: {
     variant: "outline",
+    multiple: true,
   },
 });
 
 /**
- * Use the `sm` size for a compact version of the button group, featuring
- * smaller buttons for spaces with limited real estate.
+ * Use the `size` prop to control the dimensions of the toggle group items.
  */
-export const Small = meta.story({
+export const Size = meta.story({
+  render: () => (
+    <div className="flex flex-col gap-4">
+      <ToggleGroup size="sm" variant="outline">
+        <ToggleGroupItem value="top" aria-label="Toggle top">
+          Top
+        </ToggleGroupItem>
+        <ToggleGroupItem value="bottom" aria-label="Toggle bottom">
+          Bottom
+        </ToggleGroupItem>
+        <ToggleGroupItem value="left" aria-label="Toggle left">
+          Left
+        </ToggleGroupItem>
+        <ToggleGroupItem value="right" aria-label="Toggle right">
+          Right
+        </ToggleGroupItem>
+      </ToggleGroup>
+      <ToggleGroup variant="outline">
+        <ToggleGroupItem value="top" aria-label="Toggle top">
+          Top
+        </ToggleGroupItem>
+        <ToggleGroupItem value="bottom" aria-label="Toggle bottom">
+          Bottom
+        </ToggleGroupItem>
+        <ToggleGroupItem value="left" aria-label="Toggle left">
+          Left
+        </ToggleGroupItem>
+        <ToggleGroupItem value="right" aria-label="Toggle right">
+          Right
+        </ToggleGroupItem>
+      </ToggleGroup>
+      <ToggleGroup size="lg" variant="outline">
+        <ToggleGroupItem value="top" aria-label="Toggle top">
+          Top
+        </ToggleGroupItem>
+        <ToggleGroupItem value="bottom" aria-label="Toggle bottom">
+          Bottom
+        </ToggleGroupItem>
+        <ToggleGroupItem value="left" aria-label="Toggle left">
+          Left
+        </ToggleGroupItem>
+        <ToggleGroupItem value="right" aria-label="Toggle right">
+          Right
+        </ToggleGroupItem>
+      </ToggleGroup>
+    </div>
+  ),
+});
+
+/**
+ * Use the `spacing` prop to add gaps between toggle group items.
+ */
+export const Spacing = meta.story({
   args: {
-    size: "sm",
+    variant: "outline",
+    spacing: 2,
+    multiple: true,
   },
 });
 
 /**
- * Use the `lg` size for a more prominent version of the button group, featuring
- * larger buttons for emphasis.
+ * Use `orientation="vertical"` to stack toggle items in a column layout.
  */
-export const Large = meta.story({
+export const Vertical = meta.story({
   args: {
-    size: "lg",
+    orientation: "vertical",
+    spacing: 1,
+    multiple: true,
   },
 });
 
