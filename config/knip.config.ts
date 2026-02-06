@@ -111,6 +111,11 @@ const config: KnipConfig = {
     config: ["config/tsconfig.json"],
   },
 
+  // Scaffolding
+  plop: {
+    config: ["config/plopfile.ts"],
+  },
+
   // Storybook
   storybook: {
     config: [".storybook/main.ts"],
