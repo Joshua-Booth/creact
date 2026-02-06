@@ -77,7 +77,7 @@ run = "prettier --write \"**/*.{ts,tsx,js,css,json,yml,yaml}\" --config {{vars.p
 
 [tasks.format_files]
 description = "Format specific files (for lint-staged)"
-run = "prettier --config {{vars.prettier_config}} --write"
+run = "prettier --config {{vars.prettier_config}} --ignore-path {{vars.prettier_ignore}} --write"
 
 [tasks.format_check]
 description = "Check code formatting with Prettier"
