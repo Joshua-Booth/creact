@@ -13,6 +13,7 @@
     "isolatedModules": true,
     "verbatimModuleSyntax": true,
     "resolveJsonModule": true,
+    "jsx": "react-jsx",
     "types": ["node"],
     "baseUrl": "..",
     "paths": {
@@ -26,6 +27,7 @@
     "../*.config.ts",
     "../.storybook/main.ts",
     "../.storybook/vite.config.ts",
-    "../.storybook/vitest.config.ts"
+    "../.storybook/vitest.config.ts",
+    "../.storybook/vitest.setup.ts"
   ]
 }

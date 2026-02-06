@@ -2,11 +2,42 @@ import * as addonA11y from "@storybook/addon-a11y/preview";
 import * as addonDocs from "@storybook/addon-docs/preview";
 import { definePreview } from "@storybook/react-vite";
 
+import { DirectionProvider } from "../src/shared/ui/direction";
+
 import "../src/app/styles/globals.css";
 import "./storybook-dark.css";
 
 export default definePreview({
   addons: [addonDocs, addonA11y],
+  globalTypes: {
+    direction: {
+      description: "Text direction",
+      toolbar: {
+        title: "Direction",
+        icon: "globe",
+        items: [
+          { value: "ltr", title: "LTR" },
+          { value: "rtl", title: "RTL" },
+        ],
+        dynamicTitle: true,
+      },
+    },
+  },
+  initialGlobals: {
+    direction: "ltr",
+  },
+  decorators: [
+    (Story, context) => {
+      const dir = context.globals.direction === "rtl" ? "rtl" : "ltr";
+      return (
+        <DirectionProvider direction={dir}>
+          <div dir={dir}>
+            <Story />
+          </div>
+        </DirectionProvider>
+      );
+    },
+  ],
   parameters: {
     darkMode: {
       darkClass: "dark",

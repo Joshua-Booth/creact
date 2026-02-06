@@ -23,6 +23,7 @@ import {
   generateOrganizationJsonLd,
   generateWebSiteJsonLd,
 } from "@/shared/lib/seo";
+import { DirectionProvider } from "@/shared/ui/direction";
 import { ErrorBoundary } from "@/shared/ui/error-boundary";
 import { JsonLd } from "@/shared/ui/json-ld";
 import { ToastProvider } from "@/shared/ui/toast";
@@ -128,14 +129,16 @@ function InnerLayout({
       </head>
       <body className="relative">
         <noscript>You need to enable JavaScript to run this app.</noscript>
-        <ToastProvider>
-          {/* We need to set relative on the body for iOS Safari 26 and isolate for portals to work properly
-              See: https://base-ui.com/react/overview/quick-start#set-up
-          */}
-          <div className="relative isolate flex min-h-svh flex-col">
-            {children}
-          </div>
-        </ToastProvider>
+        <DirectionProvider direction={i18n.dir(i18n.language)}>
+          <ToastProvider>
+            {/* We need to set relative on the body for iOS Safari 26 and isolate for portals to work properly
+                See: https://base-ui.com/react/overview/quick-start#set-up
+            */}
+            <div className="relative isolate flex min-h-svh flex-col">
+              {children}
+            </div>
+          </ToastProvider>
+        </DirectionProvider>
         <ScrollRestoration />
         <Scripts />
       </body>
