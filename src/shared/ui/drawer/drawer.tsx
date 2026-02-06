@@ -1,3 +1,5 @@
+"use client";
+
 import * as React from "react";
 
 import { Drawer as DrawerPrimitive } from "vaul";
@@ -36,8 +38,8 @@ function DrawerOverlay({
     <DrawerPrimitive.Overlay
       data-slot="drawer-overlay"
       className={cn(
-        `data-open:animate-in data-open:fade-in-0 data-closed:animate-out
-        data-closed:fade-out-0 fixed inset-0 z-50 bg-black/10
+        `data-open:animate-in data-closed:animate-out data-closed:fade-out-0
+        data-open:fade-in-0 fixed inset-0 z-50 bg-black/10
         supports-backdrop-filter:backdrop-blur-xs`,
         className
       )}
@@ -57,7 +59,7 @@ function DrawerContent({
       <DrawerPrimitive.Content
         data-slot="drawer-content"
         className={cn(
-          `group/drawer-content bg-background fixed z-50 flex h-auto flex-col
+          `bg-background group/drawer-content fixed z-50 flex h-auto flex-col
           text-sm data-[vaul-drawer-direction=bottom]:inset-x-0
           data-[vaul-drawer-direction=bottom]:bottom-0
           data-[vaul-drawer-direction=bottom]:mt-24
