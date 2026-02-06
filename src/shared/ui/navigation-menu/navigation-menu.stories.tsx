@@ -54,12 +54,13 @@ function ListItem({
       <NavigationMenuLink
         href={href}
         className={cn(
-          "hover:bg-muted focus:bg-muted block space-y-1 rounded-md p-3 leading-none no-underline transition-colors outline-none select-none",
+          `hover:bg-muted focus:bg-muted block space-y-1 rounded-md p-3
+          leading-none no-underline transition-colors outline-none select-none`,
           className
         )}
       >
         <div className="text-sm leading-none font-medium">{title}</div>
-        <p className="text-muted-foreground line-clamp-2 text-sm leading-snug">
+        <p className="text-muted-foreground line-clamp-2 text-sm/snug">
           {children}
         </p>
       </NavigationMenuLink>
@@ -166,15 +167,21 @@ export const GettingStarted: Story = {
         <NavigationMenuItem>
           <NavigationMenuTrigger>Getting Started</NavigationMenuTrigger>
           <NavigationMenuContent>
-            <ul className="grid gap-3 p-4 md:w-[400px] lg:w-[500px] lg:grid-cols-[.75fr_1fr]">
+            <ul
+              className="grid gap-3 p-4 md:w-[400px] lg:w-[500px]
+                lg:grid-cols-[.75fr_1fr]"
+            >
               <li className="row-span-3">
                 <NavigationMenuLink
                   href="/"
-                  className="from-muted/50 to-muted flex h-full w-full flex-col justify-end rounded-md bg-linear-to-b p-6 no-underline transition-all duration-200 outline-none select-none focus:shadow-md"
+                  className="from-muted/50 to-muted flex size-full flex-col
+                    justify-end rounded-md bg-linear-to-b p-6 no-underline
+                    transition-all duration-200 outline-none select-none
+                    focus:shadow-md"
                 >
                   <RocketIcon className="size-6" />
                   <div className="mt-4 mb-2 text-lg font-medium">shadcn/ui</div>
-                  <p className="text-muted-foreground text-sm leading-tight">
+                  <p className="text-muted-foreground text-sm/tight">
                     Beautifully designed components built with Tailwind CSS.
                   </p>
                 </NavigationMenuLink>
@@ -210,7 +217,10 @@ export const Components: Story = {
         <NavigationMenuItem>
           <NavigationMenuTrigger>Components</NavigationMenuTrigger>
           <NavigationMenuContent>
-            <ul className="grid w-[400px] gap-3 p-4 md:w-[500px] md:grid-cols-2 lg:w-[600px]">
+            <ul
+              className="grid w-[400px] gap-3 p-4 md:w-[500px] md:grid-cols-2
+                lg:w-[600px]"
+            >
               {components.map((component) => (
                 <ListItem
                   key={component.title}
@@ -308,7 +318,9 @@ export const Simple: Story = {
                 <li key={item.title}>
                   <NavigationMenuLink
                     href={item.href}
-                    className="hover:bg-muted focus:bg-muted block rounded-md px-3 py-2 text-sm transition-colors outline-none select-none"
+                    className="hover:bg-muted focus:bg-muted block rounded-md
+                      px-3 py-2 text-sm transition-colors outline-none
+                      select-none"
                   >
                     {item.title}
                   </NavigationMenuLink>
@@ -344,7 +356,9 @@ export const WithIcon: Story = {
               <li>
                 <NavigationMenuLink
                   href="/status/backlog"
-                  className="hover:bg-muted focus:bg-muted flex items-center gap-2 rounded-md p-2 text-sm transition-colors outline-none select-none"
+                  className="hover:bg-muted focus:bg-muted flex items-center
+                    gap-2 rounded-md p-2 text-sm transition-colors outline-none
+                    select-none"
                 >
                   <CircleHelpIcon />
                   Backlog
@@ -353,7 +367,9 @@ export const WithIcon: Story = {
               <li>
                 <NavigationMenuLink
                   href="/status/todo"
-                  className="hover:bg-muted focus:bg-muted flex items-center gap-2 rounded-md p-2 text-sm transition-colors outline-none select-none"
+                  className="hover:bg-muted focus:bg-muted flex items-center
+                    gap-2 rounded-md p-2 text-sm transition-colors outline-none
+                    select-none"
                 >
                   <CircleIcon />
                   To Do
@@ -362,7 +378,9 @@ export const WithIcon: Story = {
               <li>
                 <NavigationMenuLink
                   href="/status/done"
-                  className="hover:bg-muted focus:bg-muted flex items-center gap-2 rounded-md p-2 text-sm transition-colors outline-none select-none"
+                  className="hover:bg-muted focus:bg-muted flex items-center
+                    gap-2 rounded-md p-2 text-sm transition-colors outline-none
+                    select-none"
                 >
                   <CircleCheckIcon />
                   Done
@@ -378,7 +396,9 @@ export const WithIcon: Story = {
               <li>
                 <NavigationMenuLink
                   href="/docs"
-                  className="hover:bg-muted focus:bg-muted flex items-center gap-2 rounded-md p-2 text-sm transition-colors outline-none select-none"
+                  className="hover:bg-muted focus:bg-muted flex items-center
+                    gap-2 rounded-md p-2 text-sm transition-colors outline-none
+                    select-none"
                 >
                   <FileTextIcon />
                   Documentation
@@ -387,7 +407,9 @@ export const WithIcon: Story = {
               <li>
                 <NavigationMenuLink
                   href="/components"
-                  className="hover:bg-muted focus:bg-muted flex items-center gap-2 rounded-md p-2 text-sm transition-colors outline-none select-none"
+                  className="hover:bg-muted focus:bg-muted flex items-center
+                    gap-2 rounded-md p-2 text-sm transition-colors outline-none
+                    select-none"
                 >
                   <LayoutIcon />
                   Components

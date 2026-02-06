@@ -83,7 +83,10 @@ export const Basic: Story = {};
 export const Shortcuts: Story = {
   render: (args) => (
     <ContextMenu {...args}>
-      <ContextMenuTrigger className="bg-accent flex h-48 w-96 items-center justify-center rounded-md border border-dashed text-sm">
+      <ContextMenuTrigger
+        className="bg-accent flex h-48 w-96 items-center justify-center
+          rounded-md border border-dashed text-sm"
+      >
         Right click here
       </ContextMenuTrigger>
       <ContextMenuContent className="w-44">
@@ -119,7 +122,10 @@ export const Shortcuts: Story = {
 export const Submenu: Story = {
   render: (args) => (
     <ContextMenu {...args}>
-      <ContextMenuTrigger className="bg-accent flex h-48 w-96 items-center justify-center rounded-md border border-dashed text-sm">
+      <ContextMenuTrigger
+        className="bg-accent flex h-48 w-96 items-center justify-center
+          rounded-md border border-dashed text-sm"
+      >
         Right click here
       </ContextMenuTrigger>
       <ContextMenuContent className="w-44">
@@ -168,7 +174,10 @@ export const Checkboxes: Story = {
 
     return (
       <ContextMenu {...args}>
-        <ContextMenuTrigger className="bg-accent flex h-48 w-96 items-center justify-center rounded-md border border-dashed text-sm">
+        <ContextMenuTrigger
+          className="bg-accent flex h-48 w-96 items-center justify-center
+            rounded-md border border-dashed text-sm"
+        >
           Right click here
         </ContextMenuTrigger>
         <ContextMenuContent className="w-44">
@@ -206,7 +215,10 @@ export const RadioGroup: Story = {
 
     return (
       <ContextMenu {...args}>
-        <ContextMenuTrigger className="bg-accent flex h-48 w-96 items-center justify-center rounded-md border border-dashed text-sm">
+        <ContextMenuTrigger
+          className="bg-accent flex h-48 w-96 items-center justify-center
+            rounded-md border border-dashed text-sm"
+        >
           Right click here
         </ContextMenuTrigger>
         <ContextMenuContent className="w-32">
@@ -231,7 +243,10 @@ export const RadioGroup: Story = {
 export const Icons: Story = {
   render: (args) => (
     <ContextMenu {...args}>
-      <ContextMenuTrigger className="bg-accent flex h-48 w-96 items-center justify-center rounded-md border border-dashed text-sm">
+      <ContextMenuTrigger
+        className="bg-accent flex h-48 w-96 items-center justify-center
+          rounded-md border border-dashed text-sm"
+      >
         Right click here
       </ContextMenuTrigger>
       <ContextMenuContent className="w-44">
@@ -267,7 +282,10 @@ export const Icons: Story = {
 export const Groups: Story = {
   render: (args) => (
     <ContextMenu {...args}>
-      <ContextMenuTrigger className="bg-accent flex h-48 w-96 items-center justify-center rounded-md border border-dashed text-sm">
+      <ContextMenuTrigger
+        className="bg-accent flex h-48 w-96 items-center justify-center
+          rounded-md border border-dashed text-sm"
+      >
         Right click here
       </ContextMenuTrigger>
       <ContextMenuContent className="w-44">
@@ -315,7 +333,10 @@ export const Sides: Story = {
   render: () => (
     <div className="grid w-sm grid-cols-2 gap-4">
       <ContextMenu>
-        <ContextMenuTrigger className="flex aspect-video w-full max-w-xs items-center justify-center rounded-xl border border-dashed text-sm">
+        <ContextMenuTrigger
+          className="flex aspect-video w-full max-w-xs items-center
+            justify-center rounded-xl border border-dashed text-sm"
+        >
           Right click (top)
         </ContextMenuTrigger>
         <ContextMenuContent side="top">
@@ -327,7 +348,10 @@ export const Sides: Story = {
         </ContextMenuContent>
       </ContextMenu>
       <ContextMenu>
-        <ContextMenuTrigger className="flex aspect-video w-full max-w-xs items-center justify-center rounded-xl border border-dashed text-sm">
+        <ContextMenuTrigger
+          className="flex aspect-video w-full max-w-xs items-center
+            justify-center rounded-xl border border-dashed text-sm"
+        >
           Right click (right)
         </ContextMenuTrigger>
         <ContextMenuContent side="right">
@@ -339,7 +363,10 @@ export const Sides: Story = {
         </ContextMenuContent>
       </ContextMenu>
       <ContextMenu>
-        <ContextMenuTrigger className="flex aspect-video w-full max-w-xs items-center justify-center rounded-xl border border-dashed text-sm">
+        <ContextMenuTrigger
+          className="flex aspect-video w-full max-w-xs items-center
+            justify-center rounded-xl border border-dashed text-sm"
+        >
           Right click (bottom)
         </ContextMenuTrigger>
         <ContextMenuContent side="bottom">
@@ -351,7 +378,10 @@ export const Sides: Story = {
         </ContextMenuContent>
       </ContextMenu>
       <ContextMenu>
-        <ContextMenuTrigger className="flex aspect-video w-full max-w-xs items-center justify-center rounded-xl border border-dashed text-sm">
+        <ContextMenuTrigger
+          className="flex aspect-video w-full max-w-xs items-center
+            justify-center rounded-xl border border-dashed text-sm"
+        >
           Right click (left)
         </ContextMenuTrigger>
         <ContextMenuContent side="left">
@@ -372,7 +402,10 @@ export const Sides: Story = {
 export const Destructive: Story = {
   render: (args) => (
     <ContextMenu {...args}>
-      <ContextMenuTrigger className="bg-accent flex h-48 w-96 items-center justify-center rounded-md border border-dashed text-sm">
+      <ContextMenuTrigger
+        className="bg-accent flex h-48 w-96 items-center justify-center
+          rounded-md border border-dashed text-sm"
+      >
         Right click here
       </ContextMenuTrigger>
       <ContextMenuContent className="w-44">

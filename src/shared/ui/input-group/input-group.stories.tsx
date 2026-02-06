@@ -171,7 +171,8 @@ export const WithDropdown: Story = {
         <Select defaultValue="all">
           <SelectTrigger
             aria-label="Search scope"
-            className="h-6 gap-1 rounded-sm border-0 bg-transparent px-1.5 shadow-none focus-visible:ring-0"
+            className="h-6 gap-1 rounded-sm border-0 bg-transparent px-1.5
+              shadow-none focus-visible:ring-0"
           >
             <GlobeIcon className="size-3.5" />
             <SelectValue />
@@ -273,7 +274,8 @@ export const WithCustomInput: Story = {
         data-slot="input-group-control"
         type="text"
         placeholder="Custom input..."
-        className="placeholder:text-muted-foreground flex-1 border-0 bg-transparent px-3 py-2 text-sm outline-none"
+        className="placeholder:text-muted-foreground flex-1 border-0
+          bg-transparent px-3 py-2 text-sm outline-none"
       />
       <InputGroupAddon align="inline-start">
         <SearchIcon />

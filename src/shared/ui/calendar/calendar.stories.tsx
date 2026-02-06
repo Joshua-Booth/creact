@@ -445,7 +445,8 @@ function CalendarCustomDays() {
       selected={range}
       onSelect={setRange}
       captionLayout="dropdown"
-      className="rounded-md border [--cell-size:--spacing(10)] md:[--cell-size:--spacing(12)]"
+      className="rounded-md border [--cell-size:--spacing(10)]
+        md:[--cell-size:--spacing(12)]"
       formatters={{
         formatMonthDropdown: (date) =>
           date.toLocaleString("default", { month: "long" }),

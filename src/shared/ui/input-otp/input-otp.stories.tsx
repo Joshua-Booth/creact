@@ -254,20 +254,31 @@ export const Form: Story = {
             </Button>
           </div>
           <InputOTP {...args} render={undefined} id="otp-verification" required>
-            <InputOTPGroup className="*:data-[slot=input-otp-slot]:h-12 *:data-[slot=input-otp-slot]:w-11 *:data-[slot=input-otp-slot]:text-xl">
+            <InputOTPGroup
+              className="*:data-[slot=input-otp-slot]:h-12
+                *:data-[slot=input-otp-slot]:w-11
+                *:data-[slot=input-otp-slot]:text-xl"
+            >
               <InputOTPSlot index={0} />
               <InputOTPSlot index={1} />
               <InputOTPSlot index={2} />
             </InputOTPGroup>
             <InputOTPSeparator className="mx-2" />
-            <InputOTPGroup className="*:data-[slot=input-otp-slot]:h-12 *:data-[slot=input-otp-slot]:w-11 *:data-[slot=input-otp-slot]:text-xl">
+            <InputOTPGroup
+              className="*:data-[slot=input-otp-slot]:h-12
+                *:data-[slot=input-otp-slot]:w-11
+                *:data-[slot=input-otp-slot]:text-xl"
+            >
               <InputOTPSlot index={3} />
               <InputOTPSlot index={4} />
               <InputOTPSlot index={5} />
             </InputOTPGroup>
           </InputOTP>
           <FieldDescription>
-            <span className="hover:text-primary cursor-pointer underline underline-offset-4 transition-colors">
+            <span
+              className="hover:text-primary cursor-pointer underline
+                underline-offset-4 transition-colors"
+            >
               I no longer have access to this email address.
             </span>
           </FieldDescription>
@@ -280,7 +291,10 @@ export const Form: Story = {
           </Button>
           <div className="text-muted-foreground text-sm">
             Having trouble signing in?{" "}
-            <span className="hover:text-primary cursor-pointer underline underline-offset-4 transition-colors">
+            <span
+              className="hover:text-primary cursor-pointer underline
+                underline-offset-4 transition-colors"
+            >
               Contact support
             </span>
           </div>

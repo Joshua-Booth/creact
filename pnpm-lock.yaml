@@ -161,7 +161,7 @@ importers:
         version: 0.5.7(typescript@5.9.3)
       "@ianvs/prettier-plugin-sort-imports":
         specifier: ^4.7.1
-        version: 4.7.1(@vue/compiler-sfc@3.5.27)(prettier@3.8.1)
+        version: 4.7.1(@prettier/plugin-oxc@0.1.3)(@vue/compiler-sfc@3.5.27)(content-tag@4.1.0)(prettier-plugin-ember-template-tag@2.1.3(prettier@3.8.1))(prettier@3.8.1)
       "@msw/playwright":
         specifier: ^0.4.5
         version: 0.4.5(msw@2.12.8(@types/node@25.2.0)(typescript@5.9.3))
@@ -171,6 +171,9 @@ importers:
       "@playwright/test":
         specifier: ^1.58.1
         version: 1.58.1
+      "@prettier/plugin-oxc":
+        specifier: ^0.1.3
+        version: 0.1.3
       "@react-router/dev":
         specifier: ^7.13.0
         version: 7.13.0(@types/node@25.2.0)(jiti@2.6.1)(lightningcss@1.30.2)(react-router@7.13.0(react-dom@19.2.4(react@19.2.4))(react@19.2.4))(tsx@4.21.0)(typescript@5.9.3)(vite@7.3.1(@types/node@25.2.0)(jiti@2.6.1)(lightningcss@1.30.2)(tsx@4.21.0)(yaml@2.8.2))(yaml@2.8.2)
@@ -255,6 +258,9 @@ importers:
       eslint-plugin-baseline-js:
         specifier: ^0.5.0
         version: 0.5.0(eslint@9.39.2(jiti@2.6.1))
+      eslint-plugin-better-tailwindcss:
+        specifier: ^4.1.1
+        version: 4.1.1(eslint@9.39.2(jiti@2.6.1))(tailwindcss@4.1.18)(typescript@5.9.3)
       eslint-plugin-depend:
         specifier: ^1.4.0
         version: 1.4.0
@@ -318,9 +324,18 @@ importers:
       prettier:
         specifier: ^3.8.1
         version: 3.8.1
+      prettier-plugin-classnames:
+        specifier: ^0.9.0
+        version: 0.9.0(@prettier/plugin-oxc@0.1.3)(prettier@3.8.1)
+      prettier-plugin-ember-template-tag:
+        specifier: ^2.1.3
+        version: 2.1.3(prettier@3.8.1)
+      prettier-plugin-merge:
+        specifier: ^0.9.0
+        version: 0.9.0(prettier@3.8.1)
       prettier-plugin-tailwindcss:
         specifier: ^0.7.2
-        version: 0.7.2(@ianvs/prettier-plugin-sort-imports@4.7.1(@vue/compiler-sfc@3.5.27)(prettier@3.8.1))(@trivago/prettier-plugin-sort-imports@6.0.2(@vue/compiler-sfc@3.5.27)(prettier@3.8.1))(prettier@3.8.1)
+        version: 0.7.2(@ianvs/prettier-plugin-sort-imports@4.7.1(@prettier/plugin-oxc@0.1.3)(@vue/compiler-sfc@3.5.27)(content-tag@4.1.0)(prettier-plugin-ember-template-tag@2.1.3(prettier@3.8.1))(prettier@3.8.1))(@prettier/plugin-oxc@0.1.3)(@trivago/prettier-plugin-sort-imports@6.0.2(@vue/compiler-sfc@3.5.27)(prettier-plugin-ember-template-tag@2.1.3(prettier@3.8.1))(prettier@3.8.1))(prettier@3.8.1)
       react-router-devtools:
         specifier: ^6.2.0
         version: 6.2.0(@types/react-dom@19.2.3(@types/react@19.2.12))(@types/react@19.2.12)(csstype@3.2.3)(react-dom@19.2.4(react@19.2.4))(react-router@7.13.0(react-dom@19.2.4(react@19.2.4))(react@19.2.4))(react@19.2.4)(solid-js@1.9.10)(vite@7.3.1(@types/node@25.2.0)(jiti@2.6.1)(lightningcss@1.30.2)(tsx@4.21.0)(yaml@2.8.2))
@@ -1848,6 +1863,13 @@ packages:
       }
     engines: { node: ^18.18.0 || ^20.9.0 || >=21.1.0 }
 
+  "@eslint/css-tree@3.6.8":
+    resolution:
+      {
+        integrity: sha512-s0f40zY7dlMp8i0Jf0u6l/aSswS0WRAgkhgETgiCJRcxIWb4S/Sp9uScKHWbkM3BnoFLbJbmOYk5AZUDFVxaLA==,
+      }
+    engines: { node: ^10 || ^12.20.0 || ^14.13.0 || >=15.0.0 }
+
   "@eslint/eslintrc@3.3.3":
     resolution:
       {
@@ -2486,6 +2508,146 @@ packages:
       }
     engines: { node: ">=14" }
 
+  "@oxc-parser/binding-android-arm64@0.99.0":
+    resolution:
+      {
+        integrity: sha512-V4jhmKXgQQdRnm73F+r3ZY4pUEsijQeSraFeaCGng7abSNJGs76X6l82wHnmjLGFAeY00LWtjcELs7ZmbJ9+lA==,
+      }
+    engines: { node: ^20.19.0 || >=22.12.0 }
+    cpu: [arm64]
+    os: [android]
+
+  "@oxc-parser/binding-darwin-arm64@0.99.0":
+    resolution:
+      {
+        integrity: sha512-Rp41nf9zD5FyLZciS9l1GfK8PhYqrD5kEGxyTOA2esTLeAy37rZxetG2E3xteEolAkeb2WDkVrlxPtibeAncMg==,
+      }
+    engines: { node: ^20.19.0 || >=22.12.0 }
+    cpu: [arm64]
+    os: [darwin]
+
+  "@oxc-parser/binding-darwin-x64@0.99.0":
+    resolution:
+      {
+        integrity: sha512-WVonp40fPPxo5Gs0POTI57iEFv485TvNKOHMwZRhigwZRhZY2accEAkYIhei9eswF4HN5B44Wybkz7Gd1Qr/5Q==,
+      }
+    engines: { node: ^20.19.0 || >=22.12.0 }
+    cpu: [x64]
+    os: [darwin]
+
+  "@oxc-parser/binding-freebsd-x64@0.99.0":
+    resolution:
+      {
+        integrity: sha512-H30bjOOttPmG54gAqu6+HzbLEzuNOYO2jZYrIq4At+NtLJwvNhXz28Hf5iEAFZIH/4hMpLkM4VN7uc+5UlNW3Q==,
+      }
+    engines: { node: ^20.19.0 || >=22.12.0 }
+    cpu: [x64]
+    os: [freebsd]
+
+  "@oxc-parser/binding-linux-arm-gnueabihf@0.99.0":
+    resolution:
+      {
+        integrity: sha512-0Z/Th0SYqzSRDPs6tk5lQdW0i73UCupnim3dgq2oW0//UdLonV/5wIZCArfKGC7w9y4h8TxgXpgtIyD1kKzzlQ==,
+      }
+    engines: { node: ^20.19.0 || >=22.12.0 }
+    cpu: [arm]
+    os: [linux]
+
+  "@oxc-parser/binding-linux-arm-musleabihf@0.99.0":
+    resolution:
+      {
+        integrity: sha512-xo0wqNd5bpbzQVNpAIFbHk1xa+SaS/FGBABCd942SRTnrpxl6GeDj/s1BFaGcTl8MlwlKVMwOcyKrw/2Kdfquw==,
+      }
+    engines: { node: ^20.19.0 || >=22.12.0 }
+    cpu: [arm]
+    os: [linux]
+
+  "@oxc-parser/binding-linux-arm64-gnu@0.99.0":
+    resolution:
+      {
+        integrity: sha512-u26I6LKoLTPTd4Fcpr0aoAtjnGf5/ulMllo+QUiBhupgbVCAlaj4RyXH/mvcjcsl2bVBv9E/gYJZz2JjxQWXBA==,
+      }
+    engines: { node: ^20.19.0 || >=22.12.0 }
+    cpu: [arm64]
+    os: [linux]
+
+  "@oxc-parser/binding-linux-arm64-musl@0.99.0":
+    resolution:
+      {
+        integrity: sha512-qhftDo2D37SqCEl3ZTa367NqWSZNb1Ddp34CTmShLKFrnKdNiUn55RdokLnHtf1AL5ssaQlYDwBECX7XiBWOhw==,
+      }
+    engines: { node: ^20.19.0 || >=22.12.0 }
+    cpu: [arm64]
+    os: [linux]
+
+  "@oxc-parser/binding-linux-riscv64-gnu@0.99.0":
+    resolution:
+      {
+        integrity: sha512-zxn/xkf519f12FKkpL5XwJipsylfSSnm36h6c1zBDTz4fbIDMGyIhHfWfwM7uUmHo9Aqw1pLxFpY39Etv398+Q==,
+      }
+    engines: { node: ^20.19.0 || >=22.12.0 }
+    cpu: [riscv64]
+    os: [linux]
+
+  "@oxc-parser/binding-linux-s390x-gnu@0.99.0":
+    resolution:
+      {
+        integrity: sha512-Y1eSDKDS5E4IVC7Oxw+NbYAKRmJPMJTIjW+9xOWwteDHkFqpocKe0USxog+Q1uhzalD9M0p9eXWEWdGQCMDBMQ==,
+      }
+    engines: { node: ^20.19.0 || >=22.12.0 }
+    cpu: [s390x]
+    os: [linux]
+
+  "@oxc-parser/binding-linux-x64-gnu@0.99.0":
+    resolution:
+      {
+        integrity: sha512-YVJMfk5cFWB8i2/nIrbk6n15bFkMHqWnMIWkVx7r2KwpTxHyFMfu2IpeVKo1ITDSmt5nBrGdLHD36QRlu2nDLg==,
+      }
+    engines: { node: ^20.19.0 || >=22.12.0 }
+    cpu: [x64]
+    os: [linux]
+
+  "@oxc-parser/binding-linux-x64-musl@0.99.0":
+    resolution:
+      {
+        integrity: sha512-2+SDPrie5f90A1b9EirtVggOgsqtsYU5raZwkDYKyS1uvJzjqHCDhG/f4TwQxHmIc5YkczdQfwvN91lwmjsKYQ==,
+      }
+    engines: { node: ^20.19.0 || >=22.12.0 }
+    cpu: [x64]
+    os: [linux]
+
+  "@oxc-parser/binding-wasm32-wasi@0.99.0":
+    resolution:
+      {
+        integrity: sha512-DKA4j0QerUWSMADziLM5sAyM7V53Fj95CV9SjP77bPfEfT7MnvFKnneaRMqPK1cpzjAGiQF52OBUIKyk0dwOQA==,
+      }
+    engines: { node: ">=14.0.0" }
+    cpu: [wasm32]
+
+  "@oxc-parser/binding-win32-arm64-msvc@0.99.0":
+    resolution:
+      {
+        integrity: sha512-EaB3AvsxqdNUhh9FOoAxRZ2L4PCRwDlDb//QXItwyOJrX7XS+uGK9B1KEUV4FZ/7rDhHsWieLt5e07wl2Ti5AQ==,
+      }
+    engines: { node: ^20.19.0 || >=22.12.0 }
+    cpu: [arm64]
+    os: [win32]
+
+  "@oxc-parser/binding-win32-x64-msvc@0.99.0":
+    resolution:
+      {
+        integrity: sha512-sJN1Q8h7ggFOyDn0zsHaXbP/MklAVUvhrbq0LA46Qum686P3SZQHjbATqJn9yaVEvaSKXCshgl0vQ1gWkGgpcQ==,
+      }
+    engines: { node: ^20.19.0 || >=22.12.0 }
+    cpu: [x64]
+    os: [win32]
+
+  "@oxc-project/types@0.99.0":
+    resolution:
+      {
+        integrity: sha512-LLDEhXB7g1m5J+woRSgfKsFPS3LhR9xRhTeIoEBm5WrkwMxn6eZ0Ld0c0K5eHB57ChZX6I3uSmmLjZ8pcjlRcw==,
+      }
+
   "@oxc-resolver/binding-android-arm-eabi@11.17.0":
     resolution:
       {
@@ -2741,6 +2903,13 @@ packages:
       }
     engines: { node: ">=14" }
 
+  "@pkgr/core@0.2.9":
+    resolution:
+      {
+        integrity: sha512-QNqXyfVS2wm9hweSYD2O7F0G06uurj9kZ96TRQE5Y9hU7+tgdZwIkbAKc5Ocy1HxEY2kuDQa6cQ1WRs/O5LFKA==,
+      }
+    engines: { node: ^12.20.0 || ^14.18.0 || >=16.0.0 }
+
   "@playwright/test@1.58.1":
     resolution:
       {
@@ -2800,6 +2969,13 @@ packages:
       {
         integrity: sha512-lIQzaPzfxdhonj2nXI2Nh3z45wyfb/e48cyy/+GawNDeRnkzqyhifpyAimVafBJIP7RR1lQqEnM8Xk55H7SRgQ==,
       }
+
+  "@prettier/plugin-oxc@0.1.3":
+    resolution:
+      {
+        integrity: sha512-aABz3zIRilpWMekbt1FL1JVBQrQLR8L4Td2SRctECrWSsXGTNn/G1BqNSKCdbvQS1LWstAXfqcXzDki7GAAJyg==,
+      }
+    engines: { node: ">=14" }
 
   "@protobufjs/aspromise@1.1.2":
     resolution:
@@ -5614,6 +5790,12 @@ packages:
       }
     engines: { node: ">=18" }
 
+  content-tag@4.1.0:
+    resolution:
+      {
+        integrity: sha512-On6gUuvI1l5MScHO+Xbwjeq1Pk9H6HOipDWkzqGGUGmKpq6K5TRmQuCl1LGSHbdIo2l+lSsgLKrLgCl5kKYA+A==,
+      }
+
   content-type@1.0.5:
     resolution:
       {
@@ -6269,6 +6451,13 @@ packages:
     peerDependencies:
       typescript: ^5.4.4
 
+  diff@5.1.0:
+    resolution:
+      {
+        integrity: sha512-D+mk+qE8VC/PAUrlAU34N+VfXev0ghe5ywmpqrawphmVZc1bEfn56uo9qpyGp1p4xpzOHkSW4ztBd6L7Xx4ACw==,
+      }
+    engines: { node: ">=0.3.1" }
+
   diff@8.0.3:
     resolution:
       {
@@ -6791,6 +6980,22 @@ packages:
     engines: { node: ">=20.19.0 <22 || >=22.12.0" }
     peerDependencies:
       eslint: ">=8.57.0 <10"
+
+  eslint-plugin-better-tailwindcss@4.1.1:
+    resolution:
+      {
+        integrity: sha512-ctw461TGJi8iM0P01mNVjSW7jeUAdyUgmrrd59np5/VxqX50nayMbwKZkfmjWpP1PWOqlh4CSMOH/WW6ICWmJw==,
+      }
+    engines: { node: ^20.19.0 || ^22.12.0 || >=23.0.0 }
+    peerDependencies:
+      eslint: ^7.0.0 || ^8.0.0 || ^9.0.0
+      oxlint: ^1.35.0
+      tailwindcss: ^3.3.0 || ^4.1.17
+    peerDependenciesMeta:
+      eslint:
+        optional: true
+      oxlint:
+        optional: true
 
   eslint-plugin-depend@1.4.0:
     resolution:
@@ -9279,6 +9484,12 @@ packages:
         integrity: sha512-IEn+pegP1aManZuckezWCO+XZQDplx1366JoVhTpMpBB1sPey/SbveZQUosKiKiGYjg1wH4pMlNgXbCiYgihQA==,
       }
 
+  mdn-data@2.23.0:
+    resolution:
+      {
+        integrity: sha512-786vq1+4079JSeu2XdcDjrhi/Ry7BWtjDl9WtGPWLiIHb2T66GvIVflZTBoSNZ5JqTtJGYEVMuFA/lbQlMOyDQ==,
+      }
+
   media-typer@1.1.0:
     resolution:
       {
@@ -9849,6 +10060,13 @@ packages:
       }
     engines: { node: ">= 0.4" }
 
+  oxc-parser@0.99.0:
+    resolution:
+      {
+        integrity: sha512-MpS1lbd2vR0NZn1v0drpgu7RUFu3x9Rd0kxExObZc2+F+DIrV0BOMval/RO3BYGwssIOerII6iS8EbbpCCZQpQ==,
+      }
+    engines: { node: ^20.19.0 || >=22.12.0 }
+
   oxc-resolver@1.12.0:
     resolution:
       {
@@ -10332,6 +10550,43 @@ packages:
         integrity: sha512-vkcDPrRZo1QZLbn5RLGPpg/WmIQ65qoWWhcGKf/b5eplkkarX0m9z8ppCat4mlOqUsWpyNuYgO3VRyrYHSzX5g==,
       }
     engines: { node: ">= 0.8.0" }
+
+  prettier-plugin-classnames@0.9.0:
+    resolution:
+      {
+        integrity: sha512-xTTKf/us7YMcY4tuoQq0/WaFJzc/ZA0pPpWGphV1noLHX19mIMAJgqmy6ByX6ksVPtmcPDuAF36XVGr3DZYh4g==,
+      }
+    engines: { node: ">=18" }
+    peerDependencies:
+      "@prettier/plugin-oxc": "*"
+      prettier: ^3
+      prettier-plugin-astro: "*"
+      prettier-plugin-svelte: "*"
+    peerDependenciesMeta:
+      "@prettier/plugin-oxc":
+        optional: true
+      prettier-plugin-astro:
+        optional: true
+      prettier-plugin-svelte:
+        optional: true
+
+  prettier-plugin-ember-template-tag@2.1.3:
+    resolution:
+      {
+        integrity: sha512-FfAvkU+fqDC3Zs8+qGhBHYuwq1DED+UTPMH33QXxivZxRekkItBNXfi1Y+YkIbhCnu6UeTE2aYdbQSLlkOC2bA==,
+      }
+    engines: { node: 18.* || >= 20 }
+    peerDependencies:
+      prettier: ">= 3.0.0"
+
+  prettier-plugin-merge@0.9.0:
+    resolution:
+      {
+        integrity: sha512-bWd9Gw05GC55wOiDL52CNM0GlvEww10oc+VhptbMhz091SrlM/F9M86WZ94VWnv732rUlu9i9FzZ4wWFzTYZsw==,
+      }
+    engines: { node: ">=18" }
+    peerDependencies:
+      prettier: ^3
 
   prettier-plugin-tailwindcss@0.7.2:
     resolution:
@@ -11730,6 +11985,13 @@ packages:
         integrity: sha512-9QNk5KwDF+Bvz+PyObkmSYjI5ksVUYtjW7AU22r2NKcfLJcXp96hkDWU3+XndOsUb+AQ9QhfzfCT2O+CNWT5Tw==,
       }
 
+  synckit@0.11.12:
+    resolution:
+      {
+        integrity: sha512-Bh7QjT8/SuKUIfObSXNHNSK6WHo6J1tHCqJsuaFDP7gP0fkzSfTxI8y85JrppZ0h8l0maIgc2tfuZQ6/t3GtnQ==,
+      }
+    engines: { node: ^14.18.0 || >=16.0.0 }
+
   tabbable@6.4.0:
     resolution:
       {
@@ -11749,6 +12011,13 @@ packages:
         integrity: sha512-yEFYrVhod+hdNyx7g5Bnkkb0G6si8HJurOoOEgC8B/O0uXLHlaey/65KRv6cuWBNhBgHKAROVpc7QyYqE5gFng==,
       }
     engines: { node: ">=20" }
+
+  tailwind-csstree@0.1.4:
+    resolution:
+      {
+        integrity: sha512-FzD187HuFIZEyeR7Xy6sJbJll2d4SybS90satC8SKIuaNRC05CxMvdzN7BUsfDQffcnabckRM5OIcfArjsZ0mg==,
+      }
+    engines: { node: ">=18.18" }
 
   tailwind-merge@3.4.0:
     resolution:
@@ -12880,6 +13149,12 @@ packages:
     peerDependencies:
       zod: ^3.25.0 || ^4.0.0
 
+  zod@3.22.4:
+    resolution:
+      {
+        integrity: sha512-iC+8Io04lddc+mVqQ9AZ7OQ2MrUKGN+oIQyq1vemgt46jwCwLfhq7/pwnBnNXXXZb8VTVLKwp9EDkx+ryxIWmg==,
+      }
+
   zod@3.25.76:
     resolution:
       {
@@ -13859,6 +14134,11 @@ snapshots:
     dependencies:
       "@types/json-schema": 7.0.15
 
+  "@eslint/css-tree@3.6.8":
+    dependencies:
+      mdn-data: 2.23.0
+      source-map-js: 1.2.1
+
   "@eslint/eslintrc@3.3.3":
     dependencies:
       ajv: 6.12.6
@@ -13944,7 +14224,7 @@ snapshots:
 
   "@humanwhocodes/retry@0.4.3": {}
 
-  "@ianvs/prettier-plugin-sort-imports@4.7.1(@vue/compiler-sfc@3.5.27)(prettier@3.8.1)":
+  "@ianvs/prettier-plugin-sort-imports@4.7.1(@prettier/plugin-oxc@0.1.3)(@vue/compiler-sfc@3.5.27)(content-tag@4.1.0)(prettier-plugin-ember-template-tag@2.1.3(prettier@3.8.1))(prettier@3.8.1)":
     dependencies:
       "@babel/generator": 7.29.1
       "@babel/parser": 7.29.0
@@ -13953,7 +14233,10 @@ snapshots:
       prettier: 3.8.1
       semver: 7.7.3
     optionalDependencies:
+      "@prettier/plugin-oxc": 0.1.3
       "@vue/compiler-sfc": 3.5.27
+      content-tag: 4.1.0
+      prettier-plugin-ember-template-tag: 2.1.3(prettier@3.8.1)
     transitivePeerDependencies:
       - supports-color
 
@@ -14288,6 +14571,55 @@ snapshots:
 
   "@opentelemetry/semantic-conventions@1.39.0": {}
 
+  "@oxc-parser/binding-android-arm64@0.99.0":
+    optional: true
+
+  "@oxc-parser/binding-darwin-arm64@0.99.0":
+    optional: true
+
+  "@oxc-parser/binding-darwin-x64@0.99.0":
+    optional: true
+
+  "@oxc-parser/binding-freebsd-x64@0.99.0":
+    optional: true
+
+  "@oxc-parser/binding-linux-arm-gnueabihf@0.99.0":
+    optional: true
+
+  "@oxc-parser/binding-linux-arm-musleabihf@0.99.0":
+    optional: true
+
+  "@oxc-parser/binding-linux-arm64-gnu@0.99.0":
+    optional: true
+
+  "@oxc-parser/binding-linux-arm64-musl@0.99.0":
+    optional: true
+
+  "@oxc-parser/binding-linux-riscv64-gnu@0.99.0":
+    optional: true
+
+  "@oxc-parser/binding-linux-s390x-gnu@0.99.0":
+    optional: true
+
+  "@oxc-parser/binding-linux-x64-gnu@0.99.0":
+    optional: true
+
+  "@oxc-parser/binding-linux-x64-musl@0.99.0":
+    optional: true
+
+  "@oxc-parser/binding-wasm32-wasi@0.99.0":
+    dependencies:
+      "@napi-rs/wasm-runtime": 1.1.1
+    optional: true
+
+  "@oxc-parser/binding-win32-arm64-msvc@0.99.0":
+    optional: true
+
+  "@oxc-parser/binding-win32-x64-msvc@0.99.0":
+    optional: true
+
+  "@oxc-project/types@0.99.0": {}
+
   "@oxc-resolver/binding-android-arm-eabi@11.17.0":
     optional: true
 
@@ -14388,6 +14720,8 @@ snapshots:
   "@pkgjs/parseargs@0.11.0":
     optional: true
 
+  "@pkgr/core@0.2.9": {}
+
   "@playwright/test@1.58.1":
     dependencies:
       playwright: 1.58.1
@@ -14418,6 +14752,10 @@ snapshots:
       "@types/react": 19.2.12
 
   "@posthog/types@1.341.0": {}
+
+  "@prettier/plugin-oxc@0.1.3":
+    dependencies:
+      oxc-parser: 0.99.0
 
   "@protobufjs/aspromise@1.1.2": {}
 
@@ -15432,7 +15770,7 @@ snapshots:
 
   "@total-typescript/ts-reset@0.6.1": {}
 
-  "@trivago/prettier-plugin-sort-imports@6.0.2(@vue/compiler-sfc@3.5.27)(prettier@3.8.1)":
+  "@trivago/prettier-plugin-sort-imports@6.0.2(@vue/compiler-sfc@3.5.27)(prettier-plugin-ember-template-tag@2.1.3(prettier@3.8.1))(prettier@3.8.1)":
     dependencies:
       "@babel/generator": 7.29.1
       "@babel/parser": 7.29.0
@@ -15445,6 +15783,7 @@ snapshots:
       prettier: 3.8.1
     optionalDependencies:
       "@vue/compiler-sfc": 3.5.27
+      prettier-plugin-ember-template-tag: 2.1.3(prettier@3.8.1)
     transitivePeerDependencies:
       - supports-color
     optional: true
@@ -16313,6 +16652,8 @@ snapshots:
 
   content-disposition@1.0.1: {}
 
+  content-tag@4.1.0: {}
+
   content-type@1.0.5: {}
 
   conventional-changelog-angular@8.1.0:
@@ -16737,6 +17078,8 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
+  diff@5.1.0: {}
+
   diff@8.0.3: {}
 
   dir-glob@3.0.1:
@@ -17064,6 +17407,22 @@ snapshots:
     dependencies:
       eslint: 9.39.2(jiti@2.6.1)
       eslint-plugin-es-x: 9.3.0(eslint@9.39.2(jiti@2.6.1))
+
+  eslint-plugin-better-tailwindcss@4.1.1(eslint@9.39.2(jiti@2.6.1))(tailwindcss@4.1.18)(typescript@5.9.3):
+    dependencies:
+      "@eslint/css-tree": 3.6.8
+      "@valibot/to-json-schema": 1.5.0(valibot@1.2.0(typescript@5.9.3))
+      enhanced-resolve: 5.19.0
+      jiti: 2.6.1
+      synckit: 0.11.12
+      tailwind-csstree: 0.1.4
+      tailwindcss: 4.1.18
+      tsconfig-paths-webpack-plugin: 4.2.0
+      valibot: 1.2.0(typescript@5.9.3)
+    optionalDependencies:
+      eslint: 9.39.2(jiti@2.6.1)
+    transitivePeerDependencies:
+      - typescript
 
   eslint-plugin-depend@1.4.0:
     dependencies:
@@ -18636,6 +18995,8 @@ snapshots:
 
   mdn-data@2.12.2: {}
 
+  mdn-data@2.23.0: {}
+
   media-typer@1.1.0: {}
 
   meow@12.1.1: {}
@@ -18916,6 +19277,26 @@ snapshots:
       object-keys: 1.1.1
       safe-push-apply: 1.0.0
 
+  oxc-parser@0.99.0:
+    dependencies:
+      "@oxc-project/types": 0.99.0
+    optionalDependencies:
+      "@oxc-parser/binding-android-arm64": 0.99.0
+      "@oxc-parser/binding-darwin-arm64": 0.99.0
+      "@oxc-parser/binding-darwin-x64": 0.99.0
+      "@oxc-parser/binding-freebsd-x64": 0.99.0
+      "@oxc-parser/binding-linux-arm-gnueabihf": 0.99.0
+      "@oxc-parser/binding-linux-arm-musleabihf": 0.99.0
+      "@oxc-parser/binding-linux-arm64-gnu": 0.99.0
+      "@oxc-parser/binding-linux-arm64-musl": 0.99.0
+      "@oxc-parser/binding-linux-riscv64-gnu": 0.99.0
+      "@oxc-parser/binding-linux-s390x-gnu": 0.99.0
+      "@oxc-parser/binding-linux-x64-gnu": 0.99.0
+      "@oxc-parser/binding-linux-x64-musl": 0.99.0
+      "@oxc-parser/binding-wasm32-wasi": 0.99.0
+      "@oxc-parser/binding-win32-arm64-msvc": 0.99.0
+      "@oxc-parser/binding-win32-x64-msvc": 0.99.0
+
   oxc-resolver@1.12.0:
     optionalDependencies:
       "@oxc-resolver/binding-darwin-arm64": 1.12.0
@@ -19193,12 +19574,33 @@ snapshots:
 
   prelude-ls@1.2.1: {}
 
-  prettier-plugin-tailwindcss@0.7.2(@ianvs/prettier-plugin-sort-imports@4.7.1(@vue/compiler-sfc@3.5.27)(prettier@3.8.1))(@trivago/prettier-plugin-sort-imports@6.0.2(@vue/compiler-sfc@3.5.27)(prettier@3.8.1))(prettier@3.8.1):
+  prettier-plugin-classnames@0.9.0(@prettier/plugin-oxc@0.1.3)(prettier@3.8.1):
+    dependencies:
+      prettier: 3.8.1
+      zod: 3.22.4
+    optionalDependencies:
+      "@prettier/plugin-oxc": 0.1.3
+
+  prettier-plugin-ember-template-tag@2.1.3(prettier@3.8.1):
+    dependencies:
+      "@babel/traverse": 7.29.0
+      content-tag: 4.1.0
+      prettier: 3.8.1
+    transitivePeerDependencies:
+      - supports-color
+
+  prettier-plugin-merge@0.9.0(prettier@3.8.1):
+    dependencies:
+      diff: 5.1.0
+      prettier: 3.8.1
+
+  prettier-plugin-tailwindcss@0.7.2(@ianvs/prettier-plugin-sort-imports@4.7.1(@prettier/plugin-oxc@0.1.3)(@vue/compiler-sfc@3.5.27)(content-tag@4.1.0)(prettier-plugin-ember-template-tag@2.1.3(prettier@3.8.1))(prettier@3.8.1))(@prettier/plugin-oxc@0.1.3)(@trivago/prettier-plugin-sort-imports@6.0.2(@vue/compiler-sfc@3.5.27)(prettier-plugin-ember-template-tag@2.1.3(prettier@3.8.1))(prettier@3.8.1))(prettier@3.8.1):
     dependencies:
       prettier: 3.8.1
     optionalDependencies:
-      "@ianvs/prettier-plugin-sort-imports": 4.7.1(@vue/compiler-sfc@3.5.27)(prettier@3.8.1)
-      "@trivago/prettier-plugin-sort-imports": 6.0.2(@vue/compiler-sfc@3.5.27)(prettier@3.8.1)
+      "@ianvs/prettier-plugin-sort-imports": 4.7.1(@prettier/plugin-oxc@0.1.3)(@vue/compiler-sfc@3.5.27)(content-tag@4.1.0)(prettier-plugin-ember-template-tag@2.1.3(prettier@3.8.1))(prettier@3.8.1)
+      "@prettier/plugin-oxc": 0.1.3
+      "@trivago/prettier-plugin-sort-imports": 6.0.2(@vue/compiler-sfc@3.5.27)(prettier-plugin-ember-template-tag@2.1.3(prettier@3.8.1))(prettier@3.8.1)
 
   prettier@3.8.1: {}
 
@@ -20235,6 +20637,10 @@ snapshots:
   symbol-tree@3.2.4:
     optional: true
 
+  synckit@0.11.12:
+    dependencies:
+      "@pkgr/core": 0.2.9
+
   tabbable@6.4.0: {}
 
   table@6.9.0:
@@ -20246,6 +20652,8 @@ snapshots:
       strip-ansi: 6.0.1
 
   tagged-tag@1.0.0: {}
+
+  tailwind-csstree@0.1.4: {}
 
   tailwind-merge@3.4.0: {}
 
@@ -20920,6 +21328,8 @@ snapshots:
   zod-validation-error@4.0.2(zod@4.3.6):
     dependencies:
       zod: 4.3.6
+
+  zod@3.22.4: {}
 
   zod@3.25.76: {}
 

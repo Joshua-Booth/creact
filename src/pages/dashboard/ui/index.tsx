@@ -15,7 +15,11 @@ export function DashboardPage() {
       <title>Dashboard | Creact</title>
       <h1 className="pb-1">Dashboard</h1>
       {user && !isLoading && !error && (
-        <div className="mx-auto flex max-w-[720px] flex-wrap text-center max-[905px]:mx-auto max-xl:w-auto max-xl:max-w-[660px] max-lg:mx-[200px] max-sm:w-full max-sm:flex-col"></div>
+        <div
+          className="mx-auto flex max-w-[720px] flex-wrap text-center
+            max-[905px]:mx-auto max-xl:w-auto max-xl:max-w-[660px]
+            max-lg:mx-[200px] max-sm:w-full max-sm:flex-col"
+        ></div>
       )}
       {isLoading && <Spinner />}
       {error && (

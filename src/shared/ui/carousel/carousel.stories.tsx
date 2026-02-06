@@ -31,7 +31,7 @@ const meta: Meta<typeof Carousel> = {
       <CarouselContent>
         {Array.from({ length: 5 }).map((_, index) => (
           <CarouselItem key={`slide-${index + 1}`}>
-            <div className="bg-card flex aspect-square items-center justify-center rounded border p-6">
+            <div className="bg-card flex aspect-square items-center justify-center rounded-sm border p-6">
               <span className="text-4xl font-semibold">{index + 1}</span>
             </div>
           </CarouselItem>
@@ -64,7 +64,10 @@ export const Size: Story = {
       <CarouselContent>
         {Array.from({ length: 5 }).map((_, index) => (
           <CarouselItem key={`slide-${index + 1}`} className="basis-1/3">
-            <div className="bg-card flex aspect-square items-center justify-center rounded border p-6">
+            <div
+              className="bg-card flex aspect-square items-center justify-center
+                rounded-sm border p-6"
+            >
               <span className="text-4xl font-semibold">{index + 1}</span>
             </div>
           </CarouselItem>
@@ -113,7 +116,10 @@ export const Orientation: Story = {
       <CarouselContent className="-mt-1 h-[200px]">
         {Array.from({ length: 5 }).map((_, index) => (
           <CarouselItem key={`slide-${index + 1}`} className="basis-1/3 pt-1">
-            <div className="bg-card flex items-center justify-center rounded border p-6">
+            <div
+              className="bg-card flex items-center justify-center rounded-sm
+                border p-6"
+            >
               <span className="text-3xl font-semibold">{index + 1}</span>
             </div>
           </CarouselItem>
@@ -138,7 +144,10 @@ export const Spacing: Story = {
             key={`slide-${index + 1}`}
             className="basis-1/3 pl-2 md:pl-4"
           >
-            <div className="bg-card flex aspect-square items-center justify-center rounded border p-6">
+            <div
+              className="bg-card flex aspect-square items-center justify-center
+                rounded-sm border p-6"
+            >
               <span className="text-2xl font-semibold">{index + 1}</span>
             </div>
           </CarouselItem>
@@ -178,7 +187,10 @@ function CarouselWithDots(args: React.ComponentProps<typeof Carousel>) {
         <CarouselContent>
           {Array.from({ length: 5 }).map((_, index) => (
             <CarouselItem key={`slide-${index + 1}`}>
-              <div className="bg-card flex aspect-square items-center justify-center rounded border p-6">
+              <div
+                className="bg-card flex aspect-square items-center
+                  justify-center rounded-sm border p-6"
+              >
                 <span className="text-4xl font-semibold">{index + 1}</span>
               </div>
             </CarouselItem>
@@ -232,7 +244,10 @@ export const AutoPlay: Story = {
       <CarouselContent>
         {Array.from({ length: 5 }).map((_, index) => (
           <CarouselItem key={`slide-${index + 1}`}>
-            <div className="bg-card flex aspect-square items-center justify-center rounded border p-6">
+            <div
+              className="bg-card flex aspect-square items-center justify-center
+                rounded-sm border p-6"
+            >
               <span className="text-4xl font-semibold">{index + 1}</span>
             </div>
           </CarouselItem>
@@ -253,7 +268,10 @@ export const Loop: Story = {
       <CarouselContent>
         {Array.from({ length: 5 }).map((_, index) => (
           <CarouselItem key={`slide-${index + 1}`}>
-            <div className="bg-card flex aspect-square items-center justify-center rounded border p-6">
+            <div
+              className="bg-card flex aspect-square items-center justify-center
+                rounded-sm border p-6"
+            >
               <span className="text-4xl font-semibold">{index + 1}</span>
             </div>
           </CarouselItem>
@@ -305,11 +323,11 @@ function CarouselWithThumbnails(args: React.ComponentProps<typeof Carousel>) {
         <CarouselContent>
           {images.map((src, index) => (
             <CarouselItem key={`main-${index + 1}`}>
-              <div className="aspect-video overflow-hidden rounded border">
+              <div className="aspect-video overflow-hidden rounded-sm border">
                 <img
                   src={src}
                   alt={`Slide ${index + 1}`}
-                  className="h-full w-full object-cover"
+                  className="size-full object-cover"
                 />
               </div>
             </CarouselItem>
@@ -336,7 +354,7 @@ function CarouselWithThumbnails(args: React.ComponentProps<typeof Carousel>) {
             >
               <div
                 className={cn(
-                  "overflow-hidden rounded border-2 transition-all",
+                  "overflow-hidden rounded-sm border-2 transition-all",
                   index === current
                     ? "border-primary opacity-100"
                     : "border-transparent opacity-50 hover:opacity-75"

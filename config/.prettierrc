@@ -18,8 +18,11 @@
   "vueIndentScriptAndStyle": false,
   "plugins": [
     "@ianvs/prettier-plugin-sort-imports",
-    "prettier-plugin-tailwindcss"
+    "prettier-plugin-tailwindcss",
+    "prettier-plugin-classnames",
+    "prettier-plugin-merge"
   ],
+  "customFunctions": ["cn", "clsx", "cva"],
   "importOrder": [
     "<TYPES>",
     "<BUILTIN_MODULES>",

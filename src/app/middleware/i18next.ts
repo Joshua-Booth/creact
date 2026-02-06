@@ -29,6 +29,7 @@ export const [i18nextMiddleware, getLocale, getInstance] =
     i18next: {
       resources,
       defaultNS: "common",
+      showSupportNotice: false,
     },
     plugins: [initReactI18next],
   });

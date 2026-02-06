@@ -49,14 +49,17 @@ export const Always: Story = {
     >
       <ScrollAreaPrimitive.Viewport
         data-slot="scroll-area-viewport"
-        className="focus-visible:ring-ring/50 size-full rounded-[inherit] transition-[color,box-shadow] outline-none focus-visible:ring-[3px] focus-visible:outline-1"
+        className="focus-visible:ring-ring/50 size-full rounded-[inherit]
+          transition-[color,box-shadow] outline-none focus-visible:ring-[3px]
+          focus-visible:outline-1"
       >
         {args.children}
       </ScrollAreaPrimitive.Viewport>
       <ScrollAreaPrimitive.Scrollbar
         data-slot="scroll-area-scrollbar"
         orientation="vertical"
-        className="flex h-full w-2.5 touch-none border-l border-l-transparent p-px transition-colors select-none"
+        className="flex h-full w-2.5 touch-none border-l border-l-transparent
+          p-px transition-colors select-none"
       >
         <ScrollAreaPrimitive.Thumb
           data-slot="scroll-area-thumb"
@@ -79,14 +82,18 @@ export const Hover: Story = {
     >
       <ScrollAreaPrimitive.Viewport
         data-slot="scroll-area-viewport"
-        className="focus-visible:ring-ring/50 size-full rounded-[inherit] transition-[color,box-shadow] outline-none focus-visible:ring-[3px] focus-visible:outline-1"
+        className="focus-visible:ring-ring/50 size-full rounded-[inherit]
+          transition-[color,box-shadow] outline-none focus-visible:ring-[3px]
+          focus-visible:outline-1"
       >
         {args.children}
       </ScrollAreaPrimitive.Viewport>
       <ScrollAreaPrimitive.Scrollbar
         data-slot="scroll-area-scrollbar"
         orientation="vertical"
-        className="flex h-full w-2.5 touch-none border-l border-l-transparent p-px opacity-0 transition-opacity select-none data-[hovering]:opacity-100"
+        className="flex h-full w-2.5 touch-none border-l border-l-transparent
+          p-px opacity-0 transition-opacity select-none
+          data-hovering:opacity-100"
       >
         <ScrollAreaPrimitive.Thumb
           data-slot="scroll-area-thumb"
@@ -109,14 +116,18 @@ export const Scroll: Story = {
     >
       <ScrollAreaPrimitive.Viewport
         data-slot="scroll-area-viewport"
-        className="focus-visible:ring-ring/50 size-full rounded-[inherit] transition-[color,box-shadow] outline-none focus-visible:ring-[3px] focus-visible:outline-1"
+        className="focus-visible:ring-ring/50 size-full rounded-[inherit]
+          transition-[color,box-shadow] outline-none focus-visible:ring-[3px]
+          focus-visible:outline-1"
       >
         {args.children}
       </ScrollAreaPrimitive.Viewport>
       <ScrollAreaPrimitive.Scrollbar
         data-slot="scroll-area-scrollbar"
         orientation="vertical"
-        className="flex h-full w-2.5 touch-none border-l border-l-transparent p-px opacity-0 transition-opacity duration-150 select-none data-[scrolling]:opacity-100 data-[scrolling]:duration-0"
+        className="flex h-full w-2.5 touch-none border-l border-l-transparent
+          p-px opacity-0 transition-opacity duration-150 select-none
+          data-scrolling:opacity-100 data-scrolling:duration-0"
       >
         <ScrollAreaPrimitive.Thumb
           data-slot="scroll-area-thumb"

@@ -183,7 +183,8 @@ export const ChoiceCard: Story = {
           <Item
             variant="outline"
             render={<label htmlFor="plus" aria-label="Plus" />}
-            className="has-data-checked:border-primary/50 dark:has-data-checked:bg-primary/10 cursor-pointer"
+            className="has-data-checked:border-primary/50
+              dark:has-data-checked:bg-primary/10 cursor-pointer"
           >
             <ItemContent>
               <ItemTitle>Plus</ItemTitle>
@@ -196,7 +197,8 @@ export const ChoiceCard: Story = {
           <Item
             variant="outline"
             render={<label htmlFor="pro" aria-label="Pro" />}
-            className="has-data-checked:border-primary/50 dark:has-data-checked:bg-primary/10 cursor-pointer"
+            className="has-data-checked:border-primary/50
+              dark:has-data-checked:bg-primary/10 cursor-pointer"
           >
             <ItemContent>
               <ItemTitle>Pro</ItemTitle>
@@ -207,7 +209,8 @@ export const ChoiceCard: Story = {
           <Item
             variant="outline"
             render={<label htmlFor="enterprise" aria-label="Enterprise" />}
-            className="has-data-checked:border-primary/50 dark:has-data-checked:bg-primary/10 cursor-pointer"
+            className="has-data-checked:border-primary/50
+              dark:has-data-checked:bg-primary/10 cursor-pointer"
           >
             <ItemContent>
               <ItemTitle>Enterprise</ItemTitle>

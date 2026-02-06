@@ -11,7 +11,8 @@ function Links({ links }: { links: { name: string; path: string }[] }) {
         <Link
           key={link.path}
           to={link.path}
-          className="text-muted-foreground hover:text-foreground transition-colors"
+          className="text-muted-foreground hover:text-foreground
+            transition-colors"
         >
           {link.name}
         </Link>
@@ -32,10 +33,7 @@ export default function Header() {
         className="absolute top-0 ml-[15px] max-[400px]:ml-[5px]"
         aria-label="Home"
       >
-        <Logo
-          className="img-fluid mr-[10px] h-[50px]"
-          title="React Frontend Logo"
-        />
+        <Logo className="mr-[10px] h-[50px]" title="React Frontend Logo" />
       </NavLink>
       {authenticated ? (
         <div className="absolute top-7.5 right-4 flex items-center gap-4">

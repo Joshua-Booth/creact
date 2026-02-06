@@ -16,6 +16,13 @@ const meta = {
     value: 30,
     max: 100,
   },
+  decorators: [
+    (Story) => (
+      <div className="w-80">
+        <Story />
+      </div>
+    ),
+  ],
 } satisfies Meta<typeof Progress>;
 
 export default meta;

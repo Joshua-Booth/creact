@@ -3,6 +3,7 @@ import type { Meta, StoryObj } from "@storybook/react-vite";
 import { AlertTriangleIcon } from "lucide-react";
 import { userEvent, within } from "storybook/test";
 
+import { Button } from "../button";
 import {
   AlertDialog,
   AlertDialogAction,
@@ -27,7 +28,9 @@ const meta = {
   argTypes: {},
   render: (args) => (
     <AlertDialog {...args}>
-      <AlertDialogTrigger>Open</AlertDialogTrigger>
+      <AlertDialogTrigger
+        render={<Button variant="outline">Open alert dialog</Button>}
+      />
       <AlertDialogContent>
         <AlertDialogHeader>
           <AlertDialogTitle>Are you sure absolutely sure?</AlertDialogTitle>
@@ -66,7 +69,7 @@ export const ShouldOpenClose: Story = {
     await step("open the alert dialog", async () => {
       await userEvent.click(
         canvas.getByRole("button", {
-          name: /open/i,
+          name: /open alert dialog/i,
         })
       );
     });
@@ -88,7 +91,9 @@ export const ShouldOpenClose: Story = {
 export const Small: Story = {
   render: (args) => (
     <AlertDialog {...args}>
-      <AlertDialogTrigger>Open</AlertDialogTrigger>
+      <AlertDialogTrigger
+        render={<Button variant="outline">Open alert dialog</Button>}
+      />
       <AlertDialogContent size="sm">
         <AlertDialogHeader>
           <AlertDialogTitle>Delete item?</AlertDialogTitle>
@@ -111,7 +116,9 @@ export const Small: Story = {
 export const WithMedia: Story = {
   render: (args) => (
     <AlertDialog {...args}>
-      <AlertDialogTrigger>Open</AlertDialogTrigger>
+      <AlertDialogTrigger
+        render={<Button variant="outline">Open alert dialog</Button>}
+      />
       <AlertDialogContent>
         <AlertDialogHeader>
           <AlertDialogMedia>
@@ -138,7 +145,9 @@ export const WithMedia: Story = {
 export const Destructive: Story = {
   render: (args) => (
     <AlertDialog {...args}>
-      <AlertDialogTrigger>Open</AlertDialogTrigger>
+      <AlertDialogTrigger
+        render={<Button variant="outline">Open alert dialog</Button>}
+      />
       <AlertDialogContent>
         <AlertDialogHeader>
           <AlertDialogTitle>Delete account</AlertDialogTitle>

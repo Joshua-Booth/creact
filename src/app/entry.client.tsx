@@ -39,6 +39,7 @@ async function main() {
     .use(Fetch)
     .use(I18nextBrowserLanguageDetector)
     .init({
+      showSupportNotice: false,
       fallbackLng: DEFAULT_LANGUAGE,
       // cspell:disable-next-line
       supportedLngs: [...SUPPORTED_LANGUAGES],

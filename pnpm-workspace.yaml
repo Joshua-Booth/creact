@@ -3,6 +3,7 @@ onlyBuiltDependencies:
   - esbuild
   - "@sentry/cli"
   - msw
+  - protobufjs
 
 ignoredBuiltDependencies:
   - core-js

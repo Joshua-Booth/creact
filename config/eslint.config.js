@@ -4,6 +4,7 @@ import js from "@eslint/js";
 import vitest from "@vitest/eslint-plugin";
 import barrel from "eslint-plugin-barrel-files";
 import baselineJs from "eslint-plugin-baseline-js";
+import betterTailwindcss from "eslint-plugin-better-tailwindcss";
 import depend from "eslint-plugin-depend";
 import jsdoc from "eslint-plugin-jsdoc";
 import jsxA11y from "eslint-plugin-jsx-a11y";
@@ -62,6 +63,34 @@ export default defineConfig([
 
   // Storybook
   ...storybook.configs["flat/recommended"],
+
+  // Tailwind CSS
+  {
+    files: ["**/*.tsx"],
+    plugins: { "better-tailwindcss": betterTailwindcss },
+    rules: {
+      ...betterTailwindcss.configs.recommended.rules,
+      // Correctness: errors
+      "better-tailwindcss/no-conflicting-classes": "error",
+      "better-tailwindcss/no-duplicate-classes": "error",
+      "better-tailwindcss/no-deprecated-classes": "error",
+      // Stylistic: warnings (all autofixable)
+      "better-tailwindcss/no-unknown-classes": [
+        "warn",
+        { ignore: ["^cn-", "^toaster$"] },
+      ],
+      // Class ordering handled by prettier-plugin-tailwindcss
+      "better-tailwindcss/enforce-consistent-class-order": "off",
+      "better-tailwindcss/enforce-consistent-line-wrapping": "off",
+      "better-tailwindcss/enforce-canonical-classes": "warn",
+      "better-tailwindcss/enforce-shorthand-classes": "warn",
+    },
+    settings: {
+      "better-tailwindcss": {
+        entryPoint: "src/app/styles/globals.css",
+      },
+    },
+  },
 
   // Dependencies
   depend.configs["flat/recommended"],
