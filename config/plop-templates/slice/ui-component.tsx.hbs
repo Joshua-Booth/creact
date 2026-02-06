@@ -1,0 +1,13 @@
+{{#eq layer "pages"}}
+export function {{pascalCase name}}Page() {
+  return (
+    <main>
+      <h1>{{titleCase name}}</h1>
+    </main>
+  );
+}
+{{else}}
+export function {{pascalCase name}}() {
+  return <div>{{titleCase name}}</div>;
+}
+{{/eq}}

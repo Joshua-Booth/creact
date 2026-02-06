@@ -1,0 +1,24 @@
+import preview from "@/storybook/preview";
+
+{{#eq layer "pages"}}
+import { {{pascalCase name}}Page } from "./{{name}}-page";
+
+const meta = preview.meta({
+  title: "pages/{{pascalCase name}}",
+  component: {{pascalCase name}}Page,
+  parameters: {
+    layout: "fullscreen",
+  },
+});
+{{else}}
+import { {{pascalCase name}} } from "./{{name}}";
+
+const meta = preview.meta({
+  title: "{{layer}}/{{pascalCase name}}",
+  component: {{pascalCase name}},
+});
+{{/eq}}
+
+// --- Stories ---
+
+export const Default = meta.story();

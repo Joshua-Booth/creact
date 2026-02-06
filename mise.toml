@@ -70,6 +70,11 @@ description = "Start development server"
 alias = "d"
 run = "react-router dev"
 
+[tasks.generate]
+description = "Scaffold FSD slices and components"
+alias = "g"
+run = "pnpm exec plop --plopfile config/plopfile.ts --dest ."
+
 [tasks.format]
 description = "Format code with Prettier"
 alias = "f"

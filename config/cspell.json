@@ -63,6 +63,7 @@
     "nosniff",
     "nums",
     "pipeable",
+    "plopfile",
     "posthog",
     "recents",
     "releaserc",

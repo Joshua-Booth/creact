@@ -92,7 +92,7 @@ For more information about this project check out the [wiki].
 - :bookmark: **Versioning** - Automated SemVer versioning, changelogs, and releases with [semantic-release]
 - :arrows_counterclockwise: **Dependency updates** - Automated dependency updates with [Renovate]
 - :shirt: **Linting** - [ESLint], [Prettier], [stylelint], [commitlint], [knip] for unused code detection, and [cspell] for spell checking
-- :building_construction: **Architecture** - [Feature-Sliced Design][fsd] with [Steiger] for architecture linting
+- :building_construction: **Architecture** - [Feature-Sliced Design][fsd] with [Steiger] for architecture linting and [Plop] for scaffolding
 - :white_check_mark: **Testing** - Unit and integration tests with [Vitest], E2E tests with [Playwright], API mocking with [MSW]
 - :chart_with_upwards_trend: **Coverage reports** - Test coverage tracking
 - :wrench: **Task runner** - Development workflows with [mise]
@@ -119,6 +119,7 @@ For more information about this project check out the [wiki].
 [cspell]: https://cspell.org/
 [fsd]: https://feature-sliced.design/
 [steiger]: https://github.com/feature-sliced/steiger
+[plop]: https://plopjs.com/
 [vitest]: https://vitest.dev/
 [playwright]: https://playwright.dev/
 [msw]: https://mswjs.io/
@@ -232,33 +233,62 @@ This automatically sets `VITE_PORT`, `VITE_API_PORT`, `VITE_API_ROOT_URL`, and `
 [sentry auth token]: https://docs.sentry.io/api/auth/#auth-tokens
 [posthog project api key]: https://posthog.com/docs/getting-started/send-events#how-to-find-your-project-api-key
 
-## UI Components
+## Code Generation
 
-The project uses [shadcn/ui] for UI components. Components are organized following the Feature-Sliced Design (FSD) architecture:
-
-- `src/shared/ui/` - Shared UI components (shadcn components and custom components)
-- `src/shared/lib/utils.ts` - Utility functions including the `cn()` helper for className merging
-
-### Adding shadcn/ui Components
-
-To add new shadcn/ui components to your project:
+The project uses [Plop] for scaffolding FSD slices and UI components. Run the interactive generator with:
 
 ```sh
-pnpm dlx shadcn@latest add [component-name]
+mise run generate       # Interactive prompt (alias: mise run g)
 ```
 
-For example, to add a dialog component:
+### Generators
+
+#### FSD Slice
+
+Scaffold a new feature, entity, widget, or page with selectable segments:
 
 ```sh
-pnpm dlx shadcn@latest add dialog
+mise run g -- slice
 ```
 
-Components will be automatically added to `src/shared/ui/` and will use the correct import aliases for the FSD structure.
+Prompts for layer, name (kebab-case), and segments (ui, api, model, lib, config). Generates the root barrel, UI component + story, and segment placeholder files.
 
-### Available Components
+Example output for `mise run g -- slice` with layer `features`, name `auth`, segments `ui, api, model`:
+
+```
+src/features/auth/
+  index.ts                    # Root barrel (always generated)
+  ui/auth.tsx                 # Component
+  ui/auth.stories.tsx         # CSF Factories story
+  api/auth.ts                 # Segment placeholder
+  model/auth.ts               # Segment placeholder
+```
+
+#### Custom UI Component
+
+Scaffold a custom (non-shadcn) UI component:
+
+```sh
+mise run g -- ui
+```
+
+Generates `src/shared/ui/{name}/{name}.tsx`, `{name}.stories.tsx`, and `index.ts` barrel.
+
+#### shadcn Component
+
+Add a shadcn/ui component with automatic restructuring to the nested directory format:
+
+```sh
+mise run g -- shadcn
+```
+
+Runs `shadcn add`, moves the flat output into a nested `{name}/` directory, and adds the barrel file and stories skeleton.
+
+### Available shadcn Components
 
 Check the [shadcn/ui documentation](https://ui.shadcn.com/docs/components) for the full list of available components.
 
+[plop]: https://plopjs.com/
 [shadcn/ui]: https://ui.shadcn.com/
 
 ## AI Assistant Integration
@@ -382,6 +412,7 @@ mise run steiger      # Run FSD architecture linter
 
 ```sh
 mise tasks ls            # List all available tasks
+mise run generate        # Scaffold FSD slices and components (alias: mise run g)
 mise run clean           # Clean build artifacts
 mise run build_analyze   # Analyze bundle size (alias: mise run ba)
 mise run semantic_release # Create a new release (alias: mise run release)

@@ -1,0 +1,10 @@
+// Public API for {{name}} {{layer}}
+{{#each segments}}
+{{#eq this "ui"}}
+{{#eq ../layer "pages"}}
+export { {{pascalCase ../name}}Page } from "./ui/{{../name}}-page";
+{{else}}
+export { {{pascalCase ../name}} } from "./ui/{{../name}}";
+{{/eq}}
+{{/eq}}
+{{/each}}
