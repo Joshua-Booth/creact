@@ -1,6 +1,6 @@
 import { beforeEach, describe, expect, it } from "vitest";
 
-import { useMainStore } from "./mainStore";
+import { useMainStore } from "./main-store";
 
 describe("useMainStore", () => {
   beforeEach(() => {

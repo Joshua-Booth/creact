@@ -16,7 +16,7 @@ import {
   useTheme,
 } from "remix-themes";
 
-import { SWRProvider } from "@/app/providers/SWRProvider";
+import { SWRProvider } from "@/app/providers/swr-provider";
 import { Header } from "@/widgets/header";
 import {
   generateMeta,

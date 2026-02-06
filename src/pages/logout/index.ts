@@ -1,2 +1,2 @@
 // Public API for logout page
-export { LogoutPage } from "./ui";
+export { LogoutPage } from "./ui/logout-page";

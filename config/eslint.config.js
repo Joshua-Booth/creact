@@ -5,6 +5,7 @@ import vitest from "@vitest/eslint-plugin";
 import barrel from "eslint-plugin-barrel-files";
 import baselineJs from "eslint-plugin-baseline-js";
 import betterTailwindcss from "eslint-plugin-better-tailwindcss";
+import checkFile from "eslint-plugin-check-file";
 import depend from "eslint-plugin-depend";
 import jsdoc from "eslint-plugin-jsdoc";
 import jsxA11y from "eslint-plugin-jsx-a11y";
@@ -304,6 +305,23 @@ export default defineConfig([
     plugins: { "barrel-files": barrel },
     rules: {
       "barrel-files/avoid-re-export-all": "error",
+    },
+  },
+
+  // File and folder naming conventions (kebab-case enforcement)
+  {
+    plugins: { "check-file": checkFile },
+    ignores: ["src/app/routes/**"],
+    rules: {
+      "check-file/filename-naming-convention": [
+        "error",
+        { "**/*.{ts,tsx}": "KEBAB_CASE" },
+        { ignoreMiddleExtensions: true },
+      ],
+      "check-file/folder-naming-convention": [
+        "error",
+        { "src/**/": "KEBAB_CASE" },
+      ],
     },
   },
 

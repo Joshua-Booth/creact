@@ -6,7 +6,7 @@ import i18n from "i18next";
 import { expect, userEvent, waitFor, within } from "storybook/test";
 
 import { I18N_CONFIG, resources } from "../../../shared/i18n";
-import { LoginPage } from "./index";
+import { LoginPage } from "./login-page";
 
 // --- Helpers ---
 

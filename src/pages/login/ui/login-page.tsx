@@ -13,19 +13,19 @@ import {
 import { Field, FieldError, FieldGroup, FieldLabel } from "@/shared/ui/field";
 import { Input } from "@/shared/ui/input";
 
-import { useSignupForm } from "../model/useSignupForm";
+import { useLoginForm } from "../model/use-login-form";
 
-export function SignupPage() {
+export function LoginPage() {
   const { t } = useTranslation();
-  const { form, isSubmitting, onSubmit } = useSignupForm();
+  const { form, isSubmitting, onSubmit } = useLoginForm();
 
   return (
     <main className="flex min-h-[80vh] items-center justify-center px-4">
-      <title>{t("pages.signUp.title", { appName: t("app.title") })}</title>
+      <title>{t("pages.login.title", { appName: t("app.title") })}</title>
       <Card className="w-full max-w-md">
         <CardHeader>
-          <CardTitle>{t("auth.signUp.title")}</CardTitle>
-          <CardDescription>{t("auth.signUp.description")}</CardDescription>
+          <CardTitle>{t("auth.login.title")}</CardTitle>
+          <CardDescription>{t("auth.login.description")}</CardDescription>
         </CardHeader>
         <CardContent>
           <form onSubmit={(e) => void onSubmit(e)} noValidate>
@@ -66,7 +66,7 @@ export function SignupPage() {
                       {...field}
                       id={field.name}
                       type="password"
-                      placeholder={t("auth.fields.createPasswordPlaceholder")}
+                      placeholder={t("auth.fields.passwordPlaceholder")}
                       data-testid="password"
                       disabled={isSubmitting}
                       aria-invalid={fieldState.invalid}
@@ -78,58 +78,38 @@ export function SignupPage() {
                 )}
               />
 
-              <Controller
-                name="confirmPassword"
-                control={form.control}
-                render={({ field, fieldState }) => (
-                  <Field data-invalid={fieldState.invalid || undefined}>
-                    <FieldLabel htmlFor={field.name}>
-                      {t("auth.fields.confirmPassword")}
-                    </FieldLabel>
-                    <Input
-                      {...field}
-                      id={field.name}
-                      type="password"
-                      placeholder={t("auth.fields.confirmPasswordPlaceholder")}
-                      data-testid="confirm-password"
-                      disabled={isSubmitting}
-                      aria-invalid={fieldState.invalid}
-                    />
-                    {fieldState.invalid && (
-                      <FieldError errors={[fieldState.error]} />
-                    )}
-                  </Field>
-                )}
-              />
-
               {form.formState.errors.root && (
-                <FieldError data-testid="signup-error">
+                <FieldError data-testid="login-error">
                   {form.formState.errors.root.message}
                 </FieldError>
               )}
 
               <Button
                 type="submit"
-                data-testid="signup"
+                data-testid="login"
                 disabled={isSubmitting}
                 className="w-full"
               >
                 {isSubmitting
-                  ? t("auth.signUp.submitting")
-                  : t("auth.signUp.submit")}
+                  ? t("auth.login.submitting")
+                  : t("auth.login.submit")}
               </Button>
             </FieldGroup>
           </form>
         </CardContent>
-        <CardFooter className="flex justify-center text-sm">
-          <span className="text-muted-foreground">
-            {t("auth.signUp.hasAccount")}
-          </span>
+        <CardFooter className="flex justify-center gap-4 text-sm">
           <a
-            href="/login"
-            className="text-muted-foreground hover:text-foreground ml-1"
+            href="/forgot-password"
+            className="text-muted-foreground hover:text-foreground"
           >
-            {t("auth.signUp.signIn")}
+            {t("auth.login.forgotPassword")}
+          </a>
+          <span className="text-muted-foreground">·</span>
+          <a
+            href="/signup"
+            className="text-muted-foreground hover:text-foreground"
+          >
+            {t("auth.login.signUp")}
           </a>
         </CardFooter>
       </Card>

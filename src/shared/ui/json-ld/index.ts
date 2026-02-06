@@ -1,1 +1,1 @@
-export { JsonLd } from "./JsonLd";
+export { JsonLd } from "./json-ld";

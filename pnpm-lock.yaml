@@ -262,6 +262,9 @@ importers:
       eslint-plugin-better-tailwindcss:
         specifier: ^4.1.1
         version: 4.1.1(eslint@9.39.2(jiti@2.6.1))(tailwindcss@4.1.18)(typescript@5.9.3)
+      eslint-plugin-check-file:
+        specifier: ^3.3.1
+        version: 3.3.1(eslint@9.39.2(jiti@2.6.1))
       eslint-plugin-depend:
         specifier: ^1.4.0
         version: 1.4.0
@@ -4418,6 +4421,12 @@ packages:
         optional: true
       oxlint:
         optional: true
+
+  eslint-plugin-check-file@3.3.1:
+    resolution: {integrity: sha512-b7fDkp8Y0T9vloTYSrkMnb5Cqpk1bc6+jDQdgKIhzdwb47NmLAvMFYo3SzHOPF8u4SEsOVhmrNSbo6Sp633syg==}
+    engines: {node: '>=18'}
+    peerDependencies:
+      eslint: '>=9.0.0'
 
   eslint-plugin-depend@1.4.0:
     resolution: {integrity: sha512-MQs+m4nHSfgAO9bJDsBzqw0ofK/AOA0vfeY/6ahofqcUMLeM6/D1sTYs21fOhc17kNU/gn58YCtj20XaAssh2A==}
@@ -12320,6 +12329,12 @@ snapshots:
       eslint: 9.39.2(jiti@2.6.1)
     transitivePeerDependencies:
       - typescript
+
+  eslint-plugin-check-file@3.3.1(eslint@9.39.2(jiti@2.6.1)):
+    dependencies:
+      eslint: 9.39.2(jiti@2.6.1)
+      is-glob: 4.0.3
+      micromatch: 4.0.8
 
   eslint-plugin-depend@1.4.0:
     dependencies:
