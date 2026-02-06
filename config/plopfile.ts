@@ -364,11 +364,11 @@ export default function plopfile(plop: NodePlopAPI): void {
 
           const fileList = targets.join(" ");
           execSync(`mise run format_files -- ${fileList}`, {
-            stdio: "inherit",
+            stdio: "ignore",
           });
           try {
             execSync(`mise run lint_files -- ${fileList}`, {
-              stdio: "inherit",
+              stdio: "ignore",
             });
           } catch {
             // Lint errors are expected for upstream shadcn code
