@@ -1,6 +1,6 @@
 import preview from "@/storybook/preview";
-import { AlertTriangleIcon } from "lucide-react";
-import { userEvent, within } from "storybook/test";
+import { BluetoothIcon, CircleFadingPlusIcon, Trash2Icon } from "lucide-react";
+import { expect, userEvent, within } from "storybook/test";
 
 import { Button } from "../button";
 import {
@@ -27,11 +27,11 @@ const meta = preview.meta({
   render: (args) => (
     <AlertDialog {...args}>
       <AlertDialogTrigger
-        render={<Button variant="outline">Open alert dialog</Button>}
+        render={<Button variant="outline">Show Dialog</Button>}
       />
       <AlertDialogContent>
         <AlertDialogHeader>
-          <AlertDialogTitle>Are you sure absolutely sure?</AlertDialogTitle>
+          <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
           <AlertDialogDescription>
             This action cannot be undone. This will permanently delete your
             account and remove your data from our servers.
@@ -56,32 +56,6 @@ const meta = preview.meta({
  */
 export const Default = meta.story();
 
-// --- Tests ---
-
-Default.test(
-  "when alert dialog trigger is pressed, should open the dialog and be able to close it",
-  async ({ canvasElement, canvas, step }) => {
-    const canvasBody = within(canvasElement.ownerDocument.body);
-
-    await step("open the alert dialog", async () => {
-      await userEvent.click(
-        canvas.getByRole("button", {
-          name: /open alert dialog/i,
-        })
-      );
-    });
-
-    await step("close the alert dialog", async () => {
-      await userEvent.click(
-        canvasBody.getByRole("button", {
-          name: /cancel/i,
-        }),
-        { delay: 100 }
-      );
-    });
-  }
-);
-
 /**
  * A smaller alert dialog variant for compact interfaces.
  */
@@ -89,18 +63,18 @@ export const Small = meta.story({
   render: (args) => (
     <AlertDialog {...args}>
       <AlertDialogTrigger
-        render={<Button variant="outline">Open alert dialog</Button>}
+        render={<Button variant="outline">Show Dialog</Button>}
       />
       <AlertDialogContent size="sm">
         <AlertDialogHeader>
-          <AlertDialogTitle>Delete item?</AlertDialogTitle>
+          <AlertDialogTitle>Allow accessory to connect?</AlertDialogTitle>
           <AlertDialogDescription>
-            This action cannot be undone.
+            Do you want to allow the USB accessory to connect to this device?
           </AlertDialogDescription>
         </AlertDialogHeader>
         <AlertDialogFooter>
-          <AlertDialogCancel>Cancel</AlertDialogCancel>
-          <AlertDialogAction>Delete</AlertDialogAction>
+          <AlertDialogCancel>Don&apos;t allow</AlertDialogCancel>
+          <AlertDialogAction>Allow</AlertDialogAction>
         </AlertDialogFooter>
       </AlertDialogContent>
     </AlertDialog>
@@ -114,22 +88,50 @@ export const WithMedia = meta.story({
   render: (args) => (
     <AlertDialog {...args}>
       <AlertDialogTrigger
-        render={<Button variant="outline">Open alert dialog</Button>}
+        render={<Button variant="outline">Share Project</Button>}
       />
       <AlertDialogContent>
         <AlertDialogHeader>
           <AlertDialogMedia>
-            <AlertTriangleIcon className="text-amber-500" />
+            <CircleFadingPlusIcon />
           </AlertDialogMedia>
-          <AlertDialogTitle>Warning</AlertDialogTitle>
+          <AlertDialogTitle>Share this project?</AlertDialogTitle>
           <AlertDialogDescription>
-            You are about to perform an action that may have unintended
-            consequences. Please review before proceeding.
+            Anyone with the link will be able to view and edit this project.
           </AlertDialogDescription>
         </AlertDialogHeader>
         <AlertDialogFooter>
           <AlertDialogCancel>Cancel</AlertDialogCancel>
-          <AlertDialogAction>Proceed</AlertDialogAction>
+          <AlertDialogAction>Share</AlertDialogAction>
+        </AlertDialogFooter>
+      </AlertDialogContent>
+    </AlertDialog>
+  ),
+});
+
+/**
+ * A small alert dialog with an icon in the header for compact interfaces.
+ */
+export const SmallWithMedia = meta.story({
+  name: "Small with Media",
+  render: (args) => (
+    <AlertDialog {...args}>
+      <AlertDialogTrigger
+        render={<Button variant="outline">Show Dialog</Button>}
+      />
+      <AlertDialogContent size="sm">
+        <AlertDialogHeader>
+          <AlertDialogMedia>
+            <BluetoothIcon />
+          </AlertDialogMedia>
+          <AlertDialogTitle>Allow accessory to connect?</AlertDialogTitle>
+          <AlertDialogDescription>
+            Do you want to allow the USB accessory to connect to this device?
+          </AlertDialogDescription>
+        </AlertDialogHeader>
+        <AlertDialogFooter>
+          <AlertDialogCancel>Don&apos;t allow</AlertDialogCancel>
+          <AlertDialogAction>Allow</AlertDialogAction>
         </AlertDialogFooter>
       </AlertDialogContent>
     </AlertDialog>
@@ -143,23 +145,133 @@ export const Destructive = meta.story({
   render: (args) => (
     <AlertDialog {...args}>
       <AlertDialogTrigger
-        render={<Button variant="outline">Open alert dialog</Button>}
+        render={<Button variant="destructive">Delete Chat</Button>}
       />
-      <AlertDialogContent>
+      <AlertDialogContent size="sm">
         <AlertDialogHeader>
-          <AlertDialogTitle>Delete account</AlertDialogTitle>
+          <AlertDialogMedia
+            className="bg-destructive/10 text-destructive dark:bg-destructive/20
+              dark:text-destructive"
+          >
+            <Trash2Icon />
+          </AlertDialogMedia>
+          <AlertDialogTitle>Delete chat?</AlertDialogTitle>
           <AlertDialogDescription>
-            Are you sure you want to delete your account? All of your data will
-            be permanently removed. This action cannot be undone.
+            This will permanently delete this chat conversation. View{" "}
+            <a href="/settings">Settings</a> to delete any memories saved during
+            this chat.
           </AlertDialogDescription>
         </AlertDialogHeader>
         <AlertDialogFooter>
           <AlertDialogCancel>Cancel</AlertDialogCancel>
-          <AlertDialogAction variant="destructive">
-            Delete account
-          </AlertDialogAction>
+          <AlertDialogAction variant="destructive">Delete</AlertDialogAction>
         </AlertDialogFooter>
       </AlertDialogContent>
     </AlertDialog>
   ),
 });
+
+// --- Tests ---
+
+Default.test(
+  "when trigger is clicked, should open dialog and close via cancel",
+  async ({ canvasElement, canvas, step }) => {
+    const canvasBody = within(canvasElement.ownerDocument.body);
+
+    await step("open the alert dialog", async () => {
+      await userEvent.click(
+        canvas.getByRole("button", { name: /show dialog/i })
+      );
+    });
+
+    await step("close via cancel button", async () => {
+      await userEvent.click(
+        canvasBody.getByRole("button", { name: /cancel/i }),
+        { delay: 100 }
+      );
+    });
+  }
+);
+
+Default.test(
+  "when action button is clicked, should be interactive",
+  async ({ canvasElement, canvas, step }) => {
+    const canvasBody = within(canvasElement.ownerDocument.body);
+
+    await step("open the alert dialog", async () => {
+      await userEvent.click(
+        canvas.getByRole("button", { name: /show dialog/i })
+      );
+    });
+
+    await step("verify action button is enabled and clickable", async () => {
+      const actionButton = canvasBody.getByRole("button", {
+        name: /continue/i,
+      });
+      await expect(actionButton).toBeEnabled();
+      await userEvent.click(actionButton, { delay: 100 });
+    });
+
+    await step("clean up", async () => {
+      await userEvent.click(
+        canvasBody.getByRole("button", { name: /cancel/i }),
+        { delay: 100 }
+      );
+    });
+  }
+);
+
+Default.test(
+  "when Escape key is pressed, should not dismiss the alert dialog",
+  async ({ canvasElement, canvas, step }) => {
+    const canvasBody = within(canvasElement.ownerDocument.body);
+
+    await step("open the alert dialog", async () => {
+      await userEvent.click(
+        canvas.getByRole("button", { name: /show dialog/i })
+      );
+    });
+
+    await step("press Escape and verify dialog stays open", async () => {
+      await userEvent.keyboard("{Escape}");
+      await expect(canvasBody.getByRole("alertdialog")).toBeInTheDocument();
+    });
+
+    await step("clean up", async () => {
+      await userEvent.click(
+        canvasBody.getByRole("button", { name: /cancel/i }),
+        { delay: 100 }
+      );
+    });
+  }
+);
+
+Default.test(
+  "when dialog is open, should render both cancel and action buttons",
+  async ({ canvasElement, canvas, step }) => {
+    const canvasBody = within(canvasElement.ownerDocument.body);
+
+    await step("open the alert dialog", async () => {
+      await userEvent.click(
+        canvas.getByRole("button", { name: /show dialog/i })
+      );
+    });
+
+    await step("verify dialog content", async () => {
+      await expect(canvasBody.getByRole("alertdialog")).toBeInTheDocument();
+      await expect(
+        canvasBody.getByRole("button", { name: /cancel/i })
+      ).toBeInTheDocument();
+      await expect(
+        canvasBody.getByRole("button", { name: /continue/i })
+      ).toBeInTheDocument();
+    });
+
+    await step("clean up", async () => {
+      await userEvent.click(
+        canvasBody.getByRole("button", { name: /cancel/i }),
+        { delay: 100 }
+      );
+    });
+  }
+);
