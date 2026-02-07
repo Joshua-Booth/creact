@@ -1,7 +1,10 @@
 import preview from "@/storybook/preview";
-import { BellRing } from "lucide-react";
+import { ChevronRightIcon } from "lucide-react";
 
+import { Badge } from "../badge";
 import { Button } from "../button";
+import { Input } from "../input";
+import { Label } from "../label";
 import {
   Card,
   CardAction,
@@ -11,23 +14,6 @@ import {
   CardHeader,
   CardTitle,
 } from "./card";
-
-// --- Helpers ---
-
-const notifications = [
-  {
-    title: "Your call has been confirmed.",
-    description: "1 hour ago",
-  },
-  {
-    title: "You have a new message!",
-    description: "1 hour ago",
-  },
-  {
-    title: "Your subscription is expiring soon!",
-    description: "2 hours ago",
-  },
-];
 
 /**
  * Displays a card with header, content, and footer.
@@ -47,87 +33,130 @@ const meta = preview.meta({
 // --- Stories ---
 
 /**
- * The default form of the card.
+ * The default form of the card, showing a login form with `CardAction`,
+ * form inputs, and footer buttons.
  */
 export const Default = meta.story({
   render: (args) => (
-    <Card {...args}>
+    <Card {...args} className="w-sm">
       <CardHeader>
-        <CardTitle>Notifications</CardTitle>
-        <CardDescription>You have 3 unread messages.</CardDescription>
-      </CardHeader>
-      <CardContent className="grid gap-4">
-        {notifications.map((notification) => (
-          <div key={notification.title} className="flex items-center gap-4">
-            <BellRing className="size-6" />
-            <div>
-              <p>{notification.title}</p>
-              <p className="text-foreground/60">{notification.description}</p>
-            </div>
-          </div>
-        ))}
-      </CardContent>
-      <CardFooter>
-        <Button variant="link">Close</Button>
-      </CardFooter>
-    </Card>
-  ),
-});
-
-/**
- * Use the `CardAction` component to add interactive elements in the header.
- */
-export const WithCardAction = meta.story({
-  render: (args) => (
-    <Card {...args}>
-      <CardHeader>
-        <CardTitle>Team Settings</CardTitle>
-        <CardDescription>Manage your team preferences</CardDescription>
+        <CardTitle>Login to your account</CardTitle>
+        <CardDescription>
+          Enter your email below to login to your account
+        </CardDescription>
         <CardAction>
-          <Button size="sm" variant="outline">
-            Edit
-          </Button>
+          <Button variant="link">Sign Up</Button>
         </CardAction>
       </CardHeader>
       <CardContent>
-        <p>Configure team members, permissions, and notifications.</p>
+        <form>
+          <div className="flex flex-col gap-6">
+            <div className="grid gap-2">
+              <Label htmlFor="email">Email</Label>
+              <Input
+                id="email"
+                type="email"
+                placeholder="m@example.com"
+                required
+              />
+            </div>
+            <div className="grid gap-2">
+              <div className="flex items-center">
+                <Label htmlFor="password">Password</Label>
+                <Button variant="link" size="sm" className="ml-auto h-auto p-0">
+                  Forgot your password?
+                </Button>
+              </div>
+              <Input id="password" type="password" required />
+            </div>
+          </div>
+        </form>
       </CardContent>
-      <CardFooter>
-        <Button variant="ghost">Cancel</Button>
-        <Button className="ml-auto">Save Changes</Button>
+      <CardFooter className="flex-col gap-2">
+        <Button type="submit" className="w-full">
+          Login
+        </Button>
+        <Button variant="outline" className="w-full">
+          Login with Google
+        </Button>
       </CardFooter>
     </Card>
   ),
 });
 
 /**
- * A minimal card with only content, no header or footer.
+ * A compact card using `size="sm"` for feature highlights.
  */
-export const MinimalCard = meta.story({
+export const Small = meta.story({
   render: (args) => (
-    <Card {...args}>
+    <Card {...args} size="sm" className="mx-auto w-xs">
+      <CardHeader>
+        <CardTitle>Scheduled reports</CardTitle>
+        <CardDescription>
+          Weekly snapshots. No more manual exports.
+        </CardDescription>
+      </CardHeader>
       <CardContent>
-        <p className="text-sm">
-          This is a minimal card with only content. Perfect for displaying
-          simple information without the need for a header or footer.
-        </p>
+        <ul className="grid gap-2 py-2 text-sm">
+          <li className="flex gap-2">
+            <ChevronRightIcon
+              className="text-muted-foreground mt-0.5 size-4 shrink-0"
+            />
+            <span>Choose a schedule (daily, or weekly).</span>
+          </li>
+          <li className="flex gap-2">
+            <ChevronRightIcon
+              className="text-muted-foreground mt-0.5 size-4 shrink-0"
+            />
+            <span>Send to channels or specific teammates.</span>
+          </li>
+          <li className="flex gap-2">
+            <ChevronRightIcon
+              className="text-muted-foreground mt-0.5 size-4 shrink-0"
+            />
+            <span>Include charts, tables, and key metrics.</span>
+          </li>
+        </ul>
       </CardContent>
+      <CardFooter className="flex-col gap-2">
+        <Button size="sm" className="w-full">
+          Set up scheduled reports
+        </Button>
+        <Button variant="outline" size="sm" className="w-full">
+          See what&apos;s new
+        </Button>
+      </CardFooter>
     </Card>
   ),
 });
 
 /**
- * A card with only a header section, no content or footer.
+ * A card with a cover image, overlay, badge via `CardAction`, and a
+ * call-to-action footer.
  */
-export const HeaderOnly = meta.story({
+export const Image = meta.story({
   render: (args) => (
-    <Card {...args}>
+    <Card {...args} className="relative mx-auto w-sm pt-0">
+      <div className="absolute inset-0 z-30 aspect-video bg-black/35" />
+      <img
+        src="https://avatar.vercel.sh/shadcn1"
+        alt="Event cover"
+        className="relative z-20 aspect-video w-full object-cover brightness-60
+          grayscale dark:brightness-40"
+      />
       <CardHeader>
-        <CardTitle>Quick Stats</CardTitle>
+        <CardAction>
+          <Badge variant="secondary">Featured</Badge>
+        </CardAction>
+        <CardTitle>Design systems meetup</CardTitle>
         <CardDescription>
-          Your account summary at a glance. Click for details.
+          A practical talk on component APIs, accessibility, and shipping
+          faster.
         </CardDescription>
       </CardHeader>
+      <CardFooter>
+        <Button className="w-full">View Event</Button>
+      </CardFooter>
     </Card>
   ),
 });
