@@ -1,16 +1,22 @@
+/* eslint-disable @typescript-eslint/no-non-null-assertion -- Test assertions on known DOM elements */
+import { useState } from "react";
+
 import preview from "@/storybook/preview";
 import {
+  AlertTriangleIcon,
+  ArrowRightIcon,
+  AudioLinesIcon,
+  BotIcon,
+  CheckIcon,
   ChevronDownIcon,
   CopyIcon,
-  FilterIcon,
-  LinkIcon,
-  MailIcon,
   MinusIcon,
   PlusIcon,
-  SaveIcon,
+  SearchIcon,
   ShareIcon,
   Trash2Icon,
-  XIcon,
+  UserRoundXIcon,
+  VolumeOffIcon,
 } from "lucide-react";
 import { expect, fn, userEvent, within } from "storybook/test";
 
@@ -18,25 +24,47 @@ import { Button } from "../button";
 import {
   DropdownMenu,
   DropdownMenuContent,
+  DropdownMenuGroup,
   DropdownMenuItem,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "../dropdown-menu";
+import { Field, FieldDescription, FieldLabel } from "../field";
 import { Input } from "../input";
-import { InputGroup, InputGroupAddon, InputGroupInput } from "../input-group";
-import { Popover, PopoverContent, PopoverTrigger } from "../popover";
+import {
+  InputGroup,
+  InputGroupAddon,
+  InputGroupButton,
+  InputGroupInput,
+} from "../input-group";
+import {
+  Popover,
+  PopoverContent,
+  PopoverDescription,
+  PopoverHeader,
+  PopoverTitle,
+  PopoverTrigger,
+} from "../popover";
 import {
   Select,
   SelectContent,
+  SelectGroup,
   SelectItem,
   SelectTrigger,
-  SelectValue,
 } from "../select";
+import { Textarea } from "../textarea";
+import { Tooltip, TooltipContent, TooltipTrigger } from "../tooltip";
 import {
   ButtonGroup,
   ButtonGroupSeparator,
   ButtonGroupText,
 } from "./button-group";
+
+const CURRENCIES = [
+  { label: "US Dollar", value: "$" },
+  { label: "Euro", value: "€" },
+  { label: "British Pound", value: "£" },
+];
 
 /**
  * Groups related buttons together with consistent styling and spacing.
@@ -74,17 +102,338 @@ const meta = preview.meta({
 export const Default = meta.story();
 
 /**
- * A vertically stacked button group.
+ * Use the `orientation` prop to stack buttons vertically.
  */
 export const Orientation = meta.story({
   args: {
     orientation: "vertical",
   },
   render: (args) => (
+    <ButtonGroup {...args} aria-label="Media controls" className="h-fit">
+      <Button variant="outline" size="icon" aria-label="Increase">
+        <PlusIcon />
+      </Button>
+      <Button variant="outline" size="icon" aria-label="Decrease">
+        <MinusIcon />
+      </Button>
+    </ButtonGroup>
+  ),
+});
+
+/**
+ * Button groups with small, default, and large sizes, each paired with a
+ * matching icon button.
+ */
+export const Size = meta.story({
+  render: (args) => (
+    <div className="flex flex-col items-start gap-8">
+      <ButtonGroup {...args}>
+        <Button variant="outline" size="sm">
+          Small
+        </Button>
+        <Button variant="outline" size="sm">
+          Button
+        </Button>
+        <Button variant="outline" size="sm">
+          Group
+        </Button>
+        <Button variant="outline" size="icon-sm" aria-label="Add">
+          <PlusIcon />
+        </Button>
+      </ButtonGroup>
+      <ButtonGroup {...args}>
+        <Button variant="outline">Default</Button>
+        <Button variant="outline">Button</Button>
+        <Button variant="outline">Group</Button>
+        <Button variant="outline" size="icon" aria-label="Add">
+          <PlusIcon />
+        </Button>
+      </ButtonGroup>
+      <ButtonGroup {...args}>
+        <Button variant="outline" size="lg">
+          Large
+        </Button>
+        <Button variant="outline" size="lg">
+          Button
+        </Button>
+        <Button variant="outline" size="lg">
+          Group
+        </Button>
+        <Button variant="outline" size="icon-lg" aria-label="Add">
+          <PlusIcon />
+        </Button>
+      </ButtonGroup>
+    </div>
+  ),
+});
+
+/**
+ * Nested button groups with an `InputGroup` and tooltip integration.
+ */
+export const Nested = meta.story({
+  render: (args) => (
     <ButtonGroup {...args}>
-      <Button variant="outline">Top</Button>
-      <Button variant="outline">Middle</Button>
-      <Button variant="outline">Bottom</Button>
+      <ButtonGroup>
+        <Button variant="outline" size="icon" aria-label="Add">
+          <PlusIcon />
+        </Button>
+      </ButtonGroup>
+      <ButtonGroup>
+        <InputGroup>
+          <InputGroupInput placeholder="Send a message..." />
+          <Tooltip>
+            <TooltipTrigger render={<InputGroupAddon align="inline-end" />}>
+              <AudioLinesIcon />
+            </TooltipTrigger>
+            <TooltipContent>Voice Mode</TooltipContent>
+          </Tooltip>
+        </InputGroup>
+      </ButtonGroup>
+    </ButtonGroup>
+  ),
+});
+
+/**
+ * Use `ButtonGroupSeparator` to visually divide buttons within a group.
+ */
+export const Separator = meta.story({
+  render: (args) => (
+    <ButtonGroup {...args}>
+      <Button variant="secondary" size="sm">
+        Copy
+      </Button>
+      <ButtonGroupSeparator />
+      <Button variant="secondary" size="sm">
+        Paste
+      </Button>
+    </ButtonGroup>
+  ),
+});
+
+/**
+ * A split button pattern with a primary action and an icon button separated by
+ * a divider.
+ */
+export const Split = meta.story({
+  render: (args) => (
+    <ButtonGroup {...args}>
+      <Button variant="secondary">Button</Button>
+      <ButtonGroupSeparator />
+      <Button size="icon" variant="secondary" aria-label="Add">
+        <PlusIcon />
+      </Button>
+    </ButtonGroup>
+  ),
+});
+
+/**
+ * Button group pairing an input field with a search button.
+ */
+export const InputStory = meta.story({
+  name: "Input",
+  render: (args) => (
+    <ButtonGroup {...args}>
+      <Input placeholder="Search..." />
+      <Button variant="outline" aria-label="Search">
+        <SearchIcon />
+      </Button>
+    </ButtonGroup>
+  ),
+});
+
+/**
+ * Button group wrapping an `InputGroup` with a voice mode toggle button.
+ */
+export const InputGroupStory = meta.story({
+  name: "InputGroup",
+  render: function Render(args) {
+    const [voiceEnabled, setVoiceEnabled] = useState(false);
+
+    return (
+      <ButtonGroup {...args} className="[--radius:9999rem]">
+        <ButtonGroup>
+          <Button variant="outline" size="icon" aria-label="Add">
+            <PlusIcon />
+          </Button>
+        </ButtonGroup>
+        <ButtonGroup>
+          <InputGroup>
+            <InputGroupInput
+              placeholder={
+                voiceEnabled ? "Record and send audio..." : "Send a message..."
+              }
+              disabled={voiceEnabled}
+            />
+            <InputGroupAddon align="inline-end">
+              <Tooltip>
+                <TooltipTrigger
+                  render={
+                    <InputGroupButton
+                      onClick={() => setVoiceEnabled(!voiceEnabled)}
+                      size="icon-xs"
+                      aria-label="Voice Mode"
+                      data-active={voiceEnabled}
+                      className="data-[active=true]:bg-orange-100
+                        data-[active=true]:text-orange-700
+                        dark:data-[active=true]:bg-orange-800
+                        dark:data-[active=true]:text-orange-100"
+                      aria-pressed={voiceEnabled}
+                    />
+                  }
+                >
+                  <AudioLinesIcon />
+                </TooltipTrigger>
+                <TooltipContent>Voice Mode</TooltipContent>
+              </Tooltip>
+            </InputGroupAddon>
+          </InputGroup>
+        </ButtonGroup>
+      </ButtonGroup>
+    );
+  },
+});
+
+/**
+ * A split button with a dropdown menu for additional actions.
+ */
+export const DropdownMenuStory = meta.story({
+  name: "DropdownMenu",
+  render: (args) => (
+    <ButtonGroup {...args}>
+      <Button variant="outline">Follow</Button>
+      <DropdownMenu>
+        <DropdownMenuTrigger
+          render={
+            <Button
+              variant="outline"
+              className="pl-2!"
+              aria-label="More options"
+            />
+          }
+        >
+          <ChevronDownIcon />
+        </DropdownMenuTrigger>
+        <DropdownMenuContent align="end" className="w-52">
+          <DropdownMenuGroup>
+            <DropdownMenuItem>
+              <VolumeOffIcon />
+              Mute Conversation
+            </DropdownMenuItem>
+            <DropdownMenuItem>
+              <CheckIcon />
+              Mark as Read
+            </DropdownMenuItem>
+            <DropdownMenuItem>
+              <AlertTriangleIcon />
+              Report Conversation
+            </DropdownMenuItem>
+            <DropdownMenuItem>
+              <UserRoundXIcon />
+              Block User
+            </DropdownMenuItem>
+            <DropdownMenuItem>
+              <ShareIcon />
+              Share Conversation
+            </DropdownMenuItem>
+            <DropdownMenuItem>
+              <CopyIcon />
+              Copy Conversation
+            </DropdownMenuItem>
+          </DropdownMenuGroup>
+          <DropdownMenuSeparator />
+          <DropdownMenuGroup>
+            <DropdownMenuItem variant="destructive">
+              <Trash2Icon />
+              Delete Conversation
+            </DropdownMenuItem>
+          </DropdownMenuGroup>
+        </DropdownMenuContent>
+      </DropdownMenu>
+    </ButtonGroup>
+  ),
+});
+
+/**
+ * Button group combining a currency selector, numeric input, and submit button.
+ */
+export const SelectStory = meta.story({
+  name: "Select",
+  render: function Render(args) {
+    const [currency, setCurrency] = useState("$");
+
+    return (
+      <ButtonGroup {...args}>
+        <ButtonGroup>
+          <Select
+            value={currency}
+            onValueChange={(value) => setCurrency(value ?? "$")}
+          >
+            <SelectTrigger className="font-mono" aria-label="Currency">
+              {currency}
+            </SelectTrigger>
+            <SelectContent alignItemWithTrigger={false} align="start">
+              <SelectGroup>
+                {CURRENCIES.map((item) => (
+                  <SelectItem key={item.value} value={item.value}>
+                    {item.value}{" "}
+                    <span className="text-muted-foreground">{item.label}</span>
+                  </SelectItem>
+                ))}
+              </SelectGroup>
+            </SelectContent>
+          </Select>
+          <Input placeholder="10.00" pattern="[0-9]*" />
+        </ButtonGroup>
+        <ButtonGroup>
+          <Button aria-label="Send" size="icon" variant="outline">
+            <ArrowRightIcon />
+          </Button>
+        </ButtonGroup>
+      </ButtonGroup>
+    );
+  },
+});
+
+/**
+ * Button group with a popover for expanding additional content.
+ */
+export const PopoverStory = meta.story({
+  name: "Popover",
+  render: (args) => (
+    <ButtonGroup {...args}>
+      <Button variant="outline">
+        <BotIcon /> Copilot
+      </Button>
+      <Popover>
+        <PopoverTrigger
+          render={
+            <Button variant="outline" size="icon" aria-label="Open Popover" />
+          }
+        >
+          <ChevronDownIcon />
+        </PopoverTrigger>
+        <PopoverContent align="end" className="rounded-xl text-sm">
+          <PopoverHeader>
+            <PopoverTitle>Start a new task with Copilot</PopoverTitle>
+            <PopoverDescription>
+              Describe your task in natural language.
+            </PopoverDescription>
+          </PopoverHeader>
+          <Field>
+            <FieldLabel htmlFor="task" className="sr-only">
+              Task Description
+            </FieldLabel>
+            <Textarea
+              id="task"
+              placeholder="I need to..."
+              className="resize-none"
+            />
+            <FieldDescription>
+              Copilot will open a pull request for review.
+            </FieldDescription>
+          </Field>
+        </PopoverContent>
+      </Popover>
     </ButtonGroup>
   ),
 });
@@ -100,240 +449,6 @@ export const WithTextAddon = meta.story({
     </ButtonGroup>
   ),
 });
-
-/**
- * Button group with icons inside buttons.
- */
-export const WithIcons = meta.story({
-  render: (args) => (
-    <ButtonGroup {...args}>
-      <Button variant="outline">
-        <PlusIcon />
-        Add
-      </Button>
-      <Button variant="outline">
-        <Trash2Icon />
-        Delete
-      </Button>
-    </ButtonGroup>
-  ),
-});
-
-/**
- * Button group with an icon-only button and separator.
- *
- * Buttons with variant `outline` do not need a separator since they have a border.
- * For other variants, a separator is recommended to improve the visual hierarchy.
- */
-export const Separator = meta.story({
-  render: (args) => (
-    <ButtonGroup {...args}>
-      <Button variant="secondary">Save</Button>
-      <ButtonGroupSeparator />
-      <Button variant="secondary" size="icon" aria-label="More options">
-        <ChevronDownIcon />
-      </Button>
-    </ButtonGroup>
-  ),
-});
-
-/**
- * Button groups with different button sizes.
- */
-export const Size = meta.story({
-  render: (args) => (
-    <div className="flex flex-col items-center gap-4">
-      <ButtonGroup {...args}>
-        <Button variant="outline" size="sm">
-          Bold
-        </Button>
-        <Button variant="outline" size="sm">
-          Italic
-        </Button>
-        <Button variant="outline" size="sm">
-          Underline
-        </Button>
-      </ButtonGroup>
-      <ButtonGroup {...args}>
-        <Button variant="outline">Bold</Button>
-        <Button variant="outline">Italic</Button>
-        <Button variant="outline">Underline</Button>
-      </ButtonGroup>
-      <ButtonGroup {...args}>
-        <Button variant="outline" size="lg">
-          Bold
-        </Button>
-        <Button variant="outline" size="lg">
-          Italic
-        </Button>
-        <Button variant="outline" size="lg">
-          Underline
-        </Button>
-      </ButtonGroup>
-    </div>
-  ),
-});
-
-/**
- * Nested button groups with spacing between them.
- */
-export const Nested = meta.story({
-  render: (args) => (
-    <ButtonGroup {...args}>
-      <ButtonGroup>
-        <Button variant="outline">Cut</Button>
-        <Button variant="outline">Copy</Button>
-        <Button variant="outline">Paste</Button>
-      </ButtonGroup>
-      <ButtonGroup>
-        <Button variant="outline">Undo</Button>
-        <Button variant="outline">Redo</Button>
-      </ButtonGroup>
-    </ButtonGroup>
-  ),
-});
-
-/**
- * Button group wrapping an input field.
- */
-export const InputStory = meta.story({
-  name: "Input",
-  render: (args) => (
-    <ButtonGroup {...args}>
-      <Button variant="outline" size="icon" aria-label="Decrease">
-        <MinusIcon />
-      </Button>
-      <Input
-        type="number"
-        defaultValue={5}
-        className="w-16 text-center"
-        aria-label="Quantity"
-      />
-      <Button variant="outline" size="icon" aria-label="Increase">
-        <PlusIcon />
-      </Button>
-    </ButtonGroup>
-  ),
-});
-
-/**
- * Button group with an InputGroup component.
- */
-export const InputGroupStory = meta.story({
-  name: "InputGroup",
-  render: (args) => (
-    <ButtonGroup {...args}>
-      <InputGroup>
-        <InputGroupAddon>
-          <FilterIcon />
-        </InputGroupAddon>
-        <InputGroupInput placeholder="Filter..." className="w-40" />
-      </InputGroup>
-      <Button variant="outline">Apply</Button>
-      <Button variant="outline">Clear</Button>
-    </ButtonGroup>
-  ),
-});
-
-/**
- * Button group with a Select component.
- */
-export const SelectStory = meta.story({
-  name: "Select",
-  render: (args) => (
-    <ButtonGroup {...args}>
-      <Select defaultValue="all">
-        <SelectTrigger className="w-32" aria-label="Filter status">
-          <SelectValue />
-        </SelectTrigger>
-        <SelectContent>
-          <SelectItem value="all">All</SelectItem>
-          <SelectItem value="active">Active</SelectItem>
-          <SelectItem value="inactive">Inactive</SelectItem>
-        </SelectContent>
-      </Select>
-      <Button variant="outline">
-        <FilterIcon />
-        Filter
-      </Button>
-    </ButtonGroup>
-  ),
-});
-
-/**
- * Button group with a Popover for additional options.
- */
-export const PopoverStory = meta.story({
-  name: "Popover",
-  render: (args) => (
-    <ButtonGroup {...args}>
-      <Button variant="outline">
-        <ShareIcon />
-        Share
-      </Button>
-      <Popover>
-        <PopoverTrigger
-          render={
-            <Button variant="outline" size="icon" aria-label="Share options" />
-          }
-        >
-          <ChevronDownIcon />
-        </PopoverTrigger>
-        <PopoverContent align="end" className="gap-1 p-1">
-          <Button variant="ghost" className="justify-start">
-            <LinkIcon />
-            Copy link
-          </Button>
-          <Button variant="ghost" className="justify-start">
-            <MailIcon />
-            Email
-          </Button>
-          <Button variant="ghost" className="justify-start">
-            <XIcon />X (Twitter)
-          </Button>
-        </PopoverContent>
-      </Popover>
-    </ButtonGroup>
-  ),
-});
-
-/**
- * A split button pattern with main action and dropdown menu.
- */
-export const DropdownMenuStory = meta.story({
-  name: "DropdownMenu",
-  render: (args) => (
-    <ButtonGroup {...args}>
-      <Button>
-        <SaveIcon />
-        Save changes
-      </Button>
-      <DropdownMenu>
-        <DropdownMenuTrigger
-          render={<Button size="icon" aria-label="Save options" />}
-        >
-          <ChevronDownIcon />
-        </DropdownMenuTrigger>
-        <DropdownMenuContent align="end" className="w-44">
-          <DropdownMenuItem>
-            <CopyIcon />
-            Save as draft
-          </DropdownMenuItem>
-          <DropdownMenuItem>
-            <SaveIcon />
-            Save and publish
-          </DropdownMenuItem>
-          <DropdownMenuSeparator />
-          <DropdownMenuItem>Save as template</DropdownMenuItem>
-        </DropdownMenuContent>
-      </DropdownMenu>
-    </ButtonGroup>
-  ),
-});
-
-/**
- * When buttons are clicked, should call their respective handlers.
- */
 
 // --- Tests ---
 
@@ -387,6 +502,52 @@ Default.test(
       await expect(firstButton).toBeEnabled();
       await expect(secondButton).toBeEnabled();
       await expect(thirdButton).toBeEnabled();
+    });
+  }
+);
+
+Orientation.test(
+  "when orientation is vertical, should set data-orientation attribute",
+  async ({ canvas }) => {
+    const group = canvas.getByRole("group");
+    await expect(group).toHaveAttribute("data-orientation", "vertical");
+  }
+);
+
+DropdownMenuStory.test(
+  "when clicking the dropdown trigger, should open the menu",
+  async ({ canvasElement, step }) => {
+    const canvas = within(canvasElement);
+    const body = within(canvasElement.ownerDocument.body);
+
+    await step("click the dropdown trigger", async () => {
+      const buttons = canvas.getAllByRole("button");
+      await userEvent.click(buttons[1]!);
+    });
+
+    await step("verify the menu is open with items", async () => {
+      await expect(await body.findByRole("menu")).toBeInTheDocument();
+      const items = await body.findAllByRole("menuitem");
+      await expect(items).toHaveLength(7);
+    });
+  }
+);
+
+PopoverStory.test(
+  "when clicking the popover trigger, should open the popover",
+  async ({ canvasElement, step }) => {
+    const canvas = within(canvasElement);
+    const body = within(canvasElement.ownerDocument.body);
+
+    await step("click the popover trigger", async () => {
+      const trigger = canvas.getByRole("button", { name: "Open Popover" });
+      await userEvent.click(trigger);
+    });
+
+    await step("verify the popover content is visible", async () => {
+      await expect(
+        await body.findByText("Start a new task with Copilot")
+      ).toBeInTheDocument();
     });
   }
 );
