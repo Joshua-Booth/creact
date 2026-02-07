@@ -86,9 +86,9 @@ export const BadgeWithIcon = meta.story({
  */
 export const AvatarGroupStory = meta.story({
   name: "AvatarGroup",
-  render: () => (
+  render: (args) => (
     <AvatarGroup>
-      <Avatar>
+      <Avatar {...args}>
         <AvatarImage src="https://github.com/shadcn.png" />
         <AvatarFallback>CN</AvatarFallback>
       </Avatar>
@@ -109,9 +109,9 @@ export const AvatarGroupStory = meta.story({
  */
 export const AvatarGroupCountStory = meta.story({
   name: "AvatarGroupCount",
-  render: () => (
+  render: (args) => (
     <AvatarGroup>
-      <Avatar>
+      <Avatar {...args}>
         <AvatarImage src="https://github.com/shadcn.png" />
         <AvatarFallback>CN</AvatarFallback>
       </Avatar>
@@ -131,10 +131,10 @@ export const AvatarGroupCountStory = meta.story({
 /**
  * An avatar group with an icon in the count display for actions.
  */
-export const AvatarGroupWithIcon = meta.story({
-  render: () => (
+export const AvatarGroupCountIcon = meta.story({
+  render: (args) => (
     <AvatarGroup>
-      <Avatar>
+      <Avatar {...args}>
         <AvatarImage src="https://github.com/shadcn.png" />
         <AvatarFallback>CN</AvatarFallback>
       </Avatar>
@@ -154,12 +154,12 @@ export const AvatarGroupWithIcon = meta.story({
 });
 
 /**
- * Different avatar size options: small, default, and large.
+ * Use the `size` prop to change the size of the avatar.
  */
-export const Sizes = meta.story({
-  render: () => (
+export const Size = meta.story({
+  render: (args) => (
     <div className="flex items-center gap-4">
-      <Avatar size="sm">
+      <Avatar {...args} size="sm">
         <AvatarImage src="https://github.com/shadcn.png" />
         <AvatarFallback>CN</AvatarFallback>
       </Avatar>
@@ -215,41 +215,8 @@ export const Dropdown = meta.story({
 
 // --- Tests ---
 
-Default.test(
+Dropdown.test(
   "when clicking the avatar, should open the dropdown menu",
-  {
-    render: (args) => (
-      <DropdownMenu>
-        <DropdownMenuTrigger
-          className="cursor-pointer rounded-full"
-          aria-label="User menu"
-        >
-          <Avatar {...args}>
-            <AvatarImage src="https://github.com/shadcn.png" />
-            <AvatarFallback>CN</AvatarFallback>
-          </Avatar>
-        </DropdownMenuTrigger>
-        <DropdownMenuContent align="end" className="w-56">
-          <DropdownMenuGroup>
-            <DropdownMenuLabel>My Account</DropdownMenuLabel>
-            <DropdownMenuItem>
-              <User />
-              <span>Profile</span>
-            </DropdownMenuItem>
-            <DropdownMenuItem>
-              <Settings />
-              <span>Settings</span>
-            </DropdownMenuItem>
-          </DropdownMenuGroup>
-          <DropdownMenuSeparator />
-          <DropdownMenuItem>
-            <LogOut />
-            <span>Log out</span>
-          </DropdownMenuItem>
-        </DropdownMenuContent>
-      </DropdownMenu>
-    ),
-  },
   async ({ canvasElement }) => {
     const canvasBody = within(canvasElement.ownerDocument.body);
     const trigger = await canvasBody.findByRole("button");
