@@ -1,5 +1,10 @@
 import preview from "@/storybook/preview";
-import { Mail } from "lucide-react";
+import {
+  ArrowUpIcon,
+  ArrowUpRightIcon,
+  CircleFadingArrowUpIcon,
+  GitBranchIcon,
+} from "lucide-react";
 import { expect, fn, userEvent } from "storybook/test";
 
 import { Spinner } from "../spinner";
@@ -55,6 +60,48 @@ const meta = preview.meta({
 export const Default = meta.story();
 
 /**
+ * Use the `size` prop to change the size of the button.
+ */
+export const Size = meta.story({
+  render: (args) => (
+    <div className="flex flex-col items-start gap-8 sm:flex-row">
+      <div className="flex items-start gap-2">
+        <Button {...args} size="xs" variant="outline">
+          Extra Small
+        </Button>
+        <Button {...args} size="icon-xs" variant="outline" aria-label="Submit">
+          <ArrowUpRightIcon />
+        </Button>
+      </div>
+      <div className="flex items-start gap-2">
+        <Button {...args} size="sm" variant="outline">
+          Small
+        </Button>
+        <Button {...args} size="icon-sm" variant="outline" aria-label="Submit">
+          <ArrowUpRightIcon />
+        </Button>
+      </div>
+      <div className="flex items-start gap-2">
+        <Button {...args} variant="outline">
+          Default
+        </Button>
+        <Button {...args} size="icon" variant="outline" aria-label="Submit">
+          <ArrowUpRightIcon />
+        </Button>
+      </div>
+      <div className="flex items-start gap-2">
+        <Button {...args} size="lg" variant="outline">
+          Large
+        </Button>
+        <Button {...args} size="icon-lg" variant="outline" aria-label="Submit">
+          <ArrowUpRightIcon />
+        </Button>
+      </div>
+    </div>
+  ),
+});
+
+/**
  * Use the `outline` button to reduce emphasis on secondary actions, such as
  * canceling or dismissing a dialog.
  */
@@ -65,22 +112,21 @@ export const Outline = meta.story({
 });
 
 /**
- * Use the `ghost` button is minimalistic and subtle, for less intrusive
- * actions.
- */
-export const Ghost = meta.story({
-  args: {
-    variant: "ghost",
-  },
-});
-
-/**
  * Use the `secondary` button to call for less emphasized actions, styled to
  * complement the primary button while being less conspicuous.
  */
 export const Secondary = meta.story({
   args: {
     variant: "secondary",
+  },
+});
+
+/**
+ * Use the `ghost` button for minimalistic and subtle, less intrusive actions.
+ */
+export const Ghost = meta.story({
+  args: {
+    variant: "ghost",
   },
 });
 
@@ -105,95 +151,67 @@ export const Link = meta.story({
 });
 
 /**
- * Add the `disabled` prop to a button to prevent interactions and add a
- * loading indicator, such as a spinner, to signify an in-progress action.
+ * Use the `icon` size for a button with only an icon.
  */
-export const Loading = Outline.extend({
+export const Icon = meta.story({
   render: (args) => (
-    <Button {...args}>
-      <Spinner />
-      Button
+    <Button {...args} variant="outline" size="icon">
+      <CircleFadingArrowUpIcon />
     </Button>
   ),
-  args: {
-    disabled: true,
-  },
 });
 
 /**
  * Add an icon element to a button to enhance visual communication and
- * providing additional context for the action.
+ * provide additional context for the action.
  */
-export const WithIcon = Secondary.extend({
+export const WithIcon = meta.story({
   render: (args) => (
-    <Button {...args}>
-      <Mail /> Login with Email Button
+    <Button {...args} variant="outline" size="sm">
+      <GitBranchIcon /> New Branch
     </Button>
   ),
 });
 
 /**
- * Use the `sm` size for a smaller button, suitable for interfaces needing
- * compact elements without sacrificing usability.
+ * Use `className="rounded-full"` to create a pill-shaped button.
  */
-export const Small = meta.story({
-  args: {
-    size: "sm",
-  },
+export const Rounded = meta.story({
+  render: (args) => (
+    <Button {...args} variant="outline" size="icon" className="rounded-full">
+      <ArrowUpIcon />
+    </Button>
+  ),
 });
 
 /**
- * Use the `lg` size for a larger button, offering better visibility and
- * easier interaction for users.
+ * Render a `<Spinner />` component inside the button to show a loading state.
+ * Add the `disabled` prop to prevent interactions while loading.
  */
-export const Large = meta.story({
-  args: {
-    size: "lg",
-  },
+export const SpinnerStory = meta.story({
+  name: "Spinner",
+  render: (args) => (
+    <Button {...args} size="sm" variant="outline" disabled>
+      <Spinner />
+      Submit
+    </Button>
+  ),
 });
 
 /**
- * Use the "icon" size for a button with only an icon.
+ * Use the `render` prop to render the button as another element, such as an
+ * anchor tag. Set `nativeButton` to `false` for non-button elements.
  */
-export const Icon = Secondary.extend({
-  args: {
-    size: "icon",
-    title: "Mail",
-    children: <Mail />,
-  },
-});
-
-/**
- * Use the `icon-sm` size for a smaller icon-only button.
- */
-export const IconSmall = meta.story({
-  args: {
-    variant: "secondary",
-    size: "icon-sm",
-    title: "Mail",
-    children: <Mail />,
-  },
-});
-
-/**
- * Use the `icon-lg` size for a larger icon-only button.
- */
-export const IconLarge = meta.story({
-  args: {
-    variant: "secondary",
-    size: "icon-lg",
-    title: "Mail",
-    children: <Mail />,
-  },
-});
-
-/**
- * Add the `disabled` prop to prevent interactions with the button.
- */
-export const Disabled = meta.story({
-  args: {
-    disabled: true,
-  },
+export const Render = meta.story({
+  render: (args) => (
+    <Button
+      {...args}
+      render={<a href="#login" aria-label="Login" />}
+      nativeButton={false}
+    >
+      Login
+    </Button>
+  ),
 });
 
 // --- Tests ---
@@ -215,12 +233,11 @@ Default.test(
   }
 );
 
-Disabled.test(
+SpinnerStory.test(
   "when button is disabled, should not trigger onClick",
   async ({ args, canvas }) => {
     const button = await canvas.findByRole("button");
     await expect(button).toBeDisabled();
-    // Use pointerEventsCheck: 0 to skip check since disabled buttons have pointer-events: none
     await userEvent.click(button, { pointerEventsCheck: 0 });
     await expect(args.onClick).not.toHaveBeenCalled();
   }

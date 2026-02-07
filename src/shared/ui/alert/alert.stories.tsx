@@ -1,7 +1,9 @@
 import preview from "@/storybook/preview";
-import { AlertCircle, Terminal } from "lucide-react";
+import { AlertCircle, AlertTriangleIcon, Terminal } from "lucide-react";
+import { expect, userEvent } from "storybook/test";
 
-import { Alert, AlertDescription, AlertTitle } from "./alert";
+import { Button } from "../button";
+import { Alert, AlertAction, AlertDescription, AlertTitle } from "./alert";
 
 /**
  * Displays a callout for user attention.
@@ -20,6 +22,7 @@ const meta = preview.meta({
   },
   render: (args) => (
     <Alert {...args}>
+      <Terminal className="size-4" />
       <AlertTitle>Heads up!</AlertTitle>
       <AlertDescription>
         You can add components to your app using the cli.
@@ -54,16 +57,48 @@ export const Destructive = meta.story({
 });
 
 /**
- * Use a leading icon to draw attention to the alert.
+ * Use `AlertAction` to add an interactive element to the alert.
  */
-export const WithIcon = meta.story({
+export const Action = meta.story({
   render: (args) => (
-    <Alert {...args}>
-      <Terminal className="size-4" />
-      <AlertTitle>Heads up!</AlertTitle>
+    <Alert {...args} className="max-w-md">
+      <AlertTitle>Dark mode is now available</AlertTitle>
       <AlertDescription>
-        You can add components to your app using the cli.
+        Enable it under your profile settings to get started.
+      </AlertDescription>
+      <AlertAction>
+        <Button size="xs" variant="default">
+          Enable
+        </Button>
+      </AlertAction>
+    </Alert>
+  ),
+});
+
+/**
+ * Use custom Tailwind classes to create alerts with different color schemes.
+ */
+export const Colors = meta.story({
+  render: (args) => (
+    <Alert
+      {...args}
+      className="max-w-md border-amber-200 bg-amber-50 text-amber-900
+        dark:border-amber-900 dark:bg-amber-950 dark:text-amber-50"
+    >
+      <AlertTriangleIcon />
+      <AlertTitle>Your subscription will expire in 3 days.</AlertTitle>
+      <AlertDescription>
+        Renew now to avoid service interruption or upgrade to a paid plan to
+        continue using the service.
       </AlertDescription>
     </Alert>
   ),
+});
+
+// --- Tests ---
+
+Action.test("action button should be clickable", async ({ canvas }) => {
+  const button = await canvas.findByRole("button", { name: /enable/i });
+  await expect(button).toBeEnabled();
+  await userEvent.click(button);
 });
