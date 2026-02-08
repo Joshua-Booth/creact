@@ -633,10 +633,10 @@ Basic.test(
     });
 
     const menu = await canvasBody.findByRole("menu");
-    const items = await canvasBody.findAllByRole("menuitem");
 
     await step("Press ArrowDown to move focus to the first item", async () => {
       await userEvent.keyboard("{ArrowDown}");
+      const items = await canvasBody.findAllByRole("menuitem");
       await waitFor(() => expect(items[0]).toHaveFocus());
     });
 
@@ -644,12 +644,14 @@ Basic.test(
       "Press ArrowDown to move focus to the disabled item",
       async () => {
         await userEvent.keyboard("{ArrowDown}");
+        const items = await canvasBody.findAllByRole("menuitem");
         await waitFor(() => expect(items[1]).toHaveFocus());
       }
     );
 
     await step("Press ArrowDown to move focus to Reload", async () => {
       await userEvent.keyboard("{ArrowDown}");
+      const items = await canvasBody.findAllByRole("menuitem");
       await waitFor(() => expect(items[2]).toHaveFocus());
     });
 
@@ -657,6 +659,7 @@ Basic.test(
       "Press ArrowUp to move focus back to the disabled item",
       async () => {
         await userEvent.keyboard("{ArrowUp}");
+        const items = await canvasBody.findAllByRole("menuitem");
         await waitFor(() => expect(items[1]).toHaveFocus());
       }
     );
