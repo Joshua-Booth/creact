@@ -12,7 +12,7 @@ import {
   Trash,
   User,
 } from "lucide-react";
-import { expect, userEvent, within } from "storybook/test";
+import { expect, userEvent, waitFor, within } from "storybook/test";
 
 import {
   ContextMenu,
@@ -637,33 +637,33 @@ Basic.test(
 
     await step("Press ArrowDown to move focus to the first item", async () => {
       await userEvent.keyboard("{ArrowDown}");
-      await expect(items[0]).toHaveFocus();
+      await waitFor(() => expect(items[0]).toHaveFocus());
     });
 
     await step(
       "Press ArrowDown to move focus to the disabled item",
       async () => {
         await userEvent.keyboard("{ArrowDown}");
-        await expect(items[1]).toHaveFocus();
+        await waitFor(() => expect(items[1]).toHaveFocus());
       }
     );
 
     await step("Press ArrowDown to move focus to Reload", async () => {
       await userEvent.keyboard("{ArrowDown}");
-      await expect(items[2]).toHaveFocus();
+      await waitFor(() => expect(items[2]).toHaveFocus());
     });
 
     await step(
       "Press ArrowUp to move focus back to the disabled item",
       async () => {
         await userEvent.keyboard("{ArrowUp}");
-        await expect(items[1]).toHaveFocus();
+        await waitFor(() => expect(items[1]).toHaveFocus());
       }
     );
 
     await step("Press Escape to close the menu", async () => {
       await userEvent.keyboard("{Escape}");
-      await expect(menu).toHaveAttribute("data-closed");
+      await waitFor(() => expect(menu).toHaveAttribute("data-closed"));
     });
   }
 );

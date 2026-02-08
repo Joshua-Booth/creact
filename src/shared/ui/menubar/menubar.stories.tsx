@@ -416,11 +416,13 @@ Default.test(
 
     await step("navigate items with ArrowDown", async () => {
       await userEvent.keyboard("{ArrowDown}");
-      const items = await body.findAllByRole("menuitem");
-      const newTabItem = items.find((item) =>
-        item.textContent.includes("New Tab")
-      );
-      await expect(newTabItem).toHaveFocus();
+      await waitFor(async () => {
+        const items = await body.findAllByRole("menuitem");
+        const newTabItem = items.find((item) =>
+          item.textContent.includes("New Tab")
+        );
+        await expect(newTabItem).toHaveFocus();
+      });
     });
 
     await step("press Escape to close menu", async () => {
