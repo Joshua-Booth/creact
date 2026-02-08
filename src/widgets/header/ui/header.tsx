@@ -7,7 +7,7 @@ import Logo from "@/shared/assets/images/logo.svg?react";
 
 function Links({ links }: { links: { name: string; path: string }[] }) {
   return (
-    <nav className="absolute top-7.5 right-4 flex items-center gap-4 text-sm">
+    <nav className="absolute top-3 right-4 flex items-center gap-4 text-sm">
       {links.map((link) => (
         <Link
           key={link.path}
@@ -37,13 +37,13 @@ export function Header() {
     <header className="relative z-5 mb-4 h-[82px] p-0">
       <NavLink
         to={logoLink}
-        className="absolute top-0 ml-[15px] max-[400px]:ml-[5px]"
+        className="absolute top-2 ml-4 max-[400px]:ml-2"
         aria-label="Home"
       >
         <Logo className="mr-[10px] h-[50px]" title="React Frontend Logo" />
       </NavLink>
       {authenticated ? (
-        <div className="absolute top-7.5 right-4 flex items-center gap-4">
+        <div className="absolute top-3 right-4 flex items-center gap-4">
           <ModeToggle />
         </div>
       ) : (
