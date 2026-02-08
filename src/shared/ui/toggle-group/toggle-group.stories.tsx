@@ -37,28 +37,42 @@ const meta = preview.meta({
 // --- Stories ---
 
 /**
- * The default form of the toggle group.
+ * The default form of the toggle group with multiple selection enabled.
  */
-export const Default = meta.story();
+export const Default = meta.story({
+  args: {
+    multiple: true,
+  },
+});
 
 /**
- * Use the `outline` variant to emphasizing the individuality of each button
- * while keeping them visually cohesive.
+ * Use the `outline` variant with text items and a `defaultValue` to pre-select
+ * an item on mount.
  */
 export const Outline = meta.story({
   args: {
     variant: "outline",
-    multiple: true,
+    defaultValue: ["all"],
   },
+  render: (args) => (
+    <ToggleGroup {...args}>
+      <ToggleGroupItem value="all" aria-label="Toggle all">
+        All
+      </ToggleGroupItem>
+      <ToggleGroupItem value="missed" aria-label="Toggle missed">
+        Missed
+      </ToggleGroupItem>
+    </ToggleGroup>
+  ),
 });
 
 /**
  * Use the `size` prop to control the dimensions of the toggle group items.
  */
 export const Size = meta.story({
-  render: () => (
+  render: (args) => (
     <div className="flex flex-col gap-4">
-      <ToggleGroup size="sm" variant="outline">
+      <ToggleGroup {...args} size="sm" variant="outline">
         <ToggleGroupItem value="top" aria-label="Toggle top">
           Top
         </ToggleGroupItem>
@@ -138,7 +152,7 @@ export const Disabled = meta.story({
 // --- Tests ---
 
 Default.test(
-  "when clicking items, should toggle their pressed state",
+  "when clicking items, should toggle their pressed state independently",
   async ({ canvas, step }) => {
     const buttons = await canvas.findAllByRole("button");
     // eslint-disable-next-line @typescript-eslint/no-non-null-assertion -- findAllByRole throws if no elements found
@@ -151,8 +165,14 @@ Default.test(
       await expect(first).toHaveAttribute("aria-pressed", "true");
     });
 
-    await step("click second item, first deselects", async () => {
+    await step("click second item, first stays selected", async () => {
       await userEvent.click(second);
+      await expect(first).toHaveAttribute("aria-pressed", "true");
+      await expect(second).toHaveAttribute("aria-pressed", "true");
+    });
+
+    await step("click first again to deselect it", async () => {
+      await userEvent.click(first);
       await expect(first).toHaveAttribute("aria-pressed", "false");
       await expect(second).toHaveAttribute("aria-pressed", "true");
     });
