@@ -1,9 +1,13 @@
+import { MemoryRouter, Link as RouterLink } from "react-router";
+
 import preview from "@/storybook/preview";
 
+import { Button } from "../button";
 import { Field, FieldLabel } from "../field/field";
 import {
   Select,
   SelectContent,
+  SelectGroup,
   SelectItem,
   SelectTrigger,
   SelectValue,
@@ -64,41 +68,6 @@ const meta = preview.meta({
 export const Default = meta.story();
 
 /**
- * Pagination with rows per page selector and prev/next icons.
- */
-export const IconsOnly = meta.story({
-  render: (args) => (
-    <div className="flex items-center gap-4">
-      <Field className="flex-row items-center gap-2">
-        <FieldLabel className="whitespace-nowrap">Rows per page</FieldLabel>
-        <Select defaultValue="10">
-          <SelectTrigger className="w-16">
-            <SelectValue placeholder="10" />
-          </SelectTrigger>
-          <SelectContent>
-            <SelectItem value="10">10</SelectItem>
-            <SelectItem value="20">20</SelectItem>
-            <SelectItem value="30">30</SelectItem>
-            <SelectItem value="40">40</SelectItem>
-            <SelectItem value="50">50</SelectItem>
-          </SelectContent>
-        </Select>
-      </Field>
-      <Pagination {...args} className="mx-0 w-auto">
-        <PaginationContent>
-          <PaginationItem>
-            <PaginationPrevious href="#" />
-          </PaginationItem>
-          <PaginationItem>
-            <PaginationNext href="#" />
-          </PaginationItem>
-        </PaginationContent>
-      </Pagination>
-    </div>
-  ),
-});
-
-/**
  * Simple pagination with just page numbers.
  */
 export const Simple = meta.story({
@@ -121,6 +90,82 @@ export const Simple = meta.story({
         </PaginationItem>
         <PaginationItem>
           <PaginationLink href="#">5</PaginationLink>
+        </PaginationItem>
+      </PaginationContent>
+    </Pagination>
+  ),
+});
+
+/**
+ * Pagination with rows per page selector and prev/next icons.
+ */
+export const IconsOnly = meta.story({
+  render: (args) => (
+    <div className="flex items-center justify-between gap-4">
+      <Field orientation="horizontal" className="w-fit">
+        <FieldLabel
+          htmlFor="select-rows-per-page"
+          className="whitespace-nowrap"
+        >
+          Rows per page
+        </FieldLabel>
+        <Select defaultValue="10">
+          <SelectTrigger id="select-rows-per-page" className="w-20">
+            <SelectValue placeholder="10" />
+          </SelectTrigger>
+          <SelectContent>
+            <SelectGroup>
+              <SelectItem value="10">10</SelectItem>
+              <SelectItem value="25">25</SelectItem>
+              <SelectItem value="50">50</SelectItem>
+              <SelectItem value="100">100</SelectItem>
+            </SelectGroup>
+          </SelectContent>
+        </Select>
+      </Field>
+      <Pagination {...args} className="mx-0 w-auto">
+        <PaginationContent>
+          <PaginationItem>
+            <PaginationPrevious href="#" />
+          </PaginationItem>
+          <PaginationItem>
+            <PaginationNext href="#" />
+          </PaginationItem>
+        </PaginationContent>
+      </Pagination>
+    </div>
+  ),
+});
+
+/**
+ * Pagination using React Router `Link` components for client-side navigation.
+ */
+export const ReactRouter = meta.story({
+  name: "React Router",
+  decorators: [
+    (Story) => (
+      <MemoryRouter>
+        <Story />
+      </MemoryRouter>
+    ),
+  ],
+  render: (args) => (
+    <Pagination {...args}>
+      <PaginationContent>
+        <PaginationItem>
+          <Button variant="ghost" size="icon" render={<RouterLink to="/1" />}>
+            1
+          </Button>
+        </PaginationItem>
+        <PaginationItem>
+          <Button variant="outline" size="icon" render={<RouterLink to="/2" />}>
+            2
+          </Button>
+        </PaginationItem>
+        <PaginationItem>
+          <Button variant="ghost" size="icon" render={<RouterLink to="/3" />}>
+            3
+          </Button>
         </PaginationItem>
       </PaginationContent>
     </Pagination>
