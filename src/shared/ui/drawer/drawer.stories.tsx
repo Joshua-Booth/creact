@@ -1,6 +1,19 @@
+import { useState } from "react";
+
 import preview from "@/storybook/preview";
 import { expect, fn, userEvent, within } from "storybook/test";
 
+import { Button } from "../button";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "../dialog";
+import { Input } from "../input";
+import { Label } from "../label";
 import {
   Drawer,
   DrawerClose,
@@ -25,7 +38,9 @@ const meta = preview.meta({
   },
   render: (args) => (
     <Drawer {...args}>
-      <DrawerTrigger>Open</DrawerTrigger>
+      <DrawerTrigger asChild>
+        <Button variant="outline">Open</Button>
+      </DrawerTrigger>
       <DrawerContent>
         <DrawerHeader>
           <DrawerTitle>Are you sure absolutely sure?</DrawerTitle>
@@ -55,39 +70,15 @@ const meta = preview.meta({
 export const Default = meta.story({});
 
 /**
- * Drawer opening from the left side of the screen.
- */
-export const Left = meta.story({
-  args: {
-    direction: "left",
-  },
-});
-
-/**
- * Drawer opening from the right side of the screen.
- */
-export const Right = meta.story({
-  args: {
-    direction: "right",
-  },
-});
-
-/**
- * Drawer opening from the top of the screen.
- */
-export const Top = meta.story({
-  args: {
-    direction: "top",
-  },
-});
-
-/**
- * Drawer with scrollable content for long forms or lists.
+ * Drawer with scrollable content and fixed action buttons. Opens from
+ * the right side of the screen.
  */
 export const Scrollable = meta.story({
   render: (args) => (
-    <Drawer {...args}>
-      <DrawerTrigger>Open</DrawerTrigger>
+    <Drawer {...args} direction="right">
+      <DrawerTrigger asChild>
+        <Button variant="outline">Open</Button>
+      </DrawerTrigger>
       <DrawerContent>
         <DrawerHeader>
           <DrawerTitle>Scrollable Content</DrawerTitle>
@@ -107,15 +98,136 @@ export const Scrollable = meta.story({
           ))}
         </div>
         <DrawerFooter>
-          <DrawerClose
-            className="bg-primary text-primary-foreground rounded-sm px-4 py-2"
-          >
-            Close
+          <DrawerClose asChild>
+            <Button variant="outline">Close</Button>
           </DrawerClose>
         </DrawerFooter>
       </DrawerContent>
     </Drawer>
   ),
+});
+
+/**
+ * Use the `direction` prop to open the drawer from any side of the screen.
+ */
+export const Sides = meta.story({
+  render: (args) => (
+    <div className="flex flex-wrap gap-2">
+      {(["top", "right", "bottom", "left"] as const).map((direction) => (
+        <Drawer key={direction} {...args} direction={direction}>
+          <DrawerTrigger asChild>
+            <Button variant="outline" className="capitalize">
+              {direction}
+            </Button>
+          </DrawerTrigger>
+          <DrawerContent>
+            <DrawerHeader>
+              <DrawerTitle>Drawer from {direction}</DrawerTitle>
+              <DrawerDescription>
+                This drawer opens from the {direction} of the screen.
+              </DrawerDescription>
+            </DrawerHeader>
+            <DrawerFooter>
+              <DrawerClose asChild>
+                <Button variant="outline">Close</Button>
+              </DrawerClose>
+            </DrawerFooter>
+          </DrawerContent>
+        </Drawer>
+      ))}
+    </div>
+  ),
+});
+
+/**
+ * Responsive pattern: renders as a Dialog on wider viewports and a Drawer
+ * on narrow viewports. Uses a toggle to demonstrate both modes.
+ */
+export const ResponsiveDialog = meta.story({
+  name: "Responsive Dialog",
+  parameters: {
+    layout: "centered",
+  },
+  render: function ResponsiveDialogStory(args) {
+    const [open, setOpen] = useState(false);
+    const [isDesktop, setIsDesktop] = useState(true);
+
+    const form = (
+      <form className="grid items-start gap-6 px-4 sm:px-0">
+        <div className="grid gap-3">
+          <Label htmlFor="dialog-email">Email</Label>
+          <Input
+            type="email"
+            id="dialog-email"
+            defaultValue="shadcn@example.com"
+          />
+        </div>
+        <div className="grid gap-3">
+          <Label htmlFor="dialog-username">Username</Label>
+          <Input id="dialog-username" defaultValue="@shadcn" />
+        </div>
+        <Button type="submit">Save changes</Button>
+      </form>
+    );
+
+    return (
+      <div className="flex flex-col items-center gap-4">
+        <div className="flex gap-2">
+          <Button
+            variant={isDesktop ? "default" : "outline"}
+            size="sm"
+            onClick={() => setIsDesktop(true)}
+          >
+            Desktop (Dialog)
+          </Button>
+          <Button
+            variant={isDesktop ? "outline" : "default"}
+            size="sm"
+            onClick={() => setIsDesktop(false)}
+          >
+            Mobile (Drawer)
+          </Button>
+        </div>
+
+        {isDesktop ? (
+          <Dialog open={open} onOpenChange={setOpen}>
+            <DialogTrigger render={<Button variant="outline" />}>
+              Edit Profile
+            </DialogTrigger>
+            <DialogContent className="sm:max-w-[425px]">
+              <DialogHeader>
+                <DialogTitle>Edit profile</DialogTitle>
+                <DialogDescription>
+                  Make changes to your profile here. Click save when done.
+                </DialogDescription>
+              </DialogHeader>
+              {form}
+            </DialogContent>
+          </Dialog>
+        ) : (
+          <Drawer {...args} open={open} onOpenChange={setOpen}>
+            <DrawerTrigger asChild>
+              <Button variant="outline">Edit Profile</Button>
+            </DrawerTrigger>
+            <DrawerContent>
+              <DrawerHeader className="text-left">
+                <DrawerTitle>Edit profile</DrawerTitle>
+                <DrawerDescription>
+                  Make changes to your profile here. Click save when done.
+                </DrawerDescription>
+              </DrawerHeader>
+              {form}
+              <DrawerFooter className="pt-2">
+                <DrawerClose asChild>
+                  <Button variant="outline">Cancel</Button>
+                </DrawerClose>
+              </DrawerFooter>
+            </DrawerContent>
+          </Drawer>
+        )}
+      </div>
+    );
+  },
 });
 
 // --- Tests ---
@@ -176,6 +288,53 @@ Default.test(
         "data-state",
         "closed"
       );
+    });
+  }
+);
+
+Sides.test(
+  "when clicking a direction button, should open the drawer from that side",
+  async ({ canvasElement, step }) => {
+    const canvasBody = within(canvasElement.ownerDocument.body);
+
+    await step("Open a right-side drawer", async () => {
+      await userEvent.click(
+        await canvasBody.findByRole("button", { name: /right/i })
+      );
+      const dialog = await canvasBody.findByRole("dialog");
+      await expect(dialog).toBeInTheDocument();
+      await expect(dialog).toHaveAttribute("data-state", "open");
+    });
+
+    await step("Close the drawer", async () => {
+      await userEvent.click(
+        await canvasBody.findByRole("button", { name: /close/i })
+      );
+      await expect(await canvasBody.findByRole("dialog")).toHaveAttribute(
+        "data-state",
+        "closed"
+      );
+    });
+  }
+);
+
+ResponsiveDialog.test(
+  "when toggling to mobile mode, should render a drawer instead of a dialog",
+  async ({ canvasElement, step }) => {
+    const canvasBody = within(canvasElement.ownerDocument.body);
+
+    await step("Switch to mobile mode", async () => {
+      await userEvent.click(
+        await canvasBody.findByRole("button", { name: /mobile/i })
+      );
+    });
+
+    await step("Open the drawer", async () => {
+      await userEvent.click(
+        await canvasBody.findByRole("button", { name: /edit profile/i })
+      );
+      const dialog = await canvasBody.findByRole("dialog");
+      await expect(dialog).toBeInTheDocument();
     });
   }
 );
