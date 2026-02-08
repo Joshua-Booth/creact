@@ -1,8 +1,7 @@
 import preview from "@/storybook/preview";
-import { ScrollArea as ScrollAreaPrimitive } from "@base-ui/react/scroll-area";
 
 import { cn } from "../../lib/utils";
-import { ScrollArea } from "./scroll-area";
+import { ScrollArea, ScrollBar } from "./scroll-area";
 
 // --- Helpers ---
 
@@ -37,102 +36,71 @@ const meta = preview.meta({
 export const Default = meta.story();
 
 /**
- * Scrollbar is always visible regardless of scroll state or hover.
+ * A horizontal scroll area with artwork gallery items.
  */
-export const Always = meta.story({
-  render: (args) => (
-    <ScrollAreaPrimitive.Root
-      data-slot="scroll-area"
-      className={cn("relative", args.className)}
-    >
-      <ScrollAreaPrimitive.Viewport
-        data-slot="scroll-area-viewport"
-        className="focus-visible:ring-ring/50 size-full rounded-[inherit]
-          transition-[color,box-shadow] outline-none focus-visible:ring-[3px]
-          focus-visible:outline-1"
+export const Horizontal = meta.story({
+  render: (args) => {
+    /* cspell:disable */
+    const artworks = [
+      { artist: "Ornella Binni", title: "Roman Holiday" },
+      { artist: "Tom Byrom", title: "Morning Light" },
+      { artist: "Vladimir Malyavko", title: "Silent Forest" },
+      { artist: "Giuseppe Mondì", title: "Tuscan Sunset" },
+    ];
+    /* cspell:enable */
+
+    return (
+      <ScrollArea
+        {...args}
+        className="w-96 rounded-md border whitespace-nowrap"
       >
-        {args.children}
-      </ScrollAreaPrimitive.Viewport>
-      <ScrollAreaPrimitive.Scrollbar
-        data-slot="scroll-area-scrollbar"
-        orientation="vertical"
-        className="flex h-full w-2.5 touch-none border-l border-l-transparent
-          p-px transition-colors select-none"
-      >
-        <ScrollAreaPrimitive.Thumb
-          data-slot="scroll-area-thumb"
-          className="bg-border relative flex-1 rounded-full"
-        />
-      </ScrollAreaPrimitive.Scrollbar>
-      <ScrollAreaPrimitive.Corner />
-    </ScrollAreaPrimitive.Root>
-  ),
+        <div className="flex w-max space-x-4 p-4">
+          {artworks.map((artwork) => (
+            <figure key={artwork.artist} className="shrink-0">
+              <div
+                className="bg-muted aspect-3/4 h-40 overflow-hidden rounded-md"
+              />
+              <figcaption className="text-muted-foreground pt-2 text-xs">
+                Photo by{" "}
+                <span className="text-foreground font-semibold">
+                  {artwork.artist}
+                </span>
+              </figcaption>
+            </figure>
+          ))}
+        </div>
+        <ScrollBar orientation="horizontal" />
+      </ScrollArea>
+    );
+  },
 });
 
 /**
  * Scrollbar appears when hovering over the scroll area.
  */
 export const Hover = meta.story({
-  render: (args) => (
-    <ScrollAreaPrimitive.Root
-      data-slot="scroll-area"
-      className={cn("relative", args.className)}
-    >
-      <ScrollAreaPrimitive.Viewport
-        data-slot="scroll-area-viewport"
-        className="focus-visible:ring-ring/50 size-full rounded-[inherit]
-          transition-[color,box-shadow] outline-none focus-visible:ring-[3px]
-          focus-visible:outline-1"
-      >
-        {args.children}
-      </ScrollAreaPrimitive.Viewport>
-      <ScrollAreaPrimitive.Scrollbar
-        data-slot="scroll-area-scrollbar"
-        orientation="vertical"
-        className="flex h-full w-2.5 touch-none border-l border-l-transparent
-          p-px opacity-0 transition-opacity select-none
-          data-hovering:opacity-100"
-      >
-        <ScrollAreaPrimitive.Thumb
-          data-slot="scroll-area-thumb"
-          className="bg-border relative flex-1 rounded-full"
-        />
-      </ScrollAreaPrimitive.Scrollbar>
-      <ScrollAreaPrimitive.Corner />
-    </ScrollAreaPrimitive.Root>
-  ),
+  args: {
+    className: cn(
+      "h-32 w-80 rounded-md border p-4",
+      "*:data-[slot=scroll-area-scrollbar]:opacity-0",
+      "*:data-[slot=scroll-area-scrollbar]:transition-opacity",
+      "[&>[data-slot=scroll-area-scrollbar][data-hovering]]:opacity-100"
+    ),
+  },
 });
 
 /**
  * Scrollbar appears only while actively scrolling.
  */
 export const Scroll = meta.story({
-  render: (args) => (
-    <ScrollAreaPrimitive.Root
-      data-slot="scroll-area"
-      className={cn("relative", args.className)}
-    >
-      <ScrollAreaPrimitive.Viewport
-        data-slot="scroll-area-viewport"
-        className="focus-visible:ring-ring/50 size-full rounded-[inherit]
-          transition-[color,box-shadow] outline-none focus-visible:ring-[3px]
-          focus-visible:outline-1"
-      >
-        {args.children}
-      </ScrollAreaPrimitive.Viewport>
-      <ScrollAreaPrimitive.Scrollbar
-        data-slot="scroll-area-scrollbar"
-        orientation="vertical"
-        className="flex h-full w-2.5 touch-none border-l border-l-transparent
-          p-px opacity-0 transition-opacity duration-150 select-none
-          data-scrolling:opacity-100 data-scrolling:duration-0"
-      >
-        <ScrollAreaPrimitive.Thumb
-          data-slot="scroll-area-thumb"
-          className="bg-border relative flex-1 rounded-full"
-        />
-      </ScrollAreaPrimitive.Scrollbar>
-      <ScrollAreaPrimitive.Corner />
-    </ScrollAreaPrimitive.Root>
-  ),
+  args: {
+    className: cn(
+      "h-32 w-80 rounded-md border p-4",
+      "*:data-[slot=scroll-area-scrollbar]:opacity-0",
+      "*:data-[slot=scroll-area-scrollbar]:transition-opacity",
+      "*:data-[slot=scroll-area-scrollbar]:duration-150",
+      "[&>[data-slot=scroll-area-scrollbar][data-scrolling]]:opacity-100",
+      "[&>[data-slot=scroll-area-scrollbar][data-scrolling]]:duration-0"
+    ),
+  },
 });
