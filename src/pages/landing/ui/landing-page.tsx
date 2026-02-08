@@ -5,7 +5,6 @@ export function LandingPage() {
 
   return (
     <main className="container mx-auto mt-12 h-full">
-      <title>{t("app.title")}</title>
       <section>
         <h1 className="text-accent-foreground text-center text-3xl font-bold">
           {t("pages.landing.heading")}

@@ -21,7 +21,6 @@ export function SignupPage() {
 
   return (
     <main className="flex min-h-[80vh] items-center justify-center px-4">
-      <title>{t("pages.signUp.title", { appName: t("app.title") })}</title>
       <Card className="w-full max-w-md">
         <CardHeader>
           <CardTitle>{t("auth.signUp.title")}</CardTitle>

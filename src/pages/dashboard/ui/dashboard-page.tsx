@@ -12,7 +12,6 @@ export function DashboardPage() {
 
   return (
     <main className="mx-2 mb-12 pb-2 text-center max-md:pb-6 max-sm:pb-2">
-      <title>Dashboard | Creact</title>
       <h1 className="pb-1">Dashboard</h1>
       {user && !isLoading && !error && (
         <div

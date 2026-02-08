@@ -21,7 +21,6 @@ export function LoginPage() {
 
   return (
     <main className="flex min-h-[80vh] items-center justify-center px-4">
-      <title>{t("pages.login.title", { appName: t("app.title") })}</title>
       <Card className="w-full max-w-md">
         <CardHeader>
           <CardTitle>{t("auth.login.title")}</CardTitle>
