@@ -40,23 +40,6 @@ const meta = preview.meta({
 export const Default = meta.story();
 
 /**
- * Use the `disabled` prop to disable the switch.
- */
-export const Disabled = meta.story({
-  args: {
-    disabled: true,
-  },
-  render: (args) => (
-    <Field data-disabled orientation="horizontal">
-      <FieldLabel>
-        <Switch {...args} id="switch-disabled-unchecked" disabled />
-        Airplane Mode
-      </FieldLabel>
-    </Field>
-  ),
-});
-
-/**
  * Switch with description text providing additional context.
  */
 export const Description = meta.story({
@@ -134,6 +117,23 @@ export const ChoiceCard = meta.story({
 });
 
 /**
+ * Use the `disabled` prop to disable the switch.
+ */
+export const Disabled = meta.story({
+  args: {
+    disabled: true,
+  },
+  render: (args) => (
+    <Field data-disabled orientation="horizontal">
+      <FieldLabel>
+        <Switch {...args} id="switch-disabled-unchecked" disabled />
+        Airplane Mode
+      </FieldLabel>
+    </Field>
+  ),
+});
+
+/**
  * Switch with validation error state using `aria-invalid`.
  */
 export const Invalid = meta.story({
@@ -165,11 +165,11 @@ export const Invalid = meta.story({
  * Switch comes in two sizes: `default` and `sm`.
  */
 export const Size = meta.story({
-  render: () => (
+  render: (args) => (
     <FieldGroup className="w-40">
       <Field orientation="horizontal">
         <FieldLabel>
-          <Switch size="sm" />
+          <Switch {...args} size="sm" />
           Small
         </FieldLabel>
       </Field>
@@ -200,11 +200,14 @@ export const WithForm = meta.story({
   },
   render: (args) => (
     <form
+      data-testid="test-form"
       className="flex w-96 flex-col gap-4"
       onSubmit={(e) => {
         e.preventDefault();
         const formData = new FormData(e.currentTarget);
-        alert(`Marketing emails: ${formData.get("marketing") === "on"}`);
+        const form = e.currentTarget;
+        form.dataset.submitted = "true";
+        form.dataset.value = formData.get("marketing") === "on" ? "on" : "off";
       }}
     >
       <Field orientation="horizontal">
@@ -243,47 +246,35 @@ Default.test(
 );
 
 Default.test(
+  "when pressing Space on a focused switch, should toggle it",
+  async ({ canvas, step }) => {
+    const switchBtn = await canvas.findByRole("switch");
+
+    await step("focus and press Space to toggle on", async () => {
+      switchBtn.focus();
+      await userEvent.keyboard(" ");
+      await expect(switchBtn).toBeChecked();
+    });
+
+    await step("press Space again to toggle off", async () => {
+      await userEvent.keyboard(" ");
+      await expect(switchBtn).not.toBeChecked();
+    });
+  }
+);
+
+Disabled.test(
+  "when clicking a disabled switch, should not toggle",
+  async ({ canvas }) => {
+    const switchBtn = await canvas.findByRole("switch");
+    await expect(switchBtn).not.toBeChecked();
+    await userEvent.click(switchBtn, { pointerEventsCheck: 0 });
+    await expect(switchBtn).not.toBeChecked();
+  }
+);
+
+WithForm.test(
   "when submitting the form with switch enabled, should submit",
-  {
-    parameters: {
-      a11y: {
-        config: {
-          rules: [
-            // Base UI Switch with FieldTitle uses aria-describedby for association
-            // but axe expects aria-labelledby, which would be redundant
-            { id: "aria-toggle-field-name", enabled: false },
-          ],
-        },
-      },
-    },
-    render: (args) => (
-      <form
-        data-testid="test-form"
-        className="flex w-96 flex-col gap-4"
-        onSubmit={(e) => {
-          e.preventDefault();
-          const formData = new FormData(e.currentTarget);
-          const form = e.currentTarget;
-          form.dataset.submitted = "true";
-          form.dataset.value =
-            formData.get("marketing") === "on" ? "on" : "off";
-        }}
-      >
-        <Field orientation="horizontal">
-          <Switch {...args} name="marketing" id="marketing-test" />
-          <FieldContent>
-            <FieldTitle>Marketing emails</FieldTitle>
-            <FieldDescription>
-              Receive emails about new products, features, and more.
-            </FieldDescription>
-          </FieldContent>
-        </Field>
-        <Button type="submit" className="w-fit">
-          Submit
-        </Button>
-      </form>
-    ),
-  },
   async ({ canvasElement, step }) => {
     const canvas = within(canvasElement);
     const switchBtn = await canvas.findByRole("switch");
