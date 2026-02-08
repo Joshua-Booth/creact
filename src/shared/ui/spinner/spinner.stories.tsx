@@ -1,5 +1,6 @@
 import preview from "@/storybook/preview";
-import { ArrowUpIcon } from "lucide-react";
+import { ArrowUpIcon, LoaderIcon } from "lucide-react";
+import { expect } from "storybook/test";
 
 import { Badge } from "../badge";
 import { Button } from "../button";
@@ -44,6 +45,22 @@ const meta = preview.meta({
  * The default spinner size (16px / size-4).
  */
 export const Default = meta.story();
+
+/**
+ * Replace the default spinner icon with any other icon.
+ */
+export const Custom = meta.story({
+  render: (args) => (
+    <div className="flex items-center gap-4">
+      <LoaderIcon
+        {...args}
+        role="status"
+        aria-label="Loading"
+        className="size-4 animate-spin"
+      />
+    </div>
+  ),
+});
 
 /**
  * Size variants displayed together for comparison.
@@ -155,4 +172,11 @@ export const EmptyStory = meta.story({
       </EmptyContent>
     </Empty>
   ),
+});
+
+// --- Tests ---
+
+Default.test("should have accessible loading role", async ({ canvas }) => {
+  const spinner = await canvas.findByRole("status");
+  await expect(spinner).toHaveAccessibleName("Loading");
 });
