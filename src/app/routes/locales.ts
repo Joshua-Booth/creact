@@ -8,14 +8,14 @@ export function loader({ params }: Route.LoaderArgs) {
   const { lng, ns } = params;
 
   // Validate language
-  if (lng === undefined || lng === "" || !(lng in resources)) {
+  if (!(lng in resources)) {
     return data({ error: "Invalid language" }, { status: 400 });
   }
 
   const namespaces = resources[lng as keyof typeof resources];
 
   // Validate namespace
-  if (ns === undefined || ns === "" || !(ns in namespaces)) {
+  if (!(ns in namespaces)) {
     return data({ error: "Invalid namespace" }, { status: 400 });
   }
 
