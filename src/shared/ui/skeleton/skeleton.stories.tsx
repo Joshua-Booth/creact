@@ -1,5 +1,6 @@
 import preview from "@/storybook/preview";
 
+import { Card, CardContent, CardHeader } from "../card";
 import { Skeleton } from "./skeleton";
 
 /**
@@ -22,11 +23,26 @@ const meta = preview.meta({
  */
 export const Default = meta.story({
   render: (args) => (
-    <div className="flex items-center space-x-4">
+    <div className="flex items-center gap-4">
       <Skeleton {...args} className="size-12 rounded-full" />
       <div className="space-y-2">
-        <Skeleton {...args} className="h-4 w-64" />
-        <Skeleton {...args} className="h-4 w-52" />
+        <Skeleton {...args} className="h-4 w-[250px]" />
+        <Skeleton {...args} className="h-4 w-[200px]" />
+      </div>
+    </div>
+  ),
+});
+
+/**
+ * Circular avatar placeholder with name and description lines.
+ */
+export const Avatar = meta.story({
+  render: (args) => (
+    <div className="flex w-fit items-center gap-4">
+      <Skeleton {...args} className="size-10 shrink-0 rounded-full" />
+      <div className="grid gap-2">
+        <Skeleton {...args} className="h-4 w-[150px]" />
+        <Skeleton {...args} className="h-4 w-[100px]" />
       </div>
     </div>
   ),
@@ -35,15 +51,18 @@ export const Default = meta.story({
 /**
  * Card layout with image placeholder and text lines.
  */
-export const Card = meta.story({
+export const CardStory = meta.story({
+  name: "Card",
   render: (args) => (
-    <div className="flex flex-col space-y-3">
-      <Skeleton {...args} className="h-32 w-64 rounded-xl" />
-      <div className="space-y-2">
-        <Skeleton {...args} className="h-4 w-64" />
-        <Skeleton {...args} className="h-4 w-52" />
-      </div>
-    </div>
+    <Card className="w-xs">
+      <CardContent>
+        <Skeleton {...args} className="aspect-video w-full" />
+      </CardContent>
+      <CardHeader>
+        <Skeleton {...args} className="h-4 w-2/3" />
+        <Skeleton {...args} className="h-4 w-1/2" />
+      </CardHeader>
+    </Card>
   ),
 });
 
@@ -52,7 +71,7 @@ export const Card = meta.story({
  */
 export const Text = meta.story({
   render: (args) => (
-    <div className="w-80 space-y-2">
+    <div className="flex w-xs flex-col gap-2">
       <Skeleton {...args} className="h-4 w-full" />
       <Skeleton {...args} className="h-4 w-full" />
       <Skeleton {...args} className="h-4 w-3/4" />
@@ -65,20 +84,11 @@ export const Text = meta.story({
  */
 export const Table = meta.story({
   render: (args) => (
-    <div className="w-[500px] space-y-3">
-      {/* Header row */}
-      <div className="flex gap-4 border-b pb-3">
-        <Skeleton {...args} className="h-4 w-24" />
-        <Skeleton {...args} className="h-4 w-32" />
-        <Skeleton {...args} className="h-4 flex-1" />
-        <Skeleton {...args} className="h-4 w-20" />
-      </div>
-      {/* Data rows */}
-      {[1, 2, 3].map((row) => (
-        <div key={row} className="flex items-center gap-4">
-          <Skeleton {...args} className="h-4 w-24" />
-          <Skeleton {...args} className="h-4 w-32" />
+    <div className="flex w-sm flex-col gap-2">
+      {Array.from({ length: 5 }, (_, i) => `row-${i}`).map((key) => (
+        <div key={key} className="flex items-center gap-4">
           <Skeleton {...args} className="h-4 flex-1" />
+          <Skeleton {...args} className="h-4 w-24" />
           <Skeleton {...args} className="h-4 w-20" />
         </div>
       ))}
@@ -91,20 +101,16 @@ export const Table = meta.story({
  */
 export const Form = meta.story({
   render: (args) => (
-    <div className="w-80 space-y-6">
-      <div className="space-y-2">
+    <div className="flex w-xs flex-col gap-7">
+      <div className="flex flex-col gap-3">
         <Skeleton {...args} className="h-4 w-20" />
-        <Skeleton {...args} className="h-10 w-full rounded-md" />
+        <Skeleton {...args} className="h-8 w-full" />
       </div>
-      <div className="space-y-2">
+      <div className="flex flex-col gap-3">
         <Skeleton {...args} className="h-4 w-24" />
-        <Skeleton {...args} className="h-10 w-full rounded-md" />
+        <Skeleton {...args} className="h-8 w-full" />
       </div>
-      <div className="space-y-2">
-        <Skeleton {...args} className="h-4 w-16" />
-        <Skeleton {...args} className="h-24 w-full rounded-md" />
-      </div>
-      <Skeleton {...args} className="h-10 w-full rounded-md" />
+      <Skeleton {...args} className="h-8 w-24" />
     </div>
   ),
 });
