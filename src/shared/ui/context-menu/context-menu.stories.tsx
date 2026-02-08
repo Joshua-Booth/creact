@@ -634,6 +634,10 @@ Basic.test(
 
     const menu = await canvasBody.findByRole("menu");
 
+    await waitFor(() =>
+      expect(menu.contains(menu.ownerDocument.activeElement)).toBeTruthy()
+    );
+
     await step("Press ArrowDown to move focus to the first item", async () => {
       await userEvent.keyboard("{ArrowDown}");
       const items = await canvasBody.findAllByRole("menuitem");

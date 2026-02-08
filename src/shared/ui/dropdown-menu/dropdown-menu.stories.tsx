@@ -872,7 +872,11 @@ Default.test(
     await step("focus trigger and press Enter to open menu", async () => {
       const trigger = canvas.getByRole("button", { name: /open/i });
       await userEvent.click(trigger);
-      await expect(await body.findByRole("menu")).toBeInTheDocument();
+      const menu = await body.findByRole("menu");
+      await expect(menu).toBeInTheDocument();
+      await waitFor(() =>
+        expect(menu.contains(menu.ownerDocument.activeElement)).toBeTruthy()
+      );
     });
 
     await step("navigate items with ArrowDown", async () => {
