@@ -1,8 +1,11 @@
+import { useTranslation } from "react-i18next";
+
 import { useCurrentUser } from "@/entities/user";
 import { useMainStore } from "@/shared/model";
 import { Spinner } from "@/shared/ui/spinner";
 
 export function DashboardPage() {
+  const { t } = useTranslation();
   const { user, isLoading, error } = useCurrentUser();
   const { setError } = useMainStore();
 
@@ -12,7 +15,7 @@ export function DashboardPage() {
 
   return (
     <main className="mx-2 mb-12 pb-2 text-center max-md:pb-6 max-sm:pb-2">
-      <h1 className="pb-1">Dashboard</h1>
+      <h1 className="pb-1">{t("pages.dashboard.heading")}</h1>
       {user && !isLoading && !error && (
         <div
           className="mx-auto flex max-w-[720px] flex-wrap text-center
@@ -23,7 +26,7 @@ export function DashboardPage() {
       {isLoading && <Spinner />}
       {error && (
         <div className="pt-4">
-          <p>Error loading dashboard</p>
+          <p>{t("pages.dashboard.error")}</p>
         </div>
       )}
     </main>

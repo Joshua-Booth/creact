@@ -75,5 +75,13 @@ export default {
     signUp: {
       title: "Sign Up | {{appName}}",
     },
+    dashboard: {
+      heading: "Dashboard",
+      error: "Error loading dashboard",
+    },
+    logout: {
+      heading: "Logout",
+      loggingOut: "Logging out...",
+    },
   },
 } as const;
