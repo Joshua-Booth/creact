@@ -24,6 +24,11 @@
       "@/storybook/*": ["./.storybook/*"]
     }
   },
-  "include": ["../src", "../tests", "../.react-router", "../.storybook"],
+  "include": [
+    "../src",
+    "../tests",
+    "../.react-router/types/**/*",
+    "../.storybook"
+  ],
   "exclude": ["../node_modules", "../dist", "../tests/e2e", "../app"]
 }

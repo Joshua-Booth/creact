@@ -1,4 +1,4 @@
-import { Link, NavLink } from "react-router";
+import { href, Link, NavLink } from "react-router";
 import { useTranslation } from "react-i18next";
 
 import { useAuthStore } from "@/entities/user";
@@ -26,11 +26,11 @@ function Links({ links }: { links: { name: string; path: string }[] }) {
 export function Header() {
   const { t } = useTranslation();
   const authenticated = useAuthStore((state) => state.authenticated);
-  const logoLink = authenticated ? "/dashboard" : "/";
+  const logoLink = authenticated ? href("/dashboard") : href("/");
 
   const headerLinks = [
-    { name: t("nav.login"), path: "/login" },
-    { name: t("nav.signUp"), path: "/signup" },
+    { name: t("nav.login"), path: href("/login") },
+    { name: t("nav.signUp"), path: href("/signup") },
   ];
 
   return (

@@ -1,4 +1,4 @@
-import { Link } from "react-router";
+import { href, Link } from "react-router";
 import { Controller } from "react-hook-form";
 import { useTranslation } from "react-i18next";
 
@@ -112,7 +112,7 @@ export function LoginPage() {
                 <div className="text-muted-foreground text-center text-sm">
                   {t("auth.login.noAccount")}{" "}
                   <Link
-                    to="/signup"
+                    to={href("/signup")}
                     className="hover:text-primary underline underline-offset-4"
                   >
                     {t("auth.login.signUp")}
@@ -122,7 +122,7 @@ export function LoginPage() {
             </form>
             <div className="relative hidden bg-[#5f51fc] md:block">
               <Link
-                to="/"
+                to={href("/")}
                 className="absolute inset-0 flex items-center justify-center"
               >
                 <img

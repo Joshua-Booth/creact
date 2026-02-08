@@ -53,7 +53,7 @@ export async function loader({ request, context }: Route.LoaderArgs) {
   const { getTheme } = await themeSessionResolver(request);
   // Context is a RouterContextProvider when middleware is enabled
   // Type assertion needed due to generated types not reflecting middleware
-  const locale = getLocale(context as Parameters<typeof getLocale>[0]);
+  const locale = getLocale(context);
   return data(
     { locale, theme: getTheme() },
     { headers: { "Set-Cookie": await localeCookie.serialize(locale) } }
@@ -153,7 +153,7 @@ export function Layout({ children }: { children: React.ReactNode }) {
   return (
     <ThemeProvider
       specifiedTheme={data?.theme ?? null}
-      themeAction="/action/set-theme"
+      themeAction={href("/action/set-theme")}
     >
       <InnerLayout ssrTheme={Boolean(data?.theme)}>{children}</InnerLayout>
     </ThemeProvider>

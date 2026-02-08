@@ -1,4 +1,4 @@
-import { redirect } from "react-router";
+import { href, redirect } from "react-router";
 
 /**
  * Sets auth token in localStorage for Zustand rehydration and redirects to dashboard.
@@ -12,5 +12,5 @@ export function setAuthTokenAndRedirect(token: string): Response {
     "auth-storage",
     JSON.stringify({ state: { token, authenticated: true } })
   );
-  return redirect("/dashboard");
+  return redirect(href("/dashboard"));
 }
