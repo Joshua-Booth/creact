@@ -184,7 +184,13 @@ export const SettingsPanel = meta.story({
               </CollapsibleContent>
             </FieldGroup>
             <CollapsibleTrigger
-              render={<Button variant="outline" size="icon" />}
+              render={
+                <Button
+                  variant="outline"
+                  size="icon"
+                  aria-label="Toggle details"
+                />
+              }
             >
               {isOpen ? <MinimizeIcon /> : <MaximizeIcon />}
             </CollapsibleTrigger>

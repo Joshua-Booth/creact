@@ -2,6 +2,7 @@ import { useState } from "react";
 
 import preview from "@/storybook/preview";
 
+import { Field, FieldLabel } from "../field";
 import { Slider } from "../slider";
 import { Progress, ProgressLabel, ProgressValue } from "./progress";
 
@@ -68,13 +69,16 @@ export const Controlled = meta.story({
     return (
       <div className="flex w-full flex-col gap-4">
         <Progress {...args} value={value} />
-        <Slider
-          value={value}
-          onValueChange={(val) => setValue(val as number)}
-          min={0}
-          max={100}
-          step={1}
-        />
+        <Field>
+          <FieldLabel className="sr-only">Progress value</FieldLabel>
+          <Slider
+            value={value}
+            onValueChange={(val) => setValue(val as number)}
+            min={0}
+            max={100}
+            step={1}
+          />
+        </Field>
       </div>
     );
   },

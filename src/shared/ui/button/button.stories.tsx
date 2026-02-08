@@ -155,7 +155,7 @@ export const Link = meta.story({
  */
 export const Icon = meta.story({
   render: (args) => (
-    <Button {...args} variant="outline" size="icon">
+    <Button {...args} variant="outline" size="icon" aria-label="Upload">
       <CircleFadingArrowUpIcon />
     </Button>
   ),
@@ -178,7 +178,13 @@ export const WithIcon = meta.story({
  */
 export const Rounded = meta.story({
   render: (args) => (
-    <Button {...args} variant="outline" size="icon" className="rounded-full">
+    <Button
+      {...args}
+      variant="outline"
+      size="icon"
+      className="rounded-full"
+      aria-label="Scroll to top"
+    >
       <ArrowUpIcon />
     </Button>
   ),
