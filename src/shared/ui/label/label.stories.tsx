@@ -253,9 +253,11 @@ export const PaymentForm = meta.story({
 Default.test(
   "when clicking label, should focus associated input",
   {
-    render: () => (
+    render: (args) => (
       <div className="flex flex-col gap-2">
-        <Label htmlFor="focus-test-input">Click me to focus input</Label>
+        <Label {...args} htmlFor="focus-test-input">
+          Click me to focus input
+        </Label>
         <Input id="focus-test-input" placeholder="I should receive focus" />
       </div>
     ),
