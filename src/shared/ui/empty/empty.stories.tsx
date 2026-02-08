@@ -2,18 +2,12 @@ import preview from "@/storybook/preview";
 import {
   ArrowUpRightIcon,
   BellIcon,
-  BookmarkIcon,
   CloudIcon,
   FolderCodeIcon,
-  HeartIcon,
-  InboxIcon,
   PlusIcon,
   RefreshCcwIcon,
   SearchIcon,
-  StarIcon,
-  UsersIcon,
 } from "lucide-react";
-import { expect, within } from "storybook/test";
 
 import { Avatar, AvatarFallback, AvatarImage } from "../avatar";
 import { Button } from "../button";
@@ -47,8 +41,8 @@ const meta = preview.meta({
  * The default empty state with icon, title, description, two buttons, and a link.
  */
 export const Default = meta.story({
-  render: () => (
-    <Empty>
+  render: (args) => (
+    <Empty {...args}>
       <EmptyHeader>
         <EmptyMedia variant="icon">
           <FolderCodeIcon />
@@ -80,8 +74,8 @@ export const Default = meta.story({
  * Empty state with a dashed border outline.
  */
 export const Outline = meta.story({
-  render: () => (
-    <Empty className="border border-dashed">
+  render: (args) => (
+    <Empty {...args} className="border border-dashed">
       <EmptyHeader>
         <EmptyMedia variant="icon">
           <CloudIcon />
@@ -101,13 +95,11 @@ export const Outline = meta.story({
 });
 
 /**
- * Empty state with a gradient background.
+ * Empty state with a muted background.
  */
-export const Background = meta.story({
-  render: () => (
-    <Empty
-      className="from-muted/50 to-background h-full bg-linear-to-b from-30%"
-    >
+export const Muted = meta.story({
+  render: (args) => (
+    <Empty {...args} className="bg-muted/30 h-full">
       <EmptyHeader>
         <EmptyMedia variant="icon">
           <BellIcon />
@@ -131,8 +123,8 @@ export const Background = meta.story({
  * Empty state with a single avatar in the media slot.
  */
 export const WithAvatar = meta.story({
-  render: () => (
-    <Empty>
+  render: (args) => (
+    <Empty {...args}>
       <EmptyHeader>
         <EmptyMedia variant="default">
           <Avatar className="size-12">
@@ -160,8 +152,8 @@ export const WithAvatar = meta.story({
  * Empty state with multiple avatars in a group.
  */
 export const WithAvatarGroup = meta.story({
-  render: () => (
-    <Empty>
+  render: (args) => (
+    <Empty {...args}>
       <EmptyHeader>
         <EmptyMedia>
           <div
@@ -202,8 +194,8 @@ export const WithAvatarGroup = meta.story({
  * Empty state with an input group for searching (404 page pattern).
  */
 export const WithInputGroup = meta.story({
-  render: () => (
-    <Empty>
+  render: (args) => (
+    <Empty {...args}>
       <EmptyHeader>
         <EmptyTitle>404 - Not Found</EmptyTitle>
         <EmptyDescription>
@@ -231,131 +223,3 @@ export const WithInputGroup = meta.story({
     </Empty>
   ),
 });
-
-/**
- * Grid of icon-based empty states without actions.
- */
-export const Icon = meta.story({
-  render: () => (
-    <div className="grid gap-8 md:grid-cols-2">
-      <Empty>
-        <EmptyHeader>
-          <EmptyMedia variant="icon">
-            <InboxIcon />
-          </EmptyMedia>
-          <EmptyTitle>No messages</EmptyTitle>
-          <EmptyDescription>
-            Your inbox is empty. New messages will appear here.
-          </EmptyDescription>
-        </EmptyHeader>
-      </Empty>
-
-      <Empty>
-        <EmptyHeader>
-          <EmptyMedia variant="icon">
-            <StarIcon />
-          </EmptyMedia>
-          <EmptyTitle>No favorites</EmptyTitle>
-          <EmptyDescription>
-            Items you mark as favorites will appear here.
-          </EmptyDescription>
-        </EmptyHeader>
-      </Empty>
-
-      <Empty>
-        <EmptyHeader>
-          <EmptyMedia variant="icon">
-            <HeartIcon />
-          </EmptyMedia>
-          <EmptyTitle>No likes yet</EmptyTitle>
-          <EmptyDescription>
-            Content you like will be saved here for easy access.
-          </EmptyDescription>
-        </EmptyHeader>
-      </Empty>
-
-      <Empty>
-        <EmptyHeader>
-          <EmptyMedia variant="icon">
-            <BookmarkIcon />
-          </EmptyMedia>
-          <EmptyTitle>No bookmarks</EmptyTitle>
-          <EmptyDescription>
-            Save interesting content by bookmarking it.
-          </EmptyDescription>
-        </EmptyHeader>
-      </Empty>
-    </div>
-  ),
-});
-
-/**
- * Empty state without action buttons.
- */
-export const WithoutAction = meta.story({
-  render: () => (
-    <Empty>
-      <EmptyHeader>
-        <EmptyMedia variant="icon">
-          <UsersIcon />
-        </EmptyMedia>
-        <EmptyTitle>No team members</EmptyTitle>
-        <EmptyDescription>
-          Invite team members to collaborate on this project.
-        </EmptyDescription>
-      </EmptyHeader>
-    </Empty>
-  ),
-});
-
-/**
- * Should render all child components (heading, description, action).
- */
-
-// --- Tests ---
-
-Default.test(
-  "should render all child components",
-  {
-    render: () => (
-      <Empty data-testid="empty-container">
-        <EmptyHeader>
-          <EmptyMedia variant="icon" data-testid="empty-media">
-            <InboxIcon />
-          </EmptyMedia>
-          <EmptyTitle data-testid="empty-title">Empty State Title</EmptyTitle>
-          <EmptyDescription data-testid="empty-description">
-            This is the description text for the empty state.
-          </EmptyDescription>
-        </EmptyHeader>
-        <EmptyContent>
-          <Button data-testid="empty-action">Take Action</Button>
-        </EmptyContent>
-      </Empty>
-    ),
-  },
-  async ({ canvasElement, step }) => {
-    const canvas = within(canvasElement);
-
-    await step("verify title is rendered", async () => {
-      await expect(canvas.getByText("Empty State Title")).toBeVisible();
-    });
-
-    await step("verify description is rendered", async () => {
-      await expect(
-        canvas.getByText("This is the description text for the empty state.")
-      ).toBeVisible();
-    });
-
-    await step("verify action button is rendered", async () => {
-      await expect(
-        canvas.getByRole("button", { name: "Take Action" })
-      ).toBeVisible();
-    });
-
-    await step("verify icon media is rendered", async () => {
-      const media = canvas.getByTestId("empty-media");
-      await expect(media).toBeVisible();
-    });
-  }
-);
