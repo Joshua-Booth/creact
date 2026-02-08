@@ -46,11 +46,11 @@
   <hr />
   <p>
     <a href="#about">About</a> |
-    <a href="#requirements">Features</a> |
+    <a href="#features">Features</a> |
     <a href="#requirements">Requirements</a> |
     <a href="#installation">Installation</a> |
-    <a href="#installation">Setup</a> |
-    <a href="#installation">Usage</a> |
+    <a href="#setup">Setup</a> |
+    <a href="#usage">Usage</a> |
     <a href="#deployment">Deployment</a> |
     <a href="#support">Support</a> |
     <a href="#license">License</a>
@@ -140,17 +140,16 @@ This project requires the following:
 - [Git](https://git-scm.com/downloads)
 - [mise](https://mise.jdx.dev/) for task running and version management
 - [Node.js 24.12.0+](https://nodejs.org/en/download/) (auto-installed by mise)
-- [pnpm 10.26.0+](https://pnpm.io/installation) (auto-installed by mise)
+- [pnpm 10.28.0+](https://pnpm.io/installation) (auto-installed by mise)
 
 ### Installing mise
 
 ```sh
-
 # Install mise
 curl https://mise.run | sh
+```
 
 For more installation options, visit the [mise installation guide](https://mise.jdx.dev/getting-started.html#installing-mise-cli).
-```
 
 Once mise is installed, it will automatically install and use the correct Node.js and pnpm versions when you enter the project directory.
 
@@ -293,7 +292,7 @@ Check the [shadcn/ui documentation](https://ui.shadcn.com/docs/components) for t
 
 ## AI Assistant Integration
 
-This template includes configuration for the [shadcn MCP server](https://ui.shadcn.com/docs/cli#mcp-server), enabling AI assistants to browse and install shadcn/ui components.
+This template includes configuration for the [shadcn MCP server](https://ui.shadcn.com/docs/cli#mcp-server) and the [Storybook MCP server](https://storybook.js.org/docs/mcp), enabling AI assistants to browse and install shadcn/ui components and interact with Storybook stories.
 
 ### Supported AI Tools
 
@@ -350,28 +349,28 @@ mise run test_coverage # Generate test coverage report (alias: mise run tc)
 
 ### API Mocking
 
-E2E tests use a reusable mock system built on Playwright's route interception and [MSW] patterns. Mocks are defined in `tests/e2e/mocks/`.
+E2E tests use a reusable mock system built on `@msw/playwright` for API mocking. Mocks are defined in `tests/e2e/mocks/`.
 
 **Define handlers** in `tests/e2e/mocks/handlers.ts`:
 
 ```ts
-export const handlers: MockHandler[] = [
-  {
-    pattern: "**/auth/login/",
-    status: 200,
-    body: { key: "mock-token" },
-  },
+import { http, HttpResponse } from "msw";
+
+export const handlers = [
+  http.post("**/auth/login/", () => {
+    return HttpResponse.json({ key: "mock-token" }, { status: 200 });
+  }),
 ];
 
 export const errorResponses = {
   login: {
-    invalidCredentials: (): MockHandler => ({
-      pattern: "**/auth/login/",
-      status: 401,
-      body: {
-        non_field_errors: ["Unable to log in with provided credentials."],
-      },
-    }),
+    invalidCredentials: () =>
+      http.post("**/auth/login/", () => {
+        return HttpResponse.json(
+          { non_field_errors: ["Unable to log in with provided credentials."] },
+          { status: 401 }
+        );
+      }),
   },
 };
 ```
@@ -447,7 +446,7 @@ This project is configured for easy deployment to Vercel and Netlify (both with 
 
 ## Support
 
-Do you need some help? Check the out articles in the [wiki].
+Do you need some help? Check out the articles in the [wiki].
 
 Check the [issues](https://github.com/Joshua-Booth/creact/issues) page to see if there is an open issue with a potential workaround.
 
@@ -461,7 +460,7 @@ Reach out to me for support through the following methods:
 
 This project is the sole property of Joshua Booth.
 
-Copyright &copy; 2025 Joshua Booth
+Copyright &copy; 2026 Joshua Booth
 
 Please see individual licenses contained in the project where third-party
 code was used, as this code is owned by its respective authors.
