@@ -3,6 +3,10 @@
     "shadcn": {
       "command": "npx",
       "args": ["shadcn@latest", "mcp"]
+    },
+    "storybook-mcp": {
+      "type": "http",
+      "url": "http://localhost:6006/mcp"
     }
   }
 }
