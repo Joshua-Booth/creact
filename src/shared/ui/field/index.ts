@@ -7,6 +7,7 @@ export {
   FieldLabel,
   FieldLegend,
   FieldLegendDescription,
+  FieldProvider,
   FieldSeparator,
   FieldSet,
   FieldTitle,

@@ -3,6 +3,7 @@ import { useState } from "react";
 import preview from "@/storybook/preview";
 import { expect, userEvent, within } from "storybook/test";
 
+import { Button } from "../button";
 import { Checkbox } from "../checkbox";
 import { Input } from "../input";
 import { RadioGroup, RadioGroupItem } from "../radio-group";
@@ -25,6 +26,7 @@ import {
   FieldLabel,
   FieldLegend,
   FieldLegendDescription,
+  FieldProvider,
   FieldSeparator,
   FieldSet,
   FieldTitle,
@@ -54,111 +56,25 @@ const meta = preview.meta({
 // --- Stories ---
 
 /**
- * A simple field with label, input, and description.
+ * Basic text input fields with labels and descriptions.
  */
 export const Default = meta.story({
   render: (args) => (
-    <Field {...args} className="w-80">
-      <FieldLabel>Email</FieldLabel>
-      <Input type="email" placeholder="you@example.com" />
-      <FieldDescription>Enter your email address.</FieldDescription>
-    </Field>
-  ),
-});
-
-/**
- * Field in an error state with error message.
- */
-export const ErrorState = meta.story({
-  name: "Error",
-  render: (args) => (
-    <Field {...args} className="w-80">
-      <FieldLabel>Email</FieldLabel>
-      <Input
-        type="email"
-        aria-invalid="true"
-        placeholder="you@example.com"
-        defaultValue="invalid-email"
-      />
-      <FieldError>Please enter a valid email address.</FieldError>
-    </Field>
-  ),
-});
-
-/**
- * Field with a textarea for longer text input.
- */
-export const WithTextarea = meta.story({
-  args: {
-    orientation: "horizontal",
-  },
-  render: (args) => (
-    <Field {...args} orientation="vertical">
-      <FieldLabel className="w-32">Bio</FieldLabel>
-      <FieldContent>
-        <Textarea placeholder="Tell us about yourself" rows={3} />
-        <FieldDescription>
-          Brief description for your profile. Max 200 characters.
-        </FieldDescription>
-      </FieldContent>
-    </Field>
-  ),
-});
-
-/**
- * Field with a checkbox control.
- */
-export const WithCheckbox = meta.story({
-  args: {
-    orientation: "horizontal",
-  },
-  parameters: {
-    a11y: {
-      config: {
-        rules: [
-          // Base UI Checkbox renders both a hidden native checkbox and a visible indicator
-          // This causes duplicate form label association warnings
-          { id: "form-field-multiple-labels", enabled: false },
-          { id: "aria-toggle-field-name", enabled: false },
-        ],
-      },
-    },
-  },
-  render: (args) => (
-    <Field {...args}>
-      <Checkbox id="terms" />
-      <FieldContent>
-        <FieldTitle>Accept terms and conditions</FieldTitle>
-        <FieldDescription>
-          You agree to our Terms of Service and Privacy Policy.
-        </FieldDescription>
-      </FieldContent>
-    </Field>
-  ),
-});
-
-/**
- * FieldSet with FieldLegend for grouping related fields.
- */
-export const Fieldset = meta.story({
-  render: () => (
-    <FieldSet className="w-80">
-      <FieldLegend>Personal Information</FieldLegend>
-      <FieldLegendDescription>
-        Enter your personal details below.
-      </FieldLegendDescription>
+    <FieldSet className="w-xs">
       <FieldGroup>
-        <Field>
-          <FieldLabel>First Name</FieldLabel>
-          <Input placeholder="John" />
+        <Field {...args}>
+          <FieldLabel htmlFor="username">Username</FieldLabel>
+          <Input id="username" type="text" placeholder="john_doe" />
+          <FieldDescription>
+            Choose a unique username for your account.
+          </FieldDescription>
         </Field>
-        <Field>
-          <FieldLabel>Last Name</FieldLabel>
-          <Input placeholder="Doe" />
-        </Field>
-        <Field>
-          <FieldLabel>Email</FieldLabel>
-          <Input type="email" placeholder="john@example.com" />
+        <Field {...args}>
+          <FieldLabel htmlFor="password">Password</FieldLabel>
+          <FieldDescription>
+            Must be at least 8 characters long.
+          </FieldDescription>
+          <Input id="password" type="password" placeholder="••••••••" />
         </Field>
       </FieldGroup>
     </FieldSet>
@@ -166,70 +82,226 @@ export const Fieldset = meta.story({
 });
 
 /**
- * FieldGroup with separator between field sections.
+ * A feedback form using a textarea with label and description.
  */
-export const WithSeparator = meta.story({
-  render: () => (
-    <FieldGroup className="w-80">
-      <Field>
-        <FieldLabel>Email</FieldLabel>
-        <Input type="email" placeholder="Enter email" />
-      </Field>
-      <FieldSeparator>or</FieldSeparator>
-      <Field>
-        <FieldLabel>Phone</FieldLabel>
-        <Input type="tel" placeholder="Enter phone number" />
-      </Field>
-    </FieldGroup>
+export const TextareaStory = meta.story({
+  name: "Textarea",
+  render: (args) => (
+    <FieldSet className="w-xs">
+      <FieldGroup>
+        <Field {...args}>
+          <FieldLabel htmlFor="feedback">Feedback</FieldLabel>
+          <Textarea
+            id="feedback"
+            placeholder="Your feedback helps us improve..."
+            rows={4}
+          />
+          <FieldDescription>
+            Share your thoughts about our service.
+          </FieldDescription>
+        </Field>
+      </FieldGroup>
+    </FieldSet>
   ),
 });
 
 /**
- * FieldSet with radio group.
+ * A dropdown field for selecting from a list of options.
  */
-export const WithRadioGroup = meta.story({
+export const SelectStory = meta.story({
+  name: "Select",
+  render: (args) => (
+    <Field {...args} className="w-xs">
+      <FieldLabel>Department</FieldLabel>
+      <Select>
+        <SelectTrigger>
+          <SelectValue placeholder="Choose department" />
+        </SelectTrigger>
+        <SelectContent>
+          <SelectItem value="engineering">Engineering</SelectItem>
+          <SelectItem value="design">Design</SelectItem>
+          <SelectItem value="marketing">Marketing</SelectItem>
+          <SelectItem value="sales">Sales</SelectItem>
+          <SelectItem value="support">Customer Support</SelectItem>
+          <SelectItem value="hr">Human Resources</SelectItem>
+          <SelectItem value="finance">Finance</SelectItem>
+          <SelectItem value="operations">Operations</SelectItem>
+        </SelectContent>
+      </Select>
+      <FieldDescription>
+        Select your department or area of work.
+      </FieldDescription>
+    </Field>
+  ),
+});
+
+/**
+ * A price range slider with dynamic value display.
+ */
+export const SliderStory = meta.story({
+  name: "Slider",
+  render: function SliderRender(args) {
+    const [value, setValue] = useState([200, 800]);
+
+    return (
+      <Field {...args} className="w-xs">
+        <FieldLabel>Price Range</FieldLabel>
+        <FieldDescription>
+          Set your budget range ($
+          <span className="font-medium tabular-nums">{value[0]}</span> –{" "}
+          <span className="font-medium tabular-nums">{value[1]}</span>).
+        </FieldDescription>
+        <Slider
+          value={value}
+          onValueChange={(val: number | readonly number[]) =>
+            setValue(typeof val === "number" ? [val] : [...val])
+          }
+          max={1000}
+          min={0}
+          step={10}
+          className="mt-2 w-full"
+        />
+      </Field>
+    );
+  },
+});
+
+/**
+ * Address fields grouped with a legend, description, and two-column layout.
+ */
+export const Fieldset = meta.story({
+  render: (args) => (
+    <FieldSet className="w-sm">
+      <FieldLegend>Address Information</FieldLegend>
+      <FieldLegendDescription>
+        We need your address to deliver your order.
+      </FieldLegendDescription>
+      <FieldGroup>
+        <Field {...args}>
+          <FieldLabel htmlFor="street">Street Address</FieldLabel>
+          <Input id="street" type="text" placeholder="123 Main St" />
+        </Field>
+        <div className="grid grid-cols-2 gap-4">
+          <Field {...args}>
+            <FieldLabel htmlFor="city">City</FieldLabel>
+            <Input id="city" type="text" placeholder="New York" />
+          </Field>
+          <Field {...args}>
+            <FieldLabel htmlFor="zip">Postal Code</FieldLabel>
+            <Input id="zip" type="text" placeholder="90502" />
+          </Field>
+        </div>
+      </FieldGroup>
+    </FieldSet>
+  ),
+});
+
+/**
+ * Multiple checkboxes in a group with a separator and a checkbox with description.
+ */
+export const CheckboxStory = meta.story({
+  name: "Checkbox",
   parameters: {
     a11y: {
       config: {
         rules: [
-          // Base UI RadioGroup renders both hidden native radios and visible indicators
-          // This causes duplicate form label association and toggle field name warnings
           { id: "form-field-multiple-labels", enabled: false },
           { id: "aria-toggle-field-name", enabled: false },
         ],
       },
     },
   },
-  render: () => (
-    <FieldSet className="w-80">
-      <FieldLegend variant="label">Notification Preferences</FieldLegend>
-      <RadioGroup defaultValue="email">
-        <Field orientation="horizontal">
-          <RadioGroupItem value="email" id="email-radio" />
-          <FieldContent>
-            <FieldTitle>Email notifications</FieldTitle>
-            <FieldDescription>
-              Receive notifications via email.
-            </FieldDescription>
-          </FieldContent>
+  render: (args) => (
+    <FieldGroup className="w-xs">
+      <FieldSet>
+        <FieldLegend variant="label">
+          Show these items on the desktop
+        </FieldLegend>
+        <FieldLegendDescription>
+          Select the items you want to show on the desktop.
+        </FieldLegendDescription>
+        <FieldGroup className="gap-3">
+          <Field {...args} orientation="horizontal">
+            <Checkbox id="hard-disks" />
+            <FieldLabel htmlFor="hard-disks" className="font-normal">
+              Hard disks
+            </FieldLabel>
+          </Field>
+          <Field orientation="horizontal">
+            <Checkbox id="external-disks" />
+            <FieldLabel htmlFor="external-disks" className="font-normal">
+              External disks
+            </FieldLabel>
+          </Field>
+          <Field orientation="horizontal">
+            <Checkbox id="cds-dvds" />
+            <FieldLabel htmlFor="cds-dvds" className="font-normal">
+              CDs, DVDs, and iPods
+            </FieldLabel>
+          </Field>
+          <Field orientation="horizontal">
+            <Checkbox id="connected-servers" />
+            <FieldLabel htmlFor="connected-servers" className="font-normal">
+              Connected servers
+            </FieldLabel>
+          </Field>
+        </FieldGroup>
+      </FieldSet>
+      <FieldSeparator />
+      <Field {...args} orientation="horizontal">
+        <Checkbox id="sync-folders" defaultChecked />
+        <FieldContent>
+          <FieldLabel htmlFor="sync-folders">
+            Sync Desktop & Documents folders
+          </FieldLabel>
+          <FieldDescription>
+            Your Desktop & Documents folders are being synced with iCloud Drive.
+            You can access them from other devices.
+          </FieldDescription>
+        </FieldContent>
+      </Field>
+    </FieldGroup>
+  ),
+});
+
+/**
+ * Radio buttons for selecting one option from a group.
+ */
+export const Radio = meta.story({
+  parameters: {
+    a11y: {
+      config: {
+        rules: [
+          { id: "form-field-multiple-labels", enabled: false },
+          { id: "aria-toggle-field-name", enabled: false },
+        ],
+      },
+    },
+  },
+  render: (args) => (
+    <FieldSet className="w-xs">
+      <FieldLegend variant="label">Subscription Plan</FieldLegend>
+      <FieldLegendDescription>
+        Yearly and lifetime plans offer significant savings.
+      </FieldLegendDescription>
+      <RadioGroup defaultValue="monthly">
+        <Field {...args} orientation="horizontal">
+          <RadioGroupItem value="monthly" id="plan-monthly" />
+          <FieldLabel htmlFor="plan-monthly" className="font-normal">
+            Monthly ($9.99/month)
+          </FieldLabel>
         </Field>
         <Field orientation="horizontal">
-          <RadioGroupItem value="sms" id="sms-radio" />
-          <FieldContent>
-            <FieldTitle>SMS notifications</FieldTitle>
-            <FieldDescription>
-              Receive notifications via text message.
-            </FieldDescription>
-          </FieldContent>
+          <RadioGroupItem value="yearly" id="plan-yearly" />
+          <FieldLabel htmlFor="plan-yearly" className="font-normal">
+            Yearly ($99.99/year)
+          </FieldLabel>
         </Field>
         <Field orientation="horizontal">
-          <RadioGroupItem value="none" id="none-radio" />
-          <FieldContent>
-            <FieldTitle>No notifications</FieldTitle>
-            <FieldDescription>
-              Don&apos;t receive any notifications.
-            </FieldDescription>
-          </FieldContent>
+          <RadioGroupItem value="lifetime" id="plan-lifetime" />
+          <FieldLabel htmlFor="plan-lifetime" className="font-normal">
+            Lifetime ($299.99)
+          </FieldLabel>
         </Field>
       </RadioGroup>
     </FieldSet>
@@ -237,115 +309,199 @@ export const WithRadioGroup = meta.story({
 });
 
 /**
- * Field with a select dropdown.
+ * A toggle switch for enabling or disabling a setting.
  */
-export const WithSelect = meta.story({
+export const SwitchStory = meta.story({
+  name: "Switch",
   render: (args) => (
-    <Field {...args} className="w-80">
-      <FieldLabel>Role</FieldLabel>
-      <Select>
-        <SelectTrigger>
-          <SelectValue placeholder="Select a role" />
-        </SelectTrigger>
-        <SelectContent>
-          <SelectItem value="admin">Admin</SelectItem>
-          <SelectItem value="editor">Editor</SelectItem>
-          <SelectItem value="viewer">Viewer</SelectItem>
-        </SelectContent>
-      </Select>
-      <FieldDescription>Select your account role.</FieldDescription>
+    <Field {...args} orientation="horizontal" className="w-fit">
+      <FieldLabel htmlFor="2fa">Multi-factor authentication</FieldLabel>
+      <Switch id="2fa" />
     </Field>
   ),
 });
 
 /**
- * Field with a slider and dynamic value display.
+ * Wraps `Field` components inside `FieldLabel` to create selectable card-style
+ * radio options.
  */
-export const WithSlider = meta.story({
-  render: function SliderStory(args) {
-    const [value, setValue] = useState([50]);
-
-    return (
-      <Field {...args} className="w-80">
-        <div className="flex items-center justify-between">
-          <FieldLabel>Volume</FieldLabel>
-          <span className="text-muted-foreground text-sm">{value[0]}%</span>
-        </div>
-        <Slider
-          value={value}
-          onValueChange={(val: number | readonly number[]) =>
-            setValue(typeof val === "number" ? [val] : [...val])
-          }
-          max={100}
-          step={1}
-        />
-        <FieldDescription>Adjust the volume level.</FieldDescription>
-      </Field>
-    );
-  },
-});
-
-/**
- * Field with a switch toggle.
- */
-export const WithSwitch = meta.story({
-  args: {
-    orientation: "horizontal",
+export const ChoiceCard = meta.story({
+  name: "Choice Card",
+  parameters: {
+    a11y: {
+      config: {
+        rules: [
+          { id: "form-field-multiple-labels", enabled: false },
+          { id: "aria-toggle-field-name", enabled: false },
+        ],
+      },
+    },
   },
   render: (args) => (
-    <Field {...args} className="w-80 justify-between">
-      <FieldContent>
-        <FieldTitle id="marketing-label">Marketing emails</FieldTitle>
-        <FieldDescription>
-          Receive emails about new products and features.
-        </FieldDescription>
-      </FieldContent>
-      <Switch aria-labelledby="marketing-label" />
-    </Field>
+    <FieldGroup className="w-xs">
+      <FieldSet>
+        <FieldLegend variant="label">Compute Environment</FieldLegend>
+        <FieldLegendDescription>
+          Select the compute environment for your cluster.
+        </FieldLegendDescription>
+        <RadioGroup defaultValue="kubernetes">
+          <FieldProvider>
+            <FieldLabel htmlFor="kubernetes-cc">
+              <Field {...args} orientation="horizontal">
+                <FieldContent>
+                  <FieldTitle>Kubernetes</FieldTitle>
+                  <FieldDescription>
+                    Run GPU workloads on a K8s cluster.
+                  </FieldDescription>
+                </FieldContent>
+                <RadioGroupItem value="kubernetes" id="kubernetes-cc" />
+              </Field>
+            </FieldLabel>
+          </FieldProvider>
+          <FieldProvider>
+            <FieldLabel htmlFor="vm-cc">
+              <Field orientation="horizontal">
+                <FieldContent>
+                  <FieldTitle>Virtual Machine</FieldTitle>
+                  <FieldDescription>
+                    Access a cluster to run GPU workloads.
+                  </FieldDescription>
+                </FieldContent>
+                <RadioGroupItem value="vm" id="vm-cc" />
+              </Field>
+            </FieldLabel>
+          </FieldProvider>
+        </RadioGroup>
+      </FieldSet>
+    </FieldGroup>
   ),
 });
 
 /**
- * FieldError with multiple errors from an array.
+ * Grouped fields with a separator dividing notification preference sections.
  */
-export const MultipleErrors = meta.story({
+export const FieldGroupStory = meta.story({
+  name: "Field Group",
+  parameters: {
+    a11y: {
+      config: {
+        rules: [
+          { id: "form-field-multiple-labels", enabled: false },
+          { id: "aria-toggle-field-name", enabled: false },
+        ],
+      },
+    },
+  },
   render: (args) => (
-    <Field {...args} className="w-80">
-      <FieldLabel>Password</FieldLabel>
-      <Input type="password" aria-invalid="true" placeholder="Enter password" />
-      <FieldError
-        errors={[
-          { message: "Password must be at least 8 characters" },
-          { message: "Password must contain a number" },
-          { message: "Password must contain a special character" },
-        ]}
-      />
-    </Field>
+    <FieldGroup className="w-xs">
+      <FieldSet>
+        <FieldLegend variant="label">Responses</FieldLegend>
+        <FieldLegendDescription>
+          Get notified when ChatGPT responds to requests that take time, like
+          research or image generation.
+        </FieldLegendDescription>
+        <FieldGroup data-slot="checkbox-group">
+          <Field {...args} orientation="horizontal">
+            <Checkbox id="push" defaultChecked disabled />
+            <FieldLabel htmlFor="push" className="font-normal">
+              Push notifications
+            </FieldLabel>
+          </Field>
+        </FieldGroup>
+      </FieldSet>
+      <FieldSeparator />
+      <FieldSet>
+        <FieldLegend variant="label">Tasks</FieldLegend>
+        <FieldLegendDescription>
+          Get notified when tasks you&apos;ve created have updates.{" "}
+          <a href="/tasks">Manage tasks</a>
+        </FieldLegendDescription>
+        <FieldGroup data-slot="checkbox-group">
+          <Field orientation="horizontal">
+            <Checkbox id="push-tasks" />
+            <FieldLabel htmlFor="push-tasks" className="font-normal">
+              Push notifications
+            </FieldLabel>
+          </Field>
+          <Field orientation="horizontal">
+            <Checkbox id="email-tasks" />
+            <FieldLabel htmlFor="email-tasks" className="font-normal">
+              Email notifications
+            </FieldLabel>
+          </Field>
+        </FieldGroup>
+      </FieldSet>
+    </FieldGroup>
   ),
 });
 
 /**
- * Responsive field that switches layout based on container width.
+ * Fields that adapt orientation based on container width.
  */
 export const ResponsiveLayout = meta.story({
-  args: {
-    orientation: "responsive",
-  },
+  name: "Responsive Layout",
   render: (args) => (
-    <FieldGroup className="w-[600px]">
+    <div className="w-lg">
+      <form>
+        <FieldSet>
+          <FieldLegend>Profile</FieldLegend>
+          <FieldLegendDescription>
+            Fill in your profile information.
+          </FieldLegendDescription>
+          <FieldGroup>
+            <Field {...args} orientation="responsive">
+              <FieldContent>
+                <FieldLabel htmlFor="name">Name</FieldLabel>
+                <FieldDescription>
+                  Provide your full name for identification.
+                </FieldDescription>
+              </FieldContent>
+              <Input id="name" placeholder="Evil Rabbit" />
+            </Field>
+            <Field {...args} orientation="responsive">
+              <Button type="submit">Submit</Button>
+              <Button type="button" variant="outline">
+                Cancel
+              </Button>
+            </Field>
+          </FieldGroup>
+        </FieldSet>
+      </form>
+    </div>
+  ),
+});
+
+/**
+ * Field error states with single and multiple error messages.
+ */
+export const ErrorState = meta.story({
+  name: "Error",
+  render: (args) => (
+    <FieldGroup className="w-80">
       <Field {...args}>
-        <FieldLabel className="w-32">Email</FieldLabel>
-        <FieldContent>
-          <Input type="email" placeholder="Enter email" />
-          <FieldDescription>Your primary contact email.</FieldDescription>
-        </FieldContent>
+        <FieldLabel>Email</FieldLabel>
+        <Input
+          type="email"
+          aria-invalid="true"
+          placeholder="you@example.com"
+          defaultValue="invalid-email"
+        />
+        <FieldError>Please enter a valid email address.</FieldError>
       </Field>
       <Field {...args}>
-        <FieldLabel className="w-32">Phone</FieldLabel>
-        <FieldContent>
-          <Input type="tel" placeholder="Enter phone" />
-          <FieldDescription>Optional contact number.</FieldDescription>
-        </FieldContent>
+        <FieldLabel>Password</FieldLabel>
+        <Input
+          type="password"
+          aria-invalid="true"
+          placeholder="Enter password"
+        />
+        <FieldError
+          errors={[
+            { message: "Password must be at least 8 characters" },
+            { message: "Password must contain a number" },
+            { message: "Password must contain a special character" },
+          ]}
+        />
       </Field>
     </FieldGroup>
   ),
@@ -363,10 +519,6 @@ export const Disabled = meta.story({
     </Field>
   ),
 });
-
-/**
- * When field has error, should show aria-invalid and error message.
- */
 
 // --- Tests ---
 
@@ -402,9 +554,6 @@ Default.test(
   }
 );
 
-/**
- * When clicking label, should focus associated input.
- */
 Default.test(
   "when clicking label, should focus associated input",
   {

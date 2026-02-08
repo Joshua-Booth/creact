@@ -287,6 +287,12 @@ function FieldError({
 const FieldControl = FieldPrimitive.Control;
 const FieldValidity = FieldPrimitive.Validity;
 
+function FieldProvider({ className, ...props }: FieldPrimitive.Root.Props) {
+  return (
+    <FieldPrimitive.Root className={cn("contents", className)} {...props} />
+  );
+}
+
 function FieldItem({ className, ...props }: FieldPrimitive.Item.Props) {
   return (
     <FieldPrimitive.Item
@@ -308,6 +314,7 @@ export {
   FieldLabel,
   FieldLegend,
   FieldLegendDescription,
+  FieldProvider,
   FieldSeparator,
   FieldSet,
   FieldTitle,
