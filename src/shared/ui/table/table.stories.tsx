@@ -1,13 +1,12 @@
 import preview from "@/storybook/preview";
 import { MoreHorizontal } from "lucide-react";
+import { expect, userEvent, within } from "storybook/test";
 
 import { Button } from "../button";
 import {
   DropdownMenu,
   DropdownMenuContent,
-  DropdownMenuGroup,
   DropdownMenuItem,
-  DropdownMenuLabel,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "../dropdown-menu";
@@ -86,7 +85,7 @@ const meta = preview.meta({
 /**
  * A complete table with header, body, footer, and caption.
  */
-export const Demo = meta.story({
+export const Default = meta.story({
   render: (args) => (
     <Table {...args}>
       <TableCaption>A list of your recent invoices.</TableCaption>
@@ -112,6 +111,41 @@ export const Demo = meta.story({
         <TableRow>
           <TableCell colSpan={3}>Total</TableCell>
           <TableCell className="text-right">$2,500.00</TableCell>
+        </TableRow>
+      </TableFooter>
+    </Table>
+  ),
+});
+
+/**
+ * A table with a footer row that displays a summary total.
+ */
+export const Footer = meta.story({
+  render: (args) => (
+    <Table {...args}>
+      <TableCaption>A list of your recent invoices.</TableCaption>
+      <TableHeader>
+        <TableRow>
+          <TableHead className="w-[100px]">Invoice</TableHead>
+          <TableHead>Status</TableHead>
+          <TableHead>Method</TableHead>
+          <TableHead className="text-right">Amount</TableHead>
+        </TableRow>
+      </TableHeader>
+      <TableBody>
+        {invoices.slice(0, 3).map((invoice) => (
+          <TableRow key={invoice.invoice}>
+            <TableCell className="font-medium">{invoice.invoice}</TableCell>
+            <TableCell>{invoice.paymentStatus}</TableCell>
+            <TableCell>{invoice.paymentMethod}</TableCell>
+            <TableCell className="text-right">{invoice.totalAmount}</TableCell>
+          </TableRow>
+        ))}
+      </TableBody>
+      <TableFooter>
+        <TableRow>
+          <TableCell colSpan={3}>Total</TableCell>
+          <TableCell className="text-right">$750.00</TableCell>
         </TableRow>
       </TableFooter>
     </Table>
@@ -152,15 +186,12 @@ export const Actions = meta.story({
                   <span className="sr-only">Open menu</span>
                 </DropdownMenuTrigger>
                 <DropdownMenuContent align="end">
-                  <DropdownMenuGroup>
-                    <DropdownMenuLabel>Actions</DropdownMenuLabel>
-                    <DropdownMenuItem>View details</DropdownMenuItem>
-                    <DropdownMenuItem>Download</DropdownMenuItem>
-                  </DropdownMenuGroup>
+                  <DropdownMenuItem>Edit</DropdownMenuItem>
+                  <DropdownMenuItem>Duplicate</DropdownMenuItem>
                   <DropdownMenuSeparator />
-                  <DropdownMenuGroup>
-                    <DropdownMenuItem>Delete</DropdownMenuItem>
-                  </DropdownMenuGroup>
+                  <DropdownMenuItem variant="destructive">
+                    Delete
+                  </DropdownMenuItem>
                 </DropdownMenuContent>
               </DropdownMenu>
             </TableCell>
@@ -170,3 +201,30 @@ export const Actions = meta.story({
     </Table>
   ),
 });
+
+Actions.test(
+  "when opening row actions, should display menu items",
+  async ({ canvas, canvasElement, step }) => {
+    const body = within(canvasElement.ownerDocument.body);
+    const buttons = await canvas.findAllByRole("button", {
+      name: /open menu/i,
+    });
+
+    await step("click the first row action button", async () => {
+      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion -- findAllByRole guarantees non-empty array
+      await userEvent.click(buttons[0]!);
+    });
+
+    await step("verify menu items render", async () => {
+      await expect(
+        await body.findByRole("menuitem", { name: /edit/i })
+      ).toBeInTheDocument();
+      await expect(
+        body.getByRole("menuitem", { name: /duplicate/i })
+      ).toBeInTheDocument();
+      await expect(
+        body.getByRole("menuitem", { name: /delete/i })
+      ).toBeInTheDocument();
+    });
+  }
+);
