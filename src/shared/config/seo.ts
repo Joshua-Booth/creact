@@ -16,4 +16,4 @@ export const TWITTER_HANDLE = "@joshuaboothnz";
 export const DEFAULT_OG_IMAGE = "/og-image.png";
 
 /** Site name for meta tags */
-export const SITE_NAME = "Creact";
+export const SITE_NAME = "creact";

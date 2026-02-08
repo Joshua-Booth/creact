@@ -1,2 +1,2 @@
 /** @public */
-export const APP_TITLE = "Creact";
+export const APP_TITLE = "creact";

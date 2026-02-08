@@ -44,7 +44,7 @@ export const middleware = [i18nextMiddleware];
 
 export function meta() {
   return generateMeta({
-    title: "Creact",
+    title: "creact",
     description: "A modern React frontend template with SSR support.",
   });
 }

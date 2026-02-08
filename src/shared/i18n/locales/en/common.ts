@@ -1,14 +1,14 @@
 export default {
   app: {
-    title: "Creact",
+    title: "creact",
   },
   seo: {
-    siteName: "Creact",
+    siteName: "creact",
     defaultDescription: "A modern React frontend template with SSR support.",
     pages: {
       home: {
         title: "Home",
-        description: "Welcome to Creact - A modern React frontend template.",
+        description: "Welcome to creact - A modern React frontend template.",
       },
       login: {
         title: "Login",
