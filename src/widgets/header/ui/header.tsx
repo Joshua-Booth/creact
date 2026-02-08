@@ -1,4 +1,5 @@
 import { Link, NavLink } from "react-router";
+import { useTranslation } from "react-i18next";
 
 import { useAuthStore } from "@/entities/user";
 import { ModeToggle } from "@/shared/ui/mode-toggle";
@@ -23,8 +24,14 @@ function Links({ links }: { links: { name: string; path: string }[] }) {
 }
 
 export function Header() {
+  const { t } = useTranslation();
   const authenticated = useAuthStore((state) => state.authenticated);
   const logoLink = authenticated ? "/dashboard" : "/";
+
+  const headerLinks = [
+    { name: t("nav.login"), path: "/login" },
+    { name: t("nav.signUp"), path: "/signup" },
+  ];
 
   return (
     <header className="relative z-5 mb-4 h-[82px] p-0">
@@ -40,13 +47,8 @@ export function Header() {
           <ModeToggle />
         </div>
       ) : (
-        <Links links={HEADER_LINKS} />
+        <Links links={headerLinks} />
       )}
     </header>
   );
 }
-
-const HEADER_LINKS = [
-  { name: "Login", path: "/login" },
-  { name: "Sign Up", path: "/signup" },
-];

@@ -429,19 +429,18 @@ For more details on available tasks, run `mise tasks ls` or check `mise.toml`. M
 
 ## Deployment
 
-This project is configured for easy deployment to Vercel and Netlify (both with free tiers).
+This project is configured for easy deployment to [Netlify](https://www.netlify.com/) (free tier available).
 
 **Quick Start:**
 
 1. Push code to GitHub
-2. Connect to Vercel or Netlify
+2. Connect to Netlify
 3. Configure environment variables (see [Environment Variables](#environment-variables))
 4. Deploy - done!
 
 ### Resources
 
 - [Deployment Guide](./docs/DEPLOYMENT.md) - Detailed deployment instructions
-- [Vercel Docs](https://vercel.com/docs)
 - [Netlify Docs](https://docs.netlify.com)
 
 ## Support

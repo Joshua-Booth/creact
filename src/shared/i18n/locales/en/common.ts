@@ -41,6 +41,7 @@ export default {
     login: {
       description: "Enter your email and password to access your dashboard",
       forgotPassword: "Forgot password?",
+      noAccount: "Don't have an account?",
       signUp: "Sign up",
       submit: "Sign in",
       submitting: "Signing in...",
@@ -49,6 +50,8 @@ export default {
     signUp: {
       description: "Enter your email and password to get started",
       hasAccount: "Already have an account?",
+      passwordHint:
+        "Must be at least 8 characters with uppercase, lowercase, and a number.",
       signIn: "Sign in",
       submit: "Create account",
       submitting: "Creating account...",
@@ -60,6 +63,10 @@ export default {
   },
   language: {
     select: "Select language",
+  },
+  nav: {
+    login: "Login",
+    signUp: "Sign Up",
   },
   pages: {
     landing: {

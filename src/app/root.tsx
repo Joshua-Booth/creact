@@ -1,11 +1,13 @@
 import { useEffect, useSyncExternalStore } from "react";
 import {
   data,
+  href,
   Links,
   Meta,
   Outlet,
   Scripts,
   ScrollRestoration,
+  useLocation,
   useRouteLoaderData,
 } from "react-router";
 import { useTranslation } from "react-i18next";
@@ -181,9 +183,12 @@ export function HydrateFallback() {
   );
 }
 
+const AUTH_ROUTES = new Set([href("/login"), href("/signup")]);
+
 export default function Root({ loaderData: { locale } }: Route.ComponentProps) {
   const hydrated = useHydrated();
   const { i18n } = useTranslation();
+  const { pathname } = useLocation();
 
   // Sync client-side i18n with server-detected locale
   useEffect(() => {
@@ -196,7 +201,7 @@ export default function Root({ loaderData: { locale } }: Route.ComponentProps) {
     <SWRProvider>
       <ErrorBoundary>
         <div id="app" data-hydrated={hydrated || undefined}>
-          <Header />
+          {!AUTH_ROUTES.has(pathname) && <Header />}
           <Outlet />
         </div>
       </ErrorBoundary>

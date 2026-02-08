@@ -5,7 +5,8 @@ import preview from "@/storybook/preview";
 import i18n from "i18next";
 import { expect, userEvent, waitFor, within } from "storybook/test";
 
-import { I18N_CONFIG, resources } from "../../../shared/i18n";
+import { I18N_CONFIG, resources } from "@/shared/i18n";
+
 import { SignupPage } from "./signup-page";
 
 // --- Helpers ---
