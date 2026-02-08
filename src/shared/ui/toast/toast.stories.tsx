@@ -146,7 +146,7 @@ export const Description = meta.story({
  * Toast position options.
  */
 export const Position = meta.story({
-  render: () => {
+  render: (_args) => {
     const [position, setPosition] =
       useState<ToasterProps["position"]>("bottom-right");
 
