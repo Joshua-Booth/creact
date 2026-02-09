@@ -1,9 +1,9 @@
-import { createMemoryRouter, RouterProvider } from "react-router";
 import { I18nextProvider, initReactI18next } from "react-i18next";
 
 import preview from "@/storybook/preview";
 import i18n from "i18next";
 import { http, HttpResponse } from "msw";
+import { reactRouterParameters } from "storybook-addon-remix-react-router";
 import { expect, waitFor, within } from "storybook/test";
 import { SWRConfig } from "swr";
 
@@ -20,32 +20,23 @@ void i18n.use(initReactI18next).init({
 
 localStorage.setItem("token", "mock-token");
 
-function RouterDecorator({ children }: { children: React.ReactNode }) {
-  const router = createMemoryRouter(
-    [{ path: "/dashboard", element: children }],
-    { initialEntries: ["/dashboard"] }
-  );
-  return <RouterProvider router={router} />;
-}
-
 const mockUser = {
   id: "1",
   email: "john@example.com",
-  first_name: "John",
-  last_name: "Doe",
+  firstName: "John",
+  lastName: "Doe",
 };
 
 const meta = preview.meta({
   title: "pages/Dashboard",
   component: DashboardPage,
+  tags: ["!autodocs"],
   decorators: [
     (Story) => (
       <I18nextProvider i18n={i18n}>
         <SWRConfig value={{ provider: () => new Map(), dedupingInterval: 0 }}>
           <SWRProvider>
-            <RouterDecorator>
-              <Story />
-            </RouterDecorator>
+            <Story />
           </SWRProvider>
         </SWRConfig>
       </I18nextProvider>
@@ -53,10 +44,11 @@ const meta = preview.meta({
   ],
   parameters: {
     layout: "fullscreen",
+    reactRouter: reactRouterParameters({
+      routing: { path: "/dashboard" },
+    }),
   },
 });
-
-export default meta;
 
 export const Default = meta.story({
   parameters: {

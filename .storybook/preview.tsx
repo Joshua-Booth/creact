@@ -2,6 +2,7 @@ import * as addonA11y from "@storybook/addon-a11y/preview";
 import * as addonDocs from "@storybook/addon-docs/preview";
 import { definePreview } from "@storybook/react-vite";
 import { initialize, mswLoader } from "msw-storybook-addon";
+import { withRouter } from "storybook-addon-remix-react-router";
 
 import { DirectionProvider } from "../src/shared/ui/direction";
 
@@ -31,6 +32,7 @@ export default definePreview({
     direction: "ltr",
   },
   decorators: [
+    withRouter,
     (Story, context) => {
       const dir = context.globals.direction === "rtl" ? "rtl" : "ltr";
       return (

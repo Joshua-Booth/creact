@@ -1,8 +1,8 @@
-import { createMemoryRouter, RouterProvider } from "react-router";
 import { I18nextProvider, initReactI18next } from "react-i18next";
 
 import preview from "@/storybook/preview";
 import i18n from "i18next";
+import { reactRouterParameters } from "storybook-addon-remix-react-router";
 import { expect, userEvent, waitFor, within } from "storybook/test";
 
 import { I18N_CONFIG, resources } from "@/shared/i18n";
@@ -17,37 +17,26 @@ void i18n.use(initReactI18next).init({
   ...I18N_CONFIG,
 });
 
-// Router wrapper for stories
-function RouterDecorator({ children }: { children: React.ReactNode }) {
-  const router = createMemoryRouter(
-    [
-      {
-        path: "/signup",
-        element: children,
-        action: () => ({ success: false, error: "Registration failed" }),
-      },
-      { path: "/login", element: <div>Login</div> },
-    ],
-    { initialEntries: ["/signup"] }
-  );
-
-  return <RouterProvider router={router} />;
-}
-
 const meta = preview.meta({
   title: "pages/Signup",
   component: SignupPage,
+  tags: ["!autodocs"],
   decorators: [
     (Story) => (
       <I18nextProvider i18n={i18n}>
-        <RouterDecorator>
-          <Story />
-        </RouterDecorator>
+        <Story />
       </I18nextProvider>
     ),
   ],
   parameters: {
     layout: "fullscreen",
+    reactRouter: reactRouterParameters({
+      routing: {
+        path: "/signup",
+        action: () => ({ success: false, error: "Registration failed" }),
+      },
+      location: { path: "/signup" },
+    }),
   },
 });
 
