@@ -16,7 +16,7 @@ test.describe("Login", () => {
     await expect(passwordInput).toHaveValue("password");
 
     await page.click('[data-testid="login"]');
-    await expect(page).toHaveURL(/\/dashboard/);
+    await page.waitForURL(/\/dashboard/);
   });
 
   test("shows error for invalid credentials", async ({ network, page }) => {

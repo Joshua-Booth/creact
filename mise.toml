@@ -178,7 +178,7 @@ run = "vitest --project unit"
 description = "Run unit and Storybook tests with coverage"
 alias = "tc"
 depends = ["build"]
-run = "vitest run --coverage"
+run = "vitest run --coverage.enabled"
 
 [tasks.test_e2e]
 description = "Run end-to-end tests with Playwright"
@@ -201,7 +201,7 @@ run = "playwright test --config {{vars.playwright_config}}"
 [tasks.test_coverage_merge]
 description = "Merge coverage reports from all test suites"
 alias = "tcm"
-run = "tsx scripts/merge-coverage.ts"
+run = "node scripts/merge-coverage.ts"
 
 [tasks.test_coverage_all]
 description = "Run all tests with coverage and merge reports"

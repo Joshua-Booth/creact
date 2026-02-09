@@ -20,7 +20,7 @@ test.describe("Signup", () => {
     await expect(confirmPasswordInput).toHaveValue("Password123");
 
     await page.click('[data-testid="signup"]');
-    await expect(page).toHaveURL(/\/dashboard/);
+    await page.waitForURL(/\/dashboard/);
   });
 
   test("shows error when email already exists", async ({ network, page }) => {
