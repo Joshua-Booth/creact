@@ -273,22 +273,7 @@ mise run g -- ui
 
 Generates `src/shared/ui/{name}/{name}.tsx`, `{name}.stories.tsx`, and `index.ts` barrel.
 
-#### shadcn Component
-
-Add a shadcn/ui component with automatic restructuring to the nested directory format:
-
-```sh
-mise run g -- shadcn
-```
-
-Runs `shadcn add`, moves the flat output into a nested `{name}/` directory, and adds the barrel file and stories skeleton.
-
-### Available shadcn Components
-
-Check the [shadcn/ui documentation](https://ui.shadcn.com/docs/components) for the full list of available components.
-
 [plop]: https://plopjs.com/
-[shadcn/ui]: https://ui.shadcn.com/
 
 ## AI Assistant Integration
 
