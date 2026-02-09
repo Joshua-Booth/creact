@@ -1,3 +1,4 @@
+/* eslint-disable better-tailwindcss/no-unknown-classes -- base-ui uses data-activation-direction, data-ending-style, and xs: breakpoint */
 import { NavigationMenu as NavigationMenuPrimitive } from "@base-ui/react/navigation-menu";
 import { cva } from "class-variance-authority";
 import { ChevronDownIcon } from "lucide-react";
@@ -61,8 +62,8 @@ function NavigationMenuItem({
 const navigationMenuTriggerStyle = cva(
   `group/navigation-menu-trigger inline-flex h-9 w-max items-center
   justify-center rounded-md bg-background px-4 py-2 text-sm font-medium
-  transition-all outline-none hover:bg-muted focus:bg-muted
-  focus-visible:ring-[3px] focus-visible:ring-ring/50 focus-visible:outline-1
+  transition-all outline-none hover:bg-muted focus:bg-muted focus-visible:ring-3
+  focus-visible:ring-ring/50 focus-visible:outline-1
   disabled:pointer-events-none disabled:opacity-50 data-popup-open:bg-muted/50
   data-popup-open:hover:bg-muted data-open:bg-muted/50 data-open:hover:bg-muted
   data-open:focus:bg-muted`
@@ -113,11 +114,17 @@ function NavigationMenuContent({
         group-data-[viewport=false]/navigation-menu:data-closed:animate-out
         group-data-[viewport=false]/navigation-menu:data-closed:fade-out-0
         group-data-[viewport=false]/navigation-menu:data-closed:zoom-out-95
-        h-full w-auto p-2 pr-2.5 ease-[cubic-bezier(0.22,1,0.36,1)]
+        data-ending-style:data-activation-direction=left:translate-x-[50%]
+        data-ending-style:data-activation-direction=right:translate-x-[-50%]
+        data-starting-style:data-activation-direction=left:translate-x-[-50%]
+        data-starting-style:data-activation-direction=right:translate-x-[50%]
+        h-full w-auto p-2 pr-2.5 transition-[opacity,transform,translate]
+        duration-[0.35s] ease-[cubic-bezier(0.22,1,0.36,1)]
         group-data-[viewport=false]/navigation-menu:rounded-md
         group-data-[viewport=false]/navigation-menu:shadow-sm
         group-data-[viewport=false]/navigation-menu:ring-1
         group-data-[viewport=false]/navigation-menu:duration-300
+        data-ending-style:opacity-0 data-starting-style:opacity-0
         **:data-[slot=navigation-menu-link]:focus:ring-0
         **:data-[slot=navigation-menu-link]:focus:outline-none`,
         className
@@ -145,18 +152,20 @@ function NavigationMenuPositioner({
         className={cn(
           `isolate z-50 h-(--positioner-height) w-(--positioner-width)
           max-w-(--available-width) transition-[top,left,right,bottom]
-          duration-300 ease-[cubic-bezier(0.22,1,0.36,1)]
-          data-instant:transition-none data-[side=bottom]:before:-top-2.5
-          data-[side=bottom]:before:right-0 data-[side=bottom]:before:left-0`,
+          duration-[0.35s] ease-[cubic-bezier(0.22,1,0.36,1)]
+          data-instant:transition-none data-[side=bottom]:before:inset-x-0
+          data-[side=bottom]:before:-top-2.5`,
           className
         )}
         {...props}
       >
         <NavigationMenuPrimitive.Popup
           className="bg-popover text-popover-foreground ring-foreground/10
-            relative h-(--popup-height) w-(--popup-width)
-            origin-(--transform-origin) rounded-lg shadow-sm ring-1
-            transition-all ease-[cubic-bezier(0.22,1,0.36,1)] outline-none
+            data-[ending-style]:easing-[ease] xs:w-(--popup-width) relative
+            h-(--popup-height) w-(--popup-width) origin-(--transform-origin)
+            rounded-lg shadow-sm ring-1
+            transition-[opacity,transform,width,height,scale,translate]
+            duration-[0.35s] ease-[cubic-bezier(0.22,1,0.36,1)] outline-none
             data-ending-style:scale-90 data-ending-style:opacity-0
             data-ending-style:duration-150 data-starting-style:scale-90
             data-starting-style:opacity-0"
@@ -181,7 +190,7 @@ function NavigationMenuLink({
         `hover:bg-muted focus:bg-muted focus-visible:ring-ring/50
         data-[active=true]:bg-muted/50 data-[active=true]:hover:bg-muted
         data-[active=true]:focus:bg-muted flex items-center gap-1.5 rounded-sm
-        p-2 text-sm transition-all outline-none focus-visible:ring-[3px]
+        p-2 text-sm transition-all outline-none focus-visible:ring-3
         focus-visible:outline-1 [&_svg:not([class*='size-'])]:size-4`,
         className
       )}

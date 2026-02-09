@@ -1,4 +1,4 @@
-import * as React from "react";
+"use client";
 
 import * as ResizablePrimitive from "react-resizable-panels";
 
@@ -7,12 +7,12 @@ import { cn } from "@/shared/lib/utils";
 function ResizablePanelGroup({
   className,
   ...props
-}: React.ComponentProps<typeof ResizablePrimitive.Group>) {
+}: ResizablePrimitive.GroupProps) {
   return (
     <ResizablePrimitive.Group
       data-slot="resizable-panel-group"
       className={cn(
-        "flex size-full data-[orientation=vertical]:flex-col",
+        "flex size-full aria-[orientation=vertical]:flex-col",
         className
       )}
       {...props}
@@ -20,9 +20,7 @@ function ResizablePanelGroup({
   );
 }
 
-function ResizablePanel({
-  ...props
-}: React.ComponentProps<typeof ResizablePrimitive.Panel>) {
+function ResizablePanel({ ...props }: ResizablePrimitive.PanelProps) {
   return <ResizablePrimitive.Panel data-slot="resizable-panel" {...props} />;
 }
 
@@ -30,16 +28,16 @@ function ResizableHandle({
   withHandle,
   className,
   ...props
-}: React.ComponentProps<typeof ResizablePrimitive.Separator> & {
+}: ResizablePrimitive.SeparatorProps & {
   withHandle?: boolean;
 }) {
   return (
     <ResizablePrimitive.Separator
       data-slot="resizable-handle"
       className={cn(
-        `bg-border focus-visible:ring-ring relative flex w-px items-center
-        justify-center after:absolute after:inset-y-0 after:left-1/2 after:w-1
-        after:-translate-x-1/2 focus-visible:ring-1 focus-visible:ring-offset-1
+        `bg-border focus-visible:ring-ring ring-offset-background relative flex
+        w-px items-center justify-center after:absolute after:inset-y-0
+        after:left-1/2 after:w-1 after:-translate-x-1/2 focus-visible:ring-1
         focus-visible:outline-hidden aria-[orientation=horizontal]:h-px
         aria-[orientation=horizontal]:w-full
         aria-[orientation=horizontal]:after:left-0
