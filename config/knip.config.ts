@@ -21,12 +21,8 @@ const config: KnipConfig = {
     "src/shared/ui/**",
   ],
 
-  // React Router generated types (created by typegen, may not exist in CI)
-  ignoreUnresolved: [/^\.\/\+types\//],
-
   ignoreDependencies: [
     // CSS-only dependencies (imported in CSS, not JS)
-    "tailwindcss",
     "tw-animate-css",
     "autoprefixer",
     "@fontsource-variable/inter",
