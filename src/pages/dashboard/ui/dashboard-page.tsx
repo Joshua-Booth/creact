@@ -1,34 +1,103 @@
+import { Suspense } from "react";
 import { useTranslation } from "react-i18next";
 
 import { useCurrentUser } from "@/entities/user";
-import { useMainStore } from "@/shared/model";
-import { Spinner } from "@/shared/ui/spinner";
+import { Avatar, AvatarFallback } from "@/shared/ui/avatar";
+import { Card, CardContent, CardHeader, CardTitle } from "@/shared/ui/card";
+import { ErrorBoundary } from "@/shared/ui/error-boundary";
+import { Separator } from "@/shared/ui/separator";
+import { Skeleton } from "@/shared/ui/skeleton";
 
-export function DashboardPage() {
+function DashboardSkeleton() {
+  return (
+    <>
+      <div className="mb-10">
+        <Skeleton className="h-8 w-48" />
+        <Skeleton className="mt-2 h-4 w-64" />
+      </div>
+      <Card>
+        <CardHeader>
+          <Skeleton className="h-5 w-16" />
+        </CardHeader>
+        <CardContent>
+          <div className="flex items-center gap-4">
+            <Skeleton className="size-10 rounded-full" />
+            <div className="space-y-1.5">
+              <Skeleton className="h-4 w-28" />
+              <Skeleton className="h-4 w-40" />
+            </div>
+          </div>
+        </CardContent>
+      </Card>
+    </>
+  );
+}
+
+function DashboardError() {
   const { t } = useTranslation();
-  const { user, isLoading, error } = useCurrentUser();
-  const { setError } = useMainStore();
-
-  if (error) {
-    setError(null);
-  }
 
   return (
-    <main className="mx-2 mb-12 pb-2 text-center max-md:pb-6 max-sm:pb-2">
-      <h1 className="pb-1">{t("pages.dashboard.heading")}</h1>
-      {user && !isLoading && !error && (
-        <div
-          className="mx-auto flex max-w-[720px] flex-wrap text-center
-            max-[905px]:mx-auto max-xl:w-auto max-xl:max-w-[660px]
-            max-lg:mx-[200px] max-sm:w-full max-sm:flex-col"
-        ></div>
-      )}
-      {isLoading && <Spinner />}
-      {error && (
-        <div className="pt-4">
-          <p>{t("pages.dashboard.error")}</p>
-        </div>
-      )}
+    <div className="pt-16 text-center">
+      <p className="text-muted-foreground text-sm">
+        {t("pages.dashboard.error")}
+      </p>
+    </div>
+  );
+}
+
+function DashboardContent() {
+  const { t } = useTranslation();
+  const { user } = useCurrentUser({ suspense: true });
+
+  if (!user) throw new Error("Unreachable: user is undefined after Suspense");
+
+  const { firstName, lastName, email } = user;
+
+  return (
+    <>
+      <div className="mb-10">
+        <h1 className="text-2xl font-semibold tracking-tight">
+          {t("pages.dashboard.welcome", { name: firstName })}
+        </h1>
+        <p className="text-muted-foreground mt-1 text-sm">
+          {t("pages.dashboard.subtitle")}
+        </p>
+      </div>
+
+      <Card>
+        <CardHeader>
+          <CardTitle>{t("pages.dashboard.profile")}</CardTitle>
+        </CardHeader>
+        <Separator />
+        <CardContent>
+          <div className="flex items-center gap-4">
+            <Avatar size="lg">
+              <AvatarFallback>
+                {firstName.charAt(0)}
+                {lastName.charAt(0)}
+              </AvatarFallback>
+            </Avatar>
+            <div>
+              <p className="text-sm font-medium">
+                {firstName} {lastName}
+              </p>
+              <p className="text-muted-foreground text-sm">{email}</p>
+            </div>
+          </div>
+        </CardContent>
+      </Card>
+    </>
+  );
+}
+
+export function DashboardPage() {
+  return (
+    <main className="mx-auto max-w-2xl px-6 pt-12 pb-16">
+      <ErrorBoundary fallback={<DashboardError />}>
+        <Suspense fallback={<DashboardSkeleton />}>
+          <DashboardContent />
+        </Suspense>
+      </ErrorBoundary>
     </main>
   );
 }

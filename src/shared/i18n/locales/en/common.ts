@@ -83,8 +83,10 @@ export default {
       title: "Sign Up | {{appName}}",
     },
     dashboard: {
-      heading: "Dashboard",
-      error: "Error loading dashboard",
+      welcome: "Welcome back, {{name}}",
+      subtitle: "Here's your account overview.",
+      profile: "Profile",
+      error: "Something went wrong loading your dashboard.",
     },
     logout: {
       heading: "Logout",
