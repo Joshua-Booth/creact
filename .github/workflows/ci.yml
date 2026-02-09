@@ -77,8 +77,16 @@ jobs:
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
 
-      - name: Run unit tests
-        run: mise run test_coverage -- --reporter=github-actions
+      - name: Run unit tests with coverage
+        run: mise run test_coverage -- --project unit --reporter=github-actions
+
+      - uses: actions/upload-artifact@v4
+        if: ${{ !cancelled() }}
+        with:
+          name: coverage-unit
+          path: coverage/vitest/
+          retention-days: 7
+          if-no-files-found: ignore
 
   test-e2e:
     name: E2E Tests
@@ -96,8 +104,8 @@ jobs:
       - name: Install Playwright browsers
         run: pnpm exec playwright install --with-deps chromium
 
-      - name: Run E2E tests
-        run: mise run test_e2e -- --reporter=github
+      - name: Run E2E tests with coverage
+        run: mise run test_e2e_coverage -- --reporter=github
 
       - uses: actions/upload-artifact@v4
         if: ${{ !cancelled() }}
@@ -106,6 +114,14 @@ jobs:
           path: |
             playwright-report/
             test-results/
+          retention-days: 7
+          if-no-files-found: ignore
+
+      - uses: actions/upload-artifact@v4
+        if: ${{ !cancelled() }}
+        with:
+          name: coverage-e2e
+          path: coverage/e2e/
           retention-days: 7
           if-no-files-found: ignore
 
@@ -237,8 +253,59 @@ jobs:
       - name: Install Playwright browsers
         run: pnpm exec playwright install --with-deps chromium
 
-      - name: Run Storybook tests
-        run: mise run test_storybook -- --reporter=github-actions
+      - name: Run Storybook tests with coverage
+        run: mise run test_coverage -- --project storybook --coverage.reportsDirectory coverage/storybook --reporter=github-actions
+
+      - uses: actions/upload-artifact@v4
+        if: ${{ !cancelled() }}
+        with:
+          name: coverage-storybook
+          path: coverage/storybook/
+          retention-days: 7
+          if-no-files-found: ignore
+
+  coverage-merge:
+    name: Merge Coverage Reports
+    runs-on: ubuntu-latest
+    needs: [test, test-storybook, test-e2e]
+    if: ${{ !cancelled() && (needs.test.result == 'success' || needs.test-storybook.result == 'success' || needs.test-e2e.result == 'success') }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: jdx/mise-action@v2
+        with:
+          experimental: true
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - uses: actions/download-artifact@v4
+        with:
+          name: coverage-unit
+          path: coverage/unit/
+        continue-on-error: true
+
+      - uses: actions/download-artifact@v4
+        with:
+          name: coverage-storybook
+          path: coverage/storybook/
+        continue-on-error: true
+
+      - uses: actions/download-artifact@v4
+        with:
+          name: coverage-e2e
+          path: coverage/e2e/
+        continue-on-error: true
+
+      - name: Merge coverage reports
+        run: mise run test_coverage_merge
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: coverage-merged
+          path: coverage/merged/
+          retention-days: 7
+          if-no-files-found: ignore
 
 # Uncomment when Chromatic is set up:
 # 1. Create project at chromatic.com
