@@ -7,9 +7,12 @@ import tailwindcss from "@tailwindcss/vite";
 import { reactRouterDevTools } from "react-router-devtools";
 import { defineConfig } from "vite";
 import devtoolsJson from "vite-plugin-devtools-json";
+import istanbul from "vite-plugin-istanbul";
 import reactScan from "vite-plugin-react-scan";
 import svgr from "vite-plugin-svgr";
 import tsconfigPaths from "vite-tsconfig-paths";
+
+const enableCoverage = process.env.COVERAGE === "true";
 
 export default defineConfig({
   plugins: [
@@ -25,6 +28,16 @@ export default defineConfig({
     netlifyPlugin(),
     tsconfigPaths(),
     devtoolsJson(),
+    ...(enableCoverage
+      ? [
+          istanbul({
+            include: "src/*",
+            exclude: ["node_modules", "**/*.test.*", "**/*.stories.*"],
+            extension: [".ts", ".tsx"],
+            forceBuildInstrument: true,
+          }),
+        ]
+      : []),
     sentryVitePlugin({
       telemetry: false,
       org: process.env.SENTRY_ORG,

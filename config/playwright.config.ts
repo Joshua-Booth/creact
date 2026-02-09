@@ -26,5 +26,8 @@ export default defineConfig({
     command: "mise run dev",
     port,
     reuseExistingServer: true,
+    env: {
+      ...(process.env.COVERAGE ? { COVERAGE: "true" } : {}),
+    },
   },
 });

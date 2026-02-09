@@ -20,8 +20,5 @@ export default defineConfig({
     include: ["src/**/*.test.{ts,tsx}"],
     setupFiles: [path.resolve(__dirname, "../tests/setup.ts")],
     exclude: ["**/node_modules/**", "**/dist/**", "**/e2e/**", "**/*.e2e.*"],
-    coverage: {
-      provider: "v8",
-    },
   },
 });
