@@ -45,6 +45,11 @@ const config: KnipConfig = {
     "es-toolkit",
     // CLI tool for spell checking (run via mise tasks)
     "cspell",
+    // Imported in .storybook/preview.tsx (not traced by knip's Storybook plugin)
+    "msw-storybook-addon",
+    // Playwright e2e coverage tooling
+    "monocart-coverage-reports",
+    "vite-plugin-istanbul",
   ],
 
   // System tools (not npm packages)
