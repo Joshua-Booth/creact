@@ -382,6 +382,14 @@ export default defineConfig([
     ...n.configs["flat/recommended"],
   },
 
+  // Scripts — build tooling, not user-facing; fs paths are safe
+  {
+    files: ["scripts/**/*.ts"],
+    rules: {
+      "security/detect-non-literal-fs-filename": "off",
+    },
+  },
+
   // Ignores
   {
     ignores: [
