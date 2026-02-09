@@ -1,14 +1,18 @@
 import * as addonA11y from "@storybook/addon-a11y/preview";
 import * as addonDocs from "@storybook/addon-docs/preview";
 import { definePreview } from "@storybook/react-vite";
+import { initialize, mswLoader } from "msw-storybook-addon";
 
 import { DirectionProvider } from "../src/shared/ui/direction";
 
 import "../src/app/styles/globals.css";
 import "./storybook-dark.css";
 
+initialize({ onUnhandledRequest: "bypass" });
+
 export default definePreview({
   addons: [addonDocs, addonA11y],
+  loaders: [mswLoader],
   globalTypes: {
     direction: {
       description: "Text direction",
