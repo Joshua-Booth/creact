@@ -51,19 +51,7 @@
   },
   "notebook.defaultFormatter": "esbenp.prettier-vscode",
   "testing.automaticallyOpenPeekView": "never",
-  "vitest.enable": true,
-  "vitest.rootConfig": "./config/vitest.config.ts",
-  "vitest.commandLine": "NODE_ENV=test pnpm exec vitest",
-  "vitest.include": ["src/**/*.{test,spec}.{js,jsx,ts,tsx}"],
-  "vitest.exclude": [
-    "**/node_modules/**",
-    "**/dist/**",
-    "**/e2e/**",
-    "**/*.e2e.*",
-    "**/.{idea,git,cache,output,temp}/**"
-  ],
-  "vitest.nodeExecutable": "node_modules/.bin/node",
-  "vitest.shellType": "terminal",
+  "vitest.rootConfig": "./vitest.config.ts",
   "terminal.integrated.shellIntegration.enabled": false,
   "[toml]": {
     "editor.defaultFormatter": "tamasfe.even-better-toml"
