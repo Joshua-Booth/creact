@@ -1,22 +1,11 @@
-import { I18nextProvider, initReactI18next } from "react-i18next";
-
+import { withI18n } from "@/storybook/decorators/with-i18n";
+import { withSWR } from "@/storybook/decorators/with-swr";
 import preview from "@/storybook/preview";
-import i18n from "i18next";
 import { http, HttpResponse } from "msw";
 import { reactRouterParameters } from "storybook-addon-remix-react-router";
 import { expect, waitFor, within } from "storybook/test";
-import { SWRConfig } from "swr";
-
-import { SWRProvider } from "@/app/providers/swr-provider";
-import { I18N_CONFIG, resources } from "@/shared/i18n";
 
 import { DashboardPage } from "./dashboard-page";
-
-void i18n.use(initReactI18next).init({
-  lng: "en",
-  resources,
-  ...I18N_CONFIG,
-});
 
 localStorage.setItem("token", "mock-token");
 
@@ -31,17 +20,7 @@ const meta = preview.meta({
   title: "pages/Dashboard",
   component: DashboardPage,
   tags: ["!autodocs"],
-  decorators: [
-    (Story) => (
-      <I18nextProvider i18n={i18n}>
-        <SWRConfig value={{ provider: () => new Map(), dedupingInterval: 0 }}>
-          <SWRProvider>
-            <Story />
-          </SWRProvider>
-        </SWRConfig>
-      </I18nextProvider>
-    ),
-  ],
+  decorators: [withSWR, withI18n],
   parameters: {
     layout: "fullscreen",
     reactRouter: reactRouterParameters({

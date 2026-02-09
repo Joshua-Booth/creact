@@ -1,33 +1,15 @@
-import { I18nextProvider, initReactI18next } from "react-i18next";
-
+import { withI18n } from "@/storybook/decorators/with-i18n";
 import preview from "@/storybook/preview";
-import i18n from "i18next";
 import { reactRouterParameters } from "storybook-addon-remix-react-router";
 import { expect, userEvent, waitFor, within } from "storybook/test";
 
-import { I18N_CONFIG, resources } from "@/shared/i18n";
-
 import { LoginPage } from "./login-page";
-
-// --- Helpers ---
-
-void i18n.use(initReactI18next).init({
-  lng: "en",
-  resources,
-  ...I18N_CONFIG,
-});
 
 const meta = preview.meta({
   title: "pages/Login",
   component: LoginPage,
   tags: ["!autodocs"],
-  decorators: [
-    (Story) => (
-      <I18nextProvider i18n={i18n}>
-        <Story />
-      </I18nextProvider>
-    ),
-  ],
+  decorators: [withI18n],
   parameters: {
     layout: "fullscreen",
     reactRouter: reactRouterParameters({
