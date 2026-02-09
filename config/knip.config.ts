@@ -47,9 +47,9 @@ const config: KnipConfig = {
     "cspell",
     // Imported in .storybook/preview.tsx (not traced by knip's Storybook plugin)
     "msw-storybook-addon",
-    // Playwright e2e coverage tooling
+    // Coverage tooling (loaded dynamically by vitest)
+    "@vitest/coverage-v8",
     "monocart-coverage-reports",
-    "vite-plugin-istanbul",
   ],
 
   // System tools (not npm packages)
