@@ -1,12 +1,12 @@
 import { errorResponses } from "./mocks";
-import { expect, test } from "./playwright.setup";
+import { expect, HYDRATION_TIMEOUT, test } from "./playwright.setup";
 
 test.describe("Login", () => {
   test("user can login successfully", async ({ network: _network, page }) => {
     await page.goto("/login");
 
     const submitButton = page.getByRole("button", { name: /sign in/i });
-    await expect(submitButton).toBeEnabled();
+    await expect(submitButton).toBeEnabled({ timeout: HYDRATION_TIMEOUT });
 
     const emailInput = page.getByLabel("Email");
     const passwordInput = page.getByLabel("Password");
@@ -27,7 +27,7 @@ test.describe("Login", () => {
     await page.goto("/login");
 
     const submitButton = page.getByRole("button", { name: /sign in/i });
-    await expect(submitButton).toBeEnabled();
+    await expect(submitButton).toBeEnabled({ timeout: HYDRATION_TIMEOUT });
 
     await page.getByLabel("Email").fill("wrong@mail.com");
     await page.getByLabel("Password").fill("wrong-password");
@@ -49,7 +49,7 @@ test.describe("Login", () => {
     await page.goto("/login");
 
     const submitButton = page.getByRole("button", { name: /sign in/i });
-    await expect(submitButton).toBeEnabled();
+    await expect(submitButton).toBeEnabled({ timeout: HYDRATION_TIMEOUT });
 
     // Click submit without filling any fields
     await submitButton.click();
@@ -68,7 +68,7 @@ test.describe("Login", () => {
     await page.goto("/login");
 
     const submitButton = page.getByRole("button", { name: /sign in/i });
-    await expect(submitButton).toBeEnabled();
+    await expect(submitButton).toBeEnabled({ timeout: HYDRATION_TIMEOUT });
 
     // Type invalid email character by character to trigger validation
     const emailInput = page.getByLabel("Email");
