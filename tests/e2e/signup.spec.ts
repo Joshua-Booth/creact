@@ -1,14 +1,18 @@
 import { errorResponses } from "./mocks";
-import { expect, test, waitForHydration } from "./playwright.setup";
+import { expect, test } from "./playwright.setup";
 
 test.describe("Signup", () => {
   test("user can signup successfully", async ({ network: _network, page }) => {
     await page.goto("/signup");
-    await waitForHydration(page);
 
-    const emailInput = page.getByTestId("email");
-    const passwordInput = page.getByTestId("password");
-    const confirmPasswordInput = page.getByTestId("confirm-password");
+    const submitButton = page.getByRole("button", {
+      name: /create account/i,
+    });
+    await expect(submitButton).toBeEnabled();
+
+    const emailInput = page.getByLabel("Email");
+    const passwordInput = page.getByLabel("Password", { exact: true });
+    const confirmPasswordInput = page.getByLabel("Confirm Password");
 
     await emailInput.fill("newuser@mail.com");
     await expect(emailInput).toHaveValue("newuser@mail.com");
@@ -19,7 +23,7 @@ test.describe("Signup", () => {
     await confirmPasswordInput.fill("Password123");
     await expect(confirmPasswordInput).toHaveValue("Password123");
 
-    await page.click('[data-testid="signup"]');
+    await submitButton.click();
     await page.waitForURL(/\/dashboard/);
   });
 
@@ -27,18 +31,21 @@ test.describe("Signup", () => {
     await network.use(errorResponses.signup.emailExists());
 
     await page.goto("/signup");
-    await waitForHydration(page);
 
-    await page.fill('[data-testid="email"]', "existing@mail.com");
-    await page.fill('[data-testid="password"]', "Password123");
-    await page.fill('[data-testid="confirm-password"]', "Password123");
-    await page.click('[data-testid="signup"]');
+    const submitButton = page.getByRole("button", {
+      name: /create account/i,
+    });
+    await expect(submitButton).toBeEnabled();
+
+    await page.getByLabel("Email").fill("existing@mail.com");
+    await page.getByLabel("Password", { exact: true }).fill("Password123");
+    await page.getByLabel("Confirm Password").fill("Password123");
+    await submitButton.click();
 
     // Should show error message and stay on signup page
-    await expect(page.getByTestId("signup-error")).toBeVisible();
-    await expect(page.getByTestId("signup-error")).toContainText(
-      "A user with this email already exists"
-    );
+    const error = page.getByRole("alert");
+    await expect(error).toBeVisible();
+    await expect(error).toContainText("A user with this email already exists");
     await expect(page).toHaveURL(/\/signup/);
   });
 
@@ -47,10 +54,14 @@ test.describe("Signup", () => {
     page,
   }) => {
     await page.goto("/signup");
-    await waitForHydration(page);
+
+    const submitButton = page.getByRole("button", {
+      name: /create account/i,
+    });
+    await expect(submitButton).toBeEnabled();
 
     // Click submit without filling any fields
-    await page.click('[data-testid="signup"]');
+    await submitButton.click();
 
     // Should show validation errors
     await expect(page.getByRole("alert").first()).toBeVisible();
@@ -62,12 +73,16 @@ test.describe("Signup", () => {
     page,
   }) => {
     await page.goto("/signup");
-    await waitForHydration(page);
 
-    await page.fill('[data-testid="email"]', "test@mail.com");
-    await page.fill('[data-testid="password"]', "Password123");
-    await page.fill('[data-testid="confirm-password"]', "DifferentPassword123");
-    await page.click('[data-testid="signup"]');
+    const submitButton = page.getByRole("button", {
+      name: /create account/i,
+    });
+    await expect(submitButton).toBeEnabled();
+
+    await page.getByLabel("Email").fill("test@mail.com");
+    await page.getByLabel("Password", { exact: true }).fill("Password123");
+    await page.getByLabel("Confirm Password").fill("DifferentPassword123");
+    await submitButton.click();
 
     // Should show password mismatch error and stay on signup page
     await expect(page.getByRole("alert")).toContainText(

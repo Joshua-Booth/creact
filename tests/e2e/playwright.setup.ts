@@ -3,20 +3,13 @@ import { mkdirSync, writeFileSync } from "node:fs";
 import path from "node:path";
 
 import { createNetworkFixture } from "@msw/playwright";
-import { expect, Page, test as testBase } from "@playwright/test";
+import { expect, test as testBase } from "@playwright/test";
 
 import { handlers } from "./mocks";
 
 interface TestFixtures {
   network: NetworkFixture;
   autoCodeCoverage: void;
-}
-
-async function waitForHydration(page: Page): Promise<void> {
-  await page.waitForFunction(
-    () => document.getElementById("app")?.hasAttribute("data-hydrated"),
-    { timeout: 20000 }
-  );
 }
 
 export const test = testBase.extend<TestFixtures>({
@@ -51,4 +44,4 @@ export const test = testBase.extend<TestFixtures>({
   ],
 });
 
-export { expect, waitForHydration };
+export { expect };

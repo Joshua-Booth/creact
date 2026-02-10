@@ -1,13 +1,15 @@
 import { errorResponses } from "./mocks";
-import { expect, test, waitForHydration } from "./playwright.setup";
+import { expect, test } from "./playwright.setup";
 
 test.describe("Login", () => {
   test("user can login successfully", async ({ network: _network, page }) => {
     await page.goto("/login");
-    await waitForHydration(page);
 
-    const emailInput = page.getByTestId("email");
-    const passwordInput = page.getByTestId("password");
+    const submitButton = page.getByRole("button", { name: /sign in/i });
+    await expect(submitButton).toBeEnabled();
+
+    const emailInput = page.getByLabel("Email");
+    const passwordInput = page.getByLabel("Password");
 
     await emailInput.fill("test@mail.com");
     await expect(emailInput).toHaveValue("test@mail.com");
@@ -15,7 +17,7 @@ test.describe("Login", () => {
     await passwordInput.fill("password");
     await expect(passwordInput).toHaveValue("password");
 
-    await page.click('[data-testid="login"]');
+    await submitButton.click();
     await page.waitForURL(/\/dashboard/);
   });
 
@@ -23,15 +25,18 @@ test.describe("Login", () => {
     await network.use(errorResponses.login.invalidCredentials());
 
     await page.goto("/login");
-    await waitForHydration(page);
 
-    await page.fill('[data-testid="email"]', "wrong@mail.com");
-    await page.fill('[data-testid="password"]', "wrong-password");
-    await page.click('[data-testid="login"]');
+    const submitButton = page.getByRole("button", { name: /sign in/i });
+    await expect(submitButton).toBeEnabled();
+
+    await page.getByLabel("Email").fill("wrong@mail.com");
+    await page.getByLabel("Password").fill("wrong-password");
+    await submitButton.click();
 
     // Should show error message and stay on login page
-    await expect(page.getByTestId("login-error")).toBeVisible();
-    await expect(page.getByTestId("login-error")).toContainText(
+    const error = page.getByRole("alert");
+    await expect(error).toBeVisible();
+    await expect(error).toContainText(
       "Unable to log in with provided credentials"
     );
     await expect(page).toHaveURL(/\/login/);
@@ -42,10 +47,12 @@ test.describe("Login", () => {
     page,
   }) => {
     await page.goto("/login");
-    await waitForHydration(page);
+
+    const submitButton = page.getByRole("button", { name: /sign in/i });
+    await expect(submitButton).toBeEnabled();
 
     // Click submit without filling any fields
-    await page.click('[data-testid="login"]');
+    await submitButton.click();
 
     // Should show validation errors
     await expect(page.getByRole("alert").first()).toBeVisible();
@@ -59,18 +66,20 @@ test.describe("Login", () => {
     // Default handler is set up, but client-side validation should prevent API call
 
     await page.goto("/login");
-    await waitForHydration(page);
+
+    const submitButton = page.getByRole("button", { name: /sign in/i });
+    await expect(submitButton).toBeEnabled();
 
     // Type invalid email character by character to trigger validation
-    const emailInput = page.getByTestId("email");
+    const emailInput = page.getByLabel("Email");
     await emailInput.click();
     await emailInput.pressSequentially("invalid-email", { delay: 10 });
 
-    const passwordInput = page.getByTestId("password");
+    const passwordInput = page.getByLabel("Password");
     await passwordInput.click();
     await passwordInput.pressSequentially("password", { delay: 10 });
 
-    await page.click('[data-testid="login"]');
+    await submitButton.click();
 
     // Wait a bit for any potential navigation
     await page.waitForTimeout(500);

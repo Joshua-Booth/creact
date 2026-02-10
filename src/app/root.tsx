@@ -1,4 +1,4 @@
-import { useEffect, useSyncExternalStore } from "react";
+import { useEffect } from "react";
 import {
   data,
   href,
@@ -20,6 +20,7 @@ import {
 
 import { SWRProvider } from "@/app/providers/swr-provider";
 import { Header } from "@/widgets/header";
+import { useHydrated } from "@/shared/lib/hydration";
 import {
   generateMeta,
   generateOrganizationJsonLd,
@@ -62,20 +63,6 @@ export async function loader({ request, context }: Route.LoaderArgs) {
 
 /** Root loader data type for use in child route meta functions */
 export type RootLoaderData = Awaited<ReturnType<typeof loader>>["data"];
-
-function noop() {
-  // Intentionally empty - used as a stable no-op callback reference
-}
-function emptySubscribe() {
-  return noop;
-}
-function useHydrated() {
-  return useSyncExternalStore(
-    emptySubscribe,
-    () => true,
-    () => false
-  );
-}
 
 function InnerLayout({
   children,

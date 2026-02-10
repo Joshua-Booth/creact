@@ -2,6 +2,7 @@ import { href, Link } from "react-router";
 import { Controller } from "react-hook-form";
 import { useTranslation } from "react-i18next";
 
+import { useHydrated } from "@/shared/lib/hydration";
 import { Button } from "@/shared/ui/button";
 import { Card, CardContent } from "@/shared/ui/card";
 import { Field, FieldError, FieldGroup, FieldLabel } from "@/shared/ui/field";
@@ -12,7 +13,9 @@ import { useLoginForm } from "../model/use-login-form";
 
 export function LoginPage() {
   const { t } = useTranslation();
+  const hydrated = useHydrated();
   const { form, isSubmitting, onSubmit } = useLoginForm();
+  const disabled = !hydrated || isSubmitting;
 
   return (
     <main
@@ -49,8 +52,7 @@ export function LoginPage() {
                         {...field}
                         id={field.name}
                         type="email"
-                        data-testid="email"
-                        disabled={isSubmitting}
+                        disabled={disabled}
                         aria-invalid={fieldState.invalid}
                       />
                       {fieldState.invalid && (
@@ -81,8 +83,7 @@ export function LoginPage() {
                         {...field}
                         id={field.name}
                         type="password"
-                        data-testid="password"
-                        disabled={isSubmitting}
+                        disabled={disabled}
                         aria-invalid={fieldState.invalid}
                       />
                       {fieldState.invalid && (
@@ -93,17 +94,10 @@ export function LoginPage() {
                 />
 
                 {form.formState.errors.root && (
-                  <FieldError data-testid="login-error">
-                    {form.formState.errors.root.message}
-                  </FieldError>
+                  <FieldError>{form.formState.errors.root.message}</FieldError>
                 )}
 
-                <Button
-                  type="submit"
-                  data-testid="login"
-                  disabled={isSubmitting}
-                  className="w-full"
-                >
+                <Button type="submit" disabled={disabled} className="w-full">
                   {isSubmitting
                     ? t("auth.login.submitting")
                     : t("auth.login.submit")}

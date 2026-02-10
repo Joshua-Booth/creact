@@ -2,6 +2,7 @@ import { href, Link } from "react-router";
 import { Controller } from "react-hook-form";
 import { useTranslation } from "react-i18next";
 
+import { useHydrated } from "@/shared/lib/hydration";
 import { Button } from "@/shared/ui/button";
 import { Card, CardContent } from "@/shared/ui/card";
 import {
@@ -18,7 +19,9 @@ import { useSignupForm } from "../model/use-signup-form";
 
 export function SignupPage() {
   const { t } = useTranslation();
+  const hydrated = useHydrated();
   const { form, isSubmitting, onSubmit } = useSignupForm();
+  const disabled = !hydrated || isSubmitting;
 
   return (
     <main
@@ -55,8 +58,7 @@ export function SignupPage() {
                         {...field}
                         id={field.name}
                         type="email"
-                        data-testid="email"
-                        disabled={isSubmitting}
+                        disabled={disabled}
                         aria-invalid={fieldState.invalid}
                       />
                       {fieldState.invalid && (
@@ -80,8 +82,7 @@ export function SignupPage() {
                             {...field}
                             id={field.name}
                             type="password"
-                            data-testid="password"
-                            disabled={isSubmitting}
+                            disabled={disabled}
                             aria-invalid={fieldState.invalid}
                           />
                           {fieldState.invalid && (
@@ -103,8 +104,7 @@ export function SignupPage() {
                             {...field}
                             id={field.name}
                             type="password"
-                            data-testid="confirm-password"
-                            disabled={isSubmitting}
+                            disabled={disabled}
                             aria-invalid={fieldState.invalid}
                           />
                           {fieldState.invalid && (
@@ -120,17 +120,10 @@ export function SignupPage() {
                 </Field>
 
                 {form.formState.errors.root && (
-                  <FieldError data-testid="signup-error">
-                    {form.formState.errors.root.message}
-                  </FieldError>
+                  <FieldError>{form.formState.errors.root.message}</FieldError>
                 )}
 
-                <Button
-                  type="submit"
-                  data-testid="signup"
-                  disabled={isSubmitting}
-                  className="w-full"
-                >
+                <Button type="submit" disabled={disabled} className="w-full">
                   {isSubmitting
                     ? t("auth.signUp.submitting")
                     : t("auth.signUp.submit")}
