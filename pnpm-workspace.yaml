@@ -4,6 +4,7 @@ onlyBuiltDependencies:
   - "@sentry/cli"
   - msw
   - protobufjs
+  - storybook-addon-remix-react-router
 
 ignoredBuiltDependencies:
   - core-js
