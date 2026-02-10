@@ -23,7 +23,8 @@ export default defineConfig({
     },
   ],
   webServer: {
-    command: "mise run dev",
+    command: `vite preview --config config/vite.config.ts --port ${port}`,
+    cwd: "..",
     port,
     reuseExistingServer: true,
     env: {

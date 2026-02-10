@@ -50,7 +50,7 @@ export const test = testBase.extend<TestFixtures>({
   ],
 });
 
-/** Timeout for the initial hydration check (controls becoming enabled). */
-export const HYDRATION_TIMEOUT = 20_000;
+/** Timeout for the hydration check (controls becoming enabled). */
+export const HYDRATION_TIMEOUT = 10_000;
 
 export { expect };

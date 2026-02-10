@@ -13,6 +13,7 @@ import svgr from "vite-plugin-svgr";
 import tsconfigPaths from "vite-tsconfig-paths";
 
 const enableCoverage = process.env.COVERAGE === "true";
+const isE2E = process.env.E2E === "true";
 
 export default defineConfig({
   plugins: [
@@ -25,7 +26,7 @@ export default defineConfig({
     }),
     svgr(),
     reactRouter(),
-    netlifyPlugin(),
+    ...(isE2E ? [] : [netlifyPlugin()]),
     tsconfigPaths(),
     devtoolsJson(),
     ...(enableCoverage

@@ -43,6 +43,17 @@ run = "react-router build"
 sources = ["src/**/*", "package.json", "vite.config.ts", "tsconfig.json"]
 outputs = ["dist/**/*"]
 
+[tasks.build_e2e]
+description = "Build for e2e testing (standard Node server)"
+alias = "be"
+env = { E2E = "true" }
+run = "react-router build"
+
+[tasks.build_e2e_coverage]
+description = "Build for e2e testing with coverage instrumentation"
+env = { E2E = "true", COVERAGE = "true" }
+run = "react-router build"
+
 [tasks.build_analyze]
 description = "Analyze bundle size"
 alias = "ba"
@@ -122,7 +133,7 @@ run = "knip --config {{vars.knip_config}} --fix --no-config-hints"
 description = "Preview production build"
 alias = "p"
 depends = ["build"]
-run = "react-router preview"
+run = "vite preview --config config/vite.config.ts"
 
 [tasks.spell]
 description = "Check spelling with cspell"
@@ -183,18 +194,19 @@ run = "vitest run --coverage.enabled"
 [tasks.test_e2e]
 description = "Run end-to-end tests with Playwright"
 alias = "te"
-depends = ["build"]
+depends = ["build_e2e"]
 run = "playwright test --config {{vars.playwright_config}}"
 
 [tasks.test_e2e_ui]
 description = "Run E2E tests in UI mode"
 alias = "teu"
+depends = ["build_e2e"]
 run = "playwright test --ui --config {{vars.playwright_config}}"
 
 [tasks.test_e2e_coverage]
 description = "Run E2E tests with coverage"
 alias = "tec"
-depends = ["build"]
+depends = ["build_e2e_coverage"]
 env = { COVERAGE = "true" }
 run = "playwright test --config {{vars.playwright_config}}"
 
