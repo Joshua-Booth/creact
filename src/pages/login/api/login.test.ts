@@ -1,8 +1,14 @@
 import type { NormalizedOptions } from "ky";
 import { HTTPError } from "ky";
-import { describe, expect, it } from "vitest";
+import { describe, expect, it, vi } from "vitest";
 
-import { parseLoginError } from "./login";
+import { loginApi, parseLoginError } from "./login";
+
+vi.mock("@/shared/api", () => {
+  const jsonMock = vi.fn();
+  const postMock = vi.fn(() => ({ json: jsonMock }));
+  return { api: { post: postMock }, jsonMockFn: jsonMock };
+});
 
 function createHTTPError(body: unknown): HTTPError {
   const response = {
@@ -53,5 +59,23 @@ describe("parseLoginError", () => {
     expect(await parseLoginError(new Error("Network failure"))).toBe(
       "An unexpected error occurred"
     );
+  });
+});
+
+describe("loginApi", () => {
+  it("should call correct endpoint with login data", async () => {
+    const { api, jsonMockFn } = await vi.importMock<{
+      api: { post: ReturnType<typeof vi.fn> };
+      jsonMockFn: ReturnType<typeof vi.fn>;
+    }>("@/shared/api");
+
+    jsonMockFn.mockResolvedValue({ key: "abc123" });
+
+    const result = await loginApi({ email: "a@b.com", password: "pass" });
+
+    expect(api.post).toHaveBeenCalledWith("auth/login/", {
+      json: { email: "a@b.com", password: "pass" },
+    });
+    expect(result).toEqual({ key: "abc123" });
   });
 });

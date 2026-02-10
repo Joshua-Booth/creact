@@ -1,8 +1,14 @@
 import type { NormalizedOptions } from "ky";
 import { HTTPError } from "ky";
-import { describe, expect, it } from "vitest";
+import { describe, expect, it, vi } from "vitest";
 
-import { parseSignupError } from "./signup";
+import { parseSignupError, signupApi } from "./signup";
+
+vi.mock("@/shared/api", () => {
+  const jsonMock = vi.fn();
+  const postMock = vi.fn(() => ({ json: jsonMock }));
+  return { api: { post: postMock }, jsonMockFn: jsonMock };
+});
 
 function createHTTPError(body: unknown): HTTPError {
   const response = {
@@ -75,5 +81,23 @@ describe("parseSignupError", () => {
     expect(await parseSignupError(new Error("Network failure"))).toBe(
       "An unexpected error occurred"
     );
+  });
+});
+
+describe("signupApi", () => {
+  it("should call correct endpoint with signup data", async () => {
+    const { api, jsonMockFn } = await vi.importMock<{
+      api: { post: ReturnType<typeof vi.fn> };
+      jsonMockFn: ReturnType<typeof vi.fn>;
+    }>("@/shared/api");
+
+    jsonMockFn.mockResolvedValue({ key: "xyz789" });
+
+    const result = await signupApi({ email: "a@b.com", password: "pass123" });
+
+    expect(api.post).toHaveBeenCalledWith("auth/signup/", {
+      json: { email: "a@b.com", password: "pass123" },
+    });
+    expect(result).toEqual({ key: "xyz789" });
   });
 });
