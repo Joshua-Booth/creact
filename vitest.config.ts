@@ -11,6 +11,24 @@ export default defineConfig({
         "src/**/*.stories.tsx",
         "src/**/*.test.{ts,tsx}",
         "src/**/*.d.ts",
+        // Server-only (Node APIs, not executable in browser/jsdom)
+        "src/app/entry.server.tsx",
+        "src/app/sessions.server.ts",
+        // Route entry files (thin wrappers, tested via E2E)
+        "src/app/routes/**",
+        // Translation resources (static data)
+        "src/shared/i18n/locales/**",
+        // Framework bootstrap (not unit-testable)
+        "src/app/entry.client.tsx",
+        // Provider wrappers (thin config, covered transitively)
+        "src/app/providers/**",
+        // Server middleware (thin config wrapper)
+        "src/app/middleware/**",
+        // PostHog SDK wrappers (1:1 pass-through, no branching logic)
+        "src/shared/lib/analytics/**",
+        "src/shared/lib/feature-flags/**",
+        // Storybook-only decorator (not runtime code)
+        "src/shared/ui/direction/**",
       ],
       reporter: ["text", "json", "html", "lcov", "clover"],
     },

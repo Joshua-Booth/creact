@@ -1,0 +1,62 @@
+import { beforeEach, describe, expect, it, vi } from "vitest";
+
+const localStorageMock = (() => {
+  let store = new Map<string, string>();
+  return {
+    getItem: vi.fn((key: string) => store.get(key) ?? null),
+    setItem: vi.fn((key: string, value: string) => {
+      store.set(key, value);
+    }),
+    removeItem: vi.fn((key: string) => {
+      store.delete(key);
+    }),
+    clear: vi.fn(() => {
+      store = new Map();
+    }),
+    get length() {
+      return store.size;
+    },
+    key: vi.fn((_index: number) => null),
+  };
+})();
+
+vi.stubGlobal("localStorage", localStorageMock);
+
+// Must import after stubbing localStorage so the module initializes with the mock
+const { useAuthStore } = await import("./store");
+
+describe("useAuthStore", () => {
+  beforeEach(() => {
+    localStorageMock.clear();
+    vi.clearAllMocks();
+    useAuthStore.setState({ token: null, authenticated: false });
+  });
+
+  it("should have correct initial state", () => {
+    const state = useAuthStore.getState();
+    expect(state.token).toBeNull();
+    expect(state.authenticated).toBe(false);
+  });
+
+  it("should set token and authenticated on login", () => {
+    useAuthStore.getState().login("test-token");
+
+    const state = useAuthStore.getState();
+    expect(state.token).toBe("test-token");
+    expect(state.authenticated).toBe(true);
+    expect(localStorageMock.setItem).toHaveBeenCalledWith(
+      "token",
+      "test-token"
+    );
+  });
+
+  it("should clear token and authenticated on logout", () => {
+    useAuthStore.getState().login("test-token");
+    useAuthStore.getState().logout();
+
+    const state = useAuthStore.getState();
+    expect(state.token).toBeNull();
+    expect(state.authenticated).toBe(false);
+    expect(localStorageMock.removeItem).toHaveBeenCalledWith("token");
+  });
+});
