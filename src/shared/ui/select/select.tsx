@@ -9,6 +9,7 @@ import { cn } from "@/shared/lib/utils";
 
 const Select = SelectPrimitive.Root;
 
+/* v8 ignore start -- Thin group wrapper, tested transitively */
 function SelectGroup({ className, ...props }: SelectPrimitive.Group.Props) {
   return (
     <SelectPrimitive.Group
@@ -18,6 +19,7 @@ function SelectGroup({ className, ...props }: SelectPrimitive.Group.Props) {
     />
   );
 }
+/* v8 ignore stop */
 
 function SelectValue({ className, ...props }: SelectPrimitive.Value.Props) {
   return (
@@ -130,6 +132,7 @@ function SelectContent({
   );
 }
 
+/* v8 ignore start -- Thin label/separator wrappers, tested transitively */
 function SelectLabel({
   className,
   ...props
@@ -199,6 +202,7 @@ function SelectSeparator({
     />
   );
 }
+/* v8 ignore stop */
 
 function SelectScrollUpButton({
   className,

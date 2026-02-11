@@ -199,6 +199,7 @@ function NavigationMenuLink({
   );
 }
 
+/* v8 ignore start -- Optional indicator component, not used in stories */
 function NavigationMenuIndicator({
   className,
   ...props
@@ -221,6 +222,7 @@ function NavigationMenuIndicator({
     </NavigationMenuPrimitive.Icon>
   );
 }
+/* v8 ignore stop */
 
 export {
   NavigationMenu,

@@ -49,11 +49,6 @@ alias = "be"
 env = { E2E = "true" }
 run = "react-router build"
 
-[tasks.build_e2e_coverage]
-description = "Build for e2e testing with coverage instrumentation"
-env = { E2E = "true", COVERAGE = "true" }
-run = "react-router build"
-
 [tasks.build_analyze]
 description = "Analyze bundle size"
 alias = "ba"
@@ -206,7 +201,7 @@ run = "playwright test --ui --config {{vars.playwright_config}}"
 [tasks.test_e2e_coverage]
 description = "Run E2E tests with coverage"
 alias = "tec"
-depends = ["build_e2e_coverage"]
+depends = ["build_e2e"]
 env = { COVERAGE = "true" }
 run = "playwright test --config {{vars.playwright_config}}"
 

@@ -10,9 +10,12 @@ import { useAuthStore } from "@/entities/user";
 
 import Root, { HydrateFallback } from "./root";
 
-const loaderData = { locale: "en", theme: Theme.LIGHT } as Parameters<
-  typeof Root
->[0]["loaderData"];
+type RootProps = Parameters<typeof Root>[0];
+
+const loaderData = {
+  locale: "en",
+  theme: Theme.LIGHT,
+} as RootProps["loaderData"];
 
 const withTheme: Decorator = (Story) => (
   <ThemeProvider specifiedTheme={Theme.LIGHT} themeAction="/action/set-theme">
@@ -30,6 +33,11 @@ const meta = preview.meta({
   component: Root,
   tags: ["!autodocs"],
   decorators: [withTheme, withI18n],
+  args: {
+    loaderData,
+    params: {} as RootProps["params"],
+    matches: [] as unknown as RootProps["matches"],
+  },
   parameters: {
     layout: "fullscreen",
   },
@@ -37,7 +45,7 @@ const meta = preview.meta({
 
 export const OnLandingPage = meta.story({
   decorators: [withUnauthenticated],
-  render: (args) => <Root {...args} loaderData={loaderData} />,
+  render: (args) => <Root {...args} />,
   parameters: {
     reactRouter: reactRouterParameters({
       routing: { path: "/" },
@@ -57,7 +65,7 @@ OnLandingPage.test(
 );
 
 export const OnAuthRoute = meta.story({
-  render: (args) => <Root {...args} loaderData={loaderData} />,
+  render: (args) => <Root {...args} />,
   parameters: {
     reactRouter: reactRouterParameters({
       routing: { path: "/login" },
@@ -77,7 +85,7 @@ OnAuthRoute.test(
 );
 
 export const Fallback = meta.story({
-  render: (args) => <HydrateFallback {...args} />,
+  render: (_args) => <HydrateFallback />,
   parameters: {
     reactRouter: reactRouterParameters({
       routing: { path: "/" },

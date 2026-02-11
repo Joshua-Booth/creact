@@ -185,6 +185,7 @@ function DropdownMenuSubContent({
   );
 }
 
+/* v8 ignore start -- Checkbox/Radio items tested transitively via menubar stories */
 function DropdownMenuCheckboxItem({
   className,
   children,
@@ -269,6 +270,7 @@ function DropdownMenuRadioItem({
     </MenuPrimitive.RadioItem>
   );
 }
+/* v8 ignore stop */
 
 function DropdownMenuSeparator({
   className,

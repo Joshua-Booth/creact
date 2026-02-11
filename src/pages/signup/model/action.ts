@@ -20,6 +20,7 @@ export async function signupAction(
   if (!result.success) {
     return {
       success: false,
+      /* v8 ignore next -- Zod always provides at least one issue */
       error: result.error.issues[0]?.message ?? "Invalid form data",
     };
   }

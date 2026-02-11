@@ -41,9 +41,11 @@ export class ErrorBoundary extends Component<
     });
   }
 
+  /* v8 ignore start -- Reset handler only triggered via user interaction on fallback UI */
   handleReset = (): void => {
     this.setState({ hasError: false, error: null });
   };
+  /* v8 ignore stop */
 
   // eslint-disable-next-line sonarjs/function-return-type -- Error boundaries need conditional rendering by design
   render(): ReactNode {

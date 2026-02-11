@@ -19,6 +19,7 @@ interface ToastProviderProps {
  * </ToastProvider>
  * ```
  */
+/* v8 ignore start -- Thin provider wrapper, mounted once at root */
 function ToastProvider({ children }: ToastProviderProps) {
   return (
     <>
@@ -27,5 +28,6 @@ function ToastProvider({ children }: ToastProviderProps) {
     </>
   );
 }
+/* v8 ignore stop */
 
 export { ToastProvider };

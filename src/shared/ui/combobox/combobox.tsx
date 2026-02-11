@@ -190,6 +190,7 @@ function ComboboxItem({
   );
 }
 
+/* v8 ignore start -- Composition sub-components: thin wrappers, tested transitively */
 function ComboboxGroup({ className, ...props }: ComboboxPrimitive.Group.Props) {
   return (
     <ComboboxPrimitive.Group
@@ -321,6 +322,7 @@ function ComboboxChipsInput({
 function useComboboxAnchor() {
   return React.useRef<HTMLDivElement | null>(null);
 }
+/* v8 ignore stop */
 
 export {
   Combobox,

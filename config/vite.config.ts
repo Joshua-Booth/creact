@@ -7,12 +7,10 @@ import tailwindcss from "@tailwindcss/vite";
 import { reactRouterDevTools } from "react-router-devtools";
 import { defineConfig } from "vite";
 import devtoolsJson from "vite-plugin-devtools-json";
-import istanbul from "vite-plugin-istanbul";
 import reactScan from "vite-plugin-react-scan";
 import svgr from "vite-plugin-svgr";
 import tsconfigPaths from "vite-tsconfig-paths";
 
-const enableCoverage = process.env.COVERAGE === "true";
 const isE2E = process.env.E2E === "true";
 
 export default defineConfig({
@@ -29,25 +27,21 @@ export default defineConfig({
     ...(isE2E ? [] : [netlifyPlugin()]),
     tsconfigPaths(),
     devtoolsJson(),
-    ...(enableCoverage
-      ? [
-          istanbul({
-            include: "src/*",
-            exclude: ["node_modules", "**/*.test.*", "**/*.stories.*"],
-            extension: [".ts", ".tsx"],
-            forceBuildInstrument: true,
+    // Skip Sentry in E2E builds — source maps must remain on disk for
+    // V8 coverage to resolve bundled code back to original sources.
+    ...(isE2E
+      ? []
+      : [
+          sentryVitePlugin({
+            telemetry: false,
+            org: process.env.SENTRY_ORG,
+            project: process.env.SENTRY_PROJECT,
+            authToken: process.env.SENTRY_AUTH_TOKEN,
+            sourcemaps: {
+              filesToDeleteAfterUpload: ["./dist/**/*.map"],
+            },
           }),
-        ]
-      : []),
-    sentryVitePlugin({
-      telemetry: false,
-      org: process.env.SENTRY_ORG,
-      project: process.env.SENTRY_PROJECT,
-      authToken: process.env.SENTRY_AUTH_TOKEN,
-      sourcemaps: {
-        filesToDeleteAfterUpload: ["./dist/**/*.map"],
-      },
-    }),
+        ]),
   ],
   resolve: {
     alias: {

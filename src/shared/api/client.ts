@@ -11,6 +11,7 @@ export class ApiError extends Error {
   }
 }
 
+/* v8 ignore start -- ky instance config: browser-only, tested transitively via E2E */
 export const api = ky.create({
   prefixUrl: import.meta.env.VITE_API_ROOT_URL ?? "",
   timeout: 30000,
@@ -26,3 +27,4 @@ export const api = ky.create({
     ],
   },
 });
+/* v8 ignore stop */

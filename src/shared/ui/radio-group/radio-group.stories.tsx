@@ -265,3 +265,24 @@ Default.test(
     });
   }
 );
+
+Default.test(
+  "when using arrow keys, should navigate between radio buttons",
+  async ({ canvas, step }) => {
+    const radios = await canvas.findAllByRole("radio");
+
+    await step("focus first radio and press ArrowDown", async () => {
+      await userEvent.click(radios[0]!);
+      await waitFor(() => expect(radios[0]).toBeChecked());
+      await userEvent.keyboard("{ArrowDown}");
+      await waitFor(() => expect(radios[1]).toBeChecked());
+      await waitFor(() => expect(radios[1]).toHaveFocus());
+    });
+
+    await step("press ArrowDown again", async () => {
+      await userEvent.keyboard("{ArrowDown}");
+      await waitFor(() => expect(radios[2]).toBeChecked());
+      await waitFor(() => expect(radios[2]).toHaveFocus());
+    });
+  }
+);

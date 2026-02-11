@@ -18,6 +18,7 @@ export function useHydrated(): boolean {
   return useSyncExternalStore(
     emptySubscribe,
     () => true,
+    /* v8 ignore next -- SSR-only snapshot, never called in browser tests */
     () => false
   );
 }

@@ -346,6 +346,44 @@ export const AlignItemWithTrigger = meta.story({
   },
 });
 
+Default.test(
+  "when pressing Escape, should close the dropdown",
+  async ({ canvasElement, step }) => {
+    const canvasBody = within(canvasElement.ownerDocument.body);
+    const select = await canvasBody.findByRole("combobox");
+
+    await step("open the dropdown", async () => {
+      await userEvent.click(select);
+      await expect(await canvasBody.findByRole("listbox")).toBeInTheDocument();
+    });
+
+    await step("press Escape to close", async () => {
+      await userEvent.keyboard("{Escape}");
+      await expect(select).toHaveAttribute("aria-expanded", "false");
+    });
+  }
+);
+
+Default.test(
+  "when using keyboard navigation, should move through options",
+  async ({ canvasElement, step }) => {
+    const canvasBody = within(canvasElement.ownerDocument.body);
+    const select = await canvasBody.findByRole("combobox");
+
+    await step("open and navigate with arrow keys", async () => {
+      await userEvent.click(select);
+      await expect(await canvasBody.findByRole("listbox")).toBeInTheDocument();
+      await userEvent.keyboard("{ArrowDown}");
+      await userEvent.keyboard("{ArrowDown}");
+      await userEvent.keyboard("{Enter}");
+    });
+
+    await step("verify selection", async () => {
+      await expect(select).toHaveTextContent(/Banana|Blueberry/);
+    });
+  }
+);
+
 /**
  * Select items with icons displayed alongside the text.
  */

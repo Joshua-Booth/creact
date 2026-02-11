@@ -73,6 +73,27 @@ Default.test(
   }
 );
 
+Default.test(
+  "when pressing Escape, should dismiss the popover",
+  async ({ canvasElement, step }) => {
+    const canvasBody = within(canvasElement.ownerDocument.body);
+
+    await step("open the popover", async () => {
+      await userEvent.click(
+        await canvasBody.findByRole("button", { name: /open popover/i })
+      );
+      await expect(await canvasBody.findByRole("dialog")).toBeInTheDocument();
+    });
+
+    await step("press Escape to dismiss", async () => {
+      await userEvent.keyboard("{Escape}");
+      await expect(await canvasBody.findByRole("dialog")).toHaveAttribute(
+        "data-closed"
+      );
+    });
+  }
+);
+
 /**
  * A popover containing a form with input fields.
  */

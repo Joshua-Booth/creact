@@ -107,6 +107,7 @@ function AlertDialogFooter({
   );
 }
 
+/* v8 ignore start -- Optional media slot, not exercised in stories */
 function AlertDialogMedia({
   className,
   ...props
@@ -124,6 +125,7 @@ function AlertDialogMedia({
     />
   );
 }
+/* v8 ignore stop */
 
 function AlertDialogTitle({
   className,

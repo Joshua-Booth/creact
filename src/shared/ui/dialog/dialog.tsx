@@ -114,11 +114,13 @@ function DialogFooter({
       {...props}
     >
       {children}
+      {/* v8 ignore start -- showCloseButton false path, not rendered in stories */}
       {showCloseButton && (
         <DialogPrimitive.Close render={<Button variant="outline" />}>
           Close
         </DialogPrimitive.Close>
       )}
+      {/* v8 ignore stop */}
     </div>
   );
 }

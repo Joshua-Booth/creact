@@ -319,3 +319,16 @@ Default.test(
     await expect(checkbox).toBeChecked();
   }
 );
+
+Default.test(
+  "when the label is clicked, should toggle the checkbox",
+  async ({ canvasElement }) => {
+    const canvas = within(canvasElement);
+    const label = canvas.getByText(/accept terms/i);
+    const checkbox = canvas.getByRole("checkbox");
+    await userEvent.click(label);
+    await expect(checkbox).toBeChecked();
+    await userEvent.click(label, { delay: 100 });
+    await expect(checkbox).not.toBeChecked();
+  }
+);

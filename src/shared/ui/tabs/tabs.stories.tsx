@@ -140,6 +140,28 @@ export const WithIcons = meta.story({
 // --- Tests ---
 
 Default.test(
+  "when using arrow keys, should navigate between tabs",
+  async ({ canvas, step }) => {
+    const tabs = await canvas.findAllByRole("tab");
+
+    await step("focus the first tab", async () => {
+      await userEvent.click(tabs[0]!);
+      await expect(tabs[0]).toHaveFocus();
+    });
+
+    await step("press ArrowRight to move to next tab", async () => {
+      await userEvent.keyboard("{ArrowRight}");
+      await waitFor(() => expect(tabs[1]).toHaveFocus());
+    });
+
+    await step("press ArrowLeft to move back", async () => {
+      await userEvent.keyboard("{ArrowLeft}");
+      await waitFor(() => expect(tabs[0]).toHaveFocus());
+    });
+  }
+);
+
+Default.test(
   "when clicking a tab, should change the content",
   async ({ canvas, step }) => {
     const tabs = await canvas.findAllByRole("tab");

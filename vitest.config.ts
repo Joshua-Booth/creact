@@ -29,6 +29,14 @@ export default defineConfig({
         "src/shared/lib/feature-flags/**",
         // Storybook-only decorator (not runtime code)
         "src/shared/ui/direction/**",
+        // Barrel re-export files (no runtime logic)
+        "src/**/index.ts",
+        // Pure type definitions (no runtime code)
+        "src/**/types.ts",
+        // Route config (build-time only)
+        "src/app/routes.ts",
+        // Static asset re-exports
+        "src/shared/assets/**",
       ],
       reporter: ["text", "json", "html", "lcov", "clover"],
     },

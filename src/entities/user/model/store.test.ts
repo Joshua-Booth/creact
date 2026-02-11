@@ -22,6 +22,9 @@ const localStorageMock = (() => {
 
 vi.stubGlobal("localStorage", localStorageMock);
 
+// Suppress zustand persist middleware warning about unavailable storage in test environment
+vi.spyOn(console, "warn").mockImplementation(vi.fn());
+
 // Must import after stubbing localStorage so the module initializes with the mock
 const { useAuthStore } = await import("./store");
 

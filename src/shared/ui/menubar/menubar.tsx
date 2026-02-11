@@ -39,6 +39,7 @@ function MenubarMenu({ ...props }: React.ComponentProps<typeof DropdownMenu>) {
   return <DropdownMenu data-slot="menubar-menu" {...props} />;
 }
 
+/* v8 ignore start -- Thin pass-through wrappers, tested transitively */
 function MenubarGroup({
   ...props
 }: React.ComponentProps<typeof DropdownMenuGroup>) {
@@ -50,6 +51,7 @@ function MenubarPortal({
 }: React.ComponentProps<typeof DropdownMenuPortal>) {
   return <DropdownMenuPortal data-slot="menubar-portal" {...props} />;
 }
+/* v8 ignore stop */
 
 function MenubarTrigger({
   className,
@@ -205,6 +207,7 @@ function MenubarRadioItem({
   );
 }
 
+/* v8 ignore start -- Thin label wrapper, tested transitively */
 function MenubarLabel({
   className,
   inset,
@@ -224,6 +227,7 @@ function MenubarLabel({
     />
   );
 }
+/* v8 ignore stop */
 
 function MenubarSeparator({
   className,

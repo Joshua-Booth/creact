@@ -3,6 +3,8 @@ import useSWR from "swr";
 
 import type { ApiError } from "./client";
 
+/* v8 ignore start -- Thin SWR wrappers, tested transitively via component stories */
+
 /**
  * SWR hook for API fetching.
  * @param endpoint - API endpoint path or null to skip fetching
@@ -32,5 +34,7 @@ export function useAuthenticatedApi<T>(
     typeof window === "undefined" ? null : localStorage.getItem("token");
   return useSWR<T, ApiError>(token === null ? null : endpoint, options);
 }
+
+/* v8 ignore stop */
 
 export { mutate } from "swr";

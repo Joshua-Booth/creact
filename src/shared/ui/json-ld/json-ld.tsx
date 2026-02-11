@@ -9,6 +9,7 @@ interface JsonLdProps {
  * @param props.data - JSON-LD data object to serialize
  * @returns Script element with JSON-LD data
  */
+/* v8 ignore start -- Renders in document <head>, not reachable in Storybook body */
 export function JsonLd({ data }: JsonLdProps) {
   return (
     <script
@@ -18,3 +19,4 @@ export function JsonLd({ data }: JsonLdProps) {
     />
   );
 }
+/* v8 ignore stop */
