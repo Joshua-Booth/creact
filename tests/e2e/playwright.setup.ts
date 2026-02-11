@@ -1,6 +1,6 @@
 import type { NetworkFixture } from "@msw/playwright";
 
-import { createNetworkFixture } from "@msw/playwright";
+import { defineNetworkFixture } from "@msw/playwright";
 import { expect, test as testBase } from "@playwright/test";
 import { addCoverageReport } from "monocart-reporter";
 
@@ -12,9 +12,19 @@ interface TestFixtures {
 }
 
 export const test = testBase.extend<TestFixtures>({
-  network: createNetworkFixture({
-    initialHandlers: handlers,
-  }),
+  network: [
+    async ({ context }, use) => {
+      const network = defineNetworkFixture({
+        context,
+        handlers,
+      });
+
+      await network.enable();
+      await use(network);
+      await network.disable();
+    },
+    { auto: true },
+  ],
   autoCodeCoverage: [
     async ({ page }, use, testInfo) => {
       const enabled = !!process.env.COVERAGE;
