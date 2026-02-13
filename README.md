@@ -327,9 +327,9 @@ mise run preview      # Preview production build locally (alias: mise run p)
 
 ```sh
 mise run test         # Run unit/integration tests with Vitest (alias: mise run t)
-mise run test_ui      # Open Vitest UI (alias: mise run tu)
-mise run test_e2e     # Run end-to-end tests with Playwright (alias: mise run te)
-mise run test_coverage # Generate test coverage report (alias: mise run tc)
+mise run test:ui      # Open Vitest UI (alias: mise run tui)
+mise run test:e2e     # Run end-to-end tests with Playwright (alias: mise run te)
+mise run test:coverage # Generate test coverage report (alias: mise run tc)
 ```
 
 ### API Mocking
@@ -398,15 +398,15 @@ mise run steiger      # Run FSD architecture linter
 mise tasks ls            # List all available tasks
 mise run generate        # Scaffold FSD slices and components (alias: mise run g)
 mise run clean           # Clean build artifacts
-mise run build_analyze   # Analyze bundle size (alias: mise run ba)
-mise run semantic_release # Create a new release (alias: mise run release)
-mise run steiger_fix     # Run Steiger with auto-fix (alias: mise run sf)
+mise run build:analyze   # Analyze bundle size (alias: mise run ba)
+mise run release         # Create a new release
+mise run steiger:fix     # Run Steiger with auto-fix (alias: mise run sf)
 mise run storybook       # Start Storybook dev server (alias: mise run sb)
-mise run storybook_build # Build Storybook static site (alias: mise run sbb)
+mise run storybook:build # Build Storybook static site (alias: mise run sbb)
 mise run depcruise       # Check for circular dependencies (alias: mise run dc)
-mise run test_e2e_ui     # Run E2E tests in UI mode (alias: mise run teu)
-mise run test_storybook  # Run Storybook component tests (alias: mise run tsb)
-mise run knip_fix        # Auto-remove unused exports (alias: mise run kf)
+mise run test:e2e:ui     # Run E2E tests in UI mode (alias: mise run teu)
+mise run test:storybook  # Run Storybook component tests (alias: mise run tsb)
+mise run knip:fix        # Auto-remove unused exports (alias: mise run kf)
 mise run typegen         # Generate React Router route types
 ```
 

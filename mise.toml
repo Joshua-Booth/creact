@@ -43,13 +43,13 @@ run = "react-router build"
 sources = ["src/**/*", "package.json", "vite.config.ts", "tsconfig.json"]
 outputs = ["dist/**/*"]
 
-[tasks.build_e2e]
+[tasks."build:e2e"]
 description = "Build for e2e testing (standard Node server)"
 alias = "be"
 env = { E2E = "true" }
 run = "react-router build"
 
-[tasks.build_analyze]
+[tasks."build:analyze"]
 description = "Analyze bundle size"
 alias = "ba"
 depends = ["build"]
@@ -65,7 +65,7 @@ description = "Check for circular dependencies and other dependency issues"
 alias = "dc"
 run = "depcruise src --config {{vars.depcruise_config}}"
 
-[tasks.depcruise_graph]
+[tasks."depcruise:graph"]
 description = "Generate visual dependency graph (requires graphviz)"
 alias = "dcg"
 run = "depcruise src --config {{vars.depcruise_config}} --output-type dot | dot -T svg > dependency-graph.svg && echo 'Generated: dependency-graph.svg'"
@@ -85,11 +85,11 @@ description = "Format code with Prettier"
 alias = "f"
 run = "prettier --write \"**/*.{ts,tsx,js,css,json,yml,yaml}\" --config {{vars.prettier_config}} --ignore-path {{vars.prettier_ignore}}"
 
-[tasks.format_files]
+[tasks."format:files"]
 description = "Format specific files (for lint-staged)"
 run = "prettier --config {{vars.prettier_config}} --ignore-path {{vars.prettier_ignore}} --write"
 
-[tasks.format_check]
+[tasks."format:check"]
 description = "Check code formatting with Prettier"
 alias = "fc"
 run = "prettier --check \"**/*.{ts,tsx,js,css,json,yml,yaml}\" --config {{vars.prettier_config}} --ignore-path {{vars.prettier_ignore}}"
@@ -100,11 +100,11 @@ alias = "l"
 depends = ["typegen"]
 run = "eslint . --ext .ts,.tsx --config {{vars.eslint_config}} --max-warnings 0 --fix"
 
-[tasks.lint_files]
+[tasks."lint:files"]
 description = "Lint specific files (for lint-staged)"
 run = "eslint --config {{vars.eslint_config}} --fix"
 
-[tasks.lint_check]
+[tasks."lint:check"]
 description = "Check code with ESLint"
 alias = "lc"
 depends = ["typegen"]
@@ -119,7 +119,7 @@ description = "Find unused files, dependencies, and exports"
 alias = "k"
 run = "knip --config {{vars.knip_config}} --no-config-hints"
 
-[tasks.knip_fix]
+[tasks."knip:fix"]
 description = "Auto-remove unused exports"
 alias = "kf"
 run = "knip --config {{vars.knip_config}} --fix --no-config-hints"
@@ -135,13 +135,12 @@ description = "Check spelling with cspell"
 alias = "sp"
 run = "cspell . --config {{vars.cspell_config}}"
 
-[tasks.spell_files]
+[tasks."spell:files"]
 description = "Spell check specific files (for lint-staged)"
 run = "cspell --config {{vars.cspell_config}} --no-must-find-files"
 
-[tasks.semantic_release]
+[tasks.release]
 description = "Create a new release using semantic-release"
-alias = "release"
 confirm = "This will create a new release. Continue?"
 run = "semantic-release -c {{vars.releaserc}}"
 
@@ -149,7 +148,7 @@ run = "semantic-release -c {{vars.releaserc}}"
 description = "Run Steiger architecture linter"
 run = "steiger ./src --config {{vars.steiger_config}}"
 
-[tasks.steiger_fix]
+[tasks."steiger:fix"]
 description = "Run Steiger with auto-fix"
 alias = "sf"
 run = "steiger --fix ./src --config {{vars.steiger_config}}"
@@ -159,11 +158,11 @@ description = "Fix CSS/SCSS with Stylelint"
 alias = "sl"
 run = "stylelint \"**/*.{css,scss}\" --ignore-path .gitignore --config {{vars.stylelint_config}} --fix"
 
-[tasks.stylelint_files]
+[tasks."stylelint:files"]
 description = "Lint specific CSS files (for lint-staged)"
 run = "stylelint --config {{vars.stylelint_config}} --fix"
 
-[tasks.stylelint_check]
+[tasks."stylelint:check"]
 description = "Check CSS/SCSS with Stylelint"
 alias = "slc"
 run = "stylelint \"**/*.{css,scss}\" --ignore-path .gitignore --config {{vars.stylelint_config}}"
@@ -174,60 +173,60 @@ alias = "t"
 depends = ["build"]
 run = "vitest"
 
-[tasks.test_unit]
+[tasks."test:unit"]
 description = "Run unit tests only"
 alias = "tu"
 depends = ["build"]
 run = "vitest --project unit"
 
-[tasks.test_coverage]
+[tasks."test:coverage"]
 description = "Run unit and Storybook tests with coverage"
 alias = "tc"
 depends = ["build"]
 run = "vitest run --coverage.enabled"
 
-[tasks.test_e2e]
+[tasks."test:e2e"]
 description = "Run end-to-end tests with Playwright"
 alias = "te"
-depends = ["build_e2e"]
+depends = ["build:e2e"]
 run = "playwright test --config {{vars.playwright_config}}"
 
-[tasks.test_e2e_ui]
+[tasks."test:e2e:ui"]
 description = "Run E2E tests in UI mode"
 alias = "teu"
-depends = ["build_e2e"]
+depends = ["build:e2e"]
 run = "playwright test --ui --config {{vars.playwright_config}}"
 
-[tasks.test_e2e_coverage]
+[tasks."test:e2e:coverage"]
 description = "Run E2E tests with coverage"
 alias = "tec"
-depends = ["build_e2e"]
+depends = ["build:e2e"]
 env = { COVERAGE = "true" }
 run = "playwright test --config {{vars.playwright_config}}"
 
-[tasks.test_coverage_merge]
+[tasks."test:coverage:merge"]
 description = "Merge coverage reports from all test suites"
 alias = "tcm"
 run = "node scripts/merge-coverage.ts"
 
-[tasks.test_coverage_all]
+[tasks."test:coverage:all"]
 description = "Run all tests with coverage and merge reports"
 alias = "tca"
-depends = ["test_coverage", "test_e2e_coverage"]
-run = "mise run test_coverage_merge"
+depends = ["test:coverage", "test:e2e:coverage"]
+run = "mise run test:coverage:merge"
 
-[tasks.test_coverage_serve]
+[tasks."test:coverage:serve"]
 description = "Serve the merged coverage report"
 alias = "tcs"
 run = "npx serve coverage/merged/html -p 9123"
 
-[tasks.test_ui]
+[tasks."test:ui"]
 description = "Open Vitest UI"
 alias = "tui"
 depends = ["build"]
 run = "vitest --ui"
 
-[tasks.test_storybook]
+[tasks."test:storybook"]
 description = "Run Storybook component tests"
 alias = "tsb"
 run = "vitest --config {{vars.storybook_config}}/vitest.config.ts"
@@ -247,7 +246,7 @@ description = "Start Storybook dev server"
 alias = "sb"
 run = "storybook dev -p 6006 --config-dir {{vars.storybook_config}}"
 
-[tasks.storybook_build]
+[tasks."storybook:build"]
 description = "Build Storybook static site"
 alias = "sbb"
 run = "storybook build -o storybook-static --config-dir {{vars.storybook_config}}"
@@ -256,13 +255,13 @@ run = "storybook build -o storybook-static --config-dir {{vars.storybook_config}
 description = "Run all CI checks locally"
 alias = "c"
 depends = [
-    "format_check",
-    "lint_check",
-    "stylelint_check",
+    "format:check",
+    "lint:check",
+    "stylelint:check",
     "typecheck",
-    "test_coverage",
-    "test_e2e",
-    "storybook_build",
+    "test:coverage",
+    "test:e2e",
+    "storybook:build",
     "knip",
     "depcruise",
     "steiger",

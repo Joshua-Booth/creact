@@ -78,7 +78,7 @@ jobs:
         run: pnpm install --frozen-lockfile
 
       - name: Run unit tests with coverage
-        run: mise run test_coverage -- --project unit --reporter=github-actions
+        run: mise run test:coverage -- --project unit --reporter=github-actions
 
       - uses: actions/upload-artifact@v4
         if: ${{ !cancelled() }}
@@ -105,7 +105,7 @@ jobs:
         run: pnpm exec playwright install --with-deps chromium
 
       - name: Run E2E tests with coverage
-        run: mise run test_e2e_coverage -- --reporter=github
+        run: mise run test:e2e:coverage -- --reporter=github
 
       - uses: actions/upload-artifact@v4
         if: ${{ !cancelled() }}
@@ -254,7 +254,7 @@ jobs:
         run: pnpm exec playwright install --with-deps chromium
 
       - name: Run Storybook tests with coverage
-        run: mise run test_coverage -- --project storybook --coverage.reportsDirectory coverage/storybook --reporter=github-actions
+        run: mise run test:coverage -- --project storybook --coverage.reportsDirectory coverage/storybook --reporter=github-actions
 
       - uses: actions/upload-artifact@v4
         if: ${{ !cancelled() }}
@@ -298,7 +298,7 @@ jobs:
         continue-on-error: true
 
       - name: Merge coverage reports
-        run: mise run test_coverage_merge
+        run: mise run test:coverage:merge
 
       - uses: actions/upload-artifact@v4
         with:
@@ -327,7 +327,7 @@ jobs:
 #        run: pnpm install --frozen-lockfile
 #
 #      - name: Build Storybook
-#        run: mise run storybook_build
+#        run: mise run storybook:build
 #
 #      - name: Run Chromatic
 #        uses: chromaui/action@latest
