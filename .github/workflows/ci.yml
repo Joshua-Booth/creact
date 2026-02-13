@@ -105,7 +105,7 @@ jobs:
         run: pnpm exec playwright install --with-deps chromium
 
       - name: Run E2E tests with coverage
-        run: mise run coverage:e2e -- --reporter=github
+        run: mise run coverage:e2e
 
       - uses: actions/upload-artifact@v6
         if: ${{ !cancelled() }}
