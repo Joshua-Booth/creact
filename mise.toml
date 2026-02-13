@@ -245,10 +245,7 @@ run = "vitest --config {{vars.storybook_config}}/vitest.config.ts"
 description = "Run all tests (unit, storybook, e2e)"
 alias = "ta"
 depends = ["build", "build:e2e"]
-run = [
-    "vitest run",
-    "playwright test --config {{vars.playwright_config}}",
-]
+run = ["vitest run", "playwright test --config {{vars.playwright_config}}"]
 
 [tasks.typegen]
 description = "Generate React Router route types"
