@@ -20,7 +20,7 @@ jobs:
     name: Format Check
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
 
       - uses: jdx/mise-action@v3
         with:
@@ -36,7 +36,7 @@ jobs:
     name: ESLint
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
 
       - uses: jdx/mise-action@v3
         with:
@@ -52,7 +52,7 @@ jobs:
     name: Type Check
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
 
       - uses: jdx/mise-action@v3
         with:
@@ -68,7 +68,7 @@ jobs:
     name: Unit Tests
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
 
       - uses: jdx/mise-action@v3
         with:
@@ -80,7 +80,7 @@ jobs:
       - name: Run unit tests with coverage
         run: mise run coverage -- --project unit --reporter=github-actions
 
-      - uses: actions/upload-artifact@v4
+      - uses: actions/upload-artifact@v6
         if: ${{ !cancelled() }}
         with:
           name: coverage-unit
@@ -92,7 +92,7 @@ jobs:
     name: E2E Tests
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
 
       - uses: jdx/mise-action@v3
         with:
@@ -107,7 +107,7 @@ jobs:
       - name: Run E2E tests with coverage
         run: mise run coverage:e2e -- --reporter=github
 
-      - uses: actions/upload-artifact@v4
+      - uses: actions/upload-artifact@v6
         if: ${{ !cancelled() }}
         with:
           name: playwright-report
@@ -117,7 +117,7 @@ jobs:
           retention-days: 7
           if-no-files-found: ignore
 
-      - uses: actions/upload-artifact@v4
+      - uses: actions/upload-artifact@v6
         if: ${{ !cancelled() }}
         with:
           name: coverage-e2e
@@ -129,7 +129,7 @@ jobs:
     name: Security Audit
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
 
       - uses: jdx/mise-action@v3
         with:
@@ -145,7 +145,7 @@ jobs:
     name: Dead Code Detection
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
 
       - uses: jdx/mise-action@v3
         with:
@@ -161,7 +161,7 @@ jobs:
     name: FSD Architecture
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
 
       - uses: jdx/mise-action@v3
         with:
@@ -177,7 +177,7 @@ jobs:
     name: CSS Lint
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
 
       - uses: jdx/mise-action@v3
         with:
@@ -193,7 +193,7 @@ jobs:
     name: Spell Check
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
 
       - uses: jdx/mise-action@v3
         with:
@@ -209,7 +209,7 @@ jobs:
     name: Dependency Check
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
 
       - uses: jdx/mise-action@v3
         with:
@@ -225,7 +225,7 @@ jobs:
     name: Build
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
 
       - uses: jdx/mise-action@v3
         with:
@@ -241,7 +241,7 @@ jobs:
     name: Storybook Tests
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
 
       - uses: jdx/mise-action@v3
         with:
@@ -256,7 +256,7 @@ jobs:
       - name: Run Storybook tests with coverage
         run: mise run coverage -- --project storybook --coverage.reportsDirectory coverage/storybook --reporter=github-actions
 
-      - uses: actions/upload-artifact@v4
+      - uses: actions/upload-artifact@v6
         if: ${{ !cancelled() }}
         with:
           name: coverage-storybook
@@ -270,7 +270,7 @@ jobs:
     needs: [test, test-storybook, test-e2e]
     if: ${{ !cancelled() && (needs.test.result == 'success' || needs.test-storybook.result == 'success' || needs.test-e2e.result == 'success') }}
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
 
       - uses: jdx/mise-action@v3
         with:
@@ -279,19 +279,19 @@ jobs:
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
 
-      - uses: actions/download-artifact@v4
+      - uses: actions/download-artifact@v6
         with:
           name: coverage-unit
           path: coverage/unit/
         continue-on-error: true
 
-      - uses: actions/download-artifact@v4
+      - uses: actions/download-artifact@v6
         with:
           name: coverage-storybook
           path: coverage/storybook/
         continue-on-error: true
 
-      - uses: actions/download-artifact@v4
+      - uses: actions/download-artifact@v6
         with:
           name: coverage-e2e
           path: coverage/e2e/
@@ -300,7 +300,7 @@ jobs:
       - name: Merge coverage reports
         run: mise run coverage:merge
 
-      - uses: actions/upload-artifact@v4
+      - uses: actions/upload-artifact@v6
         with:
           name: coverage-merged
           path: coverage/merged/
@@ -315,7 +315,7 @@ jobs:
 #    name: Chromatic Visual Tests
 #    runs-on: ubuntu-latest
 #    steps:
-#      - uses: actions/checkout@v4
+#      - uses: actions/checkout@v6
 #        with:
 #          fetch-depth: 0
 #
