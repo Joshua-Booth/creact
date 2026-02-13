@@ -5,13 +5,18 @@ import { Skeleton } from "./skeleton";
 
 /**
  * Displays a placeholder preview of content before the data gets loaded.
- * @see https://ui.shadcn.com/docs/components/skeleton
  */
 const meta = preview.meta({
   title: "ui/Skeleton",
   component: Skeleton,
   argTypes: {},
   parameters: {
+    docs: {
+      description: {
+        component:
+          "Displays a placeholder preview of content before the data gets loaded.\n\n[shadcn/ui docs](https://ui.shadcn.com/docs/components/base/skeleton)",
+      },
+    },
     layout: "centered",
   },
 });

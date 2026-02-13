@@ -65,6 +65,7 @@ interface ErrorFallbackProps {
   onReset: () => void;
 }
 
+/** Default fallback UI rendered when the ErrorBoundary catches an error. */
 function ErrorFallback({ onReset }: ErrorFallbackProps) {
   return (
     <div className="flex min-h-[400px] flex-col items-center justify-center p-8">

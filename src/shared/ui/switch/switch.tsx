@@ -4,6 +4,7 @@ import { Switch as SwitchPrimitive } from "@base-ui/react/switch";
 
 import { cn } from "@/shared/lib/utils";
 
+/** Toggle switch input with a sliding thumb indicator. Supports `"sm"` and `"default"` sizes. */
 function Switch({
   className,
   size = "default",

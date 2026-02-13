@@ -19,6 +19,12 @@ const meta = preview.meta({
     ratio: 16 / 9,
   },
   parameters: {
+    docs: {
+      description: {
+        component:
+          "Displays content within a desired aspect ratio.\n\n[shadcn/ui docs](https://ui.shadcn.com/docs/components/base/aspect-ratio)",
+      },
+    },
     layout: "centered",
   },
   render: (args) => (

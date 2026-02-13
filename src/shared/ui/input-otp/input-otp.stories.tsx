@@ -54,6 +54,12 @@ const meta = preview.meta({
     </InputOTP>
   ),
   parameters: {
+    docs: {
+      description: {
+        component:
+          "Accessible one-time password component with copy paste functionality.\n\n[shadcn/ui docs](https://ui.shadcn.com/docs/components/base/input-otp)",
+      },
+    },
     layout: "centered",
   },
 });

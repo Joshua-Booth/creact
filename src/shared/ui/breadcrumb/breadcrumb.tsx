@@ -6,6 +6,7 @@ import { ChevronRightIcon, MoreHorizontalIcon } from "lucide-react";
 
 import { cn } from "@/shared/lib/utils";
 
+/** Navigation trail showing the current page location within a hierarchy. */
 function Breadcrumb({ className, ...props }: React.ComponentProps<"nav">) {
   return (
     <nav
@@ -17,6 +18,7 @@ function Breadcrumb({ className, ...props }: React.ComponentProps<"nav">) {
   );
 }
 
+/** Ordered list container for breadcrumb items. */
 function BreadcrumbList({ className, ...props }: React.ComponentProps<"ol">) {
   return (
     <ol
@@ -31,6 +33,7 @@ function BreadcrumbList({ className, ...props }: React.ComponentProps<"ol">) {
   );
 }
 
+/** Individual step within the breadcrumb trail. */
 function BreadcrumbItem({ className, ...props }: React.ComponentProps<"li">) {
   return (
     <li
@@ -41,6 +44,7 @@ function BreadcrumbItem({ className, ...props }: React.ComponentProps<"li">) {
   );
 }
 
+/** Navigable link within a breadcrumb item. */
 function BreadcrumbLink({
   className,
   render,
@@ -61,6 +65,7 @@ function BreadcrumbLink({
   });
 }
 
+/** Non-interactive label representing the current page in the breadcrumb. */
 function BreadcrumbPage({ className, ...props }: React.ComponentProps<"span">) {
   return (
     <span
@@ -74,6 +79,7 @@ function BreadcrumbPage({ className, ...props }: React.ComponentProps<"span">) {
   );
 }
 
+/** Visual divider rendered between breadcrumb items. */
 function BreadcrumbSeparator({
   children,
   className,
@@ -92,6 +98,7 @@ function BreadcrumbSeparator({
   );
 }
 
+/** Ellipsis indicator for collapsed intermediate breadcrumb items. */
 function BreadcrumbEllipsis({
   className,
   ...props

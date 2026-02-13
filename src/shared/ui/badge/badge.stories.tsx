@@ -32,6 +32,12 @@ const meta = preview.meta({
     children: "Badge",
   },
   parameters: {
+    docs: {
+      description: {
+        component:
+          "Displays a badge or a component that looks like a badge.\n\n[shadcn/ui docs](https://ui.shadcn.com/docs/components/base/badge)",
+      },
+    },
     layout: "centered",
   },
 });

@@ -26,6 +26,14 @@ const meta = preview.meta({
       </div>
     ),
   ],
+  parameters: {
+    docs: {
+      description: {
+        component:
+          "Displays an indicator showing the completion progress of a task, typically displayed as a progress bar.\n\n[shadcn/ui docs](https://ui.shadcn.com/docs/components/base/progress)",
+      },
+    },
+  },
 });
 
 // --- Stories ---

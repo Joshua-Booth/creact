@@ -11,6 +11,7 @@ import { cn } from "@/shared/lib/utils";
 // Format: { THEME_NAME: CSS_SELECTOR }
 const THEMES = { light: "", dark: ".dark" } as const;
 
+/** Configuration mapping chart data keys to labels, icons, and theme-aware colors. */
 export type ChartConfig = Record<
   string,
   {
@@ -28,6 +29,7 @@ interface ChartContextProps {
 
 const ChartContext = React.createContext<ChartContextProps | null>(null);
 
+/** Hook to access chart configuration from any child component. */
 function useChart() {
   const context = React.use(ChartContext);
 
@@ -40,6 +42,7 @@ function useChart() {
   return context;
 }
 
+/** Responsive chart wrapper that provides theme-aware CSS color variables and chart configuration context. */
 function ChartContainer({
   id,
   className,
@@ -49,7 +52,9 @@ function ChartContainer({
   aspect,
   ...props
 }: React.ComponentProps<"div"> & {
+  /** Chart configuration mapping series keys to labels and theme colors. */
   config: ChartConfig;
+  /** Recharts chart element(s) to render inside the responsive container. */
   children: React.ComponentProps<
     typeof RechartsPrimitive.ResponsiveContainer
   >["children"];
@@ -94,6 +99,7 @@ function ChartContainer({
   );
 }
 
+/** Injects CSS custom properties for chart color theming based on light/dark mode. */
 const ChartStyle = ({ id, config }: { id: string; config: ChartConfig }) => {
   const colorConfig = Object.entries(config).filter(
     ([, config]) => config.theme !== undefined || config.color !== undefined
@@ -133,9 +139,11 @@ ${colorConfig
   /* eslint-enable @eslint-react/dom/no-dangerously-set-innerhtml -- re-enable after injecting chart CSS variables */
 };
 
+/** Recharts tooltip component for displaying data on hover. */
 const ChartTooltip = RechartsPrimitive.Tooltip;
 
 /* eslint-disable @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-unsafe-argument, @typescript-eslint/strict-boolean-expressions -- Recharts payload objects are typed as any */
+/** Styled tooltip content renderer with indicator dots, labels, and formatted values. */
 function ChartTooltipContent({
   active,
   payload,
@@ -295,10 +303,12 @@ function ChartTooltipContent({
 }
 /* eslint-enable @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-unsafe-argument, @typescript-eslint/strict-boolean-expressions -- re-enable after Recharts untyped tooltip rendering */
 
+/** Recharts legend component for labeling chart data series. */
 const ChartLegend = RechartsPrimitive.Legend;
 
 /* v8 ignore start -- Recharts legend rendering with conditional branches */
 /* eslint-disable @typescript-eslint/restrict-template-expressions, @typescript-eslint/strict-boolean-expressions -- Recharts LegendProps payload is typed with DataKey<any> */
+/** Styled legend content renderer with color indicators and config-driven labels. */
 function ChartLegendContent({
   className,
   hideIcon = false,

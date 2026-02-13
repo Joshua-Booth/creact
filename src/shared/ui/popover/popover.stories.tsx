@@ -37,6 +37,12 @@ const meta = preview.meta({
     </Popover>
   ),
   parameters: {
+    docs: {
+      description: {
+        component:
+          "Displays rich content in a portal, triggered by a button.\n\n[shadcn/ui docs](https://ui.shadcn.com/docs/components/base/popover)",
+      },
+    },
     layout: "centered",
   },
 });

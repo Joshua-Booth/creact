@@ -39,6 +39,14 @@ const meta = preview.meta({
     children: "Your email address",
     htmlFor: "email",
   },
+  parameters: {
+    docs: {
+      description: {
+        component:
+          "Renders an accessible label associated with controls.\n\n[shadcn/ui docs](https://ui.shadcn.com/docs/components/base/label)",
+      },
+    },
+  },
 });
 
 // --- Stories ---

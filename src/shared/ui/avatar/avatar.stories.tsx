@@ -42,6 +42,12 @@ const meta = preview.meta({
     </Avatar>
   ),
   parameters: {
+    docs: {
+      description: {
+        component:
+          "An image element with a fallback for representing the user.\n\n[shadcn/ui docs](https://ui.shadcn.com/docs/components/base/avatar)",
+      },
+    },
     layout: "centered",
   },
 });

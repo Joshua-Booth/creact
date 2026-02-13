@@ -7,9 +7,11 @@ import { CheckIcon, ChevronDownIcon, ChevronUpIcon } from "lucide-react";
 
 import { cn } from "@/shared/lib/utils";
 
+/** Single-value selection dropdown. Wraps `@base-ui/react/select` with project styling. */
 const Select = SelectPrimitive.Root;
 
 /* v8 ignore start -- Thin group wrapper, tested transitively */
+/** Logical grouping of related select items. */
 function SelectGroup({ className, ...props }: SelectPrimitive.Group.Props) {
   return (
     <SelectPrimitive.Group
@@ -21,6 +23,7 @@ function SelectGroup({ className, ...props }: SelectPrimitive.Group.Props) {
 }
 /* v8 ignore stop */
 
+/** Display element for the currently selected value. */
 function SelectValue({ className, ...props }: SelectPrimitive.Value.Props) {
   return (
     <SelectPrimitive.Value
@@ -31,6 +34,7 @@ function SelectValue({ className, ...props }: SelectPrimitive.Value.Props) {
   );
 }
 
+/** Button that opens the select dropdown. */
 function SelectTrigger({
   className,
   size = "default",
@@ -73,6 +77,7 @@ function SelectTrigger({
   );
 }
 
+/** Positioned popup panel containing the select options. */
 function SelectContent({
   className,
   children,
@@ -133,6 +138,7 @@ function SelectContent({
 }
 
 /* v8 ignore start -- Thin label/separator wrappers, tested transitively */
+/** Label rendered above a select group. */
 function SelectLabel({
   className,
   ...props
@@ -146,6 +152,7 @@ function SelectLabel({
   );
 }
 
+/** Selectable option within the select list with a check indicator. */
 function SelectItem({
   className,
   children,
@@ -186,6 +193,7 @@ function SelectItem({
   );
 }
 
+/** Horizontal divider between select groups. */
 function SelectSeparator({
   className,
   ...props
@@ -204,6 +212,7 @@ function SelectSeparator({
 }
 /* v8 ignore stop */
 
+/** Arrow button for scrolling the select list upward. */
 function SelectScrollUpButton({
   className,
   ...props
@@ -223,6 +232,7 @@ function SelectScrollUpButton({
   );
 }
 
+/** Arrow button for scrolling the select list downward. */
 function SelectScrollDownButton({
   className,
   ...props

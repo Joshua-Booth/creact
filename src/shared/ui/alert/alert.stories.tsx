@@ -29,6 +29,14 @@ const meta = preview.meta({
       </AlertDescription>
     </Alert>
   ),
+  parameters: {
+    docs: {
+      description: {
+        component:
+          "Displays a callout for user attention.\n\n[shadcn/ui docs](https://ui.shadcn.com/docs/components/base/alert)",
+      },
+    },
+  },
 });
 
 // --- Stories ---

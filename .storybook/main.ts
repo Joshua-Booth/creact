@@ -1,15 +1,26 @@
 import { defineMain } from "@storybook/react-vite/node";
+import remarkGfm from "remark-gfm";
 
 export default defineMain({
-  stories: ["../src/**/*.stories.tsx"],
+  stories: ["../src/**/*.mdx", "../src/**/*.stories.tsx"],
   addons: [
-    "@storybook/addon-docs",
+    {
+      name: "@storybook/addon-docs",
+      options: {
+        mdxPluginOptions: {
+          mdxCompileOptions: {
+            remarkPlugins: [remarkGfm],
+          },
+        },
+      },
+    },
     "@storybook/addon-a11y",
     "@vueless/storybook-dark-mode",
     "@chromatic-com/storybook",
     "@storybook/addon-vitest",
     "@storybook/addon-mcp",
     "storybook-addon-remix-react-router",
+    "@storybook/addon-designs",
   ],
   framework: {
     name: "@storybook/react-vite",

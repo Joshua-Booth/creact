@@ -6,30 +6,37 @@ import { Drawer as DrawerPrimitive } from "vaul";
 
 import { cn } from "@/shared/lib/utils";
 
+/**
+ * Touch-friendly bottom sheet overlay powered by Vaul. Supports swipe-to-dismiss and directional rendering.
+ */
 function Drawer({
   ...props
 }: React.ComponentProps<typeof DrawerPrimitive.Root>) {
   return <DrawerPrimitive.Root data-slot="drawer" {...props} />;
 }
 
+/** Button or element that opens the drawer. */
 function DrawerTrigger({
   ...props
 }: React.ComponentProps<typeof DrawerPrimitive.Trigger>) {
   return <DrawerPrimitive.Trigger data-slot="drawer-trigger" {...props} />;
 }
 
+/** Portal container for drawer content rendering. */
 function DrawerPortal({
   ...props
 }: React.ComponentProps<typeof DrawerPrimitive.Portal>) {
   return <DrawerPrimitive.Portal data-slot="drawer-portal" {...props} />;
 }
 
+/** Button that closes the drawer when activated. */
 function DrawerClose({
   ...props
 }: React.ComponentProps<typeof DrawerPrimitive.Close>) {
   return <DrawerPrimitive.Close data-slot="drawer-close" {...props} />;
 }
 
+/** Semi-transparent backdrop behind the drawer that dims the page. */
 function DrawerOverlay({
   className,
   ...props
@@ -48,6 +55,7 @@ function DrawerOverlay({
   );
 }
 
+/** Sliding panel with a drag handle for bottom sheets and directional support. */
 function DrawerContent({
   className,
   children,
@@ -99,6 +107,7 @@ function DrawerContent({
   );
 }
 
+/** Top section of the drawer for title and description. */
 function DrawerHeader({ className, ...props }: React.ComponentProps<"div">) {
   return (
     <div
@@ -115,6 +124,7 @@ function DrawerHeader({ className, ...props }: React.ComponentProps<"div">) {
   );
 }
 
+/** Bottom section of the drawer for action buttons. */
 function DrawerFooter({ className, ...props }: React.ComponentProps<"div">) {
   return (
     <div
@@ -125,6 +135,7 @@ function DrawerFooter({ className, ...props }: React.ComponentProps<"div">) {
   );
 }
 
+/** Accessible heading for the drawer content. */
 function DrawerTitle({
   className,
   ...props
@@ -138,6 +149,7 @@ function DrawerTitle({
   );
 }
 
+/** Accessible description text displayed below the drawer title. */
 function DrawerDescription({
   className,
   ...props

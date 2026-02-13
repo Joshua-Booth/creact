@@ -351,6 +351,30 @@ export default defineConfig([
     },
   },
 
+  // Require JSDoc descriptions on UI component exports
+  {
+    files: ["src/shared/ui/**/*.{ts,tsx}"],
+    ignores: ["**/*.stories.*", "**/*.test.*", "**/index.ts"],
+    rules: {
+      "jsdoc/require-jsdoc": [
+        "warn",
+        {
+          publicOnly: true,
+          require: {
+            FunctionDeclaration: true,
+            ArrowFunctionExpression: true,
+            FunctionExpression: true,
+          },
+        },
+      ],
+      // TypeScript + Storybook handles params/returns — don't require them for UI
+      "jsdoc/require-param": "off",
+      "jsdoc/require-returns": "off",
+      "jsdoc/require-param-description": "off",
+      "jsdoc/require-returns-description": "off",
+    },
+  },
+
   // Unit tests (Vitest)
   {
     files: ["src/**/*.test.{ts,tsx}", "src/**/*.spec.{ts,tsx}"],

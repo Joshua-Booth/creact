@@ -107,6 +107,12 @@ const meta = preview.meta({
     </Dialog>
   ),
   parameters: {
+    docs: {
+      description: {
+        component:
+          "A window overlaid on either the primary window or another dialog window, rendering the content underneath inert. See also [AlertDialog](?path=/docs/ui-alertdialog--docs), [Sheet](?path=/docs/ui-sheet--docs), and [Drawer](?path=/docs/ui-drawer--docs).\n\n[shadcn/ui docs](https://ui.shadcn.com/docs/components/base/dialog)",
+      },
+    },
     layout: "centered",
   },
 });

@@ -96,6 +96,14 @@ const meta = preview.meta({
     width: 320,
     aspect: 1.6,
   },
+  parameters: {
+    docs: {
+      description: {
+        component:
+          "Beautiful charts. Built using Recharts. Copy and paste into your apps.\n\n[shadcn/ui docs](https://ui.shadcn.com/docs/components/base/chart)",
+      },
+    },
+  },
 });
 
 // --- Stories ---

@@ -2,6 +2,10 @@ import * as React from "react";
 
 import { cn } from "@/shared/lib/utils";
 
+/**
+ * Styled container for grouping related content with consistent padding and borders.
+ * Supports `default` and `sm` sizes via the `size` prop.
+ */
 function Card({
   className,
   size = "default",
@@ -23,6 +27,7 @@ function Card({
   );
 }
 
+/** Header area containing the title, description, and optional action slot. */
 function CardHeader({ className, ...props }: React.ComponentProps<"div">) {
   return (
     <div
@@ -40,6 +45,7 @@ function CardHeader({ className, ...props }: React.ComponentProps<"div">) {
   );
 }
 
+/** Primary heading rendered inside a card header. */
 function CardTitle({ className, ...props }: React.ComponentProps<"div">) {
   return (
     <div
@@ -53,6 +59,7 @@ function CardTitle({ className, ...props }: React.ComponentProps<"div">) {
   );
 }
 
+/** Secondary text rendered below the card title. */
 function CardDescription({ className, ...props }: React.ComponentProps<"div">) {
   return (
     <div
@@ -63,6 +70,7 @@ function CardDescription({ className, ...props }: React.ComponentProps<"div">) {
   );
 }
 
+/** Action slot positioned in the top-right of the card header. */
 function CardAction({ className, ...props }: React.ComponentProps<"div">) {
   return (
     <div
@@ -76,6 +84,7 @@ function CardAction({ className, ...props }: React.ComponentProps<"div">) {
   );
 }
 
+/** Main body area of the card for arbitrary content. */
 function CardContent({ className, ...props }: React.ComponentProps<"div">) {
   return (
     <div
@@ -86,6 +95,7 @@ function CardContent({ className, ...props }: React.ComponentProps<"div">) {
   );
 }
 
+/** Bottom area of the card, typically used for action buttons. */
 function CardFooter({ className, ...props }: React.ComponentProps<"div">) {
   return (
     <div

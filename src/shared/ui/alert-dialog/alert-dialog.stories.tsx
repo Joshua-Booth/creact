@@ -45,6 +45,12 @@ const meta = preview.meta({
     </AlertDialog>
   ),
   parameters: {
+    docs: {
+      description: {
+        component:
+          "A modal dialog that interrupts the user with important content and expects a response.\n\n[shadcn/ui docs](https://ui.shadcn.com/docs/components/base/alert-dialog)",
+      },
+    },
     layout: "centered",
   },
 });

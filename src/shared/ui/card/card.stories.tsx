@@ -26,6 +26,12 @@ const meta = preview.meta({
     className: "w-96",
   },
   parameters: {
+    docs: {
+      description: {
+        component:
+          "Displays a card with header, content, and footer.\n\n[shadcn/ui docs](https://ui.shadcn.com/docs/components/base/card)",
+      },
+    },
     layout: "centered",
   },
 });

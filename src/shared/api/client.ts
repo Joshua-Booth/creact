@@ -1,7 +1,13 @@
 import ky from "ky";
 
+/**
+ * Error thrown for API responses with non-2xx status codes.
+ * Carries the HTTP status and optional parsed response body.
+ */
 export class ApiError extends Error {
+  /** HTTP status code from the failed response. */
   status: number;
+  /** Parsed response body, if available. */
   response: unknown;
   constructor(message: string, status: number, response?: unknown) {
     super(message);
@@ -11,6 +17,10 @@ export class ApiError extends Error {
   }
 }
 
+/**
+ * Pre-configured ky HTTP client with token injection, 30s timeout,
+ * and retry logic for transient server errors.
+ */
 /* v8 ignore start -- ky instance config: browser-only, tested transitively via E2E */
 export const api = ky.create({
   prefixUrl: import.meta.env.VITE_API_ROOT_URL ?? "",

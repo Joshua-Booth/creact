@@ -62,6 +62,7 @@ function CalendarWeekNumber({
   );
 }
 
+/** Date picker calendar grid powered by react-day-picker with project styling. */
 function Calendar({
   className,
   classNames,
@@ -213,6 +214,7 @@ function Calendar({
   );
 }
 
+/** Interactive button representing a single day cell in the calendar grid. */
 function CalendarDayButton({
   className,
   day,

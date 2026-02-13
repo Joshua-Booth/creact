@@ -6,6 +6,7 @@ import { Avatar as AvatarPrimitive } from "@base-ui/react/avatar";
 
 import { cn } from "@/shared/lib/utils";
 
+/** Circular user avatar displaying an image with fallback initials. */
 function Avatar({
   className,
   size = "default",
@@ -29,6 +30,7 @@ function Avatar({
   );
 }
 
+/** Image element rendered inside the avatar container. */
 function AvatarImage({ className, ...props }: AvatarPrimitive.Image.Props) {
   return (
     <AvatarPrimitive.Image
@@ -42,6 +44,7 @@ function AvatarImage({ className, ...props }: AvatarPrimitive.Image.Props) {
   );
 }
 
+/** Placeholder content shown while the avatar image is loading or unavailable. */
 function AvatarFallback({
   className,
   ...props
@@ -59,6 +62,7 @@ function AvatarFallback({
   );
 }
 
+/** Small status indicator positioned at the bottom-right of the avatar. */
 function AvatarBadge({ className, ...props }: React.ComponentProps<"span">) {
   return (
     <span
@@ -80,6 +84,7 @@ function AvatarBadge({ className, ...props }: React.ComponentProps<"span">) {
   );
 }
 
+/** Container that stacks multiple avatars with overlapping layout. */
 function AvatarGroup({ className, ...props }: React.ComponentProps<"div">) {
   return (
     <div
@@ -94,6 +99,7 @@ function AvatarGroup({ className, ...props }: React.ComponentProps<"div">) {
   );
 }
 
+/** Displays the count of additional avatars not shown in the group. */
 function AvatarGroupCount({
   className,
   ...props

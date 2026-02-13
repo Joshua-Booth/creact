@@ -14,12 +14,15 @@ import {
   InputGroupInput,
 } from "@/shared/ui/input-group";
 
+/** Autocomplete select component combining a text input with a filterable dropdown list. Wraps `@base-ui/react` combobox primitives. */
 const Combobox = ComboboxPrimitive.Root;
 
+/** Display element for the currently selected combobox value. */
 function ComboboxValue({ ...props }: ComboboxPrimitive.Value.Props) {
   return <ComboboxPrimitive.Value data-slot="combobox-value" {...props} />;
 }
 
+/** Button that opens the combobox dropdown. */
 function ComboboxTrigger({
   className,
   children,
@@ -39,6 +42,7 @@ function ComboboxTrigger({
   );
 }
 
+/** Button that clears the current combobox selection. */
 function ComboboxClear({ className, ...props }: ComboboxPrimitive.Clear.Props) {
   return (
     <ComboboxPrimitive.Clear
@@ -52,6 +56,7 @@ function ComboboxClear({ className, ...props }: ComboboxPrimitive.Clear.Props) {
   );
 }
 
+/** Text input field with optional trigger and clear buttons for the combobox. */
 function ComboboxInput({
   className,
   children,
@@ -60,7 +65,9 @@ function ComboboxInput({
   showClear = false,
   ...props
 }: ComboboxPrimitive.Input.Props & {
+  /** Whether to show the chevron trigger button. */
   showTrigger?: boolean;
+  /** Whether to show the clear/reset button when a value is selected. */
   showClear?: boolean;
 }) {
   return (
@@ -88,6 +95,7 @@ function ComboboxInput({
   );
 }
 
+/** Positioned popup panel containing the combobox options list. */
 function ComboboxContent({
   className,
   side = "bottom",
@@ -140,6 +148,7 @@ function ComboboxContent({
   );
 }
 
+/** Scrollable list of combobox options. */
 function ComboboxList({ className, ...props }: ComboboxPrimitive.List.Props) {
   return (
     <ComboboxPrimitive.List
@@ -155,6 +164,7 @@ function ComboboxList({ className, ...props }: ComboboxPrimitive.List.Props) {
   );
 }
 
+/** Selectable option within the combobox list with a check indicator. */
 function ComboboxItem({
   className,
   children,
@@ -191,6 +201,7 @@ function ComboboxItem({
 }
 
 /* v8 ignore start -- Composition sub-components: thin wrappers, tested transitively */
+/** Logical grouping of related combobox items. */
 function ComboboxGroup({ className, ...props }: ComboboxPrimitive.Group.Props) {
   return (
     <ComboboxPrimitive.Group
@@ -201,6 +212,7 @@ function ComboboxGroup({ className, ...props }: ComboboxPrimitive.Group.Props) {
   );
 }
 
+/** Label rendered above a combobox group. */
 function ComboboxLabel({
   className,
   ...props
@@ -214,12 +226,14 @@ function ComboboxLabel({
   );
 }
 
+/** Collection wrapper for dynamically rendered combobox items. */
 function ComboboxCollection({ ...props }: ComboboxPrimitive.Collection.Props) {
   return (
     <ComboboxPrimitive.Collection data-slot="combobox-collection" {...props} />
   );
 }
 
+/** Placeholder shown when no combobox items match the search query. */
 function ComboboxEmpty({ className, ...props }: ComboboxPrimitive.Empty.Props) {
   return (
     <ComboboxPrimitive.Empty
@@ -234,6 +248,7 @@ function ComboboxEmpty({ className, ...props }: ComboboxPrimitive.Empty.Props) {
   );
 }
 
+/** Horizontal divider between combobox groups. */
 function ComboboxSeparator({
   className,
   ...props
@@ -247,6 +262,7 @@ function ComboboxSeparator({
   );
 }
 
+/** Container for multi-select chip badges in the combobox. */
 function ComboboxChips({
   className,
   ...props
@@ -271,12 +287,14 @@ function ComboboxChips({
   );
 }
 
+/** Individual chip badge representing a selected combobox value. */
 function ComboboxChip({
   className,
   children,
   showRemove = true,
   ...props
 }: ComboboxPrimitive.Chip.Props & {
+  /** Whether to show the X remove button on the chip. */
   showRemove?: boolean;
 }) {
   return (
@@ -306,6 +324,7 @@ function ComboboxChip({
   );
 }
 
+/** Inline text input rendered alongside combobox chips for typing new queries. */
 function ComboboxChipsInput({
   className,
   ...props
@@ -319,6 +338,7 @@ function ComboboxChipsInput({
   );
 }
 
+/** Hook that returns a ref for anchoring the combobox popup to a chips container. */
 function useComboboxAnchor() {
   return React.useRef<HTMLDivElement | null>(null);
 }

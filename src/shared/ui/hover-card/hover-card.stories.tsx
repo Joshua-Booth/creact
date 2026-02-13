@@ -42,6 +42,12 @@ const meta = preview.meta({
     </HoverCard>
   ),
   parameters: {
+    docs: {
+      description: {
+        component:
+          "For sighted users to preview content available behind a link.\n\n[shadcn/ui docs](https://ui.shadcn.com/docs/components/base/hover-card)",
+      },
+    },
     layout: "centered",
   },
 });

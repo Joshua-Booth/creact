@@ -1,5 +1,6 @@
 import { cn } from "@/shared/lib/utils";
 
+/** Constrains child content to a specified aspect ratio. */
 function AspectRatio({
   ratio,
   className,

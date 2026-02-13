@@ -57,6 +57,12 @@ const meta = preview.meta({
     collapsible: "icon",
   },
   parameters: {
+    docs: {
+      description: {
+        component:
+          "A composable, themeable and customizable sidebar component.\n\n[shadcn/ui docs](https://ui.shadcn.com/docs/components/base/sidebar)",
+      },
+    },
     layout: "fullscreen",
   },
   decorators: [

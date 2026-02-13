@@ -8,6 +8,7 @@ type NativeSelectProps = Omit<React.ComponentProps<"select">, "size"> & {
   size?: "sm" | "default";
 };
 
+/** Browser-native select element with project styling. */
 function NativeSelect({
   className,
   size = "default",
@@ -47,10 +48,12 @@ function NativeSelect({
   );
 }
 
+/** Thin wrapper around a native `<option>` element. */
 function NativeSelectOption({ ...props }: React.ComponentProps<"option">) {
   return <option data-slot="native-select-option" {...props} />;
 }
 
+/** Thin wrapper around a native `<optgroup>` element. */
 function NativeSelectOptGroup({
   className,
   ...props

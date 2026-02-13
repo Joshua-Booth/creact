@@ -21,6 +21,7 @@ import {
   DropdownMenuTrigger,
 } from "@/shared/ui/dropdown-menu";
 
+/** Horizontal menu bar that groups multiple dropdown menus into a single accessible control. Wraps `@base-ui/react/menubar` with dropdown menu composition. */
 function Menubar({ className, ...props }: MenubarPrimitive.Props) {
   return (
     <MenubarPrimitive
@@ -35,17 +36,20 @@ function Menubar({ className, ...props }: MenubarPrimitive.Props) {
   );
 }
 
+/** Individual menu within the menubar. */
 function MenubarMenu({ ...props }: React.ComponentProps<typeof DropdownMenu>) {
   return <DropdownMenu data-slot="menubar-menu" {...props} />;
 }
 
 /* v8 ignore start -- Thin pass-through wrappers, tested transitively */
+/** Logical grouping of related menubar items. */
 function MenubarGroup({
   ...props
 }: React.ComponentProps<typeof DropdownMenuGroup>) {
   return <DropdownMenuGroup data-slot="menubar-group" {...props} />;
 }
 
+/** Portal container for menubar content rendering. */
 function MenubarPortal({
   ...props
 }: React.ComponentProps<typeof DropdownMenuPortal>) {
@@ -53,6 +57,7 @@ function MenubarPortal({
 }
 /* v8 ignore stop */
 
+/** Button that opens a menubar dropdown. */
 function MenubarTrigger({
   className,
   ...props
@@ -70,6 +75,7 @@ function MenubarTrigger({
   );
 }
 
+/** Positioned popup panel for a menubar dropdown. */
 function MenubarContent({
   className,
   align = "start",
@@ -100,6 +106,7 @@ function MenubarContent({
   );
 }
 
+/** Selectable action item within a menubar dropdown. */
 function MenubarItem({
   className,
   inset,
@@ -128,6 +135,7 @@ function MenubarItem({
   );
 }
 
+/** Menubar item with a toggleable checkbox indicator. */
 function MenubarCheckboxItem({
   className,
   children,
@@ -165,12 +173,14 @@ function MenubarCheckboxItem({
   );
 }
 
+/** Group of mutually exclusive radio items within a menubar. */
 function MenubarRadioGroup({
   ...props
 }: React.ComponentProps<typeof DropdownMenuRadioGroup>) {
   return <DropdownMenuRadioGroup data-slot="menubar-radio-group" {...props} />;
 }
 
+/** Menubar item with a radio indicator for single selection. */
 function MenubarRadioItem({
   className,
   children,
@@ -208,6 +218,7 @@ function MenubarRadioItem({
 }
 
 /* v8 ignore start -- Thin label wrapper, tested transitively */
+/** Non-interactive label rendered above a menubar group. */
 function MenubarLabel({
   className,
   inset,
@@ -229,6 +240,7 @@ function MenubarLabel({
 }
 /* v8 ignore stop */
 
+/** Horizontal divider between menubar sections. */
 function MenubarSeparator({
   className,
   ...props
@@ -242,6 +254,7 @@ function MenubarSeparator({
   );
 }
 
+/** Keyboard shortcut hint displayed alongside a menubar item. */
 function MenubarShortcut({
   className,
   ...props
@@ -259,12 +272,14 @@ function MenubarShortcut({
   );
 }
 
+/** Nested submenu root container within a menubar. */
 function MenubarSub({
   ...props
 }: React.ComponentProps<typeof DropdownMenuSub>) {
   return <DropdownMenuSub data-slot="menubar-sub" {...props} />;
 }
 
+/** Menubar item that opens a nested submenu. */
 function MenubarSubTrigger({
   className,
   inset,
@@ -287,6 +302,7 @@ function MenubarSubTrigger({
   );
 }
 
+/** Positioned popup panel for a nested menubar submenu. */
 function MenubarSubContent({
   className,
   ...props

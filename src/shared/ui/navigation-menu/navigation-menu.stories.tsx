@@ -28,6 +28,12 @@ const meta = preview.meta({
   component: NavigationMenu,
   argTypes: {},
   parameters: {
+    docs: {
+      description: {
+        component:
+          "A collection of links for navigating websites.\n\n[shadcn/ui docs](https://ui.shadcn.com/docs/components/base/navigation-menu)",
+      },
+    },
     layout: "centered",
   },
 });

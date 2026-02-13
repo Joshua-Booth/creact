@@ -73,6 +73,14 @@ const meta = preview.meta({
       </AccordionItem>
     </Accordion>
   ),
+  parameters: {
+    docs: {
+      description: {
+        component:
+          "A vertically stacked set of interactive headings that each reveal a section of content.\n\n[shadcn/ui docs](https://ui.shadcn.com/docs/components/base/accordion)",
+      },
+    },
+  },
 });
 
 // --- Stories ---

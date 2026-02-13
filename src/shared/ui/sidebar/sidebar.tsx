@@ -40,6 +40,7 @@ interface SidebarContextProps {
 
 const SidebarContext = React.createContext<SidebarContextProps | null>(null);
 
+/** Hook to access sidebar state and controls from any child component. */
 function useSidebar() {
   const context = React.use(SidebarContext);
   /* v8 ignore start -- Defensive guard: unreachable when used within <SidebarProvider /> */
@@ -51,6 +52,7 @@ function useSidebar() {
   return context;
 }
 
+/** Context provider that manages sidebar open/collapsed state, mobile responsiveness, and keyboard shortcuts. */
 function SidebarProvider({
   defaultOpen = true,
   open: openProp,
@@ -60,8 +62,11 @@ function SidebarProvider({
   children,
   ...props
 }: React.ComponentProps<"div"> & {
+  /** Initial open state for uncontrolled usage. */
   defaultOpen?: boolean;
+  /** Controlled open state of the sidebar. */
   open?: boolean;
+  /** Callback fired when the sidebar open state changes. */
   onOpenChange?: (open: boolean) => void;
 }) {
   const { isMobile } = useDevice();
@@ -161,6 +166,7 @@ function SidebarProvider({
   );
 }
 
+/** Collapsible side navigation panel with desktop and mobile layouts. Supports `left`/`right` sides, `sidebar`/`floating`/`inset` variants, and `offcanvas`/`icon`/`none` collapsible modes. */
 function Sidebar({
   side = "left",
   variant = "sidebar",
@@ -170,8 +176,11 @@ function Sidebar({
   dir,
   ...props
 }: React.ComponentProps<"div"> & {
+  /** Which side of the viewport the sidebar appears on. */
   side?: "left" | "right";
+  /** Visual style: `sidebar` (fixed), `floating` (with margin), or `inset` (within layout). */
   variant?: "sidebar" | "floating" | "inset";
+  /** Collapse behavior: `offcanvas` (slide out), `icon` (shrink to icons), or `none` (always visible). */
   collapsible?: "offcanvas" | "icon" | "none";
 }) {
   const { isMobile, state, openMobile, setOpenMobile } = useSidebar();
@@ -281,6 +290,7 @@ function Sidebar({
   );
 }
 
+/** Button that toggles the sidebar open/collapsed state. */
 function SidebarTrigger({
   className,
   onClick,
@@ -308,6 +318,7 @@ function SidebarTrigger({
 }
 
 /* v8 ignore start -- Sidebar sub-components: tested transitively via app integration */
+/** Invisible drag rail along the sidebar edge for toggling via click. */
 function SidebarRail({ className, ...props }: React.ComponentProps<"button">) {
   const { toggleSidebar } = useSidebar();
 
@@ -342,6 +353,7 @@ function SidebarRail({ className, ...props }: React.ComponentProps<"button">) {
   );
 }
 
+/** Main content area adjacent to the sidebar. */
 function SidebarInset({ className, ...props }: React.ComponentProps<"main">) {
   return (
     <main
@@ -359,6 +371,7 @@ function SidebarInset({ className, ...props }: React.ComponentProps<"main">) {
   );
 }
 
+/** Styled input field for sidebar search or filtering. */
 function SidebarInput({
   className,
   ...props
@@ -374,6 +387,7 @@ function SidebarInput({
 }
 /* v8 ignore stop */
 
+/** Top section of the sidebar for branding or navigation. */
 function SidebarHeader({ className, ...props }: React.ComponentProps<"div">) {
   return (
     <div
@@ -385,6 +399,7 @@ function SidebarHeader({ className, ...props }: React.ComponentProps<"div">) {
   );
 }
 
+/** Bottom section of the sidebar for user info or settings. */
 function SidebarFooter({ className, ...props }: React.ComponentProps<"div">) {
   return (
     <div
@@ -397,6 +412,7 @@ function SidebarFooter({ className, ...props }: React.ComponentProps<"div">) {
 }
 
 /* v8 ignore start -- Thin styling wrappers, tested transitively */
+/** Horizontal divider between sidebar sections. */
 function SidebarSeparator({
   className,
   ...props
@@ -412,6 +428,7 @@ function SidebarSeparator({
 }
 /* v8 ignore stop */
 
+/** Scrollable area containing sidebar groups and menu items. */
 function SidebarContent({ className, ...props }: React.ComponentProps<"div">) {
   return (
     <div
@@ -427,6 +444,7 @@ function SidebarContent({ className, ...props }: React.ComponentProps<"div">) {
   );
 }
 
+/** Logical grouping of related sidebar menu items. */
 function SidebarGroup({ className, ...props }: React.ComponentProps<"div">) {
   return (
     <div
@@ -438,6 +456,7 @@ function SidebarGroup({ className, ...props }: React.ComponentProps<"div">) {
   );
 }
 
+/** Label rendered above a sidebar group. */
 function SidebarGroupLabel({
   className,
   render,
@@ -468,6 +487,7 @@ function SidebarGroupLabel({
 }
 
 /* v8 ignore start -- Thin action wrapper, tested transitively */
+/** Action button positioned in the top-right of a sidebar group. */
 function SidebarGroupAction({
   className,
   render,
@@ -498,6 +518,7 @@ function SidebarGroupAction({
 }
 /* v8 ignore stop */
 
+/** Content area within a sidebar group. */
 function SidebarGroupContent({
   className,
   ...props
@@ -512,6 +533,7 @@ function SidebarGroupContent({
   );
 }
 
+/** Unordered list container for sidebar menu items. */
 function SidebarMenu({ className, ...props }: React.ComponentProps<"ul">) {
   return (
     <ul
@@ -523,6 +545,7 @@ function SidebarMenu({ className, ...props }: React.ComponentProps<"ul">) {
   );
 }
 
+/** List item wrapper for a single sidebar menu entry. */
 function SidebarMenuItem({ className, ...props }: React.ComponentProps<"li">) {
   return (
     <li
@@ -534,6 +557,13 @@ function SidebarMenuItem({ className, ...props }: React.ComponentProps<"li">) {
   );
 }
 
+/**
+ * Style variants for the SidebarMenuButton component.
+ *
+ * Variants: `default` | `outline`
+ *
+ * Sizes: `default` | `sm` | `lg`
+ */
 const sidebarMenuButtonVariants = cva(
   `peer/menu-button group/menu-button flex w-full items-center gap-2
   overflow-hidden rounded-md p-2 text-left text-sm ring-sidebar-ring
@@ -569,6 +599,7 @@ const sidebarMenuButtonVariants = cva(
   }
 );
 
+/** Interactive button within a sidebar menu item with optional tooltip in collapsed mode. */
 function SidebarMenuButton({
   render,
   isActive = false,
@@ -579,7 +610,9 @@ function SidebarMenuButton({
   ...props
 }: useRender.ComponentProps<"button"> &
   React.ComponentProps<"button"> & {
+    /** Whether this menu item represents the currently active page/section. */
     isActive?: boolean;
+    /** Tooltip shown when the sidebar is collapsed to icon mode. Accepts a string or TooltipContent props. */
     tooltip?: string | React.ComponentProps<typeof TooltipContent>;
   } & VariantProps<typeof sidebarMenuButtonVariants>) {
   const { isMobile, state } = useSidebar();
@@ -625,6 +658,7 @@ function SidebarMenuButton({
 }
 
 /* Sub-components for complex sidebar compositions, tested transitively via app-level integration */
+/** Secondary action button that appears alongside a menu button. */
 function SidebarMenuAction({
   className,
   render,
@@ -632,6 +666,7 @@ function SidebarMenuAction({
   ...props
 }: useRender.ComponentProps<"button"> &
   React.ComponentProps<"button"> & {
+    /** Whether to only show the action button when hovering the parent menu item. */
     showOnHover?: boolean;
   }) {
   return useRender({
@@ -667,6 +702,7 @@ function SidebarMenuAction({
   });
 }
 
+/** Notification badge displayed next to a sidebar menu button. */
 function SidebarMenuBadge({
   className,
   ...props
@@ -692,11 +728,13 @@ function SidebarMenuBadge({
   );
 }
 
+/** Loading placeholder skeleton for a sidebar menu item. */
 function SidebarMenuSkeleton({
   className,
   showIcon = false,
   ...props
 }: React.ComponentProps<"div"> & {
+  /** Whether to show a circular icon placeholder alongside the text skeleton. */
   showIcon?: boolean;
 }) {
   // Random width between 50 to 90%.
@@ -731,6 +769,7 @@ function SidebarMenuSkeleton({
   );
 }
 
+/** Nested sub-menu list within a sidebar menu item. */
 function SidebarMenuSub({ className, ...props }: React.ComponentProps<"ul">) {
   return (
     <ul
@@ -746,6 +785,7 @@ function SidebarMenuSub({ className, ...props }: React.ComponentProps<"ul">) {
   );
 }
 
+/** List item wrapper for a nested sub-menu entry. */
 function SidebarMenuSubItem({
   className,
   ...props
@@ -760,6 +800,7 @@ function SidebarMenuSubItem({
   );
 }
 
+/** Interactive link within a sidebar sub-menu. */
 function SidebarMenuSubButton({
   render,
   size = "md",

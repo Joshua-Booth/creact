@@ -49,6 +49,14 @@ const meta = preview.meta({
       </Field>
     </RadioGroup>
   ),
+  parameters: {
+    docs: {
+      description: {
+        component:
+          "A set of checkable buttons\u2014known as radio buttons\u2014where no more than one of the buttons can be checked at a time.\n\n[shadcn/ui docs](https://ui.shadcn.com/docs/components/base/radio-group)",
+      },
+    },
+  },
 });
 
 // --- Stories ---

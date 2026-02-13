@@ -4,6 +4,7 @@ import { CircleIcon } from "lucide-react";
 
 import { cn } from "@/shared/lib/utils";
 
+/** Group of mutually exclusive radio options. Wraps `@base-ui/react/radio-group`. */
 function RadioGroup({ className, ...props }: RadioGroupPrimitive.Props) {
   return (
     <RadioGroupPrimitive
@@ -14,6 +15,7 @@ function RadioGroup({ className, ...props }: RadioGroupPrimitive.Props) {
   );
 }
 
+/** Single selectable radio button within a radio group. */
 function RadioGroupItem({ className, ...props }: RadioPrimitive.Root.Props) {
   return (
     <RadioPrimitive.Root

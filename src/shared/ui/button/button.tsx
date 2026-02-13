@@ -4,6 +4,13 @@ import { cva } from "class-variance-authority";
 
 import { cn } from "@/shared/lib/utils";
 
+/**
+ * Style variants for the Button component.
+ *
+ * Variants: `default` | `outline` | `secondary` | `ghost` | `destructive` | `link`
+ *
+ * Sizes: `default` | `xs` | `sm` | `lg` | `icon` | `icon-xs` | `icon-sm` | `icon-lg`
+ */
 const buttonVariants = cva(
   `group/button inline-flex shrink-0 items-center justify-center rounded-md
   border border-transparent bg-clip-padding text-sm font-medium
@@ -60,6 +67,11 @@ const buttonVariants = cva(
   }
 );
 
+/**
+ * Clickable element that triggers an action or submits a form.
+ * Wraps `@base-ui/react/button` with project design tokens and CVA variants.
+ * @see {@link buttonVariants} for available variant/size options
+ */
 function Button({
   className,
   variant = "default",

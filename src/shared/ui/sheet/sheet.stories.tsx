@@ -72,6 +72,12 @@ const meta = preview.meta({
     </Sheet>
   ),
   parameters: {
+    docs: {
+      description: {
+        component:
+          "Extends the Dialog component to display content that complements the main content of the screen. See also [Dialog](?path=/docs/ui-dialog--docs) and [Drawer](?path=/docs/ui-drawer--docs).\n\n[shadcn/ui docs](https://ui.shadcn.com/docs/components/base/sheet)",
+      },
+    },
     layout: "centered",
   },
 });

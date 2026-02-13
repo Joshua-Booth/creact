@@ -30,6 +30,12 @@ const meta = preview.meta({
     </Tabs>
   ),
   parameters: {
+    docs: {
+      description: {
+        component:
+          "A set of layered sections of content—known as tab panels—that are displayed one at a time.\n\n[shadcn/ui docs](https://ui.shadcn.com/docs/components/base/tabs)",
+      },
+    },
     layout: "centered",
   },
 });

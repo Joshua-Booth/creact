@@ -4,6 +4,11 @@ import { cva } from "class-variance-authority";
 
 import { cn } from "@/shared/lib/utils";
 
+/**
+ * CVA variant configuration for toggle buttons.
+ * - **variant:** `"default"` | `"outline"`
+ * - **size:** `"default"` | `"sm"` | `"lg"`
+ */
 const toggleVariants = cva(
   `group/toggle inline-flex items-center justify-center gap-1 rounded-md text-sm
   font-medium whitespace-nowrap transition-[color,box-shadow] outline-none
@@ -33,6 +38,7 @@ const toggleVariants = cva(
   }
 );
 
+/** Toggleable button that maintains a pressed/unpressed state. Applies visual styles via `toggleVariants`. */
 function Toggle({
   className,
   variant = "default",

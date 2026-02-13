@@ -3,6 +3,7 @@ import { ChevronDownIcon, ChevronUpIcon } from "lucide-react";
 
 import { cn } from "@/shared/lib/utils";
 
+/** Vertically stacked set of collapsible content sections. Wraps `@base-ui/react/collapsible` with project styling. */
 function Accordion({ className, ...props }: AccordionPrimitive.Root.Props) {
   return (
     <AccordionPrimitive.Root
@@ -13,6 +14,7 @@ function Accordion({ className, ...props }: AccordionPrimitive.Root.Props) {
   );
 }
 
+/** Single collapsible section within the accordion. */
 function AccordionItem({ className, ...props }: AccordionPrimitive.Item.Props) {
   return (
     <AccordionPrimitive.Item
@@ -23,6 +25,7 @@ function AccordionItem({ className, ...props }: AccordionPrimitive.Item.Props) {
   );
 }
 
+/** Clickable header that toggles the visibility of its associated content panel. */
 function AccordionTrigger({
   className,
   children,
@@ -62,6 +65,7 @@ function AccordionTrigger({
   );
 }
 
+/** Animated content panel revealed when its parent item is expanded. */
 function AccordionContent({
   className,
   children,

@@ -8,22 +8,31 @@ import { XIcon } from "lucide-react";
 import { cn } from "@/shared/lib/utils";
 import { Button } from "@/shared/ui/button";
 
+/**
+ * Modal window overlaid on the primary window, rendering content underneath inert.
+ * Wraps `@base-ui/react/dialog` with project styling and animation presets.
+ * @see {@link DialogContent} for the popup panel
+ */
 function Dialog({ ...props }: DialogPrimitive.Root.Props) {
   return <DialogPrimitive.Root data-slot="dialog" {...props} />;
 }
 
+/** Button or element that opens the dialog when activated. */
 function DialogTrigger({ ...props }: DialogPrimitive.Trigger.Props) {
   return <DialogPrimitive.Trigger data-slot="dialog-trigger" {...props} />;
 }
 
+/** Portal container for dialog content rendering. */
 function DialogPortal({ ...props }: DialogPrimitive.Portal.Props) {
   return <DialogPrimitive.Portal data-slot="dialog-portal" {...props} />;
 }
 
+/** Button that closes the dialog when activated. */
 function DialogClose({ ...props }: DialogPrimitive.Close.Props) {
   return <DialogPrimitive.Close data-slot="dialog-close" {...props} />;
 }
 
+/** Semi-transparent backdrop behind the dialog that dims the page. */
 function DialogOverlay({
   className,
   ...props
@@ -42,12 +51,14 @@ function DialogOverlay({
   );
 }
 
+/** Centered popup panel that renders inside a portal with overlay. */
 function DialogContent({
   className,
   children,
   showCloseButton = true,
   ...props
 }: DialogPrimitive.Popup.Props & {
+  /** Whether to show the X close button in the top-right corner. */
   showCloseButton?: boolean;
 }) {
   return (
@@ -86,6 +97,7 @@ function DialogContent({
   );
 }
 
+/** Container for the dialog title and description at the top. */
 function DialogHeader({ className, ...props }: React.ComponentProps<"div">) {
   return (
     <div
@@ -96,12 +108,14 @@ function DialogHeader({ className, ...props }: React.ComponentProps<"div">) {
   );
 }
 
+/** Action area at the bottom of the dialog for buttons. */
 function DialogFooter({
   className,
   showCloseButton = false,
   children,
   ...props
 }: React.ComponentProps<"div"> & {
+  /** Whether to show a close button alongside the footer actions. */
   showCloseButton?: boolean;
 }) {
   return (
@@ -125,6 +139,7 @@ function DialogFooter({
   );
 }
 
+/** Accessible heading for the dialog content. */
 function DialogTitle({ className, ...props }: DialogPrimitive.Title.Props) {
   return (
     <DialogPrimitive.Title
@@ -135,6 +150,7 @@ function DialogTitle({ className, ...props }: DialogPrimitive.Title.Props) {
   );
 }
 
+/** Accessible description text displayed below the dialog title. */
 function DialogDescription({
   className,
   ...props

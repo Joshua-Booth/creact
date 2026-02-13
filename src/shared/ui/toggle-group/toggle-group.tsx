@@ -21,6 +21,7 @@ const ToggleGroupContext = React.createContext<
   orientation: "horizontal",
 });
 
+/** Container for a group of related toggle buttons. Propagates shared variant, size, spacing, and orientation to child items via context. */
 function ToggleGroup({
   className,
   variant,
@@ -61,6 +62,7 @@ function ToggleGroup({
   );
 }
 
+/** Individual toggle button within a `ToggleGroup`. Inherits variant and size from the group context. */
 function ToggleGroupItem({
   className,
   children,

@@ -2,6 +2,7 @@ import { ScrollArea as ScrollAreaPrimitive } from "@base-ui/react/scroll-area";
 
 import { cn } from "@/shared/lib/utils";
 
+/** Custom scrollbar container that replaces native browser scrollbars. Wraps content in a viewport with styled overlay scrollbars. */
 function ScrollArea({
   className,
   children,
@@ -27,6 +28,7 @@ function ScrollArea({
   );
 }
 
+/** Styled scrollbar track and thumb for a `ScrollArea`. */
 function ScrollBar({
   className,
   orientation = "vertical",

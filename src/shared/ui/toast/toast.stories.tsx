@@ -30,6 +30,12 @@ const meta = preview.meta({
     ),
   ],
   parameters: {
+    docs: {
+      description: {
+        component:
+          "An opinionated toast component for React.\n\n[shadcn/ui docs](https://ui.shadcn.com/docs/components/base/toast)",
+      },
+    },
     layout: "fullscreen",
   },
   render: (args) => (

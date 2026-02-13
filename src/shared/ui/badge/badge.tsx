@@ -5,6 +5,11 @@ import { cva } from "class-variance-authority";
 
 import { cn } from "@/shared/lib/utils";
 
+/**
+ * Style variants for the Badge component.
+ *
+ * Variants: `default` | `secondary` | `destructive` | `outline` | `ghost` | `link`
+ */
 const badgeVariants = cva(
   `group/badge inline-flex h-5 w-fit shrink-0 items-center justify-center gap-1
   overflow-hidden rounded-4xl border border-transparent px-2 py-0.5 text-xs
@@ -36,6 +41,10 @@ const badgeVariants = cva(
   }
 );
 
+/**
+ * Inline status label rendered as a small pill.
+ * Uses `useRender` for polymorphic element support.
+ */
 function Badge({
   className,
   variant = "default",

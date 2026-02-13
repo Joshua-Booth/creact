@@ -50,6 +50,12 @@ const meta = preview.meta({
     </Collapsible>
   ),
   parameters: {
+    docs: {
+      description: {
+        component:
+          "An interactive component which expands/collapses a panel.\n\n[shadcn/ui docs](https://ui.shadcn.com/docs/components/base/collapsible)",
+      },
+    },
     layout: "centered",
   },
 });

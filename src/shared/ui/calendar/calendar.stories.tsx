@@ -56,6 +56,12 @@ const meta = preview.meta({
     showOutsideDays: true,
   },
   parameters: {
+    docs: {
+      description: {
+        component:
+          "A date field component that allows users to enter and edit date.\n\n[shadcn/ui docs](https://ui.shadcn.com/docs/components/base/calendar)",
+      },
+    },
     layout: "centered",
   },
 });

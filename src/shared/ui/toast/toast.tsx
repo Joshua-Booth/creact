@@ -11,21 +11,7 @@ import {
 import { useTheme } from "remix-themes";
 import { Toaster as Sonner } from "sonner";
 
-/**
- * Themed toast notification component built on top of Sonner.
- * Automatically syncs with the app's theme (light/dark).
- * @param props - Sonner Toaster props
- * @returns Sonner Toaster component with theme
- * @example
- * ```tsx
- * import { toast } from "@/shared/ui/toast";
- *
- * // Trigger toasts anywhere
- * toast("Event created");
- * toast.success("Saved successfully");
- * toast.error("Something went wrong");
- * ```
- */
+/** Themed toast notification renderer built on Sonner. Automatically syncs with the app's light/dark theme and provides custom icons for success, info, warning, error, and loading states. */
 function Toaster({ ...props }: ToasterProps) {
   const [theme] = useTheme();
 

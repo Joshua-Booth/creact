@@ -57,6 +57,12 @@ const meta = preview.meta({
     </Command>
   ),
   parameters: {
+    docs: {
+      description: {
+        component:
+          "Fast, composable, unstyled command menu for React.\n\n[shadcn/ui docs](https://ui.shadcn.com/docs/components/base/command)",
+      },
+    },
     layout: "centered",
   },
 });

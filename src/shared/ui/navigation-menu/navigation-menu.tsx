@@ -5,6 +5,7 @@ import { ChevronDownIcon } from "lucide-react";
 
 import { cn } from "@/shared/lib/utils";
 
+/** Horizontal navigation bar with animated dropdown content panels. Wraps `@base-ui/react/navigation-menu` with smooth transitions. */
 function NavigationMenu({
   align = "start",
   className,
@@ -28,6 +29,7 @@ function NavigationMenu({
   );
 }
 
+/** Horizontal list of navigation menu items. */
 function NavigationMenuList({
   className,
   ...props
@@ -46,6 +48,7 @@ function NavigationMenuList({
   );
 }
 
+/** Individual item within the navigation menu list. */
 function NavigationMenuItem({
   className,
   ...props
@@ -59,6 +62,7 @@ function NavigationMenuItem({
   );
 }
 
+/** Base styles for navigation menu trigger buttons. */
 const navigationMenuTriggerStyle = cva(
   `group/navigation-menu-trigger inline-flex h-9 w-max items-center
   justify-center rounded-md bg-background px-4 py-2 text-sm font-medium
@@ -69,6 +73,7 @@ const navigationMenuTriggerStyle = cva(
   data-open:focus:bg-muted`
 );
 
+/** Button that opens a navigation menu dropdown panel on hover. */
 function NavigationMenuTrigger({
   className,
   children,
@@ -91,6 +96,7 @@ function NavigationMenuTrigger({
   );
 }
 
+/** Animated content panel that slides in when its trigger is activated. */
 function NavigationMenuContent({
   className,
   ...props
@@ -134,6 +140,7 @@ function NavigationMenuContent({
   );
 }
 
+/** Positioned container that anchors the navigation menu popup. */
 function NavigationMenuPositioner({
   className,
   side = "bottom",
@@ -179,6 +186,7 @@ function NavigationMenuPositioner({
   );
 }
 
+/** Styled link element within navigation menu content. */
 function NavigationMenuLink({
   className,
   ...props
@@ -200,6 +208,7 @@ function NavigationMenuLink({
 }
 
 /* v8 ignore start -- Optional indicator component, not used in stories */
+/** Visual indicator that highlights the active navigation menu item. */
 function NavigationMenuIndicator({
   className,
   ...props

@@ -4,6 +4,7 @@ import * as React from "react";
 
 import { cn } from "@/shared/lib/utils";
 
+/** Responsive data table wrapped in a horizontally scrollable container. */
 function Table({ className, ...props }: React.ComponentProps<"table">) {
   return (
     <div
@@ -19,6 +20,7 @@ function Table({ className, ...props }: React.ComponentProps<"table">) {
   );
 }
 
+/** Table head section containing column headers. */
 function TableHeader({ className, ...props }: React.ComponentProps<"thead">) {
   return (
     <thead
@@ -29,6 +31,7 @@ function TableHeader({ className, ...props }: React.ComponentProps<"thead">) {
   );
 }
 
+/** Table body section containing data rows. */
 function TableBody({ className, ...props }: React.ComponentProps<"tbody">) {
   return (
     <tbody
@@ -39,6 +42,7 @@ function TableBody({ className, ...props }: React.ComponentProps<"tbody">) {
   );
 }
 
+/** Table footer section for summary rows. */
 function TableFooter({ className, ...props }: React.ComponentProps<"tfoot">) {
   return (
     <tfoot
@@ -52,6 +56,7 @@ function TableFooter({ className, ...props }: React.ComponentProps<"tfoot">) {
   );
 }
 
+/** Table row with hover and selection state styling. */
 function TableRow({ className, ...props }: React.ComponentProps<"tr">) {
   return (
     <tr
@@ -66,6 +71,7 @@ function TableRow({ className, ...props }: React.ComponentProps<"tr">) {
   );
 }
 
+/** Table header cell with left-aligned bold text. */
 function TableHead({ className, ...props }: React.ComponentProps<"th">) {
   return (
     <th
@@ -80,6 +86,7 @@ function TableHead({ className, ...props }: React.ComponentProps<"th">) {
   );
 }
 
+/** Standard table data cell. */
 function TableCell({ className, ...props }: React.ComponentProps<"td">) {
   return (
     <td
@@ -93,6 +100,7 @@ function TableCell({ className, ...props }: React.ComponentProps<"td">) {
   );
 }
 
+/** Accessible caption rendered below the table. */
 function TableCaption({
   className,
   ...props

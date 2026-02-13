@@ -4,6 +4,10 @@ import { Input as InputPrimitive } from "@base-ui/react/input";
 
 import { cn } from "@/shared/lib/utils";
 
+/**
+ * Text input field with project styling and validation states.
+ * Wraps `@base-ui/react/input` with consistent borders, focus rings, and file input support.
+ */
 function Input({ className, type, ...props }: React.ComponentProps<"input">) {
   return (
     <InputPrimitive

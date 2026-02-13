@@ -26,6 +26,12 @@ const meta = preview.meta({
     </Field>
   ),
   parameters: {
+    docs: {
+      description: {
+        component:
+          "An input where the user selects a value from within a given range.\n\n[shadcn/ui docs](https://ui.shadcn.com/docs/components/base/slider)",
+      },
+    },
     layout: "centered",
   },
 });

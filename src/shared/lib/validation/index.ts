@@ -12,10 +12,10 @@ import * as z from "zod";
  * ```
  */
 
-// Email validation
+/** Email address validated as a proper email format. */
 export const emailSchema = z.email("Please enter a valid email");
 
-// Password validation with strength requirements
+/** Password requiring 8+ chars, one uppercase, one lowercase, one digit. */
 export const passwordSchema = z
   .string()
   .min(8, "Password must be at least 8 characters")
@@ -23,18 +23,21 @@ export const passwordSchema = z
   .regex(/[a-z]/, "Password must contain at least one lowercase letter")
   .regex(/\d/, "Password must contain at least one number");
 
-// Simple password (no strength requirements, just non-empty)
+/** Simple password with no strength requirements, just non-empty. */
 export const simplePasswordSchema = z.string().min(1, "Password is required");
 
-// Contact form schema
+/** Contact form schema requiring name, valid email, and a 10+ char message. */
 export const contactSchema = z.object({
   name: z.string().min(1, "Name is required"),
   email: emailSchema,
   message: z.string().min(10, "Message must be at least 10 characters"),
 });
 
-/** @public */
+/**
+ * Inferred type for the contact form schema fields.
+ * @public
+ */
 export type ContactFormData = z.infer<typeof contactSchema>;
 
-// Re-export zodResolver for convenience
+/** Re-export of `@hookform/resolvers/zod` for convenient form validation wiring. */
 export { zodResolver } from "@hookform/resolvers/zod";

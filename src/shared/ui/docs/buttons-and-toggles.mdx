@@ -1,0 +1,56 @@
+import { Canvas, Meta } from "@storybook/addon-docs/blocks";
+
+import * as ButtonStories from "../button/button.stories";
+import * as ButtonGroupStories from "../button-group/button-group.stories";
+import * as ToggleStories from "../toggle/toggle.stories";
+import * as ToggleGroupStories from "../toggle-group/toggle-group.stories";
+
+<Meta title="ui/Guides/Buttons & Toggles" />
+
+# Buttons & Toggles
+
+Clickable controls for triggering actions or switching state. The key difference is whether the control is **stateful** (remembers on/off) or **stateless** (fires and forgets).
+
+## Choosing a Component
+
+| Component | Stateful? | Groupable? | Use Case |
+| --- | --- | --- | --- |
+| [Button](?path=/docs/ui-button--docs) | No | Via ButtonGroup | Actions, form submission |
+| [ButtonGroup](?path=/docs/ui-buttongroup--docs) | No | Is the group | Related button sets, split buttons |
+| [Toggle](?path=/docs/ui-toggle--docs) | Yes (on/off) | Via ToggleGroup | Toolbar buttons (bold, italic) |
+| [ToggleGroup](?path=/docs/ui-togglegroup--docs) | Yes (on/off) | Is the group | Exclusive or multi-select options |
+
+## Button
+
+A stateless control that fires an action when clicked. The most common interactive element.
+
+<Canvas of={ButtonStories.Default} />
+
+## ButtonGroup
+
+Groups related buttons into a single visual unit with connected borders. Use for split buttons, segmented controls, or sets of related actions.
+
+<Canvas of={ButtonGroupStories.Default} />
+
+## Toggle
+
+A two-state button that can be pressed (on) or unpressed (off). Use for toolbar-style controls like bold, italic, or alignment.
+
+<Canvas of={ToggleStories.Default} />
+
+## ToggleGroup
+
+Groups multiple toggles into a single control where selection can be exclusive (single) or additive (multiple). Use for option sets like text alignment or view modes.
+
+<Canvas of={ToggleGroupStories.Default} />
+
+## Pattern: Button Variants
+
+Button supports several variants for different emphasis levels:
+
+- **default** — Primary actions (submit, confirm)
+- **outline** — Secondary actions (cancel, dismiss)
+- **secondary** — Less prominent actions that complement primary buttons
+- **ghost** — Minimal actions in toolbars or tight spaces
+- **destructive** — Dangerous actions (delete, remove)
+- **link** — Tertiary actions styled as hyperlinks

@@ -5,6 +5,7 @@ import { MinusIcon } from "lucide-react";
 
 import { cn } from "@/shared/lib/utils";
 
+/** One-time password input with individual character slots. Built on input-otp. */
 function InputOTP({
   className,
   containerClassName,
@@ -26,6 +27,7 @@ function InputOTP({
   );
 }
 
+/** Groups adjacent OTP slots into a visually connected row. */
 function InputOTPGroup({ className, ...props }: React.ComponentProps<"div">) {
   return (
     <div
@@ -42,6 +44,7 @@ function InputOTPGroup({ className, ...props }: React.ComponentProps<"div">) {
   );
 }
 
+/** Single character cell within an OTP input group. */
 function InputOTPSlot({
   index,
   className,
@@ -86,6 +89,7 @@ function InputOTPSlot({
   );
 }
 
+/** Visual divider rendered between OTP slot groups. */
 function InputOTPSeparator({ ...props }: React.ComponentProps<"div">) {
   return (
     <div

@@ -30,6 +30,7 @@ type CarouselContextProps = {
 
 const CarouselContext = React.createContext<CarouselContextProps | null>(null);
 
+/** Hook to access carousel state and scroll controls from child components. */
 function useCarousel() {
   const context = React.use(CarouselContext);
 
@@ -42,6 +43,7 @@ function useCarousel() {
   return context;
 }
 
+/** Embla-powered slideshow component with keyboard navigation and scroll snapping. Supports horizontal and vertical orientations. */
 function Carousel({
   orientation = "horizontal",
   opts,
@@ -151,6 +153,7 @@ function Carousel({
   );
 }
 
+/** Scrollable container that holds carousel slides. */
 function CarouselContent({ className, ...props }: React.ComponentProps<"div">) {
   const { carouselRef, orientation } = useCarousel();
 
@@ -172,6 +175,7 @@ function CarouselContent({ className, ...props }: React.ComponentProps<"div">) {
   );
 }
 
+/** Individual slide within the carousel. */
 function CarouselItem({ className, ...props }: React.ComponentProps<"div">) {
   const { orientation } = useCarousel();
 
@@ -190,6 +194,7 @@ function CarouselItem({ className, ...props }: React.ComponentProps<"div">) {
   );
 }
 
+/** Button that scrolls the carousel to the previous slide. */
 function CarouselPrevious({
   className,
   variant = "outline",
@@ -220,6 +225,7 @@ function CarouselPrevious({
   );
 }
 
+/** Button that scrolls the carousel to the next slide. */
 function CarouselNext({
   className,
   variant = "outline",

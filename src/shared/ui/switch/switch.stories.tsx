@@ -20,6 +20,12 @@ const meta = preview.meta({
   component: Switch,
   argTypes: {},
   parameters: {
+    docs: {
+      description: {
+        component:
+          "A control that allows the user to toggle between checked and not checked.\n\n[shadcn/ui docs](https://ui.shadcn.com/docs/components/base/switch)",
+      },
+    },
     layout: "centered",
   },
   render: (args) => (

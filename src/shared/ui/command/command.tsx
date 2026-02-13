@@ -13,6 +13,7 @@ import {
 } from "@/shared/ui/dialog";
 import { InputGroup, InputGroupAddon } from "@/shared/ui/input-group";
 
+/** Searchable command palette for finding and executing actions. Built on cmdk. */
 function Command({
   className,
   ...props
@@ -30,6 +31,7 @@ function Command({
   );
 }
 
+/** Modal dialog wrapper that hosts a Command palette. */
 function CommandDialog({
   title = "Command Palette",
   description = "Search for a command to run...",
@@ -63,6 +65,7 @@ function CommandDialog({
   );
 }
 
+/** Search input field for filtering command items. */
 function CommandInput({
   className,
   ...props
@@ -90,6 +93,7 @@ function CommandInput({
   );
 }
 
+/** Scrollable container for command results. */
 function CommandList({
   className,
   ...props
@@ -107,6 +111,7 @@ function CommandList({
   );
 }
 
+/** Placeholder shown when no command items match the search query. */
 function CommandEmpty({
   className,
   ...props
@@ -120,6 +125,7 @@ function CommandEmpty({
   );
 }
 
+/** Labelled section that groups related command items together. */
 function CommandGroup({
   className,
   ...props
@@ -139,6 +145,7 @@ function CommandGroup({
   );
 }
 
+/** Horizontal rule separating command groups. */
 function CommandSeparator({
   className,
   ...props
@@ -157,6 +164,7 @@ function CommandSeparator({
   );
 }
 
+/** Selectable row within the command list. */
 function CommandItem({
   className,
   children,
@@ -187,6 +195,7 @@ function CommandItem({
   );
 }
 
+/** Keyboard shortcut hint displayed alongside a command item. */
 function CommandShortcut({
   className,
   ...props

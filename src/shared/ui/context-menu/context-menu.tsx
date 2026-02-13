@@ -7,11 +7,13 @@ import { CheckIcon, ChevronRightIcon } from "lucide-react";
 
 import { cn } from "@/shared/lib/utils";
 
+/** Right-click context menu for presenting contextual actions. Wraps `@base-ui/react/menu`. */
 function ContextMenu({ ...props }: ContextMenuPrimitive.Root.Props) {
   return <ContextMenuPrimitive.Root data-slot="context-menu" {...props} />;
 }
 
 /* v8 ignore start -- Portal wrapper not directly rendered in stories */
+/** Portal wrapper for rendering context menu content outside the DOM hierarchy. */
 function ContextMenuPortal({ ...props }: ContextMenuPrimitive.Portal.Props) {
   return (
     <ContextMenuPrimitive.Portal data-slot="context-menu-portal" {...props} />
@@ -19,6 +21,7 @@ function ContextMenuPortal({ ...props }: ContextMenuPrimitive.Portal.Props) {
 }
 /* v8 ignore stop */
 
+/** Element that opens the context menu on right-click. */
 function ContextMenuTrigger({
   className,
   ...props
@@ -32,6 +35,7 @@ function ContextMenuTrigger({
   );
 }
 
+/** Positioned popup container for context menu items. */
 function ContextMenuContent({
   className,
   align = "start",
@@ -77,12 +81,14 @@ function ContextMenuContent({
   );
 }
 
+/** Logical grouping of related context menu items. */
 function ContextMenuGroup({ ...props }: ContextMenuPrimitive.Group.Props) {
   return (
     <ContextMenuPrimitive.Group data-slot="context-menu-group" {...props} />
   );
 }
 
+/** Non-interactive label for a group of context menu items. */
 function ContextMenuLabel({
   className,
   inset,
@@ -103,6 +109,7 @@ function ContextMenuLabel({
   );
 }
 
+/** Actionable row within the context menu. */
 function ContextMenuItem({
   className,
   inset,
@@ -136,12 +143,14 @@ function ContextMenuItem({
   );
 }
 
+/** Nested submenu root within the context menu. */
 function ContextMenuSub({ ...props }: ContextMenuPrimitive.SubmenuRoot.Props) {
   return (
     <ContextMenuPrimitive.SubmenuRoot data-slot="context-menu-sub" {...props} />
   );
 }
 
+/** Item that opens a nested submenu on hover or keyboard navigation. */
 function ContextMenuSubTrigger({
   className,
   inset,
@@ -170,6 +179,7 @@ function ContextMenuSubTrigger({
   );
 }
 
+/** Popup container for a nested submenu's items. */
 function ContextMenuSubContent({
   ...props
 }: React.ComponentProps<typeof ContextMenuContent>) {
@@ -183,6 +193,7 @@ function ContextMenuSubContent({
   );
 }
 
+/** Menu item with a toggleable checkbox indicator. */
 function ContextMenuCheckboxItem({
   className,
   children,
@@ -217,6 +228,7 @@ function ContextMenuCheckboxItem({
   );
 }
 
+/** Group of mutually exclusive radio items within a ContextMenu. */
 function ContextMenuRadioGroup({
   ...props
 }: ContextMenuPrimitive.RadioGroup.Props) {
@@ -228,6 +240,7 @@ function ContextMenuRadioGroup({
   );
 }
 
+/** Single selectable option within a ContextMenuRadioGroup, showing a check icon when active. */
 function ContextMenuRadioItem({
   className,
   children,
@@ -260,6 +273,7 @@ function ContextMenuRadioItem({
   );
 }
 
+/** Horizontal divider line between context menu items or groups. */
 function ContextMenuSeparator({
   className,
   ...props
@@ -273,6 +287,7 @@ function ContextMenuSeparator({
   );
 }
 
+/** Muted keyboard shortcut hint displayed at the trailing edge of a ContextMenuItem. */
 function ContextMenuShortcut({
   className,
   ...props

@@ -3,6 +3,7 @@ import { cva } from "class-variance-authority";
 
 import { cn } from "@/shared/lib/utils";
 
+/** Empty state placeholder displayed when a section has no content. Centers its children with a dashed border and balanced text. */
 function Empty({ className, ...props }: React.ComponentProps<"div">) {
   return (
     <div
@@ -17,6 +18,7 @@ function Empty({ className, ...props }: React.ComponentProps<"div">) {
   );
 }
 
+/** Container for the icon, title, and description at the top of an Empty state. */
 function EmptyHeader({ className, ...props }: React.ComponentProps<"div">) {
   return (
     <div
@@ -27,6 +29,11 @@ function EmptyHeader({ className, ...props }: React.ComponentProps<"div">) {
   );
 }
 
+/**
+ * CVA variants for EmptyMedia appearance.
+ *
+ * - `variant`: `"default"` (transparent) | `"icon"` (muted background with rounded container)
+ */
 const emptyMediaVariants = cva(
   `mb-2 flex shrink-0 items-center justify-center [&_svg]:pointer-events-none
   [&_svg]:shrink-0`,
@@ -44,6 +51,7 @@ const emptyMediaVariants = cva(
   }
 );
 
+/** Icon or illustration slot within an Empty state header. */
 function EmptyMedia({
   className,
   variant = "default",
@@ -59,6 +67,7 @@ function EmptyMedia({
   );
 }
 
+/** Primary heading text for an Empty state. */
 function EmptyTitle({ className, ...props }: React.ComponentProps<"div">) {
   return (
     <div
@@ -69,6 +78,7 @@ function EmptyTitle({ className, ...props }: React.ComponentProps<"div">) {
   );
 }
 
+/** Secondary descriptive text for an Empty state. */
 function EmptyDescription({ className, ...props }: React.ComponentProps<"p">) {
   return (
     <div
@@ -83,6 +93,7 @@ function EmptyDescription({ className, ...props }: React.ComponentProps<"p">) {
   );
 }
 
+/** Action area below the header in an Empty state, typically containing buttons or links. */
 function EmptyContent({ className, ...props }: React.ComponentProps<"div">) {
   return (
     <div

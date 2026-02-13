@@ -1,0 +1,82 @@
+import { Canvas, Meta } from "@storybook/addon-docs/blocks";
+
+import * as ComboboxStories from "../combobox/combobox.stories";
+import * as InputStories from "../input/input.stories";
+import * as InputGroupStories from "../input-group/input-group.stories";
+import * as InputOTPStories from "../input-otp/input-otp.stories";
+import * as NativeSelectStories from "../native-select/native-select.stories";
+import * as SelectStories from "../select/select.stories";
+import * as TextareaStories from "../textarea/textarea.stories";
+
+<Meta title="ui/Guides/Form Inputs" />
+
+# Form Inputs
+
+Components for capturing user input. Use this decision tree to pick the right one:
+
+- Need multi-line text? &rarr; **Textarea**
+- Need an OTP / verification code? &rarr; **InputOTP**
+- Need icons or addons around an input? &rarr; **InputGroup**
+- Need to select from a list?
+  - Need search / autocomplete? &rarr; **Combobox**
+  - Need custom styling? &rarr; **Select**
+  - Need maximum browser compatibility? &rarr; **NativeSelect**
+- Basic single-line text? &rarr; **Input**
+
+## Choosing a Component
+
+| Component | Type | Searchable | Multi-select |
+| --- | --- | --- | --- |
+| [Input](?path=/docs/ui-input--docs) | Text | N/A | N/A |
+| [InputGroup](?path=/docs/ui-inputgroup--docs) | Text + addons | N/A | N/A |
+| [InputOTP](?path=/docs/ui-inputotp--docs) | OTP code | N/A | N/A |
+| [Textarea](?path=/docs/ui-textarea--docs) | Multi-line | N/A | N/A |
+| [Select](?path=/docs/ui-select--docs) | Dropdown | No | No |
+| [NativeSelect](?path=/docs/ui-nativeselect--docs) | Native dropdown | No (browser) | No |
+| [Combobox](?path=/docs/ui-combobox--docs) | Autocomplete | Yes | Yes |
+
+## Input
+
+A standard single-line text field for emails, names, search queries, and other short-form text.
+
+<Canvas of={InputStories.Default} />
+
+## InputGroup
+
+Wraps an Input with leading or trailing addons — icons, text labels, buttons, or dropdowns — without nesting extra form elements.
+
+<Canvas of={InputGroupStories.Default} />
+
+## InputOTP
+
+A segmented input designed for one-time passwords and verification codes. Each character gets its own slot.
+
+<Canvas of={InputOTPStories.Default} />
+
+## Textarea
+
+A multi-line text field for longer content like comments, descriptions, or messages.
+
+<Canvas of={TextareaStories.Default} />
+
+## Select
+
+A fully custom styled dropdown built on Radix primitives. Use when you need consistent cross-browser styling and don't need search.
+
+<Canvas of={SelectStories.Default} />
+
+## NativeSelect
+
+A browser-native `<select>` element styled to match the design system. Use when you need maximum compatibility (mobile keyboards, screen readers) and don't need custom option rendering.
+
+<Canvas of={NativeSelectStories.Default} />
+
+## Combobox
+
+An autocomplete input that filters a list of options as the user types. Supports both single and multi-select.
+
+<Canvas of={ComboboxStories.Default} />
+
+## Pattern: Field Integration
+
+All input components integrate with **Field**, **FieldLabel**, **FieldDescription**, and **FieldError** for consistent form layouts with labels, help text, and validation messages.

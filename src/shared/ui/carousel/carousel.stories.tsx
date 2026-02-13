@@ -193,6 +193,12 @@ const meta = preview.meta({
     </Carousel>
   ),
   parameters: {
+    docs: {
+      description: {
+        component:
+          "A carousel with motion and swipe built using Embla.\n\n[shadcn/ui docs](https://ui.shadcn.com/docs/components/base/carousel)",
+      },
+    },
     layout: "centered",
   },
 });

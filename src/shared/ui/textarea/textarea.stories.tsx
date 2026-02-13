@@ -17,6 +17,14 @@ const meta = preview.meta({
     disabled: false,
     className: "w-96",
   },
+  parameters: {
+    docs: {
+      description: {
+        component:
+          "Displays a form textarea or a component that looks like a textarea.\n\n[shadcn/ui docs](https://ui.shadcn.com/docs/components/base/textarea)",
+      },
+    },
+  },
 });
 
 // --- Stories ---

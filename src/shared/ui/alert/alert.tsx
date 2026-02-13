@@ -5,6 +5,11 @@ import { cva } from "class-variance-authority";
 
 import { cn } from "@/shared/lib/utils";
 
+/**
+ * Style variants for the Alert component.
+ *
+ * Variants: `default` | `destructive`
+ */
 const alertVariants = cva(
   `grid gap-0.5 rounded-lg border px-4 py-3 text-left text-sm
   has-data-[slot=alert-action]:relative has-data-[slot=alert-action]:pr-18
@@ -26,6 +31,10 @@ const alertVariants = cva(
   }
 );
 
+/**
+ * Callout component for displaying important messages to users.
+ * Supports icon placement and an optional action slot.
+ */
 function Alert({
   className,
   variant,
@@ -41,6 +50,7 @@ function Alert({
   );
 }
 
+/** Bold title text within an alert. */
 function AlertTitle({ className, ...props }: React.ComponentProps<"div">) {
   return (
     <div
@@ -56,6 +66,7 @@ function AlertTitle({ className, ...props }: React.ComponentProps<"div">) {
   );
 }
 
+/** Body text within an alert, styled as muted secondary content. */
 function AlertDescription({
   className,
   ...props
@@ -74,6 +85,7 @@ function AlertDescription({
   );
 }
 
+/** Action slot positioned in the top-right corner of the alert. */
 function AlertAction({ className, ...props }: React.ComponentProps<"div">) {
   return (
     <div

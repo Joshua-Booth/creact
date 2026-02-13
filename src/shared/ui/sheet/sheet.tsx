@@ -6,22 +6,29 @@ import { XIcon } from "lucide-react";
 import { cn } from "@/shared/lib/utils";
 import { Button } from "@/shared/ui/button";
 
+/**
+ * Side panel overlay that slides in from a screen edge. Wraps `@base-ui/react/dialog` with directional slide animations.
+ */
 function Sheet({ ...props }: SheetPrimitive.Root.Props) {
   return <SheetPrimitive.Root data-slot="sheet" {...props} />;
 }
 
+/** Button or element that opens the sheet. */
 function SheetTrigger({ ...props }: SheetPrimitive.Trigger.Props) {
   return <SheetPrimitive.Trigger data-slot="sheet-trigger" {...props} />;
 }
 
+/** Button that closes the sheet when activated. */
 function SheetClose({ ...props }: SheetPrimitive.Close.Props) {
   return <SheetPrimitive.Close data-slot="sheet-close" {...props} />;
 }
 
+/** Portal container for sheet content rendering. */
 function SheetPortal({ ...props }: SheetPrimitive.Portal.Props) {
   return <SheetPrimitive.Portal data-slot="sheet-portal" {...props} />;
 }
 
+/** Semi-transparent backdrop behind the sheet that dims the page. */
 function SheetOverlay({ className, ...props }: SheetPrimitive.Backdrop.Props) {
   return (
     <SheetPrimitive.Backdrop
@@ -38,6 +45,7 @@ function SheetOverlay({ className, ...props }: SheetPrimitive.Backdrop.Props) {
   );
 }
 
+/** Sliding panel that renders from the specified side with overlay and optional close button. */
 function SheetContent({
   className,
   children,
@@ -101,6 +109,7 @@ function SheetContent({
   );
 }
 
+/** Top section of the sheet for title and description. */
 function SheetHeader({ className, ...props }: React.ComponentProps<"div">) {
   return (
     <div
@@ -111,6 +120,7 @@ function SheetHeader({ className, ...props }: React.ComponentProps<"div">) {
   );
 }
 
+/** Bottom section of the sheet for action buttons. */
 function SheetFooter({ className, ...props }: React.ComponentProps<"div">) {
   return (
     <div
@@ -121,6 +131,7 @@ function SheetFooter({ className, ...props }: React.ComponentProps<"div">) {
   );
 }
 
+/** Accessible heading for the sheet content. */
 function SheetTitle({ className, ...props }: SheetPrimitive.Title.Props) {
   return (
     <SheetPrimitive.Title
@@ -131,6 +142,7 @@ function SheetTitle({ className, ...props }: SheetPrimitive.Title.Props) {
   );
 }
 
+/** Accessible description text displayed below the sheet title. */
 function SheetDescription({
   className,
   ...props

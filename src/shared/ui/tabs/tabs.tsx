@@ -6,6 +6,7 @@ import { cva } from "class-variance-authority";
 
 import { cn } from "@/shared/lib/utils";
 
+/** Tabbed interface for switching between content panels. Supports horizontal and vertical orientations. */
 function Tabs({
   className,
   orientation = "horizontal",
@@ -24,6 +25,11 @@ function Tabs({
   );
 }
 
+/**
+ * Style variants for the TabsList component.
+ *
+ * Variants: `default` | `line`
+ */
 const tabsListVariants = cva(
   `group/tabs-list inline-flex w-fit items-center justify-center rounded-lg
   p-[3px] text-muted-foreground group-data-[orientation=vertical]/tabs:h-fit
@@ -42,6 +48,7 @@ const tabsListVariants = cva(
   }
 );
 
+/** Container for tab triggers, styled as a segmented control or underline strip. */
 function TabsList({
   className,
   variant = "default",
@@ -57,6 +64,7 @@ function TabsList({
   );
 }
 
+/** Interactive tab button that activates its associated content panel. */
 function TabsTrigger({ className, ...props }: TabsPrimitive.Tab.Props) {
   return (
     <TabsPrimitive.Tab
@@ -100,6 +108,7 @@ function TabsTrigger({ className, ...props }: TabsPrimitive.Tab.Props) {
   );
 }
 
+/** Content panel displayed when its associated tab trigger is active. */
 function TabsContent({ className, ...props }: TabsPrimitive.Panel.Props) {
   return (
     <TabsPrimitive.Panel

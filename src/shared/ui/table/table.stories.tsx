@@ -78,6 +78,14 @@ const meta = preview.meta({
   args: {
     className: "w-lg",
   },
+  parameters: {
+    docs: {
+      description: {
+        component:
+          "Powerful table and datagrids built using TanStack Table.\n\n[shadcn/ui docs](https://ui.shadcn.com/docs/components/base/table)",
+      },
+    },
+  },
 });
 
 // --- Stories ---

@@ -41,6 +41,12 @@ const meta = preview.meta({
     },
   },
   parameters: {
+    docs: {
+      description: {
+        component:
+          "Displays a button or a component that looks like a button. See also [ButtonGroup](?path=/docs/ui-buttongroup--docs) for grouping related buttons.\n\n[shadcn/ui docs](https://ui.shadcn.com/docs/components/base/button)",
+      },
+    },
     layout: "centered",
   },
   args: {

@@ -8,6 +8,7 @@ import { cva } from "class-variance-authority";
 import { cn } from "@/shared/lib/utils";
 import { Separator } from "@/shared/ui/separator";
 
+/** Container that arranges `Item` children in a vertical list. */
 function ItemGroup({ className, ...props }: React.ComponentProps<"div">) {
   return (
     <div
@@ -23,6 +24,7 @@ function ItemGroup({ className, ...props }: React.ComponentProps<"div">) {
   );
 }
 
+/** Horizontal rule between items in a group. */
 function ItemSeparator({
   className,
   ...props
@@ -37,6 +39,13 @@ function ItemSeparator({
   );
 }
 
+/**
+ * Variants for `Item`.
+ *
+ * `variant`: `"default"` | `"outline"` | `"muted"`
+ *
+ * `size`: `"default"` | `"sm"` | `"xs"`
+ */
 const itemVariants = cva(
   `group/item flex w-full flex-wrap items-center rounded-md border text-sm
   transition-colors duration-100 outline-none focus-visible:border-ring
@@ -62,6 +71,13 @@ const itemVariants = cva(
   }
 );
 
+/**
+ * Generic list item with icon, text, and description layout.
+ *
+ * `variant`: `"default"` | `"outline"` | `"muted"`
+ *
+ * `size`: `"default"` | `"sm"` | `"xs"`
+ */
 function Item({
   className,
   variant = "default",
@@ -86,6 +102,11 @@ function Item({
   });
 }
 
+/**
+ * Variants for `ItemMedia`.
+ *
+ * `variant`: `"default"` | `"icon"` | `"image"`
+ */
 const itemMediaVariants = cva(
   `gap-2 group-has-data-[slot=item-description]/item:translate-y-0.5
   group-has-data-[slot=item-description]/item:self-start flex shrink-0
@@ -106,6 +127,7 @@ const itemMediaVariants = cva(
   }
 );
 
+/** Leading media slot for an icon or image within an item. */
 function ItemMedia({
   className,
   variant = "default",
@@ -121,6 +143,7 @@ function ItemMedia({
   );
 }
 
+/** Flexible content area holding the title and description of an item. */
 function ItemContent({ className, ...props }: React.ComponentProps<"div">) {
   return (
     <div
@@ -135,6 +158,7 @@ function ItemContent({ className, ...props }: React.ComponentProps<"div">) {
   );
 }
 
+/** Primary text label rendered inside item content. */
 function ItemTitle({ className, ...props }: React.ComponentProps<"div">) {
   return (
     <div
@@ -149,6 +173,7 @@ function ItemTitle({ className, ...props }: React.ComponentProps<"div">) {
   );
 }
 
+/** Secondary descriptive text rendered below the item title. */
 function ItemDescription({ className, ...props }: React.ComponentProps<"p">) {
   return (
     <p
@@ -164,6 +189,7 @@ function ItemDescription({ className, ...props }: React.ComponentProps<"p">) {
   );
 }
 
+/** Trailing slot for action buttons or controls within an item. */
 function ItemActions({ className, ...props }: React.ComponentProps<"div">) {
   return (
     <div
@@ -174,6 +200,7 @@ function ItemActions({ className, ...props }: React.ComponentProps<"div">) {
   );
 }
 
+/** Full-width header row spanning the top of an item. */
 function ItemHeader({ className, ...props }: React.ComponentProps<"div">) {
   return (
     <div
@@ -188,6 +215,7 @@ function ItemHeader({ className, ...props }: React.ComponentProps<"div">) {
 }
 
 /* v8 ignore start -- Thin layout wrapper, tested transitively */
+/** Full-width footer row spanning the bottom of an item. */
 function ItemFooter({ className, ...props }: React.ComponentProps<"div">) {
   return (
     <div

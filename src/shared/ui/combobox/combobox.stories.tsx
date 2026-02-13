@@ -73,6 +73,12 @@ const meta = preview.meta({
   argTypes: {},
   args: {},
   parameters: {
+    docs: {
+      description: {
+        component:
+          "An autocomplete input with a filterable list of options. See also [Select](?path=/docs/ui-select--docs) for a non-searchable dropdown.\n\n[shadcn/ui docs](https://ui.shadcn.com/docs/components/base/combobox)",
+      },
+    },
     layout: "centered",
     a11y: {
       config: {

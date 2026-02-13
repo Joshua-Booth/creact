@@ -9,6 +9,7 @@ import {
 import { cn } from "@/shared/lib/utils";
 import { Button } from "@/shared/ui/button";
 
+/** Page navigation control with previous/next buttons and numbered page links. */
 function Pagination({ className, ...props }: React.ComponentProps<"nav">) {
   return (
     <nav
@@ -21,6 +22,7 @@ function Pagination({ className, ...props }: React.ComponentProps<"nav">) {
   );
 }
 
+/** Ordered list container holding pagination items. */
 function PaginationContent({
   className,
   ...props
@@ -34,6 +36,7 @@ function PaginationContent({
   );
 }
 
+/** List item wrapper for a single pagination element. */
 function PaginationItem({ ...props }: React.ComponentProps<"li">) {
   return <li data-slot="pagination-item" {...props} />;
 }
@@ -43,6 +46,7 @@ type PaginationLinkProps = {
 } & Partial<Pick<React.ComponentProps<typeof Button>, "size">> &
   React.ComponentProps<"a">;
 
+/** Anchor-based page number link with active state styling. */
 function PaginationLink({
   className,
   isActive,
@@ -70,6 +74,7 @@ function PaginationLink({
   );
 }
 
+/** Link to the previous page, rendered with a left chevron icon. */
 function PaginationPrevious({
   className,
   text = "Previous",
@@ -88,6 +93,7 @@ function PaginationPrevious({
   );
 }
 
+/** Link to the next page, rendered with a right chevron icon. */
 function PaginationNext({
   className,
   text = "Next",
@@ -106,6 +112,7 @@ function PaginationNext({
   );
 }
 
+/** Ellipsis indicator representing omitted page numbers. */
 function PaginationEllipsis({
   className,
   ...props

@@ -83,6 +83,12 @@ const meta = preview.meta({
     orientation: "horizontal",
   },
   parameters: {
+    docs: {
+      description: {
+        component:
+          "Groups related buttons together with consistent styling and spacing.\n\n[shadcn/ui docs](https://ui.shadcn.com/docs/components/base/button-group)",
+      },
+    },
     layout: "centered",
   },
   render: (args) => (

@@ -5,22 +5,28 @@ import { AlertDialog as AlertDialogPrimitive } from "@base-ui/react/alert-dialog
 import { cn } from "@/shared/lib/utils";
 import { Button } from "@/shared/ui/button";
 
+/**
+ * Confirmation dialog that requires explicit user action before proceeding. Wraps `@base-ui/react/alert-dialog` with project styling.
+ */
 function AlertDialog({ ...props }: AlertDialogPrimitive.Root.Props) {
   return <AlertDialogPrimitive.Root data-slot="alert-dialog" {...props} />;
 }
 
+/** Button or element that opens the alert dialog. */
 function AlertDialogTrigger({ ...props }: AlertDialogPrimitive.Trigger.Props) {
   return (
     <AlertDialogPrimitive.Trigger data-slot="alert-dialog-trigger" {...props} />
   );
 }
 
+/** Portal container for alert dialog content rendering. */
 function AlertDialogPortal({ ...props }: AlertDialogPrimitive.Portal.Props) {
   return (
     <AlertDialogPrimitive.Portal data-slot="alert-dialog-portal" {...props} />
   );
 }
 
+/** Semi-transparent backdrop behind the alert dialog. */
 function AlertDialogOverlay({
   className,
   ...props
@@ -39,6 +45,7 @@ function AlertDialogOverlay({
   );
 }
 
+/** Centered popup panel for confirmation prompts with `default` and `sm` sizes. */
 function AlertDialogContent({
   className,
   size = "default",
@@ -67,6 +74,7 @@ function AlertDialogContent({
   );
 }
 
+/** Container for the alert dialog title, description, and optional media slot. */
 function AlertDialogHeader({
   className,
   ...props
@@ -88,6 +96,7 @@ function AlertDialogHeader({
   );
 }
 
+/** Action area at the bottom for confirm/cancel buttons. */
 function AlertDialogFooter({
   className,
   ...props
@@ -108,6 +117,7 @@ function AlertDialogFooter({
 }
 
 /* v8 ignore start -- Optional media slot, not exercised in stories */
+/** Optional media slot for icons or illustrations in the header. */
 function AlertDialogMedia({
   className,
   ...props
@@ -127,6 +137,7 @@ function AlertDialogMedia({
 }
 /* v8 ignore stop */
 
+/** Accessible heading for the alert dialog. */
 function AlertDialogTitle({
   className,
   ...props
@@ -144,6 +155,7 @@ function AlertDialogTitle({
   );
 }
 
+/** Accessible description text for the alert dialog. */
 function AlertDialogDescription({
   className,
   ...props
@@ -161,6 +173,7 @@ function AlertDialogDescription({
   );
 }
 
+/** Primary action button that confirms the alert dialog intent. */
 function AlertDialogAction({
   className,
   ...props
@@ -174,6 +187,7 @@ function AlertDialogAction({
   );
 }
 
+/** Cancel button that dismisses the alert dialog without action. */
 function AlertDialogCancel({
   className,
   variant = "outline",

@@ -49,6 +49,12 @@ const meta = preview.meta({
     orientation: "vertical",
   },
   parameters: {
+    docs: {
+      description: {
+        component:
+          "Provides accessible form field layouts with labels, descriptions, and error states.\n\n[shadcn/ui docs](https://ui.shadcn.com/docs/components/base/field)",
+      },
+    },
     layout: "centered",
   },
 });

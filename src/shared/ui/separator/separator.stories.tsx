@@ -9,6 +9,14 @@ const meta = preview.meta({
   title: "ui/Separator",
   component: Separator,
   argTypes: {},
+  parameters: {
+    docs: {
+      description: {
+        component:
+          "Visually or semantically separates content.\n\n[shadcn/ui docs](https://ui.shadcn.com/docs/components/base/separator)",
+      },
+    },
+  },
 });
 
 // --- Stories ---

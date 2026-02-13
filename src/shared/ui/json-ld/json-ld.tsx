@@ -3,13 +3,8 @@ interface JsonLdProps {
   data: Record<string, any>;
 }
 
-/**
- * Renders JSON-LD structured data as a script tag.
- * @param props - Component props
- * @param props.data - JSON-LD data object to serialize
- * @returns Script element with JSON-LD data
- */
 /* v8 ignore start -- Renders in document <head>, not reachable in Storybook body */
+/** Injects a JSON-LD structured data script tag into the page for SEO. */
 export function JsonLd({ data }: JsonLdProps) {
   return (
     <script

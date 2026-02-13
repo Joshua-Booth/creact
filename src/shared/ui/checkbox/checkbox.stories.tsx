@@ -34,6 +34,15 @@ const meta = preview.meta({
   args: {
     disabled: false,
   },
+  parameters: {
+    docs: {
+      description: {
+        component:
+          "A control that allows the user to toggle between checked and not checked.\n\n[shadcn/ui docs](https://ui.shadcn.com/docs/components/base/checkbox)",
+      },
+    },
+    layout: "centered",
+  },
   render: (args) => (
     <Field>
       <FieldLabel className="flex items-center gap-2">
@@ -42,9 +51,6 @@ const meta = preview.meta({
       </FieldLabel>
     </Field>
   ),
-  parameters: {
-    layout: "centered",
-  },
 });
 
 // --- Stories ---

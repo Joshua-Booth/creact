@@ -7,9 +7,20 @@ import {
   NativeSelectOption,
 } from "./native-select";
 
+/**
+ * Browser-native select element styled to match the design system.
+ */
 const meta = preview.meta({
   title: "ui/NativeSelect",
   component: NativeSelect,
+  parameters: {
+    docs: {
+      description: {
+        component:
+          "Browser-native select element styled to match the design system. See also [Select](?path=/docs/ui-select--docs) and [Combobox](?path=/docs/ui-combobox--docs).\n\n[shadcn/ui docs](https://ui.shadcn.com/docs/components/base/native-select)",
+      },
+    },
+  },
 });
 
 // --- Stories ---

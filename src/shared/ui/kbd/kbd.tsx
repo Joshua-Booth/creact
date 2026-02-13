@@ -1,5 +1,6 @@
 import { cn } from "@/shared/lib/utils";
 
+/** Inline keyboard shortcut badge for displaying key combinations. */
 function Kbd({ className, ...props }: React.ComponentProps<"kbd">) {
   return (
     <kbd
@@ -19,6 +20,7 @@ function Kbd({ className, ...props }: React.ComponentProps<"kbd">) {
   );
 }
 
+/** Inline container that groups multiple `Kbd` badges together. */
 function KbdGroup({ className, ...props }: React.ComponentProps<"div">) {
   return (
     <kbd

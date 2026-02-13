@@ -56,6 +56,12 @@ const meta = preview.meta({
     </Pagination>
   ),
   parameters: {
+    docs: {
+      description: {
+        component:
+          "Pagination with page navigation, next and previous links.\n\n[shadcn/ui docs](https://ui.shadcn.com/docs/components/base/pagination)",
+      },
+    },
     layout: "centered",
   },
 });

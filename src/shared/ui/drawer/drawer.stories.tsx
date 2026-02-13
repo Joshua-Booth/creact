@@ -58,6 +58,12 @@ const meta = preview.meta({
     </Drawer>
   ),
   parameters: {
+    docs: {
+      description: {
+        component:
+          "A drawer component for React. See also [Sheet](?path=/docs/ui-sheet--docs) for side panel overlays.\n\n[shadcn/ui docs](https://ui.shadcn.com/docs/components/base/drawer)",
+      },
+    },
     layout: "centered",
   },
 });

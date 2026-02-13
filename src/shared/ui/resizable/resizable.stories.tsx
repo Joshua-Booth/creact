@@ -48,6 +48,14 @@ const meta = preview.meta({
       </ResizablePanel>
     </ResizablePanelGroup>
   ),
+  parameters: {
+    docs: {
+      description: {
+        component:
+          "Accessible resizable panel groups and layouts with keyboard support.\n\n[shadcn/ui docs](https://ui.shadcn.com/docs/components/base/resizable)",
+      },
+    },
+  },
 });
 
 // --- Stories ---

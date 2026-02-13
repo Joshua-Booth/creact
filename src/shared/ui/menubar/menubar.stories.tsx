@@ -145,6 +145,12 @@ const meta = preview.meta({
     );
   },
   parameters: {
+    docs: {
+      description: {
+        component:
+          "A visually persistent menu common in desktop applications that provides quick access to a consistent set of commands.\n\n[shadcn/ui docs](https://ui.shadcn.com/docs/components/base/menubar)",
+      },
+    },
     layout: "centered",
   },
 });

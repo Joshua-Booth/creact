@@ -4,14 +4,17 @@ import { Popover as PopoverPrimitive } from "@base-ui/react/popover";
 
 import { cn } from "@/shared/lib/utils";
 
+/** Floating popup anchored to a trigger element for rich content display. */
 function Popover({ ...props }: PopoverPrimitive.Root.Props) {
   return <PopoverPrimitive.Root data-slot="popover" {...props} />;
 }
 
+/** Element that toggles the popover open and closed. */
 function PopoverTrigger({ ...props }: PopoverPrimitive.Trigger.Props) {
   return <PopoverPrimitive.Trigger data-slot="popover-trigger" {...props} />;
 }
 
+/** Floating panel displayed inside the popover, with positioning and animation. */
 function PopoverContent({
   className,
   align = "center",
@@ -56,6 +59,7 @@ function PopoverContent({
   );
 }
 
+/** Header area within popover content for title and description. */
 function PopoverHeader({ className, ...props }: React.ComponentProps<"div">) {
   return (
     <div
@@ -66,6 +70,7 @@ function PopoverHeader({ className, ...props }: React.ComponentProps<"div">) {
   );
 }
 
+/** Title text rendered inside the popover header. */
 function PopoverTitle({ className, ...props }: PopoverPrimitive.Title.Props) {
   return (
     <PopoverPrimitive.Title
@@ -76,6 +81,7 @@ function PopoverTitle({ className, ...props }: PopoverPrimitive.Title.Props) {
   );
 }
 
+/** Descriptive text rendered inside the popover header. */
 function PopoverDescription({
   className,
   ...props

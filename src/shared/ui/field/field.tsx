@@ -12,6 +12,7 @@ import { Separator } from "@/shared/ui/separator";
 
 import { Label } from "../label";
 
+/** Fieldset container for grouping related form fields with accessible semantics. */
 function FieldSet({ className, ...props }: FieldsetPrimitive.Root.Props) {
   return (
     <FieldsetPrimitive.Root
@@ -26,6 +27,7 @@ function FieldSet({ className, ...props }: FieldsetPrimitive.Root.Props) {
   );
 }
 
+/** Legend element rendered above a fieldset with `legend` and `label` style variants. */
 function FieldLegend({
   className,
   variant = "legend",
@@ -70,6 +72,7 @@ function FieldLegendDescription({
   );
 }
 
+/** Vertical stack container for arranging multiple form fields. */
 function FieldGroup({ className, ...props }: React.ComponentProps<"div">) {
   return (
     <div
@@ -84,6 +87,11 @@ function FieldGroup({ className, ...props }: React.ComponentProps<"div">) {
   );
 }
 
+/**
+ * Style variants for the Field component.
+ *
+ * Orientations: `vertical` | `horizontal` | `responsive`
+ */
 const fieldVariants = cva(
   "group/field flex w-full gap-3 data-invalid:text-destructive",
   {
@@ -109,6 +117,7 @@ const fieldVariants = cva(
   }
 );
 
+/** Form field container that provides validation context and accessible label association. Wraps `@base-ui/react/field` with orientation variants. */
 function Field({
   className,
   orientation = "vertical",
@@ -124,6 +133,7 @@ function Field({
   );
 }
 
+/** Flexible content area within a field for input, description, and error messages. */
 function FieldContent({ className, ...props }: React.ComponentProps<"div">) {
   return (
     <div
@@ -137,6 +147,7 @@ function FieldContent({ className, ...props }: React.ComponentProps<"div">) {
   );
 }
 
+/** Accessible label element linked to its field control. */
 function FieldLabel({ className, ...props }: FieldPrimitive.Label.Props) {
   return (
     <FieldPrimitive.Label
@@ -156,6 +167,7 @@ function FieldLabel({ className, ...props }: FieldPrimitive.Label.Props) {
   );
 }
 
+/** Non-interactive title element styled as a field label. */
 function FieldTitle({ className, ...props }: React.ComponentProps<"div">) {
   return (
     <div
@@ -170,6 +182,7 @@ function FieldTitle({ className, ...props }: React.ComponentProps<"div">) {
   );
 }
 
+/** Help text displayed below a form field input. */
 function FieldDescription({
   className,
   ...props
@@ -189,6 +202,7 @@ function FieldDescription({
   );
 }
 
+/** Horizontal divider between form fields with optional centered text. */
 function FieldSeparator({
   children,
   className,
@@ -290,16 +304,20 @@ function FieldError({
 }
 
 // Additional Base UI primitives for form integration
+/** Base UI field control primitive for custom input integration. */
 const FieldControl = FieldPrimitive.Control;
+/** Base UI validity primitive for accessing field validation state. */
 const FieldValidity = FieldPrimitive.Validity;
 
 /* v8 ignore start -- Thin Base UI wrappers, tested transitively */
+/** Headless field root that provides validation context without visual styling. */
 function FieldProvider({ className, ...props }: FieldPrimitive.Root.Props) {
   return (
     <FieldPrimitive.Root className={cn("contents", className)} {...props} />
   );
 }
 
+/** Wrapper for checkbox/radio items within a field context. */
 function FieldItem({ className, ...props }: FieldPrimitive.Item.Props) {
   return (
     <FieldPrimitive.Item

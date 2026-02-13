@@ -2,6 +2,7 @@ import { Separator as SeparatorPrimitive } from "@base-ui/react/separator";
 
 import { cn } from "@/shared/lib/utils";
 
+/** Visual divider rendered as a horizontal or vertical line. Defaults to horizontal orientation. */
 function Separator({
   className,
   orientation = "horizontal",

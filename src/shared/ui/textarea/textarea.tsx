@@ -2,6 +2,7 @@ import * as React from "react";
 
 import { cn } from "@/shared/lib/utils";
 
+/** Multi-line text input with automatic field sizing. Styled with focus, error, and disabled states. */
 function Textarea({ className, ...props }: React.ComponentProps<"textarea">) {
   return (
     <textarea

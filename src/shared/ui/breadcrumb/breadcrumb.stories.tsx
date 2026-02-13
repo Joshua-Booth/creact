@@ -44,6 +44,12 @@ const meta = preview.meta({
     </Breadcrumb>
   ),
   parameters: {
+    docs: {
+      description: {
+        component:
+          "Displays the path to the current resource using a hierarchy of links.\n\n[shadcn/ui docs](https://ui.shadcn.com/docs/components/base/breadcrumb)",
+      },
+    },
     layout: "centered",
   },
 });

@@ -4,6 +4,7 @@ import * as ResizablePrimitive from "react-resizable-panels";
 
 import { cn } from "@/shared/lib/utils";
 
+/** Resizable panel layout container. Arranges child panels in a split-view configuration with draggable dividers. */
 function ResizablePanelGroup({
   className,
   ...props
@@ -20,10 +21,12 @@ function ResizablePanelGroup({
   );
 }
 
+/** Individual resizable panel within a `ResizablePanelGroup`. */
 function ResizablePanel({ ...props }: ResizablePrimitive.PanelProps) {
   return <ResizablePrimitive.Panel data-slot="resizable-panel" {...props} />;
 }
 
+/** Draggable handle between resizable panels. Optionally renders a visible grip indicator via `withHandle`. */
 function ResizableHandle({
   withHandle,
   className,

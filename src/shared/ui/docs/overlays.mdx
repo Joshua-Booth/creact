@@ -1,0 +1,51 @@
+import { Canvas, Meta } from "@storybook/addon-docs/blocks";
+
+import * as AlertDialogStories from "../alert-dialog/alert-dialog.stories";
+import * as DialogStories from "../dialog/dialog.stories";
+import * as DrawerStories from "../drawer/drawer.stories";
+import * as SheetStories from "../sheet/sheet.stories";
+
+<Meta title="ui/Guides/Overlays" />
+
+# Overlays
+
+Overlay components display content above the main page, blocking interaction with the content underneath. Reach for these when you need modal confirmations, side panels, or mobile-friendly bottom sheets.
+
+## Choosing a Component
+
+| Component | Position | Dismissible? | Use Case |
+| --- | --- | --- | --- |
+| [Dialog](?path=/docs/ui-dialog--docs) | Centered | Escape, click outside | Edit forms, share links, confirmations |
+| [AlertDialog](?path=/docs/ui-alertdialog--docs) | Centered | Only via action buttons | Destructive confirmations, forced decisions |
+| [Sheet](?path=/docs/ui-sheet--docs) | Side panel (top/right/bottom/left) | Escape, click outside | Settings, filters, supplementary content |
+| [Drawer](?path=/docs/ui-drawer--docs) | Bottom (swipeable) | Drag down, Escape | Mobile menus, bottom sheets |
+
+## Dialog
+
+A centered window overlaid on the page. Supports close via Escape, clicking outside, or an explicit close button. Best for focused tasks like editing a form or sharing a link.
+
+<Canvas of={DialogStories.Default} />
+
+## AlertDialog
+
+A centered modal that can only be dismissed through its action buttons — there is no close icon, no Escape key, and no click-outside dismissal. Reserve this for destructive confirmations or forced decisions where the user must acknowledge.
+
+<Canvas of={AlertDialogStories.Default} />
+
+## Sheet
+
+A panel that slides in from any edge of the screen (top, right, bottom, or left). Dismissible via Escape or clicking outside. Ideal for settings, filters, or supplementary content that should not replace the current page.
+
+<Canvas of={SheetStories.Default} />
+
+## Drawer
+
+A swipeable bottom sheet powered by Vaul. Dismissible by dragging down or pressing Escape. Best suited for mobile-friendly menus and bottom sheets.
+
+<Canvas of={DrawerStories.Default} />
+
+## Pattern: Responsive Dialog
+
+A common pattern renders a Dialog on desktop viewports and a Drawer on mobile. This gives desktop users a centered modal while mobile users get a swipeable bottom sheet.
+
+<Canvas of={DrawerStories.ResponsiveDialog} />

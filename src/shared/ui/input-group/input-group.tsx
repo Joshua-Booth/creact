@@ -10,6 +10,7 @@ import { Button } from "@/shared/ui/button";
 import { Input } from "@/shared/ui/input";
 import { Textarea } from "@/shared/ui/textarea";
 
+/** Container that visually groups an input with addon elements like icons and buttons. */
 function InputGroup({ className, ...props }: React.ComponentProps<"div">) {
   return (
     <div
@@ -44,6 +45,11 @@ function InputGroup({ className, ...props }: React.ComponentProps<"div">) {
   );
 }
 
+/**
+ * Variants for `InputGroupAddon`.
+ *
+ * `align`: `"inline-start"` | `"inline-end"` | `"block-start"` | `"block-end"`
+ */
 const inputGroupAddonVariants = cva(
   `flex h-auto cursor-text items-center justify-center gap-2 py-1.5 text-sm
   font-medium text-muted-foreground select-none
@@ -69,6 +75,7 @@ const inputGroupAddonVariants = cva(
   }
 );
 
+/** Addon slot for placing icons, badges, or other decorative elements alongside the input. */
 function InputGroupAddon({
   className,
   align = "inline-start",
@@ -92,6 +99,11 @@ function InputGroupAddon({
   );
 }
 
+/**
+ * Variants for `InputGroupButton`.
+ *
+ * `size`: `"xs"` | `"sm"` | `"icon-xs"` | `"icon-sm"`
+ */
 const inputGroupButtonVariants = cva(
   "flex items-center gap-2 text-sm shadow-none",
   {
@@ -111,6 +123,7 @@ const inputGroupButtonVariants = cva(
   }
 );
 
+/** Compact button sized to fit inside an input group addon. */
 function InputGroupButton({
   className,
   type = "button",
@@ -132,6 +145,7 @@ function InputGroupButton({
   );
 }
 
+/** Inline text label displayed inside an input group addon. */
 function InputGroupText({ className, ...props }: React.ComponentProps<"span">) {
   return (
     <span
@@ -145,6 +159,7 @@ function InputGroupText({ className, ...props }: React.ComponentProps<"span">) {
   );
 }
 
+/** Text input styled to sit seamlessly within an input group container. */
 function InputGroupInput({
   className,
   ...props
@@ -162,6 +177,7 @@ function InputGroupInput({
   );
 }
 
+/** Textarea styled to sit seamlessly within an input group container. */
 function InputGroupTextarea({
   className,
   ...props

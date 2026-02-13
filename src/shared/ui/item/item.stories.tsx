@@ -56,6 +56,12 @@ const meta = preview.meta({
     size: "default",
   },
   parameters: {
+    docs: {
+      description: {
+        component:
+          "Displays a list item with customizable media, content, and actions.\n\n[shadcn/ui docs](https://ui.shadcn.com/docs/components/base/item)",
+      },
+    },
     layout: "centered",
   },
 });
