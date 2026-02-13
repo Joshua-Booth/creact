@@ -327,9 +327,10 @@ mise run preview      # Preview production build locally (alias: mise run p)
 
 ```sh
 mise run test         # Run unit/integration tests with Vitest (alias: mise run t)
+mise run test:all     # Run all tests in single-run mode (alias: mise run ta)
 mise run test:ui      # Open Vitest UI (alias: mise run tui)
 mise run test:e2e     # Run end-to-end tests with Playwright (alias: mise run te)
-mise run test:coverage # Generate test coverage report (alias: mise run tc)
+mise run coverage     # Generate test coverage report (alias: mise run tc)
 ```
 
 ### API Mocking
@@ -383,6 +384,7 @@ test("shows error for invalid credentials", async ({ network, page }) => {
 ### Code Quality
 
 ```sh
+mise run fix          # Auto-fix all code quality issues (alias: mise run x)
 mise run lint         # Run ESLint (alias: mise run l)
 mise run stylelint    # Run stylelint (alias: mise run sl)
 mise run typecheck    # Run TypeScript type checking (alias: mise run tt)
@@ -403,6 +405,10 @@ mise run release         # Create a new release
 mise run steiger:fix     # Run Steiger with auto-fix (alias: mise run sf)
 mise run storybook       # Start Storybook dev server (alias: mise run sb)
 mise run storybook:build # Build Storybook static site (alias: mise run sbb)
+mise run coverage:all    # Run all tests with coverage and merge (alias: mise run tca)
+mise run coverage:e2e    # Run E2E tests with coverage (alias: mise run tec)
+mise run coverage:merge  # Merge coverage reports (alias: mise run tcm)
+mise run coverage:serve  # Serve coverage report (alias: mise run tcs)
 mise run depcruise       # Check for circular dependencies (alias: mise run dc)
 mise run test:e2e:ui     # Run E2E tests in UI mode (alias: mise run teu)
 mise run test:storybook  # Run Storybook component tests (alias: mise run tsb)
