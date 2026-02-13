@@ -1,5 +1,6 @@
 import { LogoutPage } from "@/pages/logout";
 import { generateMeta } from "@/shared/lib/seo";
+import { RouteErrorFallback } from "@/shared/ui/error-boundary";
 
 export function meta() {
   return generateMeta({
@@ -8,5 +9,7 @@ export function meta() {
     noIndex: true,
   });
 }
+
+export const ErrorBoundary = RouteErrorFallback;
 
 export default LogoutPage;

@@ -1,5 +1,6 @@
 import { useSyncExternalStore } from "react";
 
+/* v8 ignore next 3 -- No-op unsubscribe callback, never invoked during render */
 function noop() {
   // Intentionally empty - used as a stable no-op callback reference
 }

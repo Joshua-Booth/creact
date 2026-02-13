@@ -59,7 +59,11 @@ export default {
     },
   },
   errors: {
+    goHome: "Go home",
     notFoundDescription: "Sorry, the page you are looking for does not exist.",
+    routeError: "Something went wrong",
+    routeErrorDescription:
+      "An unexpected error occurred. Please try navigating back home.",
   },
   language: {
     select: "Select language",

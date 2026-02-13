@@ -4,6 +4,7 @@ import {
   getLocaleFromMatches,
   getSeoTranslation,
 } from "@/shared/lib/seo";
+import { RouteErrorFallback } from "@/shared/ui/error-boundary";
 
 import type { Route } from "./+types/login";
 
@@ -17,6 +18,8 @@ export function meta({ matches }: Route.MetaArgs) {
     noIndex: true,
   });
 }
+
+export const ErrorBoundary = RouteErrorFallback;
 
 export default LoginPage;
 

@@ -2,16 +2,21 @@ import { useEffect } from "react";
 import {
   data,
   href,
+  isRouteErrorResponse,
+  Link,
   Links,
   Meta,
   Outlet,
   Scripts,
   ScrollRestoration,
   useLocation,
+  useRouteError,
   useRouteLoaderData,
 } from "react-router";
 import { useTranslation } from "react-i18next";
 
+import * as Sentry from "@sentry/react";
+import { AlertTriangle, Home } from "lucide-react";
 import {
   PreventFlashOnWrongTheme,
   ThemeProvider,
@@ -26,8 +31,17 @@ import {
   generateOrganizationJsonLd,
   generateWebSiteJsonLd,
 } from "@/shared/lib/seo";
+import { buttonVariants } from "@/shared/ui/button";
 import { DirectionProvider } from "@/shared/ui/direction";
-import { ErrorBoundary } from "@/shared/ui/error-boundary";
+import {
+  Empty,
+  EmptyContent,
+  EmptyDescription,
+  EmptyHeader,
+  EmptyMedia,
+  EmptyTitle,
+} from "@/shared/ui/empty";
+import { ErrorBoundary as ReactErrorBoundary } from "@/shared/ui/error-boundary";
 import { JsonLd } from "@/shared/ui/json-ld";
 import { ToastProvider } from "@/shared/ui/toast";
 
@@ -151,6 +165,44 @@ export function Layout({ children }: { children: React.ReactNode }) {
 }
 /* v8 ignore stop */
 
+/* v8 ignore start -- Root error boundary: last-resort catch-all for unhandled route errors */
+export function ErrorBoundary() {
+  const { t } = useTranslation();
+  const error = useRouteError();
+
+  if (!isRouteErrorResponse(error)) {
+    Sentry.captureException(error);
+  }
+
+  const isRouteError = isRouteErrorResponse(error);
+
+  return (
+    <Empty className="min-h-100">
+      <EmptyHeader>
+        <EmptyMedia
+          variant="icon"
+          className="bg-destructive/10 text-destructive rounded-full"
+        >
+          <AlertTriangle />
+        </EmptyMedia>
+        <EmptyTitle>
+          {isRouteError
+            ? `${error.status}: ${error.statusText}`
+            : t("errors.routeError")}
+        </EmptyTitle>
+        <EmptyDescription>{t("errors.routeErrorDescription")}</EmptyDescription>
+      </EmptyHeader>
+      <EmptyContent>
+        <Link to="/" className={buttonVariants({ variant: "outline" })}>
+          <Home />
+          {t("errors.goHome")}
+        </Link>
+      </EmptyContent>
+    </Empty>
+  );
+}
+/* v8 ignore stop */
+
 export function HydrateFallback() {
   return (
     <div className="flex min-h-screen items-center justify-center">
@@ -190,14 +242,14 @@ export default function Root({ loaderData: { locale } }: Route.ComponentProps) {
 
   return (
     <SWRProvider>
-      <ErrorBoundary>
+      <ReactErrorBoundary>
         {/* v8 ignore start -- hydrated is always true in stories */}
         <div id="app" data-hydrated={hydrated || undefined}>
           {/* v8 ignore stop */}
           {!AUTH_ROUTES.has(pathname) && <Header />}
           <Outlet />
         </div>
-      </ErrorBoundary>
+      </ReactErrorBoundary>
     </SWRProvider>
   );
 }
