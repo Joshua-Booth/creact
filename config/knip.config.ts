@@ -80,7 +80,7 @@ const config: KnipConfig = {
 
   // Linting & formatting
   eslint: {
-    config: ["config/eslint.config.js"],
+    config: ["config/eslint.config.ts"],
   },
 
   prettier: {

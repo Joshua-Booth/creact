@@ -118,6 +118,7 @@
     "eslint-plugin-zod": "^3.1.0",
     "globals": "^17.3.0",
     "husky": "^9.1.7",
+    "jiti": "^2.6.1",
     "knip": "^5.83.1",
     "lint-staged": "^16.2.7",
     "monocart-coverage-reports": "^2.12.9",

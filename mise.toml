@@ -23,7 +23,7 @@ port = "8080"
 api_port = "8000"
 
 # Config paths
-eslint_config = "./config/eslint.config.js"
+eslint_config = "./config/eslint.config.ts"
 prettier_config = "./config/.prettierrc"
 prettier_ignore = "./config/.prettierignore"
 stylelint_config = "./config/.stylelintrc.json"
