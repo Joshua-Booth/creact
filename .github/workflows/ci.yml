@@ -65,7 +65,7 @@ jobs:
         run: mise run typecheck
 
   test:
-    name: Unit Tests
+    name: Unit & Storybook Tests
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v6
@@ -77,13 +77,16 @@ jobs:
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
 
-      - name: Run unit tests with coverage
-        run: mise run coverage -- --project unit --reporter=github-actions
+      - name: Install Playwright browsers
+        run: pnpm exec playwright install --with-deps chromium
+
+      - name: Run unit and Storybook tests with coverage
+        run: mise run coverage -- --reporter=github-actions
 
       - uses: actions/upload-artifact@v6
         if: ${{ !cancelled() }}
         with:
-          name: coverage-unit
+          name: coverage-vitest
           path: coverage/vitest/
           retention-days: 7
           if-no-files-found: ignore
@@ -237,38 +240,11 @@ jobs:
       - name: Build application
         run: mise run build
 
-  test-storybook:
-    name: Storybook Tests
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v6
-
-      - uses: jdx/mise-action@v3
-        with:
-          experimental: true
-
-      - name: Install dependencies
-        run: pnpm install --frozen-lockfile
-
-      - name: Install Playwright browsers
-        run: pnpm exec playwright install --with-deps chromium
-
-      - name: Run Storybook tests with coverage
-        run: mise run coverage -- --project storybook --coverage.reportsDirectory coverage/storybook --reporter=github-actions
-
-      - uses: actions/upload-artifact@v6
-        if: ${{ !cancelled() }}
-        with:
-          name: coverage-storybook
-          path: coverage/storybook/
-          retention-days: 7
-          if-no-files-found: ignore
-
   coverage-merge:
     name: Merge Coverage Reports
     runs-on: ubuntu-latest
-    needs: [test, test-storybook, test-e2e]
-    if: ${{ !cancelled() && (needs.test.result == 'success' || needs.test-storybook.result == 'success' || needs.test-e2e.result == 'success') }}
+    needs: [test, test-e2e]
+    if: ${{ !cancelled() && (needs.test.result == 'success' || needs.test-e2e.result == 'success') }}
     steps:
       - uses: actions/checkout@v6
 
@@ -281,14 +257,8 @@ jobs:
 
       - uses: actions/download-artifact@v6
         with:
-          name: coverage-unit
-          path: coverage/unit/
-        continue-on-error: true
-
-      - uses: actions/download-artifact@v6
-        with:
-          name: coverage-storybook
-          path: coverage/storybook/
+          name: coverage-vitest
+          path: coverage/vitest/
         continue-on-error: true
 
       - uses: actions/download-artifact@v6
