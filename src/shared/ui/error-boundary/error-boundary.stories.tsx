@@ -1,5 +1,6 @@
 import { useState } from "react";
 
+import { withI18n } from "@/storybook/decorators/with-i18n";
 import preview from "@/storybook/preview";
 import { AlertTriangle, RefreshCw, WifiOff } from "lucide-react";
 import { expect, userEvent, within } from "storybook/test";
@@ -106,6 +107,7 @@ function CustomFallbackDemo() {
 const meta = preview.meta({
   title: "ui/ErrorBoundary",
   component: ErrorBoundary,
+  decorators: [withI18n],
   parameters: {
     layout: "centered",
   },

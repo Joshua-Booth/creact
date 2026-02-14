@@ -1,10 +1,19 @@
 import { Component } from "react";
+import { useTranslation } from "react-i18next";
 
 import type { ErrorInfo, ReactNode } from "react";
 import * as Sentry from "@sentry/react";
 import { AlertTriangle, RefreshCw } from "lucide-react";
 
 import { Button } from "../button";
+import {
+  Empty,
+  EmptyContent,
+  EmptyDescription,
+  EmptyHeader,
+  EmptyMedia,
+  EmptyTitle,
+} from "../empty";
 
 interface ErrorBoundaryProps {
   children: ReactNode;
@@ -67,24 +76,28 @@ interface ErrorFallbackProps {
 
 /** Default fallback UI rendered when the ErrorBoundary catches an error. */
 function ErrorFallback({ onReset }: ErrorFallbackProps) {
+  const { t } = useTranslation();
+
   return (
-    <div className="flex min-h-[400px] flex-col items-center justify-center p-8">
-      <div className="flex flex-col items-center gap-4 text-center">
-        <div className="bg-destructive/10 rounded-full p-4">
-          <AlertTriangle className="text-destructive size-8" />
-        </div>
-        <div className="space-y-2">
-          <h2 className="text-xl font-semibold">Something went wrong</h2>
-          <p className="text-muted-foreground max-w-md">
-            An unexpected error occurred. Our team has been notified and is
-            working on a fix.
-          </p>
-        </div>
-        <Button onClick={onReset} variant="outline" className="mt-4">
-          <RefreshCw className="mr-2 size-4" />
-          Try again
+    <Empty className="min-h-100">
+      <EmptyHeader>
+        <EmptyMedia
+          variant="icon"
+          className="bg-destructive/10 text-destructive rounded-full"
+        >
+          <AlertTriangle />
+        </EmptyMedia>
+        <EmptyTitle>{t("errors.boundaryError")}</EmptyTitle>
+        <EmptyDescription>
+          {t("errors.boundaryErrorDescription")}
+        </EmptyDescription>
+      </EmptyHeader>
+      <EmptyContent>
+        <Button onClick={onReset} variant="outline">
+          <RefreshCw />
+          {t("errors.tryAgain")}
         </Button>
-      </div>
-    </div>
+      </EmptyContent>
+    </Empty>
   );
 }
