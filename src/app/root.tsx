@@ -17,6 +17,7 @@ import { useTranslation } from "react-i18next";
 
 import * as Sentry from "@sentry/react";
 import { AlertTriangle, Home } from "lucide-react";
+import { NuqsAdapter } from "nuqs/adapters/react-router/v7";
 import {
   PreventFlashOnWrongTheme,
   ThemeProvider,
@@ -241,15 +242,17 @@ export default function Root({ loaderData: { locale } }: Route.ComponentProps) {
   /* v8 ignore stop */
 
   return (
-    <SWRProvider>
-      <ReactErrorBoundary>
-        {/* v8 ignore start -- hydrated is always true in stories */}
-        <div id="app" data-hydrated={hydrated || undefined}>
-          {/* v8 ignore stop */}
-          {!AUTH_ROUTES.has(pathname) && <Header />}
-          <Outlet />
-        </div>
-      </ReactErrorBoundary>
-    </SWRProvider>
+    <NuqsAdapter>
+      <SWRProvider>
+        <ReactErrorBoundary>
+          {/* v8 ignore start -- hydrated is always true in stories */}
+          <div id="app" data-hydrated={hydrated || undefined}>
+            {/* v8 ignore stop */}
+            {!AUTH_ROUTES.has(pathname) && <Header />}
+            <Outlet />
+          </div>
+        </ReactErrorBoundary>
+      </SWRProvider>
+    </NuqsAdapter>
   );
 }
