@@ -33,7 +33,7 @@ export class ErrorBoundary extends Component<
     return { hasError: true, error };
   }
 
-  componentDidCatch(error: Error, errorInfo: ErrorInfo): void {
+  override componentDidCatch(error: Error, errorInfo: ErrorInfo): void {
     Sentry.captureException(error, {
       extra: {
         componentStack: errorInfo.componentStack,
@@ -48,7 +48,7 @@ export class ErrorBoundary extends Component<
   /* v8 ignore stop */
 
   // eslint-disable-next-line sonarjs/function-return-type -- Error boundaries need conditional rendering by design
-  render(): ReactNode {
+  override render(): ReactNode {
     if (this.state.hasError) {
       if (this.props.fallback != null) {
         return this.props.fallback;

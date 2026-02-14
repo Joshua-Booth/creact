@@ -64,6 +64,7 @@ export default defineConfig([
   promise.configs["flat/recommended"],
 
   // Code quality / smells
+  // @ts-expect-error -- configs is typed as possibly undefined
   sonarjs.configs.recommended,
 
   // Security
@@ -102,6 +103,7 @@ export default defineConfig([
   },
 
   // Dependencies
+  // @ts-expect-error -- configs is typed as possibly undefined
   depend.configs["flat/recommended"],
 
   // Zod
