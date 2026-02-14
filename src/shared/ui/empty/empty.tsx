@@ -1,4 +1,6 @@
 import type { VariantProps } from "class-variance-authority";
+import { mergeProps } from "@base-ui/react/merge-props";
+import { useRender } from "@base-ui/react/use-render";
 import { cva } from "class-variance-authority";
 
 import { cn } from "@/shared/lib/utils";
@@ -67,15 +69,21 @@ function EmptyMedia({
   );
 }
 
-/** Primary heading text for an Empty state. */
-function EmptyTitle({ className, ...props }: React.ComponentProps<"div">) {
-  return (
-    <div
-      data-slot="empty-title"
-      className={cn("text-lg font-medium tracking-tight", className)}
-      {...props}
-    />
-  );
+/** Primary heading text for an Empty state. Supports `render` for polymorphic element. */
+function EmptyTitle({
+  className,
+  render,
+  ...props
+}: useRender.ComponentProps<"div">) {
+  return useRender({
+    defaultTagName: "div",
+    props: mergeProps<"div">(
+      { className: cn("text-lg font-medium tracking-tight", className) },
+      props
+    ),
+    render,
+    state: { slot: "empty-title" },
+  });
 }
 
 /** Secondary descriptive text for an Empty state. */

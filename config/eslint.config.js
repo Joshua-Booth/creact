@@ -50,6 +50,14 @@ export default defineConfig([
   reactYouMightNotNeedAnEffect.configs.recommended,
   // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access -- incomplete types in jsx-a11y
   jsxA11y.flatConfigs.recommended,
+  {
+    rules: {
+      // Disabled: Base UI's render prop pattern (`render={<h1 />}`) triggers false positives
+      // because ESLint can't see that useRender injects children at runtime.
+      // Runtime axe-core checks in Storybook (test: "error") catch real empty-heading violations.
+      "jsx-a11y/heading-has-content": "off",
+    },
+  },
 
   // Promise handling
   // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access -- incomplete types in eslint-plugin-promise

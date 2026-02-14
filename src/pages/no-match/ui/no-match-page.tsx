@@ -1,19 +1,42 @@
-import { isRouteErrorResponse, useRouteError } from "react-router";
+import { isRouteErrorResponse, Link, useRouteError } from "react-router";
 import { useTranslation } from "react-i18next";
+
+import { Home, SearchX } from "lucide-react";
+
+import { buttonVariants } from "@/shared/ui/button";
+import {
+  Empty,
+  EmptyContent,
+  EmptyDescription,
+  EmptyHeader,
+  EmptyMedia,
+  EmptyTitle,
+} from "@/shared/ui/empty";
 
 export function NoMatchPage() {
   const { t } = useTranslation();
   const error = useRouteError();
 
   return (
-    <main className="mx-2 mb-12 pb-2 text-center max-md:pb-6 max-sm:pb-2">
-      <h1 className="pb-1">{t("pages.notFound.heading")}</h1>
-      <p>{t("errors.notFoundDescription")}</p>
-      {isRouteErrorResponse(error) && (
-        <p>
-          {error.status}: {error.statusText}
-        </p>
-      )}
-    </main>
+    <Empty className="min-h-100">
+      <EmptyHeader>
+        <EmptyMedia variant="icon">
+          <SearchX />
+        </EmptyMedia>
+        <EmptyTitle render={<h1 />}>{t("pages.notFound.heading")}</EmptyTitle>
+        <EmptyDescription>{t("errors.notFoundDescription")}</EmptyDescription>
+        {isRouteErrorResponse(error) && (
+          <EmptyDescription>
+            {error.status}: {error.statusText}
+          </EmptyDescription>
+        )}
+      </EmptyHeader>
+      <EmptyContent>
+        <Link to="/" className={buttonVariants({ variant: "outline" })}>
+          <Home />
+          {t("errors.goHome")}
+        </Link>
+      </EmptyContent>
+    </Empty>
   );
 }
