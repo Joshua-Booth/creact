@@ -3,6 +3,7 @@ import type { ColumnDef } from "@tanstack/react-table";
 import { useMemo, useState } from "react";
 
 import preview from "@/storybook/preview";
+import { expect, userEvent, waitFor, within } from "storybook/test";
 
 import { useDataGrid } from "@/shared/lib/data-grid";
 
@@ -140,6 +141,124 @@ export const ReadOnly = meta.story({
   args: { readOnly: true },
   render: (args) => <DataGridDemo {...args} />,
 });
+
+// --- Test helpers ---
+
+function getFirstCellWrapper(canvasElement: HTMLElement): HTMLElement {
+  const wrapper = canvasElement.querySelector<HTMLElement>(
+    '[data-slot="grid-cell-wrapper"]'
+  );
+  if (!wrapper) throw new Error("Expected at least one grid cell wrapper");
+  return wrapper;
+}
+
+// --- Tests: Default ---
+
+Default.test(
+  "should render the grid with all rows",
+  async ({ canvasElement, step }) => {
+    const canvas = within(canvasElement);
+
+    await step("verify grid and rows render", async () => {
+      await expect(canvas.getByRole("grid")).toBeInTheDocument();
+      const rows = canvas.getAllByRole("row");
+      // 8 data rows + 1 header row + 1 add-row footer
+      await expect(rows).toHaveLength(10);
+    });
+  }
+);
+
+Default.test(
+  "should focus a cell on click",
+  async ({ canvasElement, step }) => {
+    await step("click a cell and verify focus", async () => {
+      const firstWrapper = getFirstCellWrapper(canvasElement);
+      await userEvent.click(firstWrapper);
+      await waitFor(async () => {
+        await expect(firstWrapper).toHaveAttribute("data-focused", "");
+      });
+    });
+  }
+);
+
+Default.test(
+  "should enter edit mode on double-click",
+  async ({ canvasElement, step }) => {
+    await step("double-click a text cell and verify editing", async () => {
+      const firstWrapper = getFirstCellWrapper(canvasElement);
+      // Double-click from unfocused triggers focus then editing
+      await userEvent.dblClick(firstWrapper);
+      await waitFor(async () => {
+        await expect(firstWrapper).toHaveAttribute("data-editing", "");
+      });
+    });
+  }
+);
+
+Default.test(
+  "should navigate cells with arrow keys",
+  async ({ canvasElement, step }) => {
+    await step("focus cell and press ArrowRight", async () => {
+      const firstWrapper = getFirstCellWrapper(canvasElement);
+      await userEvent.click(firstWrapper);
+      await waitFor(async () => {
+        await expect(firstWrapper).toHaveAttribute("data-focused", "");
+      });
+
+      await userEvent.keyboard("{ArrowRight}");
+      await waitFor(async () => {
+        await expect(firstWrapper).not.toHaveAttribute("data-focused", "");
+      });
+    });
+  }
+);
+
+Default.test("should toggle checkbox cell", async ({ canvasElement, step }) => {
+  const canvas = within(canvasElement);
+
+  await step("click checkbox cell and verify toggle", async () => {
+    const checkboxes = canvas.getAllByRole("checkbox", { name: /done/i });
+    const firstCheckbox = checkboxes[0];
+    if (!firstCheckbox) throw new Error("Expected at least one Done checkbox");
+    const wasChecked = firstCheckbox.ariaChecked === "true";
+    await userEvent.click(firstCheckbox);
+    await waitFor(async () => {
+      await (wasChecked
+        ? expect(firstCheckbox).not.toBeChecked()
+        : expect(firstCheckbox).toBeChecked());
+    });
+  });
+});
+
+// --- Tests: ReadOnly ---
+
+ReadOnly.test(
+  "should render the grid in read-only mode",
+  async ({ canvasElement, step }) => {
+    const canvas = within(canvasElement);
+
+    await step("verify grid renders with rows", async () => {
+      await expect(canvas.getByRole("grid")).toBeInTheDocument();
+      const rows = canvas.getAllByRole("row");
+      // 8 data rows + 1 header row
+      await expect(rows).toHaveLength(9);
+    });
+  }
+);
+
+ReadOnly.test(
+  "should not enter edit mode on double-click",
+  async ({ canvasElement, step }) => {
+    await step("double-click cell and verify no editing", async () => {
+      const firstWrapper = getFirstCellWrapper(canvasElement);
+      await userEvent.click(firstWrapper);
+      await userEvent.dblClick(firstWrapper);
+      await expect(firstWrapper).not.toHaveAttribute("data-editing");
+    });
+  }
+);
+
+// --- Demo component ---
 
 function DataGridDemo({ readOnly = false }: { readOnly?: boolean }) {
   const [data, setData] = useState(createSampleData);
