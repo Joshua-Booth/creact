@@ -157,8 +157,8 @@ export function DataGridCellWrapper<TData>({
   }, [tableMeta, isEditing]);
 
   return (
+    // eslint-disable-next-line jsx-a11y/no-static-element-interactions -- focus/interaction wrapper inside role="gridcell" parent; no ARIA role fits nested interactive content
     <div
-      role="button"
       data-slot="grid-cell-wrapper"
       data-editing={isEditing ? "" : undefined}
       data-focused={isFocused ? "" : undefined}

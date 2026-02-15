@@ -55,10 +55,10 @@ export function DataGridColumnHeader<TData, TValue>({
       ? column.columnDef.header
       : column.id);
 
-  /* eslint-disable @typescript-eslint/no-unnecessary-condition -- isResizingColumn can be false at runtime */
+   
   const isAnyColumnResizing =
-    table.getState().columnSizingInfo.isResizingColumn != null;
-  /* eslint-enable @typescript-eslint/no-unnecessary-condition -- end isResizingColumn check */
+    table.getState().columnSizingInfo.isResizingColumn !== false;
+   
 
   const cellVariant = column.columnDef.meta?.cell;
   const columnVariant = getColumnVariant(cellVariant?.variant);

@@ -202,7 +202,11 @@ export function DataTableDateFilter<TData>({
         )}
         {label}
       </PopoverTrigger>
-      <PopoverContent className="w-auto p-0" align="start">
+      <PopoverContent
+        className="w-auto p-0"
+        align="start"
+        aria-label={`Filter by ${title}`}
+      >
         {multiple ? (
           <Calendar
             // eslint-disable-next-line jsx-a11y/no-autofocus -- intentional focus management

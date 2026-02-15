@@ -55,7 +55,11 @@ export function DataTableViewOptions<TData>({
         <Settings2 className="text-muted-foreground" />
         View
       </PopoverTrigger>
-      <PopoverContent className="w-44 p-0" {...props}>
+      <PopoverContent
+        className="w-44 p-0"
+        aria-label="Toggle column visibility"
+        {...props}
+      >
         <Command>
           <CommandInput placeholder="Search columns..." />
           <CommandList>

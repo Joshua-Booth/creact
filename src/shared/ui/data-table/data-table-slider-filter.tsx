@@ -187,7 +187,11 @@ export function DataTableSliderFilter<TData>({
           </>
         )}
       </PopoverTrigger>
-      <PopoverContent align="start" className="flex w-auto flex-col gap-4">
+      <PopoverContent
+        align="start"
+        className="flex w-auto flex-col gap-4"
+        aria-label={`Filter by ${title}`}
+      >
         <div className="flex flex-col gap-3">
           <p
             className="leading-none font-medium peer-disabled:cursor-not-allowed
@@ -258,6 +262,7 @@ export function DataTableSliderFilter<TData>({
           </Label>
           <Slider
             id={`${id}-slider`}
+            aria-label={`${title} range`}
             min={min}
             max={max}
             step={step}

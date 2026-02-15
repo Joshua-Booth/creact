@@ -173,6 +173,7 @@ function DataGridKeyboardShortcutsImpl({
         <DialogClose
           render={
             <Button
+              aria-label="Close"
               variant="ghost"
               size="icon"
               className="absolute top-6 right-6 size-6"

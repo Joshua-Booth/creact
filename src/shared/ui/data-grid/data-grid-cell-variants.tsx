@@ -217,6 +217,7 @@ export function ShortTextCell<TData>({
     >
       <div
         role="textbox"
+        aria-label={cell.column.columnDef.meta?.label ?? columnId}
         data-slot="grid-cell-content"
         contentEditable={isEditing}
         tabIndex={-1}
@@ -403,6 +404,7 @@ export function LongTextCell<TData>({
         sideOffset={sideOffset}
         className="w-[400px] rounded-none p-0"
         initialFocus={initialFocus}
+        aria-label={`Edit ${cell.column.columnDef.meta?.label ?? columnId}`}
       >
         <Textarea
           placeholder="Enter text..."
@@ -775,6 +777,7 @@ export function UrlCell<TData>({
       ) : (
         <div
           role="textbox"
+          aria-label={cell.column.columnDef.meta?.label ?? columnId}
           data-slot="grid-cell-content"
           contentEditable={isEditing}
           tabIndex={-1}
@@ -876,6 +879,7 @@ export function CheckboxCell<TData>({
       onKeyDown={onWrapperKeyDown}
     >
       <Checkbox
+        aria-label={cell.column.columnDef.meta?.label ?? columnId}
         checked={value}
         onCheckedChange={onCheckedChange}
         disabled={readOnly}
@@ -1192,6 +1196,7 @@ export function MultiSelectCell<TData>({
             sideOffset={sideOffset}
             className="w-[300px] rounded-none p-0"
             initialFocus={initialFocus}
+            aria-label={`Select ${cell.column.columnDef.meta?.label ?? columnId}`}
           >
             <Command
               className="**:data-[slot=command-input-wrapper]:h-auto
@@ -1403,6 +1408,7 @@ export function DateCell<TData>({
             align="start"
             alignOffset={-8}
             className="w-auto p-0"
+            aria-label={`Select ${cell.column.columnDef.meta?.label ?? columnId}`}
           >
             <Calendar
               autoFocus
@@ -1968,6 +1974,7 @@ export function FileCell<TData>({
             sideOffset={sideOffset}
             className="w-[400px] rounded-none p-0"
             initialFocus={initialFocus}
+            aria-label={`Upload files for ${cell.column.columnDef.meta?.label ?? columnId}`}
           >
             <div className="flex flex-col gap-2 p-3">
               <span id={labelId} className="sr-only">

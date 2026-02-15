@@ -13,6 +13,7 @@ function Slider({
   value,
   min = 0,
   max = 100,
+  "aria-label": ariaLabel,
   ...props
 }: SliderPrimitive.Root.Props) {
   // eslint-disable-next-line sonarjs/function-return-type -- All returns are number arrays
@@ -58,6 +59,7 @@ function Slider({
           <SliderPrimitive.Thumb
             data-slot="slider-thumb"
             key={index}
+            aria-label={ariaLabel}
             className="border-primary ring-ring/50 block size-4 shrink-0
               rounded-full border bg-white shadow-sm
               transition-[color,box-shadow] select-none hover:ring-4

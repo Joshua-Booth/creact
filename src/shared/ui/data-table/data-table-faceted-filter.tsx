@@ -144,7 +144,11 @@ export function DataTableFacetedFilter<TData, TValue>({
           </>
         )}
       </PopoverTrigger>
-      <PopoverContent className="w-50 p-0" align="start">
+      <PopoverContent
+        className="w-50 p-0"
+        align="start"
+        aria-label={`Filter by ${title}`}
+      >
         <Command>
           <CommandInput placeholder={title} />
           <CommandList className="max-h-full">
