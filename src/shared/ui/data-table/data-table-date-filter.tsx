@@ -7,6 +7,7 @@ import { CalendarIcon, XCircle } from "lucide-react";
 
 import { formatDate } from "@/shared/lib/data-table";
 import { Button } from "@/shared/ui/button";
+import { ButtonGroup } from "@/shared/ui/button-group";
 import { Calendar } from "@/shared/ui/calendar";
 import { Popover, PopoverContent, PopoverTrigger } from "@/shared/ui/popover";
 import { Separator } from "@/shared/ui/separator";
@@ -106,8 +107,7 @@ export function DataTableDateFilter<TData>({
     }
   };
 
-  const onReset = (event: React.MouseEvent) => {
-    event.stopPropagation();
+  const onReset = () => {
     column.setFilterValue(undefined);
   };
 
@@ -137,7 +137,8 @@ export function DataTableDateFilter<TData>({
             <>
               <Separator
                 orientation="vertical"
-                className="mx-0.5 data-[orientation=vertical]:h-4"
+                className="mx-0.5 data-[orientation=vertical]:h-4
+                  data-[orientation=vertical]:self-center"
               />
               <span>{dateText}</span>
             </>
@@ -160,7 +161,8 @@ export function DataTableDateFilter<TData>({
           <>
             <Separator
               orientation="vertical"
-              className="mx-0.5 data-[orientation=vertical]:h-4"
+              className="mx-0.5 data-[orientation=vertical]:h-4
+                data-[orientation=vertical]:self-center"
             />
             <span>{dateText}</span>
           </>
@@ -171,37 +173,43 @@ export function DataTableDateFilter<TData>({
 
   return (
     <Popover>
-      <PopoverTrigger
-        render={
+      {hasValue ? (
+        <ButtonGroup>
           <Button
             variant="outline"
             size="sm"
-            className="border-dashed font-normal"
-          />
-        }
-      >
-        {hasValue ? (
-          <div
-            role="button"
+            className="border-dashed px-2"
             aria-label={`Clear ${title} filter`}
-            tabIndex={0}
             onClick={onReset}
-            onKeyDown={(event) => {
-              if (event.key === "Enter" || event.key === " ") {
-                onReset(event as unknown as React.MouseEvent);
-              }
-            }}
-            className="focus-visible:ring-ring rounded-sm opacity-70
-              transition-opacity hover:opacity-100 focus-visible:ring-1
-              focus-visible:outline-none"
           >
             <XCircle />
-          </div>
-        ) : (
+          </Button>
+          <PopoverTrigger
+            render={
+              <Button
+                variant="outline"
+                size="sm"
+                className="border-dashed font-normal"
+              />
+            }
+          >
+            {label}
+          </PopoverTrigger>
+        </ButtonGroup>
+      ) : (
+        <PopoverTrigger
+          render={
+            <Button
+              variant="outline"
+              size="sm"
+              className="border-dashed font-normal"
+            />
+          }
+        >
           <CalendarIcon />
-        )}
-        {label}
-      </PopoverTrigger>
+          {label}
+        </PopoverTrigger>
+      )}
       <PopoverContent
         className="w-auto p-0"
         align="start"

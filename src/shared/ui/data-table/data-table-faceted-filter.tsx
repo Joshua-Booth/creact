@@ -20,6 +20,8 @@ import {
 import { Popover, PopoverContent, PopoverTrigger } from "@/shared/ui/popover";
 import { Separator } from "@/shared/ui/separator";
 
+import { ButtonGroup } from "../button-group";
+
 interface DataTableFacetedFilterProps<TData, TValue> {
   column?: Column<TData, TValue>;
   title?: string;
@@ -67,51 +69,37 @@ export function DataTableFacetedFilter<TData, TValue>({
     [column, multiple, selectedValues]
   );
 
-  const onReset = useCallback(
-    (event?: React.MouseEvent) => {
-      event?.stopPropagation();
-      column?.setFilterValue(undefined);
-    },
-    [column]
-  );
+  const onReset = useCallback(() => {
+    column?.setFilterValue(undefined);
+  }, [column]);
 
   return (
     <Popover open={open} onOpenChange={setOpen}>
-      <PopoverTrigger
-        render={
+      {selectedValues.size > 0 ? (
+        <ButtonGroup>
           <Button
             variant="outline"
             size="sm"
-            className="border-dashed font-normal"
-          />
-        }
-      >
-        {selectedValues.size > 0 ? (
-          <div
-            role="button"
+            className="border-dashed px-2"
             aria-label={`Clear ${title} filter`}
-            tabIndex={0}
-            className="focus-visible:ring-ring rounded-sm opacity-70
-              transition-opacity hover:opacity-100 focus-visible:ring-1
-              focus-visible:outline-none"
             onClick={onReset}
-            onKeyDown={(event) => {
-              if (event.key === "Enter" || event.key === " ") {
-                onReset();
-              }
-            }}
           >
             <XCircle />
-          </div>
-        ) : (
-          <PlusCircle />
-        )}
-        {title}
-        {selectedValues.size > 0 && (
-          <>
+          </Button>
+          <PopoverTrigger
+            render={
+              <Button
+                variant="outline"
+                size="sm"
+                className="border-dashed font-normal"
+              />
+            }
+          >
+            {title}
             <Separator
               orientation="vertical"
-              className="mx-0.5 data-[orientation=vertical]:h-4"
+              className="mx-0.5 data-[orientation=vertical]:h-4
+                data-[orientation=vertical]:self-center"
             />
             <Badge
               variant="secondary"
@@ -141,9 +129,22 @@ export function DataTableFacetedFilter<TData, TValue>({
                   ))
               )}
             </div>
-          </>
-        )}
-      </PopoverTrigger>
+          </PopoverTrigger>
+        </ButtonGroup>
+      ) : (
+        <PopoverTrigger
+          render={
+            <Button
+              variant="outline"
+              size="sm"
+              className="border-dashed font-normal"
+            />
+          }
+        >
+          <PlusCircle />
+          {title}
+        </PopoverTrigger>
+      )}
       <PopoverContent
         className="w-50 p-0"
         align="start"

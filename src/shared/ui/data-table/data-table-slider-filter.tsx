@@ -6,6 +6,7 @@ import { PlusCircle, XCircle } from "lucide-react";
 
 import { cn } from "@/shared/lib/utils";
 import { Button } from "@/shared/ui/button";
+import { ButtonGroup } from "@/shared/ui/button-group";
 import { Input } from "@/shared/ui/input";
 import { Label } from "@/shared/ui/label";
 import { Popover, PopoverContent, PopoverTrigger } from "@/shared/ui/popover";
@@ -133,60 +134,57 @@ export function DataTableSliderFilter<TData>({
     [column]
   );
 
-  const onReset = useCallback(
-    (event: React.MouseEvent) => {
-      if (event.target instanceof HTMLDivElement) {
-        event.stopPropagation();
-      }
-      column.setFilterValue(undefined);
-    },
-    [column]
-  );
+  const onReset = useCallback(() => {
+    column.setFilterValue(undefined);
+  }, [column]);
 
   return (
     <Popover>
-      <PopoverTrigger
-        render={
+      {columnFilterValue == null ? (
+        <PopoverTrigger
+          render={
+            <Button
+              variant="outline"
+              size="sm"
+              className="border-dashed font-normal"
+            />
+          }
+        >
+          <PlusCircle />
+          <span>{title}</span>
+        </PopoverTrigger>
+      ) : (
+        <ButtonGroup>
           <Button
             variant="outline"
             size="sm"
-            className="border-dashed font-normal"
-          />
-        }
-      >
-        {columnFilterValue == null ? (
-          <PlusCircle />
-        ) : (
-          <div
-            role="button"
+            className="border-dashed px-2"
             aria-label={`Clear ${title} filter`}
-            tabIndex={0}
-            className="focus-visible:ring-ring rounded-sm opacity-70
-              transition-opacity hover:opacity-100 focus-visible:ring-1
-              focus-visible:outline-none"
             onClick={onReset}
-            onKeyDown={(event) => {
-              if (event.key === "Enter" || event.key === " ") {
-                onReset(event as unknown as React.MouseEvent);
-              }
-            }}
           >
             <XCircle />
-          </div>
-        )}
-        <span>{title}</span>
-        {columnFilterValue == null ? null : (
-          <>
+          </Button>
+          <PopoverTrigger
+            render={
+              <Button
+                variant="outline"
+                size="sm"
+                className="border-dashed font-normal"
+              />
+            }
+          >
+            <span>{title}</span>
             <Separator
               orientation="vertical"
-              className="mx-0.5 data-[orientation=vertical]:h-4"
+              className="mx-0.5 data-[orientation=vertical]:h-4
+                data-[orientation=vertical]:self-center"
             />
             {formatValue(columnFilterValue[0])} -{" "}
             {formatValue(columnFilterValue[1])}
             {unit ? ` ${unit}` : ""}
-          </>
-        )}
-      </PopoverTrigger>
+          </PopoverTrigger>
+        </ButtonGroup>
+      )}
       <PopoverContent
         align="start"
         className="flex w-auto flex-col gap-4"
