@@ -1399,9 +1399,9 @@ export function DateCell<TData>({
       readOnly={readOnly}
       onKeyDown={onWrapperKeyDown}
     >
-      <Popover open={isEditing} onOpenChange={onOpenChange}>
-        <span data-slot="grid-cell-content">{formatDateForDisplay(value)}</span>
-        {isEditing && (
+      <span data-slot="grid-cell-content">{formatDateForDisplay(value)}</span>
+      {isEditing && (
+        <Popover open onOpenChange={onOpenChange}>
           <PopoverContent
             data-grid-cell-editor=""
             anchor={containerRef}
@@ -1419,8 +1419,8 @@ export function DateCell<TData>({
               onSelect={onDateSelect}
             />
           </PopoverContent>
-        )}
-      </Popover>
+        </Popover>
+      )}
     </DataGridCellWrapper>
   );
 }
