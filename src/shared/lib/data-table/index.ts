@@ -1,3 +1,9 @@
+/**
+ * Ported from tablecn by Sadman Sakib
+ * https://github.com/sadmann7/tablecn
+ * MIT License - Copyright (c) 2024 Sadman Sakib
+ */
+
 export { dataTableConfig, type DataTableConfig } from "./config";
 export {
   getCommonPinningStyles,
