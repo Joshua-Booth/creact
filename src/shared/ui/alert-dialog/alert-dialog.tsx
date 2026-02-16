@@ -116,7 +116,7 @@ function AlertDialogFooter({
   );
 }
 
-/* v8 ignore start -- Optional media slot, not exercised in stories */
+/* istanbul ignore start -- Optional media slot, not exercised in stories */
 /** Optional media slot for icons or illustrations in the header. */
 function AlertDialogMedia({
   className,
@@ -135,7 +135,7 @@ function AlertDialogMedia({
     />
   );
 }
-/* v8 ignore stop */
+/* istanbul ignore end */
 
 /** Accessible heading for the alert dialog. */
 function AlertDialogTitle({

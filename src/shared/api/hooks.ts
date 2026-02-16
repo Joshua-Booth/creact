@@ -3,7 +3,7 @@ import useSWR from "swr";
 
 import type { ApiError } from "./client";
 
-/* v8 ignore start -- Thin SWR wrappers, tested transitively via component stories */
+/* istanbul ignore start -- Thin SWR wrappers, tested transitively via component stories */
 
 /**
  * SWR hook for API fetching.
@@ -35,6 +35,6 @@ export function useAuthenticatedApi<T>(
   return useSWR<T, ApiError>(token === null ? null : endpoint, options);
 }
 
-/* v8 ignore stop */
+/* istanbul ignore end */
 
 export { mutate } from "swr";

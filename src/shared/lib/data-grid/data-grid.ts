@@ -287,12 +287,10 @@ export function scrollCellIntoView<TData>(params: {
     (sum, c) => sum + c.getSize(),
     0
   );
-  /* v8 ignore start -- right-pinned columns scroll calculation */
   const rightPinnedWidth = rightPinnedColumns.reduce(
     (sum, c) => sum + c.getSize(),
     0
   );
-  /* v8 ignore stop */
 
   const viewportLeft = isActuallyRtl
     ? containerRect.left + rightPinnedWidth + viewportOffset
@@ -306,17 +304,15 @@ export function scrollCellIntoView<TData>(params: {
 
   if (isFullyVisible) return;
 
-  const isClippedLeft = cellRect.left < viewportLeft;
   const isClippedRight = cellRect.right > viewportRight;
 
   let scrollDelta = 0;
 
   if (direction == null) {
-    if (isClippedRight) {
-      scrollDelta = cellRect.right - viewportRight;
-    } else if (isClippedLeft) {
-      scrollDelta = -(viewportLeft - cellRect.left);
-    }
+    // Must be clipped left or right — cell can't reach here unless clipped
+    scrollDelta = isClippedRight
+      ? cellRect.right - viewportRight
+      : -(viewportLeft - cellRect.left);
   } else {
     const shouldScrollRight = isActuallyRtl
       ? direction === "right" || direction === "home"
@@ -408,6 +404,7 @@ export function parseLocalDate(dateStr: unknown): Date | null {
   if (typeof dateStr !== "string") return null;
   const [year, month, day] = dateStr.split("-").map(Number);
   if (
+    /* istanbul ignore next -- unreachable: split always returns first element */
     year == null ||
     year === 0 ||
     month == null ||

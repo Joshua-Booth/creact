@@ -21,7 +21,7 @@ export class ApiError extends Error {
  * Pre-configured ky HTTP client with token injection, 30s timeout,
  * and retry logic for transient server errors.
  */
-/* v8 ignore start -- ky instance config: browser-only, tested transitively via E2E */
+/* istanbul ignore start -- ky instance config: browser-only, tested transitively via E2E */
 export const api = ky.create({
   prefixUrl: import.meta.env.VITE_API_ROOT_URL ?? "",
   timeout: 30000,
@@ -37,4 +37,4 @@ export const api = ky.create({
     ],
   },
 });
-/* v8 ignore stop */
+/* istanbul ignore end */

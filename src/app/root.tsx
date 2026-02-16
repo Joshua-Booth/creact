@@ -58,7 +58,7 @@ import "@/app/styles/globals.css";
 
 export const middleware = [i18nextMiddleware];
 
-/* v8 ignore start -- Server-only: meta/loader use session resolvers and cookies */
+/* istanbul ignore start -- Server-only: meta/loader use session resolvers and cookies */
 export function meta() {
   return generateMeta({
     title: "creact",
@@ -76,12 +76,12 @@ export async function loader({ request, context }: Route.LoaderArgs) {
     { headers: { "Set-Cookie": await localeCookie.serialize(locale) } }
   );
 }
-/* v8 ignore stop */
+/* istanbul ignore end */
 
 /** Root loader data type for use in child route meta functions */
 export type RootLoaderData = Awaited<ReturnType<typeof loader>>["data"];
 
-/* v8 ignore start -- Document shell: renders <html>, cannot be nested in Storybook */
+/* istanbul ignore start -- Document shell: renders <html>, cannot be nested in Storybook */
 function InnerLayout({
   children,
   ssrTheme,
@@ -164,9 +164,9 @@ export function Layout({ children }: { children: React.ReactNode }) {
     </ThemeProvider>
   );
 }
-/* v8 ignore stop */
+/* istanbul ignore end */
 
-/* v8 ignore start -- Root error boundary: last-resort catch-all for unhandled route errors */
+/* istanbul ignore start -- Root error boundary: last-resort catch-all for unhandled route errors */
 export function ErrorBoundary() {
   const { t } = useTranslation();
   const error = useRouteError();
@@ -202,7 +202,7 @@ export function ErrorBoundary() {
     </Empty>
   );
 }
-/* v8 ignore stop */
+/* istanbul ignore end */
 
 export function HydrateFallback() {
   return (
@@ -235,19 +235,19 @@ export default function Root({ loaderData: { locale } }: Route.ComponentProps) {
   const { pathname } = useLocation();
 
   // Sync client-side i18n with server-detected locale
-  /* v8 ignore start -- Locale sync only triggers when server locale differs from client */
+  /* istanbul ignore start -- Locale sync only triggers when server locale differs from client */
   useEffect(() => {
     if (i18n.language !== locale) void i18n.changeLanguage(locale);
   }, [locale, i18n]);
-  /* v8 ignore stop */
+  /* istanbul ignore end */
 
   return (
     <NuqsAdapter>
       <SWRProvider>
         <ReactErrorBoundary>
-          {/* v8 ignore start -- hydrated is always true in stories */}
+          {/* istanbul ignore start -- hydrated is always true in stories */}
           <div id="app" data-hydrated={hydrated || undefined}>
-            {/* v8 ignore stop */}
+            {/* istanbul ignore end */}
             {!AUTH_ROUTES.has(pathname) && <Header />}
             <Outlet />
           </div>

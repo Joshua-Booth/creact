@@ -19,11 +19,11 @@ import { DataGridSearch } from "./data-grid-search";
 
 const EMPTY_CELL_SELECTION_SET = new Set<string>();
 
-/* v8 ignore start -- browser-only context menu prevention */
+/* istanbul ignore start -- browser-only context menu prevention */
 function onDataGridContextMenu(event: React.MouseEvent<HTMLDivElement>) {
   event.preventDefault();
 }
-/* v8 ignore stop */
+/* istanbul ignore end */
 
 interface DataGridProps<TData>
   extends
@@ -65,7 +65,7 @@ export function DataGrid<TData>({
   ...props
 }: DataGridProps<TData>) {
   const rows = table.getRowModel().rows;
-  /* v8 ignore next */
+  /* istanbul ignore next */
   const readOnly = tableMeta.readOnly ?? false;
   const columnVisibility = table.getState().columnVisibility;
   const columnPinning = table.getState().columnPinning;
@@ -79,7 +79,7 @@ export function DataGrid<TData>({
     [onRowAddRef]
   );
 
-  /* v8 ignore start -- browser-only callback tested via Storybook */
+  /* istanbul ignore start -- browser-only callback tested via Storybook */
   const onFooterCellKeyDown = useCallback(
     (event: React.KeyboardEvent<HTMLDivElement>) => {
       if (!onRowAddRef.current) return;
@@ -91,7 +91,7 @@ export function DataGrid<TData>({
     },
     [onRowAddRef]
   );
-  /* v8 ignore stop */
+  /* istanbul ignore end */
 
   return (
     <div
@@ -140,11 +140,11 @@ export function DataGrid<TData>({
             >
               {headerGroup.headers.map((header, colIndex) => {
                 const sorting = table.getState().sorting;
-                /* v8 ignore start -- browser-only callback tested via Storybook */
+                /* istanbul ignore start -- browser-only callback tested via Storybook */
                 const currentSort = sorting.find(
                   (sort) => sort.id === header.column.id
                 );
-                /* v8 ignore stop */
+                /* istanbul ignore end */
                 const isSortable = header.column.getCanSort();
 
                 const nextHeader = headerGroup.headers[colIndex + 1];
@@ -163,7 +163,7 @@ export function DataGrid<TData>({
                   | "descending"
                   | "none"
                   | undefined;
-                /* v8 ignore start -- browser-only callback tested via Storybook */
+                /* istanbul ignore start -- browser-only callback tested via Storybook */
                 if (currentSort?.desc === false) {
                   ariaSortValue = "ascending";
                 } else if (currentSort?.desc === true) {
@@ -171,9 +171,9 @@ export function DataGrid<TData>({
                 } else {
                   ariaSortValue = isSortable ? "none" : undefined;
                 }
-                /* v8 ignore stop */
+                /* istanbul ignore end */
 
-                /* v8 ignore start -- browser-only header rendering */
+                /* istanbul ignore start -- browser-only header rendering */
                 let headerContent: React.ReactNode = null;
                 if (!header.isPlaceholder) {
                   headerContent =
@@ -212,7 +212,7 @@ export function DataGrid<TData>({
                     {headerContent}
                   </div>
                 );
-                /* v8 ignore stop */
+                /* istanbul ignore end */
               })}
             </div>
           ))}
@@ -223,15 +223,15 @@ export function DataGrid<TData>({
           className="relative grid"
           style={{
             height: `${virtualTotalSize}px`,
-            /* v8 ignore next */
+            /* istanbul ignore next */
             contain: adjustLayout ? "layout paint" : "strict",
           }}
         >
           {virtualItems.map((virtualItem) => {
             const row = rows[virtualItem.index];
-            /* v8 ignore start -- defensive guard */
+            /* istanbul ignore start -- defensive guard */
             if (!row) return null;
-            /* v8 ignore stop */
+            /* istanbul ignore end */
 
             const cellSelectionKeys =
               cellSelectionMap?.get(virtualItem.index) ??

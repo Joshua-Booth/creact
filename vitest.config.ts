@@ -4,7 +4,7 @@ export default defineConfig({
   test: {
     projects: ["./config/vitest.config.ts", "./.storybook/vitest.config.ts"],
     coverage: {
-      provider: "v8",
+      provider: "istanbul",
       reportsDirectory: "coverage/vitest",
       include: ["src/**/*.{ts,tsx}"],
       exclude: [

@@ -75,10 +75,10 @@ function ToggleGroupItem({
   return (
     <TogglePrimitive
       data-slot="toggle-group-item"
-      /* v8 ignore start -- Context always provides variant/size in stories */
+      /* istanbul ignore start -- Context always provides variant/size in stories */
       data-variant={context.variant ?? variant}
       data-size={context.size ?? size}
-      /* v8 ignore stop */
+      /* istanbul ignore end */
       data-spacing={context.spacing}
       className={cn(
         `data-[state=on]:bg-muted shrink-0
@@ -94,7 +94,7 @@ function ToggleGroupItem({
         group-data-vertical/toggle-group:data-[spacing=0]:data-[variant=outline]:border-t-0
         group-data-horizontal/toggle-group:data-[spacing=0]:data-[variant=outline]:first:border-l
         group-data-vertical/toggle-group:data-[spacing=0]:data-[variant=outline]:first:border-t`,
-        /* v8 ignore next 4 -- Context always provides variant/size in stories */
+        /* istanbul ignore next 4 -- Context always provides variant/size in stories */
         toggleVariants({
           variant: context.variant ?? variant,
           size: context.size ?? size,

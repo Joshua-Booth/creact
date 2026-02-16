@@ -4,7 +4,7 @@ interface ToastProviderProps {
   children: React.ReactNode;
 }
 
-/* v8 ignore start -- Thin provider wrapper, mounted once at root */
+/* istanbul ignore start -- Thin provider wrapper, mounted once at root */
 /** Provider that enables toast notifications app-wide. Mount once at the root of your application inside `ThemeProvider`. */
 function ToastProvider({ children }: ToastProviderProps) {
   return (
@@ -14,6 +14,6 @@ function ToastProvider({ children }: ToastProviderProps) {
     </>
   );
 }
-/* v8 ignore stop */
+/* istanbul ignore end */
 
 export { ToastProvider };

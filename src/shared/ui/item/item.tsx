@@ -214,7 +214,7 @@ function ItemHeader({ className, ...props }: React.ComponentProps<"div">) {
   );
 }
 
-/* v8 ignore start -- Thin layout wrapper, tested transitively */
+/* istanbul ignore start -- Thin layout wrapper, tested transitively */
 /** Full-width footer row spanning the bottom of an item. */
 function ItemFooter({ className, ...props }: React.ComponentProps<"div">) {
   return (
@@ -228,7 +228,7 @@ function ItemFooter({ className, ...props }: React.ComponentProps<"div">) {
     />
   );
 }
-/* v8 ignore stop */
+/* istanbul ignore end */
 
 export {
   Item,

@@ -1,6 +1,6 @@
 import { useSyncExternalStore } from "react";
 
-/* v8 ignore next 3 -- No-op unsubscribe callback, never invoked during render */
+/* istanbul ignore next 3 -- No-op unsubscribe callback, never invoked during render */
 function noop() {
   // Intentionally empty - used as a stable no-op callback reference
 }
@@ -19,7 +19,7 @@ export function useHydrated(): boolean {
   return useSyncExternalStore(
     emptySubscribe,
     () => true,
-    /* v8 ignore next -- SSR-only snapshot, never called in browser tests */
+    /* istanbul ignore next -- SSR-only snapshot, never called in browser tests */
     () => false
   );
 }

@@ -8,7 +8,7 @@ import { useDebouncedCallback } from "@/shared/lib/data-table/use-debounced-call
 import { Button } from "@/shared/ui/button";
 import { Input } from "@/shared/ui/input";
 
-/* v8 ignore start -- pointer capture handling for search button focus management */
+/* istanbul ignore start -- pointer capture handling for search button focus management */
 function onTriggerPointerDown(event: React.PointerEvent<HTMLButtonElement>) {
   const target = event.target;
   if (!(target instanceof HTMLElement)) return;
@@ -25,10 +25,10 @@ function onTriggerPointerDown(event: React.PointerEvent<HTMLButtonElement>) {
     event.preventDefault();
   }
 }
-/* v8 ignore stop */
+/* istanbul ignore end */
 
 /** Memoized search overlay with debounced search and match navigation. */
-/* v8 ignore start -- memo comparator is a performance optimization */
+/* istanbul ignore start -- memo comparator is a performance optimization */
 export const DataGridSearch = memo(DataGridSearchImpl, (prev, next) => {
   if (prev.searchOpen !== next.searchOpen) return false;
   if (!next.searchOpen) return true;
@@ -58,7 +58,7 @@ export const DataGridSearch = memo(DataGridSearchImpl, (prev, next) => {
 
   return true;
 });
-/* v8 ignore stop */
+/* istanbul ignore end */
 
 function DataGridSearchImpl({
   searchMatches,
@@ -92,14 +92,14 @@ function DataGridSearchImpl({
   useEffect(() => {
     if (!searchOpen) return;
 
-    /* v8 ignore start -- browser-only callback tested via Storybook */
+    /* istanbul ignore start -- browser-only callback tested via Storybook */
     function onEscape(event: KeyboardEvent) {
       if (event.key === "Escape") {
         event.preventDefault();
         propsRef.current.onSearchOpenChange(false);
       }
     }
-    /* v8 ignore stop */
+    /* istanbul ignore end */
 
     document.addEventListener("keydown", onEscape);
     return () => document.removeEventListener("keydown", onEscape);
@@ -138,7 +138,7 @@ function DataGridSearchImpl({
     propsRef.current.onSearchOpenChange(false);
   }, [propsRef]);
 
-  /* v8 ignore start -- browser-only callback tested via Storybook */
+  /* istanbul ignore start -- browser-only callback tested via Storybook */
   const onPrevMatch = useCallback(() => {
     propsRef.current.onNavigateToPrevMatch();
   }, [propsRef]);
@@ -146,7 +146,7 @@ function DataGridSearchImpl({
   const onNextMatch = useCallback(() => {
     propsRef.current.onNavigateToNextMatch();
   }, [propsRef]);
-  /* v8 ignore stop */
+  /* istanbul ignore end */
 
   if (!searchOpen) return null;
 

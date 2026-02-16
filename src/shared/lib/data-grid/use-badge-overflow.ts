@@ -112,7 +112,7 @@ export function useBadgeOverflow<T>({
   const [containerWidth, setContainerWidth] = useState(0);
 
   useEffect(() => {
-    /* v8 ignore next */
+    /* istanbul ignore next */
     if (!containerRef.current) return;
 
     function measureWidth() {
@@ -195,9 +195,9 @@ export function useBadgeOverflow<T>({
   return result;
 }
 
-/* v8 ignore start -- utility function for external cache clearing */
+/* istanbul ignore start -- utility function for external cache clearing */
 /** Clear the badge width measurement cache. */
 export function clearBadgeWidthCache(): void {
   badgeWidthCache.clear();
 }
-/* v8 ignore stop */
+/* istanbul ignore end */

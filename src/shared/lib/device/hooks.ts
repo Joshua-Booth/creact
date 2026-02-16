@@ -45,11 +45,11 @@ export function useDevice(): DeviceState {
       `(min-width: ${BREAKPOINTS.MOBILE}px) and (max-width: ${BREAKPOINTS.TABLET - 1}px)`
     );
 
-    /* v8 ignore start -- matchMedia change handler only fires on real viewport resize */
+    /* istanbul ignore start -- matchMedia change handler only fires on real viewport resize */
     const onChange = () => {
       setState(getDeviceState(window.innerWidth));
     };
-    /* v8 ignore stop */
+    /* istanbul ignore end */
 
     mqlMobile.addEventListener("change", onChange);
     mqlTablet.addEventListener("change", onChange);

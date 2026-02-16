@@ -32,7 +32,7 @@ export function ModeToggle() {
           </Button>
         }
       />
-      {/* v8 ignore start -- Theme setters require remix-themes session context */}
+      {/* istanbul ignore start -- Theme setters require remix-themes session context */}
       <DropdownMenuContent align="end">
         <DropdownMenuItem onClick={() => setTheme(Theme.LIGHT)}>
           Light
@@ -44,7 +44,7 @@ export function ModeToggle() {
           System
         </DropdownMenuItem>
       </DropdownMenuContent>
-      {/* v8 ignore stop */}
+      {/* istanbul ignore end */}
     </DropdownMenu>
   );
 }

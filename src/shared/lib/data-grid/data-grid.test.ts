@@ -1,5 +1,6 @@
 import type { Column, Table } from "@tanstack/react-table";
 
+import type React from "react";
 import { describe, expect, it, vi } from "vitest";
 
 import {
@@ -39,6 +40,10 @@ describe("getCellKey / parseCellKey", () => {
     expect(parseCellKey("invalid")).toEqual({ rowIndex: 0, columnId: "" });
     expect(parseCellKey("")).toEqual({ rowIndex: 0, columnId: "" });
     expect(parseCellKey("abc:")).toEqual({ rowIndex: 0, columnId: "" });
+  });
+
+  it("should return default when row index is NaN", () => {
+    expect(parseCellKey("abc:title")).toEqual({ rowIndex: 0, columnId: "" });
   });
 });
 
@@ -135,6 +140,23 @@ describe("parseLocalDate", () => {
     expect(parseLocalDate("2026-00-15")).toBeNull();
     expect(parseLocalDate("2026-13-01")).toBeNull();
     expect(parseLocalDate("2026-02-30")).toBeNull();
+  });
+
+  it("should return null for string with missing parts", () => {
+    expect(parseLocalDate("2026")).toBeNull();
+    expect(parseLocalDate("2026-01")).toBeNull();
+  });
+
+  it("should return null when year is zero", () => {
+    expect(parseLocalDate("0-01-01")).toBeNull();
+  });
+
+  it("should return null when day is zero", () => {
+    expect(parseLocalDate("2026-01-00")).toBeNull();
+  });
+
+  it("should return null for empty string", () => {
+    expect(parseLocalDate("")).toBeNull();
   });
 });
 
@@ -499,6 +521,12 @@ describe("getColumnPinningStyle", () => {
     expect(style.left).toBeUndefined();
   });
 
+  it("should not add box shadow for middle pinned column with border", () => {
+    const col = mockPinColumn({ isPinned: "left", isLastLeft: false });
+    const style = getColumnPinningStyle({ column: col, withBorder: true });
+    expect(style.boxShadow).toBeUndefined();
+  });
+
   it("should add box shadow for last left-pinned column with border", () => {
     const col = mockPinColumn({ isPinned: "left", isLastLeft: true });
     const style = getColumnPinningStyle({ column: col, withBorder: true });
@@ -794,6 +822,49 @@ describe("scrollCellIntoView", () => {
     expect(container.scrollLeft).toBe(-20);
   });
 
+  it("should account for right-pinned column widths", () => {
+    const container = {
+      getBoundingClientRect: () => ({
+        left: 0,
+        right: 500,
+        top: 0,
+        bottom: 400,
+        width: 500,
+        height: 400,
+      }),
+      scrollLeft: 0,
+    } as unknown as HTMLDivElement;
+
+    const targetCell = {
+      getBoundingClientRect: () => ({
+        left: 350,
+        right: 450,
+        top: 0,
+        bottom: 36,
+        width: 100,
+        height: 36,
+      }),
+    } as unknown as HTMLDivElement;
+
+    const tableRef = {
+      current: {
+        getLeftVisibleLeafColumns: () => [],
+        getRightVisibleLeafColumns: () => [{ getSize: () => 120 }],
+      } as unknown as Table<unknown>,
+    };
+
+    scrollCellIntoView({
+      container,
+      targetCell,
+      tableRef,
+      viewportOffset: 0,
+      isRtl: false,
+    });
+
+    // Cell right (450) > viewportRight (500 - 120 = 380), so scrolls right
+    expect(container.scrollLeft).toBe(70);
+  });
+
   it("should detect RTL from negative scrollLeft", () => {
     const { container, targetCell, tableRef } = createScrollMockElements({
       containerLeft: 0,
@@ -815,6 +886,27 @@ describe("scrollCellIntoView", () => {
     // With RTL, viewportLeft uses rightPinnedWidth (0), viewportRight uses leftPinnedWidth (0)
     // Cell is fully visible, no scroll
     expect(container.scrollLeft).toBe(-10);
+  });
+
+  it("should handle null table ref gracefully", () => {
+    const { container, targetCell } = createScrollMockElements({
+      containerLeft: 0,
+      containerRight: 500,
+      cellLeft: 100,
+      cellRight: 200,
+    });
+
+    const tableRef = { current: null };
+
+    scrollCellIntoView({
+      container,
+      targetCell,
+      tableRef: tableRef as unknown as React.RefObject<Table<unknown>>,
+      viewportOffset: 0,
+      isRtl: false,
+    });
+
+    expect(container.scrollLeft).toBe(0);
   });
 });
 

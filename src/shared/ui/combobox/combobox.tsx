@@ -200,7 +200,7 @@ function ComboboxItem({
   );
 }
 
-/* v8 ignore start -- Composition sub-components: thin wrappers, tested transitively */
+/* istanbul ignore start -- Composition sub-components: thin wrappers, tested transitively */
 /** Logical grouping of related combobox items. */
 function ComboboxGroup({ className, ...props }: ComboboxPrimitive.Group.Props) {
   return (
@@ -342,7 +342,7 @@ function ComboboxChipsInput({
 function useComboboxAnchor() {
   return React.useRef<HTMLDivElement | null>(null);
 }
-/* v8 ignore stop */
+/* istanbul ignore end */
 
 export {
   Combobox,

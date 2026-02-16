@@ -12,14 +12,14 @@ function ContextMenu({ ...props }: ContextMenuPrimitive.Root.Props) {
   return <ContextMenuPrimitive.Root data-slot="context-menu" {...props} />;
 }
 
-/* v8 ignore start -- Portal wrapper not directly rendered in stories */
+/* istanbul ignore start -- Portal wrapper not directly rendered in stories */
 /** Portal wrapper for rendering context menu content outside the DOM hierarchy. */
 function ContextMenuPortal({ ...props }: ContextMenuPrimitive.Portal.Props) {
   return (
     <ContextMenuPrimitive.Portal data-slot="context-menu-portal" {...props} />
   );
 }
-/* v8 ignore stop */
+/* istanbul ignore end */
 
 /** Element that opens the context menu on right-click. */
 function ContextMenuTrigger({
