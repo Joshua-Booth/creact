@@ -7,6 +7,17 @@ export const handlers = [
   http.post("**/auth/signup/", () => {
     return HttpResponse.json({ key: "mock-token" }, { status: 201 });
   }),
+  http.get("**/auth/user/", () => {
+    return HttpResponse.json(
+      {
+        id: "1",
+        email: "newuser@mail.com",
+        firstName: "New",
+        lastName: "User",
+      },
+      { status: 200 }
+    );
+  }),
 ];
 
 export const errorResponses = {
