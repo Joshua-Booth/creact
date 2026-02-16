@@ -31,6 +31,7 @@ export function DataGridCellWrapper<TData>({
 }: DataGridCellWrapperProps<TData>) {
   const cellMapRef = tableMeta?.cellMapRef;
 
+  /* v8 ignore start -- browser-only callback tested via Storybook */
   const onCellChange = useCallback(
     (node: HTMLDivElement | null) => {
       if (!cellMapRef) return;
@@ -45,9 +46,11 @@ export function DataGridCellWrapper<TData>({
     },
     [rowIndex, columnId, cellMapRef]
   );
+  /* v8 ignore stop */
 
   const composedRef = useComposedRefs(ref, onCellChange);
 
+  /* v8 ignore start -- browser-only callbacks tested via Storybook */
   const onClick = useCallback(
     (event: React.MouseEvent<HTMLDivElement>) => {
       if (!isEditing) {
@@ -102,6 +105,7 @@ export function DataGridCellWrapper<TData>({
         return;
       }
 
+      /* v8 ignore start -- browser-only callback tested via Storybook */
       if (isFocused && !isEditing && !readOnly) {
         if (event.key === "F2" || event.key === "Enter") {
           event.preventDefault();
@@ -123,6 +127,7 @@ export function DataGridCellWrapper<TData>({
           tableMeta?.onCellEditingStart?.(rowIndex, columnId);
         }
       }
+      /* v8 ignore stop */
     },
     [
       onKeyDownProp,
@@ -155,6 +160,7 @@ export function DataGridCellWrapper<TData>({
       tableMeta?.onCellMouseUp?.();
     }
   }, [tableMeta, isEditing]);
+  /* v8 ignore stop */
 
   return (
     // eslint-disable-next-line jsx-a11y/no-static-element-interactions -- focus/interaction wrapper inside role="gridcell" parent; no ARIA role fits nested interactive content

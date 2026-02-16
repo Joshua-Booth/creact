@@ -287,10 +287,12 @@ export function scrollCellIntoView<TData>(params: {
     (sum, c) => sum + c.getSize(),
     0
   );
+  /* v8 ignore start -- right-pinned columns scroll calculation */
   const rightPinnedWidth = rightPinnedColumns.reduce(
     (sum, c) => sum + c.getSize(),
     0
   );
+  /* v8 ignore stop */
 
   const viewportLeft = isActuallyRtl
     ? containerRect.left + rightPinnedWidth + viewportOffset

@@ -1,10 +1,15 @@
-import { describe, expect, it } from "vitest";
+import type { Column, Table } from "@tanstack/react-table";
+
+import { describe, expect, it, vi } from "vitest";
 
 import {
+  flexRender,
   formatDateForDisplay,
   formatDateToString,
   formatFileSize,
   getCellKey,
+  getColumnBorderVisibility,
+  getColumnPinningStyle,
   getColumnVariant,
   getFileIcon,
   getIsFileCellData,
@@ -15,6 +20,7 @@ import {
   matchSelectOption,
   parseCellKey,
   parseLocalDate,
+  scrollCellIntoView,
 } from "./data-grid";
 
 describe("getCellKey / parseCellKey", () => {
@@ -157,7 +163,7 @@ describe("formatDateForDisplay", () => {
     expect(result).not.toBe("");
   });
 
-  it("should return original string for unparseable date", () => {
+  it("should return original string for invalid date", () => {
     expect(formatDateForDisplay("not-a-date")).toBe("not-a-date");
   });
 });
@@ -362,5 +368,458 @@ describe("getScrollDirection", () => {
     expect(getScrollDirection("up")).toBeUndefined();
     expect(getScrollDirection("down")).toBeUndefined();
     expect(getScrollDirection("unknown")).toBeUndefined();
+  });
+});
+
+describe("flexRender", () => {
+  it("should return string directly", () => {
+    expect(flexRender("hello", {})).toBe("hello");
+  });
+
+  it("should return undefined for undefined input", () => {
+    expect(flexRender(undefined, {})).toBeUndefined();
+  });
+
+  it("should call function with props", () => {
+    const fn = vi.fn((props: { name: string }) => `Hi ${props.name}`);
+    const result = flexRender(fn, { name: "World" });
+    expect(result).toBe("Hi World");
+    expect(fn).toHaveBeenCalledWith({ name: "World" });
+  });
+});
+
+function mockBorderColumn<TData>(overrides: {
+  isPinned?: false | "left" | "right";
+  isFirstRight?: boolean;
+  isLastRight?: boolean;
+}): Column<TData> {
+  return {
+    getIsPinned: () => overrides.isPinned ?? false,
+    getIsFirstColumn: () => overrides.isFirstRight ?? false,
+    getIsLastColumn: () => overrides.isLastRight ?? false,
+  } as unknown as Column<TData>;
+}
+
+describe("getColumnBorderVisibility", () => {
+  it("should show end border for unpinned non-last column", () => {
+    const col = mockBorderColumn({ isPinned: false });
+    const next = mockBorderColumn({ isPinned: false });
+    const result = getColumnBorderVisibility({
+      column: col,
+      nextColumn: next,
+      isLastColumn: false,
+    });
+    expect(result.showEndBorder).toBe(true);
+    expect(result.showStartBorder).toBe(false);
+  });
+
+  it("should show end border for last column", () => {
+    const col = mockBorderColumn({ isPinned: false });
+    const result = getColumnBorderVisibility({
+      column: col,
+      isLastColumn: true,
+    });
+    expect(result.showEndBorder).toBe(true);
+  });
+
+  it("should hide end border before first right-pinned column", () => {
+    const col = mockBorderColumn({ isPinned: false });
+    const next = mockBorderColumn({ isPinned: "right", isFirstRight: true });
+    const result = getColumnBorderVisibility({
+      column: col,
+      nextColumn: next,
+      isLastColumn: false,
+    });
+    expect(result.showEndBorder).toBe(false);
+  });
+
+  it("should show start border for first right-pinned column", () => {
+    const col = mockBorderColumn({ isPinned: "right", isFirstRight: true });
+    const result = getColumnBorderVisibility({
+      column: col,
+      isLastColumn: false,
+    });
+    expect(result.showStartBorder).toBe(true);
+  });
+
+  it("should hide end border for last right-pinned column that is not last column", () => {
+    const col = mockBorderColumn({ isPinned: "right", isLastRight: true });
+    const result = getColumnBorderVisibility({
+      column: col,
+      isLastColumn: false,
+    });
+    expect(result.showEndBorder).toBe(false);
+  });
+});
+
+function mockPinColumn<TData>(overrides: {
+  isPinned?: false | "left" | "right";
+  isLastLeft?: boolean;
+  isFirstRight?: boolean;
+  start?: number;
+  after?: number;
+  size?: number;
+}): Column<TData> {
+  return {
+    getIsPinned: () => overrides.isPinned ?? false,
+    getIsLastColumn: () => overrides.isLastLeft ?? false,
+    getIsFirstColumn: () => overrides.isFirstRight ?? false,
+    getStart: () => overrides.start ?? 0,
+    getAfter: () => overrides.after ?? 0,
+    getSize: () => overrides.size ?? 100,
+  } as unknown as Column<TData>;
+}
+
+describe("getColumnPinningStyle", () => {
+  it("should return relative position for unpinned column", () => {
+    const col = mockPinColumn({ isPinned: false, size: 150 });
+    const style = getColumnPinningStyle({ column: col });
+    expect(style.position).toBe("relative");
+    expect(style.opacity).toBe(1);
+    expect(style.width).toBe(150);
+    expect(style.zIndex).toBeUndefined();
+    expect(style.boxShadow).toBeUndefined();
+  });
+
+  it("should return sticky position for left-pinned column", () => {
+    const col = mockPinColumn({ isPinned: "left", start: 50, size: 100 });
+    const style = getColumnPinningStyle({ column: col });
+    expect(style.position).toBe("sticky");
+    expect(style.left).toBe("50px");
+    expect(style.right).toBeUndefined();
+    expect(style.opacity).toBe(0.97);
+    expect(style.zIndex).toBe(1);
+  });
+
+  it("should return sticky position for right-pinned column", () => {
+    const col = mockPinColumn({ isPinned: "right", after: 30, size: 100 });
+    const style = getColumnPinningStyle({ column: col });
+    expect(style.position).toBe("sticky");
+    expect(style.right).toBe("30px");
+    expect(style.left).toBeUndefined();
+  });
+
+  it("should add box shadow for last left-pinned column with border", () => {
+    const col = mockPinColumn({ isPinned: "left", isLastLeft: true });
+    const style = getColumnPinningStyle({ column: col, withBorder: true });
+    expect(style.boxShadow).toBe("-4px 0 4px -4px var(--border) inset");
+  });
+
+  it("should add box shadow for first right-pinned column with border", () => {
+    const col = mockPinColumn({ isPinned: "right", isFirstRight: true });
+    const style = getColumnPinningStyle({ column: col, withBorder: true });
+    expect(style.boxShadow).toBe("4px 0 4px -4px var(--border) inset");
+  });
+
+  it("should not add box shadow without border flag", () => {
+    const col = mockPinColumn({ isPinned: "left", isLastLeft: true });
+    const style = getColumnPinningStyle({ column: col });
+    expect(style.boxShadow).toBeUndefined();
+  });
+
+  it("should swap left/right in RTL mode", () => {
+    const col = mockPinColumn({ isPinned: "left", start: 50 });
+    const style = getColumnPinningStyle({ column: col, dir: "rtl" });
+    expect(style.right).toBe("50px");
+    expect(style.left).toBeUndefined();
+  });
+
+  it("should swap right to left in RTL mode for right-pinned", () => {
+    const col = mockPinColumn({ isPinned: "right", after: 30 });
+    const style = getColumnPinningStyle({ column: col, dir: "rtl" });
+    expect(style.left).toBe("30px");
+    expect(style.right).toBeUndefined();
+  });
+
+  it("should swap box shadow direction in RTL for last left-pinned", () => {
+    const col = mockPinColumn({ isPinned: "left", isLastLeft: true });
+    const style = getColumnPinningStyle({
+      column: col,
+      withBorder: true,
+      dir: "rtl",
+    });
+    expect(style.boxShadow).toBe("4px 0 4px -4px var(--border) inset");
+  });
+
+  it("should swap box shadow direction in RTL for first right-pinned", () => {
+    const col = mockPinColumn({ isPinned: "right", isFirstRight: true });
+    const style = getColumnPinningStyle({
+      column: col,
+      withBorder: true,
+      dir: "rtl",
+    });
+    expect(style.boxShadow).toBe("-4px 0 4px -4px var(--border) inset");
+  });
+});
+
+function createScrollMockElements(overrides?: {
+  containerLeft?: number;
+  containerRight?: number;
+  cellLeft?: number;
+  cellRight?: number;
+  scrollLeft?: number;
+}) {
+  const container = {
+    getBoundingClientRect: () => ({
+      left: overrides?.containerLeft ?? 0,
+      right: overrides?.containerRight ?? 500,
+      top: 0,
+      bottom: 400,
+      width: 500,
+      height: 400,
+    }),
+    scrollLeft: overrides?.scrollLeft ?? 0,
+  } as unknown as HTMLDivElement;
+
+  const targetCell = {
+    getBoundingClientRect: () => ({
+      left: overrides?.cellLeft ?? 100,
+      right: overrides?.cellRight ?? 200,
+      top: 0,
+      bottom: 36,
+      width: 100,
+      height: 36,
+    }),
+  } as unknown as HTMLDivElement;
+
+  const tableRef = {
+    current: {
+      getLeftVisibleLeafColumns: () => [],
+      getRightVisibleLeafColumns: () => [],
+    } as unknown as Table<unknown>,
+  };
+
+  return { container, targetCell, tableRef };
+}
+
+describe("scrollCellIntoView", () => {
+  it("should not scroll when cell is fully visible", () => {
+    const { container, targetCell, tableRef } = createScrollMockElements({
+      containerLeft: 0,
+      containerRight: 500,
+      cellLeft: 100,
+      cellRight: 200,
+    });
+
+    scrollCellIntoView({
+      container,
+      targetCell,
+      tableRef,
+      viewportOffset: 0,
+      isRtl: false,
+    });
+
+    expect(container.scrollLeft).toBe(0);
+  });
+
+  it("should scroll right when cell is clipped right", () => {
+    const { container, targetCell, tableRef } = createScrollMockElements({
+      containerLeft: 0,
+      containerRight: 500,
+      cellLeft: 450,
+      cellRight: 600,
+    });
+
+    scrollCellIntoView({
+      container,
+      targetCell,
+      tableRef,
+      viewportOffset: 0,
+      isRtl: false,
+    });
+
+    expect(container.scrollLeft).toBe(100);
+  });
+
+  it("should scroll left when cell is clipped left", () => {
+    const { container, targetCell, tableRef } = createScrollMockElements({
+      containerLeft: 100,
+      containerRight: 500,
+      cellLeft: 50,
+      cellRight: 150,
+    });
+
+    scrollCellIntoView({
+      container,
+      targetCell,
+      tableRef,
+      viewportOffset: 0,
+      isRtl: false,
+    });
+
+    expect(container.scrollLeft).toBe(-50);
+  });
+
+  it("should scroll right with explicit right direction", () => {
+    const { container, targetCell, tableRef } = createScrollMockElements({
+      containerLeft: 0,
+      containerRight: 500,
+      cellLeft: 450,
+      cellRight: 600,
+    });
+
+    scrollCellIntoView({
+      container,
+      targetCell,
+      tableRef,
+      viewportOffset: 0,
+      direction: "right",
+      isRtl: false,
+    });
+
+    expect(container.scrollLeft).toBe(100);
+  });
+
+  it("should scroll left with explicit left direction", () => {
+    const { container, targetCell, tableRef } = createScrollMockElements({
+      containerLeft: 100,
+      containerRight: 500,
+      cellLeft: 50,
+      cellRight: 150,
+    });
+
+    scrollCellIntoView({
+      container,
+      targetCell,
+      tableRef,
+      viewportOffset: 0,
+      direction: "left",
+      isRtl: false,
+    });
+
+    expect(container.scrollLeft).toBe(-50);
+  });
+
+  it("should handle end direction in LTR (scrolls right)", () => {
+    const { container, targetCell, tableRef } = createScrollMockElements({
+      containerLeft: 0,
+      containerRight: 500,
+      cellLeft: 450,
+      cellRight: 600,
+    });
+
+    scrollCellIntoView({
+      container,
+      targetCell,
+      tableRef,
+      viewportOffset: 0,
+      direction: "end",
+      isRtl: false,
+    });
+
+    expect(container.scrollLeft).toBe(100);
+  });
+
+  it("should handle home direction in LTR (scrolls left)", () => {
+    const { container, targetCell, tableRef } = createScrollMockElements({
+      containerLeft: 100,
+      containerRight: 500,
+      cellLeft: 50,
+      cellRight: 150,
+    });
+
+    scrollCellIntoView({
+      container,
+      targetCell,
+      tableRef,
+      viewportOffset: 0,
+      direction: "home",
+      isRtl: false,
+    });
+
+    expect(container.scrollLeft).toBe(-50);
+  });
+
+  it("should swap home/end semantics in RTL", () => {
+    const { container, targetCell, tableRef } = createScrollMockElements({
+      containerLeft: 0,
+      containerRight: 500,
+      cellLeft: 450,
+      cellRight: 600,
+    });
+
+    scrollCellIntoView({
+      container,
+      targetCell,
+      tableRef,
+      viewportOffset: 0,
+      direction: "home",
+      isRtl: true,
+    });
+
+    // In RTL, "home" scrolls right
+    expect(container.scrollLeft).toBe(100);
+  });
+
+  it("should account for pinned column widths", () => {
+    const container = {
+      getBoundingClientRect: () => ({
+        left: 0,
+        right: 500,
+        top: 0,
+        bottom: 400,
+        width: 500,
+        height: 400,
+      }),
+      scrollLeft: 0,
+    } as unknown as HTMLDivElement;
+
+    const targetCell = {
+      getBoundingClientRect: () => ({
+        left: 100,
+        right: 200,
+        top: 0,
+        bottom: 36,
+        width: 100,
+        height: 36,
+      }),
+    } as unknown as HTMLDivElement;
+
+    const tableRef = {
+      current: {
+        getLeftVisibleLeafColumns: () => [{ getSize: () => 120 }],
+        getRightVisibleLeafColumns: () => [],
+      } as unknown as Table<unknown>,
+    };
+
+    scrollCellIntoView({
+      container,
+      targetCell,
+      tableRef,
+      viewportOffset: 0,
+      isRtl: false,
+    });
+
+    // Cell left (100) < viewportLeft (0 + 120), so scrolls left
+    expect(container.scrollLeft).toBe(-20);
+  });
+
+  it("should detect RTL from negative scrollLeft", () => {
+    const { container, targetCell, tableRef } = createScrollMockElements({
+      containerLeft: 0,
+      containerRight: 500,
+      cellLeft: 100,
+      cellRight: 200,
+      scrollLeft: -10,
+    });
+
+    scrollCellIntoView({
+      container,
+      targetCell,
+      tableRef,
+      viewportOffset: 0,
+      isRtl: false,
+    });
+
+    // hasNegativeScroll = true, so isActuallyRtl = true
+    // With RTL, viewportLeft uses rightPinnedWidth (0), viewportRight uses leftPinnedWidth (0)
+    // Cell is fully visible, no scroll
+    expect(container.scrollLeft).toBe(-10);
+  });
+});
+
+describe("formatDateForDisplay edge cases", () => {
+  it("should return empty string for non-string non-null value", () => {
+    expect(formatDateForDisplay(42)).toBe("");
   });
 });

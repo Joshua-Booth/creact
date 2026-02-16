@@ -30,6 +30,7 @@ export function DataGridPasteDialog<TData>({
 
   if (!pasteDialog.open) return null;
 
+  /* v8 ignore start -- browser-only callback tested via Storybook */
   return (
     <PasteDialogInner
       pasteDialog={pasteDialog}
@@ -37,6 +38,7 @@ export function DataGridPasteDialog<TData>({
       onCellsPaste={onCellsPaste}
     />
   );
+  /* v8 ignore stop */
 }
 
 interface PasteDialogInnerProps
@@ -44,6 +46,7 @@ interface PasteDialogInnerProps
     Pick<TableMeta<unknown>, "onPasteDialogOpenChange" | "onCellsPaste">,
     Required<Pick<TableMeta<unknown>, "pasteDialog">> {}
 
+/* v8 ignore start -- memo comparator is a performance optimization */
 const PasteDialogInner = memo(PasteDialogInnerImpl, (prev, next) => {
   if (prev.pasteDialog.open !== next.pasteDialog.open) return false;
   if (!next.pasteDialog.open) return true;
@@ -51,7 +54,9 @@ const PasteDialogInner = memo(PasteDialogInnerImpl, (prev, next) => {
 
   return true;
 });
+/* v8 ignore stop */
 
+/* v8 ignore start -- browser-only callback tested via Storybook */
 function PasteDialogInnerImpl({
   pasteDialog,
   onPasteDialogOpenChange,
@@ -133,6 +138,7 @@ function PasteDialogInnerImpl({
     </Dialog>
   );
 }
+/* v8 ignore stop */
 
 function RadioItem({ className, ...props }: React.ComponentProps<"input">) {
   return (

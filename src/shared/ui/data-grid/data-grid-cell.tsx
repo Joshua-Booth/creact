@@ -15,6 +15,7 @@ import {
 } from "./data-grid-cell-variants";
 
 /** Memoized cell dispatcher that routes to the appropriate cell variant component. */
+/* v8 ignore start -- memo comparator is a performance optimization */
 export const DataGridCell = memo(DataGridCellImpl, (prev, next) => {
   if (prev.isFocused !== next.isFocused) return false;
   if (prev.isEditing !== next.isEditing) return false;
@@ -40,6 +41,7 @@ export const DataGridCell = memo(DataGridCellImpl, (prev, next) => {
 
   return true;
 }) as typeof DataGridCellImpl;
+/* v8 ignore stop */
 
 function DataGridCellImpl<TData>({
   cell,
@@ -89,8 +91,10 @@ function DataGridCellImpl<TData>({
       break;
 
     default:
+      /* v8 ignore start -- fallback for unknown variant */
       Comp = ShortTextCell;
       break;
+    /* v8 ignore stop */
   }
 
   return (

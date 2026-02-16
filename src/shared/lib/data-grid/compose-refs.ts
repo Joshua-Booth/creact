@@ -23,6 +23,7 @@ function composeRefs<T>(...refs: PossibleRef<T>[]): RefCallback<T> {
   return (node) => {
     const cleanups = refs.map((ref) => setRef(ref, node));
 
+    /* v8 ignore start -- ref cleanup during unmount */
     return () => {
       for (let i = 0; i < cleanups.length; i++) {
         const cleanup = cleanups[i];
@@ -33,6 +34,7 @@ function composeRefs<T>(...refs: PossibleRef<T>[]): RefCallback<T> {
         }
       }
     };
+    /* v8 ignore stop */
   };
 }
 

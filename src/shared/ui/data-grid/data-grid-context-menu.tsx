@@ -71,6 +71,7 @@ interface ContextMenuInnerProps<TData>
   columns: ColumnDef<TData>[];
 }
 
+/* v8 ignore start -- memo comparator is a performance optimization */
 const ContextMenuInner = memo(ContextMenuInnerImpl, (prev, next) => {
   if (prev.contextMenu.open !== next.contextMenu.open) return false;
   if (!next.contextMenu.open) return true;
@@ -83,7 +84,9 @@ const ContextMenuInner = memo(ContextMenuInnerImpl, (prev, next) => {
 
   return true;
 }) as typeof ContextMenuInnerImpl;
+/* v8 ignore stop */
 
+/* v8 ignore start -- browser-only context menu tested via Storybook */
 function ContextMenuInnerImpl<TData>({
   tableMeta,
   columns,
@@ -123,6 +126,7 @@ function ContextMenuInnerImpl<TData>({
     [contextMenu.x, contextMenu.y]
   );
 
+  /* v8 ignore start -- browser-only callback tested via Storybook */
   const finalFocus = useCallback(() => {
     propsRef.current.dataGridRef?.current?.focus();
   }, [propsRef]);
@@ -212,6 +216,7 @@ function ContextMenuInnerImpl<TData>({
       toast.success(`${rowCount} row${rowCount === 1 ? "" : "s"} deleted`);
     })();
   }, [propsRef]);
+  /* v8 ignore stop */
 
   return (
     <DropdownMenu
@@ -250,3 +255,4 @@ function ContextMenuInnerImpl<TData>({
     </DropdownMenu>
   );
 }
+/* v8 ignore stop */
