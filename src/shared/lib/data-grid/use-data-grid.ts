@@ -1142,7 +1142,16 @@ export function useDataGrid<TData>({
     (rowIndex: number, columnId: string) => {
       focusGuardRef.current = true;
 
-      requestAnimationFrame(() => {
+      // Use microtask to ensure React has committed DOM changes (tabIndex)
+      // before calling .focus(). This is faster than rAF and avoids timing
+      // gaps between React state (data-focused) and actual DOM focus.
+      queueMicrotask(() => {
+        // Skip if another cell started editing since this was queued
+        if (store.getState().editingCell) {
+          releaseFocusGuard();
+          return;
+        }
+
         const cellKey = getCellKey(rowIndex, columnId);
         const cellWrapperElement = cellMapRef.current.get(cellKey);
 
@@ -1159,7 +1168,7 @@ export function useDataGrid<TData>({
         releaseFocusGuard();
       });
     },
-    [releaseFocusGuard]
+    [store, releaseFocusGuard]
   );
 
   const focusCell = useCallback(
