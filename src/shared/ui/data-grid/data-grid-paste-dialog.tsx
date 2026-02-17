@@ -138,7 +138,6 @@ function PasteDialogInnerImpl({
     </Dialog>
   );
 }
-/* istanbul ignore end @preserve */
 
 function RadioItem({ className, ...props }: React.ComponentProps<"input">) {
   return (
@@ -162,3 +161,4 @@ function RadioItem({ className, ...props }: React.ComponentProps<"input">) {
     />
   );
 }
+/* istanbul ignore end @preserve */

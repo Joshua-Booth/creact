@@ -52,7 +52,6 @@ const meta = preview.meta({
     },
   },
   args: {
-    variant: "default",
     size: "default",
   },
   parameters: {
