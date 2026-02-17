@@ -65,7 +65,7 @@ export function DataGridColumnHeader<TData, TValue>({
   const isPinnedLeft = pinnedPosition === "left";
   const isPinnedRight = pinnedPosition === "right";
 
-  /* istanbul ignore start -- browser-only callback tested via Storybook */
+  /* istanbul ignore start @preserve -- browser-only callback tested via Storybook */
   const onSortingChange = useCallback(
     (direction: SortDirection) => {
       table.setSorting((prev: SortingState) => {
@@ -117,9 +117,9 @@ export function DataGridColumnHeader<TData, TValue>({
     },
     [table.options.meta, column.id]
   );
-  /* istanbul ignore end */
+  /* istanbul ignore end @preserve */
 
-  /* istanbul ignore start -- browser-only JSX tested via Storybook */
+  /* istanbul ignore start @preserve -- browser-only JSX tested via Storybook */
   return (
     <>
       <DropdownMenu modal={false}>
@@ -257,10 +257,10 @@ export function DataGridColumnHeader<TData, TValue>({
       )}
     </>
   );
-  /* istanbul ignore end */
+  /* istanbul ignore end @preserve */
 }
 
-/* istanbul ignore start -- memo comparator is a performance optimization */
+/* istanbul ignore start @preserve -- memo comparator is a performance optimization */
 const DataGridColumnResizer = memo(DataGridColumnResizerImpl, (prev, next) => {
   const prevColumn = prev.header.column;
   const nextColumn = next.header.column;
@@ -276,7 +276,7 @@ const DataGridColumnResizer = memo(DataGridColumnResizerImpl, (prev, next) => {
 
   return true;
 }) as typeof DataGridColumnResizerImpl;
-/* istanbul ignore end */
+/* istanbul ignore end @preserve */
 
 interface DataGridColumnResizerProps<
   TData,
@@ -285,7 +285,7 @@ interface DataGridColumnResizerProps<
   label: string;
 }
 
-/* istanbul ignore start -- browser-only resizer tested via Storybook */
+/* istanbul ignore start @preserve -- browser-only resizer tested via Storybook */
 function DataGridColumnResizerImpl<TData, TValue>({
   header,
   table,
@@ -293,11 +293,11 @@ function DataGridColumnResizerImpl<TData, TValue>({
 }: DataGridColumnResizerProps<TData, TValue>) {
   const defaultColumnDef = table._getDefaultColumnDef();
 
-  /* istanbul ignore start -- browser-only callback tested via Storybook */
+  /* istanbul ignore start @preserve -- browser-only callback tested via Storybook */
   const onDoubleClick = useCallback(() => {
     header.column.resetSize();
   }, [header.column]);
-  /* istanbul ignore end */
+  /* istanbul ignore end @preserve */
 
   return (
     // eslint-disable-next-line jsx-a11y/no-noninteractive-element-interactions -- interactive column resizer
@@ -326,4 +326,4 @@ function DataGridColumnResizerImpl<TData, TValue>({
     />
   );
 }
-/* istanbul ignore end */
+/* istanbul ignore end @preserve */

@@ -5,6 +5,9 @@ import tsconfigPaths from "vite-tsconfig-paths";
 
 export default defineConfig({
   plugins: [tailwindcss(), svgr(), tsconfigPaths()],
+  esbuild: {
+    legalComments: "inline",
+  },
   define: {
     // Polyfill process.env for server modules imported by root.tsx
     "process.env.SESSION_SECRET": JSON.stringify("storybook-secret"),

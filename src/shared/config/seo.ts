@@ -5,9 +5,9 @@
  * @returns Site URL string
  */
 export function getSiteUrl(): string {
-  /* istanbul ignore start -- Fallback only used when env var is missing */
+  /* istanbul ignore start @preserve -- Fallback only used when env var is missing */
   return import.meta.env.VITE_PUBLIC_URL ?? "https://creact.netlify.app";
-  /* istanbul ignore end */
+  /* istanbul ignore end @preserve */
 }
 
 /** Twitter handle for social cards */

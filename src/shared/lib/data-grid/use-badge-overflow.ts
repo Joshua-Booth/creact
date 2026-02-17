@@ -195,9 +195,9 @@ export function useBadgeOverflow<T>({
   return result;
 }
 
-/* istanbul ignore start -- utility function for external cache clearing */
+/* istanbul ignore start @preserve -- utility function for external cache clearing */
 /** Clear the badge width measurement cache. */
 export function clearBadgeWidthCache(): void {
   badgeWidthCache.clear();
 }
-/* istanbul ignore end */
+/* istanbul ignore end @preserve */

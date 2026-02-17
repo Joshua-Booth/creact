@@ -31,7 +31,7 @@ export function DataGridCellWrapper<TData>({
 }: DataGridCellWrapperProps<TData>) {
   const cellMapRef = tableMeta?.cellMapRef;
 
-  /* istanbul ignore start -- browser-only callback tested via Storybook */
+  /* istanbul ignore start @preserve -- browser-only callback tested via Storybook */
   const onCellChange = useCallback(
     (node: HTMLDivElement | null) => {
       if (!cellMapRef) return;
@@ -46,11 +46,11 @@ export function DataGridCellWrapper<TData>({
     },
     [rowIndex, columnId, cellMapRef]
   );
-  /* istanbul ignore end */
+  /* istanbul ignore end @preserve */
 
   const composedRef = useComposedRefs(ref, onCellChange);
 
-  /* istanbul ignore start -- browser-only callbacks tested via Storybook */
+  /* istanbul ignore start @preserve -- browser-only callbacks tested via Storybook */
   const onClick = useCallback(
     (event: React.MouseEvent<HTMLDivElement>) => {
       if (!isEditing) {
@@ -105,7 +105,7 @@ export function DataGridCellWrapper<TData>({
         return;
       }
 
-      /* istanbul ignore start -- browser-only callback tested via Storybook */
+      /* istanbul ignore start @preserve -- browser-only callback tested via Storybook */
       if (isFocused && !isEditing && !readOnly) {
         if (event.key === "F2" || event.key === "Enter") {
           event.preventDefault();
@@ -127,7 +127,7 @@ export function DataGridCellWrapper<TData>({
           tableMeta?.onCellEditingStart?.(rowIndex, columnId);
         }
       }
-      /* istanbul ignore end */
+      /* istanbul ignore end @preserve */
     },
     [
       onKeyDownProp,
@@ -160,7 +160,7 @@ export function DataGridCellWrapper<TData>({
       tableMeta?.onCellMouseUp?.();
     }
   }, [tableMeta, isEditing]);
-  /* istanbul ignore end */
+  /* istanbul ignore end @preserve */
 
   return (
     // eslint-disable-next-line jsx-a11y/no-static-element-interactions -- focus/interaction wrapper inside role="gridcell" parent; no ARIA role fits nested interactive content

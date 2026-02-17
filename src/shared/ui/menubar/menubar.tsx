@@ -41,7 +41,7 @@ function MenubarMenu({ ...props }: React.ComponentProps<typeof DropdownMenu>) {
   return <DropdownMenu data-slot="menubar-menu" {...props} />;
 }
 
-/* istanbul ignore start -- Thin pass-through wrappers, tested transitively */
+/* istanbul ignore start @preserve -- Thin pass-through wrappers, tested transitively */
 /** Logical grouping of related menubar items. */
 function MenubarGroup({
   ...props
@@ -55,7 +55,7 @@ function MenubarPortal({
 }: React.ComponentProps<typeof DropdownMenuPortal>) {
   return <DropdownMenuPortal data-slot="menubar-portal" {...props} />;
 }
-/* istanbul ignore end */
+/* istanbul ignore end @preserve */
 
 /** Button that opens a menubar dropdown. */
 function MenubarTrigger({
@@ -217,7 +217,7 @@ function MenubarRadioItem({
   );
 }
 
-/* istanbul ignore start -- Thin label wrapper, tested transitively */
+/* istanbul ignore start @preserve -- Thin label wrapper, tested transitively */
 /** Non-interactive label rendered above a menubar group. */
 function MenubarLabel({
   className,
@@ -238,7 +238,7 @@ function MenubarLabel({
     />
   );
 }
-/* istanbul ignore end */
+/* istanbul ignore end @preserve */
 
 /** Horizontal divider between menubar sections. */
 function MenubarSeparator({

@@ -49,9 +49,9 @@ function DashboardContent() {
   const { t } = useTranslation();
   const { user } = useCurrentUser({ suspense: true });
 
-  /* istanbul ignore start -- Defensive guard: unreachable after Suspense resolves */
+  /* istanbul ignore start @preserve -- Defensive guard: unreachable after Suspense resolves */
   if (!user) throw new Error("Unreachable: user is undefined after Suspense");
-  /* istanbul ignore end */
+  /* istanbul ignore end @preserve */
 
   const { firstName, lastName, email } = user;
 

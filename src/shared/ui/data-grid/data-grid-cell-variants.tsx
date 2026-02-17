@@ -65,12 +65,12 @@ function stopPropagation(event: React.SyntheticEvent) {
   event.stopPropagation();
 }
 
-/* istanbul ignore start -- browser-only event handler */
+/* istanbul ignore start @preserve -- browser-only event handler */
 function preventDefaultAndStopPropagation(event: React.SyntheticEvent) {
   event.preventDefault();
   event.stopPropagation();
 }
-/* istanbul ignore end */
+/* istanbul ignore end @preserve */
 
 /** Short text cell with contentEditable inline editing. */
 export function ShortTextCell<TData>({
@@ -100,7 +100,7 @@ export function ShortTextCell<TData>({
     }
   }
 
-  /* istanbul ignore start -- browser-only callback tested via Storybook */
+  /* istanbul ignore start @preserve -- browser-only callback tested via Storybook */
   const onBlur = useCallback(() => {
     const currentValue = cellRef.current?.textContent ?? "";
     if (!readOnly && currentValue !== initialValue) {
@@ -199,7 +199,7 @@ export function ShortTextCell<TData>({
       }
     }
   }, [isEditing, value]);
-  /* istanbul ignore end */
+  /* istanbul ignore end @preserve */
 
   const displayValue = isEditing ? "" : (value ?? "");
 
@@ -262,7 +262,7 @@ export function LongTextCell<TData>({
   const sideOffset = -(containerRef.current?.clientHeight ?? 0);
 
   const prevInitialValueRef = useRef(initialValue);
-  /* istanbul ignore start -- browser-only callback tested via Storybook */
+  /* istanbul ignore start @preserve -- browser-only callback tested via Storybook */
   if (initialValue !== prevInitialValueRef.current) {
     prevInitialValueRef.current = initialValue;
     setValue(initialValue ?? "");
@@ -382,7 +382,7 @@ export function LongTextCell<TData>({
     },
     [onSave, onCancel, value, initialValue, tableMeta, rowIndex, columnId]
   );
-  /* istanbul ignore end */
+  /* istanbul ignore end @preserve */
 
   return (
     <Popover open={isEditing} onOpenChange={onOpenChange}>
@@ -462,7 +462,7 @@ export function NumberCell<TData>({
     setValue(String(initialValue ?? ""));
   }
 
-  /* istanbul ignore start -- browser-only callback tested via Storybook */
+  /* istanbul ignore start @preserve -- browser-only callback tested via Storybook */
   const onBlur = useCallback(() => {
     const numValue = value === "" ? null : Number(value);
     if (!readOnly && numValue !== initialValue) {
@@ -537,7 +537,7 @@ export function NumberCell<TData>({
       inputRef.current.focus();
     }
   }, [isEditing]);
-  /* istanbul ignore end */
+  /* istanbul ignore end @preserve */
 
   return (
     <DataGridCellWrapper<TData>
@@ -596,7 +596,7 @@ export function UrlCell<TData>({
   const containerRef = useRef<HTMLDivElement>(null);
 
   const prevInitialValueRef = useRef(initialValue);
-  /* istanbul ignore start -- sync-from-props pattern and browser-only callbacks */
+  /* istanbul ignore start @preserve -- sync-from-props pattern and browser-only callbacks */
   if (initialValue !== prevInitialValueRef.current) {
     prevInitialValueRef.current = initialValue;
     setValue(initialValue ?? "");
@@ -739,7 +739,7 @@ export function UrlCell<TData>({
       }
     }
   }, [isEditing, value]);
-  /* istanbul ignore end */
+  /* istanbul ignore end @preserve */
 
   const displayValue = isEditing ? "" : (value ?? "");
   const urlHref = displayValue === "" ? "" : getUrlHref(displayValue);
@@ -831,7 +831,7 @@ export function CheckboxCell<TData>({
     setValue(initialValue);
   }
 
-  /* istanbul ignore start -- browser-only callbacks tested via Storybook */
+  /* istanbul ignore start @preserve -- browser-only callbacks tested via Storybook */
   const onCheckedChange = useCallback(
     (checked: boolean) => {
       if (readOnly) return;
@@ -871,7 +871,7 @@ export function CheckboxCell<TData>({
     },
     [isFocused, value, onCheckedChange, readOnly]
   );
-  /* istanbul ignore end */
+  /* istanbul ignore end @preserve */
 
   return (
     <DataGridCellWrapper<TData>
@@ -926,7 +926,7 @@ export function SelectCell<TData>({
   const options = cellOpts?.variant === "select" ? cellOpts.options : [];
 
   const prevInitialValueRef = useRef(initialValue);
-  /* istanbul ignore start -- sync-from-props pattern and browser-only callbacks */
+  /* istanbul ignore start @preserve -- sync-from-props pattern and browser-only callbacks */
   if (initialValue !== prevInitialValueRef.current) {
     prevInitialValueRef.current = initialValue;
     setValue(initialValue);
@@ -968,7 +968,7 @@ export function SelectCell<TData>({
     },
     [isEditing, isFocused, initialValue, tableMeta]
   );
-  /* istanbul ignore end */
+  /* istanbul ignore end @preserve */
 
   const displayLabel =
     options.find((opt) => opt.value === value)?.label ?? value;
@@ -1072,7 +1072,7 @@ export function MultiSelectCell<TData>({
   const sideOffset = -(containerRef.current?.clientHeight ?? 0);
 
   const prevCellValueRef = useRef(cellValue);
-  /* istanbul ignore start -- sync-from-props pattern and browser-only callbacks */
+  /* istanbul ignore start @preserve -- sync-from-props pattern and browser-only callbacks */
   if (cellValue !== prevCellValueRef.current) {
     prevCellValueRef.current = cellValue;
     setSelectedValues(cellValue);
@@ -1170,7 +1170,7 @@ export function MultiSelectCell<TData>({
     },
     [searchValue, selectedValues, removeValue]
   );
-  /* istanbul ignore end */
+  /* istanbul ignore end @preserve */
 
   const displayLabels = selectedValues
     .map((val) => options.find((opt) => opt.value === val)?.label ?? val)
@@ -1360,17 +1360,17 @@ export function DateCell<TData>({
   const containerRef = useRef<HTMLDivElement>(null);
 
   const prevInitialValueRef = useRef(initialValue);
-  /* istanbul ignore start -- sync-from-props pattern */
+  /* istanbul ignore start @preserve -- sync-from-props pattern */
   if (initialValue !== prevInitialValueRef.current) {
     prevInitialValueRef.current = initialValue;
     setValue(initialValue ?? "");
   }
-  /* istanbul ignore end */
+  /* istanbul ignore end @preserve */
 
   const selectedDate =
     value === "" ? undefined : (parseLocalDate(value) ?? undefined);
 
-  /* istanbul ignore start -- browser-only callbacks tested via Storybook */
+  /* istanbul ignore start @preserve -- browser-only callbacks tested via Storybook */
   const onDateSelect = useCallback(
     (date: Date | undefined) => {
       if (!date || readOnly) return;
@@ -1409,7 +1409,7 @@ export function DateCell<TData>({
     },
     [isEditing, isFocused, initialValue, tableMeta]
   );
-  /* istanbul ignore end */
+  /* istanbul ignore end @preserve */
 
   return (
     <DataGridCellWrapper<TData>
@@ -1511,7 +1511,7 @@ export function FileCell<TData>({
   );
 
   const prevCellValueRef = useRef(cellValue);
-  /* istanbul ignore start -- sync-from-props pattern and browser-only callbacks */
+  /* istanbul ignore start @preserve -- sync-from-props pattern and browser-only callbacks */
   if (cellValue !== prevCellValueRef.current) {
     prevCellValueRef.current = cellValue;
     for (const file of files) {
@@ -1777,7 +1777,7 @@ export function FileCell<TData>({
     tableMeta?.onDataUpdate?.({ rowIndex, columnId, value: [] });
   }, [files, tableMeta, rowIndex, columnId, readOnly, isPending]);
 
-  /* istanbul ignore start -- drag-and-drop handlers are hard to simulate in tests */
+  /* istanbul ignore start @preserve -- drag-and-drop handlers are hard to simulate in tests */
   const onCellDragEnter = useCallback((event: React.DragEvent) => {
     event.preventDefault();
     event.stopPropagation();
@@ -1875,7 +1875,7 @@ export function FileCell<TData>({
     },
     [addFiles]
   );
-  /* istanbul ignore end */
+  /* istanbul ignore end @preserve */
 
   const onOpenChange = useCallback(
     (open: boolean) => {
@@ -1946,7 +1946,7 @@ export function FileCell<TData>({
       }
     };
   }, [files]);
-  /* istanbul ignore end */
+  /* istanbul ignore end @preserve */
 
   const lineCount = getLineCount(rowHeight);
 

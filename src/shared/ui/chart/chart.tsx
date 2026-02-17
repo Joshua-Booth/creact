@@ -33,11 +33,11 @@ const ChartContext = React.createContext<ChartContextProps | null>(null);
 function useChart() {
   const context = React.use(ChartContext);
 
-  /* istanbul ignore start -- Defensive guard: unreachable when used within <ChartContainer /> */
+  /* istanbul ignore start @preserve -- Defensive guard: unreachable when used within <ChartContainer /> */
   if (!context) {
     throw new Error("useChart must be used within a <ChartContainer />");
   }
-  /* istanbul ignore end */
+  /* istanbul ignore end @preserve */
 
   return context;
 }
@@ -105,11 +105,11 @@ const ChartStyle = ({ id, config }: { id: string; config: ChartConfig }) => {
     ([, config]) => config.theme !== undefined || config.color !== undefined
   );
 
-  /* istanbul ignore start -- Empty config early return, only triggers with no theme config */
+  /* istanbul ignore start @preserve -- Empty config early return, only triggers with no theme config */
   if (colorConfig.length === 0) {
     return null;
   }
-  /* istanbul ignore end */
+  /* istanbul ignore end @preserve */
 
   /* eslint-disable @eslint-react/dom/no-dangerously-set-innerhtml -- CSS injection for chart theming is intentional and safe */
   return (
@@ -124,9 +124,9 @@ ${colorConfig
     const color =
       itemConfig.theme?.[theme as keyof typeof itemConfig.theme] ??
       itemConfig.color;
-    /* istanbul ignore start -- Null color branch only with incomplete config */
+    /* istanbul ignore start @preserve -- Null color branch only with incomplete config */
     return color ? `  --color-${key}: ${color};` : null;
-    /* istanbul ignore end */
+    /* istanbul ignore end @preserve */
   })
   .join("\n")}
 }
@@ -171,7 +171,7 @@ function ChartTooltipContent({
   >) {
   const { config } = useChart();
 
-  /* istanbul ignore start -- Recharts tooltip label computation with many conditional branches */
+  /* istanbul ignore start @preserve -- Recharts tooltip label computation with many conditional branches */
   const tooltipLabel = React.useMemo(() => {
     if (hideLabel || !payload?.length) {
       return null;
@@ -299,14 +299,14 @@ function ChartTooltipContent({
       </div>
     </div>
   );
-  /* istanbul ignore end */
+  /* istanbul ignore end @preserve */
 }
 /* eslint-enable @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-unsafe-argument, @typescript-eslint/strict-boolean-expressions -- re-enable after Recharts untyped tooltip rendering */
 
 /** Recharts legend component for labeling chart data series. */
 const ChartLegend = RechartsPrimitive.Legend;
 
-/* istanbul ignore start -- Recharts legend rendering with conditional branches */
+/* istanbul ignore start @preserve -- Recharts legend rendering with conditional branches */
 /* eslint-disable @typescript-eslint/restrict-template-expressions, @typescript-eslint/strict-boolean-expressions -- Recharts LegendProps payload is typed with DataKey<any> */
 /** Styled legend content renderer with color indicators and config-driven labels. */
 function ChartLegendContent({
@@ -365,9 +365,9 @@ function ChartLegendContent({
   );
 }
 /* eslint-enable @typescript-eslint/restrict-template-expressions, @typescript-eslint/strict-boolean-expressions -- re-enable after Recharts untyped legend rendering */
-/* istanbul ignore end */
+/* istanbul ignore end @preserve */
 
-/* istanbul ignore start -- Recharts internal payload lookup, triggered by tooltip/legend callbacks */
+/* istanbul ignore start @preserve -- Recharts internal payload lookup, triggered by tooltip/legend callbacks */
 function getPayloadConfigFromPayload(
   config: ChartConfig,
   payload: unknown,
@@ -403,7 +403,7 @@ function getPayloadConfigFromPayload(
 
   return configLabelKey in config ? config[configLabelKey] : config[key];
 }
-/* istanbul ignore end */
+/* istanbul ignore end @preserve */
 
 export {
   ChartContainer,

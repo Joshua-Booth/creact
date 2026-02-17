@@ -43,11 +43,11 @@ const SidebarContext = React.createContext<SidebarContextProps | null>(null);
 /** Hook to access sidebar state and controls from any child component. */
 function useSidebar() {
   const context = React.use(SidebarContext);
-  /* istanbul ignore start -- Defensive guard: unreachable when used within <SidebarProvider /> */
+  /* istanbul ignore start @preserve -- Defensive guard: unreachable when used within <SidebarProvider /> */
   if (!context) {
     throw new Error("useSidebar must be used within a SidebarProvider.");
   }
-  /* istanbul ignore end */
+  /* istanbul ignore end @preserve */
 
   return context;
 }
@@ -78,7 +78,7 @@ function SidebarProvider({
   const open = openProp ?? internalOpen;
 
   const setOpen = React.useCallback(
-    /* istanbul ignore start -- Controlled mode: stories use uncontrolled sidebar */
+    /* istanbul ignore start @preserve -- Controlled mode: stories use uncontrolled sidebar */
     (value: boolean | ((value: boolean) => boolean)) => {
       const openState = typeof value === "function" ? value(open) : value;
       if (setOpenProp) {
@@ -86,7 +86,7 @@ function SidebarProvider({
       } else {
         setInternalOpen(openState);
       }
-      /* istanbul ignore end */
+      /* istanbul ignore end @preserve */
     },
     [setOpenProp, open]
   );
@@ -98,17 +98,17 @@ function SidebarProvider({
 
   // Helper to toggle the sidebar.
   const toggleSidebar = React.useCallback(() => {
-    /* istanbul ignore start -- Mobile toggle path not exercised in desktop stories */
+    /* istanbul ignore start @preserve -- Mobile toggle path not exercised in desktop stories */
     if (isMobile) {
       setOpenMobile((open) => !open);
     } else {
       setOpen((open) => !open);
     }
-    /* istanbul ignore end */
+    /* istanbul ignore end @preserve */
   }, [isMobile, setOpen, setOpenMobile]);
 
   // Adds a keyboard shortcut to toggle the sidebar.
-  /* istanbul ignore start -- Keyboard shortcut effect not triggered in component tests */
+  /* istanbul ignore start @preserve -- Keyboard shortcut effect not triggered in component tests */
   React.useEffect(() => {
     const handleKeyDown = (event: KeyboardEvent) => {
       if (
@@ -123,7 +123,7 @@ function SidebarProvider({
     window.addEventListener("keydown", handleKeyDown);
     return () => window.removeEventListener("keydown", handleKeyDown);
   }, [toggleSidebar]);
-  /* istanbul ignore end */
+  /* istanbul ignore end @preserve */
 
   // We add a state so that we can do data-state="expanded" or "collapsed".
   // This makes it easier to style the sidebar with Tailwind classes.
@@ -185,7 +185,7 @@ function Sidebar({
 }) {
   const { isMobile, state, openMobile, setOpenMobile } = useSidebar();
 
-  /* istanbul ignore start -- collapsible="none" and isMobile branches not exercised in stories */
+  /* istanbul ignore start @preserve -- collapsible="none" and isMobile branches not exercised in stories */
   if (collapsible === "none") {
     return (
       <div
@@ -228,7 +228,7 @@ function Sidebar({
       </Sheet>
     );
   }
-  /* istanbul ignore end */
+  /* istanbul ignore end @preserve */
 
   return (
     <div
@@ -317,7 +317,7 @@ function SidebarTrigger({
   );
 }
 
-/* istanbul ignore start -- Sidebar sub-components: tested transitively via app integration */
+/* istanbul ignore start @preserve -- Sidebar sub-components: tested transitively via app integration */
 /** Invisible drag rail along the sidebar edge for toggling via click. */
 function SidebarRail({ className, ...props }: React.ComponentProps<"button">) {
   const { toggleSidebar } = useSidebar();
@@ -385,7 +385,7 @@ function SidebarInput({
     />
   );
 }
-/* istanbul ignore end */
+/* istanbul ignore end @preserve */
 
 /** Top section of the sidebar for branding or navigation. */
 function SidebarHeader({ className, ...props }: React.ComponentProps<"div">) {
@@ -411,7 +411,7 @@ function SidebarFooter({ className, ...props }: React.ComponentProps<"div">) {
   );
 }
 
-/* istanbul ignore start -- Thin styling wrappers, tested transitively */
+/* istanbul ignore start @preserve -- Thin styling wrappers, tested transitively */
 /** Horizontal divider between sidebar sections. */
 function SidebarSeparator({
   className,
@@ -426,7 +426,7 @@ function SidebarSeparator({
     />
   );
 }
-/* istanbul ignore end */
+/* istanbul ignore end @preserve */
 
 /** Scrollable area containing sidebar groups and menu items. */
 function SidebarContent({ className, ...props }: React.ComponentProps<"div">) {
@@ -486,7 +486,7 @@ function SidebarGroupLabel({
   });
 }
 
-/* istanbul ignore start -- Thin action wrapper, tested transitively */
+/* istanbul ignore start @preserve -- Thin action wrapper, tested transitively */
 /** Action button positioned in the top-right of a sidebar group. */
 function SidebarGroupAction({
   className,
@@ -516,7 +516,7 @@ function SidebarGroupAction({
     },
   });
 }
-/* istanbul ignore end */
+/* istanbul ignore end @preserve */
 
 /** Content area within a sidebar group. */
 function SidebarGroupContent({
@@ -634,7 +634,7 @@ function SidebarMenuButton({
     },
   });
 
-  /* istanbul ignore start -- Tooltip composition only exercised in collapsed mode with tooltip prop */
+  /* istanbul ignore start @preserve -- Tooltip composition only exercised in collapsed mode with tooltip prop */
   if (tooltip == null) {
     return comp;
   }
@@ -843,7 +843,7 @@ function SidebarMenuSubButton({
     },
   });
 }
-/* istanbul ignore end */
+/* istanbul ignore end @preserve */
 
 export {
   Sidebar,

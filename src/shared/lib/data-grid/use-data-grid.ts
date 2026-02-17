@@ -262,12 +262,12 @@ export function useDataGrid<TData>({
         }
       },
       batch: (fn) => {
-        /* istanbul ignore start -- browser-only callback tested via Storybook */
+        /* istanbul ignore start @preserve -- browser-only callback tested via Storybook */
         if (isBatching) {
           fn();
           return;
         }
-        /* istanbul ignore end */
+        /* istanbul ignore end @preserve */
 
         isBatching = true;
         const wasPending = pendingNotification;
@@ -347,7 +347,7 @@ export function useDataGrid<TData>({
     map: Map<string, number>;
   } | null>(null);
 
-  /* istanbul ignore start -- browser-only ARIA helper */
+  /* istanbul ignore start @preserve -- browser-only ARIA helper */
   const getVisualRowIndex = useCallback((rowId: string): number | undefined => {
     const rows = tableRef.current?.getRowModel().rows;
     if (!rows) return undefined;
@@ -362,9 +362,9 @@ export function useDataGrid<TData>({
 
     return visualRowIndexCacheRef.current.map.get(rowId);
   }, []);
-  /* istanbul ignore end */
+  /* istanbul ignore end @preserve */
 
-  /* istanbul ignore start -- column ID extraction */
+  /* istanbul ignore start @preserve -- column ID extraction */
   const columnIds = useMemo(() => {
     return columns
       .map((c): string | undefined => {
@@ -373,13 +373,13 @@ export function useDataGrid<TData>({
       })
       .filter(Boolean);
   }, [columns]);
-  /* istanbul ignore end */
+  /* istanbul ignore end @preserve */
 
   const navigableColumnIds = useMemo(() => {
     return columnIds.filter((c) => !NON_NAVIGABLE_COLUMN_IDS.has(c));
   }, [columnIds]);
 
-  /* istanbul ignore start -- browser-only callback tested via Storybook */
+  /* istanbul ignore start @preserve -- browser-only callback tested via Storybook */
   const onDataUpdate = useCallback(
     (updates: CellUpdate | CellUpdate[]) => {
       if (propsRef.current.readOnly) return;
@@ -445,9 +445,9 @@ export function useDataGrid<TData>({
     },
     [propsRef]
   );
-  /* istanbul ignore end */
+  /* istanbul ignore end @preserve */
 
-  /* istanbul ignore start -- browser-only callback tested via Storybook */
+  /* istanbul ignore start @preserve -- browser-only callback tested via Storybook */
   const getIsCellSelected = useCallback(
     (rowIndex: number, columnId: string) => {
       const currentSelectionState = store.getState().selectionState;
@@ -552,9 +552,9 @@ export function useDataGrid<TData>({
     },
     [columnIds, store]
   );
-  /* istanbul ignore end */
+  /* istanbul ignore end @preserve */
 
-  /* istanbul ignore start -- browser-only callback tested via Storybook */
+  /* istanbul ignore start @preserve -- browser-only callback tested via Storybook */
   const serializeCellsToTsv = useCallback(
     (selectedCellsArray: string[]): string | null => {
       const currentTable = tableRef.current;
@@ -707,9 +707,9 @@ export function useDataGrid<TData>({
       });
     }
   }, []);
-  /* istanbul ignore end */
+  /* istanbul ignore end @preserve */
 
-  /* istanbul ignore start -- browser-only callback tested via Storybook */
+  /* istanbul ignore start @preserve -- browser-only callback tested via Storybook */
   const onCellsPaste = useCallback(
     async (expandRows = false) => {
       if (propsRef.current.readOnly) return;
@@ -1124,9 +1124,9 @@ export function useDataGrid<TData>({
       restoreFocus,
     ]
   );
-  /* istanbul ignore end */
+  /* istanbul ignore end @preserve */
 
-  /* istanbul ignore start -- browser-only callback tested via Storybook */
+  /* istanbul ignore start @preserve -- browser-only callback tested via Storybook */
   const releaseFocusGuard = useCallback((immediate = false) => {
     if (immediate) {
       focusGuardRef.current = false;
@@ -1476,9 +1476,9 @@ export function useDataGrid<TData>({
     },
     [dir, store, navigableColumnIds, focusCell, propsRef, rowHeight]
   );
-  /* istanbul ignore end */
+  /* istanbul ignore end @preserve */
 
-  /* istanbul ignore start -- browser-only callback tested via Storybook */
+  /* istanbul ignore start @preserve -- browser-only callback tested via Storybook */
   const onCellEditingStart = useCallback(
     (rowIndex: number, columnId: string) => {
       if (propsRef.current.readOnly) return;
@@ -1683,9 +1683,9 @@ export function useDataGrid<TData>({
     },
     [searchMatchSet]
   );
-  /* istanbul ignore end */
+  /* istanbul ignore end @preserve */
 
-  /* istanbul ignore start -- browser-only callback tested via Storybook */
+  /* istanbul ignore start @preserve -- browser-only callback tested via Storybook */
   const getIsActiveSearchMatch = useCallback(
     (rowIndex: number, columnId: string) => {
       const currentState = store.getState();
@@ -1698,7 +1698,7 @@ export function useDataGrid<TData>({
     },
     [store]
   );
-  /* istanbul ignore end */
+  /* istanbul ignore end @preserve */
 
   const searchMatchesByRow = useMemo(() => {
     if (searchMatches.length === 0) return null;
@@ -1719,7 +1719,7 @@ export function useDataGrid<TData>({
     return searchMatches[matchIndex] ?? null;
   }, [searchMatches, matchIndex]);
 
-  /* istanbul ignore start -- browser-only callback tested via Storybook */
+  /* istanbul ignore start @preserve -- browser-only callback tested via Storybook */
   const blurCell = useCallback(() => {
     const currentState = store.getState();
     if (
@@ -2039,9 +2039,9 @@ export function useDataGrid<TData>({
     },
     [store, onRowSelectionChange]
   );
-  /* istanbul ignore end */
+  /* istanbul ignore end @preserve */
 
-  /* istanbul ignore start -- browser-only callback tested via Storybook */
+  /* istanbul ignore start @preserve -- browser-only callback tested via Storybook */
   const onRowHeightChange = useCallback(
     (updater: Updater<RowHeightValue>) => {
       const currentState = store.getState();
@@ -2079,7 +2079,7 @@ export function useDataGrid<TData>({
     },
     [store]
   );
-  /* istanbul ignore end */
+  /* istanbul ignore end @preserve */
 
   const defaultColumn: Partial<ColumnDef<TData>> = useMemo(
     () => ({
@@ -2135,7 +2135,7 @@ export function useDataGrid<TData>({
       onCellContextMenu,
       onCellEditingStart,
       onCellEditingStop,
-      /* istanbul ignore start -- browser-only callback tested via Storybook */
+      /* istanbul ignore start @preserve -- browser-only callback tested via Storybook */
       onCellsCopy: () => {
         void onCellsCopy();
       },
@@ -2145,7 +2145,7 @@ export function useDataGrid<TData>({
       onCellsPaste: () => {
         void onCellsPaste();
       },
-      /* istanbul ignore end */
+      /* istanbul ignore end @preserve */
       onSelectionClear,
       onFilesUpload: propsRef.current.onFilesUpload ?? undefined,
       onFilesDelete: propsRef.current.onFilesDelete ?? undefined,
@@ -2250,7 +2250,7 @@ export function useDataGrid<TData>({
       },
       []
     ),
-    /* istanbul ignore start -- browser-only Firefox detection */
+    /* istanbul ignore start @preserve -- browser-only Firefox detection */
     useCallback(() => {
       if (typeof window === "undefined" || typeof navigator === "undefined") {
         return false;
@@ -2258,10 +2258,10 @@ export function useDataGrid<TData>({
       return navigator.userAgent.includes("Firefox");
     }, []),
     useCallback(() => false, [])
-    /* istanbul ignore end */
+    /* istanbul ignore end @preserve */
   );
 
-  /* istanbul ignore start -- Firefox layout adjustment and virtualizer setup */
+  /* istanbul ignore start @preserve -- Firefox layout adjustment and virtualizer setup */
   // biome-ignore lint/correctness/useExhaustiveDependencies: columnPinning is used for calculating the adjustLayout
   const adjustLayout = useMemo(() => {
     const columnPinning = table.getState().columnPinning;
@@ -2281,11 +2281,11 @@ export function useDataGrid<TData>({
       ? undefined
       : (element) => element?.getBoundingClientRect().height,
   });
-  /* istanbul ignore end */
+  /* istanbul ignore end @preserve */
 
   rowVirtualizerRef.current ??= rowVirtualizer;
 
-  /* istanbul ignore start -- browser-only callback tested via Storybook */
+  /* istanbul ignore start @preserve -- browser-only callback tested via Storybook */
   const onScrollToRow = useCallback(
     async (opts: Partial<CellPosition>) => {
       const rowIndex = opts.rowIndex ?? 0;
@@ -2415,9 +2415,9 @@ export function useDataGrid<TData>({
     },
     [propsRef, onScrollToRow, onSelectionClear]
   );
-  /* istanbul ignore end */
+  /* istanbul ignore end @preserve */
 
-  /* istanbul ignore start -- browser-only callback tested via Storybook */
+  /* istanbul ignore start @preserve -- browser-only callback tested via Storybook */
   const onDataGridKeyDown = useCallback(
     (event: KeyboardEvent) => {
       const currentState = store.getState();
@@ -2993,7 +2993,7 @@ export function useDataGrid<TData>({
       onScrollToRow,
     ]
   );
-  /* istanbul ignore end */
+  /* istanbul ignore end @preserve */
 
   const searchState = useMemo<SearchState | undefined>(() => {
     if (!propsRef.current.enableSearch) return;
@@ -3021,7 +3021,7 @@ export function useDataGrid<TData>({
     onNavigateToPrevMatch,
   ]);
 
-  /* istanbul ignore start -- browser-only callback tested via Storybook */
+  /* istanbul ignore start @preserve -- browser-only callback tested via Storybook */
   useEffect(() => {
     const dataGridElement = dataGridRef.current;
     if (!dataGridElement) return;
@@ -3205,9 +3205,9 @@ export function useDataGrid<TData>({
       document.removeEventListener("mousedown", onOutsideClick);
     };
   }, [store, blurCell, onSelectionClear]);
-  /* istanbul ignore end */
+  /* istanbul ignore end @preserve */
 
-  /* istanbul ignore start -- browser-only callback tested via Storybook */
+  /* istanbul ignore start @preserve -- browser-only callback tested via Storybook */
   useEffect(() => {
     function onSelectStart(event: Event) {
       event.preventDefault();
@@ -3239,7 +3239,7 @@ export function useDataGrid<TData>({
       onUnsubscribe();
     };
   }, [store]);
-  /* istanbul ignore end */
+  /* istanbul ignore end @preserve */
 
   useIsomorphicLayoutEffect(() => {
     const rafId = requestAnimationFrame(() => {

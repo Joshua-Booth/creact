@@ -195,7 +195,7 @@ function DropdownMenuSubContent({
   );
 }
 
-/* istanbul ignore start -- Checkbox/Radio items tested transitively via menubar stories */
+/* istanbul ignore start @preserve -- Checkbox/Radio items tested transitively via menubar stories */
 /** Menu item with a toggleable checkbox indicator. */
 function DropdownMenuCheckboxItem({
   className,
@@ -283,7 +283,7 @@ function DropdownMenuRadioItem({
     </MenuPrimitive.RadioItem>
   );
 }
-/* istanbul ignore end */
+/* istanbul ignore end @preserve */
 
 /** Horizontal divider between menu sections. */
 function DropdownMenuSeparator({

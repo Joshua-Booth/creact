@@ -30,7 +30,7 @@ export function DataGridPasteDialog<TData>({
 
   if (!pasteDialog.open) return null;
 
-  /* istanbul ignore start -- browser-only callback tested via Storybook */
+  /* istanbul ignore start @preserve -- browser-only callback tested via Storybook */
   return (
     <PasteDialogInner
       pasteDialog={pasteDialog}
@@ -38,7 +38,7 @@ export function DataGridPasteDialog<TData>({
       onCellsPaste={onCellsPaste}
     />
   );
-  /* istanbul ignore end */
+  /* istanbul ignore end @preserve */
 }
 
 interface PasteDialogInnerProps
@@ -46,7 +46,7 @@ interface PasteDialogInnerProps
     Pick<TableMeta<unknown>, "onPasteDialogOpenChange" | "onCellsPaste">,
     Required<Pick<TableMeta<unknown>, "pasteDialog">> {}
 
-/* istanbul ignore start -- memo comparator is a performance optimization */
+/* istanbul ignore start @preserve -- memo comparator is a performance optimization */
 const PasteDialogInner = memo(PasteDialogInnerImpl, (prev, next) => {
   if (prev.pasteDialog.open !== next.pasteDialog.open) return false;
   if (!next.pasteDialog.open) return true;
@@ -54,9 +54,9 @@ const PasteDialogInner = memo(PasteDialogInnerImpl, (prev, next) => {
 
   return true;
 });
-/* istanbul ignore end */
+/* istanbul ignore end @preserve */
 
-/* istanbul ignore start -- browser-only callback tested via Storybook */
+/* istanbul ignore start @preserve -- browser-only callback tested via Storybook */
 function PasteDialogInnerImpl({
   pasteDialog,
   onPasteDialogOpenChange,
@@ -138,7 +138,7 @@ function PasteDialogInnerImpl({
     </Dialog>
   );
 }
-/* istanbul ignore end */
+/* istanbul ignore end @preserve */
 
 function RadioItem({ className, ...props }: React.ComponentProps<"input">) {
   return (

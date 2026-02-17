@@ -75,10 +75,10 @@ function ToggleGroupItem({
   return (
     <TogglePrimitive
       data-slot="toggle-group-item"
-      /* istanbul ignore start -- Context always provides variant/size in stories */
+      /* istanbul ignore start @preserve -- Context always provides variant/size in stories */
       data-variant={context.variant ?? variant}
       data-size={context.size ?? size}
-      /* istanbul ignore end */
+      /* istanbul ignore end @preserve */
       data-spacing={context.spacing}
       className={cn(
         `data-[state=on]:bg-muted shrink-0

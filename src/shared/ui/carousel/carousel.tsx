@@ -34,11 +34,11 @@ const CarouselContext = React.createContext<CarouselContextProps | null>(null);
 function useCarousel() {
   const context = React.use(CarouselContext);
 
-  /* istanbul ignore start -- Defensive guard: unreachable when used within <Carousel /> */
+  /* istanbul ignore start @preserve -- Defensive guard: unreachable when used within <Carousel /> */
   if (!context) {
     throw new Error("useCarousel must be used within a <Carousel />");
   }
-  /* istanbul ignore end */
+  /* istanbul ignore end @preserve */
 
   return context;
 }
@@ -65,9 +65,9 @@ function Carousel({
 
   // eslint-disable-next-line @eslint-react/no-unnecessary-use-callback -- Stable reference needed for api.on() event handlers
   const onSelect = React.useCallback((api: CarouselApi) => {
-    /* istanbul ignore start -- Defensive guard: api is always defined when called from useEffect */
+    /* istanbul ignore start @preserve -- Defensive guard: api is always defined when called from useEffect */
     if (!api) return;
-    /* istanbul ignore end */
+    /* istanbul ignore end @preserve */
     // eslint-disable-next-line @eslint-react/hooks-extra/no-direct-set-state-in-use-effect -- Syncing state with external carousel API is intentional
     setCanScrollPrev(api.canScrollPrev());
     // eslint-disable-next-line @eslint-react/hooks-extra/no-direct-set-state-in-use-effect -- Syncing state with external carousel API is intentional
@@ -82,7 +82,7 @@ function Carousel({
     api?.scrollNext();
   }, [api]);
 
-  /* istanbul ignore start -- Keyboard nav tested via interaction stories */
+  /* istanbul ignore start @preserve -- Keyboard nav tested via interaction stories */
   const handleKeyDown = React.useCallback(
     (event: React.KeyboardEvent<HTMLDivElement>) => {
       if (event.key === "ArrowLeft") {
@@ -95,7 +95,7 @@ function Carousel({
     },
     [scrollPrev, scrollNext]
   );
-  /* istanbul ignore end */
+  /* istanbul ignore end @preserve */
 
   React.useEffect(() => {
     if (!api || !setApi) return;

@@ -48,7 +48,7 @@ interface DataGridRowProps<TData> extends ComponentProps<"div"> {
 }
 
 /** Memoized virtualized row with custom comparator for optimal re-render performance. */
-/* istanbul ignore start -- memo comparator is a performance optimization */
+/* istanbul ignore start @preserve -- memo comparator is a performance optimization */
 export const DataGridRow = memo(DataGridRowImpl, (prev, next) => {
   const prevRowIndex = prev.virtualItem.index;
   const nextRowIndex = next.virtualItem.index;
@@ -93,7 +93,7 @@ export const DataGridRow = memo(DataGridRowImpl, (prev, next) => {
 
   return true;
 }) as typeof DataGridRowImpl;
-/* istanbul ignore end */
+/* istanbul ignore end @preserve */
 
 function DataGridRowImpl<TData>({
   row,

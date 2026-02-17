@@ -207,7 +207,7 @@ function NavigationMenuLink({
   );
 }
 
-/* istanbul ignore start -- Optional indicator component, not used in stories */
+/* istanbul ignore start @preserve -- Optional indicator component, not used in stories */
 /** Visual indicator that highlights the active navigation menu item. */
 function NavigationMenuIndicator({
   className,
@@ -231,7 +231,7 @@ function NavigationMenuIndicator({
     </NavigationMenuPrimitive.Icon>
   );
 }
-/* istanbul ignore end */
+/* istanbul ignore end @preserve */
 
 export {
   NavigationMenu,

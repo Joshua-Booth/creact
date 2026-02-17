@@ -128,13 +128,13 @@ function DialogFooter({
       {...props}
     >
       {children}
-      {/* istanbul ignore start -- showCloseButton false path, not rendered in stories */}
+      {/* istanbul ignore start @preserve -- showCloseButton false path, not rendered in stories */}
       {showCloseButton && (
         <DialogPrimitive.Close render={<Button variant="outline" />}>
           Close
         </DialogPrimitive.Close>
       )}
-      {/* istanbul ignore end */}
+      {/* istanbul ignore end @preserve */}
     </div>
   );
 }

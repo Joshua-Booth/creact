@@ -53,9 +53,9 @@ function InputOTPSlot({
   index: number;
 }) {
   const inputOTPContext = React.use(OTPInputContext);
-  /* istanbul ignore start -- Defensive fallback: slot always exists for valid index */
+  /* istanbul ignore start @preserve -- Defensive fallback: slot always exists for valid index */
   const { char, hasFakeCaret, isActive } = inputOTPContext.slots[index] ?? {};
-  /* istanbul ignore end */
+  /* istanbul ignore end @preserve */
 
   return (
     <div

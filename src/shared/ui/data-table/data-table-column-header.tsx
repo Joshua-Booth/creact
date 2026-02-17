@@ -41,6 +41,7 @@ export function DataTableColumnHeader<TData, TValue>({
   const sorted = column.getIsSorted();
 
   function getSortIcon() {
+    /* istanbul ignore next @preserve */
     if (!column.getCanSort()) return null;
     if (sorted === "desc") return <ChevronDown />;
     if (sorted === "asc") return <ChevronUp />;

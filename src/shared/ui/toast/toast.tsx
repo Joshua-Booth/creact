@@ -17,9 +17,9 @@ function Toaster({ ...props }: ToasterProps) {
 
   return (
     <Sonner
-      /* istanbul ignore start -- null coalescing branch: theme is always set in stories */
+      /* istanbul ignore start @preserve -- null coalescing branch: theme is always set in stories */
       theme={(theme ?? "system") as ToasterProps["theme"]}
-      /* istanbul ignore end */
+      /* istanbul ignore end @preserve */
       className="toaster group"
       icons={{
         success: <CircleCheckIcon className="size-4" />,

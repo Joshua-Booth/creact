@@ -245,6 +245,14 @@ describe("getCommonPinningStyles", () => {
     expect(styles.boxShadow).toBe("4px 0 4px -4px var(--border) inset");
   });
 
+  it("should not add shadow for middle left-pinned column with border", () => {
+    const styles = getCommonPinningStyles({
+      column: createMockColumn({ isPinned: "left", isLastLeft: false }),
+      withBorder: true,
+    });
+    expect(styles.boxShadow).toBeUndefined();
+  });
+
   it("should not add border shadow without withBorder", () => {
     const styles = getCommonPinningStyles({
       column: createMockColumn({ isPinned: "left", isLastLeft: true }),

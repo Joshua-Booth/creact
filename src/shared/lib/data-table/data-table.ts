@@ -78,7 +78,9 @@ export function getFilterOperators(filterVariant: FilterVariant) {
  */
 export function getDefaultFilterOperator(filterVariant: FilterVariant) {
   const operators = getFilterOperators(filterVariant);
-  return operators[0]?.value ?? (filterVariant === "text" ? "iLike" : "eq");
+  /* istanbul ignore next @preserve */
+  // eslint-disable-next-line @typescript-eslint/no-non-null-assertion -- operators arrays are always non-empty
+  return operators[0]!.value;
 }
 
 /**

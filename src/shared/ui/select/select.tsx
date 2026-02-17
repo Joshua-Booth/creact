@@ -10,7 +10,7 @@ import { cn } from "@/shared/lib/utils";
 /** Single-value selection dropdown. Wraps `@base-ui/react/select` with project styling. */
 const Select = SelectPrimitive.Root;
 
-/* istanbul ignore start -- Thin group wrapper, tested transitively */
+/* istanbul ignore start @preserve -- Thin group wrapper, tested transitively */
 /** Logical grouping of related select items. */
 function SelectGroup({ className, ...props }: SelectPrimitive.Group.Props) {
   return (
@@ -21,7 +21,7 @@ function SelectGroup({ className, ...props }: SelectPrimitive.Group.Props) {
     />
   );
 }
-/* istanbul ignore end */
+/* istanbul ignore end @preserve */
 
 /** Display element for the currently selected value. */
 function SelectValue({ className, ...props }: SelectPrimitive.Value.Props) {
@@ -137,7 +137,7 @@ function SelectContent({
   );
 }
 
-/* istanbul ignore start -- Thin label/separator wrappers, tested transitively */
+/* istanbul ignore start @preserve -- Thin label/separator wrappers, tested transitively */
 /** Label rendered above a select group. */
 function SelectLabel({
   className,
@@ -210,7 +210,7 @@ function SelectSeparator({
     />
   );
 }
-/* istanbul ignore end */
+/* istanbul ignore end @preserve */
 
 /** Arrow button for scrolling the select list upward. */
 function SelectScrollUpButton({

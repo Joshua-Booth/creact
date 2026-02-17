@@ -1,4 +1,4 @@
-import { describe, expect, it } from "vitest";
+import { describe, expect, it, vi } from "vitest";
 
 import { formatDate } from "./format";
 
@@ -46,5 +46,13 @@ describe("formatDate", () => {
       day: "2-digit",
     });
     expect(result).toContain("Mar");
+  });
+
+  it("should return empty string when Intl.DateTimeFormat throws", () => {
+    const spy = vi.spyOn(Intl, "DateTimeFormat").mockImplementation(() => {
+      throw new Error("Unsupported locale");
+    });
+    expect(formatDate(new Date(2026, 0, 1))).toBe("");
+    spy.mockRestore();
   });
 });

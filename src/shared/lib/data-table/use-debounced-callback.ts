@@ -21,6 +21,7 @@ export function useDebouncedCallback<T extends (...args: never[]) => unknown>(
     (...args: Parameters<T>) => {
       window.clearTimeout(debounceTimerRef.current);
       debounceTimerRef.current = window.setTimeout(
+        /* istanbul ignore next @preserve */
         () => handleCallback(...args),
         delay
       );

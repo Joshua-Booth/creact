@@ -17,7 +17,7 @@ import {
   XCircle,
 } from "lucide-react";
 import { NuqsAdapter } from "nuqs/adapters/react-router/v7";
-import { expect, userEvent, waitFor, within } from "storybook/test";
+import { expect, fireEvent, userEvent, waitFor, within } from "storybook/test";
 
 import { useDataTable } from "@/shared/lib/data-table";
 import { cn } from "@/shared/lib/utils";
@@ -338,6 +338,21 @@ export const RestaurantMenu = meta.story({
   render: (args) => <RestaurantMenuDemo {...args} />,
 });
 
+/** Table with actionBar prop that appears when rows are selected. */
+export const WithActionBar = meta.story({
+  render: (args) => <WithActionBarDemo {...args} />,
+});
+
+/** Table with a non-sortable, non-hideable column header rendered as plain text. */
+export const NonSortableColumn = meta.story({
+  render: (args) => <NonSortableColumnDemo {...args} />,
+});
+
+/** Faceted filter with count values on options. */
+export const FacetedFilterWithCounts = meta.story({
+  render: (args) => <FacetedFilterWithCountsDemo {...args} />,
+});
+
 // --- Tests ---
 
 Default.test("should render all rows", async ({ canvasElement, step }) => {
@@ -433,6 +448,7 @@ AllFilters.test(
 
     await step("type in title filter", async () => {
       const filterInput = canvas.getByPlaceholderText(/search titles/i);
+      await userEvent.clear(filterInput);
       await userEvent.type(filterInput, "Mobile");
       await expect(filterInput).toHaveValue("Mobile");
     });
@@ -555,6 +571,7 @@ Default.test(
 
     await step("type in title filter and verify filtering", async () => {
       const filterInput = canvas.getByPlaceholderText(/search titles/i);
+      await userEvent.clear(filterInput);
       await userEvent.type(filterInput, "Design");
       await waitFor(async () => {
         await expect(filterInput).toHaveValue("Design");
@@ -657,7 +674,7 @@ AllFilters.test(
 
     await step("select a filter option", async () => {
       const options = canvasElement.ownerDocument.querySelectorAll(
-        '[role="dialog"] [role="option"]'
+        '[data-slot="popover-content"] [role="option"]'
       );
       await expect(options.length).toBeGreaterThan(0);
 
@@ -712,11 +729,13 @@ AllFilters.test(
       await userEvent.type(fromInput, "25");
     });
 
-    await step("verify Clear button exists in popover", async () => {
-      const clearBtn = canvasElement.ownerDocument.querySelector(
-        'button[aria-label*="Clear"]'
-      );
-      await expect(clearBtn).not.toBeNull();
+    await step("verify Clear button exists", async () => {
+      await waitFor(async () => {
+        const clearBtn = canvasElement.ownerDocument.querySelector(
+          'button[aria-label*="Clear"]'
+        );
+        await expect(clearBtn).not.toBeNull();
+      });
     });
   }
 );
@@ -845,6 +864,475 @@ ColumnVisibility.test(
       if (options.length > 0 && options[0]) {
         await userEvent.click(options[0]);
       }
+    });
+  }
+);
+
+// --- Tests: WithActionBar ---
+
+WithActionBar.test(
+  "should show action bar when rows are selected",
+  async ({ canvasElement, step }) => {
+    const canvas = within(canvasElement);
+
+    await step("verify action bar is not visible initially", async () => {
+      await expect(
+        canvas.queryByText("Delete selected")
+      ).not.toBeInTheDocument();
+    });
+
+    await step("select a row and verify action bar appears", async () => {
+      const firstRowCheckbox = canvas.getAllByRole("checkbox", {
+        name: /select row/i,
+      })[0];
+      if (!firstRowCheckbox)
+        throw new Error("Expected at least one row checkbox");
+      await userEvent.click(firstRowCheckbox);
+      await waitFor(async () => {
+        await expect(canvas.getByText("Delete selected")).toBeVisible();
+      });
+    });
+  }
+);
+
+// --- Tests: NonSortableColumn ---
+
+NonSortableColumn.test(
+  "should render non-sortable column as plain text",
+  async ({ canvasElement, step }) => {
+    const canvas = within(canvasElement);
+
+    await step(
+      "verify ID column renders as plain text without dropdown",
+      async () => {
+        // The ID column header should be plain text, not a button
+        await expect(canvas.getByText("ID")).toBeVisible();
+        // Should not be a button
+        const buttons = canvas.getAllByRole("button");
+        const idButton = buttons.find((btn) => btn.textContent.trim() === "ID");
+        await expect(idButton).toBeUndefined();
+      }
+    );
+  }
+);
+
+// --- Tests: FacetedFilterWithCounts ---
+
+FacetedFilterWithCounts.test(
+  "should display count values in filter options",
+  async ({ canvasElement, step }) => {
+    await step("open status filter and verify counts are visible", async () => {
+      const filterButtons = canvasElement.querySelectorAll(
+        '[data-slot="data-table-toolbar"] button.border-dashed'
+      );
+      let statusButton: HTMLElement | null = null;
+      for (const btn of filterButtons) {
+        if (btn.textContent.includes("Status")) {
+          statusButton = btn as HTMLElement;
+          break;
+        }
+      }
+      if (!statusButton) throw new Error("Expected Status filter button");
+      await userEvent.click(statusButton);
+
+      await waitFor(async () => {
+        const doc = within(canvasElement.ownerDocument.body);
+        await expect(doc.getByText("5")).toBeVisible();
+        // "3" and "2" may match multiple elements (table data + filter counts)
+        const threes = doc.getAllByText("3");
+        await expect(threes.length).toBeGreaterThanOrEqual(1);
+        const twos = doc.getAllByText("2");
+        await expect(twos.length).toBeGreaterThanOrEqual(1);
+      });
+    });
+
+    await step("close popover", async () => {
+      await userEvent.keyboard("{Escape}");
+    });
+  }
+);
+
+// --- Tests: AllFilters (select 3+ options for aggregate badge) ---
+
+AllFilters.test(
+  "should show aggregate badge when 3+ faceted options selected",
+  async ({ canvasElement, step }) => {
+    await step("open Status filter and select all 3 options", async () => {
+      const filterButtons = canvasElement.querySelectorAll(
+        '[data-slot="data-table-toolbar"] button.border-dashed'
+      );
+      let statusButton: HTMLElement | null = null;
+      for (const btn of filterButtons) {
+        if (btn.textContent.includes("Status")) {
+          statusButton = btn as HTMLElement;
+          break;
+        }
+      }
+      if (!statusButton) throw new Error("Expected Status filter button");
+      await userEvent.click(statusButton);
+
+      await waitFor(async () => {
+        const options = canvasElement.ownerDocument.querySelectorAll(
+          '[data-slot="popover-content"] [role="option"]'
+        );
+        await expect(options.length).toBeGreaterThanOrEqual(3);
+      });
+
+      // Select all 3 options one at a time with verification
+      for (let i = 0; i < 3; i++) {
+        const opts = canvasElement.ownerDocument.querySelectorAll(
+          '[data-slot="popover-content"] [role="option"]'
+        );
+        const opt = opts[i];
+        if (opt) {
+          await userEvent.click(opt);
+          // Wait for the checkbox visual to update before clicking next
+          await waitFor(async () => {
+            const svg = opt.querySelector("svg");
+            await expect(svg).toBeTruthy();
+          });
+        }
+      }
+    });
+
+    await step("verify aggregate badge appears", async () => {
+      // Close popover first
+      await fireEvent.click(canvasElement);
+      // "3 selected" renders on lg+ screens; "3" badge renders on smaller viewports
+      await waitFor(
+        async () => {
+          const badges = canvasElement.querySelectorAll('[data-slot="badge"]');
+          const hasBadgeWith3 = [...badges].some(
+            (b) =>
+              b.textContent.includes("3 selected") ||
+              b.textContent.trim() === "3"
+          );
+          await expect(hasBadgeWith3).toBe(true);
+        },
+        { timeout: 5000 }
+      );
+    });
+  }
+);
+
+// --- Tests: AllFilters (clear filters in faceted filter) ---
+
+AllFilters.test(
+  "should clear filters in faceted filter",
+  async ({ canvasElement, step }) => {
+    await step("open Status filter and select an option", async () => {
+      const filterButtons = canvasElement.querySelectorAll(
+        '[data-slot="data-table-toolbar"] button.border-dashed'
+      );
+      let statusButton: HTMLElement | null = null;
+      for (const btn of filterButtons) {
+        if (btn.textContent.includes("Status")) {
+          statusButton = btn as HTMLElement;
+          break;
+        }
+      }
+      if (!statusButton) throw new Error("Expected Status filter button");
+      await userEvent.click(statusButton);
+
+      await waitFor(async () => {
+        const options = canvasElement.ownerDocument.querySelectorAll(
+          '[data-slot="popover-content"] [role="option"]'
+        );
+        await expect(options.length).toBeGreaterThan(0);
+      });
+
+      const options = canvasElement.ownerDocument.querySelectorAll(
+        '[data-slot="popover-content"] [role="option"]'
+      );
+      if (options[0]) await userEvent.click(options[0]);
+    });
+
+    await step("verify Clear filters appears and click it", async () => {
+      await waitFor(async () => {
+        const clearItem = canvasElement.ownerDocument.querySelector(
+          '[data-slot="popover-content"] [role="option"]'
+        );
+        await expect(clearItem).not.toBeNull();
+      });
+
+      const allOptions = canvasElement.ownerDocument.querySelectorAll(
+        '[data-slot="popover-content"] [role="option"]'
+      );
+      // "Clear filters" is the last option after the separator
+      const clearOption = [...allOptions].find((opt) =>
+        opt.textContent.includes("Clear filters")
+      );
+      if (clearOption) await userEvent.click(clearOption);
+    });
+
+    await step("close popover", async () => {
+      await userEvent.keyboard("{Escape}");
+    });
+  }
+);
+
+// --- Tests: AllFilters (slider "To" input) ---
+
+AllFilters.test(
+  "should accept value in slider To input",
+  async ({ canvasElement, step }) => {
+    await step("open Progress slider filter", async () => {
+      const filterButtons = canvasElement.querySelectorAll(
+        '[data-slot="data-table-toolbar"] button.border-dashed'
+      );
+      let progressButton: HTMLElement | null = null;
+      for (const btn of filterButtons) {
+        if (btn.textContent.includes("Progress")) {
+          progressButton = btn as HTMLElement;
+          break;
+        }
+      }
+      if (!progressButton) throw new Error("Expected Progress filter button");
+      await userEvent.click(progressButton);
+
+      await waitFor(async () => {
+        const inputs = canvasElement.ownerDocument.querySelectorAll(
+          'input[type="number"]'
+        );
+        await expect(inputs.length).toBeGreaterThanOrEqual(2);
+      });
+    });
+
+    await step("modify the To input", async () => {
+      const inputs = canvasElement.ownerDocument.querySelectorAll(
+        'input[type="number"]'
+      );
+      const toInput = inputs[1];
+      if (!toInput) throw new Error("Expected To input");
+
+      await userEvent.clear(toInput);
+      await userEvent.type(toInput, "75");
+    });
+  }
+);
+
+// --- Tests: AllFilters (clear slider filter) ---
+
+AllFilters.test(
+  "should clear slider filter via Clear button in popover",
+  async ({ canvasElement, step }) => {
+    await step("open Progress slider and modify from input", async () => {
+      const filterButtons = canvasElement.querySelectorAll(
+        '[data-slot="data-table-toolbar"] button.border-dashed'
+      );
+      let progressButton: HTMLElement | null = null;
+      for (const btn of filterButtons) {
+        if (btn.textContent.includes("Progress")) {
+          progressButton = btn as HTMLElement;
+          break;
+        }
+      }
+      if (!progressButton) throw new Error("Expected Progress filter button");
+      await userEvent.click(progressButton);
+
+      await waitFor(async () => {
+        const inputs = canvasElement.ownerDocument.querySelectorAll(
+          'input[type="number"]'
+        );
+        await expect(inputs.length).toBeGreaterThanOrEqual(2);
+      });
+
+      const inputs = canvasElement.ownerDocument.querySelectorAll(
+        'input[type="number"]'
+      );
+      const fromInput = inputs[0];
+      if (!fromInput) throw new Error("Expected from input");
+      await userEvent.clear(fromInput);
+      await userEvent.type(fromInput, "25");
+    });
+
+    await step("click Clear button inside the popover", async () => {
+      const popover = canvasElement.ownerDocument.querySelector(
+        '[data-slot="popover-content"]'
+      );
+      if (!popover) throw new Error("Expected popover content");
+      const popoverScope = within(popover as HTMLElement);
+      const clearBtn = popoverScope.getByRole("button", {
+        name: /clear progress filter/i,
+      });
+      // fireEvent bypasses pointer-events check on popover overlay
+      await fireEvent.click(clearBtn);
+    });
+  }
+);
+
+// --- Tests: AllFilters (reset all filters via toolbar Reset button) ---
+
+AllFilters.test(
+  "should reset all filters via toolbar Reset button",
+  async ({ canvasElement, step }) => {
+    const canvas = within(canvasElement);
+
+    await step("set a text filter to make Reset button appear", async () => {
+      const filterInput = canvas.getByPlaceholderText(/search titles/i);
+      await userEvent.clear(filterInput);
+      await userEvent.type(filterInput, "test");
+    });
+
+    await step("click the Reset button", async () => {
+      await waitFor(
+        async () => {
+          const resetBtn = canvas.getByRole("button", {
+            name: /reset filters/i,
+          });
+          await expect(resetBtn).toBeTruthy();
+        },
+        { timeout: 3000 }
+      );
+      const resetBtn = canvas.getByRole("button", {
+        name: /reset filters/i,
+      });
+      await fireEvent.click(resetBtn);
+    });
+
+    await step("verify filters are cleared", async () => {
+      await waitFor(async () => {
+        const resetBtn = canvasElement.querySelector(
+          'button[aria-label="Reset filters"]'
+        );
+        await expect(resetBtn).toBeNull();
+      });
+    });
+  }
+);
+
+// --- Tests: Default (sort desc + reset via dropdown) ---
+
+Default.test(
+  "should sort desc and reset via dropdown",
+  async ({ canvasElement, step }) => {
+    const canvas = within(canvasElement);
+
+    await step("open Title dropdown and click Desc", async () => {
+      const titleHeader = canvas.getByRole("button", { name: /title/i });
+      await userEvent.click(titleHeader);
+
+      await waitFor(async () => {
+        const menuItems = canvasElement.ownerDocument.querySelectorAll(
+          '[role="menuitemcheckbox"]'
+        );
+        await expect(menuItems.length).toBeGreaterThanOrEqual(2);
+      });
+
+      // Click Desc (second checkbox item) — fireEvent bypasses pointer-events check
+      const menuItems = canvasElement.ownerDocument.querySelectorAll(
+        '[role="menuitemcheckbox"]'
+      );
+      if (menuItems[1]) await fireEvent.click(menuItems[1]);
+    });
+
+    await step("re-open dropdown and click Reset", async () => {
+      const titleHeader = canvas.getByRole("button", { name: /title/i });
+      await userEvent.click(titleHeader);
+
+      await waitFor(async () => {
+        const resetItem =
+          canvasElement.ownerDocument.querySelector('[role="menuitem"]');
+        await expect(resetItem).not.toBeNull();
+      });
+
+      const resetItem =
+        canvasElement.ownerDocument.querySelector('[role="menuitem"]');
+      if (resetItem) await fireEvent.click(resetItem);
+    });
+  }
+);
+
+// --- Tests: Default (hide column via dropdown) ---
+
+Default.test(
+  "should hide column via header dropdown",
+  async ({ canvasElement, step }) => {
+    await step("open Status dropdown and click Hide", async () => {
+      // Target the column header button inside thead to avoid matching the filter button
+      const thead = canvasElement.querySelector("thead");
+      if (!thead) throw new Error("Expected thead");
+      const statusHeader = within(thead).getByRole("button", {
+        name: /status/i,
+      });
+      await userEvent.click(statusHeader);
+
+      await waitFor(async () => {
+        const menuItems = canvasElement.ownerDocument.querySelectorAll(
+          '[role="menuitemcheckbox"]'
+        );
+        await expect(menuItems.length).toBeGreaterThanOrEqual(1);
+      });
+
+      // Hide is the last checkbox item — fireEvent bypasses pointer-events check
+      const menuItems = canvasElement.ownerDocument.querySelectorAll(
+        '[role="menuitemcheckbox"]'
+      );
+      const hideItem = [...menuItems].find((item) =>
+        item.textContent.includes("Hide")
+      );
+      if (hideItem) await fireEvent.click(hideItem);
+    });
+
+    await step("verify Status column header is gone from thead", async () => {
+      await waitFor(async () => {
+        const thead = canvasElement.querySelector("thead");
+        if (!thead) throw new Error("Expected thead");
+        const statusHeader = within(thead).queryByRole("button", {
+          name: /status/i,
+        });
+        await expect(statusHeader).toBeNull();
+      });
+    });
+  }
+);
+
+// --- Tests: Pagination (first/last page buttons) ---
+
+Pagination.test(
+  "should navigate with first and last page buttons",
+  async ({ canvasElement, step }) => {
+    const canvas = within(canvasElement);
+
+    await step("verify first page button is disabled on page 1", async () => {
+      // First page button is hidden on non-lg screens, but we can check disabled state
+      const firstPageBtn = canvas.getByRole("button", {
+        name: /go to first page/i,
+      });
+      await expect(firstPageBtn).toBeDisabled();
+    });
+
+    await step("go to page 2", async () => {
+      const nextButton = canvas.getByRole("button", {
+        name: /go to next page/i,
+      });
+      await userEvent.click(nextButton);
+      await waitFor(async () => {
+        await expect(canvas.getByText(/page 2 of/i)).toBeVisible();
+      });
+    });
+
+    await step("click Go to first page", async () => {
+      const firstPageBtn = canvas.getByRole("button", {
+        name: /go to first page/i,
+      });
+      await userEvent.click(firstPageBtn);
+      await waitFor(async () => {
+        await expect(canvas.getByText(/page 1 of/i)).toBeVisible();
+      });
+    });
+
+    await step("click Go to last page", async () => {
+      const lastPageBtn = canvas.getByRole("button", {
+        name: /go to last page/i,
+      });
+      await userEvent.click(lastPageBtn);
+      await waitFor(async () => {
+        const lastPageBtn2 = canvas.getByRole("button", {
+          name: /go to last page/i,
+        });
+        await expect(lastPageBtn2).toBeDisabled();
+      });
     });
   }
 );
@@ -2891,6 +3379,196 @@ function RestaurantMenuDemo() {
 
   return (
     <div className="w-full max-w-5xl">
+      <DataTable table={table}>
+        <DataTableToolbar table={table} />
+      </DataTable>
+    </div>
+  );
+}
+
+// --- Demo: WithActionBar ---
+
+function WithActionBarDemo() {
+  // eslint-disable-next-line @eslint-react/no-unnecessary-use-memo -- stable reference for table config
+  const columns = useMemo<ColumnDef<Project>[]>(
+    () => [
+      {
+        id: "select",
+        header: ({ table }) => (
+          <Checkbox
+            checked={table.getIsAllPageRowsSelected()}
+            indeterminate={table.getIsSomePageRowsSelected()}
+            onCheckedChange={(value) => table.toggleAllPageRowsSelected(value)}
+            aria-label="Select all"
+          />
+        ),
+        cell: ({ row }) => (
+          <Checkbox
+            checked={row.getIsSelected()}
+            onCheckedChange={(value) => row.toggleSelected(value)}
+            aria-label="Select row"
+          />
+        ),
+        size: 32,
+        enableSorting: false,
+        enableHiding: false,
+      },
+      {
+        id: "title",
+        accessorKey: "title",
+        header: ({ column }) => (
+          <DataTableColumnHeader column={column} label="Title" />
+        ),
+        cell: ({ cell }) => (
+          <div className="font-medium">{cell.getValue<string>()}</div>
+        ),
+        meta: { label: "Title" },
+      },
+      {
+        id: "status",
+        accessorKey: "status",
+        header: ({ column }) => (
+          <DataTableColumnHeader column={column} label="Status" />
+        ),
+        cell: ({ cell }) => cell.getValue<string>(),
+        meta: { label: "Status" },
+      },
+    ],
+    []
+  );
+
+  const { table } = useDataTable({
+    data: projects,
+    columns,
+    pageCount: 1,
+    getRowId: (row) => row.id,
+  });
+
+  return (
+    <div className="w-full max-w-4xl">
+      <DataTable
+        table={table}
+        actionBar={
+          <div className="bg-muted rounded-md p-2 text-center text-sm">
+            Delete selected
+          </div>
+        }
+      />
+    </div>
+  );
+}
+
+// --- Demo: NonSortableColumn ---
+
+function NonSortableColumnDemo() {
+  // eslint-disable-next-line @eslint-react/no-unnecessary-use-memo -- stable reference for table config
+  const columns = useMemo<ColumnDef<Project>[]>(
+    () => [
+      {
+        id: "id",
+        accessorKey: "id",
+        header: ({ column }) => (
+          <DataTableColumnHeader column={column} label="ID" />
+        ),
+        cell: ({ cell }) => cell.getValue<string>(),
+        enableSorting: false,
+        enableHiding: false,
+      },
+      {
+        id: "title",
+        accessorKey: "title",
+        header: ({ column }) => (
+          <DataTableColumnHeader column={column} label="Title" />
+        ),
+        cell: ({ cell }) => (
+          <div className="font-medium">{cell.getValue<string>()}</div>
+        ),
+        meta: { label: "Title" },
+      },
+      {
+        id: "status",
+        accessorKey: "status",
+        header: ({ column }) => (
+          <DataTableColumnHeader column={column} label="Status" />
+        ),
+        cell: ({ cell }) => cell.getValue<string>(),
+        meta: { label: "Status" },
+        enableSorting: false,
+      },
+    ],
+    []
+  );
+
+  const { table } = useDataTable({
+    data: projects,
+    columns,
+    pageCount: 1,
+    getRowId: (row) => row.id,
+  });
+
+  return (
+    <div className="w-full max-w-4xl">
+      <DataTable table={table} />
+    </div>
+  );
+}
+
+// --- Demo: FacetedFilterWithCounts ---
+
+const statusOptionsWithCounts = [
+  { label: "Active", value: "active", icon: CheckCircle2, count: 5 },
+  { label: "Draft", value: "draft", icon: CircleDashed, count: 3 },
+  { label: "Archived", value: "archived", icon: XCircle, count: 2 },
+];
+
+function FacetedFilterWithCountsDemo() {
+  // eslint-disable-next-line @eslint-react/no-unnecessary-use-memo -- stable reference for table config
+  const columns = useMemo<ColumnDef<Project>[]>(
+    () => [
+      {
+        id: "title",
+        accessorKey: "title",
+        header: ({ column }) => (
+          <DataTableColumnHeader column={column} label="Title" />
+        ),
+        cell: ({ cell }) => (
+          <div className="font-medium">{cell.getValue<string>()}</div>
+        ),
+        meta: {
+          label: "Title",
+          placeholder: "Search titles...",
+          variant: "text",
+          icon: Text,
+        },
+        enableColumnFilter: true,
+      },
+      {
+        id: "status",
+        accessorKey: "status",
+        header: ({ column }) => (
+          <DataTableColumnHeader column={column} label="Status" />
+        ),
+        cell: ({ cell }) => cell.getValue<string>(),
+        meta: {
+          label: "Status",
+          variant: "multiSelect",
+          options: statusOptionsWithCounts,
+        },
+        enableColumnFilter: true,
+      },
+    ],
+    []
+  );
+
+  const { table } = useDataTable({
+    data: projects,
+    columns,
+    pageCount: 1,
+    getRowId: (row) => row.id,
+  });
+
+  return (
+    <div className="w-full max-w-4xl">
       <DataTable table={table}>
         <DataTableToolbar table={table} />
       </DataTable>

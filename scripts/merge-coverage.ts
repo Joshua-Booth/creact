@@ -77,6 +77,45 @@ function containsPoint(
   return true;
 }
 
+// --- Istanbul ignore range helpers ---
+
+interface IgnoreRange {
+  startLine: number;
+  endLine: number;
+}
+
+const IGNORE_START_RE = /(?:\/\*|\/\/)\s*istanbul ignore start\b/;
+const IGNORE_END_RE = /(?:\/\*|\/\/)\s*istanbul ignore end\b/;
+const IGNORE_NEXT_RE = /(?:\/\*|\/\/)\s*istanbul ignore next\b/;
+
+function parseIstanbulIgnoreRanges(source: string): IgnoreRange[] {
+  const lines = source.split("\n");
+  const ranges: IgnoreRange[] = [];
+  let ignoreStartLine: number | null = null;
+
+  for (let i = 0; i < lines.length; i++) {
+    const line = lines[i];
+    const lineNum = i + 1;
+
+    if (IGNORE_START_RE.test(line)) {
+      ignoreStartLine = lineNum;
+    }
+    if (IGNORE_END_RE.test(line) && ignoreStartLine != null) {
+      ranges.push({ startLine: ignoreStartLine, endLine: lineNum });
+      ignoreStartLine = null;
+    }
+    if (IGNORE_NEXT_RE.test(line)) {
+      ranges.push({ startLine: lineNum, endLine: lineNum + 1 });
+    }
+  }
+
+  if (ignoreStartLine != null) {
+    ranges.push({ startLine: ignoreStartLine, endLine: lines.length });
+  }
+
+  return ranges;
+}
+
 // --- Merge helpers ---
 
 function buildLocIndex(
@@ -244,6 +283,69 @@ function stripPhantomImportBranches(
   }
 }
 
+function isLineIgnored(ranges: IgnoreRange[], line: number): boolean {
+  return ranges.some((r) => line >= r.startLine && line <= r.endLine);
+}
+
+/**
+ * Strip coverage entries that fall within `istanbul ignore start/end` or
+ * `istanbul ignore next` blocks in source files. Monocart's V8-to-Istanbul
+ * conversion does not recognise istanbul ignore comments, so E2E data can
+ * reintroduce entries for regions the Istanbul instrumenter would skip.
+ * @param combined - Merged coverage map to mutate
+ */
+function stripIstanbulIgnoredEntries(
+  combined: Record<string, IstanbulEntry>
+): void {
+  for (const entry of Object.values(combined)) {
+    let source: string;
+    try {
+      source = readFileSync(entry.path, "utf-8");
+    } catch {
+      continue;
+    }
+
+    const ranges = parseIstanbulIgnoreRanges(source);
+    if (ranges.length === 0) continue;
+
+    const stmtIds = new Set(
+      Object.entries(entry.statementMap)
+        .filter(([, loc]) => isLineIgnored(ranges, loc.start.line))
+        .map(([id]) => id)
+    );
+    entry.statementMap = Object.fromEntries(
+      Object.entries(entry.statementMap).filter(([k]) => !stmtIds.has(k))
+    );
+    entry.s = Object.fromEntries(
+      Object.entries(entry.s).filter(([k]) => !stmtIds.has(k))
+    );
+
+    const fnIds = new Set(
+      Object.entries(entry.fnMap)
+        .filter(([, fn]) => isLineIgnored(ranges, fn.loc.start.line))
+        .map(([id]) => id)
+    );
+    entry.fnMap = Object.fromEntries(
+      Object.entries(entry.fnMap).filter(([k]) => !fnIds.has(k))
+    );
+    entry.f = Object.fromEntries(
+      Object.entries(entry.f).filter(([k]) => !fnIds.has(k))
+    );
+
+    const brIds = new Set(
+      Object.entries(entry.branchMap)
+        .filter(([, br]) => isLineIgnored(ranges, br.loc.start.line))
+        .map(([id]) => id)
+    );
+    entry.branchMap = Object.fromEntries(
+      Object.entries(entry.branchMap).filter(([k]) => !brIds.has(k))
+    );
+    entry.b = Object.fromEntries(
+      Object.entries(entry.b).filter(([k]) => !brIds.has(k))
+    );
+  }
+}
+
 // --- Coverage filters ---
 
 /** Patterns excluded from coverage metrics (aligned with vitest.config.ts) */
@@ -352,7 +454,7 @@ function loadAndMergeIstanbulFiles(
 
 async function main(): Promise<void> {
   const istanbulFiles = collectIstanbulFiles();
-  const e2eRawDir = path.join(rootDir, "coverage/e2e/raw");
+  const e2eRawDir = path.join(rootDir, "coverage/e2e/coverage/raw");
   const hasE2E = existsSync(e2eRawDir);
 
   if (istanbulFiles.length === 0 && !hasE2E) {
@@ -374,6 +476,9 @@ async function main(): Promise<void> {
 
   // Phase 2: Merge all Istanbul coverage with location-based deduplication
   const combined = loadAndMergeIstanbulFiles(allIstanbulFiles);
+
+  // Phase 2.5: Strip entries within istanbul ignore blocks
+  stripIstanbulIgnoredEntries(combined);
 
   // Phase 3: Strip V8 phantom branches on module imports
   stripPhantomImportBranches(combined);

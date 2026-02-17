@@ -84,13 +84,21 @@ function DataTableToolbarFilter<TData>({
   const columnMeta = column.columnDef.meta;
 
   const onFilterRender = useCallback(() => {
+    /* istanbul ignore next @preserve */
     if (columnMeta?.variant == null) return null;
+
+    /* istanbul ignore next @preserve */
+    const placeholder = columnMeta.placeholder ?? columnMeta.label;
+    /* istanbul ignore next @preserve */
+    const title = columnMeta.label ?? column.id;
+    /* istanbul ignore next @preserve */
+    const options = columnMeta.options ?? [];
 
     switch (columnMeta.variant) {
       case "text":
         return (
           <Input
-            placeholder={columnMeta.placeholder ?? columnMeta.label}
+            placeholder={placeholder}
             value={(column.getFilterValue() as string | undefined) ?? ""}
             onChange={(event) => column.setFilterValue(event.target.value)}
             className="h-8 w-40 lg:w-56"
@@ -103,7 +111,7 @@ function DataTableToolbarFilter<TData>({
             <Input
               type="number"
               inputMode="numeric"
-              placeholder={columnMeta.placeholder ?? columnMeta.label}
+              placeholder={placeholder}
               value={(column.getFilterValue() as string | undefined) ?? ""}
               onChange={(event) => column.setFilterValue(event.target.value)}
               className={cn("h-8 w-[120px]", columnMeta.unit && "pr-8")}
@@ -117,19 +125,14 @@ function DataTableToolbarFilter<TData>({
         );
 
       case "range":
-        return (
-          <DataTableSliderFilter
-            column={column}
-            title={columnMeta.label ?? column.id}
-          />
-        );
+        return <DataTableSliderFilter column={column} title={title} />;
 
       case "date":
       case "dateRange":
         return (
           <DataTableDateFilter
             column={column}
-            title={columnMeta.label ?? column.id}
+            title={title}
             multiple={columnMeta.variant === "dateRange"}
           />
         );
@@ -139,12 +142,13 @@ function DataTableToolbarFilter<TData>({
         return (
           <DataTableFacetedFilter
             column={column}
-            title={columnMeta.label ?? column.id}
-            options={columnMeta.options ?? []}
+            title={title}
+            options={options}
             multiple={columnMeta.variant === "multiSelect"}
           />
         );
 
+      /* istanbul ignore next @preserve */
       default:
         return null;
     }

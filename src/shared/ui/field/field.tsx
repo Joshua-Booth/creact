@@ -222,7 +222,7 @@ function FieldSeparator({
       {...props}
     >
       <Separator className="absolute inset-0 top-1/2" />
-      {/* istanbul ignore start -- children branch not exercised in all stories */}
+      {/* istanbul ignore start @preserve -- children branch not exercised in all stories */}
       {children != null && (
         <span
           className="bg-background text-muted-foreground relative mx-auto block
@@ -232,7 +232,7 @@ function FieldSeparator({
           {children}
         </span>
       )}
-      {/* istanbul ignore end */}
+      {/* istanbul ignore end @preserve */}
     </div>
   );
 }
@@ -261,11 +261,11 @@ function FieldError({
       return children;
     }
 
-    /* istanbul ignore start -- Empty errors array path, only reachable with explicit empty array */
+    /* istanbul ignore start @preserve -- Empty errors array path, only reachable with explicit empty array */
     if (errors === undefined || errors.length === 0) {
       return null;
     }
-    /* istanbul ignore end */
+    /* istanbul ignore end @preserve */
 
     const uniqueErrors = [
       ...new Map(errors.map((error) => [error?.message, error])).values(),
@@ -285,11 +285,11 @@ function FieldError({
     );
   }, [children, errors]);
 
-  /* istanbul ignore start -- Null content early return, covered by empty errors path */
+  /* istanbul ignore start @preserve -- Null content early return, covered by empty errors path */
   if (content == null) {
     return null;
   }
-  /* istanbul ignore end */
+  /* istanbul ignore end @preserve */
 
   return (
     <div
@@ -309,7 +309,7 @@ const FieldControl = FieldPrimitive.Control;
 /** Base UI validity primitive for accessing field validation state. */
 const FieldValidity = FieldPrimitive.Validity;
 
-/* istanbul ignore start -- Thin Base UI wrappers, tested transitively */
+/* istanbul ignore start @preserve -- Thin Base UI wrappers, tested transitively */
 /** Headless field root that provides validation context without visual styling. */
 function FieldProvider({ className, ...props }: FieldPrimitive.Root.Props) {
   return (
@@ -327,7 +327,7 @@ function FieldItem({ className, ...props }: FieldPrimitive.Item.Props) {
     />
   );
 }
-/* istanbul ignore end */
+/* istanbul ignore end @preserve */
 
 export {
   Field,

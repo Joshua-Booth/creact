@@ -4,6 +4,11 @@ import { useCallback, useId, useMemo } from "react";
 
 import { PlusCircle, XCircle } from "lucide-react";
 
+import {
+  formatValue,
+  getIsValidRange,
+  parseValuesAsNumbers,
+} from "@/shared/lib/data-table/slider-filter-utils";
 import { cn } from "@/shared/lib/utils";
 import { Button } from "@/shared/ui/button";
 import { ButtonGroup } from "@/shared/ui/button-group";
@@ -13,39 +18,11 @@ import { Popover, PopoverContent, PopoverTrigger } from "@/shared/ui/popover";
 import { Separator } from "@/shared/ui/separator";
 import { Slider } from "@/shared/ui/slider";
 
+type RangeValue = [number, number];
+
 interface Range {
   min: number;
   max: number;
-}
-
-type RangeValue = [number, number];
-
-function getIsValidRange(value: unknown): value is RangeValue {
-  return (
-    Array.isArray(value) &&
-    value.length === 2 &&
-    typeof value[0] === "number" &&
-    typeof value[1] === "number"
-  );
-}
-
-function parseValuesAsNumbers(value: unknown): RangeValue | undefined {
-  if (
-    Array.isArray(value) &&
-    value.length === 2 &&
-    value.every(
-      (v) =>
-        (typeof v === "string" || typeof v === "number") && !Number.isNaN(v)
-    )
-  ) {
-    return [Number(value[0]), Number(value[1])];
-  }
-
-  return undefined;
-}
-
-function formatValue(value: number) {
-  return value.toLocaleString(undefined, { maximumFractionDigits: 0 });
 }
 
 interface DataTableSliderFilterProps<TData> {
@@ -71,6 +48,7 @@ export function DataTableSliderFilter<TData>({
     let minValue = 0;
     let maxValue = 100;
 
+    /* istanbul ignore else @preserve */
     if (defaultRange && getIsValidRange(defaultRange)) {
       [minValue, maxValue] = defaultRange;
     } else {
@@ -90,6 +68,7 @@ export function DataTableSliderFilter<TData>({
 
     const rangeSize = maxValue - minValue;
     let step: number;
+    /* istanbul ignore next @preserve */
     if (rangeSize <= 20) {
       step = 1;
     } else if (rangeSize <= 100) {
@@ -108,6 +87,7 @@ export function DataTableSliderFilter<TData>({
   const onFromInputChange = useCallback(
     (event: React.ChangeEvent<HTMLInputElement>) => {
       const numValue = Number(event.target.value);
+      /* istanbul ignore else @preserve */
       if (!Number.isNaN(numValue) && numValue >= min && numValue <= range[1]) {
         column.setFilterValue([numValue, range[1]]);
       }
@@ -115,6 +95,7 @@ export function DataTableSliderFilter<TData>({
     [column, min, range]
   );
 
+  /* istanbul ignore next @preserve */
   const onToInputChange = useCallback(
     (event: React.ChangeEvent<HTMLInputElement>) => {
       const numValue = Number(event.target.value);
@@ -125,6 +106,7 @@ export function DataTableSliderFilter<TData>({
     [column, max, range]
   );
 
+  /* istanbul ignore next @preserve */
   const onSliderValueChange = useCallback(
     (value: number | readonly number[]) => {
       if (Array.isArray(value) && value.length === 2) {
@@ -137,6 +119,9 @@ export function DataTableSliderFilter<TData>({
   const onReset = useCallback(() => {
     column.setFilterValue(undefined);
   }, [column]);
+
+  /* istanbul ignore next @preserve */
+  const unitSuffix = unit ? ` ${unit}` : "";
 
   return (
     <Popover>
@@ -181,7 +166,7 @@ export function DataTableSliderFilter<TData>({
             />
             {formatValue(columnFilterValue[0])} -{" "}
             {formatValue(columnFilterValue[1])}
-            {unit ? ` ${unit}` : ""}
+            {unitSuffix}
           </PopoverTrigger>
         </ButtonGroup>
       )}

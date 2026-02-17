@@ -19,11 +19,11 @@ import { DataGridSearch } from "./data-grid-search";
 
 const EMPTY_CELL_SELECTION_SET = new Set<string>();
 
-/* istanbul ignore start -- browser-only context menu prevention */
+/* istanbul ignore start @preserve -- browser-only context menu prevention */
 function onDataGridContextMenu(event: React.MouseEvent<HTMLDivElement>) {
   event.preventDefault();
 }
-/* istanbul ignore end */
+/* istanbul ignore end @preserve */
 
 interface DataGridProps<TData>
   extends
@@ -79,7 +79,7 @@ export function DataGrid<TData>({
     [onRowAddRef]
   );
 
-  /* istanbul ignore start -- browser-only callback tested via Storybook */
+  /* istanbul ignore start @preserve -- browser-only callback tested via Storybook */
   const onFooterCellKeyDown = useCallback(
     (event: React.KeyboardEvent<HTMLDivElement>) => {
       if (!onRowAddRef.current) return;
@@ -91,7 +91,7 @@ export function DataGrid<TData>({
     },
     [onRowAddRef]
   );
-  /* istanbul ignore end */
+  /* istanbul ignore end @preserve */
 
   return (
     <div
@@ -140,11 +140,11 @@ export function DataGrid<TData>({
             >
               {headerGroup.headers.map((header, colIndex) => {
                 const sorting = table.getState().sorting;
-                /* istanbul ignore start -- browser-only callback tested via Storybook */
+                /* istanbul ignore start @preserve -- browser-only callback tested via Storybook */
                 const currentSort = sorting.find(
                   (sort) => sort.id === header.column.id
                 );
-                /* istanbul ignore end */
+                /* istanbul ignore end @preserve */
                 const isSortable = header.column.getCanSort();
 
                 const nextHeader = headerGroup.headers[colIndex + 1];
@@ -163,7 +163,7 @@ export function DataGrid<TData>({
                   | "descending"
                   | "none"
                   | undefined;
-                /* istanbul ignore start -- browser-only callback tested via Storybook */
+                /* istanbul ignore start @preserve -- browser-only callback tested via Storybook */
                 if (currentSort?.desc === false) {
                   ariaSortValue = "ascending";
                 } else if (currentSort?.desc === true) {
@@ -171,9 +171,9 @@ export function DataGrid<TData>({
                 } else {
                   ariaSortValue = isSortable ? "none" : undefined;
                 }
-                /* istanbul ignore end */
+                /* istanbul ignore end @preserve */
 
-                /* istanbul ignore start -- browser-only header rendering */
+                /* istanbul ignore start @preserve -- browser-only header rendering */
                 let headerContent: React.ReactNode = null;
                 if (!header.isPlaceholder) {
                   headerContent =
@@ -212,7 +212,7 @@ export function DataGrid<TData>({
                     {headerContent}
                   </div>
                 );
-                /* istanbul ignore end */
+                /* istanbul ignore end @preserve */
               })}
             </div>
           ))}
@@ -229,9 +229,9 @@ export function DataGrid<TData>({
         >
           {virtualItems.map((virtualItem) => {
             const row = rows[virtualItem.index];
-            /* istanbul ignore start -- defensive guard */
+            /* istanbul ignore start @preserve -- defensive guard */
             if (!row) return null;
-            /* istanbul ignore end */
+            /* istanbul ignore end @preserve */
 
             const cellSelectionKeys =
               cellSelectionMap?.get(virtualItem.index) ??

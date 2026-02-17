@@ -71,7 +71,7 @@ interface ContextMenuInnerProps<TData>
   columns: ColumnDef<TData>[];
 }
 
-/* istanbul ignore start -- memo comparator is a performance optimization */
+/* istanbul ignore start @preserve -- memo comparator is a performance optimization */
 const ContextMenuInner = memo(ContextMenuInnerImpl, (prev, next) => {
   if (prev.contextMenu.open !== next.contextMenu.open) return false;
   if (!next.contextMenu.open) return true;
@@ -84,9 +84,9 @@ const ContextMenuInner = memo(ContextMenuInnerImpl, (prev, next) => {
 
   return true;
 }) as typeof ContextMenuInnerImpl;
-/* istanbul ignore end */
+/* istanbul ignore end @preserve */
 
-/* istanbul ignore start -- browser-only context menu tested via Storybook */
+/* istanbul ignore start @preserve -- browser-only context menu tested via Storybook */
 function ContextMenuInnerImpl<TData>({
   tableMeta,
   columns,
@@ -126,7 +126,7 @@ function ContextMenuInnerImpl<TData>({
     [contextMenu.x, contextMenu.y]
   );
 
-  /* istanbul ignore start -- browser-only callback tested via Storybook */
+  /* istanbul ignore start @preserve -- browser-only callback tested via Storybook */
   const finalFocus = useCallback(() => {
     propsRef.current.dataGridRef?.current?.focus();
   }, [propsRef]);
@@ -216,7 +216,7 @@ function ContextMenuInnerImpl<TData>({
       toast.success(`${rowCount} row${rowCount === 1 ? "" : "s"} deleted`);
     })();
   }, [propsRef]);
-  /* istanbul ignore end */
+  /* istanbul ignore end @preserve */
 
   return (
     <DropdownMenu
@@ -255,4 +255,4 @@ function ContextMenuInnerImpl<TData>({
     </DropdownMenu>
   );
 }
-/* istanbul ignore end */
+/* istanbul ignore end @preserve */
