@@ -40,6 +40,7 @@ export interface Option {
 
 export type FilterOperator = DataTableConfig["operators"][number];
 export type FilterVariant = DataTableConfig["filterVariants"][number];
+/** @public */
 export type JoinOperator = DataTableConfig["joinOperators"][number];
 
 export interface ExtendedColumnSort<TData> extends Omit<ColumnSort, "id"> {
@@ -50,6 +51,7 @@ export interface ExtendedColumnFilter<TData> extends FilterItemSchema {
   id: Extract<keyof TData, string>;
 }
 
+/** @public */
 export interface DataTableRowAction<TData> {
   row: Row<TData>;
   variant: "update" | "delete";

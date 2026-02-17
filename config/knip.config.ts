@@ -52,6 +52,7 @@ const config: KnipConfig = {
     "msw-storybook-addon",
     // Coverage tooling (loaded dynamically by vitest)
     "@vitest/coverage-v8",
+    "@vitest/coverage-istanbul",
     "monocart-coverage-reports",
   ],
 

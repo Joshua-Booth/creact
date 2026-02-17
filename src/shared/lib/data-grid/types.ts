@@ -258,6 +258,7 @@ export type FilterOperator =
   | SelectFilterOperator
   | BooleanFilterOperator;
 
+/** @public */
 export interface FilterValue {
   operator: FilterOperator;
   value?: string | number | string[];
