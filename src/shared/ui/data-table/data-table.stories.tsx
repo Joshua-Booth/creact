@@ -986,10 +986,10 @@ AllFilters.test(
         const opt = opts[i];
         if (opt) {
           await userEvent.click(opt);
-          // Wait for the checkbox visual to update before clicking next
+          // Wait for the checkmark to become visible before clicking next
           await waitFor(async () => {
-            const svg = opt.querySelector("svg");
-            await expect(svg).toBeTruthy();
+            const checkmark = opt.querySelector("svg");
+            await expect(checkmark).toBeVisible();
           });
         }
       }
@@ -997,7 +997,7 @@ AllFilters.test(
 
     await step("verify aggregate badge appears", async () => {
       // Close popover first
-      await fireEvent.click(canvasElement);
+      await userEvent.keyboard("{Escape}");
       // "3 selected" renders on lg+ screens; "3" badge renders on smaller viewports
       await waitFor(
         async () => {
