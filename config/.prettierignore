@@ -107,5 +107,8 @@ pnpm-lock.yaml
 test-results
 playwright-report
 
+# Claude Code
+../.claude
+
 # Generated files
 ../public/mockServiceWorker.js
