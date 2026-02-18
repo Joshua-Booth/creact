@@ -127,9 +127,7 @@ Default.test(
       await expect(
         await canvasBody.findByRole("option", { name: /Banana/ })
       ).toHaveAttribute("data-selected");
-      await userEvent.click(
-        await canvasBody.findByRole("option", { name: /Banana/ })
-      );
+      await userEvent.keyboard("{Escape}");
     });
   }
 );
