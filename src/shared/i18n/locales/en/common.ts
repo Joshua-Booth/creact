@@ -97,8 +97,9 @@ export default {
       error: "Something went wrong loading your dashboard.",
     },
     logout: {
-      heading: "Logout",
-      loggingOut: "Logging out...",
+      heading: "You've been signed out",
+      description: "You've been safely signed out of your account.",
+      backToLogin: "Back to login",
     },
   },
 } as const;
