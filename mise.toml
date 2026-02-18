@@ -134,7 +134,7 @@ run = "echo 'All fixes applied!'"
 description = "Fix code with ESLint"
 alias = "l"
 depends = ["typegen"]
-run = "eslint . --ext .ts,.tsx --config {{vars.eslint_config}} --max-warnings 0 --fix"
+run = "eslint . --ext .ts,.tsx --config {{vars.eslint_config}} --max-warnings 0 --fix --cache"
 
 [tasks."lint:files"]
 description = "Lint specific files (for lint-staged)"
@@ -145,7 +145,7 @@ run = "eslint --config {{vars.eslint_config}} --fix"
 description = "Check code with ESLint"
 alias = "lc"
 depends = ["typegen"]
-run = "eslint . --ext .ts,.tsx --config {{vars.eslint_config}} --max-warnings 0"
+run = "eslint . --ext .ts,.tsx --config {{vars.eslint_config}} --max-warnings 0 --cache"
 
 [tasks.lintstaged]
 description = "Run lint-staged on staged files"
