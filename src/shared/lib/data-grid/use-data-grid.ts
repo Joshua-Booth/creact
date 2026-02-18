@@ -1,4 +1,4 @@
-/* eslint-disable @typescript-eslint/no-unnecessary-condition, react-you-might-not-need-an-effect/no-pass-ref-to-parent, sonarjs/cognitive-complexity, react-hooks/exhaustive-deps, @eslint-react/no-unnecessary-use-callback, @eslint-react/no-unnecessary-use-memo, @eslint-react/web-api/no-leaked-event-listener, security/detect-unsafe-regex -- Ported from diceui: ref access during render, complex hook logic, and defensive checks are intentional */
+/* eslint-disable @typescript-eslint/no-unnecessary-condition, sonarjs/cognitive-complexity, react-hooks/exhaustive-deps, @eslint-react/no-unnecessary-use-callback, @eslint-react/no-unnecessary-use-memo, @eslint-react/web-api/no-leaked-event-listener, security/detect-unsafe-regex -- Ported from diceui: ref access during render, complex hook logic, and defensive checks are intentional */
 
 import type {
   ColumnDef,
