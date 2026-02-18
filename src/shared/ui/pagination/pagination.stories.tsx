@@ -1,4 +1,4 @@
-import { MemoryRouter, Link as RouterLink } from "react-router";
+import { Link as RouterLink } from "react-router";
 
 import preview from "@/storybook/preview";
 
@@ -148,13 +148,6 @@ export const IconsOnly = meta.story({
  */
 export const ReactRouter = meta.story({
   name: "React Router",
-  decorators: [
-    (Story) => (
-      <MemoryRouter>
-        <Story />
-      </MemoryRouter>
-    ),
-  ],
   render: (args) => (
     <Pagination {...args}>
       <PaginationContent>
