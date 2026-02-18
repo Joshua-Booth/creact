@@ -440,6 +440,8 @@ export default defineConfig([
       "public/mockServiceWorker.js",
       // CommonJS config files (not type-checked)
       "config/.dependency-cruiser.js",
+      // Claude Code skills/plugins
+      "**/skills/**",
     ],
   },
 ]);
