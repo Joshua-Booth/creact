@@ -117,7 +117,7 @@ function DataTableToolbarFilter<TData>({
               className={cn("h-8 w-[120px]", columnMeta.unit && "pr-8")}
             />
             {columnMeta.unit && (
-              <span className="bg-accent text-muted-foreground absolute top-0 right-0 bottom-0 flex items-center rounded-r-md px-2 text-sm">
+              <span className="bg-accent text-muted-foreground absolute inset-y-0 right-0 flex items-center rounded-r-md px-2 text-sm">
                 {columnMeta.unit}
               </span>
             )}

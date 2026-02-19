@@ -99,7 +99,6 @@ describe("getUrlHref", () => {
   });
 
   it("should block dangerous protocols", () => {
-    // eslint-disable-next-line sonarjs/code-eval -- testing URL sanitization
     expect(getUrlHref("javascript:alert(1)")).toBe("");
     expect(getUrlHref("data:text/html,<script>")).toBe("");
     expect(getUrlHref("vbscript:foo")).toBe("");

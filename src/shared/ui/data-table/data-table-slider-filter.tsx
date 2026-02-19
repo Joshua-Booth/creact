@@ -203,9 +203,8 @@ export function DataTableSliderFilter<TData>({
               />
               {unit && (
                 <span
-                  className="bg-accent text-muted-foreground absolute top-0
-                    right-0 bottom-0 flex items-center rounded-r-md px-2
-                    text-sm"
+                  className="bg-accent text-muted-foreground absolute inset-y-0
+                    right-0 flex items-center rounded-r-md px-2 text-sm"
                 >
                   {unit}
                 </span>
@@ -231,9 +230,8 @@ export function DataTableSliderFilter<TData>({
               />
               {unit && (
                 <span
-                  className="bg-accent text-muted-foreground absolute top-0
-                    right-0 bottom-0 flex items-center rounded-r-md px-2
-                    text-sm"
+                  className="bg-accent text-muted-foreground absolute inset-y-0
+                    right-0 flex items-center rounded-r-md px-2 text-sm"
                 >
                   {unit}
                 </span>

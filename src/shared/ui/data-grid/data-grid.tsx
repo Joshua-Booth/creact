@@ -294,7 +294,7 @@ export function DataGrid<TData>({
                 onKeyDown={onFooterCellKeyDown}
               >
                 <div
-                  className="text-muted-foreground sticky start-0 flex
+                  className="text-muted-foreground sticky inset-s-0 flex
                     items-center gap-2 px-3"
                 >
                   <Plus className="size-3.5" />
