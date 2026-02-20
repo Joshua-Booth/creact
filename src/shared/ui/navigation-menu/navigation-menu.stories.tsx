@@ -105,7 +105,7 @@ const gettingStartedItems = [
   {
     title: "Introduction",
     href: "/docs",
-    description: "Re-usable components built using Radix UI and Tailwind CSS.",
+    description: "Re-usable components built using Base UI and Tailwind CSS.",
   },
   {
     title: "Installation",

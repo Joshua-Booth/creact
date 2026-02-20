@@ -21,7 +21,6 @@
   "typescript.enablePromptUseWorkspaceTsdk": true,
   "typescript.preferences.autoImportFileExcludePatterns": [
     "react-router-dom",
-    "@radix-ui/*",
     "react-day-picker"
   ],
   "javascript.updateImportsOnFileMove.enabled": "always",
