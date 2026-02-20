@@ -882,17 +882,20 @@ AllFilters.test(
       await userEvent.click(progressButton);
 
       await waitFor(async () => {
-        const inputs = canvasElement.ownerDocument.querySelectorAll(
-          'input[type="number"]'
+        const popover = canvasElement.ownerDocument.querySelector(
+          '[data-slot="popover-content"]'
         );
-        await expect(inputs.length).toBeGreaterThanOrEqual(2);
+        const inputs = popover?.querySelectorAll('input[type="number"]');
+        await expect(inputs?.length).toBeGreaterThanOrEqual(2);
       });
     });
 
     await step("modify the To input", async () => {
-      const inputs = canvasElement.ownerDocument.querySelectorAll(
-        'input[type="number"]'
+      const popover = canvasElement.ownerDocument.querySelector(
+        '[data-slot="popover-content"]'
       );
+      if (!popover) throw new Error("Expected popover content");
+      const inputs = popover.querySelectorAll('input[type="number"]');
       const toInput = inputs[1];
       if (!toInput) throw new Error("Expected To input");
 
@@ -920,15 +923,18 @@ AllFilters.test(
       await userEvent.click(progressButton);
 
       await waitFor(async () => {
-        const inputs = canvasElement.ownerDocument.querySelectorAll(
-          'input[type="number"]'
+        const popover = canvasElement.ownerDocument.querySelector(
+          '[data-slot="popover-content"]'
         );
-        await expect(inputs.length).toBeGreaterThanOrEqual(2);
+        const inputs = popover?.querySelectorAll('input[type="number"]');
+        await expect(inputs?.length).toBeGreaterThanOrEqual(2);
       });
 
-      const inputs = canvasElement.ownerDocument.querySelectorAll(
-        'input[type="number"]'
+      const popover = canvasElement.ownerDocument.querySelector(
+        '[data-slot="popover-content"]'
       );
+      if (!popover) throw new Error("Expected popover content");
+      const inputs = popover.querySelectorAll('input[type="number"]');
       const fromInput = inputs[0];
       if (!fromInput) throw new Error("Expected from input");
       await userEvent.clear(fromInput);
