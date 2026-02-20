@@ -36,6 +36,22 @@ const meta = preview.meta({
   args: {
     className: "rounded-lg w-96 border shadow-md",
   },
+  parameters: {
+    docs: {
+      description: {
+        component:
+          "Fast, composable, unstyled command menu for React.\n\n[shadcn/ui docs](https://ui.shadcn.com/docs/components/base/command) · [cmdk docs](https://github.com/dip/cmdk)",
+      },
+    },
+  },
+});
+
+// --- Stories ---
+
+/**
+ * The default form of the command.
+ */
+export const Default = meta.story({
   render: (args) => (
     <Command {...args}>
       <CommandInput placeholder="Type a command or search..." />
@@ -55,27 +71,13 @@ const meta = preview.meta({
       </CommandList>
     </Command>
   ),
-  parameters: {
-    docs: {
-      description: {
-        component:
-          "Fast, composable, unstyled command menu for React.\n\n[shadcn/ui docs](https://ui.shadcn.com/docs/components/base/command) · [cmdk docs](https://github.com/dip/cmdk)",
-      },
-    },
-  },
 });
-
-// --- Stories ---
-
-/**
- * The default form of the command.
- */
-export const Default = meta.story();
 
 /**
  * Command menu inside a dialog, typically triggered with a keyboard shortcut.
  */
 export const Dialog = meta.story({
+  args: { className: "" },
   render: function Render(args) {
     const [open, setOpen] = useState(false);
 
@@ -140,6 +142,7 @@ export const Dialog = meta.story({
  */
 export const PopoverStory = meta.story({
   name: "Popover",
+  args: { className: "" },
   render: function Render(args) {
     const [open, setOpen] = useState(false);
 
