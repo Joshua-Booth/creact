@@ -125,22 +125,10 @@ export function DataTableSliderFilter<TData>({
 
   return (
     <Popover>
-      {columnFilterValue == null ? (
-        <PopoverTrigger
-          render={
-            <Button
-              variant="outline"
-              size="sm"
-              className="border-dashed font-normal"
-            />
-          }
-        >
-          <PlusCircle />
-          <span>{title}</span>
-        </PopoverTrigger>
-      ) : (
-        <ButtonGroup>
+      <ButtonGroup>
+        {columnFilterValue != null && (
           <Button
+            key="clear"
             variant="outline"
             size="sm"
             className="border-dashed px-2"
@@ -149,27 +137,37 @@ export function DataTableSliderFilter<TData>({
           >
             <XCircle />
           </Button>
-          <PopoverTrigger
-            render={
-              <Button
-                variant="outline"
-                size="sm"
-                className="border-dashed font-normal"
-              />
-            }
-          >
-            <span>{title}</span>
-            <Separator
-              orientation="vertical"
-              className="mx-0.5 data-[orientation=vertical]:h-4
-                data-[orientation=vertical]:self-center"
+        )}
+        <PopoverTrigger
+          key="trigger"
+          render={
+            <Button
+              variant="outline"
+              size="sm"
+              className="border-dashed font-normal"
             />
-            {formatValue(columnFilterValue[0])} -{" "}
-            {formatValue(columnFilterValue[1])}
-            {unitSuffix}
-          </PopoverTrigger>
-        </ButtonGroup>
-      )}
+          }
+        >
+          {columnFilterValue == null ? (
+            <>
+              <PlusCircle />
+              <span>{title}</span>
+            </>
+          ) : (
+            <>
+              <span>{title}</span>
+              <Separator
+                orientation="vertical"
+                className="mx-0.5 data-[orientation=vertical]:h-4
+                  data-[orientation=vertical]:self-center"
+              />
+              {formatValue(columnFilterValue[0])} -{" "}
+              {formatValue(columnFilterValue[1])}
+              {unitSuffix}
+            </>
+          )}
+        </PopoverTrigger>
+      </ButtonGroup>
       <PopoverContent
         align="start"
         className="flex w-auto flex-col gap-4"

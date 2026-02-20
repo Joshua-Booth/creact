@@ -936,18 +936,16 @@ AllFilters.test(
     });
 
     await step("click Clear button inside the popover", async () => {
-      await waitFor(async () => {
-        const popover = canvasElement.ownerDocument.querySelector(
-          '[data-slot="popover-content"]'
-        );
-        if (!popover) throw new Error("Expected popover content");
-        const popoverScope = within(popover as HTMLElement);
-        const clearBtn = popoverScope.getByRole("button", {
-          name: /clear progress filter/i,
-        });
-        // fireEvent bypasses pointer-events check on popover overlay
-        await fireEvent.click(clearBtn);
+      const popover = canvasElement.ownerDocument.querySelector(
+        '[data-slot="popover-content"]'
+      );
+      if (!popover) throw new Error("Expected popover content");
+      const popoverScope = within(popover as HTMLElement);
+      const clearBtn = popoverScope.getByRole("button", {
+        name: /clear progress filter/i,
       });
+      // fireEvent bypasses pointer-events check on popover overlay
+      await fireEvent.click(clearBtn);
     });
   }
 );
