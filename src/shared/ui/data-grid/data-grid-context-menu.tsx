@@ -16,12 +16,15 @@ import {
 } from "@/shared/ui/dropdown-menu";
 
 interface DataGridContextMenuProps<TData> {
+  /** Table metadata providing callbacks for selection, data updates, and row deletion. */
   tableMeta: TableMeta<TData>;
+  /** Column definitions used to determine empty values when clearing cells. */
   columns: ColumnDef<TData>[];
+  /** Open/position state controlling the context menu visibility. */
   contextMenu: ContextMenuState;
 }
 
-/** Right-click context menu with copy, cut, clear, and delete actions. */
+/** Right-click context menu with copy, cut, clear, and delete row actions. */
 export function DataGridContextMenu<TData>({
   tableMeta,
   columns,

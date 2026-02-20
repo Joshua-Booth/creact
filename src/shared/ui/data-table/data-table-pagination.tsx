@@ -21,13 +21,13 @@ import {
 const DEFAULT_PAGE_SIZE_OPTIONS = [10, 20, 30, 40, 50];
 
 interface DataTablePaginationProps<TData> extends ComponentProps<"div"> {
+  /** TanStack Table instance for reading and updating pagination state. */
   table: Table<TData>;
+  /** Available page size choices shown in the rows-per-page dropdown. */
   pageSizeOptions?: number[];
 }
 
-/**
- *
- */
+/** Pagination controls with page navigation, rows-per-page selector, and selection count. */
 export function DataTablePagination<TData>({
   table,
   pageSizeOptions = DEFAULT_PAGE_SIZE_OPTIONS,

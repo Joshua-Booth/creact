@@ -15,12 +15,11 @@ import { DataTableSliderFilter } from "./data-table-slider-filter";
 import { DataTableViewOptions } from "./data-table-view-options";
 
 interface DataTableToolbarProps<TData> extends ComponentProps<"div"> {
+  /** TanStack Table instance for reading filterable columns and resetting filters. */
   table: Table<TData>;
 }
 
-/**
- *
- */
+/** Toolbar that auto-renders column filters based on column meta and provides a reset button. */
 export function DataTableToolbar<TData>({
   table,
   children,
@@ -78,6 +77,7 @@ interface DataTableToolbarFilterProps<TData> {
   column: Column<TData>;
 }
 
+/** Renders the appropriate filter control for a column based on its meta variant. */
 function DataTableToolbarFilter<TData>({
   column,
 }: DataTableToolbarFilterProps<TData>) {

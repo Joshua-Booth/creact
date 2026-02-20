@@ -6,7 +6,8 @@ import { cn } from "@/shared/lib/utils";
 import { Button } from "@/shared/ui/button";
 
 /**
- * Confirmation dialog that requires explicit user action before proceeding. Wraps `@base-ui/react/alert-dialog` with project styling.
+ * Focus-trapped confirmation dialog that requires explicit user action before proceeding. Wraps `@base-ui/react/alert-dialog`.
+ * @see {@link AlertDialogContent} for the popup panel
  */
 function AlertDialog({ ...props }: AlertDialogPrimitive.Root.Props) {
   return <AlertDialogPrimitive.Root data-slot="alert-dialog" {...props} />;
@@ -19,14 +20,14 @@ function AlertDialogTrigger({ ...props }: AlertDialogPrimitive.Trigger.Props) {
   );
 }
 
-/** Portal container for alert dialog content rendering. */
+/** Renders alert dialog content outside the DOM hierarchy via a portal. */
 function AlertDialogPortal({ ...props }: AlertDialogPrimitive.Portal.Props) {
   return (
     <AlertDialogPrimitive.Portal data-slot="alert-dialog-portal" {...props} />
   );
 }
 
-/** Semi-transparent backdrop behind the alert dialog. */
+/** Portal-rendered overlay backdrop that dims the page behind the alert dialog. */
 function AlertDialogOverlay({
   className,
   ...props
@@ -45,7 +46,7 @@ function AlertDialogOverlay({
   );
 }
 
-/** Centered popup panel for confirmation prompts with `default` and `sm` sizes. */
+/** Centered popup panel for confirmation prompts, rendered via portal with overlay and zoom animation. */
 function AlertDialogContent({
   className,
   size = "default",
@@ -74,7 +75,7 @@ function AlertDialogContent({
   );
 }
 
-/** Container for the alert dialog title, description, and optional media slot. */
+/** Header area for the alert dialog title, description, and optional {@link AlertDialogMedia} slot. */
 function AlertDialogHeader({
   className,
   ...props
@@ -96,7 +97,7 @@ function AlertDialogHeader({
   );
 }
 
-/** Action area at the bottom for confirm/cancel buttons. */
+/** Action area at the bottom for {@link AlertDialogAction} and {@link AlertDialogCancel} buttons. */
 function AlertDialogFooter({
   className,
   ...props

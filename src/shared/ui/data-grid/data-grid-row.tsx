@@ -47,7 +47,7 @@ interface DataGridRowProps<TData> extends ComponentProps<"div"> {
   adjustLayout: boolean;
 }
 
-/** Memoized virtualized row with custom comparator for optimal re-render performance. */
+/** Virtualized grid row that renders visible cells with pinning, selection, and search highlight state. */
 /* istanbul ignore start @preserve -- memo comparator is a performance optimization */
 export const DataGridRow = memo(DataGridRowImpl, (prev, next) => {
   const prevRowIndex = prev.virtualItem.index;

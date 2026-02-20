@@ -37,11 +37,13 @@ import {
 interface DataGridColumnHeaderProps<TData, TValue> extends React.ComponentProps<
   typeof DropdownMenuTrigger
 > {
+  /** TanStack Table header instance for this column. */
   header: Header<TData, TValue>;
+  /** TanStack Table instance for accessing sorting and sizing state. */
   table: Table<TData>;
 }
 
-/** Column header with sort, pin, hide dropdown and column resizer. */
+/** Column header with sort, pin, hide dropdown and draggable column resizer. */
 export function DataGridColumnHeader<TData, TValue>({
   header,
   table,

@@ -11,7 +11,7 @@ import {
 import { useTheme } from "remix-themes";
 import { Toaster as Sonner } from "sonner";
 
-/** Themed toast notification renderer built on Sonner. Automatically syncs with the app's light/dark theme and provides custom icons for success, info, warning, error, and loading states. */
+/** Themed toast notification renderer powered by Sonner. Syncs with the app's light/dark theme and provides custom status icons. */
 function Toaster({ ...props }: ToasterProps) {
   const [theme] = useTheme();
 

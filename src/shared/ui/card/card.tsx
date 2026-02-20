@@ -2,10 +2,7 @@ import * as React from "react";
 
 import { cn } from "@/shared/lib/utils";
 
-/**
- * Styled container for grouping related content with consistent padding and borders.
- * Supports `default` and `sm` sizes via the `size` prop.
- */
+/** Styled container for grouping related content with consistent padding and borders. */
 function Card({
   className,
   size = "default",

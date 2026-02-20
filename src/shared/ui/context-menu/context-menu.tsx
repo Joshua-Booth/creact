@@ -7,13 +7,16 @@ import { CheckIcon, ChevronRightIcon } from "lucide-react";
 
 import { cn } from "@/shared/lib/utils";
 
-/** Right-click context menu for presenting contextual actions. Wraps `@base-ui/react/menu`. */
+/**
+ * Right-click context menu for presenting contextual actions. Wraps `@base-ui/react/context-menu` with keyboard navigation.
+ * @see {@link ContextMenuContent} for the popup container
+ */
 function ContextMenu({ ...props }: ContextMenuPrimitive.Root.Props) {
   return <ContextMenuPrimitive.Root data-slot="context-menu" {...props} />;
 }
 
 /* istanbul ignore start @preserve -- Portal wrapper not directly rendered in stories */
-/** Portal wrapper for rendering context menu content outside the DOM hierarchy. */
+/** Renders context menu content outside the DOM hierarchy via a portal. */
 function ContextMenuPortal({ ...props }: ContextMenuPrimitive.Portal.Props) {
   return (
     <ContextMenuPrimitive.Portal data-slot="context-menu-portal" {...props} />
@@ -35,7 +38,7 @@ function ContextMenuTrigger({
   );
 }
 
-/** Positioned popup container for context menu items. */
+/** Portal-rendered positioned popup container for context menu items with zoom animation. */
 function ContextMenuContent({
   className,
   align = "start",
@@ -143,7 +146,7 @@ function ContextMenuItem({
   );
 }
 
-/** Nested submenu root within the context menu. */
+/** Nested submenu container within the context menu. */
 function ContextMenuSub({ ...props }: ContextMenuPrimitive.SubmenuRoot.Props) {
   return (
     <ContextMenuPrimitive.SubmenuRoot data-slot="context-menu-sub" {...props} />
@@ -179,7 +182,7 @@ function ContextMenuSubTrigger({
   );
 }
 
-/** Popup container for a nested submenu's items. */
+/** Positioned popup container for a nested submenu's items. */
 function ContextMenuSubContent({
   ...props
 }: React.ComponentProps<typeof ContextMenuContent>) {
@@ -193,7 +196,7 @@ function ContextMenuSubContent({
   );
 }
 
-/** Menu item with a toggleable checkbox indicator. */
+/** Context menu item with a toggleable checkbox indicator. */
 function ContextMenuCheckboxItem({
   className,
   children,
@@ -240,7 +243,7 @@ function ContextMenuRadioGroup({
   );
 }
 
-/** Single selectable option within a ContextMenuRadioGroup, showing a check icon when active. */
+/** Mutually exclusive selectable option within a {@link ContextMenuRadioGroup}, showing a check icon when active. */
 function ContextMenuRadioItem({
   className,
   children,

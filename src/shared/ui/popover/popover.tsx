@@ -4,7 +4,10 @@ import { Popover as PopoverPrimitive } from "@base-ui/react/popover";
 
 import { cn } from "@/shared/lib/utils";
 
-/** Floating popup anchored to a trigger element for rich content display. */
+/**
+ * Floating popup anchored to a trigger element for rich content display. Wraps `@base-ui/react/popover`.
+ * @see {@link PopoverContent} for the positioned panel
+ */
 function Popover({ ...props }: PopoverPrimitive.Root.Props) {
   return <PopoverPrimitive.Root data-slot="popover" {...props} />;
 }
@@ -14,7 +17,7 @@ function PopoverTrigger({ ...props }: PopoverPrimitive.Trigger.Props) {
   return <PopoverPrimitive.Trigger data-slot="popover-trigger" {...props} />;
 }
 
-/** Floating panel displayed inside the popover, with positioning and animation. */
+/** Portal-rendered floating panel with configurable alignment and zoom animation. */
 function PopoverContent({
   className,
   align = "center",

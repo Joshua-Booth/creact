@@ -21,13 +21,13 @@ interface DataTableColumnHeaderProps<
   TData,
   TValue,
 > extends React.ComponentProps<typeof DropdownMenuTrigger> {
+  /** Column instance to control sorting and visibility state. */
   column: Column<TData, TValue>;
+  /** Display label rendered in the header. */
   label: string;
 }
 
-/**
- *
- */
+/** Sortable column header with ascending/descending/hide controls via dropdown menu. */
 export function DataTableColumnHeader<TData, TValue>({
   column,
   label,

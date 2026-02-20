@@ -25,11 +25,7 @@ function Tabs({
   );
 }
 
-/**
- * Style variants for the TabsList component.
- *
- * Variants: `default` | `line`
- */
+/** Style variants for the {@link TabsList} component. */
 const tabsListVariants = cva(
   `group/tabs-list inline-flex w-fit items-center justify-center rounded-lg
   p-[3px] text-muted-foreground group-data-[orientation=vertical]/tabs:h-fit

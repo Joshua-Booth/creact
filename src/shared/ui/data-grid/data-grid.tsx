@@ -29,12 +29,15 @@ interface DataGridProps<TData>
   extends
     Omit<ReturnType<typeof useDataGrid<TData>>, "dir">,
     Omit<React.ComponentProps<"div">, "contextMenu"> {
+  /** Text direction for bidirectional layout support. */
   dir?: Direction;
+  /** Maximum pixel height of the scrollable grid area. */
   height?: number;
+  /** When true, columns stretch to fill available horizontal space. */
   stretchColumns?: boolean;
 }
 
-/** Main virtualized data grid with header, body, and optional add-row footer. */
+/** Virtualized editable data grid with keyboard navigation, cell selection, search, and context menu. Powered by TanStack Table and TanStack Virtual. */
 export function DataGrid<TData>({
   dataGridRef,
   headerRef,

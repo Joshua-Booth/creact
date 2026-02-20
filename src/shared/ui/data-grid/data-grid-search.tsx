@@ -27,7 +27,7 @@ function onTriggerPointerDown(event: React.PointerEvent<HTMLButtonElement>) {
 }
 /* istanbul ignore end @preserve */
 
-/** Memoized search overlay with debounced search and match navigation. */
+/** Search overlay with debounced query input and prev/next match navigation. */
 /* istanbul ignore start @preserve -- memo comparator is a performance optimization */
 export const DataGridSearch = memo(DataGridSearchImpl, (prev, next) => {
   if (prev.searchOpen !== next.searchOpen) return false;

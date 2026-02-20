@@ -21,14 +21,15 @@ import { Separator } from "@/shared/ui/separator";
 type DateSelection = Date[] | DateRange;
 
 interface DataTableDateFilterProps<TData> {
+  /** Column instance to read and write date filter values. */
   column: Column<TData>;
+  /** Display label for the filter trigger button. */
   title?: string;
+  /** When true, enables date range selection instead of single date. */
   multiple?: boolean;
 }
 
-/**
- *
- */
+/** Calendar-based date filter popover supporting single date or date range selection. */
 export function DataTableDateFilter<TData>({
   column,
   title,

@@ -11,7 +11,7 @@ import { cn } from "@/shared/lib/utils";
 interface DataGridCellWrapperProps<TData>
   extends DataGridCellProps<TData>, ComponentProps<"div"> {}
 
-/** Shared cell focus/selection wrapper with click, context menu, keyboard, and mouse handlers. */
+/** Cell interaction wrapper that manages focus, selection, editing entry, and mouse/keyboard event delegation. */
 export function DataGridCellWrapper<TData>({
   tableMeta,
   rowIndex,

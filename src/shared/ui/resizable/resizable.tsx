@@ -4,7 +4,7 @@ import * as ResizablePrimitive from "react-resizable-panels";
 
 import { cn } from "@/shared/lib/utils";
 
-/** Resizable panel layout container. Arranges child panels in a split-view configuration with draggable dividers. */
+/** Resizable panel layout powered by react-resizable-panels. Arranges child panels in a split-view with draggable dividers. */
 function ResizablePanelGroup({
   className,
   ...props

@@ -4,7 +4,7 @@ import { Tooltip as TooltipPrimitive } from "@base-ui/react/tooltip";
 
 import { cn } from "@/shared/lib/utils";
 
-/** Shared configuration provider for all tooltips in a subtree. Controls the open delay (defaults to 0ms). */
+/** Shared configuration provider for all tooltips in a subtree. Controls open delay across nested instances. */
 function TooltipProvider({
   delay = 0,
   ...props
@@ -18,17 +18,20 @@ function TooltipProvider({
   );
 }
 
-/** Tooltip root that manages open/close state for its trigger and content. */
+/**
+ * Hover-triggered informational popup. Wraps `@base-ui/react/tooltip`.
+ * @see {@link TooltipContent} for the positioned popup
+ */
 function Tooltip({ ...props }: TooltipPrimitive.Root.Props) {
   return <TooltipPrimitive.Root data-slot="tooltip" {...props} />;
 }
 
-/** Thin wrapper around the tooltip trigger element. */
+/** Element that displays the tooltip on hover or focus. */
 function TooltipTrigger({ ...props }: TooltipPrimitive.Trigger.Props) {
   return <TooltipPrimitive.Trigger data-slot="tooltip-trigger" {...props} />;
 }
 
-/** Positioned tooltip popup with an arrow indicator. Renders via a portal and animates in/out based on open state. */
+/** Portal-rendered tooltip popup with an arrow indicator and zoom animation. */
 function TooltipContent({
   className,
   side = "top",

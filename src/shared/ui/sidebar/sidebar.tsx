@@ -557,13 +557,7 @@ function SidebarMenuItem({ className, ...props }: React.ComponentProps<"li">) {
   );
 }
 
-/**
- * Style variants for the SidebarMenuButton component.
- *
- * Variants: `default` | `outline`
- *
- * Sizes: `default` | `sm` | `lg`
- */
+/** Style variants for the {@link SidebarMenuButton} component. */
 const sidebarMenuButtonVariants = cva(
   `peer/menu-button group/menu-button flex w-full items-center gap-2
   overflow-hidden rounded-md p-2 text-left text-sm ring-sidebar-ring

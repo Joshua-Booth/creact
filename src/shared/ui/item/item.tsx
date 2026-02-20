@@ -39,13 +39,7 @@ function ItemSeparator({
   );
 }
 
-/**
- * Variants for `Item`.
- *
- * `variant`: `"default"` | `"outline"` | `"muted"`
- *
- * `size`: `"default"` | `"sm"` | `"xs"`
- */
+/** Style variants for the {@link Item} component. */
 const itemVariants = cva(
   `group/item flex w-full flex-wrap items-center rounded-md border text-sm
   transition-colors duration-100 outline-none focus-visible:border-ring
@@ -71,13 +65,7 @@ const itemVariants = cva(
   }
 );
 
-/**
- * Generic list item with icon, text, and description layout.
- *
- * `variant`: `"default"` | `"outline"` | `"muted"`
- *
- * `size`: `"default"` | `"sm"` | `"xs"`
- */
+/** Generic list item with icon, text, and description layout. Supports polymorphic rendering via `render`. */
 function Item({
   className,
   variant = "default",
@@ -102,11 +90,7 @@ function Item({
   });
 }
 
-/**
- * Variants for `ItemMedia`.
- *
- * `variant`: `"default"` | `"icon"` | `"image"`
- */
+/** Style variants for the {@link ItemMedia} component. */
 const itemMediaVariants = cva(
   `gap-2 group-has-data-[slot=item-description]/item:translate-y-0.5
   group-has-data-[slot=item-description]/item:self-start flex shrink-0

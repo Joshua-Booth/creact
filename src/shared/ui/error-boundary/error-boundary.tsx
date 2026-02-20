@@ -25,10 +25,7 @@ interface ErrorBoundaryState {
   error: Error | null;
 }
 
-/**
- * Error boundary component that catches JavaScript errors anywhere in the
- * child component tree, logs them to Sentry, and displays a fallback UI.
- */
+/** Catches JavaScript errors in the child component tree, reports them to Sentry, and displays a fallback UI. */
 export class ErrorBoundary extends Component<
   ErrorBoundaryProps,
   ErrorBoundaryState
@@ -74,7 +71,7 @@ interface ErrorFallbackProps {
   onReset: () => void;
 }
 
-/** Default fallback UI rendered when the ErrorBoundary catches an error. */
+/** Default fallback UI rendered when {@link ErrorBoundary} catches an error. */
 function ErrorFallback({ onReset }: ErrorFallbackProps) {
   const { t } = useTranslation();
 

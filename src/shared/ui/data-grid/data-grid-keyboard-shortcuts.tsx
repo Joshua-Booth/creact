@@ -26,10 +26,11 @@ interface ShortcutGroup {
 }
 
 interface DataGridKeyboardShortcutsProps {
+  /** When true, includes search-related shortcuts in the listing. */
   enableSearch?: boolean;
 }
 
-/** Keyboard shortcuts dialog triggered by Ctrl+/. */
+/** Keyboard shortcuts reference dialog triggered by Ctrl+/ with searchable shortcut listing. */
 export const DataGridKeyboardShortcuts = memo(
   DataGridKeyboardShortcutsImpl,
   (prev, next) => {

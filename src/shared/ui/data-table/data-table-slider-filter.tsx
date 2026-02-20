@@ -26,13 +26,13 @@ interface Range {
 }
 
 interface DataTableSliderFilterProps<TData> {
+  /** Column instance to read and write numeric range filter values. */
   column: Column<TData>;
+  /** Display label for the filter trigger button. */
   title?: string;
 }
 
-/**
- *
- */
+/** Numeric range filter popover with dual inputs and a slider for min/max selection. */
 export function DataTableSliderFilter<TData>({
   column,
   title,

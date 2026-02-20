@@ -4,13 +4,7 @@ import { cva } from "class-variance-authority";
 
 import { cn } from "@/shared/lib/utils";
 
-/**
- * Style variants for the Button component.
- *
- * Variants: `default` | `outline` | `secondary` | `ghost` | `destructive` | `link`
- *
- * Sizes: `default` | `xs` | `sm` | `lg` | `icon` | `icon-xs` | `icon-sm` | `icon-lg`
- */
+/** Style variants for the {@link Button} component. */
 const buttonVariants = cva(
   `group/button inline-flex shrink-0 items-center justify-center rounded-md
   border border-transparent bg-clip-padding text-sm font-medium

@@ -5,11 +5,7 @@ import { cva } from "class-variance-authority";
 
 import { cn } from "@/shared/lib/utils";
 
-/**
- * Style variants for the Alert component.
- *
- * Variants: `default` | `destructive`
- */
+/** Style variants for the {@link Alert} component. */
 const alertVariants = cva(
   `grid gap-0.5 rounded-lg border px-4 py-3 text-left text-sm
   has-data-[slot=alert-action]:relative has-data-[slot=alert-action]:pr-18

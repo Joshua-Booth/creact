@@ -16,11 +16,13 @@ import {
 } from "@/shared/ui/dialog";
 
 interface DataGridPasteDialogProps<TData> {
+  /** Table metadata providing paste and dialog state callbacks. */
   tableMeta: TableMeta<TData>;
+  /** Open/state controlling the paste dialog and rows-needed count. */
   pasteDialog: PasteDialogState;
 }
 
-/** Dialog for handling paste overflow when clipboard data exceeds available rows. */
+/** Confirmation dialog shown when pasted clipboard data exceeds available rows, offering to expand the grid. */
 export function DataGridPasteDialog<TData>({
   tableMeta,
   pasteDialog,

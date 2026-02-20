@@ -6,11 +6,7 @@ import { cva } from "class-variance-authority";
 import { cn } from "@/shared/lib/utils";
 import { Separator } from "@/shared/ui/separator";
 
-/**
- * CVA variants for ButtonGroup layout.
- *
- * - `orientation`: `"horizontal"` | `"vertical"`
- */
+/** Layout variants for the {@link ButtonGroup} component. */
 const buttonGroupVariants = cva(
   `has-[>[data-slot=button-group]]:gap-2
   has-[select[aria-hidden=true]:last-child]:[&>[data-slot=select-trigger]:last-of-type]:rounded-r-md
@@ -33,7 +29,7 @@ const buttonGroupVariants = cva(
   }
 );
 
-/** Horizontally grouped set of buttons sharing a common border and border-radius. */
+/** Grouped set of buttons sharing a common border and border-radius. Supports horizontal and vertical orientation. */
 function ButtonGroup({
   className,
   orientation,

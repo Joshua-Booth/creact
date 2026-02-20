@@ -19,6 +19,7 @@ import { DayPicker, getDefaultClassNames } from "react-day-picker";
 import { cn } from "@/shared/lib/utils";
 import { Button, buttonVariants } from "@/shared/ui/button";
 
+/** Outer container override for the react-day-picker root element. */
 function CalendarRoot({ className, rootRef, ...props }: RootProps) {
   return (
     <div
@@ -30,6 +31,7 @@ function CalendarRoot({ className, rootRef, ...props }: RootProps) {
   );
 }
 
+/** Navigation chevron icon that adapts direction based on orientation. */
 function CalendarChevron({
   className,
   orientation,
@@ -46,6 +48,7 @@ function CalendarChevron({
   return <ChevronDownIcon className={cn("size-4", className)} {...props} />;
 }
 
+/** Week number cell displayed at the start of each calendar row. */
 function CalendarWeekNumber({
   children,
   ...props

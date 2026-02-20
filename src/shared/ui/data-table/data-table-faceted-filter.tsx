@@ -23,15 +23,17 @@ import { Separator } from "@/shared/ui/separator";
 import { ButtonGroup } from "../button-group";
 
 interface DataTableFacetedFilterProps<TData, TValue> {
+  /** Column instance to read and write filter values. */
   column?: Column<TData, TValue>;
+  /** Display label for the filter trigger button. */
   title?: string;
+  /** Selectable filter options with labels, icons, and optional counts. */
   options: Option[];
+  /** When true, allows selecting multiple values simultaneously. */
   multiple?: boolean;
 }
 
-/**
- *
- */
+/** Faceted filter popover with searchable option list for single or multi-value column filtering. */
 export function DataTableFacetedFilter<TData, TValue>({
   column,
   title,

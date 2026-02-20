@@ -9,8 +9,7 @@ import { cn } from "@/shared/lib/utils";
 import { Button } from "@/shared/ui/button";
 
 /**
- * Modal window overlaid on the primary window, rendering content underneath inert.
- * Wraps `@base-ui/react/dialog` with project styling and animation presets.
+ * Focus-trapped modal window overlaid on the primary content. Wraps `@base-ui/react/dialog` with project styling and animation presets.
  * @see {@link DialogContent} for the popup panel
  */
 function Dialog({ ...props }: DialogPrimitive.Root.Props) {
@@ -22,7 +21,7 @@ function DialogTrigger({ ...props }: DialogPrimitive.Trigger.Props) {
   return <DialogPrimitive.Trigger data-slot="dialog-trigger" {...props} />;
 }
 
-/** Portal container for dialog content rendering. */
+/** Renders dialog content outside the DOM hierarchy via a portal. */
 function DialogPortal({ ...props }: DialogPrimitive.Portal.Props) {
   return <DialogPrimitive.Portal data-slot="dialog-portal" {...props} />;
 }
@@ -32,7 +31,7 @@ function DialogClose({ ...props }: DialogPrimitive.Close.Props) {
   return <DialogPrimitive.Close data-slot="dialog-close" {...props} />;
 }
 
-/** Semi-transparent backdrop behind the dialog that dims the page. */
+/** Portal-rendered overlay backdrop that dims the page behind the dialog. */
 function DialogOverlay({
   className,
   ...props
@@ -51,7 +50,7 @@ function DialogOverlay({
   );
 }
 
-/** Centered popup panel that renders inside a portal with overlay. */
+/** Centered popup panel rendered via portal with overlay, close button, and zoom animation. */
 function DialogContent({
   className,
   children,

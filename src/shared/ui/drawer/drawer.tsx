@@ -8,6 +8,7 @@ import { cn } from "@/shared/lib/utils";
 
 /**
  * Touch-friendly bottom sheet overlay powered by Vaul. Supports swipe-to-dismiss and directional rendering.
+ * @see {@link DrawerContent} for the sliding panel
  */
 function Drawer({
   ...props
@@ -22,7 +23,7 @@ function DrawerTrigger({
   return <DrawerPrimitive.Trigger data-slot="drawer-trigger" {...props} />;
 }
 
-/** Portal container for drawer content rendering. */
+/** Renders drawer content outside the DOM hierarchy via a portal. */
 function DrawerPortal({
   ...props
 }: React.ComponentProps<typeof DrawerPrimitive.Portal>) {
@@ -36,7 +37,7 @@ function DrawerClose({
   return <DrawerPrimitive.Close data-slot="drawer-close" {...props} />;
 }
 
-/** Semi-transparent backdrop behind the drawer that dims the page. */
+/** Portal-rendered overlay backdrop that dims the page behind the drawer. */
 function DrawerOverlay({
   className,
   ...props
@@ -55,7 +56,7 @@ function DrawerOverlay({
   );
 }
 
-/** Sliding panel with a drag handle for bottom sheets and directional support. */
+/** Swipeable sliding panel with a drag handle, rendered via portal with overlay. Adapts layout based on drawer direction. */
 function DrawerContent({
   className,
   children,

@@ -19,12 +19,11 @@ import { Popover, PopoverContent, PopoverTrigger } from "@/shared/ui/popover";
 interface DataTableViewOptionsProps<TData> extends React.ComponentProps<
   typeof PopoverContent
 > {
+  /** TanStack Table instance for toggling column visibility. */
   table: Table<TData>;
 }
 
-/**
- *
- */
+/** Column visibility toggle popover with searchable column list. */
 export function DataTableViewOptions<TData>({
   table,
   ...props

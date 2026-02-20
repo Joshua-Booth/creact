@@ -17,13 +17,13 @@ import {
 import { DataTablePagination } from "./data-table-pagination";
 
 interface DataTableProps<TData> extends ComponentProps<"div"> {
+  /** TanStack Table instance controlling the data, columns, and row state. */
   table: TanstackTable<TData>;
+  /** Floating action bar shown when rows are selected. */
   actionBar?: React.ReactNode;
 }
 
-/**
- *
- */
+/** Feature-rich data table powered by TanStack Table with sorting, filtering, pagination, and row selection. */
 export function DataTable<TData>({
   table,
   actionBar,

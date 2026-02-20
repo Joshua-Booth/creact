@@ -4,7 +4,10 @@ import { PreviewCard as PreviewCardPrimitive } from "@base-ui/react/preview-card
 
 import { cn } from "@/shared/lib/utils";
 
-/** Popup card that appears on hover for previewing linked content. */
+/**
+ * Popup card that appears on hover for previewing linked content. Wraps `@base-ui/react/preview-card`.
+ * @see {@link HoverCardContent} for the floating panel
+ */
 function HoverCard({ ...props }: PreviewCardPrimitive.Root.Props) {
   return <PreviewCardPrimitive.Root data-slot="hover-card" {...props} />;
 }
@@ -16,7 +19,7 @@ function HoverCardTrigger({ ...props }: PreviewCardPrimitive.Trigger.Props) {
   );
 }
 
-/** Floating panel displayed inside the hover card, with positioning and animation. */
+/** Portal-rendered floating panel with configurable alignment and zoom animation. */
 function HoverCardContent({
   className,
   side = "bottom",

@@ -14,7 +14,7 @@ import {
   UrlCell,
 } from "./data-grid-cell-variants";
 
-/** Memoized cell dispatcher that routes to the appropriate cell variant component. */
+/** Cell dispatcher that routes to the appropriate variant component (text, number, select, date, etc.). */
 /* istanbul ignore start @preserve -- memo comparator is a performance optimization */
 export const DataGridCell = memo(DataGridCellImpl, (prev, next) => {
   if (prev.isFocused !== next.isFocused) return false;

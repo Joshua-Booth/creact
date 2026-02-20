@@ -49,10 +49,7 @@ function FieldLegend({
 
 /**
  * Plain description for use outside Field context (e.g., after FieldLegend).
- * Use FieldDescription inside Field for proper aria-describedby association.
- * @param props - Paragraph element props including className
- * @param props.className - Additional CSS classes
- * @returns Description paragraph element
+ * Use {@link FieldDescription} inside Field for proper aria-describedby association.
  */
 function FieldLegendDescription({
   className,
@@ -87,11 +84,7 @@ function FieldGroup({ className, ...props }: React.ComponentProps<"div">) {
   );
 }
 
-/**
- * Style variants for the Field component.
- *
- * Orientations: `vertical` | `horizontal` | `responsive`
- */
+/** Style variants for the {@link Field} component. */
 const fieldVariants = cva(
   "group/field flex w-full gap-3 data-invalid:text-destructive",
   {
@@ -238,14 +231,8 @@ function FieldSeparator({
 }
 
 /**
- * Error message component that works both inside and outside Field context.
- * When inside Field.Root, provides proper aria-describedby association.
- * When standalone (e.g., form-level errors), renders as a plain div with role="alert".
- * @param props - Component props
- * @param props.className - Additional CSS classes
- * @param props.children - Custom error content
- * @param props.errors - Array of error objects with message property
- * @returns Error message element or null
+ * Error message that works both inside and outside Field context.
+ * Inside Field, provides aria-describedby association; standalone, renders with role="alert".
  */
 function FieldError({
   className,

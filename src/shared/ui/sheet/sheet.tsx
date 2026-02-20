@@ -8,6 +8,7 @@ import { Button } from "@/shared/ui/button";
 
 /**
  * Side panel overlay that slides in from a screen edge. Wraps `@base-ui/react/dialog` with directional slide animations.
+ * @see {@link SheetContent} for the sliding panel
  */
 function Sheet({ ...props }: SheetPrimitive.Root.Props) {
   return <SheetPrimitive.Root data-slot="sheet" {...props} />;
@@ -23,12 +24,12 @@ function SheetClose({ ...props }: SheetPrimitive.Close.Props) {
   return <SheetPrimitive.Close data-slot="sheet-close" {...props} />;
 }
 
-/** Portal container for sheet content rendering. */
+/** Renders sheet content outside the DOM hierarchy via a portal. */
 function SheetPortal({ ...props }: SheetPrimitive.Portal.Props) {
   return <SheetPrimitive.Portal data-slot="sheet-portal" {...props} />;
 }
 
-/** Semi-transparent backdrop behind the sheet that dims the page. */
+/** Portal-rendered overlay backdrop that dims the page behind the sheet. */
 function SheetOverlay({ className, ...props }: SheetPrimitive.Backdrop.Props) {
   return (
     <SheetPrimitive.Backdrop
@@ -45,7 +46,7 @@ function SheetOverlay({ className, ...props }: SheetPrimitive.Backdrop.Props) {
   );
 }
 
-/** Sliding panel that renders from the specified side with overlay and optional close button. */
+/** Focus-trapped sliding panel rendered via portal from a configurable screen edge, with overlay and close button. */
 function SheetContent({
   className,
   children,
