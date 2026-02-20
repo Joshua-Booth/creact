@@ -221,7 +221,7 @@ run = "vitest --project unit"
 [tasks."test:e2e"]
 description = "Run end-to-end tests with Playwright"
 alias = "te"
-depends = ["build:e2e"]
+depends = ["coverage", "build:e2e"]
 run = "playwright test --config {{vars.playwright_config}}"
 
 [tasks."test:e2e:ui"]

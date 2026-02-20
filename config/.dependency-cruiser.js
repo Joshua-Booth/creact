@@ -44,6 +44,7 @@ export default {
           "vitest\\.setup\\.ts$", // Test setup files
           "shared/lib/analytics/index\\.ts$", // Analytics hook (future use)
           "shared/assets/index\\.ts$", // FSD placeholder (intentionally empty)
+          "shared/ui/docs/index\\.ts$", // FSD placeholder (intentionally empty)
         ],
       },
       to: {},
