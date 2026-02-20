@@ -59,7 +59,7 @@ const meta = preview.meta({
     docs: {
       description: {
         component:
-          "Fast, composable, unstyled command menu for React.\n\n[shadcn/ui docs](https://ui.shadcn.com/docs/components/base/command)",
+          "Fast, composable, unstyled command menu for React.\n\n[shadcn/ui docs](https://ui.shadcn.com/docs/components/base/command) · [cmdk docs](https://github.com/dip/cmdk)",
       },
     },
   },
@@ -81,7 +81,7 @@ export const Dialog = meta.story({
 
     return (
       <>
-        <CommandDialog open={open} onOpenChange={setOpen}>
+        <CommandDialog open={open} onOpenChange={setOpen} className="w-full">
           <Command {...args}>
             <CommandInput placeholder="Type a command or search..." />
             <CommandList>
