@@ -142,7 +142,7 @@ export const WithBorders = meta.story({
   render: (args) => (
     <Accordion
       {...args}
-      className="w-96 rounded-lg border"
+      className="w-120 rounded-lg border"
       defaultValue={["item-1"]}
     >
       <AccordionItem value="item-1" className="border-b px-4 last:border-b-0">
@@ -175,7 +175,7 @@ export const WithBorders = meta.story({
  */
 export const WithCard = meta.story({
   render: (args) => (
-    <Card className="w-96">
+    <Card className="w-full">
       <CardHeader>
         <CardTitle>Subscription & Billing</CardTitle>
         <CardDescription>
