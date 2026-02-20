@@ -161,7 +161,6 @@
       "@modelcontextprotocol/sdk": ">=1.26.0",
       "hono": ">=4.11.4",
       "seroval": ">=1.4.1",
-      "minimatch": ">=10.2.1",
       "undici": ">=6.23.0"
     },
     "auditConfig": {
