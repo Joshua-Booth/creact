@@ -3,9 +3,12 @@
   "prettier.ignorePath": "./config/.prettierignore",
   "editor.defaultFormatter": "esbenp.prettier-vscode",
   "editor.formatOnSave": true,
-  "eslint.options": {
-    "overrideConfigFile": "./config/eslint.config.ts"
-  },
+  "editor.linkedEditing": true,
+  "editor.stickyScroll.enabled": true,
+  "editor.stickyScroll.maxLineCount": 5,
+  "editor.guides.bracketPairs": "active",
+  "editor.wordBasedSuggestions": "off",
+  "editor.suggest.insertMode": "replace",
   "editor.codeActionsOnSave": {
     "source.fixAll.eslint": "explicit"
   },
@@ -14,8 +17,32 @@
     "strings": true,
     "other": true
   },
+  "eslint.options": {
+    "overrideConfigFile": "./config/eslint.config.ts"
+  },
+  "eslint.useFlatConfig": true,
+  "eslint.run": "onSave",
   "files.associations": {
     "*.css": "tailwindcss"
+  },
+  "files.insertFinalNewline": true,
+  "files.trimFinalNewlines": true,
+  "files.trimTrailingWhitespace": true,
+  "files.watcherExclude": {
+    "**/.git/objects/**": true,
+    "**/.git/subtree-cache/**": true,
+    "**/node_modules/**": true,
+    "**/dist/**": true,
+    "**/coverage/**": true,
+    "**/.react-router/**": true
+  },
+  "search.exclude": {
+    "**/dist": true,
+    "**/coverage": true,
+    "**/.react-router": true,
+    "**/playwright-report": true,
+    "**/test-results": true,
+    "**/storybook-static": true
   },
   "typescript.tsdk": "node_modules/typescript/lib",
   "typescript.enablePromptUseWorkspaceTsdk": true,
@@ -23,32 +50,29 @@
     "react-router-dom",
     "react-day-picker"
   ],
-  "javascript.updateImportsOnFileMove.enabled": "always",
+  "typescript.preferences.importModuleSpecifier": "non-relative",
   "typescript.updateImportsOnFileMove.enabled": "always",
-  "tailwindCSS.includeLanguages": {
-    "javascript": "javascript",
-    "typescriptreact": "javascript"
-  },
+  "javascript.updateImportsOnFileMove.enabled": "always",
   "tailwindCSS.validate": true,
   "tailwindCSS.files.exclude": [
     "**/.git/**",
     "**/node_modules/**",
-    "**/.hg/**",
-    "**/.svn/**",
     "**/*.md",
     "**/docs/**/*.md"
   ],
-  "tailwindCSS.experimental.configFile": null,
   "tailwindCSS.lint.cssConflict": "ignore",
+  "tailwindCSS.experimental.classRegex": [
+    ["cva\\(([^)]*)\\)", "[\"'`]([^\"'`]*).*?[\"'`]"],
+    ["cn\\(([^)]*)\\)", "(?:'|\"|`)([^']*)(?:'|\"|`)"],
+    ["clsx\\(([^)]*)\\)", "(?:'|\"|`)([^']*)(?:'|\"|`)"]
+  ],
   "css.validate": false,
-  "css.lint.validProperties": [],
   "css.lint.duplicateProperties": "ignore",
   "css.lint.propertyIgnoredDueToDisplay": "ignore",
-  "[markdown]": {
-    "css.validate": false,
-    "css.lint.duplicateProperties": "ignore"
-  },
-  "notebook.defaultFormatter": "esbenp.prettier-vscode",
+  "git.blame.ignoreWhitespace": true,
+  "explorer.compactFolders": false,
+  "workbench.editor.enablePreview": false,
+  "workbench.editor.revealIfOpen": true,
   "testing.automaticallyOpenPeekView": "never",
   "vitest.rootConfig": "./vitest.config.ts",
   "terminal.integrated.shellIntegration.enabled": false,
