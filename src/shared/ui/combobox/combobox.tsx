@@ -125,6 +125,8 @@ function ComboboxContent({
           className={cn(
             `group/combobox-content bg-popover text-popover-foreground
             ring-foreground/10 data-[side=bottom]:slide-in-from-top-2
+            data-[side=inline-end]:slide-in-from-left-2
+            data-[side=inline-start]:slide-in-from-right-2
             data-[side=left]:slide-in-from-right-2
             data-[side=right]:slide-in-from-left-2
             data-[side=top]:slide-in-from-bottom-2
@@ -278,7 +280,7 @@ function ComboboxChips({
         dark:has-aria-invalid:ring-destructive/40 flex min-h-9 flex-wrap
         items-center gap-1.5 rounded-md border bg-transparent bg-clip-padding
         px-2.5 py-1.5 text-sm shadow-xs transition-[color,box-shadow]
-        focus-within:ring-[3px] has-aria-invalid:ring-[3px]
+        focus-within:ring-3 has-aria-invalid:ring-3
         has-data-[slot=combobox-chip]:px-1.5`,
         className
       )}

@@ -24,10 +24,10 @@ function Switch({
         data-unchecked:bg-input dark:data-unchecked:bg-input/80 relative
         inline-flex shrink-0 items-center rounded-full border border-transparent
         shadow-xs transition-all outline-none after:absolute after:-inset-x-3
-        after:-inset-y-2 focus-visible:ring-[3px] aria-invalid:ring-[3px]
+        after:-inset-y-2 focus-visible:ring-3 aria-invalid:ring-3
         data-disabled:cursor-not-allowed data-disabled:opacity-50
-        data-[size=default]:h-[18.4px] data-[size=default]:w-[32px]
-        data-[size=sm]:h-[14px] data-[size=sm]:w-[24px]`,
+        data-[size=default]:h-[18.4px] data-[size=default]:w-8
+        data-[size=sm]:h-3.5 data-[size=sm]:w-6`,
         className
       )}
       {...props}

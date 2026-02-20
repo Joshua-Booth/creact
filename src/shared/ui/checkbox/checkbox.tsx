@@ -20,8 +20,8 @@ function Checkbox({ className, ...props }: CheckboxPrimitive.Root.Props) {
         dark:data-checked:bg-primary relative flex size-4 shrink-0 items-center
         justify-center rounded-lg border shadow-xs transition-shadow
         outline-none group-has-disabled/field:opacity-50 after:absolute
-        after:-inset-x-3 after:-inset-y-2 focus-visible:ring-[3px]
-        disabled:cursor-not-allowed disabled:opacity-50 aria-invalid:ring-[3px]`,
+        after:-inset-x-3 after:-inset-y-2 focus-visible:ring-3
+        disabled:cursor-not-allowed disabled:opacity-50 aria-invalid:ring-3`,
         className
       )}
       {...props}

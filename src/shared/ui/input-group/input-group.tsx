@@ -28,8 +28,8 @@ function InputGroup({ className, ...props }: React.ComponentProps<"div">) {
         transition-[color,box-shadow] outline-none
         in-data-[slot=combobox-content]:focus-within:border-inherit
         in-data-[slot=combobox-content]:focus-within:ring-0
-        has-[[data-slot=input-group-control]:focus-visible]:ring-[3px]
-        has-[[data-slot][aria-invalid=true]]:ring-[3px]
+        has-[[data-slot=input-group-control]:focus-visible]:ring-3
+        has-[[data-slot][aria-invalid=true]]:ring-3
         has-[>[data-align=block-end]]:h-auto
         has-[>[data-align=block-end]]:flex-col
         has-[>[data-align=block-start]]:h-auto

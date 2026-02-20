@@ -55,8 +55,8 @@ function SelectTrigger({
         dark:aria-invalid:ring-destructive/40 flex w-fit items-center
         justify-between gap-1.5 rounded-md border bg-transparent py-2 pr-2
         pl-2.5 text-sm whitespace-nowrap shadow-xs transition-[color,box-shadow]
-        outline-none focus-visible:ring-[3px] disabled:cursor-not-allowed
-        disabled:opacity-50 aria-invalid:ring-[3px] data-[size=default]:h-9
+        outline-none focus-visible:ring-3 disabled:cursor-not-allowed
+        disabled:opacity-50 aria-invalid:ring-3 data-[size=default]:h-9
         data-[size=sm]:h-8 *:data-[slot=select-value]:line-clamp-1
         *:data-[slot=select-value]:flex *:data-[slot=select-value]:items-center
         *:data-[slot=select-value]:gap-1.5 [&_svg]:pointer-events-none
