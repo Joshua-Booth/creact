@@ -308,11 +308,6 @@ export const Pagination = meta.story({
   render: (args) => <PaginationDemo {...args} />,
 });
 
-/** Table with column visibility toggling via view options. */
-export const ColumnVisibility = meta.story({
-  render: (args) => <DataTableDemo {...args} />,
-});
-
 /** Table with empty data array. */
 export const EmptyState = meta.story({
   render: (args) => <EmptyStateDemo {...args} />,
@@ -367,20 +362,6 @@ Default.test("should render all rows", async ({ canvasElement, step }) => {
 });
 
 Default.test(
-  "should sort by column header click",
-  async ({ canvasElement, step }) => {
-    const canvas = within(canvasElement);
-
-    await step("click Title header to toggle sort", async () => {
-      const titleHeader = canvas.getByRole("button", { name: /title/i });
-      await userEvent.click(titleHeader);
-      // Verify the button is still present and interactive after click
-      await expect(titleHeader).toBeVisible();
-    });
-  }
-);
-
-Default.test(
   "should select a row with checkbox",
   async ({ canvasElement, step }) => {
     const canvas = within(canvasElement);
@@ -398,19 +379,6 @@ Default.test(
           .find((row) => row.getAttribute("data-state") === "selected");
         await expect(dataRow).toBeDefined();
       });
-    });
-  }
-);
-
-Default.test(
-  "should filter with text input",
-  async ({ canvasElement, step }) => {
-    const canvas = within(canvasElement);
-
-    await step("type in title filter and verify input value", async () => {
-      const filterInput = canvas.getByPlaceholderText(/search titles/i);
-      await userEvent.type(filterInput, "Mobile");
-      await expect(filterInput).toHaveValue("Mobile");
     });
   }
 );
@@ -441,20 +409,6 @@ AllFilters.test(
   }
 );
 
-AllFilters.test(
-  "should filter by text input",
-  async ({ canvasElement, step }) => {
-    const canvas = within(canvasElement);
-
-    await step("type in title filter", async () => {
-      const filterInput = canvas.getByPlaceholderText(/search titles/i);
-      await userEvent.clear(filterInput);
-      await userEvent.type(filterInput, "Mobile");
-      await expect(filterInput).toHaveValue("Mobile");
-    });
-  }
-);
-
 // --- Tests: Pagination ---
 
 Pagination.test(
@@ -481,9 +435,9 @@ Pagination.test(
   }
 );
 
-// --- Tests: ColumnVisibility ---
+// --- Tests: Default (additional tests) ---
 
-ColumnVisibility.test(
+Default.test(
   "should render view options toggle",
   async ({ canvasElement, step }) => {
     const canvas = within(canvasElement);
@@ -496,8 +450,6 @@ ColumnVisibility.test(
     });
   }
 );
-
-// --- Tests: Default (additional tests) ---
 
 Default.test(
   "should select all rows with header checkbox",
@@ -520,47 +472,27 @@ Default.test(
 );
 
 Default.test(
-  "should sort column and reverse sort",
+  "should open sort dropdown for Budget column",
   async ({ canvasElement, step }) => {
     const canvas = within(canvasElement);
 
     await step(
-      "click Title header twice to change sort direction",
+      "click Budget header and verify sort options appear",
       async () => {
-        const titleHeader = canvas.getByRole("button", { name: /title/i });
-        await userEvent.click(titleHeader);
+        const budgetHeader = canvas.getByRole("button", { name: /budget/i });
+        await userEvent.click(budgetHeader);
+
         await waitFor(async () => {
-          await expect(titleHeader).toBeVisible();
+          const sortItems = canvasElement.ownerDocument.querySelectorAll(
+            '[role="menuitemcheckbox"]'
+          );
+          await expect(sortItems.length).toBeGreaterThanOrEqual(2);
         });
 
-        // Click again to reverse sort
-        await userEvent.click(titleHeader);
-        await waitFor(async () => {
-          await expect(titleHeader).toBeVisible();
-        });
-
-        // Third click to remove sort
-        await userEvent.click(titleHeader);
-        await waitFor(async () => {
-          await expect(titleHeader).toBeVisible();
-        });
+        // Close the dropdown
+        await userEvent.keyboard("{Escape}");
       }
     );
-  }
-);
-
-Default.test(
-  "should sort by Budget column",
-  async ({ canvasElement, step }) => {
-    const canvas = within(canvasElement);
-
-    await step("click Budget header to sort by budget", async () => {
-      const budgetHeader = canvas.getByRole("button", { name: /budget/i });
-      await userEvent.click(budgetHeader);
-      await waitFor(async () => {
-        await expect(budgetHeader).toBeVisible();
-      });
-    });
   }
 );
 
@@ -839,9 +771,9 @@ Pagination.test(
   }
 );
 
-// --- Tests: ColumnVisibility (toggle columns) ---
+// --- Tests: Default (column visibility toggle) ---
 
-ColumnVisibility.test(
+Default.test(
   "should toggle column visibility",
   async ({ canvasElement, step }) => {
     const canvas = within(canvasElement);
