@@ -157,10 +157,7 @@ export const Footer = meta.story({
                 Username
                 <ChevronUp className="ml-auto" />
               </DropdownMenuTrigger>
-              <DropdownMenuContent
-                side="top"
-                className="w-(--radix-popper-anchor-width)"
-              >
+              <DropdownMenuContent side="top">
                 <DropdownMenuItem>
                   <span>Account</span>
                 </DropdownMenuItem>
