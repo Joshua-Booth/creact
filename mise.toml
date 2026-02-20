@@ -267,10 +267,15 @@ description = "Build Storybook static site"
 alias = "sbb"
 run = "storybook build -o storybook-static --config-dir {{vars.storybook_config}}"
 
+[tasks.audit]
+description = "Run security audit for high-severity vulnerabilities"
+run = "pnpm audit --audit-level=high"
+
 [tasks.check]
 description = "Run all CI checks locally"
 alias = "c"
 depends = [
+    "audit",
     "format:check",
     "lint:check",
     "stylelint:check",
