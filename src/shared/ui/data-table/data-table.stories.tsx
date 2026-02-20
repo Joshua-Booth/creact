@@ -769,24 +769,32 @@ AllFilters.test(
         await expect(options.length).toBeGreaterThanOrEqual(3);
       });
 
-      // Select all 3 options one at a time with verification
+      // Select all 3 options one at a time, skipping already-selected ones
+      // (prior tests in the same story may have toggled some options on)
+      const win = canvasElement.ownerDocument.defaultView ?? window;
       for (let i = 0; i < 3; i++) {
         const opts = canvasElement.ownerDocument.querySelectorAll(
           '[data-slot="popover-content"] [role="option"]'
         );
         const opt = opts[i];
-        if (opt) {
+        if (!opt) continue;
+
+        // Only click if the option is not already selected.
+        // Selected options have a visible check SVG; unselected ones
+        // use [&_svg]:invisible (visibility: hidden).
+        const svg = opt.querySelector("svg.lucide-check");
+        if (!svg || win.getComputedStyle(svg).visibility === "hidden") {
           await userEvent.click(opt);
-          // Wait for the checkmark to become visible before clicking next
-          // Re-query inside waitFor because React re-renders may replace DOM nodes
-          await waitFor(async () => {
-            const freshOpts = canvasElement.ownerDocument.querySelectorAll(
-              '[data-slot="popover-content"] [role="option"]'
-            );
-            const checkmark = freshOpts[i]?.querySelector("svg");
-            await expect(checkmark).toBeVisible();
-          });
         }
+
+        // Re-query inside waitFor because React re-renders may replace DOM nodes
+        await waitFor(async () => {
+          const freshOpts = canvasElement.ownerDocument.querySelectorAll(
+            '[data-slot="popover-content"] [role="option"]'
+          );
+          const checkmark = freshOpts[i]?.querySelector("svg.lucide-check");
+          await expect(checkmark).toBeVisible();
+        });
       }
     });
 
