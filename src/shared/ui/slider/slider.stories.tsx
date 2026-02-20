@@ -28,7 +28,7 @@ const meta = preview.meta({
     docs: {
       description: {
         component:
-          "An input where the user selects a value from within a given range.\n\n[shadcn/ui docs](https://ui.shadcn.com/docs/components/base/slider)",
+          "An input where the user selects a value from within a given range.\n\n[shadcn/ui docs](https://ui.shadcn.com/docs/components/base/slider) · [Base UI docs](https://base-ui.com/react/components/slider)",
       },
     },
   },

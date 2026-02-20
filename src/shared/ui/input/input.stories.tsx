@@ -39,7 +39,7 @@ const meta = preview.meta({
     docs: {
       description: {
         component:
-          "Displays a form input field or a component that looks like an input field. See also [InputGroup](?path=/docs/ui-inputgroup--docs), [InputOTP](?path=/docs/ui-inputotp--docs), and [Textarea](?path=/docs/ui-textarea--docs).\n\n[shadcn/ui docs](https://ui.shadcn.com/docs/components/base/input)",
+          "Displays a form input field or a component that looks like an input field. See also [InputGroup](?path=/docs/ui-inputgroup--docs), [InputOTP](?path=/docs/ui-inputotp--docs), and [Textarea](?path=/docs/ui-textarea--docs).\n\n[shadcn/ui docs](https://ui.shadcn.com/docs/components/base/input) · [Base UI docs](https://base-ui.com/react/components/input)",
       },
     },
   },

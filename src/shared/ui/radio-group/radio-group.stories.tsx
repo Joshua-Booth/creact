@@ -52,7 +52,7 @@ const meta = preview.meta({
     docs: {
       description: {
         component:
-          "A set of checkable buttons\u2014known as radio buttons\u2014where no more than one of the buttons can be checked at a time.\n\n[shadcn/ui docs](https://ui.shadcn.com/docs/components/base/radio-group)",
+          "A set of checkable buttons\u2014known as radio buttons\u2014where no more than one of the buttons can be checked at a time.\n\n[shadcn/ui docs](https://ui.shadcn.com/docs/components/base/radio-group) · [Base UI docs](https://base-ui.com/react/components/radio-group)",
       },
     },
   },

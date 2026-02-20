@@ -12,7 +12,7 @@ const meta = preview.meta({
     docs: {
       description: {
         component:
-          "Visually or semantically separates content.\n\n[shadcn/ui docs](https://ui.shadcn.com/docs/components/base/separator)",
+          "Visually or semantically separates content.\n\n[shadcn/ui docs](https://ui.shadcn.com/docs/components/base/separator) · [Base UI docs](https://base-ui.com/react/components/separator)",
       },
     },
   },

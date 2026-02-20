@@ -32,7 +32,7 @@ const meta = preview.meta({
     docs: {
       description: {
         component:
-          "An opinionated toast component for React.\n\n[shadcn/ui docs](https://ui.shadcn.com/docs/components/base/toast)",
+          "An opinionated toast component for React.\n\n[shadcn/ui docs](https://ui.shadcn.com/docs/components/base/toast) · [Sonner docs](https://sonner.emilkowal.ski/getting-started)",
       },
     },
     layout: "fullscreen",

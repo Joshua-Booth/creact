@@ -91,7 +91,7 @@ const meta = preview.meta({
     docs: {
       description: {
         component:
-          "Displays a list of options for the user to pick from—triggered by a button. See also [NativeSelect](?path=/docs/ui-nativeselect--docs) and [Combobox](?path=/docs/ui-combobox--docs).\n\n[shadcn/ui docs](https://ui.shadcn.com/docs/components/base/select)",
+          "Displays a list of options for the user to pick from—triggered by a button. See also [NativeSelect](?path=/docs/ui-nativeselect--docs) and [Combobox](?path=/docs/ui-combobox--docs).\n\n[shadcn/ui docs](https://ui.shadcn.com/docs/components/base/select) · [Base UI docs](https://base-ui.com/react/components/select)",
       },
     },
   },

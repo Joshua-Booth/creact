@@ -32,7 +32,7 @@ const meta = preview.meta({
     docs: {
       description: {
         component:
-          "A set of layered sections of content—known as tab panels—that are displayed one at a time.\n\n[shadcn/ui docs](https://ui.shadcn.com/docs/components/base/tabs)",
+          "A set of layered sections of content—known as tab panels—that are displayed one at a time.\n\n[shadcn/ui docs](https://ui.shadcn.com/docs/components/base/tabs) · [Base UI docs](https://base-ui.com/react/components/tabs)",
       },
     },
   },

@@ -125,7 +125,7 @@ const meta = preview.meta({
     docs: {
       description: {
         component:
-          "Displays a menu to the user — such as a set of actions or functions — triggered by a button. See also [ContextMenu](?path=/docs/ui-contextmenu--docs) for right-click menus.\n\n[shadcn/ui docs](https://ui.shadcn.com/docs/components/base/dropdown-menu)",
+          "Displays a menu to the user — such as a set of actions or functions — triggered by a button. See also [ContextMenu](?path=/docs/ui-contextmenu--docs) for right-click menus.\n\n[shadcn/ui docs](https://ui.shadcn.com/docs/components/base/dropdown-menu) · [Base UI docs](https://base-ui.com/react/components/menu)",
       },
     },
   },

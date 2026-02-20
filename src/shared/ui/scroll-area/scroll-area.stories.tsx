@@ -28,7 +28,7 @@ const meta = preview.meta({
     docs: {
       description: {
         component:
-          "Augments native scroll functionality for custom, cross-browser styling.\n\n[shadcn/ui docs](https://ui.shadcn.com/docs/components/base/scroll-area)",
+          "Augments native scroll functionality for custom, cross-browser styling.\n\n[shadcn/ui docs](https://ui.shadcn.com/docs/components/base/scroll-area) · [Base UI docs](https://base-ui.com/react/components/scroll-area)",
       },
     },
   },

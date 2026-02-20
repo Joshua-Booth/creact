@@ -22,7 +22,7 @@ const meta = preview.meta({
     docs: {
       description: {
         component:
-          "A control that allows the user to toggle between checked and not checked.\n\n[shadcn/ui docs](https://ui.shadcn.com/docs/components/base/switch)",
+          "A control that allows the user to toggle between checked and not checked.\n\n[shadcn/ui docs](https://ui.shadcn.com/docs/components/base/switch) · [Base UI docs](https://base-ui.com/react/components/switch)",
       },
     },
   },

@@ -30,7 +30,7 @@ const meta = preview.meta({
     docs: {
       description: {
         component:
-          "Displays an indicator showing the completion progress of a task, typically displayed as a progress bar.\n\n[shadcn/ui docs](https://ui.shadcn.com/docs/components/base/progress)",
+          "Displays an indicator showing the completion progress of a task, typically displayed as a progress bar.\n\n[shadcn/ui docs](https://ui.shadcn.com/docs/components/base/progress) · [Base UI docs](https://base-ui.com/react/components/progress)",
       },
     },
   },

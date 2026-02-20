@@ -45,7 +45,7 @@ const meta = preview.meta({
     docs: {
       description: {
         component:
-          "An image element with a fallback for representing the user.\n\n[shadcn/ui docs](https://ui.shadcn.com/docs/components/base/avatar)",
+          "An image element with a fallback for representing the user.\n\n[shadcn/ui docs](https://ui.shadcn.com/docs/components/base/avatar) · [Base UI docs](https://base-ui.com/react/components/avatar)",
       },
     },
   },

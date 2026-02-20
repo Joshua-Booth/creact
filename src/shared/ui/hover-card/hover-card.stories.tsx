@@ -44,7 +44,7 @@ const meta = preview.meta({
     docs: {
       description: {
         component:
-          "For sighted users to preview content available behind a link.\n\n[shadcn/ui docs](https://ui.shadcn.com/docs/components/base/hover-card)",
+          "For sighted users to preview content available behind a link.\n\n[shadcn/ui docs](https://ui.shadcn.com/docs/components/base/hover-card) · [Base UI docs](https://base-ui.com/react/components/preview-card)",
       },
     },
   },

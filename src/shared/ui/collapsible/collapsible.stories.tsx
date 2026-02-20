@@ -52,7 +52,7 @@ const meta = preview.meta({
     docs: {
       description: {
         component:
-          "An interactive component which expands/collapses a panel.\n\n[shadcn/ui docs](https://ui.shadcn.com/docs/components/base/collapsible)",
+          "An interactive component which expands/collapses a panel.\n\n[shadcn/ui docs](https://ui.shadcn.com/docs/components/base/collapsible) · [Base UI docs](https://base-ui.com/react/components/collapsible)",
       },
     },
   },

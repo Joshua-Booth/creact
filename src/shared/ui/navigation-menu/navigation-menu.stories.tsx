@@ -30,7 +30,7 @@ const meta = preview.meta({
     docs: {
       description: {
         component:
-          "A collection of links for navigating websites.\n\n[shadcn/ui docs](https://ui.shadcn.com/docs/components/base/navigation-menu)",
+          "A collection of links for navigating websites.\n\n[shadcn/ui docs](https://ui.shadcn.com/docs/components/base/navigation-menu) · [Base UI docs](https://base-ui.com/react/components/navigation-menu)",
       },
     },
   },

@@ -52,7 +52,7 @@ const meta = preview.meta({
     docs: {
       description: {
         component:
-          "Provides accessible form field layouts with labels, descriptions, and error states.\n\n[shadcn/ui docs](https://ui.shadcn.com/docs/components/base/field)",
+          "Provides accessible form field layouts with labels, descriptions, and error states.\n\n[shadcn/ui docs](https://ui.shadcn.com/docs/components/base/field) · [Base UI docs](https://base-ui.com/react/components/field)",
       },
     },
   },

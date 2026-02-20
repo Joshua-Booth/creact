@@ -32,7 +32,7 @@ const meta = preview.meta({
     docs: {
       description: {
         component:
-          "A set of two-state buttons that can be toggled on or off. See also [Toggle](?path=/docs/ui-toggle--docs) for a single toggle button.\n\n[shadcn/ui docs](https://ui.shadcn.com/docs/components/base/toggle-group)",
+          "A set of two-state buttons that can be toggled on or off. See also [Toggle](?path=/docs/ui-toggle--docs) for a single toggle button.\n\n[shadcn/ui docs](https://ui.shadcn.com/docs/components/base/toggle-group) · [Base UI docs](https://base-ui.com/react/components/toggle-group)",
       },
     },
   },
