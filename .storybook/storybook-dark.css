@@ -14,11 +14,6 @@ html.dark .sbdocs-wrapper {
   color: var(--foreground) !important;
 }
 
-/* Page title */
-html.dark .sbdocs-title {
-  color: var(--foreground) !important;
-}
-
 /* Story preview blocks within docs */
 html.dark .sbdocs-preview {
   background-color: var(--card) !important;
@@ -100,10 +95,14 @@ html.dark .sb-sr-only {
   color: var(--foreground) !important;
 }
 
-/* Story description text and headings */
-html.dark .sbdocs-content p,
+/* Story description text, headings, and inline elements */
+html.dark .sbdocs-content h1,
 html.dark .sbdocs-content h2,
-html.dark .sbdocs-content h3 {
+html.dark .sbdocs-content h3,
+html.dark .sbdocs-content p,
+html.dark .sbdocs-content li,
+html.dark .sbdocs-content strong,
+html.dark .sbdocs-content em {
   color: var(--foreground) !important;
 }
 
@@ -111,6 +110,26 @@ html.dark .sbdocs-content h3 {
 html.dark .sbdocs-content code {
   color: var(--foreground) !important;
   background-color: var(--muted) !important;
+}
+
+/* Markdown tables (from MDX docs pages) */
+html.dark .sbdocs-content table th {
+  color: var(--muted-foreground) !important;
+  border-color: var(--border) !important;
+}
+
+html.dark .sbdocs-content table td {
+  color: var(--foreground) !important;
+  border-color: var(--border) !important;
+}
+
+html.dark .sbdocs-content table tr {
+  border-color: var(--border) !important;
+  background-color: transparent !important;
+}
+
+html.dark .sbdocs-content table tr:nth-of-type(even) {
+  background-color: oklch(1 0 0 / 4%) !important;
 }
 
 /* Controls within args table */
