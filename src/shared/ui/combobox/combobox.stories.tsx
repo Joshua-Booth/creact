@@ -70,7 +70,6 @@ const countries = [
 const meta = preview.meta({
   title: "ui/Combobox",
   component: Combobox,
-  argTypes: {},
   args: {},
   parameters: {
     docs: {
@@ -79,7 +78,6 @@ const meta = preview.meta({
           "An autocomplete input with a filterable list of options. See also [Select](?path=/docs/ui-select--docs) for a non-searchable dropdown.\n\n[shadcn/ui docs](https://ui.shadcn.com/docs/components/base/combobox)",
       },
     },
-    layout: "centered",
     a11y: {
       config: {
         rules: [

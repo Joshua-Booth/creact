@@ -170,7 +170,6 @@ function CarouselWithThumbnails(args: React.ComponentProps<typeof Carousel>) {
 const meta = preview.meta({
   title: "ui/Carousel",
   component: Carousel,
-  argTypes: {},
   args: {
     className: "w-xs",
   },
@@ -199,7 +198,6 @@ const meta = preview.meta({
           "A carousel with motion and swipe built using Embla.\n\n[shadcn/ui docs](https://ui.shadcn.com/docs/components/base/carousel)",
       },
     },
-    layout: "centered",
   },
 });
 

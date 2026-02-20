@@ -28,7 +28,6 @@ import {
 const meta = preview.meta({
   title: "ui/Empty",
   component: Empty,
-  argTypes: {},
   args: {},
   parameters: {
     docs: {
@@ -37,7 +36,6 @@ const meta = preview.meta({
           "Displays an empty state with customizable icon, title, description, and actions.\n\n[shadcn/ui docs](https://ui.shadcn.com/docs/components/base/empty)",
       },
     },
-    layout: "centered",
   },
 });
 

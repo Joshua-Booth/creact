@@ -34,7 +34,6 @@ import {
 const meta = preview.meta({
   title: "ui/InputGroup",
   component: InputGroup,
-  argTypes: {},
   args: {
     className: "w-96",
   },
@@ -53,7 +52,6 @@ const meta = preview.meta({
           "Groups input elements with addons like icons, buttons, and text.\n\n[shadcn/ui docs](https://ui.shadcn.com/docs/components/base/input-group)",
       },
     },
-    layout: "centered",
   },
 });
 

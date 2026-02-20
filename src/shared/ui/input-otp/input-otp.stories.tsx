@@ -28,7 +28,6 @@ import {
 const meta = preview.meta({
   title: "ui/InputOTP",
   component: InputOTP,
-  argTypes: {},
   args: {
     maxLength: 6,
     onChange: fn(),
@@ -60,7 +59,6 @@ const meta = preview.meta({
           "Accessible one-time password component with copy paste functionality.\n\n[shadcn/ui docs](https://ui.shadcn.com/docs/components/base/input-otp)",
       },
     },
-    layout: "centered",
   },
 });
 

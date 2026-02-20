@@ -62,7 +62,6 @@ const meta = preview.meta({
           "A date field component that allows users to enter and edit date.\n\n[shadcn/ui docs](https://ui.shadcn.com/docs/components/base/calendar)",
       },
     },
-    layout: "centered",
   },
 });
 

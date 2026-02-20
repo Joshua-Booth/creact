@@ -38,7 +38,6 @@ import {
 const meta = preview.meta({
   title: "ui/ContextMenu",
   component: ContextMenu,
-  argTypes: {},
   args: {},
   render: (args) => (
     <ContextMenu {...args}>
@@ -71,7 +70,6 @@ const meta = preview.meta({
           "Displays a menu to the user — such as a set of actions or functions — triggered by right-clicking. See also [DropdownMenu](?path=/docs/ui-dropdownmenu--docs) for button-triggered menus.\n\n[shadcn/ui docs](https://ui.shadcn.com/docs/components/base/context-menu)",
       },
     },
-    layout: "centered",
   },
 });
 

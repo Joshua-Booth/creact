@@ -36,8 +36,6 @@ import {
 const meta = preview.meta({
   title: "ui/Menubar",
   component: Menubar,
-  argTypes: {},
-
   render: function Render(args) {
     const [bookmarksBar, setBookmarksBar] = useState(true);
     const [fullUrls, setFullUrls] = useState(false);
@@ -151,7 +149,6 @@ const meta = preview.meta({
           "A visually persistent menu common in desktop applications that provides quick access to a consistent set of commands.\n\n[shadcn/ui docs](https://ui.shadcn.com/docs/components/base/menubar)",
       },
     },
-    layout: "centered",
   },
 });
 

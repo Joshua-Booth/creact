@@ -88,7 +88,6 @@ const singleSeriesConfig = {
 const meta = preview.meta({
   title: "ui/Chart",
   component: ChartContainer,
-  argTypes: {},
   args: {
     children: <div />,
     className: "min-h-[200px] w-full",

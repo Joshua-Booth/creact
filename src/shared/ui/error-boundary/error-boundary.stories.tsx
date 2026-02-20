@@ -108,9 +108,6 @@ const meta = preview.meta({
   title: "ui/ErrorBoundary",
   component: ErrorBoundary,
   decorators: [withI18n],
-  parameters: {
-    layout: "centered",
-  },
 });
 
 // --- Stories ---

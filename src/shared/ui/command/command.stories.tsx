@@ -33,7 +33,6 @@ import {
 const meta = preview.meta({
   title: "ui/Command",
   component: Command,
-  argTypes: {},
   args: {
     className: "rounded-lg w-96 border shadow-md",
   },
@@ -63,7 +62,6 @@ const meta = preview.meta({
           "Fast, composable, unstyled command menu for React.\n\n[shadcn/ui docs](https://ui.shadcn.com/docs/components/base/command)",
       },
     },
-    layout: "centered",
   },
 });
 

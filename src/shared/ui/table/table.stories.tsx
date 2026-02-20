@@ -74,7 +74,6 @@ const invoices = [
 const meta = preview.meta({
   title: "ui/Table",
   component: Table,
-  argTypes: {},
   args: {
     className: "w-lg",
   },

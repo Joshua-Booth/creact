@@ -25,7 +25,6 @@ const meta = preview.meta({
           "Displays content within a desired aspect ratio.\n\n[shadcn/ui docs](https://ui.shadcn.com/docs/components/base/aspect-ratio)",
       },
     },
-    layout: "centered",
   },
   render: (args) => (
     <div className="w-[450px]">

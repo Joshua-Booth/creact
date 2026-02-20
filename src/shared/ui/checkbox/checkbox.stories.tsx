@@ -30,7 +30,6 @@ import { Checkbox } from "./checkbox";
 const meta = preview.meta({
   title: "ui/Checkbox",
   component: Checkbox,
-  argTypes: {},
   args: {
     disabled: false,
   },
@@ -41,7 +40,6 @@ const meta = preview.meta({
           "A control that allows the user to toggle between checked and not checked.\n\n[shadcn/ui docs](https://ui.shadcn.com/docs/components/base/checkbox)",
       },
     },
-    layout: "centered",
   },
   render: (args) => (
     <Field>

@@ -17,9 +17,6 @@ const meta = preview.meta({
   component: RouteErrorFallback,
   tags: ["!autodocs"],
   decorators: [withI18n],
-  parameters: {
-    layout: "centered",
-  },
 });
 
 /**

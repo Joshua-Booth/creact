@@ -28,7 +28,6 @@ import {
 const meta = preview.meta({
   title: "ui/Pagination",
   component: Pagination,
-  argTypes: {},
   render: (args) => (
     <Pagination {...args}>
       <PaginationContent>
@@ -62,7 +61,6 @@ const meta = preview.meta({
           "Pagination with page navigation, next and previous links.\n\n[shadcn/ui docs](https://ui.shadcn.com/docs/components/base/pagination)",
       },
     },
-    layout: "centered",
   },
 });
 

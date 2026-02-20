@@ -8,7 +8,6 @@ import { Separator } from "./separator";
 const meta = preview.meta({
   title: "ui/Separator",
   component: Separator,
-  argTypes: {},
   parameters: {
     docs: {
       description: {

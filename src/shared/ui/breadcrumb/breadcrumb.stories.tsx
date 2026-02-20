@@ -24,7 +24,6 @@ import {
 const meta = preview.meta({
   title: "ui/Breadcrumb",
   component: Breadcrumb,
-  argTypes: {},
   args: {},
   render: (args) => (
     <Breadcrumb {...args}>
@@ -50,7 +49,6 @@ const meta = preview.meta({
           "Displays the path to the current resource using a hierarchy of links.\n\n[shadcn/ui docs](https://ui.shadcn.com/docs/components/base/breadcrumb)",
       },
     },
-    layout: "centered",
   },
 });
 

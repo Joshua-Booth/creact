@@ -11,7 +11,6 @@ import { HoverCard, HoverCardContent, HoverCardTrigger } from "./hover-card";
 const meta = preview.meta({
   title: "ui/HoverCard",
   component: HoverCard,
-  argTypes: {},
   args: {},
   render: (args) => (
     <HoverCard {...args}>
@@ -48,7 +47,6 @@ const meta = preview.meta({
           "For sighted users to preview content available behind a link.\n\n[shadcn/ui docs](https://ui.shadcn.com/docs/components/base/hover-card)",
       },
     },
-    layout: "centered",
   },
 });
 

@@ -33,7 +33,6 @@ const meta = preview.meta({
           "Displays keyboard keys or shortcuts in a styled format.\n\n[shadcn/ui docs](https://ui.shadcn.com/docs/components/base/kbd)",
       },
     },
-    layout: "centered",
   },
 });
 

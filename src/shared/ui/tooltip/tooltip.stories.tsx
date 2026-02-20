@@ -40,7 +40,6 @@ const meta = preview.meta({
           "A popup that displays information related to an element when the element receives keyboard focus or the mouse hovers over it.\n\n[shadcn/ui docs](https://ui.shadcn.com/docs/components/base/tooltip)",
       },
     },
-    layout: "centered",
   },
   render: (args) => (
     <TooltipProvider>

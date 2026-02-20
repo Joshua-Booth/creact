@@ -41,7 +41,6 @@ const meta = preview.meta({
           "Displays a loading spinner to indicate ongoing processes.\n\n[shadcn/ui docs](https://ui.shadcn.com/docs/components/base/spinner)",
       },
     },
-    layout: "centered",
   },
 });
 

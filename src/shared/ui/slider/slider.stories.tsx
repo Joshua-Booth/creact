@@ -12,7 +12,6 @@ import { Slider } from "./slider";
 const meta = preview.meta({
   title: "ui/Slider",
   component: Slider,
-  argTypes: {},
   args: {
     defaultValue: [33],
     max: 100,
@@ -32,7 +31,6 @@ const meta = preview.meta({
           "An input where the user selects a value from within a given range.\n\n[shadcn/ui docs](https://ui.shadcn.com/docs/components/base/slider)",
       },
     },
-    layout: "centered",
   },
 });
 

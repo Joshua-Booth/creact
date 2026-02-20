@@ -26,7 +26,6 @@ const meta = preview.meta({
           "A two-state button that can be either on or off. See also [ToggleGroup](?path=/docs/ui-togglegroup--docs) for grouping multiple toggles.\n\n[shadcn/ui docs](https://ui.shadcn.com/docs/components/base/toggle)",
       },
     },
-    layout: "centered",
   },
 });
 

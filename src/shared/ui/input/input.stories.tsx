@@ -29,7 +29,6 @@ import { Input } from "./input";
 const meta = preview.meta({
   title: "ui/Input",
   component: Input,
-  argTypes: {},
   args: {
     className: "w-96",
     type: "email",
@@ -43,7 +42,6 @@ const meta = preview.meta({
           "Displays a form input field or a component that looks like an input field. See also [InputGroup](?path=/docs/ui-inputgroup--docs), [InputOTP](?path=/docs/ui-inputotp--docs), and [Textarea](?path=/docs/ui-textarea--docs).\n\n[shadcn/ui docs](https://ui.shadcn.com/docs/components/base/input)",
       },
     },
-    layout: "centered",
   },
 });
 

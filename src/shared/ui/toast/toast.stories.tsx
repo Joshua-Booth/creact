@@ -15,7 +15,6 @@ import { Button } from "../button";
 const meta = preview.meta({
   title: "ui/Toast",
   component: Toaster,
-  argTypes: {},
   args: {
     position: "bottom-right",
   },

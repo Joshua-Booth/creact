@@ -34,7 +34,6 @@ import {
 const meta = preview.meta({
   title: "ui/Collapsible",
   component: Collapsible,
-  argTypes: {},
   args: {
     className: "flex w-[350px] flex-col gap-2",
   },
@@ -56,7 +55,6 @@ const meta = preview.meta({
           "An interactive component which expands/collapses a panel.\n\n[shadcn/ui docs](https://ui.shadcn.com/docs/components/base/collapsible)",
       },
     },
-    layout: "centered",
   },
 });
 

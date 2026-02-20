@@ -70,7 +70,6 @@ const themeItems = [
 const meta = preview.meta({
   title: "ui/Select",
   component: Select,
-  argTypes: {},
   args: {
     onValueChange: fn(),
   },
@@ -95,7 +94,6 @@ const meta = preview.meta({
           "Displays a list of options for the user to pick from—triggered by a button. See also [NativeSelect](?path=/docs/ui-nativeselect--docs) and [Combobox](?path=/docs/ui-combobox--docs).\n\n[shadcn/ui docs](https://ui.shadcn.com/docs/components/base/select)",
       },
     },
-    layout: "centered",
   },
 });
 

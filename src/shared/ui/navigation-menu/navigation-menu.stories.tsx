@@ -26,7 +26,6 @@ import {
 const meta = preview.meta({
   title: "ui/NavigationMenu",
   component: NavigationMenu,
-  argTypes: {},
   parameters: {
     docs: {
       description: {
@@ -34,7 +33,6 @@ const meta = preview.meta({
           "A collection of links for navigating websites.\n\n[shadcn/ui docs](https://ui.shadcn.com/docs/components/base/navigation-menu)",
       },
     },
-    layout: "centered",
   },
 });
 

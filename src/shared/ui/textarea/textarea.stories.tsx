@@ -11,7 +11,6 @@ import { Textarea } from "./textarea";
 const meta = preview.meta({
   title: "ui/Textarea",
   component: Textarea,
-  argTypes: {},
   args: {
     placeholder: "Type your message here.",
     disabled: false,

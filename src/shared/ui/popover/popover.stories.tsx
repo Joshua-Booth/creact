@@ -19,8 +19,6 @@ import {
 const meta = preview.meta({
   title: "ui/Popover",
   component: Popover,
-  argTypes: {},
-
   render: (args) => (
     <Popover {...args}>
       <PopoverTrigger
@@ -43,7 +41,6 @@ const meta = preview.meta({
           "Displays rich content in a portal, triggered by a button.\n\n[shadcn/ui docs](https://ui.shadcn.com/docs/components/base/popover)",
       },
     },
-    layout: "centered",
   },
 });
 

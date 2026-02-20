@@ -21,7 +21,6 @@ import {
 const meta = preview.meta({
   title: "ui/Card",
   component: Card,
-  argTypes: {},
   args: {
     className: "w-96",
   },
@@ -32,7 +31,6 @@ const meta = preview.meta({
           "Displays a card with header, content, and footer.\n\n[shadcn/ui docs](https://ui.shadcn.com/docs/components/base/card)",
       },
     },
-    layout: "centered",
   },
 });
 

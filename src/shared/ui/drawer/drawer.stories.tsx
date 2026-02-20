@@ -64,7 +64,6 @@ const meta = preview.meta({
           "A drawer component for React. See also [Sheet](?path=/docs/ui-sheet--docs) for side panel overlays.\n\n[shadcn/ui docs](https://ui.shadcn.com/docs/components/base/drawer)",
       },
     },
-    layout: "centered",
   },
 });
 
@@ -151,9 +150,6 @@ export const Sides = meta.story({
  */
 export const ResponsiveDialog = meta.story({
   name: "Responsive Dialog",
-  parameters: {
-    layout: "centered",
-  },
   render: function ResponsiveDialogStory(args) {
     const [open, setOpen] = useState(false);
     const [isDesktop, setIsDesktop] = useState(true);

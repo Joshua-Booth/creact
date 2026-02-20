@@ -12,7 +12,6 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "./tabs";
 const meta = preview.meta({
   title: "ui/Tabs",
   component: Tabs,
-  argTypes: {},
   args: {
     defaultValue: "account",
     className: "w-96",
@@ -36,7 +35,6 @@ const meta = preview.meta({
           "A set of layered sections of content—known as tab panels—that are displayed one at a time.\n\n[shadcn/ui docs](https://ui.shadcn.com/docs/components/base/tabs)",
       },
     },
-    layout: "centered",
   },
 });
 

@@ -13,7 +13,6 @@ import { Progress, ProgressLabel, ProgressValue } from "./progress";
 const meta = preview.meta({
   title: "ui/Progress",
   component: Progress,
-  argTypes: {},
   args: {
     "aria-label": "Progress",
     value: 30,

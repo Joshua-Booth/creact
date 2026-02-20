@@ -22,7 +22,6 @@ import { RadioGroup, RadioGroupItem } from "./radio-group";
 const meta = preview.meta({
   title: "ui/RadioGroup",
   component: RadioGroup,
-  argTypes: {},
   args: {
     defaultValue: "comfortable",
     className: "flex flex-col gap-2",

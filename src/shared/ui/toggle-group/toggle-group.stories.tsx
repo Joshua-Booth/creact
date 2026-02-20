@@ -10,7 +10,6 @@ import { ToggleGroup, ToggleGroupItem } from "./toggle-group";
 const meta = preview.meta({
   title: "ui/ToggleGroup",
   component: ToggleGroup,
-  argTypes: {},
   args: {
     variant: "default",
     size: "default",
@@ -36,7 +35,6 @@ const meta = preview.meta({
           "A set of two-state buttons that can be toggled on or off. See also [Toggle](?path=/docs/ui-toggle--docs) for a single toggle button.\n\n[shadcn/ui docs](https://ui.shadcn.com/docs/components/base/toggle-group)",
       },
     },
-    layout: "centered",
   },
 });
 
