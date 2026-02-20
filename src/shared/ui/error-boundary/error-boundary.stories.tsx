@@ -3,7 +3,7 @@ import { useState } from "react";
 import { withI18n } from "@/storybook/decorators/with-i18n";
 import preview from "@/storybook/preview";
 import { AlertTriangle, RefreshCw, WifiOff } from "lucide-react";
-import { expect, userEvent, within } from "storybook/test";
+import { expect, userEvent } from "storybook/test";
 
 import { Button } from "../button";
 import { ErrorBoundary } from "./error-boundary";
@@ -236,9 +236,7 @@ Default.test(
       return <ErrorBoundaryTestDemo />;
     },
   },
-  async ({ canvasElement, step }) => {
-    const canvas = within(canvasElement);
-
+  async ({ canvas, step }) => {
     await step("verify normal content is shown initially", async () => {
       await expect(
         canvas.getByText(/This content is wrapped in an ErrorBoundary/)
@@ -270,9 +268,7 @@ Default.test(
       return <ErrorBoundaryTestDemo />;
     },
   },
-  async ({ canvasElement, step }) => {
-    const canvas = within(canvasElement);
-
+  async ({ canvas, step }) => {
     await step("trigger error first", async () => {
       const triggerButton = canvas.getByRole("button", {
         name: /trigger error/i,

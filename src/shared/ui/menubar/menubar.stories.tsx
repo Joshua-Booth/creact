@@ -379,8 +379,7 @@ export const Icons = meta.story({
 
 Default.test(
   "when clicking an item, should close the menubar",
-  async ({ canvasElement, step }) => {
-    const canvas = within(canvasElement);
+  async ({ canvas, canvasElement, step }) => {
     const body = within(canvasElement.ownerDocument.body);
 
     await step("open the File menu", async () => {
@@ -389,7 +388,7 @@ Default.test(
         (el) => el.textContent.trim() === "File"
       );
       await userEvent.click(fileTrigger!);
-      await expect(await body.findByRole("menu")).toBeInTheDocument();
+      await body.findByRole("menu");
     });
 
     await step("click an item to close the menubar", async () => {
@@ -404,8 +403,7 @@ Default.test(
 
 Default.test(
   "when using keyboard navigation, should navigate menu items",
-  async ({ canvasElement, step }) => {
-    const canvas = within(canvasElement);
+  async ({ canvas, canvasElement, step }) => {
     const body = within(canvasElement.ownerDocument.body);
 
     await step("open the File menu via click", async () => {
@@ -414,7 +412,7 @@ Default.test(
         (el) => el.textContent.trim() === "File"
       );
       await userEvent.click(fileTrigger!);
-      await expect(await body.findByRole("menu")).toBeInTheDocument();
+      await body.findByRole("menu");
     });
 
     await step("navigate items with ArrowDown", async () => {
@@ -444,7 +442,7 @@ Checkbox.test(
 
     await step("open the Format menu", async () => {
       await userEvent.click(canvas.getByRole("menuitem", { name: /format/i }));
-      await expect(await body.findByRole("menu")).toBeInTheDocument();
+      await body.findByRole("menu");
     });
 
     await step("toggle the Code checkbox item", async () => {
@@ -474,7 +472,7 @@ Radio.test(
       await userEvent.click(
         canvas.getByRole("menuitem", { name: /profiles/i })
       );
-      await expect(await body.findByRole("menu")).toBeInTheDocument();
+      await body.findByRole("menu");
     });
 
     await step("verify Benoit is initially selected", async () => {
@@ -505,8 +503,7 @@ Radio.test(
 
 Submenu.test(
   "when hovering a sub-trigger, should open the submenu",
-  async ({ canvasElement, step }) => {
-    const canvas = within(canvasElement);
+  async ({ canvas, canvasElement, step }) => {
     const body = within(canvasElement.ownerDocument.body);
 
     await step("open the File menu", async () => {
@@ -515,7 +512,7 @@ Submenu.test(
         (el) => el.textContent.trim() === "File"
       );
       await userEvent.click(fileTrigger!);
-      await expect(await body.findByRole("menu")).toBeInTheDocument();
+      await body.findByRole("menu");
     });
 
     await step("hover Share sub-trigger to open submenu", async () => {
@@ -523,9 +520,7 @@ Submenu.test(
         name: /share/i,
       });
       await userEvent.hover(shareTrigger);
-      await expect(
-        await body.findByRole("menuitem", { name: /email link/i })
-      ).toBeInTheDocument();
+      await body.findByRole("menuitem", { name: /email link/i });
     });
   }
 );

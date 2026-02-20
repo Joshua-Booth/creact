@@ -1,5 +1,5 @@
 import preview from "@/storybook/preview";
-import { expect, userEvent, within } from "storybook/test";
+import { expect, userEvent } from "storybook/test";
 
 import { Button } from "../button";
 import { Checkbox } from "../checkbox";
@@ -270,9 +270,7 @@ Default.test(
       </div>
     ),
   },
-  async ({ canvasElement, step }) => {
-    const canvas = within(canvasElement);
-
+  async ({ canvas, step }) => {
     await step("click label and verify input receives focus", async () => {
       const label = canvas.getByText("Click me to focus input");
       const input = canvas.getByPlaceholderText("I should receive focus");

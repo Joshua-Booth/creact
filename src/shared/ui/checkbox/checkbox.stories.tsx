@@ -2,7 +2,7 @@ import { useState } from "react";
 
 import preview from "@/storybook/preview";
 import { MinusIcon } from "lucide-react";
-import { expect, userEvent, within } from "storybook/test";
+import { expect, userEvent } from "storybook/test";
 
 import {
   Field,
@@ -312,8 +312,7 @@ export const InTable = meta.story({
 
 Default.test(
   "when the checkbox is clicked, should toggle between checked and not checked",
-  async ({ canvasElement }) => {
-    const canvas = within(canvasElement);
+  async ({ canvas }) => {
     const checkbox = canvas.getByRole("checkbox");
     await userEvent.click(checkbox);
     await expect(checkbox).toBeChecked();
@@ -326,8 +325,7 @@ Default.test(
 
 Default.test(
   "when the label is clicked, should toggle the checkbox",
-  async ({ canvasElement }) => {
-    const canvas = within(canvasElement);
+  async ({ canvas }) => {
     const label = canvas.getByText(/accept terms/i);
     const checkbox = canvas.getByRole("checkbox");
     await userEvent.click(label);

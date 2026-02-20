@@ -350,112 +350,43 @@ export const FacetedFilterWithCounts = meta.story({
 
 // --- Tests ---
 
-Default.test("should render all rows", async ({ canvasElement, step }) => {
-  const canvas = within(canvasElement);
-
+Default.test("should render all rows", async ({ canvas, step }) => {
   await step("verify table rows render", async () => {
-    await expect(canvas.getByRole("table")).toBeInTheDocument();
     // Check that project titles are visible (first page, default 10 per page)
     await expect(canvas.getByText("Website Redesign")).toBeVisible();
     await expect(canvas.getByText("Mobile App")).toBeVisible();
   });
 });
 
-Default.test(
-  "should select a row with checkbox",
-  async ({ canvasElement, step }) => {
-    const canvas = within(canvasElement);
-
-    await step("click row checkbox and verify selection", async () => {
-      const firstRowCheckbox = canvas.getAllByRole("checkbox", {
-        name: /select row/i,
-      })[0];
-      if (!firstRowCheckbox)
-        throw new Error("Expected at least one row checkbox");
-      await userEvent.click(firstRowCheckbox);
-      await waitFor(async () => {
-        const dataRow = canvas
-          .getAllByRole("row")
-          .find((row) => row.getAttribute("data-state") === "selected");
-        await expect(dataRow).toBeDefined();
-      });
+Default.test("should select a row with checkbox", async ({ canvas, step }) => {
+  await step("click row checkbox and verify selection", async () => {
+    const firstRowCheckbox = canvas.getAllByRole("checkbox", {
+      name: /select row/i,
+    })[0];
+    if (!firstRowCheckbox)
+      throw new Error("Expected at least one row checkbox");
+    await userEvent.click(firstRowCheckbox);
+    await waitFor(async () => {
+      const dataRow = canvas
+        .getAllByRole("row")
+        .find((row) => row.getAttribute("data-state") === "selected");
+      await expect(dataRow).toBeDefined();
     });
-  }
-);
+  });
+});
 
-// --- Tests: AllFilters ---
-
-AllFilters.test(
-  "should render all filter controls",
-  async ({ canvasElement, step }) => {
-    const canvas = within(canvasElement);
-
-    await step("verify filter controls are present", async () => {
-      // Text filter
-      await expect(canvas.getByPlaceholderText(/search titles/i)).toBeVisible();
-      // Number filter
-      await expect(canvas.getByPlaceholderText(/budget/i)).toBeVisible();
-      // Toolbar should be present
-      const toolbar = canvasElement.querySelector(
-        '[data-slot="data-table-toolbar"]'
-      );
-      await expect(toolbar).not.toBeNull();
-      // Faceted filter buttons (rendered with border-dashed class)
-      const filterButtons = canvasElement.querySelectorAll(
-        '[data-slot="data-table-toolbar"] button.border-dashed'
-      );
-      await expect(filterButtons.length).toBeGreaterThanOrEqual(3);
+Default.test("should render view options toggle", async ({ canvas, step }) => {
+  await step("verify view options button is present", async () => {
+    const viewButton = canvas.getByRole("combobox", {
+      name: /toggle columns/i,
     });
-  }
-);
-
-// --- Tests: Pagination ---
-
-Pagination.test(
-  "should navigate between pages",
-  async ({ canvasElement, step }) => {
-    const canvas = within(canvasElement);
-
-    await step("verify pagination controls are present", async () => {
-      await expect(canvas.getByText(/page 1 of/i)).toBeVisible();
-      await expect(
-        canvas.getByRole("button", { name: /go to next page/i })
-      ).toBeVisible();
-    });
-
-    await step("click next page", async () => {
-      const nextButton = canvas.getByRole("button", {
-        name: /go to next page/i,
-      });
-      await userEvent.click(nextButton);
-      await waitFor(async () => {
-        await expect(canvas.getByText(/page 2 of/i)).toBeVisible();
-      });
-    });
-  }
-);
-
-// --- Tests: Default (additional tests) ---
-
-Default.test(
-  "should render view options toggle",
-  async ({ canvasElement, step }) => {
-    const canvas = within(canvasElement);
-
-    await step("verify view options button is present", async () => {
-      const viewButton = canvas.getByRole("combobox", {
-        name: /toggle columns/i,
-      });
-      await expect(viewButton).toBeVisible();
-    });
-  }
-);
+    await expect(viewButton).toBeVisible();
+  });
+});
 
 Default.test(
   "should select all rows with header checkbox",
-  async ({ canvasElement, step }) => {
-    const canvas = within(canvasElement);
-
+  async ({ canvas, step }) => {
     await step("click header checkbox to select all rows", async () => {
       const headerCheckbox = canvas.getByRole("checkbox", {
         name: /select all/i,
@@ -473,9 +404,7 @@ Default.test(
 
 Default.test(
   "should open sort dropdown for Budget column",
-  async ({ canvasElement, step }) => {
-    const canvas = within(canvasElement);
-
+  async ({ canvas, canvasElement, step }) => {
     await step(
       "click Budget header and verify sort options appear",
       async () => {
@@ -498,9 +427,7 @@ Default.test(
 
 Default.test(
   "should filter by text and show results",
-  async ({ canvasElement, step }) => {
-    const canvas = within(canvasElement);
-
+  async ({ canvas, step }) => {
     await step("type in title filter and verify filtering", async () => {
       const filterInput = canvas.getByPlaceholderText(/search titles/i);
       await userEvent.clear(filterInput);
@@ -518,63 +445,171 @@ Default.test(
   }
 );
 
-// --- Tests: AllFilters (additional tests) ---
+Default.test(
+  "should toggle column visibility",
+  async ({ canvas, canvasElement, step }) => {
+    await step("open view options and toggle a column", async () => {
+      const viewButton = canvas.getByRole("combobox", {
+        name: /toggle columns/i,
+      });
+      await userEvent.click(viewButton);
+
+      await waitFor(async () => {
+        const option =
+          canvasElement.ownerDocument.querySelector('[role="option"]');
+        await expect(option).not.toBeNull();
+      });
+
+      // Click an option to toggle a column off
+      const options =
+        canvasElement.ownerDocument.querySelectorAll('[role="option"]');
+      if (options.length > 0 && options[0]) {
+        await userEvent.click(options[0]);
+      }
+    });
+  }
+);
+
+Default.test(
+  "should sort desc and reset via dropdown",
+  async ({ canvas, canvasElement, step }) => {
+    await step("open Title dropdown and click Desc", async () => {
+      const titleHeader = canvas.getByRole("button", { name: /title/i });
+      await userEvent.click(titleHeader);
+
+      await waitFor(async () => {
+        const menuItems = canvasElement.ownerDocument.querySelectorAll(
+          '[role="menuitemcheckbox"]'
+        );
+        await expect(menuItems.length).toBeGreaterThanOrEqual(2);
+      });
+
+      // Click Desc (second checkbox item) — fireEvent bypasses pointer-events check
+      const menuItems = canvasElement.ownerDocument.querySelectorAll(
+        '[role="menuitemcheckbox"]'
+      );
+      if (menuItems[1]) await fireEvent.click(menuItems[1]);
+    });
+
+    await step("re-open dropdown and click Reset", async () => {
+      const titleHeader = canvas.getByRole("button", { name: /title/i });
+      await userEvent.click(titleHeader);
+
+      await waitFor(async () => {
+        const resetItem =
+          canvasElement.ownerDocument.querySelector('[role="menuitem"]');
+        await expect(resetItem).not.toBeNull();
+      });
+
+      const resetItem =
+        canvasElement.ownerDocument.querySelector('[role="menuitem"]');
+      if (resetItem) await fireEvent.click(resetItem);
+    });
+  }
+);
+
+Default.test(
+  "should hide column via header dropdown",
+  async ({ canvasElement, step }) => {
+    await step("open Status dropdown and click Hide", async () => {
+      // Target the column header button inside thead to avoid matching the filter button
+      const thead = canvasElement.querySelector("thead");
+      if (!thead) throw new Error("Expected thead");
+      const statusHeader = within(thead).getByRole("button", {
+        name: /status/i,
+      });
+      await userEvent.click(statusHeader);
+
+      await waitFor(async () => {
+        const menuItems = canvasElement.ownerDocument.querySelectorAll(
+          '[role="menuitemcheckbox"]'
+        );
+        await expect(menuItems.length).toBeGreaterThanOrEqual(1);
+      });
+
+      // Hide is the last checkbox item — fireEvent bypasses pointer-events check
+      const menuItems = canvasElement.ownerDocument.querySelectorAll(
+        '[role="menuitemcheckbox"]'
+      );
+      const hideItem = [...menuItems].find((item) =>
+        item.textContent.includes("Hide")
+      );
+      if (hideItem) await fireEvent.click(hideItem);
+    });
+
+    await step("verify Status column header is gone from thead", async () => {
+      await waitFor(async () => {
+        const thead = canvasElement.querySelector("thead");
+        if (!thead) throw new Error("Expected thead");
+        const statusHeader = within(thead).queryByRole("button", {
+          name: /status/i,
+        });
+        await expect(statusHeader).toBeNull();
+      });
+    });
+  }
+);
+
+Default.test(
+  "should sort column via header dropdown",
+  async ({ canvas, canvasElement, step }) => {
+    await step("open header dropdown and click Sort asc", async () => {
+      const titleHeader = canvas.getByRole("button", { name: /title/i });
+      await userEvent.click(titleHeader);
+
+      await waitFor(async () => {
+        const sortAsc = canvasElement.ownerDocument.querySelector(
+          '[role="menuitemcheckbox"]'
+        );
+        await expect(sortAsc).not.toBeNull();
+      });
+
+      // Click Sort asc
+      const sortItems = canvasElement.ownerDocument.querySelectorAll(
+        '[role="menuitemcheckbox"]'
+      );
+      if (sortItems[0]) {
+        await userEvent.click(sortItems[0]);
+      }
+    });
+
+    await step("verify sort was applied", async () => {
+      // After sorting, the header should still be visible
+      const titleHeader = canvas.getByRole("button", { name: /title/i });
+      await expect(titleHeader).toBeVisible();
+    });
+  }
+);
 
 AllFilters.test(
-  "should filter by number input",
-  async ({ canvasElement, step }) => {
-    const canvas = within(canvasElement);
-
-    await step("type in budget number filter", async () => {
-      const numberInput = canvas.getByPlaceholderText(/budget/i);
-      await userEvent.type(numberInput, "10000");
-      await expect(numberInput).toHaveValue(10_000);
+  "should render all filter controls",
+  async ({ canvas, canvasElement, step }) => {
+    await step("verify filter controls are present", async () => {
+      // Text filter
+      await expect(canvas.getByPlaceholderText(/search titles/i)).toBeVisible();
+      // Number filter
+      await expect(canvas.getByPlaceholderText(/budget/i)).toBeVisible();
+      // Toolbar should be present
+      const toolbar = canvasElement.querySelector(
+        '[data-slot="data-table-toolbar"]'
+      );
+      await expect(toolbar).not.toBeNull();
+      // Faceted filter buttons (rendered with border-dashed class)
+      const filterButtons = canvasElement.querySelectorAll(
+        '[data-slot="data-table-toolbar"] button.border-dashed'
+      );
+      await expect(filterButtons.length).toBeGreaterThanOrEqual(3);
     });
   }
 );
 
-// --- Tests: Pagination (additional tests) ---
-
-Pagination.test(
-  "should show rows per page selector",
-  async ({ canvasElement, step }) => {
-    const canvas = within(canvasElement);
-
-    await step("verify rows per page control is present", async () => {
-      // The rows per page selector should be visible
-      await expect(canvas.getByText(/rows per page/i)).toBeVisible();
-    });
-  }
-);
-
-// --- Tests: EmptyState ---
-
-EmptyState.test(
-  "should render empty state",
-  async ({ canvasElement, step }) => {
-    const canvas = within(canvasElement);
-
-    await step("verify empty state message", async () => {
-      await expect(canvas.getByRole("table")).toBeInTheDocument();
-      await expect(canvas.getByText("No results.")).toBeVisible();
-    });
-  }
-);
-
-EmptyState.test(
-  "should render table header even with no data",
-  async ({ canvasElement, step }) => {
-    const canvas = within(canvasElement);
-
-    await step("verify column headers are present", async () => {
-      await expect(
-        canvas.getByRole("button", { name: /title/i })
-      ).toBeVisible();
-    });
-  }
-);
-
-// --- Tests: AllFilters (faceted filter interaction) ---
+AllFilters.test("should filter by number input", async ({ canvas, step }) => {
+  await step("type in budget number filter", async () => {
+    const numberInput = canvas.getByPlaceholderText(/budget/i);
+    await userEvent.type(numberInput, "10000");
+    await expect(numberInput).toHaveValue(10_000);
+  });
+});
 
 AllFilters.test(
   "should open and interact with faceted filter (Status)",
@@ -710,182 +745,6 @@ AllFilters.test(
   }
 );
 
-// --- Tests: Pagination (page size change, previous page) ---
-
-Pagination.test(
-  "should navigate forward and backward with prev button",
-  async ({ canvasElement, step }) => {
-    const canvas = within(canvasElement);
-
-    await step("click next then previous", async () => {
-      const nextButton = canvas.getByRole("button", {
-        name: /go to next page/i,
-      });
-
-      // Click next (may go to page 3 or 4 depending on prior test state)
-      if (!(nextButton as HTMLButtonElement).disabled) {
-        await userEvent.click(nextButton);
-      }
-
-      // Click previous to go back
-      const prevButton = canvas.getByRole("button", {
-        name: /go to previous page/i,
-      });
-      if (!(prevButton as HTMLButtonElement).disabled) {
-        await userEvent.click(prevButton);
-      }
-
-      // Verify pagination controls are still functional
-      await expect(canvas.getByText(/rows per page/i)).toBeVisible();
-    });
-  }
-);
-
-Pagination.test(
-  "should change page size via selector",
-  async ({ canvasElement, step }) => {
-    const canvas = within(canvasElement);
-
-    await step("open rows per page dropdown and change size", async () => {
-      const trigger = canvas.getByRole("combobox", {
-        name: /rows per page/i,
-      });
-      await userEvent.click(trigger);
-
-      await waitFor(async () => {
-        const option =
-          canvasElement.ownerDocument.querySelector('[role="option"]');
-        await expect(option).not.toBeNull();
-      });
-
-      // Select 20 rows per page
-      const options =
-        canvasElement.ownerDocument.querySelectorAll('[role="option"]');
-      for (const opt of options) {
-        if (opt.textContent === "20") {
-          await userEvent.click(opt);
-          break;
-        }
-      }
-    });
-  }
-);
-
-// --- Tests: Default (column visibility toggle) ---
-
-Default.test(
-  "should toggle column visibility",
-  async ({ canvasElement, step }) => {
-    const canvas = within(canvasElement);
-
-    await step("open view options and toggle a column", async () => {
-      const viewButton = canvas.getByRole("combobox", {
-        name: /toggle columns/i,
-      });
-      await userEvent.click(viewButton);
-
-      await waitFor(async () => {
-        const option =
-          canvasElement.ownerDocument.querySelector('[role="option"]');
-        await expect(option).not.toBeNull();
-      });
-
-      // Click an option to toggle a column off
-      const options =
-        canvasElement.ownerDocument.querySelectorAll('[role="option"]');
-      if (options.length > 0 && options[0]) {
-        await userEvent.click(options[0]);
-      }
-    });
-  }
-);
-
-// --- Tests: WithActionBar ---
-
-WithActionBar.test(
-  "should show action bar when rows are selected",
-  async ({ canvasElement, step }) => {
-    const canvas = within(canvasElement);
-
-    await step("verify action bar is not visible initially", async () => {
-      await expect(
-        canvas.queryByText("Delete selected")
-      ).not.toBeInTheDocument();
-    });
-
-    await step("select a row and verify action bar appears", async () => {
-      const firstRowCheckbox = canvas.getAllByRole("checkbox", {
-        name: /select row/i,
-      })[0];
-      if (!firstRowCheckbox)
-        throw new Error("Expected at least one row checkbox");
-      await userEvent.click(firstRowCheckbox);
-      await waitFor(async () => {
-        await expect(canvas.getByText("Delete selected")).toBeVisible();
-      });
-    });
-  }
-);
-
-// --- Tests: NonSortableColumn ---
-
-NonSortableColumn.test(
-  "should render non-sortable column as plain text",
-  async ({ canvasElement, step }) => {
-    const canvas = within(canvasElement);
-
-    await step(
-      "verify ID column renders as plain text without dropdown",
-      async () => {
-        // The ID column header should be plain text, not a button
-        await expect(canvas.getByText("ID")).toBeVisible();
-        // Should not be a button
-        const buttons = canvas.getAllByRole("button");
-        const idButton = buttons.find((btn) => btn.textContent.trim() === "ID");
-        await expect(idButton).toBeUndefined();
-      }
-    );
-  }
-);
-
-// --- Tests: FacetedFilterWithCounts ---
-
-FacetedFilterWithCounts.test(
-  "should display count values in filter options",
-  async ({ canvasElement, step }) => {
-    await step("open status filter and verify counts are visible", async () => {
-      const filterButtons = canvasElement.querySelectorAll(
-        '[data-slot="data-table-toolbar"] button.border-dashed'
-      );
-      let statusButton: HTMLElement | null = null;
-      for (const btn of filterButtons) {
-        if (btn.textContent.includes("Status")) {
-          statusButton = btn as HTMLElement;
-          break;
-        }
-      }
-      if (!statusButton) throw new Error("Expected Status filter button");
-      await userEvent.click(statusButton);
-
-      await waitFor(async () => {
-        const doc = within(canvasElement.ownerDocument.body);
-        await expect(doc.getByText("5")).toBeVisible();
-        // "3" and "2" may match multiple elements (table data + filter counts)
-        const threes = doc.getAllByText("3");
-        await expect(threes.length).toBeGreaterThanOrEqual(1);
-        const twos = doc.getAllByText("2");
-        await expect(twos.length).toBeGreaterThanOrEqual(1);
-      });
-    });
-
-    await step("close popover", async () => {
-      await userEvent.keyboard("{Escape}");
-    });
-  }
-);
-
-// --- Tests: AllFilters (select 3+ options for aggregate badge) ---
-
 AllFilters.test(
   "should show aggregate badge when 3+ faceted options selected",
   async ({ canvasElement, step }) => {
@@ -947,8 +806,6 @@ AllFilters.test(
   }
 );
 
-// --- Tests: AllFilters (clear filters in faceted filter) ---
-
 AllFilters.test(
   "should clear filters in faceted filter",
   async ({ canvasElement, step }) => {
@@ -1003,8 +860,6 @@ AllFilters.test(
   }
 );
 
-// --- Tests: AllFilters (slider "To" input) ---
-
 AllFilters.test(
   "should accept value in slider To input",
   async ({ canvasElement, step }) => {
@@ -1042,8 +897,6 @@ AllFilters.test(
     });
   }
 );
-
-// --- Tests: AllFilters (clear slider filter) ---
 
 AllFilters.test(
   "should clear slider filter via Clear button in popover",
@@ -1093,13 +946,9 @@ AllFilters.test(
   }
 );
 
-// --- Tests: AllFilters (reset all filters via toolbar Reset button) ---
-
 AllFilters.test(
   "should reset all filters via toolbar Reset button",
-  async ({ canvasElement, step }) => {
-    const canvas = within(canvasElement);
-
+  async ({ canvas, canvasElement, step }) => {
     await step("set a text filter to make Reset button appear", async () => {
       const filterInput = canvas.getByPlaceholderText(/search titles/i);
       await userEvent.clear(filterInput);
@@ -1133,99 +982,93 @@ AllFilters.test(
   }
 );
 
-// --- Tests: Default (sort desc + reset via dropdown) ---
+Pagination.test("should navigate between pages", async ({ canvas, step }) => {
+  await step("verify pagination controls are present", async () => {
+    await expect(canvas.getByText(/page 1 of/i)).toBeVisible();
+    await expect(
+      canvas.getByRole("button", { name: /go to next page/i })
+    ).toBeVisible();
+  });
 
-Default.test(
-  "should sort desc and reset via dropdown",
-  async ({ canvasElement, step }) => {
-    const canvas = within(canvasElement);
-
-    await step("open Title dropdown and click Desc", async () => {
-      const titleHeader = canvas.getByRole("button", { name: /title/i });
-      await userEvent.click(titleHeader);
-
-      await waitFor(async () => {
-        const menuItems = canvasElement.ownerDocument.querySelectorAll(
-          '[role="menuitemcheckbox"]'
-        );
-        await expect(menuItems.length).toBeGreaterThanOrEqual(2);
-      });
-
-      // Click Desc (second checkbox item) — fireEvent bypasses pointer-events check
-      const menuItems = canvasElement.ownerDocument.querySelectorAll(
-        '[role="menuitemcheckbox"]'
-      );
-      if (menuItems[1]) await fireEvent.click(menuItems[1]);
+  await step("click next page", async () => {
+    const nextButton = canvas.getByRole("button", {
+      name: /go to next page/i,
     });
+    await userEvent.click(nextButton);
+    await waitFor(async () => {
+      await expect(canvas.getByText(/page 2 of/i)).toBeVisible();
+    });
+  });
+});
 
-    await step("re-open dropdown and click Reset", async () => {
-      const titleHeader = canvas.getByRole("button", { name: /title/i });
-      await userEvent.click(titleHeader);
-
-      await waitFor(async () => {
-        const resetItem =
-          canvasElement.ownerDocument.querySelector('[role="menuitem"]');
-        await expect(resetItem).not.toBeNull();
-      });
-
-      const resetItem =
-        canvasElement.ownerDocument.querySelector('[role="menuitem"]');
-      if (resetItem) await fireEvent.click(resetItem);
+Pagination.test(
+  "should show rows per page selector",
+  async ({ canvas, step }) => {
+    await step("verify rows per page control is present", async () => {
+      // The rows per page selector should be visible
+      await expect(canvas.getByText(/rows per page/i)).toBeVisible();
     });
   }
 );
 
-// --- Tests: Default (hide column via dropdown) ---
-
-Default.test(
-  "should hide column via header dropdown",
-  async ({ canvasElement, step }) => {
-    await step("open Status dropdown and click Hide", async () => {
-      // Target the column header button inside thead to avoid matching the filter button
-      const thead = canvasElement.querySelector("thead");
-      if (!thead) throw new Error("Expected thead");
-      const statusHeader = within(thead).getByRole("button", {
-        name: /status/i,
-      });
-      await userEvent.click(statusHeader);
-
-      await waitFor(async () => {
-        const menuItems = canvasElement.ownerDocument.querySelectorAll(
-          '[role="menuitemcheckbox"]'
-        );
-        await expect(menuItems.length).toBeGreaterThanOrEqual(1);
+Pagination.test(
+  "should navigate forward and backward with prev button",
+  async ({ canvas, step }) => {
+    await step("click next then previous", async () => {
+      const nextButton = canvas.getByRole("button", {
+        name: /go to next page/i,
       });
 
-      // Hide is the last checkbox item — fireEvent bypasses pointer-events check
-      const menuItems = canvasElement.ownerDocument.querySelectorAll(
-        '[role="menuitemcheckbox"]'
-      );
-      const hideItem = [...menuItems].find((item) =>
-        item.textContent.includes("Hide")
-      );
-      if (hideItem) await fireEvent.click(hideItem);
-    });
+      // Click next (may go to page 3 or 4 depending on prior test state)
+      if (!(nextButton as HTMLButtonElement).disabled) {
+        await userEvent.click(nextButton);
+      }
 
-    await step("verify Status column header is gone from thead", async () => {
-      await waitFor(async () => {
-        const thead = canvasElement.querySelector("thead");
-        if (!thead) throw new Error("Expected thead");
-        const statusHeader = within(thead).queryByRole("button", {
-          name: /status/i,
-        });
-        await expect(statusHeader).toBeNull();
+      // Click previous to go back
+      const prevButton = canvas.getByRole("button", {
+        name: /go to previous page/i,
       });
+      if (!(prevButton as HTMLButtonElement).disabled) {
+        await userEvent.click(prevButton);
+      }
+
+      // Verify pagination controls are still functional
+      await expect(canvas.getByText(/rows per page/i)).toBeVisible();
     });
   }
 );
 
-// --- Tests: Pagination (first/last page buttons) ---
+Pagination.test(
+  "should change page size via selector",
+  async ({ canvas, canvasElement, step }) => {
+    await step("open rows per page dropdown and change size", async () => {
+      const trigger = canvas.getByRole("combobox", {
+        name: /rows per page/i,
+      });
+      await userEvent.click(trigger);
+
+      await waitFor(async () => {
+        const option =
+          canvasElement.ownerDocument.querySelector('[role="option"]');
+        await expect(option).not.toBeNull();
+      });
+
+      // Select 20 rows per page
+      const options =
+        canvasElement.ownerDocument.querySelectorAll('[role="option"]');
+      for (const opt of options) {
+        if (opt.textContent === "20") {
+          await userEvent.click(opt);
+          break;
+        }
+      }
+    });
+  }
+);
 
 Pagination.test(
   "should navigate with first and last page buttons",
-  async ({ canvasElement, step }) => {
-    const canvas = within(canvasElement);
-
+  async ({ canvas, step }) => {
     await step("verify first page button is disabled on page 1", async () => {
       // First page button is hidden on non-lg screens, but we can check disabled state
       const firstPageBtn = canvas.getByRole("button", {
@@ -1269,37 +1112,93 @@ Pagination.test(
   }
 );
 
-// --- Tests: Default (column header sorting via dropdown) ---
+EmptyState.test("should render empty state", async ({ canvas, step }) => {
+  await step("verify empty state message", async () => {
+    await expect(canvas.getByText("No results.")).toBeVisible();
+  });
+});
 
-Default.test(
-  "should sort column via header dropdown",
-  async ({ canvasElement, step }) => {
-    const canvas = within(canvasElement);
+EmptyState.test(
+  "should render table header even with no data",
+  async ({ canvas, step }) => {
+    await step("verify column headers are present", async () => {
+      await expect(
+        canvas.getByRole("button", { name: /title/i })
+      ).toBeVisible();
+    });
+  }
+);
 
-    await step("open header dropdown and click Sort asc", async () => {
-      const titleHeader = canvas.getByRole("button", { name: /title/i });
-      await userEvent.click(titleHeader);
-
-      await waitFor(async () => {
-        const sortAsc = canvasElement.ownerDocument.querySelector(
-          '[role="menuitemcheckbox"]'
-        );
-        await expect(sortAsc).not.toBeNull();
-      });
-
-      // Click Sort asc
-      const sortItems = canvasElement.ownerDocument.querySelectorAll(
-        '[role="menuitemcheckbox"]'
-      );
-      if (sortItems[0]) {
-        await userEvent.click(sortItems[0]);
-      }
+WithActionBar.test(
+  "should show action bar when rows are selected",
+  async ({ canvas, step }) => {
+    await step("verify action bar is not visible initially", async () => {
+      await expect(
+        canvas.queryByText("Delete selected")
+      ).not.toBeInTheDocument();
     });
 
-    await step("verify sort was applied", async () => {
-      // After sorting, the header should still be visible
-      const titleHeader = canvas.getByRole("button", { name: /title/i });
-      await expect(titleHeader).toBeVisible();
+    await step("select a row and verify action bar appears", async () => {
+      const firstRowCheckbox = canvas.getAllByRole("checkbox", {
+        name: /select row/i,
+      })[0];
+      if (!firstRowCheckbox)
+        throw new Error("Expected at least one row checkbox");
+      await userEvent.click(firstRowCheckbox);
+      await waitFor(async () => {
+        await expect(canvas.getByText("Delete selected")).toBeVisible();
+      });
+    });
+  }
+);
+
+NonSortableColumn.test(
+  "should render non-sortable column as plain text",
+  async ({ canvas, step }) => {
+    await step(
+      "verify ID column renders as plain text without dropdown",
+      async () => {
+        // The ID column header should be plain text, not a button
+        await expect(canvas.getByText("ID")).toBeVisible();
+        // Should not be a button
+        const buttons = canvas.getAllByRole("button");
+        const idButton = buttons.find((btn) => btn.textContent.trim() === "ID");
+        await expect(idButton).toBeUndefined();
+      }
+    );
+  }
+);
+
+FacetedFilterWithCounts.test(
+  "should display count values in filter options",
+  async ({ canvasElement, step }) => {
+    await step("open status filter and verify counts are visible", async () => {
+      const filterButtons = canvasElement.querySelectorAll(
+        '[data-slot="data-table-toolbar"] button.border-dashed'
+      );
+      let statusButton: HTMLElement | null = null;
+      for (const btn of filterButtons) {
+        if (btn.textContent.includes("Status")) {
+          statusButton = btn as HTMLElement;
+          break;
+        }
+      }
+      if (!statusButton) throw new Error("Expected Status filter button");
+      await userEvent.click(statusButton);
+
+      await waitFor(async () => {
+        const doc = within(canvasElement.ownerDocument.body);
+        await expect(doc.getByText("5")).toBeVisible();
+        // "3" and "2" may match multiple elements (table data + filter counts)
+        const threes = doc.getAllByText("3");
+        await expect(threes.length).toBeGreaterThanOrEqual(1);
+        const twos = doc.getAllByText("2");
+        await expect(twos.length).toBeGreaterThanOrEqual(1);
+      });
+    });
+
+    await step("close popover", async () => {
+      await userEvent.keyboard("{Escape}");
     });
   }
 );

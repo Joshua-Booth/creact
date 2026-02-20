@@ -3,7 +3,7 @@ import { withSWR } from "@/storybook/decorators/with-swr";
 import preview from "@/storybook/preview";
 import { http, HttpResponse } from "msw";
 import { reactRouterParameters } from "storybook-addon-remix-react-router";
-import { expect, waitFor, within } from "storybook/test";
+import { expect, waitFor } from "storybook/test";
 
 import { DashboardPage } from "./dashboard-page";
 
@@ -41,8 +41,7 @@ export const Default = meta.story({
   },
 });
 
-Default.test("renders heading after user loads", async ({ canvasElement }) => {
-  const canvas = within(canvasElement);
+Default.test("renders heading after user loads", async ({ canvas }) => {
   await waitFor(() =>
     expect(canvas.getByRole("heading")).toHaveTextContent("Welcome back, John")
   );
@@ -79,8 +78,7 @@ export const ErrorState = meta.story({
 
 ErrorState.test(
   "renders error message after API failure",
-  async ({ canvasElement }) => {
-    const canvas = within(canvasElement);
+  async ({ canvas }) => {
     await waitFor(() =>
       expect(
         canvas.getByText("Something went wrong loading your dashboard.")

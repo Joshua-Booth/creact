@@ -226,12 +226,8 @@ Actions.test(
       await expect(
         await body.findByRole("menuitem", { name: /edit/i })
       ).toBeInTheDocument();
-      await expect(
-        body.getByRole("menuitem", { name: /duplicate/i })
-      ).toBeInTheDocument();
-      await expect(
-        body.getByRole("menuitem", { name: /delete/i })
-      ).toBeInTheDocument();
+      body.getByRole("menuitem", { name: /duplicate/i });
+      body.getByRole("menuitem", { name: /delete/i });
     });
   }
 );

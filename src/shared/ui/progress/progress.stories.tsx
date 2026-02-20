@@ -1,6 +1,7 @@
 import { useState } from "react";
 
 import preview from "@/storybook/preview";
+import { expect } from "storybook/test";
 
 import { Field, FieldLabel } from "../field";
 import { Slider } from "../slider";
@@ -99,3 +100,16 @@ export const Completed = meta.story({
     value: 100,
   },
 });
+
+// --- Tests ---
+
+Default.test(
+  "should render progressbar with correct aria values",
+  async ({ canvas, step }) => {
+    await step("verify progressbar role and aria attributes", async () => {
+      const progressbar = canvas.getByRole("progressbar");
+      await expect(progressbar).toHaveAttribute("aria-valuenow", "30");
+      await expect(progressbar).toHaveAttribute("aria-valuemax", "100");
+    });
+  }
+);

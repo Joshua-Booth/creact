@@ -7,7 +7,7 @@ import {
   LayoutIcon,
   RocketIcon,
 } from "lucide-react";
-import { expect, userEvent, within } from "storybook/test";
+import { userEvent, within } from "storybook/test";
 
 import { cn } from "../../lib/utils";
 import {
@@ -456,9 +456,8 @@ Default.test(
       </NavigationMenu>
     ),
   },
-  async ({ canvasElement, step }) => {
+  async ({ canvas, canvasElement, step }) => {
     const body = within(canvasElement.ownerDocument.body);
-    const canvas = within(canvasElement);
 
     await step("Open the navigation menu", async () => {
       await userEvent.click(
@@ -467,8 +466,8 @@ Default.test(
     });
 
     await step("Verify menu content is visible", async () => {
-      await expect(await body.findByText("Introduction")).toBeInTheDocument();
-      await expect(await body.findByText("Installation")).toBeInTheDocument();
+      await body.findByText("Introduction");
+      await body.findByText("Installation");
     });
   }
 );

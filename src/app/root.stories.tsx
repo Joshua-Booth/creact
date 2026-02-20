@@ -4,7 +4,7 @@ import { withI18n } from "@/storybook/decorators/with-i18n";
 import preview from "@/storybook/preview";
 import { Theme, ThemeProvider } from "remix-themes";
 import { reactRouterParameters } from "storybook-addon-remix-react-router";
-import { expect, within } from "storybook/test";
+import { expect } from "storybook/test";
 
 import { useAuthStore } from "@/entities/user";
 
@@ -56,9 +56,7 @@ export const OnLandingPage = meta.story({
 
 OnLandingPage.test(
   "should render app container with Header on landing page",
-  async ({ canvasElement }) => {
-    const canvas = within(canvasElement);
-
+  async ({ canvas }) => {
     await expect(canvas.getByText("Login")).toBeVisible();
     await expect(canvas.getByText("Sign Up")).toBeVisible();
   }
@@ -76,9 +74,7 @@ export const OnAuthRoute = meta.story({
 
 OnAuthRoute.test(
   "should not render Header on auth routes",
-  async ({ canvasElement }) => {
-    const canvas = within(canvasElement);
-
+  async ({ canvas }) => {
     await expect(canvas.queryByText("Login")).not.toBeInTheDocument();
     await expect(canvas.queryByText("Sign Up")).not.toBeInTheDocument();
   }
@@ -93,12 +89,7 @@ export const Fallback = meta.story({
   },
 });
 
-Fallback.test(
-  "should render loading spinner and text",
-  async ({ canvasElement }) => {
-    const canvas = within(canvasElement);
-
-    await expect(canvas.getByRole("status")).toBeVisible();
-    await expect(canvas.getAllByText("Loading...").length).toBeGreaterThan(0);
-  }
-);
+Fallback.test("should render loading spinner and text", async ({ canvas }) => {
+  await expect(canvas.getByRole("status")).toBeVisible();
+  await expect(canvas.getAllByText("Loading...").length).toBeGreaterThan(0);
+});

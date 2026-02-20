@@ -4,7 +4,7 @@ import { withI18n } from "@/storybook/decorators/with-i18n";
 import preview from "@/storybook/preview";
 import i18n from "i18next";
 import { reactRouterParameters } from "storybook-addon-remix-react-router";
-import { expect, within } from "storybook/test";
+import { expect } from "storybook/test";
 
 import { RouteErrorFallback } from "./route-error-fallback";
 
@@ -51,9 +51,7 @@ export const RouteErrorResponse = meta.story({
 
 RouteErrorResponse.test(
   "should render HTTP status and status text",
-  async ({ canvasElement }) => {
-    const canvas = within(canvasElement);
-
+  async ({ canvas }) => {
     await expect(canvas.getByText("500: Internal Server Error")).toBeVisible();
     await expect(
       canvas.getByRole("link", { name: /go home/i })
@@ -88,9 +86,7 @@ export const UnexpectedError = meta.story({
 
 UnexpectedError.test(
   "should render generic error message",
-  async ({ canvasElement }) => {
-    const canvas = within(canvasElement);
-
+  async ({ canvas }) => {
     await expect(canvas.getByText("Something went wrong")).toBeVisible();
     await expect(
       canvas.getByText(
@@ -130,8 +126,6 @@ export const NotFoundError = meta.story({
   },
 });
 
-NotFoundError.test("should render 404 status", async ({ canvasElement }) => {
-  const canvas = within(canvasElement);
-
+NotFoundError.test("should render 404 status", async ({ canvas }) => {
   await expect(canvas.getByText("404: Not Found")).toBeVisible();
 });

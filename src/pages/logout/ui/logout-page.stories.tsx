@@ -1,7 +1,7 @@
 import { withI18n } from "@/storybook/decorators/with-i18n";
 import preview from "@/storybook/preview";
 import { reactRouterParameters } from "storybook-addon-remix-react-router";
-import { expect, within } from "storybook/test";
+import { expect } from "storybook/test";
 
 import { LogoutPage } from "./logout-page";
 
@@ -22,9 +22,7 @@ export const Default = meta.story();
 
 Default.test(
   "should render signed out heading and description",
-  async ({ canvasElement }) => {
-    const canvas = within(canvasElement);
-
+  async ({ canvas }) => {
     await expect(canvas.getByRole("heading", { level: 1 })).toHaveTextContent(
       "You've been signed out"
     );
@@ -34,9 +32,7 @@ Default.test(
   }
 );
 
-Default.test("should render back to login link", async ({ canvasElement }) => {
-  const canvas = within(canvasElement);
-
+Default.test("should render back to login link", async ({ canvas }) => {
   const link = canvas.getByRole("link", { name: /back to login/i });
   await expect(link).toBeVisible();
   await expect(link).toHaveAttribute("href", "/login");

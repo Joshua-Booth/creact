@@ -1,7 +1,7 @@
 import { withI18n } from "@/storybook/decorators/with-i18n";
 import preview from "@/storybook/preview";
 import { reactRouterParameters } from "storybook-addon-remix-react-router";
-import { expect, userEvent, waitFor, within } from "storybook/test";
+import { expect, userEvent, waitFor } from "storybook/test";
 
 import { LoginPage } from "./login-page";
 
@@ -30,9 +30,7 @@ export const Default = meta.story();
 
 Default.test(
   "when submitting empty form, should show validation errors",
-  async ({ canvasElement, step }) => {
-    const canvas = within(canvasElement);
-
+  async ({ canvas, step }) => {
     await step("submit empty form", async () => {
       const submitButton = await canvas.findByRole("button", {
         name: /sign in/i,
@@ -51,9 +49,7 @@ Default.test(
 
 Default.test(
   "when entering valid credentials, should enable form submission",
-  async ({ canvasElement, step }) => {
-    const canvas = within(canvasElement);
-
+  async ({ canvas, step }) => {
     await step("enter valid email", async () => {
       const emailInput = await canvas.findByLabelText("Email");
       await userEvent.type(emailInput, "user@example.com");
@@ -82,9 +78,7 @@ Default.test(
 
 Default.test(
   "when entering invalid email, should show email validation error",
-  async ({ canvasElement, step }) => {
-    const canvas = within(canvasElement);
-
+  async ({ canvas, step }) => {
     await step("enter invalid email", async () => {
       const emailInput = await canvas.findByLabelText("Email");
       await userEvent.type(emailInput, "invalid-email");

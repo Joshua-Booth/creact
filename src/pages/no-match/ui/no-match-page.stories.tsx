@@ -4,7 +4,7 @@ import { withI18n } from "@/storybook/decorators/with-i18n";
 import preview from "@/storybook/preview";
 import i18n from "i18next";
 import { reactRouterParameters } from "storybook-addon-remix-react-router";
-import { expect, within } from "storybook/test";
+import { expect } from "storybook/test";
 
 import { NoMatchPage } from "./no-match-page";
 
@@ -25,9 +25,7 @@ export const Default = meta.story();
 
 Default.test(
   "should render 404 heading and description",
-  async ({ canvasElement }) => {
-    const canvas = within(canvasElement);
-
+  async ({ canvas }) => {
     await expect(canvas.getByRole("heading", { level: 1 })).toHaveTextContent(
       "404 - Page Not Found"
     );
@@ -65,9 +63,7 @@ export const WithRouteError = meta.story({
 
 WithRouteError.test(
   "should render status and statusText for route error responses",
-  async ({ canvasElement }) => {
-    const canvas = within(canvasElement);
-
+  async ({ canvas }) => {
     await expect(canvas.getByRole("heading", { level: 1 })).toHaveTextContent(
       "404 - Page Not Found"
     );

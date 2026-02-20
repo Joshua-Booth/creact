@@ -492,9 +492,7 @@ Default.test(
       );
     },
   },
-  async ({ canvasElement, step }) => {
-    const canvas = within(canvasElement);
-
+  async ({ canvas, step }) => {
     await step("click each button and verify they are clickable", async () => {
       const firstButton = canvas.getByRole("button", { name: "First" });
       const secondButton = canvas.getByRole("button", { name: "Second" });
@@ -521,8 +519,7 @@ Orientation.test(
 
 DropdownMenuStory.test(
   "when clicking the dropdown trigger, should open the menu",
-  async ({ canvasElement, step }) => {
-    const canvas = within(canvasElement);
+  async ({ canvas, canvasElement, step }) => {
     const body = within(canvasElement.ownerDocument.body);
 
     await step("click the dropdown trigger", async () => {
@@ -540,8 +537,7 @@ DropdownMenuStory.test(
 
 PopoverStory.test(
   "when clicking the popover trigger, should open the popover",
-  async ({ canvasElement, step }) => {
-    const canvas = within(canvasElement);
+  async ({ canvas, canvasElement, step }) => {
     const body = within(canvasElement.ownerDocument.body);
 
     await step("click the popover trigger", async () => {

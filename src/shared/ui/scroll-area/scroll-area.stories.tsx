@@ -1,4 +1,5 @@
 import preview from "@/storybook/preview";
+import { expect } from "storybook/test";
 
 import { cn } from "../../lib/utils";
 import { ScrollArea, ScrollBar } from "./scroll-area";
@@ -109,3 +110,18 @@ export const Scroll = meta.story({
     ),
   },
 });
+
+// --- Tests ---
+
+Default.test(
+  "should render scroll area with content and scrollbar",
+  async ({ canvasElement, step }) => {
+    await step("verify scrollbar element is present", async () => {
+      // Base UI ScrollArea.Scrollbar has no ARIA role; data-slot is the only selector
+      const scrollbar = canvasElement.querySelector(
+        '[data-slot="scroll-area-scrollbar"]'
+      );
+      await expect(scrollbar).not.toBeNull();
+    });
+  }
+);

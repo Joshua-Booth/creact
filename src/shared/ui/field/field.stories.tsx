@@ -1,7 +1,7 @@
 import { useState } from "react";
 
 import preview from "@/storybook/preview";
-import { expect, userEvent, within } from "storybook/test";
+import { expect, userEvent } from "storybook/test";
 
 import { Button } from "../button";
 import { Checkbox } from "../checkbox";
@@ -543,9 +543,7 @@ Default.test(
       </Field>
     ),
   },
-  async ({ canvasElement, step }) => {
-    const canvas = within(canvasElement);
-
+  async ({ canvas, step }) => {
     await step("verify error message is visible", async () => {
       await expect(
         canvas.getByText("Please enter a valid email address.")
@@ -569,9 +567,7 @@ Default.test(
       </Field>
     ),
   },
-  async ({ canvasElement, step }) => {
-    const canvas = within(canvasElement);
-
+  async ({ canvas, step }) => {
     await step("click label and verify input receives focus", async () => {
       const label = canvas.getByText("Username");
       const input = canvas.getByPlaceholderText("Enter username");

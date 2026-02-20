@@ -1,6 +1,7 @@
 import { Link as RouterLink } from "react-router";
 
 import preview from "@/storybook/preview";
+import { expect } from "storybook/test";
 
 import { Button } from "../button";
 import { Field, FieldLabel } from "../field/field";
@@ -168,3 +169,24 @@ export const ReactRouter = meta.story({
     </Pagination>
   ),
 });
+
+// --- Tests ---
+
+Default.test(
+  "should render pagination with active page and navigation",
+  async ({ canvas, step }) => {
+    await step("verify active page has aria-current", async () => {
+      const activeLink = canvas.getByRole("button", { current: "page" });
+      await expect(activeLink).toHaveTextContent("2");
+    });
+
+    await step("verify previous and next links are present", async () => {
+      await expect(
+        canvas.getByRole("button", { name: /go to previous page/i })
+      ).toBeVisible();
+      await expect(
+        canvas.getByRole("button", { name: /go to next page/i })
+      ).toBeVisible();
+    });
+  }
+);

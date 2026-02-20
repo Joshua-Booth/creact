@@ -3,7 +3,7 @@ import type { ColumnDef } from "@tanstack/react-table";
 import { useMemo, useState } from "react";
 
 import preview from "@/storybook/preview";
-import { expect, userEvent, waitFor, within } from "storybook/test";
+import { expect, userEvent, waitFor } from "storybook/test";
 
 import type { FileCellData, RowHeightValue } from "@/shared/lib/data-grid";
 import { useDataGrid } from "@/shared/lib/data-grid";
@@ -291,11 +291,6 @@ export const AllCellTypes = meta.story({
   render: (args) => <AllCellTypesDemo {...args} />,
 });
 
-/** Grid with search enabled and pre-opened search overlay. */
-export const WithSearch = meta.story({
-  render: (args) => <DataGridDemo {...args} />,
-});
-
 /** Virtualized grid with 500 rows. */
 export const LargeDataset = meta.story({
   render: (args) => <LargeDatasetDemo {...args} />,
@@ -304,16 +299,6 @@ export const LargeDataset = meta.story({
 /** Grid with tall row height. */
 export const RowHeights = meta.story({
   render: (args) => <RowHeightsDemo {...args} />,
-});
-
-/** Grid with context menu enabled via right-click. */
-export const ContextMenu = meta.story({
-  render: (args) => <DataGridDemo {...args} />,
-});
-
-/** Grid with paste enabled, demonstrating the paste dialog. */
-export const WithPaste = meta.story({
-  render: (args) => <DataGridDemo {...args} />,
 });
 
 /** Editable recipe collection with long-text instructions, multi-select dietary tags, and file uploads. */
@@ -346,11 +331,8 @@ function getFirstCellWrapper(canvasElement: HTMLElement): HTMLElement {
 
 Default.test(
   "should render the grid with all rows",
-  async ({ canvasElement, step }) => {
-    const canvas = within(canvasElement);
-
+  async ({ canvas, step }) => {
     await step("verify grid and rows render", async () => {
-      await expect(canvas.getByRole("grid")).toBeInTheDocument();
       const rows = canvas.getAllByRole("row");
       // 8 data rows + 1 header row + 1 add-row footer
       await expect(rows).toHaveLength(10);
@@ -403,9 +385,7 @@ Default.test(
   }
 );
 
-Default.test("should toggle checkbox cell", async ({ canvasElement, step }) => {
-  const canvas = within(canvasElement);
-
+Default.test("should toggle checkbox cell", async ({ canvas, step }) => {
   await step("click checkbox cell and verify toggle", async () => {
     const checkboxes = canvas.getAllByRole("checkbox", { name: /done/i });
     const firstCheckbox = checkboxes[0];
@@ -424,11 +404,8 @@ Default.test("should toggle checkbox cell", async ({ canvasElement, step }) => {
 
 ReadOnly.test(
   "should render the grid in read-only mode",
-  async ({ canvasElement, step }) => {
-    const canvas = within(canvasElement);
-
+  async ({ canvas, step }) => {
     await step("verify grid renders with rows", async () => {
-      await expect(canvas.getByRole("grid")).toBeInTheDocument();
       const rows = canvas.getAllByRole("row");
       // 8 data rows + 1 header row
       await expect(rows).toHaveLength(9);
@@ -452,11 +429,8 @@ ReadOnly.test(
 
 AllCellTypes.test(
   "should render all cell type variants",
-  async ({ canvasElement, step }) => {
-    const canvas = within(canvasElement);
-
+  async ({ canvas, step }) => {
     await step("verify grid renders with all column headers", async () => {
-      await expect(canvas.getByRole("grid")).toBeInTheDocument();
       await expect(canvas.getByText("Short Text")).toBeVisible();
       await expect(canvas.getByText("Long Text")).toBeVisible();
       await expect(canvas.getByText("Number")).toBeVisible();
@@ -494,22 +468,18 @@ AllCellTypes.test(
 
 AllCellTypes.test(
   "should render file attachments",
-  async ({ canvasElement, step }) => {
-    const canvas = within(canvasElement);
-
+  async ({ canvas, step }) => {
     await step("verify file cell renders file name", async () => {
       await expect(canvas.getByText("report.pdf")).toBeVisible();
     });
   }
 );
 
-// --- Tests: WithSearch ---
+// --- Tests: Default (search) ---
 
-WithSearch.test(
+Default.test(
   "should open search and find matches",
-  async ({ canvasElement, step }) => {
-    const canvas = within(canvasElement);
-
+  async ({ canvas, canvasElement, step }) => {
     await step("open search overlay", async () => {
       const grid = canvas.getByRole("grid");
       await userEvent.click(grid);
@@ -539,11 +509,8 @@ WithSearch.test(
 
 LargeDataset.test(
   "should render a large virtualized grid",
-  async ({ canvasElement, step }) => {
-    const canvas = within(canvasElement);
-
+  async ({ canvas, step }) => {
     await step("verify grid renders", async () => {
-      await expect(canvas.getByRole("grid")).toBeInTheDocument();
       // Should render header + visible virtualized rows (not all 500)
       const rows = canvas.getAllByRole("row");
       await expect(rows.length).toBeLessThan(500);
@@ -557,10 +524,7 @@ LargeDataset.test(
 RowHeights.test(
   "should render with tall row height",
   async ({ canvasElement, step }) => {
-    const canvas = within(canvasElement);
-
     await step("verify grid renders with correct row height", async () => {
-      await expect(canvas.getByRole("grid")).toBeInTheDocument();
       const dataRow = canvasElement.querySelector<HTMLElement>(
         '[data-slot="grid-row"]'
       );
@@ -568,24 +532,6 @@ RowHeights.test(
       const height = Number.parseInt(dataRow.style.height, 10);
       // Tall row height = 76px
       await expect(height).toBe(76);
-    });
-  }
-);
-
-// --- Tests: ContextMenu ---
-
-ContextMenu.test(
-  "should render the grid with context menu support",
-  async ({ canvasElement, step }) => {
-    const canvas = within(canvasElement);
-
-    await step("verify grid renders and cells are focusable", async () => {
-      await expect(canvas.getByRole("grid")).toBeInTheDocument();
-      const firstWrapper = getFirstCellWrapper(canvasElement);
-      await userEvent.click(firstWrapper);
-      await waitFor(async () => {
-        await expect(firstWrapper).toHaveAttribute("data-focused", "");
-      });
     });
   }
 );
@@ -686,20 +632,22 @@ Default.test(
 Default.test(
   "should handle Delete and Backspace keys",
   async ({ canvasElement, step }) => {
-    await step("focus cell and press Delete", async () => {
+    await step("focus cell and press Delete to clear it", async () => {
       const firstWrapper = getFirstCellWrapper(canvasElement);
       await userEvent.click(firstWrapper);
       await waitFor(async () => {
         await expect(firstWrapper).toHaveAttribute("data-focused", "");
       });
 
-      // Delete exercises the clear cell handler
+      // Capture original text before clearing
+      const originalText = firstWrapper.textContent;
+
+      // Delete clears the cell content
       await userEvent.keyboard("{Delete}");
-      // Backspace exercises the clear cell handler
-      await userEvent.keyboard("{Backspace}");
-      // Grid should still be functional
-      const grid = canvasElement.querySelector('[role="grid"]');
-      await expect(grid).not.toBeNull();
+      await waitFor(async () => {
+        const currentText = firstWrapper.textContent;
+        await expect(currentText).not.toBe(originalText);
+      });
     });
   }
 );
@@ -768,9 +716,7 @@ AllCellTypes.test(
 
 AllCellTypes.test(
   "should toggle checkbox in AllCellTypes grid",
-  async ({ canvasElement, step }) => {
-    const canvas = within(canvasElement);
-
+  async ({ canvas, step }) => {
     await step("click a checkbox cell", async () => {
       const checkboxes = canvas.getAllByRole("checkbox", { name: /done/i });
       const firstCheckbox = checkboxes[0];
@@ -789,22 +735,22 @@ AllCellTypes.test(
 
 AllCellTypes.test(
   "should render date cells with formatted dates",
-  async ({ canvasElement, step }) => {
+  async ({ canvas, step }) => {
     await step("verify date cells contain formatted date text", async () => {
-      // Look for date-related content in the grid (dates are formatted for display)
-      const dateCells = canvasElement.querySelectorAll(
-        '[data-slot="grid-cell-wrapper"]'
-      );
-      await expect(dateCells.length).toBeGreaterThan(0);
+      // The sample data has dates like "2026-03-15" which formatDateForDisplay
+      // converts via toLocaleDateString(). Verify actual date text is visible.
+      const gridCells = canvas.getAllByRole("gridcell");
+      const dateTexts = gridCells
+        .map((cell) => cell.textContent)
+        .filter((text) => text.includes("2026"));
+      await expect(dateTexts.length).toBeGreaterThan(0);
     });
   }
 );
 
 AllCellTypes.test(
   "should render number cells with numeric values",
-  async ({ canvasElement, step }) => {
-    const canvas = within(canvasElement);
-
+  async ({ canvas, step }) => {
     await step("verify number cell content", async () => {
       await expect(canvas.getByText("42")).toBeVisible();
       await expect(canvas.getByText("99")).toBeVisible();
@@ -883,13 +829,11 @@ AllCellTypes.test(
   }
 );
 
-// --- Tests: WithSearch (additional interaction tests) ---
+// --- Tests: Default (search close + navigate) ---
 
-WithSearch.test(
+Default.test(
   "should close search with close button",
-  async ({ canvasElement, step }) => {
-    const canvas = within(canvasElement);
-
+  async ({ canvas, canvasElement, step }) => {
     await step("open search then click close button", async () => {
       const grid = canvas.getByRole("grid");
       await userEvent.click(grid);
@@ -918,11 +862,9 @@ WithSearch.test(
   }
 );
 
-WithSearch.test(
+Default.test(
   "should navigate search matches with Enter",
-  async ({ canvasElement, step }) => {
-    const canvas = within(canvasElement);
-
+  async ({ canvas, canvasElement, step }) => {
     await step(
       "open search, type query, then press Enter to cycle matches",
       async () => {
@@ -1025,20 +967,9 @@ RowHeights.test(
   }
 );
 
-// --- Tests: WithPaste ---
+// --- Tests: Default (paste + cut) ---
 
-WithPaste.test(
-  "should render the grid with paste enabled",
-  async ({ canvasElement, step }) => {
-    const canvas = within(canvasElement);
-
-    await step("verify grid renders", async () => {
-      await expect(canvas.getByRole("grid")).toBeInTheDocument();
-    });
-  }
-);
-
-WithPaste.test(
+Default.test(
   "should handle paste keyboard shortcut",
   async ({ canvasElement, step }) => {
     await step("focus cell and press Ctrl+V", async () => {
@@ -1059,7 +990,7 @@ WithPaste.test(
   }
 );
 
-WithPaste.test(
+Default.test(
   "should handle cut keyboard shortcut",
   async ({ canvasElement, step }) => {
     await step("focus cell and press Ctrl+X", async () => {
@@ -1078,9 +1009,9 @@ WithPaste.test(
   }
 );
 
-// --- Tests: ContextMenu (right-click interactions) ---
+// --- Tests: Default (context menu) ---
 
-ContextMenu.test(
+Default.test(
   "should open context menu on right-click and exercise Copy",
   async ({ canvasElement, step }) => {
     await step("right-click a cell to open context menu", async () => {
@@ -1115,7 +1046,7 @@ ContextMenu.test(
   }
 );
 
-ContextMenu.test(
+Default.test(
   "should show Clear in context menu and exercise it",
   async ({ canvasElement, step }) => {
     await step("right-click cell, select cells, clear", async () => {
@@ -1166,9 +1097,7 @@ ContextMenu.test(
 
 Default.test(
   "should open keyboard shortcuts dialog with Ctrl+/",
-  async ({ canvasElement, step }) => {
-    const canvas = within(canvasElement);
-
+  async ({ canvas, canvasElement, step }) => {
     await step("press Ctrl+/ to open shortcuts dialog", async () => {
       const grid = canvas.getByRole("grid");
       await userEvent.click(grid);
@@ -1237,7 +1166,7 @@ Default.test(
 
 // --- Tests: Search (navigation) ---
 
-WithSearch.test(
+Default.test(
   "should navigate matches with Enter and Shift+Enter",
   async ({ canvasElement, step }) => {
     await step("open search and type a query", async () => {
@@ -1621,9 +1550,7 @@ Default.test(
 
 Default.test(
   "should handle Shift+Enter to add new row",
-  async ({ canvasElement, step }) => {
-    const canvas = within(canvasElement);
-
+  async ({ canvas, canvasElement, step }) => {
     await step("press Shift+Enter to add row", async () => {
       const firstWrapper = getFirstCellWrapper(canvasElement);
       await userEvent.click(firstWrapper);
@@ -1690,9 +1617,7 @@ Default.test(
 
 Default.test(
   "should add row via click on footer",
-  async ({ canvasElement, step }) => {
-    const canvas = within(canvasElement);
-
+  async ({ canvas, canvasElement, step }) => {
     await step("click Add row button", async () => {
       const addRow = canvasElement.querySelector<HTMLElement>(
         '[data-slot="grid-add-row"] [role="gridcell"]'
@@ -1712,9 +1637,7 @@ Default.test(
 
 Default.test(
   "should add row via Enter on footer",
-  async ({ canvasElement, step }) => {
-    const canvas = within(canvasElement);
-
+  async ({ canvas, canvasElement, step }) => {
     await step("focus Add row footer and press Enter", async () => {
       const addRowCell = canvasElement.querySelector<HTMLElement>(
         '[data-slot="grid-add-row"] [role="gridcell"]'
@@ -1736,7 +1659,7 @@ Default.test(
 
 // --- Tests: Context menu actions (covers data-grid-context-menu.tsx) ---
 
-ContextMenu.test(
+Default.test(
   "should open context menu and exercise Cut action",
   async ({ canvasElement, step }) => {
     await step("right-click and click Cut", async () => {
@@ -1769,7 +1692,7 @@ ContextMenu.test(
   }
 );
 
-ContextMenu.test(
+Default.test(
   "should open context menu and exercise clear cell action",
   async ({ canvasElement, step }) => {
     await step("right-click and click Clear cell", async () => {
@@ -2022,13 +1945,11 @@ Default.test(
 
 // --- Tests: Search functionality (covers data-grid-search.tsx) ---
 
-WithSearch.test(
+Default.test(
   "should show 'Type to search' and 'No results' states",
-  async ({ canvasElement, step }) => {
-    const canvas = within(canvasElement);
-
+  async ({ canvas, canvasElement, step }) => {
     await step("open search and verify empty state text", async () => {
-      // WithSearch story has search already available via Ctrl+F
+      // Open search via Ctrl+F
       const grid = canvas.getByRole("grid");
       await userEvent.click(grid);
       await userEvent.keyboard("{Meta>}f{/Meta}");
@@ -2072,9 +1993,7 @@ WithSearch.test(
 
 Default.test(
   "should close keyboard shortcuts dialog with Escape",
-  async ({ canvasElement, step }) => {
-    const canvas = within(canvasElement);
-
+  async ({ canvas, canvasElement, step }) => {
     await step("open and close shortcuts dialog", async () => {
       const grid = canvas.getByRole("grid");
       await userEvent.click(grid);
@@ -2174,18 +2093,12 @@ AllCellTypes.test(
 
 // --- Tests: RecipeBook demo (exercises tall row height + all variants) ---
 
-RecipeBook.test(
-  "should render recipe book grid",
-  async ({ canvasElement, step }) => {
-    const canvas = within(canvasElement);
-
-    await step("verify grid and recipe data", async () => {
-      await expect(canvas.getByRole("grid")).toBeInTheDocument();
-      await expect(canvas.getByText("Pad Thai")).toBeVisible();
-      await expect(canvas.getByText("Recipe")).toBeVisible();
-    });
-  }
-);
+RecipeBook.test("should render recipe book grid", async ({ canvas, step }) => {
+  await step("verify grid and recipe data", async () => {
+    await expect(canvas.getByText("Pad Thai")).toBeVisible();
+    await expect(canvas.getByText("Recipe")).toBeVisible();
+  });
+});
 
 RecipeBook.test(
   "should edit recipe long text cell",
@@ -2218,11 +2131,8 @@ RecipeBook.test(
 
 EmployeeDirectory.test(
   "should render employee directory with pinned columns",
-  async ({ canvasElement, step }) => {
-    const canvas = within(canvasElement);
-
+  async ({ canvas, step }) => {
     await step("verify grid renders with pinned column", async () => {
-      await expect(canvas.getByRole("grid")).toBeInTheDocument();
       await expect(canvas.getByText("Full Name")).toBeVisible();
       await expect(canvas.getByText("Amara Okafor")).toBeVisible();
     });
@@ -2256,11 +2166,8 @@ EmployeeDirectory.test(
 
 ProductCatalog.test(
   "should render product catalog with extra-tall rows",
-  async ({ canvasElement, step }) => {
-    const canvas = within(canvasElement);
-
+  async ({ canvas, canvasElement, step }) => {
     await step("verify grid renders with product data", async () => {
-      await expect(canvas.getByRole("grid")).toBeInTheDocument();
       await expect(canvas.getByText("Product")).toBeVisible();
       const dataRow = canvasElement.querySelector<HTMLElement>(
         '[data-slot="grid-row"]'

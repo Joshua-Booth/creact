@@ -3,7 +3,7 @@ import type { Decorator } from "@storybook/react-vite";
 import { withI18n } from "@/storybook/decorators/with-i18n";
 import preview from "@/storybook/preview";
 import { Theme, ThemeProvider } from "remix-themes";
-import { expect, within } from "storybook/test";
+import { expect } from "storybook/test";
 
 import { useAuthStore } from "@/entities/user";
 
@@ -41,9 +41,7 @@ export const Default = meta.story({
 
 Default.test(
   "should show login and signup links when unauthenticated",
-  async ({ canvasElement }) => {
-    const canvas = within(canvasElement);
-
+  async ({ canvas }) => {
     await expect(canvas.getByText("Login")).toBeVisible();
     await expect(canvas.getByText("Sign Up")).toBeVisible();
     await expect(canvas.getByRole("link", { name: "Home" })).toHaveAttribute(
@@ -59,9 +57,7 @@ export const Authenticated = meta.story({
 
 Authenticated.test(
   "should hide login/signup links when authenticated",
-  async ({ canvasElement }) => {
-    const canvas = within(canvasElement);
-
+  async ({ canvas }) => {
     await expect(canvas.queryByText("Login")).not.toBeInTheDocument();
     await expect(canvas.queryByText("Sign Up")).not.toBeInTheDocument();
     await expect(canvas.getByRole("link", { name: "Home" })).toHaveAttribute(

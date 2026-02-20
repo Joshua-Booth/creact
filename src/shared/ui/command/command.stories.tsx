@@ -10,7 +10,7 @@ import {
   Smile,
   User,
 } from "lucide-react";
-import { expect, userEvent, within } from "storybook/test";
+import { expect, userEvent } from "storybook/test";
 
 import { Button } from "../button";
 import { Kbd, KbdGroup } from "../kbd";
@@ -71,40 +71,6 @@ const meta = preview.meta({
  * The default form of the command.
  */
 export const Default = meta.story();
-
-export const TypingInCombobox = meta.story({
-  name: "when typing into the combobox, should filter results",
-  tags: ["!dev", "!autodocs"],
-  play: async ({ canvasElement }) => {
-    const canvas = within(canvasElement);
-    const input = canvas.getByRole("combobox");
-
-    // Search for "calendar" which should return a single result
-    // cspell:ignore calen
-    await userEvent.type(input, "calen", { delay: 100 });
-    await expect(
-      canvas.getAllByRole("option", { name: /calendar/i })
-    ).toHaveLength(1);
-
-    await userEvent.clear(input);
-
-    // Search for "story" which should return multiple results
-    await userEvent.type(input, "se", { delay: 100 });
-    await expect(canvas.getAllByRole("option").length).toBeGreaterThan(1);
-    await expect(
-      canvas.getAllByRole("option", { name: /search/i })
-    ).toHaveLength(1);
-
-    await userEvent.clear(input);
-
-    // Search for "story" which should return no results
-    await userEvent.type(input, "story", { delay: 100 });
-    await expect(
-      canvas.queryAllByRole("option", { hidden: false })
-    ).toHaveLength(0);
-    await expect(canvas.getByText(/no results/i)).toBeVisible();
-  },
-});
 
 /**
  * Command menu inside a dialog, typically triggered with a keyboard shortcut.
@@ -401,3 +367,41 @@ export const ManyItems = meta.story({
     </Command>
   ),
 });
+
+// --- Tests ---
+
+Default.test(
+  "should filter results when typing in combobox",
+  async ({ canvas, step }) => {
+    const input = canvas.getByRole("combobox");
+
+    await step(
+      "search for 'calen' returns single Calendar result",
+      async () => {
+        // cspell:ignore calen
+        await userEvent.type(input, "calen", { delay: 100 });
+        await expect(
+          canvas.getAllByRole("option", { name: /calendar/i })
+        ).toHaveLength(1);
+        await userEvent.clear(input);
+      }
+    );
+
+    await step("search for 'se' returns multiple results", async () => {
+      await userEvent.type(input, "se", { delay: 100 });
+      await expect(canvas.getAllByRole("option").length).toBeGreaterThan(1);
+      await expect(
+        canvas.getAllByRole("option", { name: /search/i })
+      ).toHaveLength(1);
+      await userEvent.clear(input);
+    });
+
+    await step("search for 'story' returns no results", async () => {
+      await userEvent.type(input, "story", { delay: 100 });
+      await expect(
+        canvas.queryAllByRole("option", { hidden: false })
+      ).toHaveLength(0);
+      await expect(canvas.getByText(/no results/i)).toBeVisible();
+    });
+  }
+);

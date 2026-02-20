@@ -11,7 +11,7 @@ import {
   ShieldAlertIcon,
   StarIcon,
 } from "lucide-react";
-import { expect, fn, userEvent, within } from "storybook/test";
+import { expect, fn, userEvent } from "storybook/test";
 
 import { Avatar, AvatarFallback, AvatarImage } from "../avatar";
 import { Badge } from "../badge";
@@ -580,9 +580,7 @@ Default.test(
       </Item>
     ),
   },
-  async ({ canvasElement, step }) => {
-    const canvas = within(canvasElement);
-
+  async ({ canvas, step }) => {
     await step("verify title is rendered", async () => {
       await expect(canvas.getByText("Test Document")).toBeVisible();
     });
@@ -641,9 +639,7 @@ Default.test(
       );
     },
   },
-  async ({ canvasElement, step }) => {
-    const canvas = within(canvasElement);
-
+  async ({ canvas, step }) => {
     await step("click action buttons and verify they respond", async () => {
       const favoriteButton = canvas.getByRole("button", {
         name: /add to favorites/i,

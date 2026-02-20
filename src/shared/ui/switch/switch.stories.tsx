@@ -1,5 +1,5 @@
 import preview from "@/storybook/preview";
-import { expect, userEvent, within } from "storybook/test";
+import { expect, userEvent } from "storybook/test";
 
 import { Button } from "../button";
 import {
@@ -279,8 +279,7 @@ Disabled.test(
 
 WithForm.test(
   "when submitting the form with switch enabled, should submit",
-  async ({ canvasElement, step }) => {
-    const canvas = within(canvasElement);
+  async ({ canvas, step }) => {
     const switchBtn = await canvas.findByRole("switch");
     const submitBtn = await canvas.findByRole("button", { name: "Submit" });
     const form = await canvas.findByTestId("test-form");

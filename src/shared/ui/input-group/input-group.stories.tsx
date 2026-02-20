@@ -8,7 +8,7 @@ import {
   GlobeIcon,
   SearchIcon,
 } from "lucide-react";
-import { expect, userEvent, within } from "storybook/test";
+import { expect, userEvent } from "storybook/test";
 
 import { Kbd } from "../kbd";
 import {
@@ -316,9 +316,7 @@ Default.test(
       </InputGroup>
     ),
   },
-  async ({ canvasElement, step }) => {
-    const canvas = within(canvasElement);
-
+  async ({ canvas, step }) => {
     await step("type in input and verify value", async () => {
       const input = canvas.getByPlaceholderText("example.com");
 
@@ -344,9 +342,7 @@ Default.test(
       </InputGroup>
     ),
   },
-  async ({ canvasElement, step }) => {
-    const canvas = within(canvasElement);
-
+  async ({ canvas, step }) => {
     await step("click addon and verify input is focused", async () => {
       const addon = canvas.getByTestId("addon");
       const input = canvas.getByPlaceholderText("Search...");
@@ -375,9 +371,7 @@ Default.test(
       </InputGroup>
     ),
   },
-  async ({ canvasElement, step }) => {
-    const canvas = within(canvasElement);
-
+  async ({ canvas, step }) => {
     await step("verify button is clickable", async () => {
       const button = canvas.getByTestId("search-button");
 
@@ -402,9 +396,7 @@ Default.test(
       </InputGroup>
     ),
   },
-  async ({ canvasElement, step }) => {
-    const canvas = within(canvasElement);
-
+  async ({ canvas, step }) => {
     await step("verify input is disabled", async () => {
       const input = canvas.getByPlaceholderText("Search...");
 
