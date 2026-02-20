@@ -778,8 +778,12 @@ AllFilters.test(
         if (opt) {
           await userEvent.click(opt);
           // Wait for the checkmark to become visible before clicking next
+          // Re-query inside waitFor because React re-renders may replace DOM nodes
           await waitFor(async () => {
-            const checkmark = opt.querySelector("svg");
+            const freshOpts = canvasElement.ownerDocument.querySelectorAll(
+              '[data-slot="popover-content"] [role="option"]'
+            );
+            const checkmark = freshOpts[i]?.querySelector("svg");
             await expect(checkmark).toBeVisible();
           });
         }
