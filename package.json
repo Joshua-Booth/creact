@@ -114,7 +114,7 @@
     "eslint-plugin-react-compiler": "19.1.0-rc.2",
     "eslint-plugin-react-hooks": "^7.0.1",
     "eslint-plugin-react-you-might-not-need-an-effect": "^0.9.1",
-    "eslint-plugin-security": "^3.0.1",
+    "eslint-plugin-security": "^4.0.0",
     "eslint-plugin-sonarjs": "^4.0.0",
     "eslint-plugin-storybook": "^10.2.10",
     "eslint-plugin-unicorn": "^63.0.0",
