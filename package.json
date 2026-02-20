@@ -161,11 +161,14 @@
       "@modelcontextprotocol/sdk": ">=1.26.0",
       "hono": ">=4.11.4",
       "seroval": ">=1.4.1",
+      "minimatch": ">=10.2.1",
       "undici": ">=6.23.0"
     },
     "auditConfig": {
       "ignoreGhsas": [
-        "GHSA-3966-f6p6-2qr9"
+        "GHSA-3966-f6p6-2qr9",
+        "GHSA-2g4f-4pwh-qvx6",
+        "GHSA-3ppc-4f35-3m26"
       ]
     }
   },
