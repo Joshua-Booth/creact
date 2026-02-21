@@ -26,7 +26,7 @@ importers:
         version: 5.2.8
       '@hookform/resolvers':
         specifier: ^5.2.2
-        version: 5.2.2(react-hook-form@7.71.1(react@19.2.4))
+        version: 5.2.2(react-hook-form@7.71.2(react@19.2.4))
       '@posthog/react':
         specifier: ^1.8.0
         version: 1.8.0(@types/react@19.2.14)(posthog-js@1.352.0)(react@19.2.4)
@@ -64,8 +64,8 @@ importers:
         specifier: ^1.44.0
         version: 1.44.0
       i18next:
-        specifier: ^25.8.11
-        version: 25.8.11(typescript@5.9.3)
+        specifier: ^25.8.13
+        version: 25.8.13(typescript@5.9.3)
       i18next-browser-languagedetector:
         specifier: ^8.2.1
         version: 8.2.1
@@ -100,11 +100,11 @@ importers:
         specifier: ^19.2.4
         version: 19.2.4(react@19.2.4)
       react-hook-form:
-        specifier: ^7.71.1
-        version: 7.71.1(react@19.2.4)
+        specifier: ^7.71.2
+        version: 7.71.2(react@19.2.4)
       react-i18next:
         specifier: ^16.5.4
-        version: 16.5.4(i18next@25.8.11(typescript@5.9.3))(react-dom@19.2.4(react@19.2.4))(react@19.2.4)(typescript@5.9.3)
+        version: 16.5.4(i18next@25.8.13(typescript@5.9.3))(react-dom@19.2.4(react@19.2.4))(react@19.2.4)(typescript@5.9.3)
       react-resizable-panels:
         specifier: ^4.6.4
         version: 4.6.4(react-dom@19.2.4(react@19.2.4))(react@19.2.4)
@@ -116,7 +116,7 @@ importers:
         version: 3.7.0(@types/react@19.2.14)(react-dom@19.2.4(react@19.2.4))(react-is@18.3.1)(react@19.2.4)(redux@5.0.1)
       remix-i18next:
         specifier: ^7.4.2
-        version: 7.4.2(i18next@25.8.11(typescript@5.9.3))(react-i18next@16.5.4(i18next@25.8.11(typescript@5.9.3))(react-dom@19.2.4(react@19.2.4))(react@19.2.4)(typescript@5.9.3))(react-router@7.13.0(react-dom@19.2.4(react@19.2.4))(react@19.2.4))(react@19.2.4)
+        version: 7.4.2(i18next@25.8.13(typescript@5.9.3))(react-i18next@16.5.4(i18next@25.8.13(typescript@5.9.3))(react-dom@19.2.4(react@19.2.4))(react@19.2.4)(typescript@5.9.3))(react-router@7.13.0(react-dom@19.2.4(react@19.2.4))(react@19.2.4))(react@19.2.4)
       remix-themes:
         specifier: ^2.0.4
         version: 2.0.4(react-router@7.13.0(react-dom@19.2.4(react@19.2.4))(react@19.2.4))
@@ -206,8 +206,8 @@ importers:
         specifier: ^10.2.10
         version: 10.2.10(@types/react@19.2.14)(esbuild@0.27.3)(rollup@4.57.1)(storybook@10.2.10(@testing-library/dom@10.4.1)(prettier@3.8.1)(react-dom@19.2.4(react@19.2.4))(react@19.2.4))(vite@7.3.1(@types/node@25.3.0)(jiti@2.6.1)(lightningcss@1.31.1)(tsx@4.21.0)(yaml@2.8.2))
       '@storybook/addon-mcp':
-        specifier: ^0.2.3
-        version: 0.2.3(storybook@10.2.10(@testing-library/dom@10.4.1)(prettier@3.8.1)(react-dom@19.2.4(react@19.2.4))(react@19.2.4))(typescript@5.9.3)
+        specifier: ^0.3.1
+        version: 0.3.1(storybook@10.2.10(@testing-library/dom@10.4.1)(prettier@3.8.1)(react-dom@19.2.4(react@19.2.4))(react@19.2.4))(typescript@5.9.3)
       '@storybook/addon-vitest':
         specifier: ^10.2.10
         version: 10.2.10(@vitest/browser-playwright@4.0.18)(@vitest/browser@4.0.18(msw@2.12.10(@types/node@25.3.0)(typescript@5.9.3))(vite@7.3.1(@types/node@25.3.0)(jiti@2.6.1)(lightningcss@1.31.1)(tsx@4.21.0)(yaml@2.8.2))(vitest@4.0.18))(@vitest/runner@4.0.18)(react-dom@19.2.4(react@19.2.4))(react@19.2.4)(storybook@10.2.10(@testing-library/dom@10.4.1)(prettier@3.8.1)(react-dom@19.2.4(react@19.2.4))(react@19.2.4))(vitest@4.0.18)
@@ -2838,8 +2838,8 @@ packages:
     peerDependencies:
       storybook: ^10.2.10
 
-  '@storybook/addon-mcp@0.2.3':
-    resolution: {integrity: sha512-4dwFNXtJNJnQQOcCyOriS1+H5eop1RC0PZYp10mGN+mlaIW5WfyFKFuqknleHaOQLJQ8+nI7QMjGwZuJmOUxhw==}
+  '@storybook/addon-mcp@0.3.1':
+    resolution: {integrity: sha512-yBtBdFbw4EZpnC1XKoqj6VBWLo+k0Fp0sRhoiLNJSCWgdWVH/zeAlABq5vvuNVX0fSEgqhciBBCdFH0NR2hwPg==}
     peerDependencies:
       storybook: ^9.1.16 || ^10.0.0 || ^10.1.0-0 || ^10.2.0-0 || ^10.3.0-0 || ^10.4.0-0
 
@@ -2894,8 +2894,8 @@ packages:
       react: ^16.8.0 || ^17.0.0 || ^18.0.0 || ^19.0.0
       react-dom: ^16.8.0 || ^17.0.0 || ^18.0.0 || ^19.0.0
 
-  '@storybook/mcp@0.2.2':
-    resolution: {integrity: sha512-jHM1E2CyRwZYBMT9PqsdDT5LFf8c79fdYLdPueLZl1BZUQSpEipitVmXFbcEAClBT/Gsq/K1zNUNIP4+nAXAaw==}
+  '@storybook/mcp@0.4.0':
+    resolution: {integrity: sha512-pcKK5Y5OPRsHF6rfY+s67cxVmXtzPGg78pzdGclBZWVSrFIP4ihLjfeY12qSvEkztvx3gnV3NNrtQyzF6orq9g==}
 
   '@storybook/react-dom-shim@10.2.10':
     resolution: {integrity: sha512-TmBrhyLHn8B8rvDHKk5uW5BqzO1M1T+fqFNWg88NIAJOoyX4Uc90FIJjDuN1OJmWKGwB5vLmPwaKBYsTe1yS+w==}
@@ -5670,8 +5670,8 @@ packages:
     resolution: {integrity: sha512-BUS/xzHDXNwGKKBQTaNWxY3xvgC40jcYw+4nSpTlaxcGenAubgIgBFuq4CIeeYcs3UkAQs8mf5y6iLnHhd01vw==}
     engines: {node: '>=20'}
 
-  i18next@25.8.11:
-    resolution: {integrity: sha512-LZ32llTLGludnddjLoijHV7TbmVubU5eJnsWf8taiuM3jmSfUuvBLuyDeubJKS1yBjLBgb7As124M4KWNcBvpw==}
+  i18next@25.8.13:
+    resolution: {integrity: sha512-E0vzjBY1yM+nsFrtgkjLhST2NBkirkvOVoQa0MSldhsuZ3jUge7ZNpuwG0Cfc74zwo5ZwRzg3uOgT+McBn32iA==}
     peerDependencies:
       typescript: ^5
     peerDependenciesMeta:
@@ -7486,8 +7486,8 @@ packages:
     peerDependencies:
       react: ^19.2.4
 
-  react-hook-form@7.71.1:
-    resolution: {integrity: sha512-9SUJKCGKo8HUSsCO+y0CtqkqI5nNuaDqTxyqPsZPqIwudpj4rCrAz/jZV+jn57bx5gtZKOh3neQu94DXMc+w5w==}
+  react-hook-form@7.71.2:
+    resolution: {integrity: sha512-1CHvcDYzuRUNOflt4MOq3ZM46AronNJtQ1S7tnX6YN4y72qhgiUItpacZUAQ0TyWYci3yz1X+rXaSxiuEm86PA==}
     engines: {node: '>=18.0.0'}
     peerDependencies:
       react: ^16.8.0 || ^17 || ^18 || ^19
@@ -10103,10 +10103,10 @@ snapshots:
     dependencies:
       hono: 4.12.0
 
-  '@hookform/resolvers@5.2.2(react-hook-form@7.71.1(react@19.2.4))':
+  '@hookform/resolvers@5.2.2(react-hook-form@7.71.2(react@19.2.4))':
     dependencies:
       '@standard-schema/utils': 0.3.0
-      react-hook-form: 7.71.1(react@19.2.4)
+      react-hook-form: 7.71.2(react@19.2.4)
 
   '@humanfs/core@0.19.1': {}
 
@@ -11340,9 +11340,9 @@ snapshots:
       - vite
       - webpack
 
-  '@storybook/addon-mcp@0.2.3(storybook@10.2.10(@testing-library/dom@10.4.1)(prettier@3.8.1)(react-dom@19.2.4(react@19.2.4))(react@19.2.4))(typescript@5.9.3)':
+  '@storybook/addon-mcp@0.3.1(storybook@10.2.10(@testing-library/dom@10.4.1)(prettier@3.8.1)(react-dom@19.2.4(react@19.2.4))(react@19.2.4))(typescript@5.9.3)':
     dependencies:
-      '@storybook/mcp': 0.2.2(typescript@5.9.3)
+      '@storybook/mcp': 0.4.0(typescript@5.9.3)
       '@tmcp/adapter-valibot': 0.1.5(tmcp@1.19.2(typescript@5.9.3))(valibot@1.2.0(typescript@5.9.3))
       '@tmcp/transport-http': 0.8.4(tmcp@1.19.2(typescript@5.9.3))
       picoquery: 2.5.0
@@ -11394,7 +11394,7 @@ snapshots:
       react: 19.2.4
       react-dom: 19.2.4(react@19.2.4)
 
-  '@storybook/mcp@0.2.2(typescript@5.9.3)':
+  '@storybook/mcp@0.4.0(typescript@5.9.3)':
     dependencies:
       '@tmcp/adapter-valibot': 0.1.5(tmcp@1.19.2(typescript@5.9.3))(valibot@1.2.0(typescript@5.9.3))
       '@tmcp/transport-http': 0.8.4(tmcp@1.19.2(typescript@5.9.3))
@@ -14629,7 +14629,7 @@ snapshots:
 
   i18next-fetch-backend@7.0.0: {}
 
-  i18next@25.8.11(typescript@5.9.3):
+  i18next@25.8.13(typescript@5.9.3):
     dependencies:
       '@babel/runtime': 7.28.6
     optionalDependencies:
@@ -16520,7 +16520,7 @@ snapshots:
       react: 19.2.4
       scheduler: 0.27.0
 
-  react-hook-form@7.71.1(react@19.2.4):
+  react-hook-form@7.71.2(react@19.2.4):
     dependencies:
       react: 19.2.4
 
@@ -16529,11 +16529,11 @@ snapshots:
       react: 19.2.4
       react-dom: 19.2.4(react@19.2.4)
 
-  react-i18next@16.5.4(i18next@25.8.11(typescript@5.9.3))(react-dom@19.2.4(react@19.2.4))(react@19.2.4)(typescript@5.9.3):
+  react-i18next@16.5.4(i18next@25.8.13(typescript@5.9.3))(react-dom@19.2.4(react@19.2.4))(react@19.2.4)(typescript@5.9.3):
     dependencies:
       '@babel/runtime': 7.28.6
       html-parse-stringify: 3.0.1
-      i18next: 25.8.11(typescript@5.9.3)
+      i18next: 25.8.13(typescript@5.9.3)
       react: 19.2.4
       use-sync-external-store: 1.6.0(react@19.2.4)
     optionalDependencies:
@@ -16809,11 +16809,11 @@ snapshots:
       mdast-util-to-markdown: 2.1.2
       unified: 11.0.5
 
-  remix-i18next@7.4.2(i18next@25.8.11(typescript@5.9.3))(react-i18next@16.5.4(i18next@25.8.11(typescript@5.9.3))(react-dom@19.2.4(react@19.2.4))(react@19.2.4)(typescript@5.9.3))(react-router@7.13.0(react-dom@19.2.4(react@19.2.4))(react@19.2.4))(react@19.2.4):
+  remix-i18next@7.4.2(i18next@25.8.13(typescript@5.9.3))(react-i18next@16.5.4(i18next@25.8.13(typescript@5.9.3))(react-dom@19.2.4(react@19.2.4))(react@19.2.4)(typescript@5.9.3))(react-router@7.13.0(react-dom@19.2.4(react@19.2.4))(react@19.2.4))(react@19.2.4):
     dependencies:
-      i18next: 25.8.11(typescript@5.9.3)
+      i18next: 25.8.13(typescript@5.9.3)
       react: 19.2.4
-      react-i18next: 16.5.4(i18next@25.8.11(typescript@5.9.3))(react-dom@19.2.4(react@19.2.4))(react@19.2.4)(typescript@5.9.3)
+      react-i18next: 16.5.4(i18next@25.8.13(typescript@5.9.3))(react-dom@19.2.4(react@19.2.4))(react@19.2.4)(typescript@5.9.3)
       react-router: 7.13.0(react-dom@19.2.4(react@19.2.4))(react@19.2.4)
 
   remix-themes@2.0.4(react-router@7.13.0(react-dom@19.2.4(react@19.2.4))(react@19.2.4)):
