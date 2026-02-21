@@ -11,7 +11,7 @@ export interface LoginActionData {
 export async function loginAction(
   formData: FormData
 ): Promise<LoginActionData | Response> {
-  const result = loginSchema.safeParse({
+  const result = loginSchema().safeParse({
     email: formData.get("email"),
     password: formData.get("password"),
   });

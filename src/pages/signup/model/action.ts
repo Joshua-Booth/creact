@@ -11,7 +11,7 @@ export interface SignupActionData {
 export async function signupAction(
   formData: FormData
 ): Promise<SignupActionData | Response> {
-  const result = registerSchema.safeParse({
+  const result = registerSchema().safeParse({
     email: formData.get("email"),
     password: formData.get("password"),
     confirmPassword: formData.get("confirmPassword"),
