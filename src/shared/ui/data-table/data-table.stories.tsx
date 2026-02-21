@@ -1324,8 +1324,13 @@ function DataTableDemo() {
             currency: "USD",
             maximumFractionDigits: 0,
           }).format(amount);
-          return <div className="text-right font-medium">{formatted}</div>;
+          return (
+            <div className="text-right font-medium tabular-nums">
+              {formatted}
+            </div>
+          );
         },
+        size: 120,
       },
     ],
     []
@@ -1409,8 +1414,13 @@ function AllFiltersDemo() {
             currency: "USD",
             maximumFractionDigits: 0,
           }).format(amount);
-          return <div className="text-right font-medium">{formatted}</div>;
+          return (
+            <div className="text-right font-medium tabular-nums">
+              {formatted}
+            </div>
+          );
         },
+        size: 120,
         meta: {
           label: "Budget",
           placeholder: "Budget",
@@ -1428,8 +1438,9 @@ function AllFiltersDemo() {
         ),
         cell: ({ cell }) => {
           const value = cell.getValue<number>();
-          return <div className="text-right">{value}%</div>;
+          return <div className="text-right tabular-nums">{value}%</div>;
         },
+        size: 100,
         meta: {
           label: "Progress",
           variant: "range",
@@ -1568,11 +1579,12 @@ function PaginationDemo() {
         cell: ({ cell }) => {
           const amount = cell.getValue<number>();
           return (
-            <div className="text-right font-medium">
+            <div className="text-right font-medium tabular-nums">
               ${amount.toLocaleString()}
             </div>
           );
         },
+        size: 120,
         meta: { label: "Budget" },
       },
     ],
@@ -1969,10 +1981,11 @@ function RealEstateListingsDemo() {
           <DataTableColumnHeader column={column} label="Price" />
         ),
         cell: ({ cell }) => (
-          <div className="text-right font-medium">
+          <div className="text-right font-medium tabular-nums">
             {formatCurrency(cell.getValue<number>())}
           </div>
         ),
+        size: 150,
         meta: {
           label: "Price",
           variant: "range",
@@ -1989,10 +2002,11 @@ function RealEstateListingsDemo() {
           <DataTableColumnHeader column={column} label="Sq Ft" />
         ),
         cell: ({ cell }) => (
-          <div className="text-right">
+          <div className="text-right tabular-nums">
             {cell.getValue<number>().toLocaleString()}
           </div>
         ),
+        size: 100,
         meta: {
           label: "Sq Ft",
           placeholder: "Sq ft",
@@ -3141,10 +3155,11 @@ function RestaurantMenuDemo() {
           <DataTableColumnHeader column={column} label="Price" />
         ),
         cell: ({ cell }) => (
-          <div className="text-right font-medium">
+          <div className="text-right font-medium tabular-nums">
             {formatPrice(cell.getValue<number>())}
           </div>
         ),
+        size: 100,
         meta: {
           label: "Price",
           placeholder: "Price",

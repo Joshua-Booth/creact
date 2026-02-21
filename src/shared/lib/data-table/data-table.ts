@@ -36,6 +36,8 @@ export function getCommonPinningStyles<TData>({
     }
   }
 
+  const hasExplicitSize = column.columnDef.size != null;
+
   return {
     boxShadow,
     left: isPinned === "left" ? `${column.getStart("left")}px` : undefined,
@@ -44,6 +46,7 @@ export function getCommonPinningStyles<TData>({
     position: isPinned === false ? "relative" : "sticky",
     background: "var(--background)",
     width: column.getSize(),
+    maxWidth: hasExplicitSize ? column.getSize() : undefined,
     zIndex: isPinned === false ? undefined : 1,
   };
 }

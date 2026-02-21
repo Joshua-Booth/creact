@@ -195,6 +195,7 @@ function createMockColumn(
     getStart: () => overrides.start ?? 0,
     getAfter: () => overrides.after ?? 0,
     getSize: () => overrides.size ?? 150,
+    columnDef: { size: overrides.size },
   } as unknown as Column<unknown>;
 }
 
@@ -265,5 +266,19 @@ describe("getCommonPinningStyles", () => {
       column: createMockColumn({ size: 200 }),
     });
     expect(styles.width).toBe(200);
+  });
+
+  it("should set maxWidth when column has explicit size", () => {
+    const styles = getCommonPinningStyles({
+      column: createMockColumn({ size: 120 }),
+    });
+    expect(styles.maxWidth).toBe(120);
+  });
+
+  it("should not set maxWidth when column has no explicit size", () => {
+    const styles = getCommonPinningStyles({
+      column: createMockColumn(),
+    });
+    expect(styles.maxWidth).toBeUndefined();
   });
 });
