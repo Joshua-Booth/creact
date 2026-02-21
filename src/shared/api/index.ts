@@ -7,6 +7,7 @@ export { mutate, useApi, useAuthenticatedApi } from "./hooks";
  * @public
  */
 export const auth = () => {
+  if (typeof window === "undefined") return {};
   const token = localStorage.getItem("token");
   return token === null ? {} : { Authorization: `Token ${token}` };
 };
