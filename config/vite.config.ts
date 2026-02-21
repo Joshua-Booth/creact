@@ -64,10 +64,6 @@ export default defineConfig({
     sourcemap: true,
   },
 
-  css: {
-    postcss: {},
-  },
-
   ssr: {
     noExternal: ["@tailwindcss/vite", "posthog-js", "@posthog/react"],
   },

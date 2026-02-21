@@ -36,16 +36,9 @@ dist
 # Dotenv environment variables
 env/
 
-# nyc test coverage
-.nyc_output
-
-# Coverage directory used by tools like istanbul
+# Coverage
 coverage
 *.lcov
-
-# Cypress
-cypress/videos
-cypress/screenshots
 
 # Translations
 *.mo

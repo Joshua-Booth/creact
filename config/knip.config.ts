@@ -124,7 +124,7 @@ const config: KnipConfig = {
   // Storybook
   storybook: {
     config: [".storybook/main.ts"],
-    entry: [".storybook/preview.ts", "src/**/*.stories.tsx"],
+    entry: [".storybook/preview.tsx", "src/**/*.stories.tsx"],
   },
 
   ignoreExportsUsedInFile: true,

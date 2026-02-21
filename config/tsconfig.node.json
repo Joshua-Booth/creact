@@ -14,6 +14,7 @@
     "resolveJsonModule": true,
     "erasableSyntaxOnly": true,
     "noImplicitOverride": true,
+    "forceConsistentCasingInFileNames": true,
     "jsx": "react-jsx",
     "types": ["node"],
     "baseUrl": "..",
