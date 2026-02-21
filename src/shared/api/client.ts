@@ -1,5 +1,7 @@
 import ky from "ky";
 
+import { getToken } from "./token-provider";
+
 /**
  * Error thrown for API responses with non-2xx status codes.
  * Carries the HTTP status and optional parsed response body.
@@ -29,7 +31,7 @@ export const api = ky.create({
   hooks: {
     beforeRequest: [
       (request) => {
-        const token = localStorage.getItem("token");
+        const token = getToken();
         // eslint-disable-next-line security/detect-possible-timing-attacks -- False positive: checking existence, not comparing secrets
         if (token !== null)
           request.headers.set("Authorization", `Token ${token}`);

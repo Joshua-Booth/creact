@@ -5,9 +5,11 @@ import { http, HttpResponse } from "msw";
 import { reactRouterParameters } from "storybook-addon-remix-react-router";
 import { expect, waitFor } from "storybook/test";
 
+import { useAuthStore } from "@/entities/user";
+
 import { DashboardPage } from "./dashboard-page";
 
-localStorage.setItem("token", "mock-token");
+useAuthStore.getState().login("mock-token");
 
 const mockUser = {
   id: "1",

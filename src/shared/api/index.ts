@@ -1,14 +1,16 @@
+import { getToken } from "./token-provider";
+
 export { api, ApiError } from "./client";
 export { mutate, useApi, useAuthenticatedApi } from "./hooks";
+export { configureTokenProvider } from "./token-provider";
 
 /**
- * Get auth headers from localStorage token.
+ * Get auth headers from the configured token provider.
  * @returns Authorization header object or empty object
  * @public
  */
 export const auth = () => {
-  if (typeof window === "undefined") return {};
-  const token = localStorage.getItem("token");
+  const token = getToken();
   return token === null ? {} : { Authorization: `Token ${token}` };
 };
 

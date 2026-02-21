@@ -10,7 +10,11 @@ import I18nextBrowserLanguageDetector from "i18next-browser-languagedetector";
 import Fetch from "i18next-fetch-backend";
 import posthog from "posthog-js";
 
+import { getAuthToken } from "@/entities/user";
+import { configureTokenProvider } from "@/shared/api";
 import { DEFAULT_LANGUAGE, SUPPORTED_LANGUAGES } from "@/shared/i18n";
+
+configureTokenProvider(getAuthToken);
 
 Sentry.init({
   dsn: import.meta.env.VITE_SENTRY_DSN,

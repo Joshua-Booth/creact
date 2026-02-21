@@ -1,9 +1,9 @@
 import { create } from "zustand";
 
 import type { AuthState } from "./types";
+import { getAuthToken, removeAuthToken, setAuthToken } from "../lib/token";
 
-const storedToken =
-  typeof window === "undefined" ? null : localStorage.getItem("token");
+const storedToken = getAuthToken();
 
 /**
  * Authentication state store managing user login/logout and token persistence.
@@ -13,11 +13,11 @@ export const useAuthStore = create<AuthState>()((set) => ({
   token: storedToken,
   authenticated: storedToken !== null,
   login: (token) => {
-    localStorage.setItem("token", token);
+    setAuthToken(token);
     set({ token, authenticated: true });
   },
   logout: () => {
-    localStorage.removeItem("token");
+    removeAuthToken();
     set({ token: null, authenticated: false });
   },
 }));

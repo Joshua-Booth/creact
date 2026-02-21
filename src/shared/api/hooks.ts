@@ -2,6 +2,7 @@ import type { SWRConfiguration, SWRResponse } from "swr";
 import useSWR from "swr";
 
 import type { ApiError } from "./client";
+import { getToken } from "./token-provider";
 
 /* istanbul ignore start @preserve -- Thin SWR wrappers, tested transitively via component stories */
 
@@ -30,8 +31,7 @@ export function useAuthenticatedApi<T>(
   endpoint: string | null,
   options?: SWRConfiguration<T, ApiError>
 ): SWRResponse<T, ApiError> {
-  const token =
-    typeof window === "undefined" ? null : localStorage.getItem("token");
+  const token = getToken();
   return useSWR<T, ApiError>(token === null ? null : endpoint, options);
 }
 
