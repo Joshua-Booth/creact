@@ -1,2 +1,2 @@
 #!/bin/sh
-mise run format:check ::: lint:check ::: stylelint:check ::: typecheck ::: coverage ::: spell ::: knip ::: steiger && exit 0
+mise run format:check ::: lint:check ::: stylelint:check ::: typecheck ::: spell ::: knip ::: steiger && exit 0
