@@ -18,7 +18,7 @@ Sentry.init({
     Sentry.browserTracingIntegration(),
     Sentry.replayIntegration(),
   ],
-  tracesSampleRate: 1.0,
+  tracesSampleRate: import.meta.env.PROD ? 0.1 : 1.0,
   replaysSessionSampleRate: 0.1,
   replaysOnErrorSampleRate: 1.0,
 });
