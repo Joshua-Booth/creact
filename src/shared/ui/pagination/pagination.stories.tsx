@@ -4,7 +4,7 @@ import preview from "@/storybook/preview";
 import { expect } from "storybook/test";
 
 import { Button } from "../button";
-import { Field, FieldLabel } from "../field/field";
+import { Field, FieldLabel } from "../field";
 import {
   Select,
   SelectContent,
