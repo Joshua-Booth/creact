@@ -19,9 +19,7 @@ interface SignupErrorResponse {
 export async function signupApi(
   data: Omit<RegisterFormData, "confirmPassword">
 ): Promise<SignupResponse> {
-  return api
-    .post(AUTH_URLS.SIGNUP.slice(1), { json: data })
-    .json<SignupResponse>();
+  return api.post(AUTH_URLS.SIGNUP, { json: data }).json<SignupResponse>();
 }
 
 export async function parseSignupError(error: unknown): Promise<string> {

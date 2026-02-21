@@ -24,6 +24,6 @@ export function useCurrentUser(
   options?: SWRConfiguration<User, ApiError>
 ): CurrentUserResult {
   const { data, error, isLoading, isValidating, mutate } =
-    useAuthenticatedApi<User>(AUTH_URLS.USER_PROFILE.slice(1), options);
+    useAuthenticatedApi<User>(AUTH_URLS.USER_PROFILE, options);
   return { user: data, error, isLoading, isValidating, mutate };
 }

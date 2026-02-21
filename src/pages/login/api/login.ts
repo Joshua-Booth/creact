@@ -15,9 +15,7 @@ interface LoginErrorResponse {
 }
 
 export async function loginApi(data: LoginFormData): Promise<LoginResponse> {
-  return api
-    .post(AUTH_URLS.LOGIN.slice(1), { json: data })
-    .json<LoginResponse>();
+  return api.post(AUTH_URLS.LOGIN, { json: data }).json<LoginResponse>();
 }
 
 export async function parseLoginError(error: unknown): Promise<string> {

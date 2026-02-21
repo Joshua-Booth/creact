@@ -1,13 +1,13 @@
-/** Authentication endpoint paths (relative to API root). */
+/** Authentication endpoint paths (relative to API root, without leading slash for ky). */
 export const AUTH_URLS = {
   /** POST: Authenticate and receive a token. */
-  LOGIN: "/auth/login/",
+  LOGIN: "auth/login/",
   /** POST: Invalidate the current token. */
-  LOGOUT: "/auth/logout/",
+  LOGOUT: "auth/logout/",
   /** GET/PUT: Retrieve or update user profile. */
-  USER_PROFILE: "/auth/user/",
+  USER_PROFILE: "auth/user/",
   /** POST: Register a new user account. */
-  SIGNUP: "/auth/signup/",
+  SIGNUP: "auth/signup/",
 };
 
 /**
