@@ -7,7 +7,7 @@ import Logo from "@/shared/assets/images/logo.svg?react";
 
 function Links({ links }: { links: { name: string; path: string }[] }) {
   return (
-    <nav className="absolute top-3 right-4 flex items-center gap-4 text-sm">
+    <nav className="flex items-center gap-4 text-sm">
       {links.map((link) => (
         <Link
           key={link.path}
@@ -18,7 +18,6 @@ function Links({ links }: { links: { name: string; path: string }[] }) {
           {link.name}
         </Link>
       ))}
-      <ModeToggle />
     </nav>
   );
 }
@@ -46,13 +45,10 @@ export function Header() {
       >
         <Logo className="mr-[10px] h-[50px]" title="React Frontend Logo" />
       </NavLink>
-      {authenticated ? (
-        <div className="absolute top-3 right-4 flex items-center gap-4">
-          <ModeToggle />
-        </div>
-      ) : (
-        <Links links={headerLinks} />
-      )}
+      <div className="absolute top-3 right-4 flex items-center gap-4">
+        {!authenticated && <Links links={headerLinks} />}
+        <ModeToggle />
+      </div>
     </header>
   );
 }
