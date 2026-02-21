@@ -105,24 +105,34 @@ function DataTableToolbarFilter<TData>({
           />
         );
 
-      case "number":
+      case "number": {
+        const isPrefix = columnMeta.unitPlacement === "prefix";
         return (
           <div className="relative">
+            {columnMeta.unit && isPrefix && (
+              <span className="bg-accent text-muted-foreground absolute inset-y-0 left-0 flex items-center rounded-l-md px-2 text-sm">
+                {columnMeta.unit}
+              </span>
+            )}
             <Input
               type="number"
               inputMode="numeric"
               placeholder={placeholder}
               value={(column.getFilterValue() as string | undefined) ?? ""}
               onChange={(event) => column.setFilterValue(event.target.value)}
-              className={cn("h-8 w-[120px]", columnMeta.unit && "pr-8")}
+              className={cn(
+                "h-8 w-[120px]",
+                columnMeta.unit && (isPrefix ? "pl-8" : "pr-8")
+              )}
             />
-            {columnMeta.unit && (
+            {columnMeta.unit && !isPrefix && (
               <span className="bg-accent text-muted-foreground absolute inset-y-0 right-0 flex items-center rounded-r-md px-2 text-sm">
                 {columnMeta.unit}
               </span>
             )}
           </div>
         );
+      }
 
       case "range":
         return <DataTableSliderFilter column={column} title={title} />;

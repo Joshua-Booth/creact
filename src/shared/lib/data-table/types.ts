@@ -19,6 +19,7 @@ declare module "@tanstack/react-table" {
     options?: Option[];
     range?: [number, number];
     unit?: string;
+    unitPlacement?: "prefix" | "suffix";
     icon?: React.FC<React.SVGProps<SVGSVGElement>>;
   }
 }

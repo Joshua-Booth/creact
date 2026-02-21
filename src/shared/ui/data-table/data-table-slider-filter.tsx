@@ -43,6 +43,7 @@ export function DataTableSliderFilter<TData>({
 
   const defaultRange = column.columnDef.meta?.range;
   const unit = column.columnDef.meta?.unit;
+  const isPrefix = column.columnDef.meta?.unitPlacement === "prefix";
 
   const { min, max, step } = useMemo<Range & { step: number }>(() => {
     let minValue = 0;
@@ -121,7 +122,9 @@ export function DataTableSliderFilter<TData>({
   }, [column]);
 
   /* istanbul ignore next @preserve */
-  const unitSuffix = unit ? ` ${unit}` : "";
+  const unitPrefix = unit && isPrefix ? unit : "";
+  /* istanbul ignore next @preserve */
+  const unitSuffix = unit && !isPrefix ? ` ${unit}` : "";
 
   return (
     <Popover>
@@ -161,7 +164,8 @@ export function DataTableSliderFilter<TData>({
                 className="mx-0.5 data-[orientation=vertical]:h-4
                   data-[orientation=vertical]:self-center"
               />
-              {formatValue(columnFilterValue[0])} -{" "}
+              {unitPrefix}
+              {formatValue(columnFilterValue[0])} - {unitPrefix}
               {formatValue(columnFilterValue[1])}
               {unitSuffix}
             </>
@@ -185,6 +189,14 @@ export function DataTableSliderFilter<TData>({
               From
             </Label>
             <div className="relative">
+              {unit && isPrefix && (
+                <span
+                  className="bg-accent text-muted-foreground absolute inset-y-0
+                    left-0 flex items-center rounded-l-md px-2 text-sm"
+                >
+                  {unit}
+                </span>
+              )}
               <Input
                 id={`${id}-from`}
                 type="number"
@@ -197,9 +209,9 @@ export function DataTableSliderFilter<TData>({
                 max={max}
                 value={range[0].toString()}
                 onChange={onFromInputChange}
-                className={cn("h-8 w-24", unit && "pr-8")}
+                className={cn("h-8 w-24", unit && (isPrefix ? "pl-8" : "pr-8"))}
               />
-              {unit && (
+              {unit && !isPrefix && (
                 <span
                   className="bg-accent text-muted-foreground absolute inset-y-0
                     right-0 flex items-center rounded-r-md px-2 text-sm"
@@ -212,6 +224,14 @@ export function DataTableSliderFilter<TData>({
               to
             </Label>
             <div className="relative">
+              {unit && isPrefix && (
+                <span
+                  className="bg-accent text-muted-foreground absolute inset-y-0
+                    left-0 flex items-center rounded-l-md px-2 text-sm"
+                >
+                  {unit}
+                </span>
+              )}
               <Input
                 id={`${id}-to`}
                 type="number"
@@ -224,9 +244,9 @@ export function DataTableSliderFilter<TData>({
                 max={max}
                 value={range[1].toString()}
                 onChange={onToInputChange}
-                className={cn("h-8 w-24", unit && "pr-8")}
+                className={cn("h-8 w-24", unit && (isPrefix ? "pl-8" : "pr-8"))}
               />
-              {unit && (
+              {unit && !isPrefix && (
                 <span
                   className="bg-accent text-muted-foreground absolute inset-y-0
                     right-0 flex items-center rounded-r-md px-2 text-sm"
