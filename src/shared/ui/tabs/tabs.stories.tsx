@@ -187,9 +187,12 @@ Default.test(
           if (j !== i) {
             const otherTab = tabs[j]!;
             await expect(otherTab).toHaveAttribute("aria-selected", "false");
-            await expect(
-              canvas.queryByRole("tabpanel", { name: otherTab.innerText })
-            ).toBeNull();
+            // Base UI keeps panels in DOM with inert during exit animation
+            await waitFor(() =>
+              expect(
+                canvas.queryByRole("tabpanel", { name: otherTab.innerText })
+              ).toBeNull()
+            );
           }
         }
       });
