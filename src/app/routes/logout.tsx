@@ -1,13 +1,26 @@
-import { LogoutPage } from "@/pages/logout";
-import { generateMeta } from "@/shared/lib/seo";
+import { logoutAction, LogoutPage } from "@/pages/logout";
+import {
+  generateMeta,
+  getLocaleFromMatches,
+  getSeoTranslation,
+} from "@/shared/lib/seo";
 import { RouteErrorFallback } from "@/shared/ui/error-boundary";
 
-export function meta() {
+import type { Route } from "./+types/logout";
+
+export function meta({ matches }: Route.MetaArgs) {
+  const locale = getLocaleFromMatches(matches);
+  const seo = getSeoTranslation(locale, "logout");
+
   return generateMeta({
-    title: "Logout",
-    description: "Signing out of your account.",
+    title: seo.title,
+    description: seo.description,
     noIndex: true,
   });
+}
+
+export function clientLoader() {
+  return logoutAction();
 }
 
 export const ErrorBoundary = RouteErrorFallback;
