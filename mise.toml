@@ -134,7 +134,7 @@ run = "echo 'All fixes applied!'"
 description = "Fix code with ESLint"
 alias = "l"
 depends = ["typegen"]
-run = "eslint . --ext .ts,.tsx --config {{vars.eslint_config}} --max-warnings 0 --fix --cache"
+run = "eslint . --config {{vars.eslint_config}} --max-warnings 0 --fix --cache"
 
 [tasks."lint:files"]
 description = "Lint specific files (for lint-staged)"
@@ -145,7 +145,7 @@ run = "eslint --config {{vars.eslint_config}} --fix"
 description = "Check code with ESLint"
 alias = "lc"
 depends = ["typegen"]
-run = "eslint . --ext .ts,.tsx --config {{vars.eslint_config}} --max-warnings 0 --cache"
+run = "eslint . --config {{vars.eslint_config}} --max-warnings 0 --cache"
 
 [tasks.lintstaged]
 description = "Run lint-staged on staged files"
@@ -226,7 +226,7 @@ run = "vitest --project unit"
 [tasks."test:e2e"]
 description = "Run end-to-end tests with Playwright"
 alias = "te"
-depends = ["coverage", "build:e2e"]
+depends = ["build:e2e"]
 run = "playwright test --config {{vars.playwright_config}}"
 
 [tasks."test:e2e:ui"]
@@ -244,6 +244,7 @@ run = "vitest --ui"
 [tasks."test:storybook"]
 description = "Run Storybook component tests"
 alias = "tsb"
+depends = ["build"]
 run = "vitest --config {{vars.storybook_config}}/vitest.config.ts"
 
 [tasks."test:all"]
