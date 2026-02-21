@@ -47,13 +47,11 @@ describe("setAuthTokenAndRedirect", () => {
     expect(localStorageMock.setItem).toHaveBeenCalledWith("token", "my-token");
   });
 
-  it("should set auth-storage JSON in localStorage", () => {
+  it("should only write the token key to localStorage", () => {
     setAuthTokenAndRedirect("my-token");
 
-    expect(localStorageMock.setItem).toHaveBeenCalledWith(
-      "auth-storage",
-      JSON.stringify({ state: { token: "my-token", authenticated: true } })
-    );
+    expect(localStorageMock.setItem).toHaveBeenCalledTimes(1);
+    expect(localStorageMock.setItem).toHaveBeenCalledWith("token", "my-token");
   });
 
   it("should return a Response (redirect)", () => {
