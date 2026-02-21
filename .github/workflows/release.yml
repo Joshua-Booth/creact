@@ -38,7 +38,7 @@ jobs:
         run: mise run build
 
       - name: Test
-        run: vitest run
+        run: mise run test
 
       - name: Release
         env:
