@@ -22,6 +22,10 @@ export default {
         title: "Dashboard",
         description: "Your personal dashboard.",
       },
+      logout: {
+        title: "Logout",
+        description: "Signing out of your account.",
+      },
       notFound: {
         title: "Page Not Found",
         description: "The page you're looking for doesn't exist.",
