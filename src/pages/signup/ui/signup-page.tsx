@@ -17,6 +17,10 @@ import logoSvg from "@/shared/assets/images/logo.svg";
 
 import { useSignupForm } from "../model/use-signup-form";
 
+/**
+ * Registration page with account creation form.
+ * @returns Full-viewport centered card with email, password, and confirm-password fields plus a submit button.
+ */
 export function SignupPage() {
   const { t } = useTranslation();
   const hydrated = useHydrated();

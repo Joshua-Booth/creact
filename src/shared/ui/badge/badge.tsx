@@ -37,27 +37,34 @@ const badgeVariants = cva(
   }
 );
 
+type BadgeProps = useRender.ComponentProps<"span"> &
+  VariantProps<typeof badgeVariants>;
+
 /** Inline status label rendered as a small pill. Supports polymorphic rendering via Base UI's `useRender`. */
 function Badge({
   className,
   variant = "default",
   render,
   ...props
-}: useRender.ComponentProps<"span"> & VariantProps<typeof badgeVariants>) {
-  return useRender({
-    defaultTagName: "span",
-    props: mergeProps<"span">(
-      {
-        className: cn(badgeVariants({ variant }), className),
-      },
-      props
-    ),
-    render,
-    state: {
-      slot: "badge",
-      variant,
-    },
-  });
+}: BadgeProps) {
+  return (
+    <>
+      {useRender({
+        defaultTagName: "span",
+        props: mergeProps<"span">(
+          {
+            className: cn(badgeVariants({ variant }), className),
+          },
+          props
+        ),
+        render,
+        state: {
+          slot: "badge",
+          variant,
+        },
+      })}
+    </>
+  );
 }
 
 export { Badge, badgeVariants };

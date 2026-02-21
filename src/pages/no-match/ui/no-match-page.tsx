@@ -13,6 +13,10 @@ import {
   EmptyTitle,
 } from "@/shared/ui/empty";
 
+/**
+ * 404 fallback page displayed for unmatched routes.
+ * @returns `<Empty>` state with a search icon, error details (status code if available), and a "Go Home" link.
+ */
 export function NoMatchPage() {
   const { t } = useTranslation();
   const error = useRouteError();

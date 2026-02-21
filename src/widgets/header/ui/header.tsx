@@ -23,6 +23,10 @@ function Links({ links }: { links: { name: string; path: string }[] }) {
   );
 }
 
+/**
+ * Top navigation bar with branding, theme toggle, and auth-aware controls.
+ * @returns Positioned `<header>` with the app logo, a theme toggle, and login/signup links (hidden when authenticated).
+ */
 export function Header() {
   const { t } = useTranslation();
   const authenticated = useAuthStore((state) => state.authenticated);

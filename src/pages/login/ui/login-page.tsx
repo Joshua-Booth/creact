@@ -11,6 +11,10 @@ import logoSvg from "@/shared/assets/images/logo.svg";
 
 import { useLoginForm } from "../model/use-login-form";
 
+/**
+ * Authentication page with email/password login form.
+ * @returns Full-viewport centered card with email and password fields, forgot-password link, and a submit button.
+ */
 export function LoginPage() {
   const { t } = useTranslation();
   const hydrated = useHydrated();

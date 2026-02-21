@@ -229,6 +229,13 @@ export function HydrateFallback() {
 
 const AUTH_ROUTES = new Set([href("/login"), href("/signup")]);
 
+/**
+ * Application root layout providing theme, i18n, and routing context.
+ * @param root0 - Route component props from the framework loader.
+ * @param root0.loaderData - Server-resolved data from the route loader.
+ * @param root0.loaderData.locale - Detected user locale for i18n initialization.
+ * @returns `<Header />` (hidden on auth routes) above a routed `<Outlet />`, wrapped in SWR and error-boundary providers.
+ */
 export default function Root({ loaderData: { locale } }: Route.ComponentProps) {
   const hydrated = useHydrated();
   const { i18n } = useTranslation();

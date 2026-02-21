@@ -13,6 +13,10 @@ import {
   EmptyTitle,
 } from "@/shared/ui/empty";
 
+/**
+ * Post-logout confirmation page with navigation options.
+ * @returns `<Empty>` state with a logout icon, confirmation message, and a "Back to Login" link.
+ */
 export function LogoutPage() {
   const { t } = useTranslation();
 

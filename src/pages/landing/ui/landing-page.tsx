@@ -1,5 +1,9 @@
 import { useTranslation } from "react-i18next";
 
+/**
+ * Public landing page introducing the application.
+ * @returns Vertically centered heading and subheading with marketing copy.
+ */
 export function LandingPage() {
   const { t } = useTranslation();
 

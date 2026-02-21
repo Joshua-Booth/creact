@@ -92,6 +92,10 @@ function DashboardContent() {
   );
 }
 
+/**
+ * Authenticated dashboard view with user data and summary widgets.
+ * @returns Centered `<main>` with a suspense boundary around user stats, falling back to a skeleton.
+ */
 export function DashboardPage() {
   return (
     <main className="mx-auto max-w-2xl px-6 pt-12 pb-16">
