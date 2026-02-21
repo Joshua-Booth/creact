@@ -26,15 +26,10 @@ jobs:
           fetch-depth: 0
           persist-credentials: false
 
-      - uses: jdx/mise-action@v3
-        with:
-          experimental: true
-
-      - name: Install dependencies
-        run: pnpm install --frozen-lockfile
+      - uses: ./.github/actions/setup
 
       - name: Lint
-        run: mise run lint
+        run: mise run lint:check
 
       - name: Type check
         run: mise run typecheck
@@ -43,7 +38,7 @@ jobs:
         run: mise run build
 
       - name: Test
-        run: mise run test
+        run: vitest run
 
       - name: Release
         env:
