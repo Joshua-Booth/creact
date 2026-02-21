@@ -245,7 +245,7 @@ export function RestaurantMenuDemo() {
           <DataTableColumnHeader column={column} label="Description" />
         ),
         cell: ({ cell }) => (
-          <div className="text-muted-foreground max-w-[300px] truncate italic">
+          <div className="text-muted-foreground max-w-75 truncate italic">
             {cell.getValue<string>()}
           </div>
         ),
