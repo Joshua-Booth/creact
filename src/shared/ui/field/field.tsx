@@ -19,7 +19,7 @@ function FieldSet({ className, ...props }: FieldsetPrimitive.Root.Props) {
       data-slot="field-set"
       className={cn(
         `flex flex-col gap-6 has-[>[data-slot=checkbox-group]]:gap-3
-        has-[>[data-slot=radio-group]]:gap-3`,
+        has-[>[data-slot=radio-group]]:gap-3 has-[>[data-variant=label]]:gap-3`,
         className
       )}
       {...props}
@@ -60,7 +60,7 @@ function FieldLegendDescription({
       data-slot="field-legend-description"
       className={cn(
         `text-muted-foreground mb-3 text-left text-sm/normal font-normal
-        [[data-variant=legend]+&]:-mt-6`,
+        [[data-variant=label]+&]:-mt-4 [[data-variant=legend]+&]:-mt-8`,
         "[&>a:hover]:text-primary [&>a]:underline [&>a]:underline-offset-4",
         className
       )}
