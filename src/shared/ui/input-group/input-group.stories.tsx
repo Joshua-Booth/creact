@@ -144,6 +144,7 @@ export const BlockStart = meta.story({
               variant="ghost"
               size="icon-xs"
               className="ml-auto"
+              aria-label="Copy"
             >
               <CopyIcon />
             </InputGroupButton>
@@ -309,7 +310,7 @@ export const Button = meta.story({
         <InputGroup {...args}>
           <InputGroupInput placeholder="npm install @shadcn/ui" readOnly />
           <InputGroupAddon align="inline-end">
-            <InputGroupButton variant="ghost" size="icon-xs">
+            <InputGroupButton variant="ghost" size="icon-xs" aria-label="Copy">
               <CopyIcon />
             </InputGroupButton>
           </InputGroupAddon>
@@ -329,6 +330,7 @@ export const Button = meta.story({
             <InputGroupButton
               variant="ghost"
               size="icon-xs"
+              aria-label="Toggle favorite"
               onClick={() => setIsFavorite(!isFavorite)}
             >
               <StarIcon className={isFavorite ? "fill-current" : ""} />
@@ -371,7 +373,13 @@ export const Dropdown = meta.story({
         <InputGroupAddon align="inline-end">
           <DropdownMenu>
             <DropdownMenuTrigger
-              render={<InputGroupButton variant="ghost" size="icon-xs" />}
+              render={
+                <InputGroupButton
+                  variant="ghost"
+                  size="icon-xs"
+                  aria-label="More options"
+                />
+              }
             >
               <MoreHorizontalIcon />
             </DropdownMenuTrigger>
