@@ -103,7 +103,7 @@ export const Indeterminate = meta.story({
 /**
  * Checkbox with a description providing additional context below the label.
  */
-export const WithDescription = meta.story({
+export const Description = meta.story({
   parameters: {
     a11y: {
       config: {

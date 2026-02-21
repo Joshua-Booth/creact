@@ -56,7 +56,8 @@ export const Default = meta.story();
  * Use the `Field` component with `FieldLabel` and `FieldDescription` for
  * accessible form fields with proper labeling and helper text.
  */
-export const WithField = meta.story({
+export const FieldStory = meta.story({
+  name: "Field",
   render: (args) => (
     <Field className={args.className}>
       <FieldLabel htmlFor="username">Username</FieldLabel>
@@ -72,7 +73,8 @@ export const WithField = meta.story({
  * Use `FieldSet` and `FieldGroup` to group multiple related fields together
  * in a form layout.
  */
-export const WithFieldGroup = meta.story({
+export const FieldGroupStory = meta.story({
+  name: "Field Group",
   render: (args) => (
     <FieldSet className={args.className}>
       <FieldGroup>
@@ -206,7 +208,8 @@ export const Required = meta.story({
 /**
  * Use the `Badge` component inside `FieldLabel` to highlight special status.
  */
-export const WithBadge = meta.story({
+export const BadgeStory = meta.story({
+  name: "Badge",
   render: (args) => (
     <Field className={args.className}>
       <FieldLabel htmlFor="webhook-url">
@@ -228,7 +231,8 @@ export const WithBadge = meta.story({
  * Use the `Button` component to indicate that the input field can be submitted
  * or used to trigger an action.
  */
-export const WithButton = meta.story({
+export const ButtonStory = meta.story({
+  name: "Button",
   render: (args) => (
     <div className="flex items-center space-x-2">
       <Input {...args} />
@@ -241,7 +245,8 @@ export const WithButton = meta.story({
  * Use `InputGroup` for inputs with icons or addons. See the InputGroup
  * component for more examples including password toggles, clear buttons, and more.
  */
-export const WithInputGroup = meta.story({
+export const InputGroupStory = meta.story({
+  name: "Input Group",
   render: (args) => (
     <InputGroup className={args.className}>
       <InputGroupAddon align="inline-start">
@@ -255,7 +260,8 @@ export const WithInputGroup = meta.story({
 /**
  * Use `ButtonGroup` to combine an input with action buttons in a cohesive group.
  */
-export const WithButtonGroup = meta.story({
+export const ButtonGroupStory = meta.story({
+  name: "Button Group",
   render: (args) => (
     <Field className={args.className}>
       <FieldLabel htmlFor="search-input">Search</FieldLabel>

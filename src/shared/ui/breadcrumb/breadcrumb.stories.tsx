@@ -62,7 +62,7 @@ export const Default = meta.story();
 /**
  * Customize the separator between breadcrumb items with any icon or element.
  */
-export const WithCustomSeparator = meta.story({
+export const CustomSeparator = meta.story({
   render: (args) => (
     <Breadcrumb {...args}>
       <BreadcrumbList>
@@ -116,7 +116,7 @@ export const Collapsed = meta.story({
 /**
  * Combine the ellipsis with a dropdown menu to reveal hidden path segments on demand.
  */
-export const WithDropdown = meta.story({
+export const Dropdown = meta.story({
   render: (args) => (
     <Breadcrumb {...args}>
       <BreadcrumbList>
@@ -159,7 +159,7 @@ export const WithDropdown = meta.story({
 Default.test(
   "when clicking ellipsis, should reveal dropdown menu items",
   {
-    render: WithDropdown.input.render,
+    render: Dropdown.input.render,
   },
   async ({ canvas, canvasElement, step }) => {
     const trigger = await canvas.findByRole("button", {
@@ -188,7 +188,7 @@ Default.test(
 /**
  * Use the `render` prop to integrate with React Router's Link component for client-side navigation.
  */
-export const WithRenderProp = meta.story({
+export const RenderProp = meta.story({
   render: (args) => (
     <Breadcrumb {...args}>
       <BreadcrumbList>

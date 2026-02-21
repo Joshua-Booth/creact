@@ -138,7 +138,7 @@ export const Disabled = meta.story({
 /**
  * Accordion items styled with borders for visual separation.
  */
-export const WithBorders = meta.story({
+export const Borders = meta.story({
   render: (args) => (
     <Accordion
       {...args}
@@ -173,7 +173,8 @@ export const WithBorders = meta.story({
 /**
  * Accordion wrapped in a Card component for a cohesive grouped appearance.
  */
-export const WithCard = meta.story({
+export const CardStory = meta.story({
+  name: "Card",
   render: (args) => (
     <Card className="w-full">
       <CardHeader>

@@ -263,7 +263,7 @@ export const Disabled = meta.story({
 /**
  * Select integrated within a Field component.
  */
-export const WithField = meta.story({
+export const FieldStory = meta.story({
   name: "Field",
   render: (args) => (
     <Field className="w-64">
@@ -389,7 +389,7 @@ Default.test(
 /**
  * Select items with icons displayed alongside the text.
  */
-export const WithIcons = meta.story({
+export const Icons = meta.story({
   render: (args) => (
     <Select {...args} items={themeItems} defaultValue="light">
       <SelectTrigger aria-label="Select a theme" className="w-48">

@@ -85,7 +85,7 @@ export const Default = meta.story({
 /**
  * Item with an icon media element showing a security alert pattern.
  */
-export const WithIcon = meta.story({
+export const Icon = meta.story({
   render: (args) => (
     <Item {...args} className="w-96" variant="outline">
       <ItemMedia variant="icon">
@@ -109,7 +109,8 @@ export const WithIcon = meta.story({
 /**
  * Item with an Avatar component for user profiles.
  */
-export const WithAvatar = meta.story({
+export const AvatarStory = meta.story({
+  name: "Avatar",
   render: (args) => (
     <div className="flex w-96 flex-col gap-4">
       <Item {...args} variant="outline">
@@ -154,7 +155,7 @@ export const WithAvatar = meta.story({
 /**
  * Item with an image media element for music playlist style.
  */
-export const WithImage = meta.story({
+export const Image = meta.story({
   render: (args) => (
     <ItemGroup className="w-96">
       <Item {...args} render={<div role="listitem" />} variant="outline">
@@ -194,7 +195,7 @@ export const WithImage = meta.story({
 /**
  * Item with action buttons.
  */
-export const WithActions = meta.story({
+export const Actions = meta.story({
   render: (args) => (
     <Item {...args} className="w-96" variant="outline">
       <ItemMedia variant="icon">
@@ -219,7 +220,7 @@ export const WithActions = meta.story({
 /**
  * Item with ItemHeader for grid-style layouts.
  */
-export const WithHeader = meta.story({
+export const Header = meta.story({
   render: (args) => (
     <Item {...args} className="w-96" variant="outline">
       <ItemHeader>
@@ -426,7 +427,8 @@ export const InDropdown = meta.story({
 /**
  * Item with a badge in the title.
  */
-export const WithBadge = meta.story({
+export const BadgeStory = meta.story({
+  name: "Badge",
   render: (args) => (
     <Item {...args} className="w-96" variant="outline">
       <ItemMedia variant="icon">

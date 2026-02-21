@@ -89,7 +89,7 @@ export const Portrait = meta.story({
 /**
  * Aspect ratio with a video player placeholder.
  */
-export const WithVideo = meta.story({
+export const Video = meta.story({
   render: (args) => (
     <div className="w-[500px]">
       <AspectRatio {...args} className="bg-muted rounded-md">
@@ -117,7 +117,7 @@ export const WithVideo = meta.story({
 /**
  * Aspect ratio with a loading skeleton placeholder.
  */
-export const WithPlaceholder = meta.story({
+export const Placeholder = meta.story({
   render: (args) => (
     <div className="w-[450px]">
       <AspectRatio {...args} className="rounded-md">

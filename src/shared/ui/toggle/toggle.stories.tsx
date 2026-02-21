@@ -51,7 +51,7 @@ export const Outline = meta.story({
 /**
  * Use the text element to add a label to the toggle.
  */
-export const WithText = Outline.extend({
+export const Text = Outline.extend({
   render: (args) => (
     <Toggle {...args}>
       <Italic />

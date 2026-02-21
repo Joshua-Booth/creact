@@ -100,7 +100,7 @@ Default.test(
 /**
  * A popover containing a form with input fields.
  */
-export const WithForm = meta.story({
+export const Form = meta.story({
   render: (args) => (
     <Popover {...args}>
       <PopoverTrigger

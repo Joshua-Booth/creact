@@ -60,7 +60,8 @@ export const Group = meta.story({
 /**
  * Kbd can be placed inside a Button to indicate a keyboard shortcut.
  */
-export const WithButton = meta.story({
+export const ButtonStory = meta.story({
+  name: "Button",
   args: {
     children: "↵",
   },
@@ -75,7 +76,8 @@ export const WithButton = meta.story({
 /**
  * Combine tooltips with Kbd to show keyboard shortcuts on hover.
  */
-export const WithTooltip = meta.story({
+export const TooltipStory = meta.story({
+  name: "Tooltip",
   args: {
     children: "S",
   },
@@ -117,7 +119,8 @@ export const WithTooltip = meta.story({
 /**
  * Kbd can be used inside an InputGroup to show search shortcuts.
  */
-export const WithInputGroup = meta.story({
+export const InputGroupStory = meta.story({
+  name: "Input Group",
   render: (args) => (
     <InputGroup className="w-64">
       <InputGroupAddon align="inline-start">

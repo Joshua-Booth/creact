@@ -109,8 +109,8 @@ export const Caption = meta.story({
 /**
  * Calendar with preset date buttons for quick selection.
  */
-export const WithPresets = meta.story({
-  render: function WithPresetsStory(args) {
+export const Presets = meta.story({
+  render: function PresetsStory(args) {
     const [date, setDate] = React.useState<Date | undefined>(
       () => new Date(new Date().getFullYear(), 1, 12)
     );
@@ -165,8 +165,8 @@ export const WithPresets = meta.story({
 /**
  * Calendar with start and end time inputs for date-time selection.
  */
-export const WithTime = meta.story({
-  render: function WithTimeStory(args) {
+export const Time = meta.story({
+  render: function TimeStory(args) {
     const [date, setDate] = React.useState<Date | undefined>(
       () => new Date(new Date().getFullYear(), new Date().getMonth(), 12)
     );
@@ -330,9 +330,9 @@ export const WeekNumbers = meta.story({
 /**
  * Calendar with timezone detection to prevent date offset issues.
  */
-export const WithTimezone = meta.story({
-  name: "With Timezone",
-  render: function WithTimezoneStory(args) {
+export const Timezone = meta.story({
+  name: "Timezone",
+  render: function TimezoneStory(args) {
     const [date, setDate] = React.useState<Date | undefined>();
     const [timeZone] = React.useState(
       () => Intl.DateTimeFormat().resolvedOptions().timeZone

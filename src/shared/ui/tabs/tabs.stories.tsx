@@ -92,7 +92,7 @@ export const Vertical = meta.story({
  * Add the `disabled` prop to a tab trigger to prevent interactions with
  * that tab.
  */
-export const WithDisabled = meta.story({
+export const Disabled = meta.story({
   render: (args) => (
     <Tabs {...args}>
       <TabsList className="grid grid-cols-3">
@@ -115,7 +115,7 @@ export const WithDisabled = meta.story({
  * Add icons to tab triggers to enhance visual communication and provide
  * additional context for each tab.
  */
-export const WithIcons = meta.story({
+export const Icons = meta.story({
   render: (args) => (
     <Tabs {...args}>
       <TabsList className="grid grid-cols-3">

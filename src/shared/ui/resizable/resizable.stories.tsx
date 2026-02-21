@@ -114,7 +114,7 @@ export const Handle = meta.story({
 /**
  * Nested layout with visible drag handle indicators on all handles.
  */
-export const WithHandle = meta.story({
+export const Nested = meta.story({
   render: (args) => (
     <ResizablePanelGroup {...args}>
       <ResizablePanel defaultSize="50%">

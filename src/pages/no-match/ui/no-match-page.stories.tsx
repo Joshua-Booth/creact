@@ -35,7 +35,7 @@ Default.test(
   }
 );
 
-export const WithRouteError = meta.story({
+export const RouteError = meta.story({
   parameters: {
     reactRouter: reactRouterParameters({
       routing: {
@@ -61,7 +61,7 @@ export const WithRouteError = meta.story({
   },
 });
 
-WithRouteError.test(
+RouteError.test(
   "should render status and statusText for route error responses",
   async ({ canvas }) => {
     await expect(canvas.getByRole("heading", { level: 1 })).toHaveTextContent(

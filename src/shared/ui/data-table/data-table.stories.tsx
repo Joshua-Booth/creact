@@ -334,8 +334,8 @@ export const RestaurantMenu = meta.story({
 });
 
 /** Table with actionBar prop that appears when rows are selected. */
-export const WithActionBar = meta.story({
-  render: (args) => <WithActionBarDemo {...args} />,
+export const ActionBar = meta.story({
+  render: (args) => <ActionBarDemo {...args} />,
 });
 
 /** Table with a non-sortable, non-hideable column header rendered as plain text. */
@@ -1147,7 +1147,7 @@ EmptyState.test(
   }
 );
 
-WithActionBar.test(
+ActionBar.test(
   "should show action bar when rows are selected",
   async ({ canvas, step }) => {
     await step("verify action bar is not visible initially", async () => {
@@ -3235,9 +3235,9 @@ function RestaurantMenuDemo() {
   );
 }
 
-// --- Demo: WithActionBar ---
+// --- Demo: ActionBar ---
 
-function WithActionBarDemo() {
+function ActionBarDemo() {
   // eslint-disable-next-line @eslint-react/no-unnecessary-use-memo -- stable reference for table config
   const columns = useMemo<ColumnDef<Project>[]>(
     () => [

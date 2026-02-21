@@ -181,7 +181,7 @@ export const PopoverStory = meta.story({
 /**
  * Command with grouped items, icons, and keyboard shortcuts.
  */
-export const WithGroups = meta.story({
+export const Groups = meta.story({
   render: (args) => (
     <Command {...args}>
       <CommandInput placeholder="Type a command or search..." />

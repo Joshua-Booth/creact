@@ -88,7 +88,7 @@ export const Small = meta.story({
 /**
  * An alert dialog with an icon in the header for visual emphasis.
  */
-export const WithMedia = meta.story({
+export const Media = meta.story({
   render: (args) => (
     <AlertDialog {...args}>
       <AlertDialogTrigger
@@ -116,8 +116,8 @@ export const WithMedia = meta.story({
 /**
  * A small alert dialog with an icon in the header for compact interfaces.
  */
-export const SmallWithMedia = meta.story({
-  name: "Small with Media",
+export const SmallMedia = meta.story({
+  name: "Small Media",
   render: (args) => (
     <AlertDialog {...args}>
       <AlertDialogTrigger

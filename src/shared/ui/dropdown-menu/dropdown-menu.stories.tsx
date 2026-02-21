@@ -476,7 +476,8 @@ export const Destructive = meta.story({
 /**
  * An account switcher dropdown triggered by an avatar.
  */
-export const WithAvatar = meta.story({
+export const AvatarStory = meta.story({
+  name: "Avatar",
   render: (args) => (
     <DropdownMenu {...args}>
       <DropdownMenuTrigger

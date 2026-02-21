@@ -345,7 +345,7 @@ export const Simple = meta.story({
 /**
  * Navigation menu items with icons for visual context.
  */
-export const WithIcon = meta.story({
+export const Icon = meta.story({
   render: (args) => (
     <NavigationMenu {...args}>
       <NavigationMenuList>

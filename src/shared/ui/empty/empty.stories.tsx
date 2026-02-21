@@ -126,7 +126,8 @@ export const Muted = meta.story({
 /**
  * Empty state with a single avatar in the media slot.
  */
-export const WithAvatar = meta.story({
+export const AvatarStory = meta.story({
+  name: "Avatar",
   render: (args) => (
     <Empty {...args}>
       <EmptyHeader>
@@ -155,7 +156,7 @@ export const WithAvatar = meta.story({
 /**
  * Empty state with multiple avatars in a group.
  */
-export const WithAvatarGroup = meta.story({
+export const AvatarGroup = meta.story({
   render: (args) => (
     <Empty {...args}>
       <EmptyHeader>
@@ -197,7 +198,8 @@ export const WithAvatarGroup = meta.story({
 /**
  * Empty state with an input group for searching (404 page pattern).
  */
-export const WithInputGroup = meta.story({
+export const InputGroupStory = meta.story({
+  name: "Input Group",
   render: (args) => (
     <Empty {...args}>
       <EmptyHeader>

@@ -446,7 +446,7 @@ export const PopoverStory = meta.story({
 /**
  * Button group with a text addon for displaying additional context.
  */
-export const WithTextAddon = meta.story({
+export const TextAddon = meta.story({
   render: (args) => (
     <ButtonGroup {...args}>
       <ButtonGroupText>https://</ButtonGroupText>

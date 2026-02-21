@@ -190,7 +190,7 @@ export const Size = meta.story({
 /**
  * Switch used within a form with submit functionality.
  */
-export const WithForm = meta.story({
+export const Form = meta.story({
   parameters: {
     a11y: {
       config: {
@@ -277,7 +277,7 @@ Disabled.test(
   }
 );
 
-WithForm.test(
+Form.test(
   "when submitting the form with switch enabled, should submit",
   async ({ canvas, step }) => {
     const switchBtn = await canvas.findByRole("switch");

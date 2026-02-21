@@ -59,7 +59,8 @@ export const Default = meta.story();
 /**
  * Label associated with an input field via htmlFor.
  */
-export const WithInput = meta.story({
+export const InputStory = meta.story({
+  name: "Input",
   render: (args) => (
     <div className="flex flex-col gap-2">
       <Label {...args} htmlFor="email-input">
@@ -73,7 +74,8 @@ export const WithInput = meta.story({
 /**
  * Label associated with a checkbox control.
  */
-export const WithCheckbox = meta.story({
+export const CheckboxStory = meta.story({
+  name: "Checkbox",
   render: (args) => (
     <div className="flex items-center space-x-2">
       <Checkbox id="terms" aria-labelledby="terms-label" />

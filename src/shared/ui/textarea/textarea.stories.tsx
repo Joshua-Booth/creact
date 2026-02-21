@@ -45,7 +45,8 @@ export const Disabled = meta.story({
 /**
  * Use the `Field` component to add a label and description to the textarea.
  */
-export const WithField = meta.story({
+export const FieldStory = meta.story({
+  name: "Field",
   render: (args) => (
     <Field className={args.className}>
       <FieldLabel>Your message</FieldLabel>
@@ -75,7 +76,8 @@ export const Invalid = meta.story({
  * Use the `Button` component to indicate that the textarea can be submitted
  * or used to trigger an action.
  */
-export const WithButton = meta.story({
+export const ButtonStory = meta.story({
+  name: "Button",
   render: (args) => (
     <div className="grid w-full gap-2">
       <Textarea {...args} />
