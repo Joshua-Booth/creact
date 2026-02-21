@@ -182,6 +182,11 @@ description = "Create a new release using semantic-release"
 confirm = "This will create a new release. Continue?"
 run = "semantic-release -c {{vars.releaserc}}"
 
+[tasks."release:dry"]
+alias = "rd"
+description = "Preview the next release without publishing"
+run = "semantic-release -c {{vars.releaserc}} --dry-run"
+
 [tasks.steiger]
 description = "Run Steiger architecture linter"
 run = "steiger ./src --config {{vars.steiger_config}}"
