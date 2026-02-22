@@ -495,17 +495,6 @@ export const Group = meta.story({
  * ItemGroup with separator between items.
  */
 export const GroupWithSeparator = meta.story({
-  parameters: {
-    a11y: {
-      config: {
-        rules: [
-          // Separator component adds aria-orientation with role="presentation" which is not allowed
-          // This is a component implementation issue in the Separator component
-          { id: "aria-allowed-attr", enabled: false },
-        ],
-      },
-    },
-  },
   render: (args) => (
     <ItemGroup className="w-96">
       <Item {...args} render={<div role="listitem" />}>
