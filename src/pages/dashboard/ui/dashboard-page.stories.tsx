@@ -1,3 +1,4 @@
+import { withAuthenticated } from "@/storybook/decorators/with-auth";
 import { withI18n } from "@/storybook/decorators/with-i18n";
 import { withSWR } from "@/storybook/decorators/with-swr";
 import preview from "@/storybook/preview";
@@ -5,11 +6,7 @@ import { http, HttpResponse } from "msw";
 import { reactRouterParameters } from "storybook-addon-remix-react-router";
 import { expect, waitFor } from "storybook/test";
 
-import { useAuthStore } from "@/entities/user";
-
 import { DashboardPage } from "./dashboard-page";
-
-useAuthStore.getState().login("mock-token");
 
 const mockUser = {
   id: "1",
@@ -22,7 +19,7 @@ const meta = preview.meta({
   title: "pages/Dashboard",
   component: DashboardPage,
   tags: ["!autodocs"],
-  decorators: [withSWR, withI18n],
+  decorators: [withAuthenticated, withSWR, withI18n],
   parameters: {
     layout: "fullscreen",
     reactRouter: reactRouterParameters({
@@ -30,6 +27,8 @@ const meta = preview.meta({
     }),
   },
 });
+
+// --- Stories ---
 
 export const Default = meta.story({
   parameters: {
@@ -41,12 +40,6 @@ export const Default = meta.story({
       ],
     },
   },
-});
-
-Default.test("renders heading after user loads", async ({ canvas }) => {
-  await waitFor(() =>
-    expect(canvas.getByRole("heading")).toHaveTextContent("Welcome back, John")
-  );
 });
 
 export const Loading = meta.story({
@@ -76,6 +69,14 @@ export const ErrorState = meta.story({
       ],
     },
   },
+});
+
+// --- Tests ---
+
+Default.test("renders heading after user loads", async ({ canvas }) => {
+  await waitFor(() =>
+    expect(canvas.getByRole("heading")).toHaveTextContent("Welcome back, John")
+  );
 });
 
 ErrorState.test(
