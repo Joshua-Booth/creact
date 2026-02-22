@@ -1,4 +1,7 @@
+import { href, redirect } from "react-router";
+
 import { logoutAction, LogoutPage } from "@/pages/logout";
+import { getAuthToken } from "@/entities/user";
 import {
   generateMeta,
   getLocaleFromMatches,
@@ -20,6 +23,7 @@ export function meta({ matches }: Route.MetaArgs) {
 }
 
 export function clientLoader() {
+  if (getAuthToken() === null) return redirect(href("/login"));
   return logoutAction();
 }
 

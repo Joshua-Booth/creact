@@ -1,4 +1,4 @@
-import { isRouteErrorResponse, Link, useRouteError } from "react-router";
+import { href, isRouteErrorResponse, Link, useRouteError } from "react-router";
 import { useTranslation } from "react-i18next";
 
 import * as Sentry from "@sentry/react";
@@ -42,7 +42,7 @@ export function RouteErrorFallback() {
         <EmptyDescription>{t("errors.routeErrorDescription")}</EmptyDescription>
       </EmptyHeader>
       <EmptyContent>
-        <Link to="/" className={buttonVariants({ variant: "outline" })}>
+        <Link to={href("/")} className={buttonVariants({ variant: "outline" })}>
           <Home />
           {t("errors.goHome")}
         </Link>

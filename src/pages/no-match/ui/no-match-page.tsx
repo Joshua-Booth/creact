@@ -1,4 +1,4 @@
-import { isRouteErrorResponse, Link, useRouteError } from "react-router";
+import { href, isRouteErrorResponse, Link, useRouteError } from "react-router";
 import { useTranslation } from "react-i18next";
 
 import { Home, SearchX } from "lucide-react";
@@ -36,7 +36,7 @@ export function NoMatchPage() {
         )}
       </EmptyHeader>
       <EmptyContent>
-        <Link to="/" className={buttonVariants({ variant: "outline" })}>
+        <Link to={href("/")} className={buttonVariants({ variant: "outline" })}>
           <Home />
           {t("errors.goHome")}
         </Link>

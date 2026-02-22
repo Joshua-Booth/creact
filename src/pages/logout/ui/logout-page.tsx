@@ -1,4 +1,4 @@
-import { Link } from "react-router";
+import { href, Link } from "react-router";
 import { useTranslation } from "react-i18next";
 
 import { LogIn, LogOut } from "lucide-react";
@@ -30,7 +30,10 @@ export function LogoutPage() {
         <EmptyDescription>{t("pages.logout.description")}</EmptyDescription>
       </EmptyHeader>
       <EmptyContent>
-        <Link to="/login" className={buttonVariants({ variant: "outline" })}>
+        <Link
+          to={href("/login")}
+          className={buttonVariants({ variant: "outline" })}
+        >
           <LogIn />
           {t("pages.logout.backToLogin")}
         </Link>
