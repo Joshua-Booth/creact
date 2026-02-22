@@ -16,6 +16,7 @@ import {
 import { useTranslation } from "react-i18next";
 
 import * as Sentry from "@sentry/react";
+import i18next from "i18next";
 import { AlertTriangle, Home } from "lucide-react";
 import { NuqsAdapter } from "nuqs/adapters/react-router/v7";
 import {
@@ -219,10 +220,10 @@ export function HydrateFallback() {
             className="absolute! -m-px! size-px! overflow-hidden! border-0! p-0!
               whitespace-nowrap! [clip:rect(0,0,0,0)]!"
           >
-            Loading...
+            {i18next.t("loading")}
           </span>
         </div>
-        <p className="mt-4 text-gray-600">Loading...</p>
+        <p className="mt-4 text-gray-600">{i18next.t("loading")}</p>
       </div>
     </div>
   );

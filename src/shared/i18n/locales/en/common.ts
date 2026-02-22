@@ -87,6 +87,7 @@ export default {
       "An unexpected error occurred. Please try navigating back home.",
     tryAgain: "Try again",
   },
+  loading: "Loading...",
   language: {
     select: "Select language",
   },
