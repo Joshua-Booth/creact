@@ -1,7 +1,10 @@
-import i18next from "i18next";
 import * as z from "zod";
 
-import { emailSchema, passwordSchema } from "@/shared/lib/validation";
+import {
+  emailSchema,
+  passwordSchema,
+  validationT,
+} from "@/shared/lib/validation";
 
 export function registerSchema() {
   return z
@@ -11,7 +14,7 @@ export function registerSchema() {
       confirmPassword: z.string(),
     })
     .refine((data) => data.password === data.confirmPassword, {
-      error: i18next.t("passwordMismatch", { ns: "validation" }),
+      error: validationT("passwordMismatch"),
       path: ["confirmPassword"],
     });
 }
