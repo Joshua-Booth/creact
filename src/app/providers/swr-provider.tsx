@@ -1,7 +1,15 @@
 import { HTTPError } from "ky";
 import { SWRConfig } from "swr";
 
+import { useAuthStore } from "@/entities/user";
 import { api, ApiError } from "@/shared/api";
+
+function handleGlobalError(err: unknown) {
+  if (err instanceof ApiError && err.status === 401) {
+    useAuthStore.getState().logout();
+    window.location.href = "/login";
+  }
+}
 
 const fetcher = async <T,>(url: string): Promise<T> => {
   try {
@@ -23,18 +31,15 @@ const fetcher = async <T,>(url: string): Promise<T> => {
   }
 };
 
+const swrConfig = {
+  fetcher,
+  revalidateOnFocus: true,
+  revalidateOnReconnect: true,
+  onError: handleGlobalError,
+  shouldRetryOnError: (err: unknown) =>
+    !(err instanceof ApiError && [401, 403].includes(err.status)),
+};
+
 export function SWRProvider({ children }: { children: React.ReactNode }) {
-  return (
-    <SWRConfig
-      value={{
-        fetcher,
-        revalidateOnFocus: true,
-        revalidateOnReconnect: true,
-        shouldRetryOnError: (err) =>
-          !(err instanceof ApiError && [401, 403].includes(err.status)),
-      }}
-    >
-      {children}
-    </SWRConfig>
-  );
+  return <SWRConfig value={swrConfig}>{children}</SWRConfig>;
 }

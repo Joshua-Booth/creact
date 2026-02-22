@@ -2396,8 +2396,9 @@ export function useDataGrid<TData>({
       let result: Partial<CellPosition> | null;
       try {
         result = await propsRef.current.onRowAdd(event);
-      } catch {
+      } catch (error) {
         /* istanbul ignore next */
+        console.error("DataGrid onRowAdd failed:", error);
         return;
       }
 
@@ -2626,8 +2627,8 @@ export function useDataGrid<TData>({
               columnId: targetColumnId,
             });
           })
-          .catch(() => {
-            // Callback threw an error, don't proceed with scroll/focus
+          .catch((error: unknown) => {
+            console.error("DataGrid onRowAdd failed:", error);
           });
         return;
       }
