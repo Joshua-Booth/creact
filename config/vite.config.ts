@@ -1,3 +1,5 @@
+import path from "path";
+
 import netlifyPlugin from "@netlify/vite-plugin-react-router";
 import { reactRouter } from "@react-router/dev/vite";
 import { sentryVitePlugin } from "@sentry/vite-plugin";
@@ -41,6 +43,11 @@ export default defineConfig({
           }),
         ]),
   ],
+  resolve: {
+    alias: {
+      "@": path.resolve(__dirname, "../src"),
+    },
+  },
   optimizeDeps: {
     exclude: ["fsevents"],
   },
