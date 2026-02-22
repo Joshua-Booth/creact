@@ -12,7 +12,7 @@ export function useLoginForm() {
   const fetcher = useFetcher<LoginActionData>();
 
   const form = useForm<LoginFormData>({
-    resolver: zodResolver(loginSchema()),
+    resolver: zodResolver(loginSchema),
     defaultValues: {
       email: "",
       password: "",

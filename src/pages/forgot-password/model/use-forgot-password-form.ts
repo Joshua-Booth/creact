@@ -12,7 +12,7 @@ export function useForgotPasswordForm() {
   const fetcher = useFetcher<ForgotPasswordActionData>();
 
   const form = useForm<ForgotPasswordFormData>({
-    resolver: zodResolver(forgotPasswordSchema()),
+    resolver: zodResolver(forgotPasswordSchema),
     defaultValues: {
       email: "",
     },

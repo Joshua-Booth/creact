@@ -4,7 +4,7 @@ import { loginSchema } from "./schema";
 
 describe("loginSchema", () => {
   it("should accept valid login data", () => {
-    const result = loginSchema().safeParse({
+    const result = loginSchema.safeParse({
       email: "test@example.com",
       password: "password",
     });
@@ -12,7 +12,7 @@ describe("loginSchema", () => {
   });
 
   it("should reject invalid email", () => {
-    const result = loginSchema().safeParse({
+    const result = loginSchema.safeParse({
       email: "invalid",
       password: "password",
     });
@@ -20,7 +20,7 @@ describe("loginSchema", () => {
   });
 
   it("should reject empty password", () => {
-    const result = loginSchema().safeParse({
+    const result = loginSchema.safeParse({
       email: "test@example.com",
       password: "",
     });

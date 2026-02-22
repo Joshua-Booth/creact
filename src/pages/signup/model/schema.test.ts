@@ -4,7 +4,7 @@ import { registerSchema } from "./schema";
 
 describe("registerSchema", () => {
   it("should accept valid registration data", () => {
-    const result = registerSchema().safeParse({
+    const result = registerSchema.safeParse({
       email: "test@example.com",
       password: "Password1",
       confirmPassword: "Password1",
@@ -13,7 +13,7 @@ describe("registerSchema", () => {
   });
 
   it("should reject mismatched passwords", () => {
-    const result = registerSchema().safeParse({
+    const result = registerSchema.safeParse({
       email: "test@example.com",
       password: "Password1",
       confirmPassword: "Password2",
@@ -22,7 +22,7 @@ describe("registerSchema", () => {
   });
 
   it("should reject weak passwords", () => {
-    const result = registerSchema().safeParse({
+    const result = registerSchema.safeParse({
       email: "test@example.com",
       password: "weak",
       confirmPassword: "weak",

@@ -12,7 +12,7 @@ export function useSignupForm() {
   const fetcher = useFetcher<SignupActionData>();
 
   const form = useForm<RegisterFormData>({
-    resolver: zodResolver(registerSchema()),
+    resolver: zodResolver(registerSchema),
     defaultValues: {
       email: "",
       password: "",
