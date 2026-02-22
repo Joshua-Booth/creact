@@ -18,7 +18,11 @@ const meta = preview.meta({
   },
 });
 
+// --- Stories ---
+
 export const Default = meta.story();
+
+// --- Tests ---
 
 Default.test(
   "should render signed out heading and description",

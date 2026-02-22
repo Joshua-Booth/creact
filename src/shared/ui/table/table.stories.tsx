@@ -209,6 +209,8 @@ export const Actions = meta.story({
   ),
 });
 
+// --- Tests ---
+
 Actions.test(
   "when opening row actions, should display menu items",
   async ({ canvas, canvasElement, step }) => {

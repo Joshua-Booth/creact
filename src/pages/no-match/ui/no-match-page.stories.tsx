@@ -21,19 +21,9 @@ const meta = preview.meta({
   },
 });
 
-export const Default = meta.story();
+// --- Stories ---
 
-Default.test(
-  "should render 404 heading and description",
-  async ({ canvas }) => {
-    await expect(canvas.getByRole("heading", { level: 1 })).toHaveTextContent(
-      "404 - Page Not Found"
-    );
-    await expect(
-      canvas.getByText("Sorry, the page you are looking for does not exist.")
-    ).toBeVisible();
-  }
-);
+export const Default = meta.story();
 
 export const RouteError = meta.story({
   parameters: {
@@ -60,6 +50,20 @@ export const RouteError = meta.story({
     }),
   },
 });
+
+// --- Tests ---
+
+Default.test(
+  "should render 404 heading and description",
+  async ({ canvas }) => {
+    await expect(canvas.getByRole("heading", { level: 1 })).toHaveTextContent(
+      "404 - Page Not Found"
+    );
+    await expect(
+      canvas.getByText("Sorry, the page you are looking for does not exist.")
+    ).toBeVisible();
+  }
+);
 
 RouteError.test(
   "should render status and statusText for route error responses",

@@ -14,7 +14,11 @@ const meta = preview.meta({
   },
 });
 
+// --- Stories ---
+
 export const Default = meta.story();
+
+// --- Tests ---
 
 Default.test("should render heading and subheading", async ({ canvas }) => {
   await expect(canvas.getByRole("heading", { level: 1 })).toHaveTextContent(
