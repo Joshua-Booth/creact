@@ -1227,6 +1227,7 @@ export function MultiSelectCell<TData>({
                       {label}
                       <button
                         type="button"
+                        aria-label={`Remove ${label}`}
                         onClick={
                           /* istanbul ignore next */ (event) =>
                             removeValue(value, event)
@@ -2097,6 +2098,7 @@ export function FileCell<TData>({
                             type="button"
                             variant="ghost"
                             size="icon"
+                            aria-label={`Remove ${file.name}`}
                             className="size-5 rounded-sm"
                             onClick={() => void removeFile(file.id)}
                             disabled={isPending}
