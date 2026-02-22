@@ -5,14 +5,14 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@/shared/lib/validation";
 
 import type { SignupActionData } from "./action";
-import type { RegisterFormData } from "./schema";
-import { registerSchema } from "./schema";
+import type { SignupFormData } from "./schema";
+import { signupSchema } from "./schema";
 
 export function useSignupForm() {
   const fetcher = useFetcher<SignupActionData>();
 
-  const form = useForm<RegisterFormData>({
-    resolver: zodResolver(registerSchema),
+  const form = useForm<SignupFormData>({
+    resolver: zodResolver(signupSchema),
     defaultValues: {
       email: "",
       password: "",
@@ -29,7 +29,7 @@ export function useSignupForm() {
     }
   }, [actionData, form]);
 
-  function onSubmit(data: RegisterFormData) {
+  function onSubmit(data: SignupFormData) {
     form.clearErrors("root");
     void fetcher.submit(
       {

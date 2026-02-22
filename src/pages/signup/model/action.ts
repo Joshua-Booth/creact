@@ -1,7 +1,7 @@
 import { setAuthTokenAndRedirect } from "@/entities/user";
 
 import { parseSignupError, signupApi } from "../api/signup";
-import { registerSchema } from "./schema";
+import { signupSchema } from "./schema";
 
 export interface SignupActionData {
   success: false;
@@ -11,7 +11,7 @@ export interface SignupActionData {
 export async function signupAction(
   formData: FormData
 ): Promise<SignupActionData | Response> {
-  const result = registerSchema.safeParse({
+  const result = signupSchema.safeParse({
     email: formData.get("email"),
     password: formData.get("password"),
     confirmPassword: formData.get("confirmPassword"),

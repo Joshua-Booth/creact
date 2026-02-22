@@ -3,7 +3,7 @@ import { HTTPError } from "ky";
 import { api } from "@/shared/api";
 import { AUTH_URLS } from "@/shared/config";
 
-import type { RegisterFormData } from "../model/schema";
+import type { SignupFormData } from "../model/schema";
 
 interface SignupResponse {
   key: string;
@@ -17,7 +17,7 @@ interface SignupErrorResponse {
 }
 
 export async function signupApi(
-  data: Omit<RegisterFormData, "confirmPassword">
+  data: Omit<SignupFormData, "confirmPassword">
 ): Promise<SignupResponse> {
   return api.post(AUTH_URLS.SIGNUP, { json: data }).json<SignupResponse>();
 }

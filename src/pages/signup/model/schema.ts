@@ -3,7 +3,7 @@ import * as z from "zod";
 
 import { emailSchema, passwordSchema } from "@/shared/lib/validation";
 
-export const registerSchema = z
+export const signupSchema = z
   .object({
     email: emailSchema,
     password: passwordSchema,
@@ -14,4 +14,4 @@ export const registerSchema = z
     path: ["confirmPassword"],
   });
 
-export type RegisterFormData = z.infer<typeof registerSchema>;
+export type SignupFormData = z.infer<typeof signupSchema>;
