@@ -1,3 +1,4 @@
+import { withI18n } from "@/storybook/decorators/with-i18n";
 import preview from "@/storybook/preview";
 import { expect, userEvent, waitFor } from "storybook/test";
 
@@ -14,6 +15,7 @@ import { RowHeightsDemo } from "./demo/row-heights-demo";
 const meta = preview.meta({
   title: "ui/DataGrid",
   component: DataGridDemo,
+  decorators: [withI18n],
   parameters: {
     layout: "padded",
     docs: {

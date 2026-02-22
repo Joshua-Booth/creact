@@ -1,6 +1,7 @@
 import type { Column } from "@tanstack/react-table";
 
 import { useCallback, useMemo, useState } from "react";
+import { useTranslation } from "react-i18next";
 
 import { Check, PlusCircle, XCircle } from "lucide-react";
 
@@ -40,6 +41,7 @@ export function DataTableFacetedFilter<TData, TValue>({
   options,
   multiple,
 }: DataTableFacetedFilterProps<TData, TValue>) {
+  const { t } = useTranslation("components");
   const [open, setOpen] = useState(false);
 
   const columnFilterValue = column?.getFilterValue();
@@ -119,7 +121,7 @@ export function DataTableFacetedFilter<TData, TValue>({
                   variant="secondary"
                   className="rounded-sm px-1 font-normal"
                 >
-                  {selectedValues.size} selected
+                  {t("dataTable.selected", { count: selectedValues.size })}
                 </Badge>
               ) : (
                 options
@@ -159,7 +161,7 @@ export function DataTableFacetedFilter<TData, TValue>({
         <Command>
           <CommandInput placeholder={title} />
           <CommandList className="max-h-full">
-            <CommandEmpty>No results found.</CommandEmpty>
+            <CommandEmpty>{t("dataTable.noResultsFound")}</CommandEmpty>
             <CommandGroup
               className="max-h-[300px] scroll-py-1 overflow-x-hidden
                 overflow-y-auto"
@@ -203,7 +205,7 @@ export function DataTableFacetedFilter<TData, TValue>({
                     onSelect={() => onReset()}
                     className="justify-center text-center"
                   >
-                    Clear filters
+                    {t("dataTable.clearFilters")}
                   </CommandItem>
                 </CommandGroup>
               </>

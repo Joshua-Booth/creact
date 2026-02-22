@@ -137,7 +137,9 @@ function InnerLayout({
         <Links />
       </head>
       <body className="relative">
-        <noscript>You need to enable JavaScript to run this app.</noscript>
+        <noscript>
+          {i18next.t("app.noJavaScript", { ns: "components" })}
+        </noscript>
         <DirectionProvider direction={i18n.dir(i18n.language)}>
           <ToastProvider>
             {/* We need to set relative on the body for iOS Safari 26 and isolate for portals to work properly

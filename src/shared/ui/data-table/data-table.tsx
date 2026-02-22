@@ -1,5 +1,7 @@
 import type { Table as TanstackTable } from "@tanstack/react-table";
 
+import { useTranslation } from "react-i18next";
+
 import type { ComponentProps } from "react";
 import { flexRender } from "@tanstack/react-table";
 
@@ -31,6 +33,8 @@ export function DataTable<TData>({
   className,
   ...props
 }: DataTableProps<TData>) {
+  const { t } = useTranslation("components");
+
   return (
     <div
       data-slot="data-table"
@@ -95,7 +99,7 @@ export function DataTable<TData>({
                   colSpan={table.getAllColumns().length}
                   className="h-24 text-center"
                 >
-                  No results.
+                  {t("dataTable.noResults")}
                 </TableCell>
               </TableRow>
             )}

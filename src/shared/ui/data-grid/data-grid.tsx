@@ -1,4 +1,5 @@
 import { useCallback } from "react";
+import { useTranslation } from "react-i18next";
 
 import { Plus } from "lucide-react";
 
@@ -67,6 +68,7 @@ export function DataGrid<TData>({
   className,
   ...props
 }: DataGridProps<TData>) {
+  const { t } = useTranslation("components");
   const rows = table.getRowModel().rows;
   /* istanbul ignore next */
   const readOnly = tableMeta.readOnly ?? false;
@@ -301,7 +303,7 @@ export function DataGrid<TData>({
                     items-center gap-2 px-3"
                 >
                   <Plus className="size-3.5" />
-                  <span className="text-sm">Add row</span>
+                  <span className="text-sm">{t("dataGrid.addRow")}</span>
                 </div>
               </div>
             </div>

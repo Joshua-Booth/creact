@@ -1,3 +1,4 @@
+import { withI18n } from "@/storybook/decorators/with-i18n";
 import { withTheme } from "@/storybook/decorators/with-theme";
 import preview from "@/storybook/preview";
 import { expect, userEvent, within } from "storybook/test";
@@ -10,7 +11,7 @@ import { ModeToggle } from "./mode-toggle";
 const meta = preview.meta({
   title: "ui/ModeToggle",
   component: ModeToggle,
-  decorators: [withTheme],
+  decorators: [withI18n, withTheme],
   parameters: {
     docs: {
       description: {

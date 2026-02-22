@@ -46,7 +46,7 @@ async function main() {
       // cspell:disable-next-line
       supportedLngs: [...SUPPORTED_LANGUAGES],
       defaultNS: "common",
-      ns: ["common", "validation"],
+      ns: ["common", "components", "validation"],
       // Detect language from html tag (set by server)
       detection: { order: ["htmlTag"], caches: [] },
       // Load translations from API route

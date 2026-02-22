@@ -1,4 +1,5 @@
 import { memo, useCallback, useEffect, useRef } from "react";
+import { useTranslation } from "react-i18next";
 
 import { ChevronDown, ChevronUp, X } from "lucide-react";
 
@@ -71,6 +72,7 @@ function DataGridSearchImpl({
   onNavigateToNextMatch,
   onNavigateToPrevMatch,
 }: SearchState) {
+  const { t } = useTranslation("components");
   const propsRef = useAsRef({
     onSearchOpenChange,
     onSearchQueryChange,
@@ -164,7 +166,7 @@ function DataGridSearchImpl({
           autoCorrect="off"
           autoCapitalize="off"
           spellCheck={false}
-          placeholder="Find in table..."
+          placeholder={t("dataGrid.search.placeholder")}
           className="h-8 w-64"
           ref={inputRef}
           value={searchQuery}
@@ -214,7 +216,11 @@ function DataGridSearchImpl({
             {matchIndex + 1} of {searchMatches.length}
           </span>
         ) : (
-          <span>{searchQuery === "" ? "Type to search" : "No results"}</span>
+          <span>
+            {searchQuery === ""
+              ? t("dataGrid.search.typeToSearch")
+              : t("dataGrid.search.noResults")}
+          </span>
         )}
       </div>
     </div>

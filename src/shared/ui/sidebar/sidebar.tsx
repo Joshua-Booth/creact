@@ -1,4 +1,5 @@
 import * as React from "react";
+import { useTranslation } from "react-i18next";
 
 import type { VariantProps } from "class-variance-authority";
 import { mergeProps } from "@base-ui/react/merge-props";
@@ -183,6 +184,7 @@ function Sidebar({
   /** Collapse behavior: `offcanvas` (slide out), `icon` (shrink to icons), or `none` (always visible). */
   collapsible?: "offcanvas" | "icon" | "none";
 }) {
+  const { t } = useTranslation("components");
   const { isMobile, state, openMobile, setOpenMobile } = useSidebar();
 
   /* istanbul ignore start @preserve -- collapsible="none" and isMobile branches not exercised in stories */
@@ -220,8 +222,8 @@ function Sidebar({
           side={side}
         >
           <SheetHeader className="sr-only">
-            <SheetTitle>Sidebar</SheetTitle>
-            <SheetDescription>Displays the mobile sidebar.</SheetDescription>
+            <SheetTitle>{t("sidebar.title")}</SheetTitle>
+            <SheetDescription>{t("sidebar.description")}</SheetDescription>
           </SheetHeader>
           <div className="flex size-full flex-col">{children}</div>
         </SheetContent>

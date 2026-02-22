@@ -1,5 +1,7 @@
 "use client";
 
+import { useTranslation } from "react-i18next";
+
 import { MoonIcon, SunIcon } from "lucide-react";
 import { Theme, useTheme } from "remix-themes";
 
@@ -13,6 +15,7 @@ import {
 
 /** Dropdown button that switches between light, dark, and system color themes. */
 export function ModeToggle() {
+  const { t } = useTranslation("components");
   const [, setTheme] = useTheme();
 
   return (
@@ -35,13 +38,13 @@ export function ModeToggle() {
       {/* istanbul ignore start @preserve -- Theme setters require remix-themes session context */}
       <DropdownMenuContent align="end">
         <DropdownMenuItem onClick={() => setTheme(Theme.LIGHT)}>
-          Light
+          {t("modeToggle.light")}
         </DropdownMenuItem>
         <DropdownMenuItem onClick={() => setTheme(Theme.DARK)}>
-          Dark
+          {t("modeToggle.dark")}
         </DropdownMenuItem>
         <DropdownMenuItem onClick={() => setTheme(null)}>
-          System
+          {t("modeToggle.system")}
         </DropdownMenuItem>
       </DropdownMenuContent>
       {/* istanbul ignore end @preserve */}

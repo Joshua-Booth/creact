@@ -1,4 +1,5 @@
 import { memo, useCallback, useEffect, useMemo, useRef, useState } from "react";
+import { useTranslation } from "react-i18next";
 
 import { SearchIcon, XIcon } from "lucide-react";
 
@@ -41,6 +42,7 @@ export const DataGridKeyboardShortcuts = memo(
 function DataGridKeyboardShortcutsImpl({
   enableSearch = false,
 }: DataGridKeyboardShortcutsProps) {
+  const { t } = useTranslation("components");
   const [open, setOpen] = useState(false);
   const [input, setInput] = useState("");
   const inputRef = useRef<HTMLInputElement>(null);
@@ -73,67 +75,136 @@ function DataGridKeyboardShortcutsImpl({
   const shortcutGroups: ShortcutGroup[] = useMemo(
     () => [
       {
-        title: "Navigation",
+        title: t("dataGrid.keyboard.sectionNavigation"),
         shortcuts: [
-          { keys: ["↑", "↓", "←", "→"], description: "Navigate between cells" },
-          { keys: ["Tab"], description: "Move to next cell" },
-          { keys: ["Shift", "Tab"], description: "Move to previous cell" },
-          { keys: ["Home"], description: "Move to first column" },
-          { keys: ["End"], description: "Move to last column" },
-          { keys: [modKey, "Home"], description: "Move to first cell" },
-          { keys: [modKey, "End"], description: "Move to last cell" },
-          { keys: ["PgUp"], description: "Move up one page" },
-          { keys: ["PgDn"], description: "Move down one page" },
+          {
+            keys: ["↑", "↓", "←", "→"],
+            description: t("dataGrid.keyboard.navigateBetweenCells"),
+          },
+          { keys: ["Tab"], description: t("dataGrid.keyboard.moveToNextCell") },
+          {
+            keys: ["Shift", "Tab"],
+            description: t("dataGrid.keyboard.moveToPreviousCell"),
+          },
+          {
+            keys: ["Home"],
+            description: t("dataGrid.keyboard.moveToFirstColumn"),
+          },
+          {
+            keys: ["End"],
+            description: t("dataGrid.keyboard.moveToLastColumn"),
+          },
+          {
+            keys: [modKey, "Home"],
+            description: t("dataGrid.keyboard.moveToFirstCell"),
+          },
+          {
+            keys: [modKey, "End"],
+            description: t("dataGrid.keyboard.moveToLastCell"),
+          },
+          { keys: ["PgUp"], description: t("dataGrid.keyboard.moveUpOnePage") },
+          {
+            keys: ["PgDn"],
+            description: t("dataGrid.keyboard.moveDownOnePage"),
+          },
         ],
       },
       {
-        title: "Selection",
+        title: t("dataGrid.keyboard.sectionSelection"),
         shortcuts: [
-          { keys: ["Shift", "↑↓←→"], description: "Extend selection" },
-          { keys: [modKey, "A"], description: "Select all cells" },
-          { keys: [modKey, "Click"], description: "Toggle cell selection" },
-          { keys: ["Shift", "Click"], description: "Select range" },
-          { keys: ["Esc"], description: "Clear selection" },
+          {
+            keys: ["Shift", "↑↓←→"],
+            description: t("dataGrid.keyboard.extendSelection"),
+          },
+          {
+            keys: [modKey, "A"],
+            description: t("dataGrid.keyboard.selectAllCells"),
+          },
+          {
+            keys: [modKey, "Click"],
+            description: t("dataGrid.keyboard.toggleCellSelection"),
+          },
+          {
+            keys: ["Shift", "Click"],
+            description: t("dataGrid.keyboard.selectRange"),
+          },
+          { keys: ["Esc"], description: t("dataGrid.keyboard.clearSelection") },
         ],
       },
       {
-        title: "Editing",
+        title: t("dataGrid.keyboard.sectionEditing"),
         shortcuts: [
-          { keys: ["Enter"], description: "Start editing cell" },
-          { keys: ["Double Click"], description: "Start editing cell" },
-          { keys: ["Delete"], description: "Clear selected cells" },
-          { keys: ["Backspace"], description: "Clear selected cells" },
+          {
+            keys: ["Enter"],
+            description: t("dataGrid.keyboard.startEditingCell"),
+          },
+          {
+            keys: ["Double Click"],
+            description: t("dataGrid.keyboard.startEditingCellClick"),
+          },
+          {
+            keys: ["Delete"],
+            description: t("dataGrid.keyboard.clearSelectedCells"),
+          },
+          {
+            keys: ["Backspace"],
+            description: t("dataGrid.keyboard.clearSelectedCellsBackspace"),
+          },
         ],
       },
       ...(enableSearch
         ? [
             {
-              title: "Search",
+              title: t("dataGrid.keyboard.sectionSearch"),
               shortcuts: [
-                { keys: [modKey, "F"], description: "Open search" },
-                { keys: ["Enter"], description: "Next match" },
-                { keys: ["Shift", "Enter"], description: "Previous match" },
-                { keys: ["Esc"], description: "Close search" },
+                {
+                  keys: [modKey, "F"],
+                  description: t("dataGrid.keyboard.openSearch"),
+                },
+                {
+                  keys: ["Enter"],
+                  description: t("dataGrid.keyboard.nextMatch"),
+                },
+                {
+                  keys: ["Shift", "Enter"],
+                  description: t("dataGrid.keyboard.previousMatch"),
+                },
+                {
+                  keys: ["Esc"],
+                  description: t("dataGrid.keyboard.closeSearch"),
+                },
               ],
             },
           ]
         : []),
       {
-        title: "Sorting",
+        title: t("dataGrid.keyboard.sectionSorting"),
         shortcuts: [
-          { keys: [modKey, "Shift", "S"], description: "Toggle the sort menu" },
-          { keys: ["Backspace"], description: "Remove sort (when focused)" },
-          { keys: ["Delete"], description: "Remove sort (when focused)" },
+          {
+            keys: [modKey, "Shift", "S"],
+            description: t("dataGrid.keyboard.toggleSortMenu"),
+          },
+          {
+            keys: ["Backspace"],
+            description: t("dataGrid.keyboard.removeSortBackspace"),
+          },
+          {
+            keys: ["Delete"],
+            description: t("dataGrid.keyboard.removeSortDelete"),
+          },
         ],
       },
       {
-        title: "General",
+        title: t("dataGrid.keyboard.sectionGeneral"),
         shortcuts: [
-          { keys: [modKey, "/"], description: "Show keyboard shortcuts" },
+          {
+            keys: [modKey, "/"],
+            description: t("dataGrid.keyboard.showKeyboardShortcuts"),
+          },
         ],
       },
     ],
-    [modKey, enableSearch]
+    [modKey, enableSearch, t]
   );
 
   const filteredGroups = useMemo(() => {
@@ -184,7 +255,7 @@ function DataGridKeyboardShortcutsImpl({
           <XIcon />
         </DialogClose>
         <DialogHeader className="px-6">
-          <DialogTitle>Keyboard shortcuts</DialogTitle>
+          <DialogTitle>{t("dataGrid.keyboard.title")}</DialogTitle>
           <DialogDescription className="sr-only">
             Use these keyboard shortcuts to navigate and interact with the data
             grid more efficiently.
@@ -198,7 +269,7 @@ function DataGridKeyboardShortcutsImpl({
             />
             <Input
               ref={inputRef}
-              placeholder="Search shortcuts..."
+              placeholder={t("dataGrid.keyboard.searchPlaceholder")}
               className="h-8 pl-8"
               value={input}
               onChange={onInputChange}
@@ -223,10 +294,10 @@ function DataGridKeyboardShortcutsImpl({
               </div>
               <div className="flex flex-col gap-1">
                 <div className="text-lg font-medium tracking-tight">
-                  No shortcuts found
+                  {t("dataGrid.keyboard.noShortcutsFound")}
                 </div>
                 <p className="text-muted-foreground text-sm">
-                  Try searching for a different term.
+                  {t("dataGrid.keyboard.noShortcutsFoundDescription")}
                 </p>
               </div>
             </div>

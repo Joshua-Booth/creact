@@ -1,6 +1,7 @@
 import type { TableMeta } from "@tanstack/react-table";
 
 import { memo, useCallback, useRef } from "react";
+import { Trans, useTranslation } from "react-i18next";
 
 import type { PasteDialogState } from "@/shared/lib/data-grid";
 import { useAsRef } from "@/shared/lib/data-grid";
@@ -64,6 +65,7 @@ function PasteDialogInnerImpl({
   onPasteDialogOpenChange,
   onCellsPaste,
 }: PasteDialogInnerProps) {
+  const { t } = useTranslation("components");
   const propsRef = useAsRef({
     onPasteDialogOpenChange,
     onCellsPaste,
@@ -86,15 +88,23 @@ function PasteDialogInnerImpl({
     propsRef.current.onCellsPaste?.(expandRadioRef.current?.checked ?? false);
   }, [propsRef]);
 
+  const rowSuffix = pasteDialog.rowsNeeded === 1 ? "" : "s";
+
   return (
     <Dialog open={pasteDialog.open} onOpenChange={onOpenChange}>
       <DialogContent data-grid-popover="" showCloseButton={false}>
         <DialogHeader>
-          <DialogTitle>Do you want to add more rows?</DialogTitle>
+          <DialogTitle>{t("dataGrid.paste.title")}</DialogTitle>
           <DialogDescription>
-            We need <strong>{pasteDialog.rowsNeeded}</strong> additional row
-            {pasteDialog.rowsNeeded === 1 ? "" : "s"} to paste everything from
-            your clipboard.
+            <Trans
+              t={t}
+              i18nKey="dataGrid.paste.description"
+              values={{
+                count: pasteDialog.rowsNeeded,
+                suffix: rowSuffix,
+              }}
+              components={{ bold: <strong /> }}
+            />
           </DialogDescription>
         </DialogHeader>
         <div className="flex flex-col gap-3 py-1">
@@ -108,12 +118,13 @@ function PasteDialogInnerImpl({
             />
             <div className="flex flex-col gap-1">
               <span className="text-sm leading-none font-medium">
-                Create new rows
+                {t("dataGrid.paste.createNewRows")}
               </span>
               <span className="text-muted-foreground text-sm">
-                Add {pasteDialog.rowsNeeded} new row
-                {pasteDialog.rowsNeeded === 1 ? "" : "s"} to the table and paste
-                all data
+                {t("dataGrid.paste.createNewRowsDescription", {
+                  count: pasteDialog.rowsNeeded,
+                  suffix: rowSuffix,
+                })}
               </span>
             </div>
           </label>
@@ -122,19 +133,19 @@ function PasteDialogInnerImpl({
             <RadioItem name="expand-option" value="no-expand" />
             <div className="flex flex-col gap-1">
               <span className="text-sm leading-none font-medium">
-                Keep current rows
+                {t("dataGrid.paste.keepCurrentRows")}
               </span>
               <span className="text-muted-foreground text-sm">
-                Paste only what fits in the existing rows
+                {t("dataGrid.paste.keepCurrentRowsDescription")}
               </span>
             </div>
           </label>
         </div>
         <DialogFooter>
           <Button variant="outline" onClick={onCancel}>
-            Cancel
+            {t("dataGrid.paste.cancel")}
           </Button>
-          <Button onClick={onContinue}>Continue</Button>
+          <Button onClick={onContinue}>{t("dataGrid.paste.continue")}</Button>
         </DialogFooter>
       </DialogContent>
     </Dialog>

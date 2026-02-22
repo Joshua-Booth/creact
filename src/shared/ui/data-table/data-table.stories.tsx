@@ -1,3 +1,4 @@
+import { withI18n } from "@/storybook/decorators/with-i18n";
 import preview from "@/storybook/preview";
 import { NuqsAdapter } from "nuqs/adapters/react-router/v7";
 import { expect, fireEvent, userEvent, waitFor, within } from "storybook/test";
@@ -20,6 +21,7 @@ const meta = preview.meta({
   title: "ui/DataTable",
   component: DataTableDemo,
   decorators: [
+    withI18n,
     (Story) => (
       <NuqsAdapter>
         <Story />

@@ -6,6 +6,7 @@ import {
   useRef,
   useState,
 } from "react";
+import { useTranslation } from "react-i18next";
 
 import { Check, Upload, X } from "lucide-react";
 import { toast } from "sonner";
@@ -252,6 +253,7 @@ export function LongTextCell<TData>({
   isActiveSearchMatch,
   readOnly,
 }: DataGridCellProps<TData>) {
+  const { t } = useTranslation("components");
   const initialValue = cell.getValue() as string;
   const [value, setValue] = useState(initialValue ?? "");
   const textareaRef = useRef<HTMLTextAreaElement>(null);
@@ -411,7 +413,7 @@ export function LongTextCell<TData>({
         aria-label={`Edit ${cell.column.columnDef.meta?.label ?? columnId}`}
       >
         <Textarea
-          placeholder="Enter text..."
+          placeholder={t("dataGrid.cell.enterText")}
           className="focus-visible:ring-ring max-h-[300px] min-h-[150px]
             resize-none overflow-y-auto rounded-none border-0 shadow-none
             focus-visible:ring-1"
@@ -1045,6 +1047,7 @@ export function MultiSelectCell<TData>({
   isActiveSearchMatch,
   readOnly,
 }: DataGridCellProps<TData>) {
+  const { t } = useTranslation("components");
   const cellValue = useMemo(() => {
     const value = cell.getValue() as string[];
     return value ?? [];
@@ -1249,12 +1252,12 @@ export function MultiSelectCell<TData>({
                   value={searchValue}
                   onValueChange={setSearchValue}
                   onKeyDown={onInputKeyDown}
-                  placeholder="Search..."
+                  placeholder={t("dataGrid.cell.search")}
                   className="h-auto flex-1 p-0"
                 />
               </div>
               <CommandList className="max-h-full">
-                <CommandEmpty>No options found.</CommandEmpty>
+                <CommandEmpty>{t("dataGrid.cell.noOptionsFound")}</CommandEmpty>
                 <CommandGroup
                   className="max-h-[300px] scroll-py-1 overflow-x-hidden
                     overflow-y-auto"
@@ -1297,7 +1300,7 @@ export function MultiSelectCell<TData>({
                         onSelect={clearAll}
                         className="text-muted-foreground justify-center"
                       >
-                        Clear all
+                        {t("dataGrid.cell.clearAll")}
                       </CommandItem>
                     </CommandGroup>
                   </>
@@ -1455,6 +1458,7 @@ export function FileCell<TData>({
   isActiveSearchMatch,
   readOnly,
 }: DataGridCellProps<TData>) {
+  const { t } = useTranslation("components");
   const cellValue = useMemo(
     () => (cell.getValue() as FileCellData[]) ?? [],
     [cell]
@@ -2024,10 +2028,12 @@ export function FileCell<TData>({
                 <Upload className="text-muted-foreground size-8" />
                 <div className="text-center text-sm">
                   <p className="font-medium">
-                    {isDragging ? "Drop files here" : "Drag files here"}
+                    {isDragging
+                      ? t("dataGrid.cell.dropFilesHere")
+                      : t("dataGrid.cell.dragFilesHere")}
                   </p>
                   <p className="text-muted-foreground text-xs">
-                    or click to browse
+                    {t("dataGrid.cell.orClickToBrowse")}
                   </p>
                 </div>
                 <p id={descriptionId} className="text-muted-foreground text-xs">
@@ -2058,7 +2064,7 @@ export function FileCell<TData>({
                       onClick={() => void clearAll()}
                       disabled={isPending}
                     >
-                      Clear all
+                      {t("dataGrid.cell.clearAll")}
                     </Button>
                   </div>
                   <div className="max-h-[200px] space-y-1 overflow-y-auto">
@@ -2121,7 +2127,7 @@ export function FileCell<TData>({
             text-sm"
         >
           <Upload className="size-4" />
-          <span>Drop files here</span>
+          <span>{t("dataGrid.cell.dropFilesHere")}</span>
         </div>
       )}
       {!isDraggingOver && files.length > 0 && (
