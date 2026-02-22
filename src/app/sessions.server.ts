@@ -9,6 +9,11 @@ function getSessionSecret(): string {
       "SESSION_SECRET environment variable is required in production"
     );
   }
+  if (!secret) {
+    console.warn(
+      "[sessions] Using default session secret. Set SESSION_SECRET for secure sessions."
+    );
+  }
   return secret ?? "dev-secret-change-in-production";
 }
 

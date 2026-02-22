@@ -4,11 +4,15 @@ import { definePreview } from "@storybook/react-vite";
 import { initialize, mswLoader } from "msw-storybook-addon";
 import { withRouter } from "storybook-addon-remix-react-router";
 
+import { getAuthToken } from "@/entities/user";
+import { configureTokenProvider } from "@/shared/api";
+
 import { withDirection } from "./decorators/with-direction";
 
 import "../src/app/styles/globals.css";
 import "./storybook-dark.css";
 
+configureTokenProvider(getAuthToken);
 initialize({ onUnhandledRequest: "bypass" });
 
 export default definePreview({

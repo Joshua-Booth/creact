@@ -7,13 +7,13 @@ import { getToken } from "./token-provider";
  * Carries the HTTP status and optional parsed response body.
  */
 export class ApiError extends Error {
+  override readonly name = "ApiError" as const;
   /** HTTP status code from the failed response. */
-  status: number;
+  readonly status: number;
   /** Parsed response body, if available. */
-  response: unknown;
+  readonly response: unknown;
   constructor(message: string, status: number, response?: unknown) {
     super(message);
-    this.name = "ApiError";
     this.status = status;
     this.response = response;
   }
@@ -24,8 +24,16 @@ export class ApiError extends Error {
  * and retry logic for transient server errors.
  */
 /* istanbul ignore start @preserve -- ky instance config: browser-only, tested transitively via E2E */
+const apiRootUrl = import.meta.env.VITE_API_ROOT_URL ?? "";
+
+if (apiRootUrl === "" && import.meta.env.PROD) {
+  console.warn(
+    "[API] VITE_API_ROOT_URL is not set. API requests will be relative to the page origin."
+  );
+}
+
 export const api = ky.create({
-  prefixUrl: import.meta.env.VITE_API_ROOT_URL ?? "",
+  prefixUrl: apiRootUrl,
   timeout: 30000,
   retry: { limit: 2, methods: ["get"], statusCodes: [408, 500, 502, 503, 504] },
   hooks: {

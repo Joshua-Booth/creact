@@ -16,8 +16,15 @@ import { DEFAULT_LANGUAGE, SUPPORTED_LANGUAGES } from "@/shared/i18n";
 
 configureTokenProvider(getAuthToken);
 
+const sentryDsn = import.meta.env.VITE_SENTRY_DSN;
+if (!sentryDsn && import.meta.env.PROD) {
+  console.warn(
+    "[Sentry] VITE_SENTRY_DSN is not set. Error tracking is disabled."
+  );
+}
+
 Sentry.init({
-  dsn: import.meta.env.VITE_SENTRY_DSN,
+  dsn: sentryDsn,
   integrations: [
     Sentry.browserTracingIntegration(),
     Sentry.replayIntegration(),

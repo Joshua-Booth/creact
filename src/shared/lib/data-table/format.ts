@@ -19,7 +19,10 @@ export function formatDate(
       year: opts.year ?? "numeric",
       ...opts,
     }).format(new Date(date));
-  } catch {
+  } catch (error) {
+    if (import.meta.env.DEV) {
+      console.warn("[formatDate] Failed to format date:", date, error);
+    }
     return "";
   }
 }
