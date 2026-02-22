@@ -26,12 +26,15 @@ import {
 
 import { SWRProvider } from "@/app/providers/swr-provider";
 import { Header } from "@/widgets/header";
+import { SITE_NAME } from "@/shared/config";
 import { useHydrated } from "@/shared/lib/hydration";
 import {
   generateMeta,
   generateOrganizationJsonLd,
   generateWebSiteJsonLd,
+  getSeoTranslation,
 } from "@/shared/lib/seo";
+import { DEFAULT_LANGUAGE } from "@/shared/i18n";
 import { buttonVariants } from "@/shared/ui/button";
 import { DirectionProvider } from "@/shared/ui/direction";
 import {
@@ -60,9 +63,10 @@ export const middleware = [i18nextMiddleware];
 
 /* istanbul ignore start @preserve -- Server-only: meta/loader use session resolvers and cookies */
 export function meta() {
+  const seo = getSeoTranslation(DEFAULT_LANGUAGE, "home");
   return generateMeta({
-    title: "creact",
-    description: "A modern React frontend template with SSR support.",
+    title: seo.title,
+    description: seo.description,
   });
 }
 
@@ -113,11 +117,11 @@ function InnerLayout({
         {/* PWA Configuration */}
         <meta name="theme-color" content="#FFFFFF" />
         <meta name="apple-mobile-web-app-capable" content="yes" />
-        <meta name="apple-mobile-web-app-title" content="React Frontend" />
+        <meta name="apple-mobile-web-app-title" content={SITE_NAME} />
         <meta name="apple-mobile-web-app-status-bar-style" content="white" />
         <meta name="mobile-web-app-capable" content="yes" />
-        <meta name="mobile-web-app-title" content="React Frontend" />
-        <meta name="application-name" content="React Frontend" />
+        <meta name="mobile-web-app-title" content={SITE_NAME} />
+        <meta name="application-name" content={SITE_NAME} />
         <meta name="msapplication-starturl" content="/" />
 
         {/* Site Icons */}
@@ -194,7 +198,7 @@ export function ErrorBoundary() {
         <EmptyDescription>{t("errors.routeErrorDescription")}</EmptyDescription>
       </EmptyHeader>
       <EmptyContent>
-        <Link to="/" className={buttonVariants({ variant: "outline" })}>
+        <Link to={href("/")} className={buttonVariants({ variant: "outline" })}>
           <Home />
           {t("errors.goHome")}
         </Link>

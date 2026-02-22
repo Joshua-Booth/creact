@@ -1,7 +1,8 @@
 import { href, Link, NavLink } from "react-router";
 import { useTranslation } from "react-i18next";
 
-import { useAuthStore } from "@/entities/user";
+import { useAuthenticated } from "@/entities/user";
+import { SITE_NAME } from "@/shared/config";
 import { ModeToggle } from "@/shared/ui/mode-toggle";
 import Logo from "@/shared/assets/images/logo.svg?react";
 
@@ -28,7 +29,7 @@ function Links({ links }: { links: { name: string; path: string }[] }) {
  */
 export function Header() {
   const { t } = useTranslation();
-  const authenticated = useAuthStore((state) => state.authenticated);
+  const authenticated = useAuthenticated();
   const logoLink = authenticated ? href("/dashboard") : href("/");
 
   const headerLinks = [
@@ -43,7 +44,7 @@ export function Header() {
         className="absolute top-2 ml-4 max-[400px]:ml-2"
         aria-label="Home"
       >
-        <Logo className="mr-[10px] h-[50px]" title="React Frontend Logo" />
+        <Logo className="mr-[10px] h-[50px]" title={`${SITE_NAME} Logo`} />
       </NavLink>
       <div className="absolute top-3 right-4 flex items-center gap-4">
         {!authenticated && <Links links={headerLinks} />}

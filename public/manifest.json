@@ -1,7 +1,7 @@
 {
   "name": "creact - A React Frontend",
   "short_name": "creact",
-  "description": "React Frontend",
+  "description": "A modern React frontend template with SSR support.",
   "start_url": "/",
   "display": "standalone",
   "background_color": "#FFFFFF",
