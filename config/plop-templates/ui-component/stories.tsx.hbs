@@ -3,9 +3,19 @@ import { expect } from "storybook/test";
 
 import { {{pascalCase name}} } from "./{{name}}";
 
+/**
+ * TODO: Add component description.
+ */
 const meta = preview.meta({
   title: "ui/{{pascalCase name}}",
   component: {{pascalCase name}},
+  parameters: {
+    docs: {
+      description: {
+        component: "TODO: Add component description.",
+      },
+    },
+  },
 });
 
 // --- Stories ---

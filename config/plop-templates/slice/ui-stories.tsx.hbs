@@ -1,11 +1,15 @@
 import preview from "@/storybook/preview";
 
 {{#eq layer "pages"}}
+import { withI18n } from "@/storybook/decorators/with-i18n";
+
 import { {{pascalCase name}}Page } from "./{{name}}-page";
 
 const meta = preview.meta({
   title: "pages/{{pascalCase name}}",
   component: {{pascalCase name}}Page,
+  tags: ["!autodocs"],
+  decorators: [withI18n],
   parameters: {
     layout: "fullscreen",
   },

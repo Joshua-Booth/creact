@@ -103,5 +103,8 @@ playwright-report
 # Claude Code
 ../.claude
 
+# Plop templates
+*.hbs
+
 # Generated files
 ../public/mockServiceWorker.js
