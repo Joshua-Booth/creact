@@ -17,7 +17,17 @@ const meta = preview.meta({
   component: RouteErrorFallback,
   tags: ["!autodocs"],
   decorators: [withI18n],
+  parameters: {
+    docs: {
+      description: {
+        component:
+          "Route-level error fallback displayed within the existing page layout when a React Router loader/action throws.",
+      },
+    },
+  },
 });
+
+// --- Stories ---
 
 /**
  * Displays when a route throws a standard Response (e.g. 500 from a loader).

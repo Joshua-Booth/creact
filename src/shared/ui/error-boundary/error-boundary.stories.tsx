@@ -111,6 +111,14 @@ const meta = preview.meta({
   title: "ui/ErrorBoundary",
   component: ErrorBoundary,
   decorators: [withI18n],
+  parameters: {
+    docs: {
+      description: {
+        component:
+          "Catches JavaScript errors in child components and displays a fallback UI.",
+      },
+    },
+  },
 });
 
 // --- Stories ---
