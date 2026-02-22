@@ -16,8 +16,6 @@ export interface User {
 export interface AuthState {
   /** Current session token, or null when logged out. */
   token: string | null;
-  /** Whether the user has an active session. */
-  authenticated: boolean;
   /** Store the token and mark the session as active. */
   login: (token: string) => void;
   /** Clear the token and end the session. */

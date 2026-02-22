@@ -11,13 +11,19 @@ const storedToken = getAuthToken();
  */
 export const useAuthStore = create<AuthState>()((set) => ({
   token: storedToken,
-  authenticated: storedToken !== null,
   login: (token) => {
     setAuthToken(token);
-    set({ token, authenticated: true });
+    set({ token });
   },
   logout: () => {
     removeAuthToken();
-    set({ token: null, authenticated: false });
+    set({ token: null });
   },
 }));
+
+/**
+ * Whether the current session is authenticated (has a token).
+ * @returns `true` when a session token is present, `false` otherwise.
+ */
+export const useAuthenticated = () =>
+  useAuthStore((state) => state.token !== null);

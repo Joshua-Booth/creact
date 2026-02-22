@@ -32,34 +32,31 @@ describe("useAuthStore", () => {
   beforeEach(() => {
     localStorageMock.clear();
     vi.clearAllMocks();
-    useAuthStore.setState({ token: null, authenticated: false });
+    useAuthStore.setState({ token: null });
   });
 
   it("should have correct initial state", () => {
     const state = useAuthStore.getState();
     expect(state.token).toBeNull();
-    expect(state.authenticated).toBe(false);
   });
 
-  it("should set token and authenticated on login", () => {
+  it("should set token on login", () => {
     useAuthStore.getState().login("test-token");
 
     const state = useAuthStore.getState();
     expect(state.token).toBe("test-token");
-    expect(state.authenticated).toBe(true);
     expect(localStorageMock.setItem).toHaveBeenCalledWith(
       "token",
       "test-token"
     );
   });
 
-  it("should clear token and authenticated on logout", () => {
+  it("should clear token on logout", () => {
     useAuthStore.getState().login("test-token");
     useAuthStore.getState().logout();
 
     const state = useAuthStore.getState();
     expect(state.token).toBeNull();
-    expect(state.authenticated).toBe(false);
     expect(localStorageMock.removeItem).toHaveBeenCalledWith("token");
   });
 });
