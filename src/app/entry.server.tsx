@@ -6,9 +6,15 @@ import { I18nextProvider } from "react-i18next";
 
 import type { EntryContext, RouterContextProvider } from "react-router";
 import { createReadableStreamFromReadable } from "@react-router/node";
+import * as Sentry from "@sentry/node";
 import { isbot } from "isbot";
 
 import { getInstance } from "./middleware/i18next";
+
+Sentry.init({
+  dsn: process.env.VITE_SENTRY_DSN,
+  tracesSampleRate: process.env.NODE_ENV === "production" ? 0.1 : 1.0,
+});
 
 const ABORT_DELAY = 5000;
 
@@ -69,6 +75,7 @@ function handleBotRequest(
         onError(error: unknown) {
           responseStatusCode = 500;
           console.error(error);
+          Sentry.captureException(error);
         },
       }
     );
@@ -108,7 +115,9 @@ function handleBrowserRequest(
           reject(error instanceof Error ? error : new Error(String(error)));
         },
         onError(error: unknown) {
+          responseStatusCode = 500;
           console.error(error);
+          Sentry.captureException(error);
         },
       }
     );
