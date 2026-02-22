@@ -4,8 +4,11 @@ import { SWRConfig } from "swr";
 import { useAuthStore } from "@/entities/user";
 import { api, ApiError } from "@/shared/api";
 
+let isRedirecting = false;
+
 function handleGlobalError(err: unknown) {
-  if (err instanceof ApiError && err.status === 401) {
+  if (err instanceof ApiError && err.status === 401 && !isRedirecting) {
+    isRedirecting = true;
     useAuthStore.getState().logout();
     window.location.href = "/login";
   }
