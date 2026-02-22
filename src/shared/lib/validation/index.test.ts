@@ -1,11 +1,6 @@
 import { describe, expect, it } from "vitest";
 
-import {
-  contactSchema,
-  emailSchema,
-  passwordSchema,
-  simplePasswordSchema,
-} from "./index";
+import { emailSchema, passwordSchema, simplePasswordSchema } from "./index";
 
 describe("emailSchema", () => {
   it("should accept valid email addresses", () => {
@@ -55,34 +50,5 @@ describe("simplePasswordSchema", () => {
 
   it("should reject empty passwords", () => {
     expect(simplePasswordSchema().safeParse("").success).toBe(false);
-  });
-});
-
-describe("contactSchema", () => {
-  it("should accept valid contact data", () => {
-    const result = contactSchema().safeParse({
-      name: "John Doe",
-      email: "john@example.com",
-      message: "This is a test message.",
-    });
-    expect(result.success).toBe(true);
-  });
-
-  it("should reject empty name", () => {
-    const result = contactSchema().safeParse({
-      name: "",
-      email: "john@example.com",
-      message: "This is a test message.",
-    });
-    expect(result.success).toBe(false);
-  });
-
-  it("should reject short messages", () => {
-    const result = contactSchema().safeParse({
-      name: "John",
-      email: "john@example.com",
-      message: "Hi",
-    });
-    expect(result.success).toBe(false);
   });
 });

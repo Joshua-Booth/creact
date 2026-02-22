@@ -29,7 +29,6 @@ const config: KnipConfig = {
     "tw-animate-css",
     "autoprefixer",
     "@fontsource-variable/inter",
-    "@fontsource/inter",
     // Tools without knip plugins
     "@feature-sliced/steiger-plugin",
     "steiger",
@@ -51,7 +50,6 @@ const config: KnipConfig = {
     // Imported in .storybook/preview.tsx (not traced by knip's Storybook plugin)
     "msw-storybook-addon",
     // Coverage tooling (loaded dynamically by vitest)
-    "@vitest/coverage-v8",
     "@vitest/coverage-istanbul",
     "monocart-coverage-reports",
   ],

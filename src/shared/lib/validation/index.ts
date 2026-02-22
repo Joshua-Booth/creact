@@ -50,23 +50,5 @@ export function simplePasswordSchema() {
   return z.string().min(1, t("password.required"));
 }
 
-/**
- * Contact form schema requiring name, valid email, and a 10+ char message.
- * @returns Zod object schema for the contact form.
- */
-export function contactSchema() {
-  return z.object({
-    name: z.string().min(1, t("required")),
-    email: emailSchema(),
-    message: z.string().min(10, t("minLength", { min: 10 })),
-  });
-}
-
-/**
- * Inferred type for the contact form schema fields.
- * @public
- */
-export type ContactFormData = z.infer<ReturnType<typeof contactSchema>>;
-
 /** Re-export of `@hookform/resolvers/zod` for convenient form validation wiring. */
 export { zodResolver } from "@hookform/resolvers/zod";

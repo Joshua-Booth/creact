@@ -1,7 +1,4 @@
-import {
-  forgotPasswordApi,
-  parseForgotPasswordError,
-} from "../api/forgot-password";
+import { forgotPasswordApi } from "../api/forgot-password";
 import { forgotPasswordSchema } from "./schema";
 
 export interface ForgotPasswordActionData {
@@ -28,8 +25,8 @@ export async function forgotPasswordAction(
     await forgotPasswordApi(result.data);
     // Always show success to prevent email enumeration
     return { success: true };
-  } catch (error) {
-    const message = await parseForgotPasswordError(error);
-    return { success: false, error: message };
+  } catch {
+    // Always show success to prevent email enumeration
+    return { success: true };
   }
 }

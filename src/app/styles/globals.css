@@ -1,15 +1,10 @@
-/* Import Inter font - weights 300-700 (Latin subset for optimal performance) */
-@import "@fontsource/inter/latin-300.css";
-@import "@fontsource/inter/latin-400.css";
-@import "@fontsource/inter/latin-500.css";
-@import "@fontsource/inter/latin-600.css";
-@import "@fontsource/inter/latin-700.css";
+/* Import Inter variable font (covers all weights in a single file) */
+@import "@fontsource-variable/inter";
 
 /* Import Tailwind CSS */
 @import "tailwindcss";
 @import "tw-animate-css";
 @import "shadcn/tailwind.css";
-@import "@fontsource-variable/inter";
 
 /* Explicitly register source paths for Tailwind to scan */
 @source "../../shared";

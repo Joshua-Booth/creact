@@ -81,6 +81,7 @@ export function ForgotPasswordPage() {
                             {...field}
                             id={field.name}
                             type="email"
+                            autoComplete="email"
                             disabled={disabled}
                             aria-invalid={fieldState.invalid}
                           />

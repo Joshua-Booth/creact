@@ -56,6 +56,7 @@ export function LoginPage() {
                         {...field}
                         id={field.name}
                         type="email"
+                        autoComplete="email"
                         disabled={disabled}
                         aria-invalid={fieldState.invalid}
                       />
@@ -87,6 +88,7 @@ export function LoginPage() {
                         {...field}
                         id={field.name}
                         type="password"
+                        autoComplete="current-password"
                         disabled={disabled}
                         aria-invalid={fieldState.invalid}
                       />

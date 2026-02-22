@@ -62,6 +62,7 @@ export function SignupPage() {
                         {...field}
                         id={field.name}
                         type="email"
+                        autoComplete="email"
                         disabled={disabled}
                         aria-invalid={fieldState.invalid}
                       />
@@ -86,6 +87,7 @@ export function SignupPage() {
                             {...field}
                             id={field.name}
                             type="password"
+                            autoComplete="new-password"
                             disabled={disabled}
                             aria-invalid={fieldState.invalid}
                           />
@@ -108,6 +110,7 @@ export function SignupPage() {
                             {...field}
                             id={field.name}
                             type="password"
+                            autoComplete="new-password"
                             disabled={disabled}
                             aria-invalid={fieldState.invalid}
                           />
