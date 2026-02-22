@@ -12,7 +12,7 @@ import { isbot } from "isbot";
 import { getInstance } from "./middleware/i18next";
 
 Sentry.init({
-  dsn: process.env.VITE_SENTRY_DSN,
+  dsn: process.env.SENTRY_DSN ?? process.env.VITE_SENTRY_DSN,
   tracesSampleRate: process.env.NODE_ENV === "production" ? 0.1 : 1.0,
 });
 

@@ -35,12 +35,10 @@ Sentry.init({
 });
 
 // Initialize PostHog only if key is available
-const posthogKey = import.meta.env.VITE_POSTHOG_KEY as string | undefined;
+const posthogKey = import.meta.env.VITE_POSTHOG_KEY;
 if (posthogKey !== undefined && posthogKey !== "") {
   posthog.init(posthogKey, {
-    api_host:
-      (import.meta.env.VITE_POSTHOG_HOST as string | undefined) ??
-      "https://us.i.posthog.com",
+    api_host: import.meta.env.VITE_POSTHOG_HOST ?? "https://us.i.posthog.com",
   });
 }
 
