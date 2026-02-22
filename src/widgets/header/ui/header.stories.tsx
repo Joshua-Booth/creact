@@ -1,29 +1,13 @@
-import type { Decorator } from "@storybook/react-vite";
-
+import {
+  withAuthenticated,
+  withUnauthenticated,
+} from "@/storybook/decorators/with-auth";
 import { withI18n } from "@/storybook/decorators/with-i18n";
+import { withTheme } from "@/storybook/decorators/with-theme";
 import preview from "@/storybook/preview";
-import { Theme, ThemeProvider } from "remix-themes";
 import { expect } from "storybook/test";
 
-import { useAuthStore } from "@/entities/user";
-
 import { Header } from "./header";
-
-const withTheme: Decorator = (Story) => (
-  <ThemeProvider specifiedTheme={Theme.LIGHT} themeAction="/action/set-theme">
-    <Story />
-  </ThemeProvider>
-);
-
-const withUnauthenticated: Decorator = (Story) => {
-  useAuthStore.setState({ token: null });
-  return <Story />;
-};
-
-const withAuthenticated: Decorator = (Story) => {
-  useAuthStore.setState({ token: "mock-token" });
-  return <Story />;
-};
 
 const meta = preview.meta({
   title: "widgets/Header",
@@ -35,9 +19,17 @@ const meta = preview.meta({
   },
 });
 
+// --- Stories ---
+
 export const Default = meta.story({
   decorators: [withUnauthenticated],
 });
+
+export const Authenticated = meta.story({
+  decorators: [withAuthenticated],
+});
+
+// --- Tests ---
 
 Default.test(
   "should show login and signup links when unauthenticated",
@@ -50,10 +42,6 @@ Default.test(
     );
   }
 );
-
-export const Authenticated = meta.story({
-  decorators: [withAuthenticated],
-});
 
 Authenticated.test(
   "should hide login/signup links when authenticated",

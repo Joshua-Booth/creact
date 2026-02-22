@@ -1,16 +1,8 @@
-import type { Decorator } from "@storybook/react-vite";
-
+import { withTheme } from "@/storybook/decorators/with-theme";
 import preview from "@/storybook/preview";
-import { Theme, ThemeProvider } from "remix-themes";
 import { expect, userEvent, within } from "storybook/test";
 
 import { ModeToggle } from "./mode-toggle";
-
-const withTheme: Decorator = (Story) => (
-  <ThemeProvider specifiedTheme={Theme.LIGHT} themeAction="/action/set-theme">
-    <Story />
-  </ThemeProvider>
-);
 
 /**
  * Dropdown button that switches between light, dark, and system color themes.
@@ -29,10 +21,14 @@ const meta = preview.meta({
   },
 });
 
+// --- Stories ---
+
 /**
  * The default toggle button showing the current theme icon.
  */
 export const Default = meta.story();
+
+// --- Tests ---
 
 Default.test(
   "should open dropdown with theme options on click",
