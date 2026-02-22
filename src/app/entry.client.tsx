@@ -12,33 +12,26 @@ import posthog from "posthog-js";
 
 import { getAuthToken } from "@/entities/user";
 import { configureTokenProvider } from "@/shared/api";
+import { env } from "@/shared/config";
 import { DEFAULT_LANGUAGE, SUPPORTED_LANGUAGES } from "@/shared/i18n";
 
 configureTokenProvider(getAuthToken);
 
-const sentryDsn = import.meta.env.VITE_SENTRY_DSN;
-if (!sentryDsn && import.meta.env.PROD) {
-  console.warn(
-    "[Sentry] VITE_SENTRY_DSN is not set. Error tracking is disabled."
-  );
-}
-
 Sentry.init({
-  dsn: sentryDsn,
+  dsn: env.VITE_SENTRY_DSN,
   integrations: [
     Sentry.browserTracingIntegration(),
     Sentry.replayIntegration(),
   ],
-  tracesSampleRate: import.meta.env.PROD ? 0.1 : 1.0,
+  tracesSampleRate: env.NODE_ENV === "production" ? 0.1 : 1.0,
   replaysSessionSampleRate: 0.1,
   replaysOnErrorSampleRate: 1.0,
 });
 
 // Initialize PostHog only if key is available
-const posthogKey = import.meta.env.VITE_POSTHOG_KEY;
-if (posthogKey !== undefined && posthogKey !== "") {
-  posthog.init(posthogKey, {
-    api_host: import.meta.env.VITE_POSTHOG_HOST ?? "https://us.i.posthog.com",
+if (env.VITE_POSTHOG_KEY) {
+  posthog.init(env.VITE_POSTHOG_KEY, {
+    api_host: env.VITE_POSTHOG_HOST ?? "https://us.i.posthog.com",
   });
 }
 

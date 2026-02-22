@@ -1,6 +1,10 @@
-import { afterEach, describe, expect, it, vi } from "vitest";
+import { describe, expect, it, vi } from "vitest";
 
 import { generateMeta, getLocaleFromMatches, getSeoTranslation } from "./meta";
+
+vi.mock("@/shared/config/env", () => ({
+  env: { VITE_PUBLIC_URL: "https://example.com" },
+}));
 
 describe("getLocaleFromMatches", () => {
   it("should return locale from root match with valid locale", () => {
@@ -52,13 +56,7 @@ describe("getSeoTranslation", () => {
 });
 
 describe("generateMeta", () => {
-  afterEach(() => {
-    vi.unstubAllEnvs();
-  });
-
   it("should generate base meta descriptors", () => {
-    vi.stubEnv("VITE_PUBLIC_URL", "https://example.com");
-
     const meta = generateMeta({
       title: "Test Page",
       description: "Test description",
@@ -84,8 +82,6 @@ describe("generateMeta", () => {
   });
 
   it("should include canonical link when canonicalPath is provided", () => {
-    vi.stubEnv("VITE_PUBLIC_URL", "https://example.com");
-
     const meta = generateMeta({
       title: "Test",
       description: "Test",
@@ -100,8 +96,6 @@ describe("generateMeta", () => {
   });
 
   it("should use custom ogImage when provided", () => {
-    vi.stubEnv("VITE_PUBLIC_URL", "https://example.com");
-
     const meta = generateMeta({
       title: "Test",
       description: "Test",
@@ -115,8 +109,6 @@ describe("generateMeta", () => {
   });
 
   it("should add noindex meta when noIndex is true", () => {
-    vi.stubEnv("VITE_PUBLIC_URL", "https://example.com");
-
     const meta = generateMeta({
       title: "Test",
       description: "Test",
@@ -130,8 +122,6 @@ describe("generateMeta", () => {
   });
 
   it("should not include noindex meta by default", () => {
-    vi.stubEnv("VITE_PUBLIC_URL", "https://example.com");
-
     const meta = generateMeta({
       title: "Test",
       description: "Test",
@@ -143,8 +133,6 @@ describe("generateMeta", () => {
   });
 
   it("should use custom type when provided", () => {
-    vi.stubEnv("VITE_PUBLIC_URL", "https://example.com");
-
     const meta = generateMeta({
       title: "Test",
       description: "Test",

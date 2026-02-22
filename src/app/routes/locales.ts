@@ -1,5 +1,6 @@
 import { data } from "react-router";
 
+import { env } from "@/shared/config";
 import { resources } from "@/shared/i18n";
 
 import type { Route } from "./+types/locales";
@@ -22,7 +23,7 @@ export function loader({ params }: Route.LoaderArgs) {
   const headers = new Headers();
 
   // Add cache headers in production
-  if (process.env.NODE_ENV === "production") {
+  if (env.NODE_ENV === "production") {
     headers.set(
       "Cache-Control",
       // cspell:disable-next-line

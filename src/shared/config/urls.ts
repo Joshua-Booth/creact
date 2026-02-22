@@ -1,3 +1,5 @@
+import { env } from "./env";
+
 /** Authentication endpoint paths (relative to API root, without leading slash for ky). */
 export const AUTH_URLS = {
   /** POST: Authenticate and receive a token. */
@@ -17,6 +19,6 @@ export const AUTH_URLS = {
  * @public
  */
 export const API_URLS = {
-  ROOT: import.meta.env.VITE_API_ROOT_URL,
-  PUBLIC: import.meta.env.VITE_PUBLIC_URL,
+  ROOT: env.VITE_API_ROOT_URL,
+  PUBLIC: env.VITE_PUBLIC_URL,
 };

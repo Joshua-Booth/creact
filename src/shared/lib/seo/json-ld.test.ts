@@ -1,15 +1,13 @@
-import { afterEach, describe, expect, it, vi } from "vitest";
+import { describe, expect, it, vi } from "vitest";
 
 import { generateOrganizationJsonLd, generateWebSiteJsonLd } from "./json-ld";
 
+vi.mock("@/shared/config/env", () => ({
+  env: { VITE_PUBLIC_URL: "https://example.com" },
+}));
+
 describe("generateOrganizationJsonLd", () => {
-  afterEach(() => {
-    vi.unstubAllEnvs();
-  });
-
   it("should return correct Organization schema", () => {
-    vi.stubEnv("VITE_PUBLIC_URL", "https://example.com");
-
     const result = generateOrganizationJsonLd();
 
     expect(result).toEqual({
@@ -22,13 +20,7 @@ describe("generateOrganizationJsonLd", () => {
 });
 
 describe("generateWebSiteJsonLd", () => {
-  afterEach(() => {
-    vi.unstubAllEnvs();
-  });
-
   it("should return correct WebSite schema", () => {
-    vi.stubEnv("VITE_PUBLIC_URL", "https://example.com");
-
     const result = generateWebSiteJsonLd();
 
     expect(result).toEqual({

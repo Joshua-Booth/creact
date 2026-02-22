@@ -3,6 +3,7 @@ import { initReactI18next } from "react-i18next";
 
 import { createI18nextMiddleware } from "remix-i18next/middleware";
 
+import { env } from "@/shared/config";
 import {
   DEFAULT_LANGUAGE,
   resources,
@@ -15,7 +16,7 @@ import "i18next";
 export const localeCookie = createCookie("lng", {
   path: "/",
   sameSite: "lax",
-  secure: process.env.NODE_ENV === "production",
+  secure: env.NODE_ENV === "production",
   httpOnly: true,
 });
 

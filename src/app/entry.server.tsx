@@ -9,11 +9,13 @@ import { createReadableStreamFromReadable } from "@react-router/node";
 import * as Sentry from "@sentry/node";
 import { isbot } from "isbot";
 
+import { env } from "@/shared/config";
+
 import { getInstance } from "./middleware/i18next";
 
 Sentry.init({
-  dsn: process.env.SENTRY_DSN ?? process.env.VITE_SENTRY_DSN,
-  tracesSampleRate: process.env.NODE_ENV === "production" ? 0.1 : 1.0,
+  dsn: env.SENTRY_DSN ?? env.VITE_SENTRY_DSN,
+  tracesSampleRate: env.NODE_ENV === "production" ? 0.1 : 1.0,
 });
 
 const ABORT_DELAY = 5000;

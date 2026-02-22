@@ -1,12 +1,14 @@
 /** SEO configuration constants */
 
+import { env } from "./env";
+
 /**
  * Site URL from environment, with fallback for development.
  * @returns Site URL string
  */
 export function getSiteUrl(): string {
   /* istanbul ignore start @preserve -- Fallback only used when env var is missing */
-  return import.meta.env.VITE_PUBLIC_URL ?? "https://creact.netlify.app";
+  return env.VITE_PUBLIC_URL ?? "https://creact.netlify.app";
   /* istanbul ignore end @preserve */
 }
 

@@ -9,6 +9,8 @@ export default defineConfig({
     legalComments: "inline",
   },
   define: {
+    // Skip t3-env validation — Storybook has no real env vars.
+    "import.meta.env.SKIP_ENV_VALIDATION": JSON.stringify("1"),
     // Polyfill process.env for server modules imported by root.tsx
     // WARNING: This is a placeholder secret for local Storybook only. Never deploy Storybook with real session data.
     "process.env.SESSION_SECRET": JSON.stringify("storybook-secret"),

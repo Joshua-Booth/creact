@@ -1,3 +1,5 @@
+import path from "node:path";
+
 import comments from "@eslint-community/eslint-plugin-eslint-comments/configs";
 import eslintReact from "@eslint-react/eslint-plugin";
 import js from "@eslint/js";
@@ -405,6 +407,26 @@ export default defineConfig([
   {
     files: ["**/*.server.ts", "**/server/**/*.ts"],
     ...n.configs["flat/recommended"],
+    rules: {
+      ...n.configs["flat/recommended"].rules,
+      "n/no-missing-import": [
+        "error",
+        {
+          // eslint-plugin-n auto-discovers tsconfig.json at the project root,
+          // but ours lives in config/. Provide the @/ alias and index
+          // resolution manually so enhanced-resolve can follow it.
+          resolverConfig: {
+            mainFiles: ["index"],
+            alias: [
+              {
+                name: "@",
+                alias: [path.resolve(import.meta.dirname, "../src")],
+              },
+            ],
+          },
+        },
+      ],
+    },
   },
 
   // Scripts — build tooling, not user-facing; fs paths are safe

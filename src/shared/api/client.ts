@@ -1,5 +1,7 @@
 import ky from "ky";
 
+import { env } from "@/shared/config";
+
 import { getToken } from "./token-provider";
 
 /**
@@ -24,16 +26,8 @@ export class ApiError extends Error {
  * and retry logic for transient server errors.
  */
 /* istanbul ignore start @preserve -- ky instance config: browser-only, tested transitively via E2E */
-const apiRootUrl = import.meta.env.VITE_API_ROOT_URL ?? "";
-
-if (apiRootUrl === "" && import.meta.env.PROD) {
-  console.warn(
-    "[API] VITE_API_ROOT_URL is not set. API requests will be relative to the page origin."
-  );
-}
-
 export const api = ky.create({
-  prefixUrl: apiRootUrl,
+  prefixUrl: env.VITE_API_ROOT_URL ?? "",
   timeout: 30000,
   retry: { limit: 2, methods: ["get"], statusCodes: [408, 500, 502, 503, 504] },
   hooks: {
