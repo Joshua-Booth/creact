@@ -35,9 +35,17 @@ export const env = createEnv({
   },
 
   runtimeEnv: {
-    SESSION_SECRET: serverEnv.SESSION_SECRET,
+    // Falls back to a dev-only placeholder so the app boots without a .env
+    // file in development/CI. In production the var must be set explicitly.
+    SESSION_SECRET:
+      serverEnv.SESSION_SECRET ??
+      (serverEnv.NODE_ENV === "production"
+        ? undefined
+        : "dev-secret-change-in-production"),
     SENTRY_DSN: serverEnv.SENTRY_DSN,
-    NODE_ENV: clientEnv.MODE,
+    // Prefer runtime NODE_ENV (server) over build-time MODE (client) so
+    // SSR respects the actual process environment, not the Vite build mode.
+    NODE_ENV: serverEnv.NODE_ENV ?? clientEnv.MODE,
     VITE_API_ROOT_URL: clientEnv.VITE_API_ROOT_URL,
     VITE_PUBLIC_URL: clientEnv.VITE_PUBLIC_URL,
     VITE_PORT: clientEnv.VITE_PORT,
