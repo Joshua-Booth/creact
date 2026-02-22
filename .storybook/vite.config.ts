@@ -10,6 +10,7 @@ export default defineConfig({
   },
   define: {
     // Polyfill process.env for server modules imported by root.tsx
+    // WARNING: This is a placeholder secret for local Storybook only. Never deploy Storybook with real session data.
     "process.env.SESSION_SECRET": JSON.stringify("storybook-secret"),
     "process.env.NODE_ENV": JSON.stringify("development"),
   },

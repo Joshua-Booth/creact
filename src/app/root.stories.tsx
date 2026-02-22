@@ -24,7 +24,7 @@ const withTheme: Decorator = (Story) => (
 );
 
 const withUnauthenticated: Decorator = (Story) => {
-  useAuthStore.setState({ token: null, authenticated: false });
+  useAuthStore.setState({ token: null });
   return <Story />;
 };
 

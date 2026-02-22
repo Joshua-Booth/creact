@@ -258,7 +258,14 @@ export type FilterOperator =
   | SelectFilterOperator
   | BooleanFilterOperator;
 
-/** @public */
+/**
+ * Filter value applied to a column. The shape of `value` and `endValue` depends on the operator:
+ * - `"isEmpty"` / `"isNotEmpty"`: no `value` or `endValue` needed.
+ * - `"is"`, `"isNot"`, `"contains"`, etc.: `value` is `string | number`.
+ * - `"isBetween"`: both `value` and `endValue` are `string | number`.
+ * - `"isAnyOf"`, `"isNoneOf"`: `value` is `string[]`.
+ * @public
+ */
 export interface FilterValue {
   operator: FilterOperator;
   value?: string | number | string[];

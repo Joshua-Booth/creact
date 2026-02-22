@@ -1,5 +1,6 @@
 import { useState } from "react";
 
+import type { ComponentProps } from "react";
 import { withI18n } from "@/storybook/decorators/with-i18n";
 import preview from "@/storybook/preview";
 import { AlertTriangle, RefreshCw, WifiOff } from "lucide-react";
@@ -7,6 +8,8 @@ import { expect, userEvent } from "storybook/test";
 
 import { Button } from "../button";
 import { ErrorBoundary } from "./error-boundary";
+
+type ErrorBoundaryProps = ComponentProps<typeof ErrorBoundary>;
 
 // --- Helpers ---
 
@@ -23,13 +26,13 @@ function BuggyComponent({ shouldThrow }: { shouldThrow: boolean }) {
   );
 }
 
-function ErrorBoundaryDemo() {
+function ErrorBoundaryDemo(args: ErrorBoundaryProps) {
   const [shouldThrow, setShouldThrow] = useState(false);
   const [key, setKey] = useState(0);
 
   return (
     <div className="flex flex-col items-center gap-4">
-      <ErrorBoundary key={key}>
+      <ErrorBoundary key={key} {...args}>
         <BuggyComponent shouldThrow={shouldThrow} />
       </ErrorBoundary>
       <div className="flex gap-2">
@@ -54,7 +57,7 @@ function ErrorBoundaryDemo() {
   );
 }
 
-function CustomFallbackDemo() {
+function CustomFallbackDemo(args: ErrorBoundaryProps) {
   const [shouldThrow, setShouldThrow] = useState(false);
   const [key, setKey] = useState(0);
 
@@ -87,7 +90,7 @@ function CustomFallbackDemo() {
 
   return (
     <div className="flex flex-col items-center gap-4">
-      <ErrorBoundary key={key} fallback={customFallback}>
+      <ErrorBoundary key={key} {...args} fallback={customFallback}>
         <BuggyComponent shouldThrow={shouldThrow} />
       </ErrorBoundary>
       <Button
@@ -118,9 +121,7 @@ const meta = preview.meta({
  */
 export const Default = meta.story({
   args: { children: null },
-  render: function Render(_args) {
-    return <ErrorBoundaryDemo />;
-  },
+  render: (args) => <ErrorBoundaryDemo {...args} />,
 });
 
 /**
@@ -128,9 +129,7 @@ export const Default = meta.story({
  */
 export const CustomFallback = meta.story({
   args: { children: null },
-  render: function Render(_args) {
-    return <CustomFallbackDemo />;
-  },
+  render: (args) => <CustomFallbackDemo {...args} />,
 });
 
 /**
@@ -181,19 +180,19 @@ export const CompactFallbackPreview = meta.story({
   ),
 });
 
-function ErrorBoundaryTestDemo({
-  onTrigger,
-  onReset,
-}: {
-  onTrigger?: () => void;
-  onReset?: () => void;
-}) {
+function ErrorBoundaryTestDemo(
+  args: ErrorBoundaryProps & {
+    onTrigger?: () => void;
+    onReset?: () => void;
+  }
+) {
+  const { onTrigger, onReset, ...boundaryArgs } = args;
   const [shouldThrow, setShouldThrow] = useState(false);
   const [key, setKey] = useState(0);
 
   return (
     <div className="flex flex-col items-center gap-4">
-      <ErrorBoundary key={key}>
+      <ErrorBoundary key={key} {...boundaryArgs}>
         <BuggyComponent shouldThrow={shouldThrow} />
       </ErrorBoundary>
       <div className="flex gap-2">
@@ -232,9 +231,7 @@ Default.test(
   "when error is triggered, should display fallback UI",
   {
     args: { children: null },
-    render: function Render(_args) {
-      return <ErrorBoundaryTestDemo />;
-    },
+    render: (args) => <ErrorBoundaryTestDemo {...args} />,
   },
   async ({ canvas, step }) => {
     await step("verify normal content is shown initially", async () => {
@@ -264,9 +261,7 @@ Default.test(
   "when reset is clicked after error, should recover",
   {
     args: { children: null },
-    render: function Render(_args) {
-      return <ErrorBoundaryTestDemo />;
-    },
+    render: (args) => <ErrorBoundaryTestDemo {...args} />,
   },
   async ({ canvas, step }) => {
     await step("trigger error first", async () => {

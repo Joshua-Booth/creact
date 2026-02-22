@@ -22,7 +22,7 @@ export function useApi<T>(
 
 /**
  * SWR hook for authenticated API fetching.
- * Only fetches when a token is present in localStorage.
+ * Only fetches when a token is present (via the configured token provider).
  * @param endpoint - API endpoint path or null to skip fetching
  * @param options - SWR configuration options
  * @returns SWR response with data and error
