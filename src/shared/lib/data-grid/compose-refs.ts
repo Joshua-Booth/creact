@@ -44,7 +44,7 @@ function composeRefs<T>(...refs: PossibleRef<T>[]): RefCallback<T> {
  * @returns A memoized ref callback that sets all provided refs
  */
 function useComposedRefs<T>(...refs: PossibleRef<T>[]): RefCallback<T> {
-  // eslint-disable-next-line react-compiler/react-compiler, react-hooks/exhaustive-deps, react-hooks/use-memo -- memoize by all ref values
+  // eslint-disable-next-line react-hooks/exhaustive-deps -- memoize by all ref values
   return useCallback(composeRefs(...refs), refs);
 }
 

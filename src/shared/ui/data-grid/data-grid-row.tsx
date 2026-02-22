@@ -138,12 +138,12 @@ function DataGridRowImpl<TData>({
 
   const isRowSelected = row.getIsSelected();
 
-  /* eslint-disable react-hooks/exhaustive-deps, react-compiler/react-compiler -- columnVisibility and columnPinning trigger recalculation */
+  /* eslint-disable react-hooks/exhaustive-deps -- columnVisibility and columnPinning trigger recalculation */
   const visibleCells = useMemo(
     () => row.getVisibleCells(),
     [row, columnVisibility, columnPinning]
   );
-  /* eslint-enable react-hooks/exhaustive-deps, react-compiler/react-compiler -- end visibleCells deps */
+  /* eslint-enable react-hooks/exhaustive-deps -- end visibleCells deps */
 
   return (
     <div

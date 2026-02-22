@@ -12,7 +12,6 @@ import jsxA11y from "eslint-plugin-jsx-a11y";
 import n from "eslint-plugin-n";
 import perfectionist from "eslint-plugin-perfectionist";
 import promise from "eslint-plugin-promise";
-import reactCompiler from "eslint-plugin-react-compiler";
 import reactHooks from "eslint-plugin-react-hooks";
 import reactYouMightNotNeedAnEffect from "eslint-plugin-react-you-might-not-need-an-effect";
 import security from "eslint-plugin-security";
@@ -249,14 +248,6 @@ export default defineConfig([
       "jsdoc/require-param-type": "off",
       // JSDoc: disabled globally
       "jsdoc/require-jsdoc": "off",
-    },
-  },
-
-  // React Compiler (preparing for adoption)
-  {
-    plugins: { "react-compiler": reactCompiler },
-    rules: {
-      "react-compiler/react-compiler": "error",
     },
   },
 
