@@ -1,7 +1,12 @@
 import { create } from "zustand";
 
 import type { AuthState } from "./types";
-import { getAuthToken, removeAuthToken, setAuthToken } from "../lib/token";
+import {
+  getAuthToken,
+  removeAuthToken,
+  setAuthToken,
+  TOKEN_KEY,
+} from "../lib/token";
 
 const storedToken = getAuthToken();
 
@@ -20,6 +25,20 @@ export const useAuthStore = create<AuthState>()((set) => ({
     set({ token: null });
   },
 }));
+
+// Sync auth state across browser tabs via storage events
+if (typeof window !== "undefined") {
+  window.addEventListener("storage", (event) => {
+    if (event.key !== TOKEN_KEY) return;
+    const { token } = useAuthStore.getState();
+
+    if (event.newValue === null && token !== null) {
+      useAuthStore.setState({ token: null });
+    } else if (event.newValue !== null && event.newValue !== token) {
+      useAuthStore.setState({ token: event.newValue });
+    }
+  });
+}
 
 /**
  * Whether the current session is authenticated (has a token).
