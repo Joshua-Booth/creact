@@ -193,20 +193,24 @@ These are configured via `mise.toml` vars and can be customized in `mise.local.t
 
 ### Environment Variables
 
-The following variables are available. In development, port-related variables are auto-derived from `mise.toml`. For production, set these in your deployment platform:
+All environment variables are validated at startup using [t3-env] with Zod schemas (see `src/shared/config/env.ts`). Missing or invalid required variables will cause a clear error on boot. In development, port-related variables are auto-derived from `mise.toml`. For production, set these in your deployment platform:
 
-| Variable name       | Dev      | Prod     | Description                                           |
-| ------------------- | -------- | -------- | ----------------------------------------------------- |
-| `VITE_PORT`         | Auto     | N/A      | Frontend dev server port (default: `8080`)            |
-| `VITE_API_PORT`     | Auto     | N/A      | Backend API server port (default: `8000`)             |
-| `VITE_API_ROOT_URL` | Auto     | Required | API URL (e.g. `https://api.example.com/`)             |
-| `VITE_PUBLIC_URL`   | Auto     | Required | App public URL (e.g. `https://example.com/public`)    |
-| `VITE_SENTRY_DSN`   | Optional | Optional | [Sentry DSN] for error tracking                       |
-| `SENTRY_ORG`        | N/A      | Optional | Sentry organization slug (for sourcemap uploads)      |
-| `SENTRY_PROJECT`    | N/A      | Optional | Sentry project slug (for sourcemap uploads)           |
-| `SENTRY_AUTH_TOKEN` | N/A      | Optional | [Sentry auth token] for sourcemap uploads             |
-| `VITE_POSTHOG_KEY`  | Optional | Optional | [PostHog project API key] for analytics               |
-| `VITE_POSTHOG_HOST` | Optional | Optional | PostHog API host (default: `https://app.posthog.com`) |
+| Variable name       | Dev      | Prod     | Description                                            |
+| ------------------- | -------- | -------- | ------------------------------------------------------ |
+| `SESSION_SECRET`    | Auto     | Required | Secret for signing session cookies (server-only)       |
+| `SENTRY_DSN`        | Optional | Optional | [Sentry DSN] for server-side error tracking            |
+| `VITE_PORT`         | Auto     | N/A      | Frontend dev server port (default: `8080`)             |
+| `VITE_API_PORT`     | Auto     | N/A      | Backend API server port (default: `8000`)              |
+| `VITE_API_ROOT_URL` | Auto     | Required | API URL (e.g. `https://api.example.com/`)              |
+| `VITE_PUBLIC_URL`   | Auto     | Required | App public URL (e.g. `https://example.com/public`)     |
+| `VITE_SENTRY_DSN`   | Optional | Optional | [Sentry DSN] for client-side error tracking            |
+| `SENTRY_ORG`        | N/A      | Optional | Sentry organization slug (for sourcemap uploads)       |
+| `SENTRY_PROJECT`    | N/A      | Optional | Sentry project slug (for sourcemap uploads)            |
+| `SENTRY_AUTH_TOKEN` | N/A      | Optional | [Sentry auth token] for sourcemap uploads              |
+| `VITE_POSTHOG_KEY`  | Optional | Optional | [PostHog project API key] for analytics                |
+| `VITE_POSTHOG_HOST` | Optional | Optional | PostHog API host (default: `https://us.i.posthog.com`) |
+
+To skip validation (e.g. in Storybook or test runners), set `SKIP_ENV_VALIDATION=1`.
 
 ### Git Worktree Setup
 
@@ -228,6 +232,7 @@ api_port = "8002"
 
 This automatically sets `VITE_PORT`, `VITE_API_PORT`, `VITE_API_ROOT_URL`, and `VITE_PUBLIC_URL` based on the port values.
 
+[t3-env]: https://env.t3.gg/
 [sentry dsn]: https://docs.sentry.io/product/sentry-basics/dsn-explainer/
 [sentry auth token]: https://docs.sentry.io/api/auth/#auth-tokens
 [posthog project api key]: https://posthog.com/docs/getting-started/send-events#how-to-find-your-project-api-key
