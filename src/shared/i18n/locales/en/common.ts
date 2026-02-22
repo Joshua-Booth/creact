@@ -22,6 +22,10 @@ export default {
         title: "Dashboard",
         description: "Your personal dashboard.",
       },
+      forgotPassword: {
+        title: "Forgot Password",
+        description: "Reset your account password.",
+      },
       logout: {
         title: "Logout",
         description: "Signing out of your account.",
@@ -50,6 +54,16 @@ export default {
       submit: "Sign in",
       submitting: "Signing in...",
       title: "Sign in to your account",
+    },
+    forgotPassword: {
+      title: "Reset your password",
+      description: "Enter your email and we'll send you a reset link",
+      submit: "Send reset link",
+      submitting: "Sending...",
+      successTitle: "Check your email",
+      successDescription:
+        "If an account exists with that email, we've sent password reset instructions.",
+      backToLogin: "Back to login",
     },
     signUp: {
       description: "Enter your email and password to get started",

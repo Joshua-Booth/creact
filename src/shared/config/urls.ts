@@ -8,6 +8,8 @@ export const AUTH_URLS = {
   USER_PROFILE: "auth/user/",
   /** POST: Register a new user account. */
   SIGNUP: "auth/signup/",
+  /** POST: Request a password reset email. */
+  FORGOT_PASSWORD: "auth/password/reset/",
 };
 
 /**

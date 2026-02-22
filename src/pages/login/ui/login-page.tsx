@@ -76,7 +76,7 @@ export function LoginPage() {
                           {t("auth.fields.password")}
                         </FieldLabel>
                         <Link
-                          to="/forgot-password"
+                          to={href("/forgot-password")}
                           className="text-muted-foreground hover:text-foreground
                             ml-auto text-xs underline-offset-4 hover:underline"
                         >

@@ -12,6 +12,7 @@ export default [
   ]),
   route("login", "./routes/login.tsx"),
   route("signup", "./routes/signup.tsx"),
+  route("forgot-password", "./routes/forgot-password.tsx"),
   route("logout", "./routes/logout.tsx"),
   route("api/locales/:lng/:ns", "./routes/locales.ts"),
   route("*", "./routes/no-match.tsx"),

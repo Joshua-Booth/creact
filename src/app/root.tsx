@@ -228,7 +228,11 @@ export function HydrateFallback() {
   );
 }
 
-const AUTH_ROUTES = new Set([href("/login"), href("/signup")]);
+const AUTH_ROUTES = new Set([
+  href("/login"),
+  href("/signup"),
+  href("/forgot-password"),
+]);
 
 /**
  * Application root layout providing theme, i18n, and routing context.
