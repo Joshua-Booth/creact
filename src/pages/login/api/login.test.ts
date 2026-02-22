@@ -23,6 +23,7 @@ function createHTTPError(body: unknown): HTTPError {
 
 function createHTTPErrorWithJsonFailure(): HTTPError {
   const response = {
+    status: 502,
     json: () => Promise.reject(new SyntaxError("Unexpected token")),
   } as Response;
   return new HTTPError(
@@ -45,9 +46,11 @@ describe("parseLoginError", () => {
     expect(await parseLoginError(error)).toBe("Account locked");
   });
 
-  it('should return "Invalid credentials" when JSON parsing fails', async () => {
+  it("should return server error message when JSON parsing fails", async () => {
     const error = createHTTPErrorWithJsonFailure();
-    expect(await parseLoginError(error)).toBe("Invalid credentials");
+    expect(await parseLoginError(error)).toBe(
+      "Server error (502). Please try again later."
+    );
   });
 
   it('should return "Invalid credentials" for empty body', async () => {

@@ -23,6 +23,7 @@ function createHTTPError(body: unknown): HTTPError {
 
 function createHTTPErrorWithJsonFailure(): HTTPError {
   const response = {
+    status: 502,
     json: () => Promise.reject(new SyntaxError("Unexpected token")),
   } as Response;
   return new HTTPError(
@@ -67,9 +68,11 @@ describe("parseSignupError", () => {
     expect(await parseSignupError(error)).toBe("Email taken");
   });
 
-  it('should return "Registration failed" when JSON parsing fails', async () => {
+  it("should return server error message when JSON parsing fails", async () => {
     const error = createHTTPErrorWithJsonFailure();
-    expect(await parseSignupError(error)).toBe("Registration failed");
+    expect(await parseSignupError(error)).toBe(
+      "Server error (502). Please try again later."
+    );
   });
 
   it('should return "Registration failed" for empty body', async () => {

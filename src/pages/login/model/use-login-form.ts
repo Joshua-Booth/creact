@@ -29,6 +29,7 @@ export function useLoginForm() {
   }, [actionData, form]);
 
   function onSubmit(data: LoginFormData) {
+    form.clearErrors("root");
     void fetcher.submit(data, { method: "post" });
   }
 

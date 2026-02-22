@@ -20,11 +20,19 @@ export async function loginApi(data: LoginFormData): Promise<LoginResponse> {
 
 export async function parseLoginError(error: unknown): Promise<string> {
   if (error instanceof HTTPError) {
-    // eslint-disable-next-line promise/no-promise-in-callback -- Intentional: gracefully handle JSON parse errors
-    const body = (await error.response
-      .json()
-      .catch(() => ({}))) as LoginErrorResponse;
-    return body.non_field_errors?.[0] ?? body.detail ?? "Invalid credentials";
+    try {
+      const body: LoginErrorResponse = await error.response.json();
+      return body.non_field_errors?.[0] ?? body.detail ?? "Invalid credentials";
+    } catch {
+      return `Server error (${String(error.response.status)}). Please try again later.`;
+    }
+  }
+  console.error("[Login] Non-HTTP error:", error);
+  if (error instanceof DOMException && error.name === "AbortError") {
+    return "Request timed out. Please try again.";
+  }
+  if (error instanceof TypeError) {
+    return "Unable to reach the server. Please check your connection.";
   }
   return "An unexpected error occurred";
 }

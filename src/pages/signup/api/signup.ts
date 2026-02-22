@@ -24,17 +24,25 @@ export async function signupApi(
 
 export async function parseSignupError(error: unknown): Promise<string> {
   if (error instanceof HTTPError) {
-    // eslint-disable-next-line promise/no-promise-in-callback -- Intentional: gracefully handle JSON parse errors
-    const body = (await error.response
-      .json()
-      .catch(() => ({}))) as SignupErrorResponse;
-    return (
-      body.email?.[0] ??
-      body.password?.[0] ??
-      body.non_field_errors?.[0] ??
-      body.detail ??
-      "Registration failed"
-    );
+    try {
+      const body: SignupErrorResponse = await error.response.json();
+      return (
+        body.email?.[0] ??
+        body.password?.[0] ??
+        body.non_field_errors?.[0] ??
+        body.detail ??
+        "Registration failed"
+      );
+    } catch {
+      return `Server error (${String(error.response.status)}). Please try again later.`;
+    }
+  }
+  console.error("[Signup] Non-HTTP error:", error);
+  if (error instanceof DOMException && error.name === "AbortError") {
+    return "Request timed out. Please try again.";
+  }
+  if (error instanceof TypeError) {
+    return "Unable to reach the server. Please check your connection.";
   }
   return "An unexpected error occurred";
 }
