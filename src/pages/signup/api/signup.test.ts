@@ -1,6 +1,9 @@
 import type { NormalizedOptions } from "ky";
+import i18next from "i18next";
 import { HTTPError } from "ky";
-import { describe, expect, it, vi } from "vitest";
+import { beforeAll, describe, expect, it, vi } from "vitest";
+
+import { resources } from "@/shared/i18n";
 
 import { parseSignupError, signupApi } from "./signup";
 
@@ -34,6 +37,15 @@ function createHTTPErrorWithJsonFailure(): HTTPError {
 }
 
 describe("parseSignupError", () => {
+  beforeAll(async () => {
+    await i18next.init({
+      lng: "en",
+      resources: { en: { common: resources.en.common } },
+      defaultNS: "common",
+      interpolation: { escapeValue: false },
+    });
+  });
+
   it("should return first email error", async () => {
     const error = createHTTPError({
       email: ["Email already exists", "Invalid email"],
