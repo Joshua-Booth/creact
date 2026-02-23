@@ -35,6 +35,10 @@ export const errorResponses = {
           { status: 401 }
         );
       }),
+    serverError: () =>
+      http.post("**/auth/login/", () => {
+        return HttpResponse.json(null, { status: 500 });
+      }),
   },
   signup: {
     emailExists: () =>
@@ -43,6 +47,28 @@ export const errorResponses = {
           { email: ["A user with this email already exists."] },
           { status: 400 }
         );
+      }),
+    serverError: () =>
+      http.post("**/auth/signup/", () => {
+        return HttpResponse.json(null, { status: 500 });
+      }),
+  },
+  logout: {
+    serverError: () =>
+      http.post("**/auth/logout/", () => {
+        return HttpResponse.json(null, { status: 500 });
+      }),
+  },
+  forgotPassword: {
+    serverError: () =>
+      http.post("**/auth/password/reset/", () => {
+        return HttpResponse.json(null, { status: 500 });
+      }),
+  },
+  user: {
+    serverError: () =>
+      http.get("**/auth/user/", () => {
+        return HttpResponse.json(null, { status: 500 });
       }),
   },
 };
