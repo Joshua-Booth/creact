@@ -2,7 +2,7 @@
   <a href="https://creact.netlify.app/">
     <img
       alt="creact Logo"
-      src="./src/assets/images/README.svg"
+      src="./src/shared/assets/images/README.svg"
     />
   </a>
 
@@ -11,8 +11,7 @@
 
   <br />
 
-[**Visit demo**](https://creact.netlify.app/) ·
-[**Documentation**][wiki]
+[**Visit demo**](https://creact.netlify.app/)
 
   <br />
 
@@ -23,16 +22,16 @@
         src="https://img.shields.io/netlify/4b639571-edc3-4fd5-ab63-61f0959fd921?label=build&style=for-the-badge"
       />
     </a>
-    <img 
-      alt="GitHub package.json version" 
+    <img
+      alt="GitHub package.json version"
       src="https://img.shields.io/github/package-json/v/Joshua-Booth/creact?style=for-the-badge"
     />
     <img
       alt="Dependencies"
       src="https://img.shields.io/librariesio/github/Joshua-Booth/creact?style=for-the-badge"
     />
-    <img 
-      alt="GitHub last commit" 
+    <img
+      alt="GitHub last commit"
       src="https://img.shields.io/github/last-commit/Joshua-Booth/creact?label=Last%20Update&style=for-the-badge"
     />
   </p>
@@ -453,9 +452,6 @@ Reach out to me for support through the following methods:
 
 ## License
 
-This project is the sole property of Joshua Booth.
+This project is licensed under the [0BSD License](./LICENSE).
 
 Copyright &copy; 2026 Joshua Booth
-
-Please see individual licenses contained in the project where third-party
-code was used, as this code is owned by its respective authors.
