@@ -12,10 +12,12 @@ import { Button } from "@/shared/ui/button";
 
 /** Page navigation control with previous/next buttons and numbered page links. */
 function Pagination({ className, ...props }: React.ComponentProps<"nav">) {
+  const { t } = useTranslation("components");
+
   return (
     <nav
       role="navigation"
-      aria-label="pagination"
+      aria-label={t("pagination.label")}
       data-slot="pagination"
       className={cn("mx-auto flex w-full justify-center", className)}
       {...props}
@@ -86,7 +88,7 @@ function PaginationPrevious({
 
   return (
     <PaginationLink
-      aria-label="Go to previous page"
+      aria-label={t("pagination.goToPreviousPage")}
       size="default"
       className={cn("pl-2!", className)}
       {...props}
@@ -108,7 +110,7 @@ function PaginationNext({
 
   return (
     <PaginationLink
-      aria-label="Go to next page"
+      aria-label={t("pagination.goToNextPage")}
       size="default"
       className={cn("pr-2!", className)}
       {...props}

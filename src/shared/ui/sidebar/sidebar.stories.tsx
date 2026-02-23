@@ -1,3 +1,4 @@
+import { withI18n } from "@/storybook/decorators/with-i18n";
 import preview from "@/storybook/preview";
 import {
   Calendar,
@@ -66,6 +67,7 @@ const meta = preview.meta({
     layout: "fullscreen",
   },
   decorators: [
+    withI18n,
     (Story) => (
       <SidebarProvider>
         <Story />

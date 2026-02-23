@@ -31,7 +31,7 @@ export function ModeToggle() {
               className="absolute size-4 scale-0 rotate-90 transition-transform
                 duration-200 dark:scale-100 dark:rotate-0"
             />
-            <span className="sr-only">Toggle theme</span>
+            <span className="sr-only">{t("modeToggle.toggleTheme")}</span>
           </Button>
         }
       />

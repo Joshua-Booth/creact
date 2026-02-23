@@ -1,3 +1,4 @@
+import { withI18n } from "@/storybook/decorators/with-i18n";
 import preview from "@/storybook/preview";
 import { expect, userEvent, within } from "storybook/test";
 
@@ -26,6 +27,7 @@ const SHEET_SIDES = ["top", "right", "bottom", "left"] as const;
 const meta = preview.meta({
   title: "ui/Sheet",
   component: SheetContent,
+  decorators: [withI18n],
   argTypes: {
     side: {
       options: ["top", "bottom", "left", "right"],
@@ -92,7 +94,7 @@ export const Default = meta.story();
  * Use the `side` prop to display the sheet from different edges of the screen.
  */
 export const Side = meta.story({
-  render: function Side(args) {
+  render: (args) => {
     return (
       <div className="grid grid-cols-2 gap-2">
         {SHEET_SIDES.map((side) => (

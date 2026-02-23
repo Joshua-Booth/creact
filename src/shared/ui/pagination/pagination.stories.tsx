@@ -1,5 +1,6 @@
 import { Link as RouterLink } from "react-router";
 
+import { withI18n } from "@/storybook/decorators/with-i18n";
 import preview from "@/storybook/preview";
 import { expect } from "storybook/test";
 
@@ -29,6 +30,7 @@ import {
 const meta = preview.meta({
   title: "ui/Pagination",
   component: Pagination,
+  decorators: [withI18n],
   render: (args) => (
     <Pagination {...args}>
       <PaginationContent>

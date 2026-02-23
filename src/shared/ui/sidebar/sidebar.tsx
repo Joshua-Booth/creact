@@ -298,6 +298,7 @@ function SidebarTrigger({
   onClick,
   ...props
 }: React.ComponentProps<typeof Button>) {
+  const { t } = useTranslation("components");
   const { toggleSidebar } = useSidebar();
 
   return (
@@ -314,7 +315,7 @@ function SidebarTrigger({
       {...props}
     >
       <PanelLeftIcon />
-      <span className="sr-only">Toggle Sidebar</span>
+      <span className="sr-only">{t("sidebar.toggleSidebar")}</span>
     </Button>
   );
 }
@@ -322,6 +323,7 @@ function SidebarTrigger({
 /* istanbul ignore start @preserve -- Sidebar sub-components: tested transitively via app integration */
 /** Invisible drag rail along the sidebar edge for toggling via click. */
 function SidebarRail({ className, ...props }: React.ComponentProps<"button">) {
+  const { t } = useTranslation("components");
   const { toggleSidebar } = useSidebar();
 
   return (
@@ -329,10 +331,10 @@ function SidebarRail({ className, ...props }: React.ComponentProps<"button">) {
       type="button"
       data-sidebar="rail"
       data-slot="sidebar-rail"
-      aria-label="Toggle Sidebar"
+      aria-label={t("sidebar.toggleSidebar")}
       tabIndex={-1}
       onClick={toggleSidebar}
-      title="Toggle Sidebar"
+      title={t("sidebar.toggleSidebar")}
       className={cn(
         `hover:after:bg-sidebar-border absolute inset-y-0 z-20 hidden w-4
         transition-all ease-linear group-data-[side=left]:-right-4

@@ -175,7 +175,7 @@ function DataGridSearchImpl({
         />
         <div className="flex items-center gap-1">
           <Button
-            aria-label="Previous match"
+            aria-label={t("dataGrid.search.previousMatch")}
             variant="ghost"
             size="icon"
             className="size-7"
@@ -186,7 +186,7 @@ function DataGridSearchImpl({
             <ChevronUp />
           </Button>
           <Button
-            aria-label="Next match"
+            aria-label={t("dataGrid.search.nextMatch")}
             variant="ghost"
             size="icon"
             className="size-7"
@@ -197,7 +197,7 @@ function DataGridSearchImpl({
             <ChevronDown />
           </Button>
           <Button
-            aria-label="Close search"
+            aria-label={t("dataGrid.search.closeSearch")}
             variant="ghost"
             size="icon"
             className="size-7"

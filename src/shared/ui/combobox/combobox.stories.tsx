@@ -2,6 +2,7 @@
 /* eslint-disable @typescript-eslint/no-non-null-assertion -- Test assertions on known DOM elements */
 import { useRef, useState } from "react";
 
+import { withI18n } from "@/storybook/decorators/with-i18n";
 import preview from "@/storybook/preview";
 import { SearchIcon } from "lucide-react";
 import { expect, userEvent, waitFor, within } from "storybook/test";
@@ -70,6 +71,7 @@ const countries = [
 const meta = preview.meta({
   title: "ui/Combobox",
   component: Combobox,
+  decorators: [withI18n],
   args: {},
   parameters: {
     docs: {
@@ -117,16 +119,18 @@ export const Default = meta.story({
  * Multi-select combobox with chips for displaying selected values.
  */
 export const Multiple = meta.story({
-  render: function MultipleStory() {
+  render: (args) => {
     const [values, setValues] = useState<string[]>(["Apple"]);
     const anchorRef = useRef<HTMLDivElement>(null);
 
     return (
       <Combobox
+        {...args}
         items={fruitNames}
         multiple
+        defaultValue={undefined}
         value={values}
-        onValueChange={(newValues) => setValues(newValues)}
+        onValueChange={(newValues) => setValues(newValues as string[])}
       >
         <ComboboxChips ref={anchorRef} className="w-80">
           {values.map((value) => (
@@ -327,15 +331,16 @@ export const AutoHighlight = meta.story({
  * Combobox triggered by a button with dropdown popup.
  */
 export const Popup = meta.story({
-  render: function PopupStory() {
+  render: (args) => {
     const [value, setValue] = useState<string | null>(null);
     const anchorRef = useRef<HTMLButtonElement>(null);
 
     return (
       <Combobox
+        {...args}
         items={fruitNames}
         value={value}
-        onValueChange={(newValue) => setValue(newValue)}
+        onValueChange={(newValue) => setValue(newValue as string | null)}
       >
         <ComboboxTrigger
           ref={anchorRef}

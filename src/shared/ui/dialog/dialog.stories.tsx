@@ -1,3 +1,4 @@
+import { withI18n } from "@/storybook/decorators/with-i18n";
 import preview from "@/storybook/preview";
 import { expect, userEvent, within } from "storybook/test";
 
@@ -70,6 +71,7 @@ const LOREM_PARAGRAPHS = [
 const meta = preview.meta({
   title: "ui/Dialog",
   component: Dialog,
+  decorators: [withI18n],
   render: (args) => (
     <Dialog {...args}>
       <form>

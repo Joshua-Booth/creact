@@ -69,7 +69,7 @@ export function DataTablePagination<TData>({
             }}
           >
             <SelectTrigger
-              aria-label="Rows per page"
+              aria-label={t("dataTable.rowsPerPage")}
               className="h-8 w-18 data-size:h-8"
             >
               <SelectValue placeholder={table.getState().pagination.pageSize} />
@@ -91,7 +91,7 @@ export function DataTablePagination<TData>({
         </div>
         <div className="flex items-center space-x-2">
           <Button
-            aria-label="Go to first page"
+            aria-label={t("dataTable.goToFirstPage")}
             variant="outline"
             size="icon"
             className="hidden size-8 lg:flex"
@@ -101,7 +101,7 @@ export function DataTablePagination<TData>({
             <ChevronsLeft />
           </Button>
           <Button
-            aria-label="Go to previous page"
+            aria-label={t("dataTable.goToPreviousPage")}
             variant="outline"
             size="icon"
             className="size-8"
@@ -111,7 +111,7 @@ export function DataTablePagination<TData>({
             <ChevronLeft />
           </Button>
           <Button
-            aria-label="Go to next page"
+            aria-label={t("dataTable.goToNextPage")}
             variant="outline"
             size="icon"
             className="size-8"
@@ -121,7 +121,7 @@ export function DataTablePagination<TData>({
             <ChevronRight />
           </Button>
           <Button
-            aria-label="Go to last page"
+            aria-label={t("dataTable.goToLastPage")}
             variant="outline"
             size="icon"
             className="hidden size-8 lg:flex"

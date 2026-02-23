@@ -1,6 +1,7 @@
 "use client";
 
 import * as React from "react";
+import { useTranslation } from "react-i18next";
 
 import { Combobox as ComboboxPrimitive } from "@base-ui/react";
 import { CheckIcon, ChevronDownIcon, XIcon } from "lucide-react";
@@ -44,10 +45,12 @@ function ComboboxTrigger({
 
 /** Button that clears the current combobox selection. */
 function ComboboxClear({ className, ...props }: ComboboxPrimitive.Clear.Props) {
+  const { t } = useTranslation("components");
+
   return (
     <ComboboxPrimitive.Clear
       data-slot="combobox-clear"
-      aria-label="Clear"
+      aria-label={t("combobox.clear")}
       render={<InputGroupButton variant="ghost" size="icon-xs" />}
       className={cn(className)}
       {...props}

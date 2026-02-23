@@ -10,6 +10,10 @@ export default {
     view: "View",
     searchColumns: "Search columns...",
     noColumnsFound: "No columns found.",
+    goToFirstPage: "Go to first page",
+    goToPreviousPage: "Go to previous page",
+    goToNextPage: "Go to next page",
+    goToLastPage: "Go to last page",
   },
   dataGrid: {
     addRow: "Add row",
@@ -67,6 +71,9 @@ export default {
       placeholder: "Find in table...",
       typeToSearch: "Type to search",
       noResults: "No results",
+      previousMatch: "Previous match",
+      nextMatch: "Next match",
+      closeSearch: "Close search",
     },
     cell: {
       enterText: "Enter text...",
@@ -79,11 +86,15 @@ export default {
     },
   },
   pagination: {
+    label: "pagination",
     previous: "Previous",
     next: "Next",
     morePages: "More pages",
+    goToPreviousPage: "Go to previous page",
+    goToNextPage: "Go to next page",
   },
   modeToggle: {
+    toggleTheme: "Toggle theme",
     light: "Light",
     dark: "Dark",
     system: "System",
@@ -91,6 +102,16 @@ export default {
   sidebar: {
     title: "Sidebar",
     description: "Displays the mobile sidebar.",
+    toggleSidebar: "Toggle Sidebar",
+  },
+  combobox: {
+    clear: "Clear",
+  },
+  dialog: {
+    close: "Close",
+  },
+  sheet: {
+    close: "Close",
   },
   app: {
     noJavaScript: "You need to enable JavaScript to run this app.",

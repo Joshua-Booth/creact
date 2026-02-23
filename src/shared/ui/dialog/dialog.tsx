@@ -1,6 +1,7 @@
 "use client";
 
 import * as React from "react";
+import { useTranslation } from "react-i18next";
 
 import { Dialog as DialogPrimitive } from "@base-ui/react/dialog";
 import { XIcon } from "lucide-react";
@@ -60,6 +61,8 @@ function DialogContent({
   /** Whether to show the X close button in the top-right corner. */
   showCloseButton?: boolean;
 }) {
+  const { t } = useTranslation("components");
+
   return (
     <DialogPortal>
       <DialogOverlay />
@@ -88,7 +91,7 @@ function DialogContent({
             }
           >
             <XIcon />
-            <span className="sr-only">Close</span>
+            <span className="sr-only">{t("dialog.close")}</span>
           </DialogPrimitive.Close>
         )}
       </DialogPrimitive.Popup>
