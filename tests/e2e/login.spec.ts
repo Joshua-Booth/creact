@@ -81,13 +81,9 @@ test.describe("Login", () => {
 
     await submitButton.click();
 
-    // Wait a bit for any potential navigation
-    await page.waitForTimeout(500);
-
-    // Should stay on login page - either showing validation error or not navigating
+    // Client-side validation should display an error and prevent navigation
+    const validationError = page.getByRole("alert").first();
+    await expect(validationError).toBeVisible();
     await expect(page).toHaveURL(/\/login/);
-
-    // API should not have been called if client-side validation is working
-    // If it was called, that's also okay as long as we stay on /login
   });
 });
