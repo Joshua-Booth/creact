@@ -16,4 +16,4 @@ jobs:
       - name: Validate PR title with commitlint
         env:
           PR_TITLE: ${{ github.event.pull_request.title }}
-        run: echo "$PR_TITLE" | pnpm exec commitlint --config "./config/commitlint.config.ts"
+        run: printf '%s\n' "$PR_TITLE" | pnpm exec commitlint --config "./config/commitlint-ci.config.ts"
