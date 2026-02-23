@@ -410,7 +410,9 @@ export function LongTextCell<TData>({
         sideOffset={sideOffset}
         className="w-[400px] rounded-none p-0"
         initialFocus={initialFocus}
-        aria-label={`Edit ${cell.column.columnDef.meta?.label ?? columnId}`}
+        aria-label={t("dataGrid.cell.editLabel", {
+          label: cell.column.columnDef.meta?.label ?? columnId,
+        })}
       >
         <Textarea
           placeholder={t("dataGrid.cell.enterText")}
@@ -587,6 +589,7 @@ export function UrlCell<TData>({
   isActiveSearchMatch,
   readOnly,
 }: DataGridCellProps<TData>) {
+  const { t } = useTranslation("components");
   const initialValue = cell.getValue() as string;
   const [value, setValue] = useState(initialValue ?? "");
   const cellRef = useRef<HTMLDivElement>(null);
@@ -706,16 +709,15 @@ export function UrlCell<TData>({
       const href = getUrlHref(value);
       if (href === "") {
         event.preventDefault();
-        toast.error("Invalid URL", {
-          description:
-            "URL contains a dangerous protocol (javascript:, data:, vbscript:, or file:)",
+        toast.error(t("dataGrid.cell.invalidUrl"), {
+          description: t("dataGrid.cell.dangerousProtocol"),
         });
         return;
       }
 
       event.stopPropagation();
     },
-    [isEditing, value]
+    [isEditing, value, t]
   );
 
   useEffect(() => {
@@ -1205,7 +1207,9 @@ export function MultiSelectCell<TData>({
             sideOffset={sideOffset}
             className="w-[300px] rounded-none p-0"
             initialFocus={initialFocus}
-            aria-label={`Select ${cell.column.columnDef.meta?.label ?? columnId}`}
+            aria-label={t("dataGrid.cell.selectLabel", {
+              label: cell.column.columnDef.meta?.label ?? columnId,
+            })}
           >
             <Command
               className="**:data-[slot=command-input-wrapper]:h-auto
@@ -1230,7 +1234,7 @@ export function MultiSelectCell<TData>({
                       {label}
                       <button
                         type="button"
-                        aria-label={`Remove ${label}`}
+                        aria-label={t("dataGrid.cell.removeLabel", { label })}
                         onClick={
                           /* istanbul ignore next */ (event) =>
                             removeValue(value, event)
@@ -1349,6 +1353,7 @@ export function DateCell<TData>({
   isActiveSearchMatch,
   readOnly,
 }: DataGridCellProps<TData>) {
+  const { t } = useTranslation("components");
   const initialValue = cell.getValue() as string;
   const [value, setValue] = useState(initialValue ?? "");
   const containerRef = useRef<HTMLDivElement>(null);
@@ -1427,7 +1432,9 @@ export function DateCell<TData>({
             align="start"
             alignOffset={-8}
             className="w-auto p-0"
-            aria-label={`Select ${cell.column.columnDef.meta?.label ?? columnId}`}
+            aria-label={t("dataGrid.cell.selectLabel", {
+              label: cell.column.columnDef.meta?.label ?? columnId,
+            })}
           >
             <Calendar
               autoFocus
@@ -1522,7 +1529,9 @@ export function FileCell<TData>({
   const validateFile = useCallback(
     (file: File): string | null => {
       if (maxFileSize !== 0 && file.size > maxFileSize) {
-        return `File size exceeds ${formatFileSize(maxFileSize)}`;
+        return t("dataGrid.cell.fileSizeExceeds", {
+          size: formatFileSize(maxFileSize),
+        });
       }
       if (acceptedTypes) {
         const fileExtension = `.${file.name.split(".").pop()}`;
@@ -1537,12 +1546,12 @@ export function FileCell<TData>({
           return file.type === type;
         });
         if (!isAccepted) {
-          return "File type not accepted";
+          return t("dataGrid.cell.fileTypeNotAccepted");
         }
       }
       return null;
     },
-    [maxFileSize, acceptedTypes]
+    [maxFileSize, acceptedTypes, t]
   );
 
   const addFiles = useCallback(
@@ -1551,7 +1560,9 @@ export function FileCell<TData>({
       setError(null);
 
       if (maxFiles !== 0 && files.length + newFiles.length > maxFiles) {
-        const errorMessage = `Maximum ${maxFiles} files allowed`;
+        const errorMessage = t("dataGrid.cell.maxFilesAllowed", {
+          count: maxFiles,
+        });
         setError(errorMessage);
         toast(errorMessage);
         setTimeout(() => {
@@ -1584,11 +1595,16 @@ export function FileCell<TData>({
 
           if (rejectedFiles.length === 1) {
             toast(firstError.reason, {
-              description: `"${truncatedName}" has been rejected`,
+              description: t("dataGrid.cell.fileRejected", {
+                name: truncatedName,
+              }),
             });
           } else {
             toast(firstError.reason, {
-              description: `"${truncatedName}" and ${rejectedFiles.length - 1} more rejected`,
+              description: t("dataGrid.cell.filesRejected", {
+                name: truncatedName,
+                count: rejectedFiles.length - 1,
+              }),
             });
           }
 
@@ -1638,8 +1654,9 @@ export function FileCell<TData>({
                 columnId,
               });
             } catch (uploadError) {
-              const fileSuffix = filesToValidate.length === 1 ? "" : "s";
-              const fallbackMessage = `Failed to upload ${filesToValidate.length} file${fileSuffix}`;
+              const fallbackMessage = t("dataGrid.cell.failedToUpload", {
+                count: filesToValidate.length,
+              });
               const errorMessage =
                 uploadError instanceof Error
                   ? uploadError.message
@@ -1683,6 +1700,7 @@ export function FileCell<TData>({
       columnId,
       readOnly,
       isPending,
+      t,
     ]
   );
 
@@ -1707,7 +1725,9 @@ export function FileCell<TData>({
           toast.error(
             deleteError instanceof Error
               ? deleteError.message
-              : `Failed to delete ${fileToRemove.name}`
+              : t("dataGrid.cell.failedToDeleteFile", {
+                  name: fileToRemove.name,
+                })
           );
           setDeletingFiles((prev) => {
             const next = new Set(prev);
@@ -1731,7 +1751,7 @@ export function FileCell<TData>({
       });
       tableMeta?.onDataUpdate?.({ rowIndex, columnId, value: updatedFiles });
     },
-    [files, tableMeta, rowIndex, columnId, readOnly, isPending]
+    [files, tableMeta, rowIndex, columnId, readOnly, isPending, t]
   );
 
   const clearAll = useCallback(async () => {
@@ -1752,7 +1772,7 @@ export function FileCell<TData>({
         toast.error(
           deleteError instanceof Error
             ? deleteError.message
-            : "Failed to delete files"
+            : t("dataGrid.cell.failedToDeleteFiles")
         );
         setDeletingFiles(new Set());
         return;
@@ -1767,7 +1787,7 @@ export function FileCell<TData>({
     setFiles([]);
     setDeletingFiles(new Set());
     tableMeta?.onDataUpdate?.({ rowIndex, columnId, value: [] });
-  }, [files, tableMeta, rowIndex, columnId, readOnly, isPending]);
+  }, [files, tableMeta, rowIndex, columnId, readOnly, isPending, t]);
 
   const onCellDragEnter = useCallback((event: React.DragEvent) => {
     event.preventDefault();
@@ -1951,14 +1971,19 @@ export function FileCell<TData>({
     });
 
   const dropzoneDescription = (() => {
-    const maxFilesLabel = maxFiles === 0 ? "" : `Max ${maxFiles} files`;
+    const maxFilesLabel =
+      maxFiles === 0 ? "" : t("dataGrid.cell.maxFiles", { count: maxFiles });
     if (maxFileSize !== 0) {
-      const sizeLabel = `Max size: ${formatFileSize(maxFileSize)}`;
+      const sizeLabel = t("dataGrid.cell.maxSize", {
+        size: formatFileSize(maxFileSize),
+      });
       return maxFilesLabel === ""
         ? sizeLabel
         : `${sizeLabel} \u2022 ${maxFilesLabel}`;
     }
-    return maxFilesLabel === "" ? "Select files to upload" : maxFilesLabel;
+    return maxFilesLabel === ""
+      ? t("dataGrid.cell.selectFilesToUpload")
+      : maxFilesLabel;
   })();
 
   return (
@@ -1994,7 +2019,9 @@ export function FileCell<TData>({
             sideOffset={sideOffset}
             className="w-[400px] rounded-none p-0"
             initialFocus={initialFocus}
-            aria-label={`Upload files for ${cell.column.columnDef.meta?.label ?? columnId}`}
+            aria-label={t("dataGrid.cell.uploadFilesLabel", {
+              label: cell.column.columnDef.meta?.label ?? columnId,
+            })}
           >
             <div className="flex flex-col gap-2 p-3">
               <span id={labelId} className="sr-only">
@@ -2104,7 +2131,9 @@ export function FileCell<TData>({
                             type="button"
                             variant="ghost"
                             size="icon"
-                            aria-label={`Remove ${file.name}`}
+                            aria-label={t("dataGrid.cell.removeLabel", {
+                              label: file.name,
+                            })}
                             className="size-5 rounded-sm"
                             onClick={() => void removeFile(file.id)}
                             disabled={isPending}

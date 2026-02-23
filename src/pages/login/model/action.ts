@@ -1,3 +1,5 @@
+import i18next from "i18next";
+
 import { setAuthTokenAndRedirect } from "@/entities/user";
 
 import { loginApi, parseLoginError } from "../api/login";
@@ -20,7 +22,9 @@ export async function loginAction(
     return {
       success: false,
       /* istanbul ignore next -- Zod always provides at least one issue */
-      error: result.error.issues[0]?.message ?? "Invalid form data",
+      error:
+        result.error.issues[0]?.message ??
+        i18next.t("errors.api.invalidFormData"),
     };
   }
 

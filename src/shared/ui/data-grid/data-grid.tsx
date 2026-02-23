@@ -114,7 +114,7 @@ export function DataGrid<TData>({
       <DataGridPasteDialog tableMeta={tableMeta} pasteDialog={pasteDialog} />
       <div
         role="grid"
-        aria-label="Data grid"
+        aria-label={t("dataGrid.label")}
         aria-rowcount={rows.length + (onRowAddProp ? 1 : 0)}
         aria-colcount={columns.length}
         data-slot="grid"

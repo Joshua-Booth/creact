@@ -38,13 +38,16 @@ export function Header() {
   ];
 
   return (
-    <header className="relative z-5 mb-4 h-[82px] p-0">
+    <header className="relative z-5 mb-4 h-20 p-0">
       <NavLink
         to={logoLink}
         className="absolute top-2 ml-4 max-[400px]:ml-2"
         aria-label={t("nav.home")}
       >
-        <Logo className="mr-[10px] h-[50px]" title={`${SITE_NAME} Logo`} />
+        <Logo
+          className="h-12"
+          title={t("nav.logoTitle", { siteName: SITE_NAME })}
+        />
       </NavLink>
       <div className="absolute top-3 right-4 flex items-center gap-4">
         {!authenticated && <Links links={headerLinks} />}

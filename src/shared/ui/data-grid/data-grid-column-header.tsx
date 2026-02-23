@@ -295,6 +295,7 @@ function DataGridColumnResizerImpl<TData, TValue>({
   table,
   label,
 }: DataGridColumnResizerProps<TData, TValue>) {
+  const { t } = useTranslation("components");
   const defaultColumnDef = table._getDefaultColumnDef();
 
   /* istanbul ignore start @preserve -- browser-only callback tested via Storybook */
@@ -308,7 +309,7 @@ function DataGridColumnResizerImpl<TData, TValue>({
     <div
       role="separator"
       aria-orientation="vertical"
-      aria-label={`Resize ${label} column`}
+      aria-label={t("dataGrid.columnHeader.resizeLabel", { label })}
       aria-valuenow={header.column.getSize()}
       aria-valuemin={defaultColumnDef.minSize}
       aria-valuemax={defaultColumnDef.maxSize}

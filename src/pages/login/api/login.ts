@@ -1,3 +1,4 @@
+import i18next from "i18next";
 import { HTTPError } from "ky";
 
 import { api } from "@/shared/api";
@@ -22,17 +23,23 @@ export async function parseLoginError(error: unknown): Promise<string> {
   if (error instanceof HTTPError) {
     try {
       const body: LoginErrorResponse = await error.response.json();
-      return body.non_field_errors?.[0] ?? body.detail ?? "Invalid credentials";
+      return (
+        body.non_field_errors?.[0] ??
+        body.detail ??
+        i18next.t("errors.api.invalidCredentials")
+      );
     } catch {
-      return `Server error (${String(error.response.status)}). Please try again later.`;
+      return i18next.t("errors.api.serverError", {
+        status: String(error.response.status),
+      });
     }
   }
   console.error("[Login] Non-HTTP error:", error);
   if (error instanceof DOMException && error.name === "AbortError") {
-    return "Request timed out. Please try again.";
+    return i18next.t("errors.api.requestTimeout");
   }
   if (error instanceof TypeError) {
-    return "Unable to reach the server. Please check your connection.";
+    return i18next.t("errors.api.networkError");
   }
-  return "An unexpected error occurred";
+  return i18next.t("errors.api.unexpectedError");
 }

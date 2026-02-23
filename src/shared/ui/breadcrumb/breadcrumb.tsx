@@ -9,9 +9,11 @@ import { cn } from "@/shared/lib/utils";
 
 /** Navigation trail showing the current page location within a hierarchy. */
 function Breadcrumb({ className, ...props }: React.ComponentProps<"nav">) {
+  const { t } = useTranslation("components");
+
   return (
     <nav
-      aria-label="breadcrumb"
+      aria-label={t("breadcrumb.label")}
       data-slot="breadcrumb"
       className={cn(className)}
       {...props}

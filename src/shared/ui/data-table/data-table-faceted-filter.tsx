@@ -89,7 +89,7 @@ export function DataTableFacetedFilter<TData, TValue>({
             variant="outline"
             size="sm"
             className="border-dashed px-2"
-            aria-label={`Clear ${title} filter`}
+            aria-label={t("dataTable.clearFilter", { title })}
             onClick={onReset}
           >
             <XCircle />
@@ -156,7 +156,7 @@ export function DataTableFacetedFilter<TData, TValue>({
       <PopoverContent
         className="w-50 p-0"
         align="start"
-        aria-label={`Filter by ${title}`}
+        aria-label={t("dataTable.filterBy", { title })}
       >
         <Command>
           <CommandInput placeholder={title} />

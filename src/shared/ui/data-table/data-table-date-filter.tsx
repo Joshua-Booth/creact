@@ -1,6 +1,7 @@
 import type { Column } from "@tanstack/react-table";
 
 import { useMemo } from "react";
+import { useTranslation } from "react-i18next";
 
 import type { DateRange } from "react-day-picker";
 import { CalendarIcon, XCircle } from "lucide-react";
@@ -35,6 +36,7 @@ export function DataTableDateFilter<TData>({
   title,
   multiple,
 }: DataTableDateFilterProps<TData>) {
+  const { t } = useTranslation("components");
   const columnFilterValue = column.getFilterValue();
 
   // eslint-disable-next-line sonarjs/function-return-type -- union type DateSelection requires different return shapes
@@ -109,7 +111,7 @@ export function DataTableDateFilter<TData>({
       /* istanbul ignore next @preserve */
       const dateText = hasSelectedDates
         ? formatDateRangeLabel(selectedDates)
-        : "Select date range";
+        : t("dataTable.selectDateRange");
       /* istanbul ignore next @preserve */
       const separator = hasSelectedDates ? (
         <>
@@ -138,7 +140,7 @@ export function DataTableDateFilter<TData>({
     /* istanbul ignore next @preserve */
     const dateText = hasSelectedDate
       ? formatDate(selectedDates[0])
-      : "Select date";
+      : t("dataTable.selectDate");
     /* istanbul ignore next @preserve */
     const separator = hasSelectedDate ? (
       <>
@@ -157,7 +159,7 @@ export function DataTableDateFilter<TData>({
         {separator}
       </span>
     );
-  }, [selectedDates, multiple, title]);
+  }, [selectedDates, multiple, title, t]);
 
   /* istanbul ignore next @preserve */
   const trigger = hasValue ? (
@@ -166,7 +168,7 @@ export function DataTableDateFilter<TData>({
         variant="outline"
         size="sm"
         className="border-dashed px-2"
-        aria-label={`Clear ${title} filter`}
+        aria-label={t("dataTable.clearFilter", { title })}
         onClick={onReset}
       >
         <XCircle />
@@ -213,7 +215,7 @@ export function DataTableDateFilter<TData>({
       <PopoverContent
         className="w-auto p-0"
         align="start"
-        aria-label={`Filter by ${title}`}
+        aria-label={t("dataTable.filterBy", { title })}
       >
         {multiple ? (
           <Calendar

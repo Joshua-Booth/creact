@@ -1,6 +1,7 @@
 import type { ColumnDef, TableMeta } from "@tanstack/react-table";
 
 import { memo, useCallback, useMemo } from "react";
+import { useTranslation } from "react-i18next";
 
 import { CopyIcon, EraserIcon, ScissorsIcon, Trash2Icon } from "lucide-react";
 import { toast } from "sonner";
@@ -102,6 +103,7 @@ function ContextMenuInnerImpl<TData>({
   onCellsCopy,
   onCellsCut,
 }: ContextMenuInnerProps<TData>) {
+  const { t } = useTranslation("components");
   const propsRef = useAsRef({
     dataGridRef,
     selectionState,
@@ -191,9 +193,9 @@ function ContextMenuInnerImpl<TData>({
     onDataUpdate?.(updates);
 
     toast.success(
-      `${updates.length} cell${updates.length === 1 ? "" : "s"} cleared`
+      t("dataGrid.contextMenu.cellsCleared", { count: updates.length })
     );
-  }, [propsRef]);
+  }, [propsRef, t]);
 
   const onDelete = useCallback(() => {
     void (async () => {
@@ -216,9 +218,9 @@ function ContextMenuInnerImpl<TData>({
 
       await onRowsDelete?.(rowIndicesArray);
 
-      toast.success(`${rowCount} row${rowCount === 1 ? "" : "s"} deleted`);
+      toast.success(t("dataGrid.contextMenu.rowsDeleted", { count: rowCount }));
     })();
-  }, [propsRef]);
+  }, [propsRef, t]);
   /* istanbul ignore end @preserve */
 
   return (
@@ -235,22 +237,22 @@ function ContextMenuInnerImpl<TData>({
       >
         <DropdownMenuItem onSelect={onCopy}>
           <CopyIcon />
-          Copy
+          {t("dataGrid.contextMenu.copy")}
         </DropdownMenuItem>
         <DropdownMenuItem onSelect={onCut} disabled={tableMeta.readOnly}>
           <ScissorsIcon />
-          Cut
+          {t("dataGrid.contextMenu.cut")}
         </DropdownMenuItem>
         <DropdownMenuItem onSelect={onClear} disabled={tableMeta.readOnly}>
           <EraserIcon />
-          Clear
+          {t("dataGrid.contextMenu.clear")}
         </DropdownMenuItem>
         {onRowsDelete && (
           <>
             <DropdownMenuSeparator />
             <DropdownMenuItem variant="destructive" onSelect={onDelete}>
               <Trash2Icon />
-              Delete rows
+              {t("dataGrid.contextMenu.deleteRows")}
             </DropdownMenuItem>
           </>
         )}

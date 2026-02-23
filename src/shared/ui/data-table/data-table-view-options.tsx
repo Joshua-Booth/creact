@@ -59,7 +59,7 @@ export function DataTableViewOptions<TData>({
       </PopoverTrigger>
       <PopoverContent
         className="w-44 p-0"
-        aria-label="Toggle column visibility"
+        aria-label={t("dataTable.toggleColumns")}
         {...props}
       >
         <Command>

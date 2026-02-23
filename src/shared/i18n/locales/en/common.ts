@@ -77,6 +77,15 @@ export default {
     },
   },
   errors: {
+    api: {
+      invalidCredentials: "Invalid credentials",
+      invalidFormData: "Invalid form data",
+      networkError: "Unable to reach the server. Please check your connection.",
+      registrationFailed: "Registration failed",
+      requestTimeout: "Request timed out. Please try again.",
+      serverError: "Server error ({{status}}). Please try again later.",
+      unexpectedError: "An unexpected error occurred",
+    },
     boundaryError: "Something went wrong",
     boundaryErrorDescription:
       "An unexpected error occurred. Please try again or refresh the page.",
@@ -94,6 +103,7 @@ export default {
   nav: {
     home: "Home",
     login: "Login",
+    logoTitle: "{{siteName}} Logo",
     signUp: "Sign Up",
   },
   pages: {
