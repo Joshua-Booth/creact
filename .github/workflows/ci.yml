@@ -129,7 +129,7 @@ jobs:
       - uses: actions/checkout@v6
       - uses: ./.github/actions/setup
       - name: Run Stylelint
-        run: mise run stylelint -- --custom-formatter @csstools/stylelint-formatter-github
+        run: mise run stylelint:check -- --custom-formatter @csstools/stylelint-formatter-github
 
   spell-check:
     name: Spell Check
