@@ -251,7 +251,7 @@ export const InputStory = meta.story({
  */
 export const InputGroupStory = meta.story({
   name: "InputGroup",
-  render: function Render(args) {
+  render: (args) => {
     const [voiceEnabled, setVoiceEnabled] = useState(false);
 
     return (
@@ -363,7 +363,7 @@ export const DropdownMenuStory = meta.story({
  */
 export const SelectStory = meta.story({
   name: "Select",
-  render: function Render(args) {
+  render: (args) => {
     const [currency, setCurrency] = useState("$");
 
     return (

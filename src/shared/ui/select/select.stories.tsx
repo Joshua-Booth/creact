@@ -311,7 +311,7 @@ export const Invalid = meta.story({
  * Toggle popup alignment with the trigger using `alignItemWithTrigger`.
  */
 export const AlignItemWithTrigger = meta.story({
-  render: function Render(args) {
+  render: (args) => {
     const [alignItemWithTrigger, setAlignItemWithTrigger] = useState(true);
 
     return (

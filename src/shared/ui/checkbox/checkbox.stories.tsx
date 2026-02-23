@@ -144,7 +144,7 @@ export const Group = meta.story({
       },
     },
   },
-  render: function Render(args) {
+  render: (args) => {
     const [recents, setRecents] = useState(true);
     const [home, setHome] = useState(false);
     const [applications, setApplications] = useState(true);
@@ -234,7 +234,7 @@ export const InTable = meta.story({
       },
     },
   },
-  render: function Render(args) {
+  render: (args) => {
     const [selectedRows, setSelectedRows] = useState<Set<string>>(
       () => new Set(["1"])
     );

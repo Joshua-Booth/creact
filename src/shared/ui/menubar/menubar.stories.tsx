@@ -36,7 +36,7 @@ import {
 const meta = preview.meta({
   title: "ui/Menubar",
   component: Menubar,
-  render: function Render(args) {
+  render: (args) => {
     const [bookmarksBar, setBookmarksBar] = useState(true);
     const [fullUrls, setFullUrls] = useState(false);
     const [profile, setProfile] = useState("benoit");
@@ -163,7 +163,7 @@ export const Default = meta.story();
  * Use `MenubarCheckboxItem` to add toggleable options within a menu.
  */
 export const Checkbox = meta.story({
-  render: function Render(args) {
+  render: (args) => {
     const [bookmarksBar, setBookmarksBar] = useState(true);
     const [fullUrls, setFullUrls] = useState(true);
     const [strikethrough, setStrikethrough] = useState(true);
@@ -227,7 +227,7 @@ export const Checkbox = meta.story({
  * option groups.
  */
 export const Radio = meta.story({
-  render: function Render(args) {
+  render: (args) => {
     const [profile, setProfile] = useState("benoit");
     const [theme, setTheme] = useState("system");
 

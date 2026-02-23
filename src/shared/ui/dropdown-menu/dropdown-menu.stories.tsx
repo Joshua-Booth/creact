@@ -278,7 +278,7 @@ export const Icons = meta.story({
  * Use `DropdownMenuCheckboxItem` for toggles.
  */
 export const Checkboxes = meta.story({
-  render: function Render(args) {
+  render: (args) => {
     const [showStatusBar, setShowStatusBar] = useState(true);
     const [showActivityBar, setShowActivityBar] = useState(false);
     const [showPanel, setShowPanel] = useState(false);
@@ -321,7 +321,7 @@ export const Checkboxes = meta.story({
  * Add icons to checkbox items.
  */
 export const CheckboxesIcons = meta.story({
-  render: function Render(args) {
+  render: (args) => {
     const [notifications, setNotifications] = useState({
       email: true,
       sms: false,
@@ -374,7 +374,7 @@ export const CheckboxesIcons = meta.story({
  * Use `DropdownMenuRadioGroup` for exclusive choices.
  */
 export const RadioGroup = meta.story({
-  render: function Render(args) {
+  render: (args) => {
     const [position, setPosition] = useState("bottom");
 
     return (
@@ -406,7 +406,7 @@ export const RadioGroup = meta.story({
  * Show radio options with icons.
  */
 export const RadioIcons = meta.story({
-  render: function Render(args) {
+  render: (args) => {
     const [paymentMethod, setPaymentMethod] = useState("card");
 
     return (
@@ -517,7 +517,7 @@ export const AvatarStory = meta.story({
  * A richer example combining groups, icons, and submenus.
  */
 export const Complex = meta.story({
-  render: function Render(args) {
+  render: (args) => {
     const [notifications, setNotifications] = useState({
       email: true,
       sms: false,

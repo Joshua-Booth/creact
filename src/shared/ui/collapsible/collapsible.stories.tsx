@@ -65,7 +65,7 @@ const meta = preview.meta({
  * information.
  */
 export const Default = meta.story({
-  render: function Render(args) {
+  render: (args) => {
     const [isOpen, setIsOpen] = useState(false);
 
     return (
@@ -147,7 +147,7 @@ export const SettingsPanel = meta.story({
   args: {
     className: undefined,
   },
-  render: function Render(args) {
+  render: (args) => {
     const [isOpen, setIsOpen] = useState(false);
 
     return (

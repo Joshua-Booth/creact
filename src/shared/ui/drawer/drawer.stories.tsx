@@ -150,7 +150,7 @@ export const Sides = meta.story({
  */
 export const ResponsiveDialog = meta.story({
   name: "Responsive Dialog",
-  render: function ResponsiveDialogStory(args) {
+  render: (args) => {
     const [open, setOpen] = useState(false);
     const [isDesktop, setIsDesktop] = useState(true);
 

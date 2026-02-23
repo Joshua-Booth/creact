@@ -78,7 +78,7 @@ export const Default = meta.story({
  */
 export const Dialog = meta.story({
   args: { className: "" },
-  render: function Render(args) {
+  render: (args) => {
     const [open, setOpen] = useState(false);
 
     return (
@@ -143,7 +143,7 @@ export const Dialog = meta.story({
 export const PopoverStory = meta.story({
   name: "Popover",
   args: { className: "" },
-  render: function Render(args) {
+  render: (args) => {
     const [open, setOpen] = useState(false);
 
     return (

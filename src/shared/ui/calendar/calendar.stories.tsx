@@ -110,7 +110,7 @@ export const Caption = meta.story({
  * Calendar with preset date buttons for quick selection.
  */
 export const Presets = meta.story({
-  render: function PresetsStory(args) {
+  render: (args) => {
     const [date, setDate] = React.useState<Date | undefined>(
       () => new Date(new Date().getFullYear(), 1, 12)
     );
@@ -166,7 +166,7 @@ export const Presets = meta.story({
  * Calendar with start and end time inputs for date-time selection.
  */
 export const Time = meta.story({
-  render: function TimeStory(args) {
+  render: (args) => {
     const [date, setDate] = React.useState<Date | undefined>(
       () => new Date(new Date().getFullYear(), new Date().getMonth(), 12)
     );
@@ -229,7 +229,7 @@ export const Time = meta.story({
  * Use the `disabled` prop with custom modifiers to show booked or unavailable dates.
  */
 export const Disabled = meta.story({
-  render: function DisabledStory(args) {
+  render: (args) => {
     const [date, setDate] = React.useState<Date | undefined>(
       () => new Date(new Date().getFullYear(), 0, 6)
     );
@@ -278,7 +278,7 @@ function CustomDayButton({
  * Calendar with custom day content showing additional information like pricing.
  */
 export const CustomDays = meta.story({
-  render: function CustomDaysStory(args) {
+  render: (args) => {
     const [range, setRange] = React.useState<DateRange | undefined>(() => ({
       from: new Date(new Date().getFullYear(), 11, 8),
       to: addDays(new Date(new Date().getFullYear(), 11, 8), 10),
@@ -332,7 +332,7 @@ export const WeekNumbers = meta.story({
  */
 export const Timezone = meta.story({
   name: "Timezone",
-  render: function TimezoneStory(args) {
+  render: (args) => {
     const [date, setDate] = React.useState<Date | undefined>();
     const [timeZone] = React.useState(
       () => Intl.DateTimeFormat().resolvedOptions().timeZone

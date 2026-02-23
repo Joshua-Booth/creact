@@ -160,7 +160,7 @@ export const BlockStart = meta.story({
  * Addon positioned below the input or textarea.
  */
 export const BlockEnd = meta.story({
-  render: function Render(args) {
+  render: (args) => {
     const [value, setValue] = useState("");
     const maxLength = 280;
 
@@ -249,7 +249,7 @@ export const Icon = meta.story({
  * Text addons for currency, domains, and character counts.
  */
 export const Text = meta.story({
-  render: function Render(args) {
+  render: (args) => {
     const [value, setValue] = useState("");
     const maxLength = 280;
 
@@ -302,7 +302,7 @@ export const Text = meta.story({
  * Button addons for actions.
  */
 export const Button = meta.story({
-  render: function Render(args) {
+  render: (args) => {
     const [isFavorite, setIsFavorite] = useState(false);
 
     return (

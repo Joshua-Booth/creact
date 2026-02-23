@@ -71,7 +71,7 @@ export const Label = meta.story({
  * A progress bar that can be controlled by a slider.
  */
 export const Controlled = meta.story({
-  render: function ControlledStory(args) {
+  render: (args) => {
     const [value, setValue] = useState(50);
 
     return (

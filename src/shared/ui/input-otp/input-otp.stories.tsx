@@ -161,7 +161,7 @@ export const Disabled = meta.story({
  * Use the `value` and `onChange` props to control the input value externally.
  */
 export const Controlled = meta.story({
-  render: function ControlledStory(args) {
+  render: (args) => {
     const [value, setValue] = useState("");
 
     return (

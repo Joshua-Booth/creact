@@ -99,7 +99,7 @@ export const Vertical = meta.story({
  * A controlled slider that displays its current value.
  */
 export const Controlled = meta.story({
-  render: function ControlledStory(args) {
+  render: (args) => {
     const [value, setValue] = React.useState([0.3, 0.7]);
 
     return (

@@ -269,7 +269,7 @@ export const Icons = meta.story({
  * A context menu with checkbox items for toggling options.
  */
 export const Checkboxes = meta.story({
-  render: function Render(args) {
+  render: (args) => {
     const [statusBar, setStatusBar] = useState(true);
     const [activityBar, setActivityBar] = useState(false);
     const [panel, setPanel] = useState(false);
@@ -312,7 +312,7 @@ export const Checkboxes = meta.story({
  * A context menu with radio items for selecting one option.
  */
 export const Radio = meta.story({
-  render: function Render(args) {
+  render: (args) => {
     const [position, setPosition] = useState("bottom");
 
     return (

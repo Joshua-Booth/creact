@@ -145,7 +145,7 @@ export const SelectStory = meta.story({
  */
 export const SliderStory = meta.story({
   name: "Slider",
-  render: function SliderRender(args) {
+  render: (args) => {
     const [value, setValue] = useState([200, 800]);
 
     return (
