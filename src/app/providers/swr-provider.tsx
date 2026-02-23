@@ -4,11 +4,8 @@ import { SWRConfig } from "swr";
 import { useAuthStore } from "@/entities/user";
 import { api, ApiError } from "@/shared/api";
 
-let isRedirecting = false;
-
 function handleGlobalError(err: unknown) {
-  if (err instanceof ApiError && err.status === 401 && !isRedirecting) {
-    isRedirecting = true;
+  if (err instanceof ApiError && err.status === 401) {
     useAuthStore.getState().logout();
     window.location.href = "/login";
   }
@@ -19,16 +16,18 @@ const fetcher = async <T,>(url: string): Promise<T> => {
     return await api.get(url).json<T>();
   } catch (error) {
     if (error instanceof HTTPError) {
-      const body = await error.response
+      const body: unknown = await error.response
         .clone()
         .json()
         .catch(() => error.response.clone().text());
-      throw new ApiError(
-        (body as { message?: string }).message ??
-          `Request failed: ${error.response.status}`,
-        error.response.status,
-        body
-      );
+      const message =
+        typeof body === "object" &&
+        body !== null &&
+        "message" in body &&
+        typeof (body as Record<string, unknown>).message === "string"
+          ? (body as Record<string, unknown>).message
+          : `Request failed: ${error.response.status}`;
+      throw new ApiError(message as string, error.response.status, body);
     }
     throw error;
   }
