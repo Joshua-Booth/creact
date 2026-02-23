@@ -6,7 +6,7 @@
   "type": "module",
   "author": "Joshua Booth",
   "private": true,
-  "license": "UNLICENSED",
+  "license": "0BSD",
   "packageManager": "pnpm@10.28.0",
   "scripts": {
     "prepare": "husky || true",
