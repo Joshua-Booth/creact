@@ -128,7 +128,7 @@ export function ForgotPasswordPage() {
               >
                 <img
                   src={logoSvg}
-                  alt="Logo"
+                  alt={t("app.title")}
                   className="size-24 object-contain brightness-0 invert"
                 />
               </Link>
