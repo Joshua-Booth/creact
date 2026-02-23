@@ -1,3 +1,4 @@
+import { withI18n } from "@/storybook/decorators/with-i18n";
 import preview from "@/storybook/preview";
 import { ArrowUpIcon, LoaderIcon } from "lucide-react";
 import { expect } from "storybook/test";
@@ -27,6 +28,7 @@ import { Spinner } from "./spinner";
 const meta = preview.meta({
   title: "ui/Spinner",
   component: Spinner,
+  decorators: [withI18n],
   argTypes: {
     className: {
       control: "text",
@@ -183,5 +185,5 @@ export const EmptyStory = meta.story({
 
 Default.test("should have accessible loading role", async ({ canvas }) => {
   const spinner = await canvas.findByRole("status");
-  await expect(spinner).toHaveAccessibleName("Loading");
+  await expect(spinner).toHaveAccessibleName("Loading...");
 });
