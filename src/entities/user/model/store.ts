@@ -28,7 +28,7 @@ export const useAuthStore = create<AuthState>()((set) => ({
 
 // Sync auth state across browser tabs via storage events
 if (typeof window !== "undefined") {
-  window.addEventListener("storage", (event) => {
+  const onStorage = (event: StorageEvent) => {
     if (event.key !== TOKEN_KEY) return;
     const { token } = useAuthStore.getState();
 
@@ -37,7 +37,15 @@ if (typeof window !== "undefined") {
     } else if (event.newValue !== null && event.newValue !== token) {
       useAuthStore.setState({ token: event.newValue });
     }
-  });
+  };
+
+  window.addEventListener("storage", onStorage);
+
+  if (import.meta.hot) {
+    import.meta.hot.dispose(() => {
+      window.removeEventListener("storage", onStorage);
+    });
+  }
 }
 
 /**
