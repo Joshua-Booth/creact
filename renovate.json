@@ -9,7 +9,7 @@
   ],
 
   "labels": ["dependencies"],
-  "baseBranches": ["master"],
+  "baseBranchPatterns": ["master"],
   "rangeStrategy": "pin",
 
   "semanticCommitType": "chore",
@@ -44,73 +44,127 @@
     },
     {
       "description": "Group React ecosystem",
-      "matchPackagePatterns": ["^react", "^@react-router", "^react-dom"],
+      "matchPackageNames": [
+        "/^react$/",
+        "/^react-dom$/",
+        "/^react-router/",
+        "/^@react-router\\//",
+        "/^react-router-devtools$/"
+      ],
       "groupName": "react ecosystem"
     },
     {
       "description": "Group TypeScript ecosystem",
-      "matchPackagePatterns": [
-        "^typescript",
-        "^@types/",
-        "^@typescript-eslint/"
+      "matchPackageNames": [
+        "/^typescript/",
+        "/^@types\\//",
+        "/^@typescript-eslint\\//",
+        "/^typescript-eslint$/"
       ],
       "groupName": "typescript ecosystem"
     },
     {
       "description": "Group testing packages",
-      "matchPackagePatterns": [
-        "^vitest",
-        "^@vitest/",
-        "^playwright",
-        "^@playwright/",
-        "^msw"
+      "matchPackageNames": [
+        "/^vitest/",
+        "/^@vitest\\//",
+        "/^playwright/",
+        "/^@playwright\\//",
+        "/^msw/",
+        "/^monocart/"
       ],
       "groupName": "testing tools"
     },
     {
       "description": "Group Storybook packages",
-      "matchPackagePatterns": [
-        "^storybook",
-        "^@storybook/",
-        "^@chromatic-com/"
+      "matchPackageNames": [
+        "/^storybook/",
+        "/^@storybook\\//",
+        "/^@chromatic-com\\//",
+        "/^chromatic$/"
       ],
       "groupName": "storybook"
     },
     {
       "description": "Group ESLint packages",
-      "matchPackagePatterns": ["^eslint", "^@eslint/"],
+      "matchPackageNames": [
+        "/^eslint/",
+        "/^@eslint\\//",
+        "/^@eslint-community\\//",
+        "/^@eslint-react\\//",
+        "/^eslint-plugin-/",
+        "/^eslint-config-/"
+      ],
       "groupName": "eslint"
     },
     {
       "description": "Group Tailwind packages",
-      "matchPackagePatterns": ["^tailwind", "^@tailwindcss/"],
+      "matchPackageNames": ["/^tailwind/", "/^@tailwindcss\\//"],
       "groupName": "tailwindcss"
     },
     {
       "description": "Group i18n packages",
-      "matchPackagePatterns": ["^i18next", "^react-i18next", "^remix-i18next"],
+      "matchPackageNames": [
+        "/^i18next/",
+        "/^react-i18next/",
+        "/^remix-i18next/"
+      ],
       "groupName": "i18n"
     },
     {
       "description": "Group release tooling",
-      "matchPackagePatterns": [
-        "^semantic-release",
-        "^@semantic-release/",
-        "^@commitlint/",
-        "^commitlint-plugin-",
-        "^conventional-changelog"
+      "matchPackageNames": [
+        "/^semantic-release/",
+        "/^@semantic-release\\//",
+        "/^@commitlint\\//",
+        "/^commitlint-plugin-/",
+        "/^conventional-changelog/"
       ],
       "groupName": "release tooling"
     },
     {
       "description": "Group Sentry packages",
-      "matchPackagePatterns": ["^@sentry/"],
+      "matchPackageNames": ["/^@sentry\\//"],
       "groupName": "sentry"
     },
     {
       "description": "Group Vite packages",
-      "matchPackagePatterns": ["^vite", "^@vitejs/"],
+      "matchPackageNames": ["/^vite$/", "/^vite-/", "/^@vitejs\\//"],
       "groupName": "vite"
+    },
+    {
+      "description": "Group Prettier packages",
+      "matchPackageNames": [
+        "/^prettier/",
+        "/^@prettier\\//",
+        "/^@ianvs\\/prettier-/"
+      ],
+      "groupName": "prettier"
+    },
+    {
+      "description": "Group Stylelint packages",
+      "matchPackageNames": ["/^stylelint/", "/^@csstools\\/stylelint-/"],
+      "groupName": "stylelint"
+    },
+    {
+      "description": "Group PostHog packages",
+      "matchPackageNames": ["/^@posthog\\//", "/^posthog-/"],
+      "groupName": "posthog"
+    },
+    {
+      "description": "Group TanStack packages",
+      "matchPackageNames": ["/^@tanstack\\//"],
+      "groupName": "tanstack"
+    },
+    {
+      "description": "Group Embla Carousel packages",
+      "matchPackageNames": ["/^embla-carousel/"],
+      "groupName": "embla carousel"
+    },
+    {
+      "description": "Group GitHub Actions",
+      "matchManagers": ["github-actions"],
+      "groupName": "github actions"
     }
   ],
 
