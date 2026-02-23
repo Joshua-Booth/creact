@@ -1,6 +1,2 @@
 #!/bin/sh
-
-# Prevent Husky runnning on commits in CI
-[ -n "$CI" ] && exit 0
-
-npm start prepush && exit 0
+mise run format:check ::: lint:check ::: stylelint:check ::: typecheck ::: spell ::: knip ::: steiger && exit 0

@@ -1,0 +1,297 @@
+min_version = "2024.9.5"
+
+[tools]
+node = "24.12.0"
+pnpm = "10.28.0"
+
+[env]
+NODE_ENV = "development"
+_.path = ["./node_modules/.bin"]
+
+# Optional: Set in mise.local.toml for Sentry error tracking
+# VITE_SENTRY_DSN = "your_sentry_dsn"
+
+# Development environment - derived from [vars]
+VITE_PORT = "{{vars.port}}"
+VITE_API_PORT = "{{vars.api_port}}"
+VITE_API_ROOT_URL = "http://localhost:{{vars.api_port}}"
+VITE_PUBLIC_URL = "http://localhost:{{vars.port}}/public"
+
+[vars]
+# Port configuration (override in mise.local.toml for worktrees)
+port = "8080"
+api_port = "8000"
+
+# Config paths
+eslint_config = "./config/eslint.config.ts"
+prettier_config = "./config/.prettierrc"
+prettier_ignore = "./config/.prettierignore"
+stylelint_config = "./config/.stylelintrc.json"
+playwright_config = "./config/playwright.config.ts"
+steiger_config = "./config/steiger.config.ts"
+releaserc = "./config/.releaserc.json"
+knip_config = "./config/knip.config.ts"
+depcruise_config = "./config/.dependency-cruiser.js"
+cspell_config = "./config/cspell.json"
+storybook_config = "./.storybook"
+lintstaged_config = "./config/.lintstagedrc"
+
+[tasks.build]
+description = "Build the application"
+alias = "b"
+run = "react-router build"
+sources = ["src/**/*", "package.json", "vite.config.ts", "tsconfig.json"]
+outputs = ["dist/**/*"]
+
+[tasks."build:e2e"]
+description = "Build for e2e testing (standard Node server)"
+alias = "be"
+env = { E2E = "true" }
+run = "react-router build"
+
+[tasks."build:analyze"]
+description = "Analyze bundle size"
+alias = "ba"
+depends = ["build"]
+run = "vite-bundle-analyzer"
+
+[tasks.clean]
+description = "Remove build artifacts and cache"
+confirm = "This will delete dist, coverage, test results, and build caches. Continue?"
+run = "rm -rf dist .vite coverage playwright-report test-results"
+
+[tasks.coverage]
+description = "Run unit and Storybook tests with coverage"
+alias = "tc"
+depends = ["build"]
+run = "vitest run --coverage.enabled"
+
+[tasks."coverage:e2e"]
+description = "Run E2E tests with coverage"
+alias = "tec"
+depends = ["build:e2e"]
+env = { COVERAGE = "true" }
+run = "playwright test --config {{vars.playwright_config}}"
+
+[tasks."coverage:merge"]
+description = "Merge coverage reports from all test suites"
+alias = "tcm"
+run = "node scripts/merge-coverage.ts"
+
+[tasks."coverage:all"]
+description = "Run all tests with coverage and merge reports"
+alias = "tca"
+depends = ["coverage", "coverage:e2e"]
+run = "mise run coverage:merge"
+
+[tasks."coverage:serve"]
+description = "Serve the merged coverage report"
+alias = "tcs"
+run = "pnpm exec serve coverage/merged/html -p 9123"
+
+[tasks.depcruise]
+description = "Check for circular dependencies and other dependency issues"
+alias = "dc"
+run = "depcruise src --config {{vars.depcruise_config}}"
+
+[tasks."depcruise:graph"]
+description = "Generate visual dependency graph (requires graphviz)"
+alias = "dcg"
+run = "depcruise src --config {{vars.depcruise_config}} --output-type dot | dot -T svg > dependency-graph.svg && echo 'Generated: dependency-graph.svg'"
+
+[tasks.dev]
+description = "Start development server"
+alias = "d"
+run = "react-router dev"
+
+[tasks.generate]
+description = "Scaffold FSD slices and components"
+alias = "g"
+run = "pnpm exec plop --plopfile config/plopfile.ts --dest ."
+
+[tasks.format]
+description = "Format code with Prettier"
+alias = "f"
+run = "prettier --write \"**/*.{ts,tsx,js,css,json,yml,yaml,mdx}\" --config {{vars.prettier_config}} --ignore-path {{vars.prettier_ignore}} --cache"
+
+[tasks."format:files"]
+description = "Format specific files (for lint-staged)"
+hide = true
+run = "prettier --config {{vars.prettier_config}} --ignore-path {{vars.prettier_ignore}} --write"
+
+[tasks."format:check"]
+description = "Check code formatting with Prettier"
+alias = "fc"
+run = "prettier --check \"**/*.{ts,tsx,js,css,json,yml,yaml,mdx}\" --config {{vars.prettier_config}} --ignore-path {{vars.prettier_ignore}} --cache"
+
+[tasks.fix]
+description = "Auto-fix all code quality issues"
+alias = "x"
+depends = ["format", "lint", "stylelint", "knip:fix", "steiger:fix"]
+run = "echo 'All fixes applied!'"
+
+[tasks.lint]
+description = "Fix code with ESLint"
+alias = "l"
+depends = ["typegen"]
+run = "eslint . --config {{vars.eslint_config}} --max-warnings 0 --fix --cache"
+
+[tasks."lint:files"]
+description = "Lint specific files (for lint-staged)"
+hide = true
+run = "eslint --config {{vars.eslint_config}} --fix"
+
+[tasks."lint:check"]
+description = "Check code with ESLint"
+alias = "lc"
+depends = ["typegen"]
+run = "eslint . --config {{vars.eslint_config}} --max-warnings 0 --cache"
+
+[tasks.lintstaged]
+description = "Run lint-staged on staged files"
+run = "lint-staged --config {{vars.lintstaged_config}}"
+
+[tasks.knip]
+description = "Find unused files, dependencies, and exports"
+alias = "k"
+run = "knip --config {{vars.knip_config}} --no-config-hints"
+
+[tasks."knip:fix"]
+description = "Auto-remove unused exports"
+alias = "kf"
+run = "knip --config {{vars.knip_config}} --fix --no-config-hints"
+
+[tasks.preview]
+description = "Preview production build"
+alias = "p"
+depends = ["build"]
+run = "vite preview --config config/vite.config.ts"
+
+[tasks.spell]
+description = "Check spelling with cspell"
+alias = "sp"
+run = "cspell . --config {{vars.cspell_config}}"
+
+[tasks."spell:files"]
+description = "Spell check specific files (for lint-staged)"
+hide = true
+run = "cspell --config {{vars.cspell_config}} --no-must-find-files"
+
+[tasks.release]
+description = "Create a new release using semantic-release"
+confirm = "This will create a new release. Continue?"
+run = "semantic-release -c {{vars.releaserc}}"
+
+[tasks."release:dry"]
+alias = "rd"
+description = "Preview the next release without publishing"
+run = "semantic-release -c {{vars.releaserc}} --dry-run"
+
+[tasks.steiger]
+description = "Run Steiger architecture linter"
+run = "steiger ./src --config {{vars.steiger_config}}"
+
+[tasks."steiger:fix"]
+description = "Run Steiger with auto-fix"
+alias = "sf"
+run = "steiger --fix ./src --config {{vars.steiger_config}}"
+
+[tasks.stylelint]
+description = "Fix CSS/SCSS with Stylelint"
+alias = "sl"
+run = "stylelint \"**/*.{css,scss}\" --ignore-path .gitignore --config {{vars.stylelint_config}} --fix"
+
+[tasks."stylelint:files"]
+description = "Lint specific CSS files (for lint-staged)"
+hide = true
+run = "stylelint --config {{vars.stylelint_config}} --fix"
+
+[tasks."stylelint:check"]
+description = "Check CSS/SCSS with Stylelint"
+alias = "slc"
+run = "stylelint \"**/*.{css,scss}\" --ignore-path .gitignore --config {{vars.stylelint_config}}"
+
+[tasks.test]
+description = "Run unit and Storybook tests"
+alias = "t"
+depends = ["build"]
+run = "vitest"
+
+[tasks."test:unit"]
+description = "Run unit tests only"
+alias = "tu"
+depends = ["build"]
+run = "vitest --project unit"
+
+[tasks."test:e2e"]
+description = "Run end-to-end tests with Playwright"
+alias = "te"
+depends = ["build:e2e"]
+run = "playwright test --config {{vars.playwright_config}}"
+
+[tasks."test:e2e:ui"]
+description = "Run E2E tests in UI mode"
+alias = "teu"
+depends = ["build:e2e"]
+run = "playwright test --ui --config {{vars.playwright_config}}"
+
+[tasks."test:ui"]
+description = "Open Vitest UI"
+alias = "tui"
+depends = ["build"]
+run = "vitest --ui"
+
+[tasks."test:storybook"]
+description = "Run Storybook component tests"
+alias = "tsb"
+depends = ["build"]
+run = "vitest --config {{vars.storybook_config}}/vitest.config.ts"
+
+[tasks."test:all"]
+description = "Run all tests (unit, storybook, e2e)"
+alias = "ta"
+depends = ["build", "build:e2e"]
+run = ["vitest run", "playwright test --config {{vars.playwright_config}}"]
+
+[tasks.typegen]
+description = "Generate React Router route types"
+run = "react-router typegen"
+
+[tasks.typecheck]
+description = "Run TypeScript type checking"
+alias = "tt"
+depends = ["typegen"]
+run = "tsc --noEmit & tsc --noEmit --project config/tsconfig.node.json & wait"
+
+[tasks.storybook]
+description = "Start Storybook dev server"
+alias = "sb"
+run = "storybook dev -p 6006 --config-dir {{vars.storybook_config}}"
+
+[tasks."storybook:build"]
+description = "Build Storybook static site"
+alias = "sbb"
+run = "storybook build -o storybook-static --config-dir {{vars.storybook_config}}"
+
+[tasks.audit]
+description = "Run security audit for high-severity vulnerabilities"
+run = "pnpm audit --audit-level=high"
+
+[tasks.check]
+description = "Run all CI checks locally"
+alias = "c"
+depends = [
+    "audit",
+    "format:check",
+    "lint:check",
+    "stylelint:check",
+    "typecheck",
+    "coverage",
+    "test:e2e",
+    "storybook:build",
+    "knip",
+    "depcruise",
+    "steiger",
+    "spell",
+]
+run = "echo 'All checks passed!'"

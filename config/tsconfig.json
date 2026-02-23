@@ -1,0 +1,35 @@
+{
+  "compilerOptions": {
+    "target": "ES2024",
+    "lib": ["ES2024", "DOM", "DOM.Iterable"],
+    "types": ["vite/client", "node"],
+    "module": "preserve",
+    "skipLibCheck": true,
+    "verbatimModuleSyntax": true,
+    "strict": true,
+    "noUncheckedIndexedAccess": true,
+    "noImplicitOverride": true,
+    "erasableSyntaxOnly": true,
+    "forceConsistentCasingInFileNames": true,
+    "resolveJsonModule": true,
+    "isolatedModules": true,
+    "moduleDetection": "force",
+    "noEmit": true,
+    "jsx": "react-jsx",
+    "moduleResolution": "bundler",
+    "allowImportingTsExtensions": true,
+    "baseUrl": "..",
+    "rootDirs": ["../src", "../.react-router/types/src"],
+    "paths": {
+      "@/*": ["./src/*"],
+      "@/storybook/*": ["./.storybook/*"]
+    }
+  },
+  "include": [
+    "../src",
+    "../tests",
+    "../.react-router/types/**/*",
+    "../.storybook"
+  ],
+  "exclude": ["../node_modules", "../dist", "../tests/e2e", "../app"]
+}

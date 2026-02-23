@@ -1,0 +1,21 @@
+{{#eq layer "pages"}}
+/**
+ * TODO: Add page description.
+ * @returns TODO: Add return description.
+ */
+export function {{pascalCase name}}Page() {
+  return (
+    <main>
+      <h1>{{titleCase name}}</h1>
+    </main>
+  );
+}
+{{else}}
+/**
+ * TODO: Add component description.
+ * @returns TODO: Add return description.
+ */
+export function {{pascalCase name}}() {
+  return <div>{{titleCase name}}</div>;
+}
+{{/eq}}

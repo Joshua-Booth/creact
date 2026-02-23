@@ -1,0 +1,216 @@
+name: CI
+
+on:
+  push:
+    branches:
+      - master
+  pull_request:
+    branches:
+      - master
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+env:
+  HUSKY: 0
+
+jobs:
+  format:
+    name: Format Check
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+      - uses: ./.github/actions/setup
+      - name: Check formatting
+        run: mise run format:check
+
+  eslint:
+    name: ESLint
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+      - uses: ./.github/actions/setup
+      - name: Run ESLint
+        run: mise run lint:check
+
+  typecheck:
+    name: Type Check
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+      - uses: ./.github/actions/setup
+      - name: Run TypeScript type checking
+        run: mise run typecheck
+
+  test:
+    name: Unit & Storybook Tests
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+      - uses: ./.github/actions/setup
+
+      - name: Install Playwright browsers
+        run: pnpm exec playwright install --with-deps chromium
+
+      - name: Run unit and Storybook tests with coverage
+        run: mise run coverage -- --reporter=github-actions
+
+      - uses: actions/upload-artifact@v6
+        if: ${{ !cancelled() }}
+        with:
+          name: coverage-vitest
+          path: coverage/vitest/
+          retention-days: 7
+          if-no-files-found: ignore
+
+  test-e2e:
+    name: E2E Tests
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+      - uses: ./.github/actions/setup
+
+      - name: Install Playwright browsers
+        run: pnpm exec playwright install --with-deps chromium
+
+      - name: Run E2E tests with coverage
+        run: mise run coverage:e2e
+
+      - uses: actions/upload-artifact@v6
+        if: ${{ !cancelled() }}
+        with:
+          name: playwright-report
+          path: |
+            playwright-report/
+            test-results/
+          retention-days: 7
+          if-no-files-found: ignore
+
+      - uses: actions/upload-artifact@v6
+        if: ${{ !cancelled() }}
+        with:
+          name: coverage-e2e
+          path: coverage/e2e/
+          retention-days: 7
+          if-no-files-found: ignore
+
+  security-audit:
+    name: Security Audit
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+      - uses: ./.github/actions/setup
+      - name: Run security audit
+        run: mise run audit
+
+  dead-code:
+    name: Dead Code Detection
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+      - uses: ./.github/actions/setup
+      - name: Run Knip
+        run: mise run knip -- --reporter github-actions
+
+  fsd:
+    name: FSD Architecture
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+      - uses: ./.github/actions/setup
+      - name: Run Steiger
+        run: mise run steiger
+
+  css-lint:
+    name: CSS Lint
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+      - uses: ./.github/actions/setup
+      - name: Run Stylelint
+        run: mise run stylelint:check -- --custom-formatter @csstools/stylelint-formatter-github
+
+  spell-check:
+    name: Spell Check
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+      - uses: ./.github/actions/setup
+      - name: Run spell check
+        run: mise run spell
+
+  depcruise:
+    name: Dependency Check
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+      - uses: ./.github/actions/setup
+      - name: Check for circular dependencies
+        run: mise run depcruise
+
+  build:
+    name: Build
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+      - uses: ./.github/actions/setup
+      - name: Build application
+        run: mise run build
+
+  coverage-merge:
+    name: Merge Coverage Reports
+    runs-on: ubuntu-latest
+    needs: [test, test-e2e]
+    if: ${{ !cancelled() && (needs.test.result == 'success' || needs.test-e2e.result == 'success') }}
+    steps:
+      - uses: actions/checkout@v6
+      - uses: ./.github/actions/setup
+
+      - uses: actions/download-artifact@v6
+        with:
+          name: coverage-vitest
+          path: coverage/vitest/
+        continue-on-error: true
+
+      - uses: actions/download-artifact@v6
+        with:
+          name: coverage-e2e
+          path: coverage/e2e/
+        continue-on-error: true
+
+      - name: Merge coverage reports
+        run: mise run coverage:merge
+
+      - uses: actions/upload-artifact@v6
+        with:
+          name: coverage-merged
+          path: coverage/merged/
+          retention-days: 7
+          if-no-files-found: ignore
+
+# Uncomment when Chromatic is set up:
+# 1. Create project at chromatic.com
+# 2. Add CHROMATIC_PROJECT_TOKEN secret to GitHub
+#
+#  chromatic:
+#    name: Chromatic Visual Tests
+#    runs-on: ubuntu-latest
+#    steps:
+#      - uses: actions/checkout@v6
+#        with:
+#          fetch-depth: 0
+#
+#      - uses: ./.github/actions/setup
+#
+#      - name: Build Storybook
+#        run: mise run storybook:build
+#
+#      - name: Run Chromatic
+#        uses: chromaui/action@latest
+#        with:
+#          projectToken: ${{ secrets.CHROMATIC_PROJECT_TOKEN }}
+#          storybookBuildDir: storybook-static
+#          exitZeroOnChanges: true
+#          onlyChanged: true
+#          autoAcceptChanges: master

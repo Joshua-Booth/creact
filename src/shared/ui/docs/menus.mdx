@@ -1,0 +1,47 @@
+import { Canvas, Meta } from "@storybook/addon-docs/blocks";
+
+import * as ContextMenuStories from "../context-menu/context-menu.stories";
+import * as DropdownMenuStories from "../dropdown-menu/dropdown-menu.stories";
+import * as MenubarStories from "../menubar/menubar.stories";
+import * as NavigationMenuStories from "../navigation-menu/navigation-menu.stories";
+
+<Meta title="ui/Guides/Menus" />
+
+# Menus
+
+Menu components display lists of actions or links. The key distinction is **how they open** and **whether items are actions or links**.
+
+## Choosing a Component
+
+| Component | Trigger | Persistent? | Items are... |
+| --- | --- | --- | --- |
+| [DropdownMenu](?path=/docs/ui-dropdownmenu--docs) | Button click | No | Actions (callbacks) |
+| [ContextMenu](?path=/docs/ui-contextmenu--docs) | Right-click | No | Actions (callbacks) |
+| [Menubar](?path=/docs/ui-menubar--docs) | Click on bar | Bar always visible | Actions (callbacks) |
+| [NavigationMenu](?path=/docs/ui-navigationmenu--docs) | Hover/click on bar | Bar always visible | Links (navigation) |
+
+> **Key distinction:** DropdownMenu, ContextMenu, and Menubar share the same action-menu pattern — items fire callbacks. NavigationMenu is different: its items are links that navigate to other pages.
+
+## DropdownMenu
+
+A menu triggered by clicking a button. Use for action lists like "Edit", "Delete", "Share" attached to a specific element.
+
+<Canvas of={DropdownMenuStories.Default} />
+
+## ContextMenu
+
+A menu triggered by right-clicking an area. Shares the same item API as DropdownMenu but opens on right-click instead of a button press.
+
+<Canvas of={ContextMenuStories.Basic} />
+
+## Menubar
+
+A horizontal bar of menus, always visible at the top of a region. Each top-level item opens a dropdown of actions. Think of classic application menu bars (File, Edit, View).
+
+<Canvas of={MenubarStories.Default} />
+
+## NavigationMenu
+
+A horizontal bar of navigation links with optional dropdown panels for sub-navigation. Unlike the other menu components, items are `<a>` links, not action callbacks.
+
+<Canvas of={NavigationMenuStories.Default} />

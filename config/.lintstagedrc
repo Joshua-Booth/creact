@@ -1,11 +1,13 @@
 {
-  "*.+(js)": [
-    "eslint --config ./config/.eslintrc.json --ignore-path .gitignore"
+  "**/*.{ts,tsx}": [
+    "mise run lint:files",
+    "mise run format:files",
+    "mise run spell:files"
   ],
-  "*.+(scss)": [
-    "stylelint --config ./config/.stylelintrc.json --ignore-path .gitignore"
-  ],
-  "**/*.+(js|json|html|md)": [
-    "prettier --config ./config/.prettierrc --ignore-path .gitignore"
-  ]
+  "**/*.js": ["mise run format:files", "mise run spell:files"],
+  "**/*.json": ["mise run format:files"],
+  "**/*.{yml,yaml}": ["mise run format:files"],
+  "**/*.md": ["mise run spell:files"],
+  "**/*.mdx": ["mise run format:files", "mise run spell:files"],
+  "**/*.{css,scss}": ["mise run stylelint:files", "mise run format:files"]
 }

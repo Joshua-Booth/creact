@@ -1,102 +1,52 @@
-## File-based project format:
-*.ipr
-*.iws
+# Dependencies
+node_modules
+.pnp.*
 
-## Plugin-specific files:
-
-### OSX template
-.DS_Store
-.AppleDouble
-.LSOverride
-
-# Thumbnails
-._*
-
-# Files that might appear in the root of a volume
-.DocumentRevisions-V100
-.fseventsd
-.Spotlight-V100
-.TemporaryItems
-.Trashes
-.VolumeIcon.icns
-
-# Directories potentially created on remote AFP share
-.AppleDB
-.AppleDesktop
-Network Trash Folder
-Temporary Items
-.apdisk
-
-# production
-static
-media
-build
+# Build
 dist
+dist-ssr
+.react-router
+.netlify
+*.local
+*.local.*
 
-# Dotenv environment variables
-env/
+# Vite cache
+tmp
+.cache
+.vite
 
-# nyc test coverage
-.nyc_output
+# Environment
+.env
+.env.local
+.env.*.local
+.env.test
 
-# Coverage directory used by tools like istanbul
+# Testing
 coverage
 *.lcov
+.nyc_output
+playwright-report
+.playwright-cli
+test-results
 
-# Cypress
-cypress/videos
-cypress/screenshots
+# Editor
+.vscode/*.code-workspace
+!.vscode/
+!.vscode/settings.json
+!.vscode/extensions.json
+!.vscode/launch.json
+.idea
+.DS_Store
 
-# Translations
-*.mo
-*.pot
-
-# React
-.DS_*
-logs
-**/*.backup.*
-**/*.back.*
-
-# Node logs
-logs
+# Logs
 *.log
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
-lerna-debug.log*
 
-# Node diagnostic reports (https://nodejs.org/api/report.html)
-report.[0-9]*.[0-9]*.[0-9]*.[0-9]*.json
-
-# Dependency directories
-node_modules/
-
-# Sass
-.sass-cache/
-*.css.map
-*.sass.map
-*.scss.map
-
-# Storybook build outputs
-.out
-.storybook-out
+*storybook.log
 storybook-static
 
-# Visual Studio Code
-.vscode/
-
-# Documentation
-site/
-docs/
-
-# Design files
-psd
-thumb
-sketch
-.figma
-.psd
-
-# Others
-tmp/
-temp/
-out/
+# Generated files
+dependency-graph.svg
+.eslintcache

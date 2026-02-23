@@ -1,9 +1,0 @@
-{
-  "chromeWebSecurity": false,
-  "integrationFolder": "cypress/e2e",
-  "ignoreTestFiles": ["src/index.js", "src/serviceWorker.js"],
-  "retries": {
-    "runMode": 2
-  },
-  "video": false
-}
