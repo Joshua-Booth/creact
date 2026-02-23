@@ -58,6 +58,22 @@ describe("parseLoginError", () => {
     expect(await parseLoginError(error)).toBe("Invalid credentials");
   });
 
+  it("should return timeout message for AbortError", async () => {
+    const abortError = new DOMException(
+      "The operation was aborted",
+      "AbortError"
+    );
+    expect(await parseLoginError(abortError)).toBe(
+      "Request timed out. Please try again."
+    );
+  });
+
+  it("should return connection error message for TypeError", async () => {
+    expect(await parseLoginError(new TypeError("Failed to fetch"))).toBe(
+      "Unable to reach the server. Please check your connection."
+    );
+  });
+
   it('should return "An unexpected error occurred" for non-HTTPError', async () => {
     expect(await parseLoginError(new Error("Network failure"))).toBe(
       "An unexpected error occurred"

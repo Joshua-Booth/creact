@@ -80,6 +80,22 @@ describe("parseSignupError", () => {
     expect(await parseSignupError(error)).toBe("Registration failed");
   });
 
+  it("should return timeout message for AbortError", async () => {
+    const abortError = new DOMException(
+      "The operation was aborted",
+      "AbortError"
+    );
+    expect(await parseSignupError(abortError)).toBe(
+      "Request timed out. Please try again."
+    );
+  });
+
+  it("should return connection error message for TypeError", async () => {
+    expect(await parseSignupError(new TypeError("Failed to fetch"))).toBe(
+      "Unable to reach the server. Please check your connection."
+    );
+  });
+
   it('should return "An unexpected error occurred" for non-HTTPError', async () => {
     expect(await parseSignupError(new Error("Network failure"))).toBe(
       "An unexpected error occurred"
