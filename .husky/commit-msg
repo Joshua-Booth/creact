@@ -1,2 +1,2 @@
 #!/bin/sh
-npx commitlint -e --config "./config/commitlint.config.js"
+pnpm exec commitlint -e --config "./config/commitlint.config.ts"

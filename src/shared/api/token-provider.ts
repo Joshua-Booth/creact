@@ -1,0 +1,27 @@
+type TokenProvider = () => string | null;
+
+let _configured = false;
+let _getToken: TokenProvider = () => null;
+
+/**
+ * Register a function that returns the current auth token.
+ * Call once at app startup from the entities layer.
+ * @param provider - A function returning the current token or null.
+ */
+export function configureTokenProvider(provider: TokenProvider): void {
+  _configured = true;
+  _getToken = provider;
+}
+
+/**
+ * Retrieve the current auth token via the configured provider.
+ * @returns The current token, or null when no provider is configured or no token exists.
+ */
+export function getToken(): string | null {
+  if (!_configured && import.meta.env.DEV) {
+    console.warn(
+      "[API] Token provider not configured. Call configureTokenProvider() at startup."
+    );
+  }
+  return _getToken();
+}

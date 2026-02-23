@@ -1,0 +1,10 @@
+onlyBuiltDependencies:
+  - "@parcel/watcher"
+  - esbuild
+  - "@sentry/cli"
+  - msw
+  - protobufjs
+  - storybook-addon-remix-react-router
+
+ignoredBuiltDependencies:
+  - core-js

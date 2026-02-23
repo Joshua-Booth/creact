@@ -36,16 +36,9 @@ dist
 # Dotenv environment variables
 env/
 
-# nyc test coverage
-.nyc_output
-
-# Coverage directory used by tools like istanbul
+# Coverage
 coverage
 *.lcov
-
-# Cypress
-cypress/videos
-cypress/screenshots
 
 # Translations
 *.mo
@@ -102,3 +95,16 @@ temp/
 out/
 
 CHANGELOG.md
+pnpm-lock.yaml
+.react-router
+test-results
+playwright-report
+
+# Claude Code
+../.claude
+
+# Plop templates
+*.hbs
+
+# Generated files
+../public/mockServiceWorker.js

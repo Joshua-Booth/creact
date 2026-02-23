@@ -1,0 +1,135 @@
+export default {
+  app: {
+    title: "creact",
+  },
+  seo: {
+    siteName: "creact",
+    defaultDescription: "A modern React frontend template with SSR support.",
+    pages: {
+      home: {
+        title: "Home",
+        description: "Welcome to creact - A modern React frontend template.",
+      },
+      login: {
+        title: "Login",
+        description: "Sign in to your account.",
+      },
+      signup: {
+        title: "Sign Up",
+        description: "Create a new account.",
+      },
+      dashboard: {
+        title: "Dashboard",
+        description: "Your personal dashboard.",
+      },
+      forgotPassword: {
+        title: "Forgot Password",
+        description: "Reset your account password.",
+      },
+      logout: {
+        title: "Logout",
+        description: "Signing out of your account.",
+      },
+      notFound: {
+        title: "Page Not Found",
+        description: "The page you're looking for doesn't exist.",
+      },
+    },
+  },
+  auth: {
+    fields: {
+      confirmPassword: "Confirm Password",
+      confirmPasswordPlaceholder: "Confirm your password",
+      createPasswordPlaceholder: "Create a password",
+      email: "Email",
+      emailPlaceholder: "you@example.com",
+      password: "Password",
+      passwordPlaceholder: "Enter your password",
+    },
+    login: {
+      description: "Enter your email and password to access your dashboard",
+      forgotPassword: "Forgot password?",
+      noAccount: "Don't have an account?",
+      signUp: "Sign up",
+      submit: "Sign in",
+      submitting: "Signing in...",
+      title: "Sign in to your account",
+    },
+    forgotPassword: {
+      title: "Reset your password",
+      description: "Enter your email and we'll send you a reset link",
+      submit: "Send reset link",
+      submitting: "Sending...",
+      successTitle: "Check your email",
+      successDescription:
+        "If an account exists with that email, we've sent password reset instructions.",
+      backToLogin: "Back to login",
+    },
+    signUp: {
+      description: "Enter your email and password to get started",
+      hasAccount: "Already have an account?",
+      passwordHint:
+        "Must be at least 8 characters with uppercase, lowercase, and a number.",
+      signIn: "Sign in",
+      submit: "Create account",
+      submitting: "Creating account...",
+      title: "Create your account",
+    },
+  },
+  errors: {
+    api: {
+      invalidCredentials: "Invalid credentials",
+      invalidFormData: "Invalid form data",
+      networkError: "Unable to reach the server. Please check your connection.",
+      registrationFailed: "Registration failed",
+      requestTimeout: "Request timed out. Please try again.",
+      serverError: "Server error ({{status}}). Please try again later.",
+      unexpectedError: "An unexpected error occurred",
+    },
+    boundaryError: "Something went wrong",
+    boundaryErrorDescription:
+      "An unexpected error occurred. Please try again or refresh the page.",
+    goHome: "Go home",
+    notFoundDescription: "Sorry, the page you are looking for does not exist.",
+    routeError: "Something went wrong",
+    routeErrorDescription:
+      "An unexpected error occurred. Please try navigating back home.",
+    tryAgain: "Try again",
+  },
+  loading: "Loading...",
+  language: {
+    select: "Select language",
+  },
+  nav: {
+    home: "Home",
+    login: "Login",
+    logoTitle: "{{siteName}} Logo",
+    signUp: "Sign Up",
+  },
+  pages: {
+    landing: {
+      heading: "React Frontend",
+      subheading: "A project template for creating awesome React web apps.",
+    },
+    login: {
+      title: "Login | {{appName}}",
+    },
+    notFound: {
+      heading: "404 - Page Not Found",
+    },
+    signUp: {
+      title: "Sign Up | {{appName}}",
+    },
+    dashboard: {
+      welcome: "Welcome back, {{name}}",
+      subtitle: "Here's your account overview.",
+      profile: "Profile",
+      error: "Something went wrong loading your dashboard.",
+    },
+    logout: {
+      heading: "You've been signed out",
+      description: "You've been safely signed out of your account.",
+      backToLogin: "Back to login",
+    },
+  },
+} as const;

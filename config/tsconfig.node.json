@@ -1,0 +1,36 @@
+{
+  "compilerOptions": {
+    "target": "ES2024",
+    "lib": ["ES2024"],
+    "module": "preserve",
+    "moduleResolution": "bundler",
+    "allowJs": true,
+    "strict": true,
+    "skipLibCheck": true,
+    "noEmit": true,
+    "isolatedModules": true,
+    "verbatimModuleSyntax": true,
+    "moduleDetection": "force",
+    "resolveJsonModule": true,
+    "erasableSyntaxOnly": true,
+    "noImplicitOverride": true,
+    "forceConsistentCasingInFileNames": true,
+    "jsx": "react-jsx",
+    "types": ["node"],
+    "baseUrl": "..",
+    "paths": {
+      "@/storybook/*": ["./.storybook/*"]
+    }
+  },
+  "include": [
+    "./*.ts",
+    "./*.js",
+    "./.*.js",
+    "../*.config.ts",
+    "../.storybook/main.ts",
+    "../.storybook/vite.config.ts",
+    "../.storybook/vitest.config.ts",
+    "../.storybook/vitest.setup.ts",
+    "../scripts/*.ts"
+  ]
+}

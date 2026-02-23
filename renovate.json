@@ -1,0 +1,178 @@
+{
+  "$schema": "https://docs.renovatebot.com/renovate-schema.json",
+  "extends": [
+    "config:recommended",
+    ":semanticCommits",
+    ":maintainLockFilesWeekly",
+    "schedule:weekends",
+    "group:allNonMajor"
+  ],
+
+  "labels": ["dependencies"],
+  "baseBranchPatterns": ["master"],
+  "rangeStrategy": "pin",
+
+  "semanticCommitType": "chore",
+  "semanticCommitScope": "deps",
+  "commitMessageAction": "update",
+
+  "prHourlyLimit": 5,
+  "prConcurrentLimit": 10,
+
+  "packageRules": [
+    {
+      "description": "Automerge non-major updates for stable packages",
+      "matchUpdateTypes": ["minor", "patch", "pin", "digest"],
+      "matchCurrentVersion": "!/^0/",
+      "automerge": true,
+      "automergeType": "pr",
+      "platformAutomerge": true,
+      "minimumReleaseAge": "3 days"
+    },
+    {
+      "description": "Require manual review for major updates",
+      "matchUpdateTypes": ["major"],
+      "automerge": false,
+      "labels": ["dependencies", "major"],
+      "dependencyDashboardApproval": true
+    },
+    {
+      "description": "Require review for 0.x packages",
+      "matchCurrentVersion": "/^0/",
+      "automerge": false,
+      "labels": ["dependencies", "unstable"]
+    },
+    {
+      "description": "Group React ecosystem",
+      "matchPackageNames": [
+        "/^react$/",
+        "/^react-dom$/",
+        "/^react-router/",
+        "/^@react-router\\//",
+        "/^react-router-devtools$/"
+      ],
+      "groupName": "react ecosystem"
+    },
+    {
+      "description": "Group TypeScript ecosystem",
+      "matchPackageNames": [
+        "/^typescript/",
+        "/^@types\\//",
+        "/^@typescript-eslint\\//",
+        "/^typescript-eslint$/"
+      ],
+      "groupName": "typescript ecosystem"
+    },
+    {
+      "description": "Group testing packages",
+      "matchPackageNames": [
+        "/^vitest/",
+        "/^@vitest\\//",
+        "/^playwright/",
+        "/^@playwright\\//",
+        "/^msw/",
+        "/^monocart/"
+      ],
+      "groupName": "testing tools"
+    },
+    {
+      "description": "Group Storybook packages",
+      "matchPackageNames": [
+        "/^storybook/",
+        "/^@storybook\\//",
+        "/^@chromatic-com\\//",
+        "/^chromatic$/"
+      ],
+      "groupName": "storybook"
+    },
+    {
+      "description": "Group ESLint packages",
+      "matchPackageNames": [
+        "/^eslint/",
+        "/^@eslint\\//",
+        "/^@eslint-community\\//",
+        "/^@eslint-react\\//",
+        "/^eslint-plugin-/",
+        "/^eslint-config-/"
+      ],
+      "groupName": "eslint"
+    },
+    {
+      "description": "Group Tailwind packages",
+      "matchPackageNames": ["/^tailwind/", "/^@tailwindcss\\//"],
+      "groupName": "tailwindcss"
+    },
+    {
+      "description": "Group i18n packages",
+      "matchPackageNames": [
+        "/^i18next/",
+        "/^react-i18next/",
+        "/^remix-i18next/"
+      ],
+      "groupName": "i18n"
+    },
+    {
+      "description": "Group release tooling",
+      "matchPackageNames": [
+        "/^semantic-release/",
+        "/^@semantic-release\\//",
+        "/^@commitlint\\//",
+        "/^commitlint-plugin-/",
+        "/^conventional-changelog/"
+      ],
+      "groupName": "release tooling"
+    },
+    {
+      "description": "Group Sentry packages",
+      "matchPackageNames": ["/^@sentry\\//"],
+      "groupName": "sentry"
+    },
+    {
+      "description": "Group Vite packages",
+      "matchPackageNames": ["/^vite$/", "/^vite-/", "/^@vitejs\\//"],
+      "groupName": "vite"
+    },
+    {
+      "description": "Group Prettier packages",
+      "matchPackageNames": [
+        "/^prettier/",
+        "/^@prettier\\//",
+        "/^@ianvs\\/prettier-/"
+      ],
+      "groupName": "prettier"
+    },
+    {
+      "description": "Group Stylelint packages",
+      "matchPackageNames": ["/^stylelint/", "/^@csstools\\/stylelint-/"],
+      "groupName": "stylelint"
+    },
+    {
+      "description": "Group PostHog packages",
+      "matchPackageNames": ["/^@posthog\\//", "/^posthog-/"],
+      "groupName": "posthog"
+    },
+    {
+      "description": "Group TanStack packages",
+      "matchPackageNames": ["/^@tanstack\\//"],
+      "groupName": "tanstack"
+    },
+    {
+      "description": "Group Embla Carousel packages",
+      "matchPackageNames": ["/^embla-carousel/"],
+      "groupName": "embla carousel"
+    },
+    {
+      "description": "Group GitHub Actions",
+      "matchManagers": ["github-actions"],
+      "groupName": "github actions"
+    }
+  ],
+
+  "vulnerabilityAlerts": {
+    "enabled": true,
+    "labels": ["dependencies", "security"],
+    "schedule": ["at any time"],
+    "automerge": true,
+    "minimumReleaseAge": "0 days"
+  }
+}
