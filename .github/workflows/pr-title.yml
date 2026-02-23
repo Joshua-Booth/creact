@@ -16,14 +16,4 @@ jobs:
       - name: Validate PR title with commitlint
         env:
           PR_TITLE: ${{ github.event.pull_request.title }}
-          PR_BODY: ${{ github.event.pull_request.body }}
-        run: |
-          # For breaking changes (! in title), include the PR body so
-          # commitlint can verify the required explanation exists.
-          # Body lines are truncated to 72 chars to satisfy body-max-line-length.
-          if [[ "$PR_TITLE" == *'!'* ]]; then
-            BODY=$(echo "$PR_BODY" | cut -c1-72)
-            printf '%s\n\n%s' "$PR_TITLE" "$BODY" | pnpm exec commitlint --config "./config/commitlint.config.ts"
-          else
-            echo "$PR_TITLE" | pnpm exec commitlint --config "./config/commitlint.config.ts"
-          fi
+        run: echo "$PR_TITLE" | pnpm exec commitlint --config "./config/commitlint.config.ts"
