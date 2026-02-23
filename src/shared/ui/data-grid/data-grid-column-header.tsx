@@ -7,6 +7,7 @@ import type {
 } from "@tanstack/react-table";
 
 import { memo, useCallback } from "react";
+import { useTranslation } from "react-i18next";
 
 import {
   ChevronDownIcon,
@@ -50,6 +51,7 @@ export function DataGridColumnHeader<TData, TValue>({
   className,
   ...props
 }: DataGridColumnHeaderProps<TData, TValue>) {
+  const { t } = useTranslation("components");
   const column = header.column;
   const label =
     column.columnDef.meta?.label ??
@@ -172,7 +174,7 @@ export function DataGridColumnHeader<TData, TValue>({
                 }
               >
                 <ChevronUpIcon />
-                Sort asc
+                {t("dataGrid.columnHeader.sortAsc")}
               </DropdownMenuCheckboxItem>
               <DropdownMenuCheckboxItem
                 className="[&_svg]:text-muted-foreground relative ltr:pr-8
@@ -187,12 +189,12 @@ export function DataGridColumnHeader<TData, TValue>({
                 }
               >
                 <ChevronDownIcon />
-                Sort desc
+                {t("dataGrid.columnHeader.sortDesc")}
               </DropdownMenuCheckboxItem>
               {column.getIsSorted() !== false && (
                 <DropdownMenuItem onClick={onSortRemove}>
                   <XIcon />
-                  Remove sort
+                  {t("dataGrid.columnHeader.removeSort")}
                 </DropdownMenuItem>
               )}
             </>
@@ -207,7 +209,7 @@ export function DataGridColumnHeader<TData, TValue>({
                   onClick={onUnpin}
                 >
                   <PinOffIcon />
-                  Unpin from left
+                  {t("dataGrid.columnHeader.unpinFromLeft")}
                 </DropdownMenuItem>
               ) : (
                 <DropdownMenuItem
@@ -215,7 +217,7 @@ export function DataGridColumnHeader<TData, TValue>({
                   onClick={onLeftPin}
                 >
                   <PinIcon />
-                  Pin to left
+                  {t("dataGrid.columnHeader.pinToLeft")}
                 </DropdownMenuItem>
               )}
               {isPinnedRight ? (
@@ -224,7 +226,7 @@ export function DataGridColumnHeader<TData, TValue>({
                   onClick={onUnpin}
                 >
                   <PinOffIcon />
-                  Unpin from right
+                  {t("dataGrid.columnHeader.unpinFromRight")}
                 </DropdownMenuItem>
               ) : (
                 <DropdownMenuItem
@@ -232,7 +234,7 @@ export function DataGridColumnHeader<TData, TValue>({
                   onClick={onRightPin}
                 >
                   <PinIcon />
-                  Pin to right
+                  {t("dataGrid.columnHeader.pinToRight")}
                 </DropdownMenuItem>
               )}
             </>
@@ -248,7 +250,7 @@ export function DataGridColumnHeader<TData, TValue>({
                 }
               >
                 <EyeOffIcon />
-                Hide column
+                {t("dataGrid.columnHeader.hideColumn")}
               </DropdownMenuItem>
             </>
           )}

@@ -1,6 +1,7 @@
 import type { Column, Table } from "@tanstack/react-table";
 
 import { useCallback, useMemo } from "react";
+import { useTranslation } from "react-i18next";
 
 import type { ComponentProps } from "react";
 import { X } from "lucide-react";
@@ -26,6 +27,7 @@ export function DataTableToolbar<TData>({
   className,
   ...props
 }: DataTableToolbarProps<TData>) {
+  const { t } = useTranslation("components");
   const isFiltered = table.getState().columnFilters.length > 0;
 
   const columns = useMemo(
@@ -54,14 +56,14 @@ export function DataTableToolbar<TData>({
         ))}
         {isFiltered && (
           <Button
-            aria-label="Reset filters"
+            aria-label={t("dataTable.resetFiltersLabel")}
             variant="outline"
             size="sm"
             className="border-dashed"
             onClick={onReset}
           >
             <X />
-            Reset
+            {t("dataTable.resetFilters")}
           </Button>
         )}
       </div>

@@ -14,9 +14,28 @@ export default {
     goToPreviousPage: "Go to previous page",
     goToNextPage: "Go to next page",
     goToLastPage: "Go to last page",
+    columnHeader: {
+      asc: "Asc",
+      desc: "Desc",
+      reset: "Reset",
+      hide: "Hide",
+    },
+    resetFilters: "Reset",
+    resetFiltersLabel: "Reset filters",
+    toggleColumns: "Toggle columns",
   },
   dataGrid: {
     addRow: "Add row",
+    columnHeader: {
+      sortAsc: "Sort asc",
+      sortDesc: "Sort desc",
+      removeSort: "Remove sort",
+      pinToLeft: "Pin to left",
+      unpinFromLeft: "Unpin from left",
+      pinToRight: "Pin to right",
+      unpinFromRight: "Unpin from right",
+      hideColumn: "Hide column",
+    },
     paste: {
       title: "Do you want to add more rows?",
       description:
@@ -66,14 +85,9 @@ export default {
       removeSortBackspace: "Remove sort (when focused)",
       removeSortDelete: "Remove sort (when focused)",
       showKeyboardShortcuts: "Show keyboard shortcuts",
-    },
-    search: {
-      placeholder: "Find in table...",
-      typeToSearch: "Type to search",
-      noResults: "No results",
-      previousMatch: "Previous match",
-      nextMatch: "Next match",
-      closeSearch: "Close search",
+      close: "Close",
+      description:
+        "Use these keyboard shortcuts to navigate and interact with the data grid more efficiently.",
     },
     cell: {
       enterText: "Enter text...",
@@ -83,6 +97,20 @@ export default {
       dropFilesHere: "Drop files here",
       orClickToBrowse: "or click to browse",
       clearAll: "Clear all",
+      fileUpload: "File upload",
+      fileCount_one: "{{count}} file",
+      fileCount_other: "{{count}} files",
+      uploading: "Uploading...",
+      deleting: "Deleting...",
+    },
+    search: {
+      placeholder: "Find in table...",
+      typeToSearch: "Type to search",
+      noResults: "No results",
+      previousMatch: "Previous match",
+      nextMatch: "Next match",
+      closeSearch: "Close search",
+      matchCounter: "{{current}} of {{total}}",
     },
   },
   pagination: {
@@ -106,6 +134,17 @@ export default {
   },
   combobox: {
     clear: "Clear",
+  },
+  carousel: {
+    previousSlide: "Previous slide",
+    nextSlide: "Next slide",
+  },
+  breadcrumb: {
+    more: "More",
+  },
+  commandDialog: {
+    title: "Command Palette",
+    description: "Search for a command to run...",
   },
   dialog: {
     close: "Close",

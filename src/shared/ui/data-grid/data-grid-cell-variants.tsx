@@ -1998,7 +1998,7 @@ export function FileCell<TData>({
           >
             <div className="flex flex-col gap-2 p-3">
               <span id={labelId} className="sr-only">
-                File upload
+                {t("dataGrid.cell.fileUpload")}
               </span>
               <div
                 role="region"
@@ -2054,7 +2054,7 @@ export function FileCell<TData>({
                 <div className="flex flex-col gap-2">
                   <div className="flex items-center justify-between">
                     <p className="text-muted-foreground text-xs font-medium">
-                      {files.length} {files.length === 1 ? "file" : "files"}
+                      {t("dataGrid.cell.fileCount", { count: files.length })}
                     </p>
                     <Button
                       type="button"
@@ -2076,9 +2076,9 @@ export function FileCell<TData>({
 
                       let fileStatus: string;
                       if (isFileUploading) {
-                        fileStatus = "Uploading...";
+                        fileStatus = t("dataGrid.cell.uploading");
                       } else if (isFileDeleting) {
-                        fileStatus = "Deleting...";
+                        fileStatus = t("dataGrid.cell.deleting");
                       } else {
                         fileStatus = formatFileSize(file.size);
                       }

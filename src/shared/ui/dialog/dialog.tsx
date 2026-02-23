@@ -120,6 +120,7 @@ function DialogFooter({
   /** Whether to show a close button alongside the footer actions. */
   showCloseButton?: boolean;
 }) {
+  const { t } = useTranslation("components");
   return (
     <div
       data-slot="dialog-footer"
@@ -133,7 +134,7 @@ function DialogFooter({
       {/* istanbul ignore start @preserve -- showCloseButton false path, not rendered in stories */}
       {showCloseButton && (
         <DialogPrimitive.Close render={<Button variant="outline" />}>
-          Close
+          {t("dialog.close")}
         </DialogPrimitive.Close>
       )}
       {/* istanbul ignore end @preserve */}

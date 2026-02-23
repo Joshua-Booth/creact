@@ -46,7 +46,7 @@ export function DataTableViewOptions<TData>({
       <PopoverTrigger
         render={
           <Button
-            aria-label="Toggle columns"
+            aria-label={t("dataTable.toggleColumns")}
             role="combobox"
             variant="outline"
             size="sm"

@@ -245,7 +245,7 @@ function DataGridKeyboardShortcutsImpl({
         <DialogClose
           render={
             <Button
-              aria-label="Close"
+              aria-label={t("dataGrid.keyboard.close")}
               variant="ghost"
               size="icon"
               className="absolute top-6 right-6 size-6"
@@ -257,8 +257,7 @@ function DataGridKeyboardShortcutsImpl({
         <DialogHeader className="px-6">
           <DialogTitle>{t("dataGrid.keyboard.title")}</DialogTitle>
           <DialogDescription className="sr-only">
-            Use these keyboard shortcuts to navigate and interact with the data
-            grid more efficiently.
+            {t("dataGrid.keyboard.description")}
           </DialogDescription>
         </DialogHeader>
         <div className="px-6">

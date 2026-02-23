@@ -92,6 +92,7 @@ export default {
     select: "Select language",
   },
   nav: {
+    home: "Home",
     login: "Login",
     signUp: "Sign Up",
   },

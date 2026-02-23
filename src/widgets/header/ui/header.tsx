@@ -42,7 +42,7 @@ export function Header() {
       <NavLink
         to={logoLink}
         className="absolute top-2 ml-4 max-[400px]:ml-2"
-        aria-label="Home"
+        aria-label={t("nav.home")}
       >
         <Logo className="mr-[10px] h-[50px]" title={`${SITE_NAME} Logo`} />
       </NavLink>

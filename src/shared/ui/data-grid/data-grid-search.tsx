@@ -213,7 +213,10 @@ function DataGridSearchImpl({
       >
         {searchMatches.length > 0 ? (
           <span>
-            {matchIndex + 1} of {searchMatches.length}
+            {t("dataGrid.search.matchCounter", {
+              current: matchIndex + 1,
+              total: searchMatches.length,
+            })}
           </span>
         ) : (
           <span>
