@@ -3,7 +3,7 @@ import { useState } from "react";
 import type { ComponentProps } from "react";
 import { withI18n } from "@/storybook/decorators/with-i18n";
 import preview from "@/storybook/preview";
-import { AlertTriangle, RefreshCw, WifiOff } from "lucide-react";
+import { RefreshCw, WifiOff } from "lucide-react";
 import { expect, userEvent } from "storybook/test";
 
 import { Button } from "../button";
@@ -138,54 +138,6 @@ export const Default = meta.story({
 export const CustomFallback = meta.story({
   args: { children: null },
   render: (args) => <CustomFallbackDemo {...args} />,
-});
-
-/**
- * A preview of the default fallback UI that displays when an error is caught.
- */
-export const DefaultFallbackPreview = meta.story({
-  args: { children: null },
-  render: (_args) => (
-    <div className="flex min-h-96 flex-col items-center justify-center p-8">
-      <div className="flex flex-col items-center gap-4 text-center">
-        <div className="bg-destructive/10 rounded-full p-4">
-          <AlertTriangle className="text-destructive size-8" />
-        </div>
-        <div className="space-y-2">
-          <h2 className="text-xl font-semibold">Something went wrong</h2>
-          <p className="text-muted-foreground max-w-md">
-            An unexpected error occurred. Our team has been notified and is
-            working on a fix.
-          </p>
-        </div>
-        <Button variant="outline" className="mt-4">
-          <RefreshCw className="mr-2 size-4" />
-          Try again
-        </Button>
-      </div>
-    </div>
-  ),
-});
-
-/**
- * A compact error fallback style for smaller spaces.
- */
-export const CompactFallbackPreview = meta.story({
-  args: { children: null },
-  render: (_args) => (
-    <div className="flex items-center gap-3 rounded-md border p-4">
-      <AlertTriangle className="text-destructive size-5" />
-      <div className="flex-1">
-        <p className="text-sm font-medium">Failed to load content</p>
-        <p className="text-muted-foreground text-xs">
-          An error occurred while loading.
-        </p>
-      </div>
-      <Button variant="ghost" size="sm">
-        Retry
-      </Button>
-    </div>
-  ),
 });
 
 function ErrorBoundaryTestDemo(
