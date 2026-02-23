@@ -24,10 +24,10 @@ const fetcher = async <T,>(url: string): Promise<T> => {
         typeof body === "object" &&
         body !== null &&
         "message" in body &&
-        typeof (body as Record<string, unknown>).message === "string"
-          ? (body as Record<string, unknown>).message
+        typeof body.message === "string"
+          ? body.message
           : `Request failed: ${error.response.status}`;
-      throw new ApiError(message as string, error.response.status, body);
+      throw new ApiError(message, error.response.status, body);
     }
     throw error;
   }
