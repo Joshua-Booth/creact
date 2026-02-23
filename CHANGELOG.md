@@ -1,3 +1,19 @@
+# Changelog
+
+All notable changes to this project will be documented in this file.
+
+## [2.0.0](https://github.com/Joshua-Booth/creact/compare/v1.2.8...v2.0.0) (2026-02-23)
+
+
+* feat(app)!: modernize tech stack ([#1](https://github.com/Joshua-Booth/creact/issues/1)) ([815d4ea](https://github.com/Joshua-Booth/creact/commit/815d4ea093a385c651cad445c6a90be369ac8dcf))
+
+
+### BREAKING CHANGES
+
+* upgrade to React 19,
+React Router v7, Vite, Tailwind CSS v4,
+and Feature-Sliced Design architecture
+
 ### [1.2.8](https://github.com/Joshua-Booth/creact/compare/v1.2.7...v1.2.8) (2021-08-21)
 
 
