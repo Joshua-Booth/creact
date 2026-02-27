@@ -53,7 +53,7 @@
     "**/.eslintcache": true,
     "**/.gitignore": true,
     "**/.mcp.json": true,
-    "**/*.local.*": true,
+    "*.local.*": true,
     "**/CHANGELOG.md": true,
     "**/components.json": true,
     "**/debug-storybook.log": true,
