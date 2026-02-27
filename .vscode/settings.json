@@ -59,7 +59,6 @@
     "**/debug-storybook.log": true,
     "**/dependency-graph.svg": true,
     "**/LICENSE": true,
-    "**/mise.toml": true,
     "**/netlify.toml": true,
     "**/pnpm-lock.yaml": true,
     "**/pnpm-workspace.yaml": true,
