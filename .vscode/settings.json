@@ -28,6 +28,44 @@
   "files.insertFinalNewline": true,
   "files.trimFinalNewlines": true,
   "files.trimTrailingWhitespace": true,
+  "files.exclude": {
+    "**/.git": true,
+    "**/.svn": true,
+    "**/.hg": true,
+    "**/.DS_Store": true,
+    "**/Thumbs.db": true,
+    "**/.github": true,
+    "**/.husky": true,
+    "**/.netlify": true,
+    "**/.playwright-cli": true,
+    "**/.playwright-mcp": true,
+    "**/.react-router": true,
+    "**/.storybook": true,
+    "**/.vscode": true,
+    "**/coverage": true,
+    "**/dist": true,
+    "**/node_modules": true,
+    "**/playwright-report": true,
+    "**/storybook-static": true,
+    "**/test-results": true,
+    "**/tmp": true,
+    "**/.env.example": true,
+    "**/.eslintcache": true,
+    "**/.gitignore": true,
+    "**/.mcp.json": true,
+    "**/*.local.*": true,
+    "**/CHANGELOG.md": true,
+    "**/components.json": true,
+    "**/debug-storybook.log": true,
+    "**/dependency-graph.svg": true,
+    "**/LICENSE": true,
+    "**/mise.toml": true,
+    "**/netlify.toml": true,
+    "**/pnpm-lock.yaml": true,
+    "**/pnpm-workspace.yaml": true,
+    "vite.config.ts": true,
+    "tsconfig.json": true
+  },
   "files.watcherExclude": {
     "**/.git/objects/**": true,
     "**/.git/subtree-cache/**": true,
@@ -79,5 +117,8 @@
   "[toml]": {
     "editor.defaultFormatter": "tamasfe.even-better-toml"
   },
-  "cSpell.import": ["./config/cspell.json"]
+  "cSpell.import": [
+    "./config/cspell.json"
+  ],
+  "explorerExclude.backup": {}
 }
