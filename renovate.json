@@ -16,6 +16,8 @@
   "commitMessageAction": "update",
   "commitMessageTopic": "{{depName}}",
 
+  "rangeStrategy": "bump",
+
   "prHourlyLimit": 5,
   "prConcurrentLimit": 10,
 
