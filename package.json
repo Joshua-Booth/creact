@@ -160,7 +160,9 @@
     "overrides": {
       "@isaacs/brace-expansion": ">=5.0.1",
       "@modelcontextprotocol/sdk": ">=1.26.0",
-      "hono": ">=4.11.4",
+      "hono": ">=4.12.2",
+      "koa": ">=3.1.2",
+      "rollup": ">=4.59.0",
       "seroval": ">=1.4.1",
       "undici": ">=6.23.0"
     },
@@ -168,7 +170,9 @@
       "ignoreGhsas": [
         "GHSA-3966-f6p6-2qr9",
         "GHSA-2g4f-4pwh-qvx6",
-        "GHSA-3ppc-4f35-3m26"
+        "GHSA-3ppc-4f35-3m26",
+        "GHSA-7r86-cg39-jmmj",
+        "GHSA-23c5-xmqv-rm74"
       ]
     }
   },
