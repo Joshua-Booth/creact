@@ -257,7 +257,7 @@ importers:
         version: 10.4.24(postcss@8.5.6)
       commitlint-plugin-function-rules:
         specifier: ^4.3.1
-        version: 4.3.1(@commitlint/lint@20.4.2)
+        version: 4.3.2(@commitlint/lint@20.4.2)
       commitlint-plugin-selective-scope:
         specifier: ^1.0.1
         version: 1.0.1
@@ -4369,8 +4369,8 @@ packages:
     resolution: {integrity: sha512-aRDkn3uyIlCFfk5NUA+VdwMmMsh8JGhc4hapfV4yxymHGQ3BVskMQfoXGpCo5IoBuQ9tS5iiVKhCpTcB4pW4qw==}
     engines: {node: '>= 12.0.0'}
 
-  commitlint-plugin-function-rules@4.3.1:
-    resolution: {integrity: sha512-wRvlVUWRgN9qTlfUelB1EqnhTfGLVUKz6xBSnjnBRIwHEn2Ma39WZHJEzmANOqDYa9kpS5hyr3iLD2OliwlDIw==}
+  commitlint-plugin-function-rules@4.3.2:
+    resolution: {integrity: sha512-UrJfHj7jRislz5qWkBj0mp2EHaFT1LwDdG8uOTofWK/jf84EmNMjmDD+9M6eyrfrgLorTAN3/veRMU0D/vb7CQ==}
     engines: {node: '>=20'}
     peerDependencies:
       '@commitlint/lint': '>=19 <21'
@@ -13435,7 +13435,7 @@ snapshots:
 
   comment-parser@1.4.5: {}
 
-  commitlint-plugin-function-rules@4.3.1(@commitlint/lint@20.4.2):
+  commitlint-plugin-function-rules@4.3.2(@commitlint/lint@20.4.2):
     dependencies:
       '@commitlint/lint': 20.4.2
 
