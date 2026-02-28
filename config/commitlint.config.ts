@@ -116,7 +116,7 @@ const config: UserConfig = {
       {
         // Feature development - FSD layers + ui/types
         feat: [...FSD_SCOPES, "ui", "types"],
-        fix: [...FSD_SCOPES, "ui", "types"],
+        fix: [...FSD_SCOPES, "ui", "types", "deps"],
         refactor: [...FSD_SCOPES, "ui", "types"],
         perf: [...FSD_SCOPES, "ui", "types"],
 
