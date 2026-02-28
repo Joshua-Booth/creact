@@ -51,7 +51,7 @@
     <a href="#setup">Setup</a> |
     <a href="#usage">Usage</a> |
     <a href="#deployment">Deployment</a> |
-<a href="#license">License</a>
+    <a href="#license">License</a>
   </p>
   <hr />
 </div>
