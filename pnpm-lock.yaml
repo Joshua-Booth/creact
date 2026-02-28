@@ -28,7 +28,7 @@ importers:
         version: 5.2.2(react-hook-form@7.71.2(react@19.2.4))
       '@posthog/react':
         specifier: ^1.8.0
-        version: 1.8.0(@types/react@19.2.14)(posthog-js@1.352.0)(react@19.2.4)
+        version: 1.8.0(@types/react@19.2.14)(posthog-js@1.356.1)(react@19.2.4)
       '@react-router/node':
         specifier: ^7.13.0
         version: 7.13.1(react-router@7.13.1(react-dom@19.2.4(react@19.2.4))(react@19.2.4))(typescript@5.9.3)
@@ -93,8 +93,8 @@ importers:
         specifier: ^2.8.8
         version: 2.8.8(react-router@7.13.1(react-dom@19.2.4(react@19.2.4))(react@19.2.4))(react@19.2.4)
       posthog-js:
-        specifier: ^1.352.0
-        version: 1.352.0
+        specifier: ^1.353.1
+        version: 1.356.1
       react:
         specifier: ^19.2.4
         version: 19.2.4
@@ -2332,8 +2332,8 @@ packages:
       '@types/react':
         optional: true
 
-  '@posthog/types@1.352.0':
-    resolution: {integrity: sha512-pp7VBMlkhlLmv2TyOoss028lPPD4ElnZlX5y3hqq6oijK5BMZbjVuTAgvFYNLiKbuze/i5ndFGyXTtfCwlMQeA==}
+  '@posthog/types@1.356.1':
+    resolution: {integrity: sha512-miIUjs4LiBDMOxKkC87HEJLIih0pNGMAjxx+mW4X7jLpN41n0PLMW7swRE6uuxcMV0z3H6MllRSCYmsokkyfuQ==}
 
   '@prettier/plugin-oxc@0.1.3':
     resolution: {integrity: sha512-aABz3zIRilpWMekbt1FL1JVBQrQLR8L4Td2SRctECrWSsXGTNn/G1BqNSKCdbvQS1LWstAXfqcXzDki7GAAJyg==}
@@ -7642,8 +7642,8 @@ packages:
     resolution: {integrity: sha512-9ZhXKM/rw350N1ovuWHbGxnGh/SNJ4cnxHiM0rxE4VN41wsg8P8zWn9hv/buK00RP4WvlOyr/RBDiptyxVbkZQ==}
     engines: {node: '>=0.10.0'}
 
-  posthog-js@1.352.0:
-    resolution: {integrity: sha512-LxLKyoE+Y2z+WQ8CTO3PqQQDBuz64mHLJUoRuAYNXmp3vtxzrygZEz7UNnCT+BZ4/G44Qeq6JDYk1TRS7pIRDA==}
+  posthog-js@1.356.1:
+    resolution: {integrity: sha512-4EQliSyTp3j/xOaWpZmu7fk1b4S+J3qy4JOu5Xy3/MYFxv1SlAylgifRdCbXZxCQWb6PViaNvwRf4EmburgfWA==}
 
   powershell-utils@0.1.0:
     resolution: {integrity: sha512-dM0jVuXJPsDN6DvRpea484tCUaMiXWjuCn++HGTqUWzGDjv5tZkEZldAJ/UMlqRYGFrD/etByo4/xOuC/snX2A==}
@@ -11262,14 +11262,14 @@ snapshots:
     dependencies:
       cross-spawn: 7.0.6
 
-  '@posthog/react@1.8.0(@types/react@19.2.14)(posthog-js@1.352.0)(react@19.2.4)':
+  '@posthog/react@1.8.0(@types/react@19.2.14)(posthog-js@1.356.1)(react@19.2.4)':
     dependencies:
-      posthog-js: 1.352.0
+      posthog-js: 1.356.1
       react: 19.2.4
     optionalDependencies:
       '@types/react': 19.2.14
 
-  '@posthog/types@1.352.0': {}
+  '@posthog/types@1.356.1': {}
 
   '@prettier/plugin-oxc@0.1.3':
     dependencies:
@@ -12534,7 +12534,6 @@ snapshots:
   '@types/node@25.3.2':
     dependencies:
       undici-types: 7.18.2
-    optional: true
 
   '@types/normalize-package-data@2.4.4': {}
 
@@ -17139,7 +17138,7 @@ snapshots:
     dependencies:
       xtend: 4.0.2
 
-  posthog-js@1.352.0:
+  posthog-js@1.356.1:
     dependencies:
       '@opentelemetry/api': 1.9.0
       '@opentelemetry/api-logs': 0.208.0
@@ -17147,7 +17146,7 @@ snapshots:
       '@opentelemetry/resources': 2.5.1(@opentelemetry/api@1.9.0)
       '@opentelemetry/sdk-logs': 0.208.0(@opentelemetry/api@1.9.0)
       '@posthog/core': 1.23.1
-      '@posthog/types': 1.352.0
+      '@posthog/types': 1.356.1
       core-js: 3.48.0
       dompurify: 3.3.1
       fflate: 0.4.8
@@ -17252,7 +17251,7 @@ snapshots:
       '@protobufjs/path': 1.1.2
       '@protobufjs/pool': 1.1.0
       '@protobufjs/utf8': 1.1.0
-      '@types/node': 25.3.0
+      '@types/node': 25.3.2
       long: 5.3.2
 
   proxy-addr@2.0.7:
