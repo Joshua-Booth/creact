@@ -19,6 +19,7 @@
     "pranaygp.vscode-css-peek",
     "wix.vscode-import-cost",
     "vincaslt.highlight-matching-tag",
-    "editorconfig.editorconfig"
+    "editorconfig.editorconfig",
+    "peterschmalfeldt.explorer-exclude"
   ]
 }
