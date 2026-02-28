@@ -51,7 +51,6 @@
     <a href="#setup">Setup</a> |
     <a href="#usage">Usage</a> |
     <a href="#deployment">Deployment</a> |
-    <a href="#support">Support</a> |
     <a href="#license">License</a>
   </p>
   <hr />
@@ -437,18 +436,6 @@ This project is configured for easy deployment to [Netlify](https://www.netlify.
 
 - [Deployment Guide](./docs/DEPLOYMENT.md) - Detailed deployment instructions
 - [Netlify Docs](https://docs.netlify.com)
-
-## Support
-
-Do you need some help? Check out the articles in the [wiki].
-
-Check the [issues](https://github.com/Joshua-Booth/creact/issues) page to see if there is an open issue with a potential workaround.
-
-### Additional Support
-
-Reach out to me for support through the following methods:
-
-- Website: [joshuabooth.nz/contact](https://joshuabooth.nz)
 
 ## License
 
