@@ -167,6 +167,12 @@
       "description": "Group GitHub Actions",
       "matchManagers": ["github-actions"],
       "groupName": "github actions"
+    },
+    {
+      "description": "Require manual review for runtime and toolchain updates",
+      "matchPackageNames": ["node", "pnpm"],
+      "groupName": "runtime toolchain",
+      "automerge": false
     }
   ],
 
