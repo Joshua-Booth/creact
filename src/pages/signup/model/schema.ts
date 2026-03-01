@@ -7,7 +7,7 @@ export const signupSchema = z
   .object({
     email: emailSchema,
     password: passwordSchema,
-    confirmPassword: z.string(),
+    confirmPassword: z.string().trim(),
   })
   .refine((data) => data.password === data.confirmPassword, {
     error: () => i18next.t("passwordMismatch", { ns: "validation" }),

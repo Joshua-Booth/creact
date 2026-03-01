@@ -15,16 +15,16 @@ export const env = createEnv({
   clientPrefix: "VITE_",
 
   server: {
-    SESSION_SECRET: z.string().min(1),
-    SENTRY_DSN: z.string().min(1).optional(),
+    SESSION_SECRET: z.string().trim().min(1),
+    SENTRY_DSN: z.string().trim().min(1).optional(),
   },
 
   client: {
     VITE_API_ROOT_URL: z.url().optional(),
     VITE_PUBLIC_URL: z.url().optional(),
     VITE_PORT: z.coerce.number().default(8080),
-    VITE_SENTRY_DSN: z.string().min(1).optional(),
-    VITE_POSTHOG_KEY: z.string().min(1).optional(),
+    VITE_SENTRY_DSN: z.string().trim().min(1).optional(),
+    VITE_POSTHOG_KEY: z.string().trim().min(1).optional(),
     VITE_POSTHOG_HOST: z.url().optional(),
   },
 
