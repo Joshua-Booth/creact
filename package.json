@@ -7,13 +7,13 @@
   "author": "Joshua Booth",
   "private": true,
   "license": "0BSD",
-  "packageManager": "pnpm@10.28.0",
+  "packageManager": "pnpm@10.30.3",
   "scripts": {
     "prepare": "husky || true",
     "build": "react-router build"
   },
   "engines": {
-    "node": ">=24.0.0"
+    "node": ">=24.14.0"
   },
   "dependencies": {
     "@base-ui/react": "^1.2.0",
