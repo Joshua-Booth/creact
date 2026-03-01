@@ -5,7 +5,7 @@ import type { ExtendedColumnFilter, ExtendedColumnSort } from "./types";
 import { dataTableConfig } from "./config";
 
 const sortingItemSchema = z.object({
-  id: z.string(),
+  id: z.string().trim(),
   desc: z.boolean(),
 });
 
@@ -56,11 +56,11 @@ export function getSortingStateParser<TData>(
 }
 
 const filterItemSchema = z.object({
-  id: z.string(),
-  value: z.union([z.string(), z.array(z.string())]),
+  id: z.string().trim(),
+  value: z.union([z.string().trim(), z.array(z.string().trim())]),
   variant: z.enum(dataTableConfig.filterVariants),
   operator: z.enum(dataTableConfig.operators),
-  filterId: z.string(),
+  filterId: z.string().trim(),
 });
 
 export type FilterItemSchema = z.infer<typeof filterItemSchema>;

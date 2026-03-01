@@ -9,6 +9,7 @@ export const emailSchema = z.email({
 /** Password requiring 8+ chars, one uppercase, one lowercase, one digit. */
 export const passwordSchema = z
   .string()
+  .trim()
   .min(8, {
     error: () => i18next.t("password.minLength", { ns: "validation", min: 8 }),
   })
@@ -23,9 +24,12 @@ export const passwordSchema = z
   });
 
 /** Simple password with no strength requirements, just non-empty. */
-export const simplePasswordSchema = z.string().min(1, {
-  error: () => i18next.t("password.required", { ns: "validation" }),
-});
+export const simplePasswordSchema = z
+  .string()
+  .trim()
+  .min(1, {
+    error: () => i18next.t("password.required", { ns: "validation" }),
+  });
 
 /** Re-export of `@hookform/resolvers/zod` for convenient form validation wiring. */
 export { zodResolver } from "@hookform/resolvers/zod";
