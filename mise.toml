@@ -1,8 +1,8 @@
 min_version = "2024.9.5"
 
 [tools]
-node = "24.12.0"
-pnpm = "10.28.0"
+node = "24.14.0"
+pnpm = "10.30.3"
 
 [env]
 NODE_ENV = "development"
