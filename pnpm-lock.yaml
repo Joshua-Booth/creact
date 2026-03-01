@@ -27,8 +27,8 @@ importers:
         specifier: ^5.2.2
         version: 5.2.2(react-hook-form@7.71.2(react@19.2.4))
       '@posthog/react':
-        specifier: ^1.8.0
-        version: 1.8.0(@types/react@19.2.14)(posthog-js@1.356.1)(react@19.2.4)
+        specifier: ^1.8.1
+        version: 1.8.1(@types/react@19.2.14)(posthog-js@1.356.1)(react@19.2.4)
       '@react-router/node':
         specifier: ^7.13.0
         version: 7.13.1(react-router@7.13.1(react-dom@19.2.4(react@19.2.4))(react@19.2.4))(typescript@5.9.3)
@@ -93,7 +93,7 @@ importers:
         specifier: ^2.8.8
         version: 2.8.8(react-router@7.13.1(react-dom@19.2.4(react@19.2.4))(react@19.2.4))(react@19.2.4)
       posthog-js:
-        specifier: ^1.353.1
+        specifier: ^1.354.4
         version: 1.356.1
       react:
         specifier: ^19.2.4
@@ -2322,8 +2322,8 @@ packages:
   '@posthog/core@1.23.1':
     resolution: {integrity: sha512-GViD5mOv/mcbZcyzz3z9CS0R79JzxVaqEz4sP5Dsea178M/j3ZWe6gaHDZB9yuyGfcmIMQ/8K14yv+7QrK4sQQ==}
 
-  '@posthog/react@1.8.0':
-    resolution: {integrity: sha512-UEX3BAIXMrzN7r/JoVotMY9BSTfJ1umiQqfsU30X1OZAW59cO5cPf50YDj4XNhHTCZpiLqenmvJdtJLsx5Pn4Q==}
+  '@posthog/react@1.8.1':
+    resolution: {integrity: sha512-/tRMKPm8PKvCgmKjgKM4ojSbOpdzzKyDNK8upbK6cKedZ1wdtOcSAMiLEyNCatFB2dqwB85LcjrhkaO8lFnHNQ==}
     peerDependencies:
       '@types/react': '>=16.8.0'
       posthog-js: '>=1.257.2'
@@ -11262,7 +11262,7 @@ snapshots:
     dependencies:
       cross-spawn: 7.0.6
 
-  '@posthog/react@1.8.0(@types/react@19.2.14)(posthog-js@1.356.1)(react@19.2.4)':
+  '@posthog/react@1.8.1(@types/react@19.2.14)(posthog-js@1.356.1)(react@19.2.4)':
     dependencies:
       posthog-js: 1.356.1
       react: 19.2.4
