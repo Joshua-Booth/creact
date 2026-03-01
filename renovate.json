@@ -170,7 +170,7 @@
     },
     {
       "description": "Require manual review for runtime and toolchain updates",
-      "matchPackageNames": ["node", "pnpm"],
+      "matchPackageNames": ["node", "pnpm", "@types/node"],
       "groupName": "runtime toolchain",
       "automerge": false
     }
