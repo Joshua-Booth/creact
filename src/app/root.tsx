@@ -225,7 +225,7 @@ export function HydrateFallback() {
             {i18next.t("loading")}
           </span>
         </div>
-        <p className="mt-4 text-gray-600">{i18next.t("loading")}</p>
+        <p className="text-gray-11 mt-4">{i18next.t("loading")}</p>
       </div>
     </div>
   );

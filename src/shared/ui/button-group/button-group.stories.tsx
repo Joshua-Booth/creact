@@ -278,10 +278,8 @@ export const InputGroupStory = meta.story({
                       size="icon-xs"
                       aria-label="Voice Mode"
                       data-active={voiceEnabled}
-                      className="data-[active=true]:bg-orange-100
-                        data-[active=true]:text-orange-700
-                        dark:data-[active=true]:bg-orange-800
-                        dark:data-[active=true]:text-orange-100"
+                      className="data-[active=true]:bg-orange-3
+                        data-[active=true]:text-orange-11"
                       aria-pressed={voiceEnabled}
                     />
                   }

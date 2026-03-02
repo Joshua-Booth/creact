@@ -218,7 +218,7 @@ export function StudentGradesDemo() {
             <div
               className={cn(
                 "border-l-4 pl-2 font-medium",
-                passing ? "border-l-green-500" : "border-l-red-500"
+                passing ? "border-l-green-9" : "border-l-red-9"
               )}
             >
               {cell.getValue<string>()}

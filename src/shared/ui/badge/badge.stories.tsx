@@ -128,36 +128,19 @@ export const CustomColors = meta.story({
   name: "Custom Colors",
   render: (args) => (
     <div className="flex flex-wrap gap-2">
-      <Badge
-        {...args}
-        className="bg-blue-50 text-blue-700 dark:bg-blue-950 dark:text-blue-300"
-      >
+      <Badge {...args} className="bg-blue-2 text-blue-11">
         Blue
       </Badge>
-      <Badge
-        {...args}
-        className="bg-green-50 text-green-700 dark:bg-green-950
-          dark:text-green-300"
-      >
+      <Badge {...args} className="bg-green-2 text-green-11">
         Green
       </Badge>
-      <Badge
-        {...args}
-        className="bg-sky-50 text-sky-700 dark:bg-sky-950 dark:text-sky-300"
-      >
+      <Badge {...args} className="bg-sky-2 text-sky-11">
         Sky
       </Badge>
-      <Badge
-        {...args}
-        className="bg-purple-50 text-purple-700 dark:bg-purple-950
-          dark:text-purple-300"
-      >
+      <Badge {...args} className="bg-purple-2 text-purple-11">
         Purple
       </Badge>
-      <Badge
-        {...args}
-        className="bg-red-50 text-red-700 dark:bg-red-950 dark:text-red-300"
-      >
+      <Badge {...args} className="bg-red-2 text-red-11">
         Red
       </Badge>
     </div>

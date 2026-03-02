@@ -235,7 +235,7 @@ function StarRating({ rating }: { rating: number }) {
       {Array.from({ length: 5 }, (_, i) => (
         <span
           key={i}
-          className={i < rating ? "text-amber-500" : "text-muted-foreground/30"}
+          className={i < rating ? "text-amber-9" : "text-muted-foreground/30"}
         >
           ★
         </span>

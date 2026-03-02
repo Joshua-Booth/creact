@@ -1204,7 +1204,7 @@ function RadixScales() {
               <div
                 key={step}
                 className={`border-border/50 h-10 rounded-sm border
-                ${RADIX_BG[scale][step]}`}
+                ${RADIX_BG[scale]?.[step] ?? ""}`}
                 title={`${scale}-${step}: ${STEP_LABELS[step - 1]}`}
               />
             ))}
@@ -1242,7 +1242,7 @@ function RadixScales() {
               <div
                 key={step}
                 className={`border-border/50 h-10 rounded-sm border
-                ${RADIX_ALPHA_BG[scale][step]}`}
+                ${RADIX_ALPHA_BG[scale]?.[step] ?? ""}`}
                 title={`${scale}-a${step}`}
               />
             ))}
@@ -1259,7 +1259,7 @@ function RadixScales() {
           {RADIX_STEPS.map((step) => (
             <div
               key={step}
-              className={`h-10 rounded-sm ${RADIX_ALPHA_BG.black[step]}`}
+              className={`h-10 rounded-sm ${RADIX_ALPHA_BG.black?.[step] ?? ""}`}
               title={`black-a${step}`}
             />
           ))}
@@ -1273,7 +1273,7 @@ function RadixScales() {
           {RADIX_STEPS.map((step) => (
             <div
               key={step}
-              className={`h-10 rounded-sm ${RADIX_ALPHA_BG.white[step]}`}
+              className={`h-10 rounded-sm ${RADIX_ALPHA_BG.white?.[step] ?? ""}`}
               title={`white-a${step}`}
             />
           ))}

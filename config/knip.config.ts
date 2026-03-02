@@ -29,6 +29,7 @@ const config: KnipConfig = {
     "tw-animate-css",
     "autoprefixer",
     "@fontsource-variable/inter",
+    "radix-colors-tailwind",
     // Tools without knip plugins
     "@feature-sliced/steiger-plugin",
     "steiger",
