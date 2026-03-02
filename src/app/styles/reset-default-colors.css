@@ -1,0 +1,7 @@
+/* Remove Tailwind's default color palette (50-950 scale).
+   Must be imported AFTER tailwindcss and BEFORE radix-colors-tailwind
+   so that default colors are cleared but Radix 12-step scales are preserved. */
+@theme {
+  /* stylelint-disable-next-line custom-property-pattern -- Tailwind v4 wildcard reset syntax */
+  --color-*: initial;
+}

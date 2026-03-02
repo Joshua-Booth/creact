@@ -1,0 +1,38 @@
+/* Bridge shadcn semantic tokens to Radix 12-step scale.
+   Color variables (--color-gray-1, --color-blue-9, etc.) are provided by
+   radix-colors-tailwind imported in globals.css.
+   No .dark block needed — Radix values auto-switch when .dark class is present. */
+:root {
+  --radius: 0.625rem;
+  --background: white;
+  --foreground: var(--color-gray-12);
+  --card: white;
+  --card-foreground: var(--color-gray-12);
+  --popover: white;
+  --popover-foreground: var(--color-gray-12);
+  --primary: var(--color-blue-9);
+  --primary-foreground: white;
+  --secondary: var(--color-gray-3);
+  --secondary-foreground: var(--color-gray-12);
+  --muted: var(--color-gray-3);
+  --muted-foreground: var(--color-gray-11);
+  --accent: var(--color-gray-4);
+  --accent-foreground: var(--color-gray-12);
+  --destructive: var(--color-red-9);
+  --border: var(--color-gray-6);
+  --input: var(--color-gray-7);
+  --ring: var(--color-blue-8);
+  --chart-1: var(--color-blue-7);
+  --chart-2: var(--color-blue-9);
+  --chart-3: var(--color-blue-10);
+  --chart-4: var(--color-blue-11);
+  --chart-5: var(--color-blue-12);
+  --sidebar: var(--color-gray-2);
+  --sidebar-foreground: var(--color-gray-12);
+  --sidebar-primary: var(--color-blue-9);
+  --sidebar-primary-foreground: white;
+  --sidebar-accent: var(--color-gray-3);
+  --sidebar-accent-foreground: var(--color-gray-12);
+  --sidebar-border: var(--color-gray-6);
+  --sidebar-ring: var(--color-blue-8);
+}

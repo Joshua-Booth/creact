@@ -15,5 +15,6 @@ export default [
   route("forgot-password", "./routes/forgot-password.tsx"),
   route("logout", "./routes/logout.tsx"),
   route("api/locales/:lng/:ns", "./routes/locales.ts"),
+  route("kitchen-sink", "./routes/kitchen-sink.tsx"),
   route("*", "./routes/no-match.tsx"),
 ] satisfies RouteConfig;
