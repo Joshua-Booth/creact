@@ -2,7 +2,7 @@
 # This is NOT used by Vercel or Netlify - they have their own build systems
 # Use this only for local testing of production builds
 
-FROM node:24-alpine
+FROM node:24.14.0-alpine
 
 WORKDIR /app
 

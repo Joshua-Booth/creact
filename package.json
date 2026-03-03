@@ -7,13 +7,13 @@
   "author": "Joshua Booth",
   "private": true,
   "license": "0BSD",
-  "packageManager": "pnpm@10.28.0",
+  "packageManager": "pnpm@10.30.3",
   "scripts": {
     "prepare": "husky || true",
     "build": "react-router build"
   },
   "engines": {
-    "node": ">=24.0.0"
+    "node": ">=24.14.0"
   },
   "dependencies": {
     "@base-ui/react": "^1.2.0",
@@ -87,7 +87,7 @@
     "@storybook/react-vite": "^10.2.13",
     "@tailwindcss/vite": "^4.2.1",
     "@total-typescript/ts-reset": "^0.6.1",
-    "@types/node": "^24.0.0",
+    "@types/node": "^24.11.0",
     "@types/react": "^19.2.14",
     "@types/react-dom": "^19.2.3",
     "@vitejs/plugin-react": "^5.1.4",
