@@ -139,7 +139,7 @@
     "react-router-devtools": "^6.2.0",
     "remark-gfm": "^4.0.1",
     "semantic-release": "^25.0.3",
-    "shadcn": "^3.8.5",
+    "shadcn": "^4.0.0",
     "steiger": "^0.5.11",
     "storybook": "^10.2.13",
     "storybook-addon-remix-react-router": "^6.0.0",
