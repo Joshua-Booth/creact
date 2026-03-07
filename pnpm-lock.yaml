@@ -66,7 +66,7 @@ importers:
         specifier: ^8.6.0
         version: 8.6.0(react@19.2.4)
       es-toolkit:
-        specifier: ^1.45.0
+        specifier: ^1.45.1
         version: 1.45.1
       i18next:
         specifier: ^25.8.14
