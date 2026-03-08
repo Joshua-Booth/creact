@@ -93,7 +93,7 @@ importers:
         specifier: ^2.8.9
         version: 2.8.9(react-router@7.13.1(react-dom@19.2.4(react@19.2.4))(react@19.2.4))(react@19.2.4)
       posthog-js:
-        specifier: ^1.358.1
+        specifier: ^1.359.0
         version: 1.359.1
       react:
         specifier: ^19.2.4
