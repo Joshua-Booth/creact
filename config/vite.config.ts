@@ -1,5 +1,3 @@
-import path from "node:path";
-
 import netlifyPlugin from "@netlify/vite-plugin-react-router";
 import { reactRouter } from "@react-router/dev/vite";
 import { sentryVitePlugin } from "@sentry/vite-plugin";
@@ -9,7 +7,6 @@ import { defineConfig } from "vite";
 import devtoolsJson from "vite-plugin-devtools-json";
 import reactScan from "vite-plugin-react-scan";
 import svgr from "vite-plugin-svgr";
-import tsconfigPaths from "vite-tsconfig-paths";
 
 const isE2E = process.env.E2E === "true";
 
@@ -25,7 +22,6 @@ export default defineConfig({
     svgr(),
     reactRouter(),
     ...(isE2E ? [] : [netlifyPlugin()]),
-    tsconfigPaths(),
     devtoolsJson(),
     // Skip Sentry in E2E builds — source maps must remain on disk for
     // V8 coverage to resolve bundled code back to original sources.
@@ -44,9 +40,7 @@ export default defineConfig({
         ]),
   ],
   resolve: {
-    alias: {
-      "@": path.resolve(__dirname, "../src"),
-    },
+    tsconfigPaths: true,
   },
   optimizeDeps: {
     exclude: ["fsevents"],

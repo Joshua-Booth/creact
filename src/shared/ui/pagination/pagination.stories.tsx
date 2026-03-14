@@ -153,17 +153,32 @@ export const ReactRouter = meta.story({
     <Pagination {...args}>
       <PaginationContent>
         <PaginationItem>
-          <Button variant="ghost" size="icon" render={<RouterLink to="/1" />}>
+          <Button
+            variant="ghost"
+            size="icon"
+            nativeButton={false}
+            render={<RouterLink to="/1" />}
+          >
             1
           </Button>
         </PaginationItem>
         <PaginationItem>
-          <Button variant="outline" size="icon" render={<RouterLink to="/2" />}>
+          <Button
+            variant="outline"
+            size="icon"
+            nativeButton={false}
+            render={<RouterLink to="/2" />}
+          >
             2
           </Button>
         </PaginationItem>
         <PaginationItem>
-          <Button variant="ghost" size="icon" render={<RouterLink to="/3" />}>
+          <Button
+            variant="ghost"
+            size="icon"
+            nativeButton={false}
+            render={<RouterLink to="/3" />}
+          >
             3
           </Button>
         </PaginationItem>

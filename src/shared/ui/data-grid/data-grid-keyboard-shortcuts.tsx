@@ -310,7 +310,7 @@ function DataGridKeyboardShortcutsImpl({
                   <div className="divide-border divide-y rounded-md border">
                     {shortcutGroup.shortcuts.map((shortcut) => (
                       <ShortcutCard
-                        key={shortcut.description}
+                        key={`${shortcut.description}-${shortcut.keys.join("+")}`}
                         keys={shortcut.keys}
                         description={shortcut.description}
                       />

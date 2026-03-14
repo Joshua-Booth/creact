@@ -1,12 +1,11 @@
 import tailwindcss from "@tailwindcss/vite";
 import { defineConfig } from "vite";
 import svgr from "vite-plugin-svgr";
-import tsconfigPaths from "vite-tsconfig-paths";
 
 export default defineConfig({
-  plugins: [tailwindcss(), svgr(), tsconfigPaths()],
-  esbuild: {
-    legalComments: "inline",
+  plugins: [tailwindcss(), svgr()],
+  resolve: {
+    tsconfigPaths: true,
   },
   define: {
     // Skip t3-env validation — Storybook has no real env vars.
