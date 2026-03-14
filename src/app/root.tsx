@@ -16,7 +16,6 @@ import {
 import { useTranslation } from "react-i18next";
 
 import * as Sentry from "@sentry/react";
-import i18next from "i18next";
 import { AlertTriangle, Home } from "lucide-react";
 import { NuqsAdapter } from "nuqs/adapters/react-router/v7";
 import {
@@ -94,7 +93,7 @@ function InnerLayout({
   children: React.ReactNode;
   ssrTheme: boolean;
 }) {
-  const { i18n } = useTranslation();
+  const { i18n, t } = useTranslation();
   const [theme] = useTheme();
 
   return (
@@ -137,9 +136,7 @@ function InnerLayout({
         <Links />
       </head>
       <body className="relative">
-        <noscript>
-          {i18next.t("app.noJavaScript", { ns: "components" })}
-        </noscript>
+        <noscript>{t("app.noJavaScript", { ns: "components" })}</noscript>
         <DirectionProvider direction={i18n.dir(i18n.language)}>
           <ToastProvider>
             {/* We need to set relative on the body for iOS Safari 26 and isolate for portals to work properly
@@ -209,6 +206,7 @@ export function ErrorBoundary() {
 /* istanbul ignore end @preserve */
 
 export function HydrateFallback() {
+  const { t } = useTranslation();
   return (
     <div className="flex min-h-screen items-center justify-center">
       <div className="text-center">
@@ -222,10 +220,10 @@ export function HydrateFallback() {
             className="absolute! -m-px! size-px! overflow-hidden! border-0! p-0!
               whitespace-nowrap! [clip:rect(0,0,0,0)]!"
           >
-            {i18next.t("loading")}
+            {t("loading")}
           </span>
         </div>
-        <p className="mt-4 text-gray-600">{i18next.t("loading")}</p>
+        <p className="mt-4 text-gray-600">{t("loading")}</p>
       </div>
     </div>
   );

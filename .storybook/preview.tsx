@@ -5,6 +5,7 @@ import { initialize, mswLoader } from "msw-storybook-addon";
 import { withRouter } from "storybook-addon-remix-react-router";
 
 import { withDirection } from "./decorators/with-direction";
+import { withI18n } from "./decorators/with-i18n";
 
 import "../src/app/styles/globals.css";
 import "./storybook-dark.css";
@@ -31,7 +32,7 @@ export default definePreview({
   initialGlobals: {
     direction: "ltr",
   },
-  decorators: [withRouter, withDirection],
+  decorators: [withRouter, withDirection, withI18n],
   parameters: {
     darkMode: {
       darkClass: "dark",
