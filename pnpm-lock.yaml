@@ -11,7 +11,7 @@ overrides:
   koa: '>=3.1.2'
   rollup: '>=4.59.0'
   seroval: '>=1.5.1'
-  undici: '>=6.23.0'
+  undici: '>=6.24.0'
 
 importers:
 
@@ -268,7 +268,7 @@ importers:
         specifier: ^9.7.0
         version: 9.7.0
       dependency-cruiser:
-        specifier: ^17.3.8
+        specifier: ^17.3.9
         version: 17.3.9
       eslint:
         specifier: ^10.0.3
