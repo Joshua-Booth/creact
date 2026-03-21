@@ -11,7 +11,7 @@ overrides:
   koa: '>=3.1.2'
   rollup: '>=4.59.0'
   seroval: '>=1.5.1'
-  undici: '>=6.24.0'
+  undici: '>=7.24.5'
 
 importers:
 
@@ -8610,8 +8610,8 @@ packages:
   undici-types@7.16.0:
     resolution: {integrity: sha512-Zz+aZWSj8LE6zoxD+xrjh4VfkIG8Ya6LvYkZqtUQGJPZjYl53ypCaUwWqo7eI0x66KBGeRo+mlBEkMSeSZ38Nw==}
 
-  undici@7.24.0:
-    resolution: {integrity: sha512-jxytwMHhsbdpBXxLAcuu0fzlQeXCNnWdDyRHpvWsUl8vd98UwYdl9YTyn8/HcpcJPC3pwUveefsa3zTxyD/ERg==}
+  undici@7.24.5:
+    resolution: {integrity: sha512-3IWdCpjgxp15CbJnsi/Y9TCDE7HWVN19j1hmzVhoAkY/+CJx449tVxT5wZc1Gwg8J+P0LWvzlBzxYRnHJ+1i7Q==}
     engines: {node: '>=20.18.1'}
 
   unicode-emoji-modifier-base@1.0.0:
@@ -9145,7 +9145,7 @@ snapshots:
   '@actions/http-client@4.0.0':
     dependencies:
       tunnel: 0.0.6
-      undici: 7.24.0
+      undici: 7.24.5
 
   '@actions/io@3.0.2': {}
 
@@ -11416,7 +11416,7 @@ snapshots:
       p-filter: 4.1.0
       semantic-release: 25.0.3(typescript@5.9.3)
       tinyglobby: 0.2.15
-      undici: 7.24.0
+      undici: 7.24.5
       url-join: 5.0.0
     transitivePeerDependencies:
       - supports-color
@@ -17927,7 +17927,7 @@ snapshots:
 
   undici-types@7.16.0: {}
 
-  undici@7.24.0: {}
+  undici@7.24.5: {}
 
   unicode-emoji-modifier-base@1.0.0: {}
 
