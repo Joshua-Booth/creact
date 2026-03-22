@@ -69,7 +69,7 @@ importers:
         specifier: ^1.45.1
         version: 1.45.1
       i18next:
-        specifier: ^25.8.19
+        specifier: ^25.8.20
         version: 25.10.4(typescript@5.9.3)
       i18next-browser-languagedetector:
         specifier: ^8.2.1
@@ -9289,7 +9289,7 @@ snapshots:
 
   '@base-ui/utils@0.2.6(@types/react@19.2.14)(react-dom@19.2.4(react@19.2.4))(react@19.2.4)':
     dependencies:
-      '@babel/runtime': 7.28.6
+      '@babel/runtime': 7.29.2
       '@floating-ui/utils': 0.2.11
       react: 19.2.4
       react-dom: 19.2.4(react@19.2.4)
@@ -13483,7 +13483,7 @@ snapshots:
 
   dom-helpers@3.4.0:
     dependencies:
-      '@babel/runtime': 7.28.6
+      '@babel/runtime': 7.29.2
 
   dompurify@3.3.3:
     optionalDependencies:
