@@ -1,4 +1,5 @@
 import i18next from "i18next";
+
 import { HTTPError } from "ky";
 
 import { api } from "@/shared/api";

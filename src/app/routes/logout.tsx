@@ -1,7 +1,7 @@
 import { href, redirect } from "react-router";
 
-import { logoutAction, LogoutPage } from "@/pages/logout";
 import { getAuthToken } from "@/entities/user";
+import { logoutAction, LogoutPage } from "@/pages/logout";
 import {
   generateMeta,
   getLocaleFromMatches,

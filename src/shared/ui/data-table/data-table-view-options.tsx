@@ -1,8 +1,7 @@
-import type { Table } from "@tanstack/react-table";
-
 import { useMemo } from "react";
 import { useTranslation } from "react-i18next";
 
+import type { Table } from "@tanstack/react-table";
 import { Check, Settings2 } from "lucide-react";
 
 import { cn } from "@/shared/lib/utils";

@@ -1,7 +1,6 @@
-import type { ColumnDef } from "@tanstack/react-table";
-
 import { useMemo } from "react";
 
+import type { ColumnDef } from "@tanstack/react-table";
 import { Text } from "lucide-react";
 
 import { useDataTable } from "@/shared/lib/data-table";
@@ -245,7 +244,7 @@ export function RestaurantMenuDemo() {
           <DataTableColumnHeader column={column} label="Description" />
         ),
         cell: ({ cell }) => (
-          <div className="text-muted-foreground max-w-75 truncate italic">
+          <div className="max-w-75 truncate text-muted-foreground italic">
             {cell.getValue<string>()}
           </div>
         ),

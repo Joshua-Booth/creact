@@ -120,8 +120,7 @@ export function DataGrid<TData>({
         data-slot="grid"
         tabIndex={0}
         ref={dataGridRef}
-        className="relative grid overflow-auto rounded-md border select-none
-          focus:outline-none"
+        className="relative grid overflow-auto rounded-md border select-none focus:outline-none"
         style={{
           ...columnSizeVars,
           maxHeight: `${height}px`,
@@ -132,7 +131,7 @@ export function DataGrid<TData>({
           role="rowgroup"
           data-slot="grid-header"
           ref={headerRef}
-          className="bg-background sticky top-0 z-10 grid border-b"
+          className="sticky top-0 z-10 grid border-b bg-background"
         >
           {table.getHeaderGroups().map((headerGroup, rowIndex) => (
             <div
@@ -276,7 +275,7 @@ export function DataGrid<TData>({
             role="rowgroup"
             data-slot="grid-footer"
             ref={footerRef}
-            className="bg-background sticky bottom-0 z-10 grid border-t"
+            className="sticky bottom-0 z-10 grid border-t bg-background"
           >
             <div
               role="row"
@@ -288,9 +287,7 @@ export function DataGrid<TData>({
               <div
                 role="gridcell"
                 tabIndex={0}
-                className="bg-muted/30 hover:bg-muted/50 focus:bg-muted/50
-                  relative flex h-9 grow items-center transition-colors
-                  focus:outline-none"
+                className="relative flex h-9 grow items-center bg-muted/30 transition-colors hover:bg-muted/50 focus:bg-muted/50 focus:outline-none"
                 style={{
                   width: table.getTotalSize(),
                   minWidth: table.getTotalSize(),
@@ -298,10 +295,7 @@ export function DataGrid<TData>({
                 onClick={onRowAdd}
                 onKeyDown={onFooterCellKeyDown}
               >
-                <div
-                  className="text-muted-foreground sticky inset-s-0 flex
-                    items-center gap-2 px-3"
-                >
+                <div className="sticky inset-s-0 flex items-center gap-2 px-3 text-muted-foreground">
                   <Plus className="size-3.5" />
                   <span className="text-sm">{t("dataGrid.addRow")}</span>
                 </div>

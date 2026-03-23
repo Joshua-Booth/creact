@@ -416,9 +416,7 @@ export function LongTextCell<TData>({
       >
         <Textarea
           placeholder={t("dataGrid.cell.enterText")}
-          className="focus-visible:ring-ring max-h-[300px] min-h-[150px]
-            resize-none overflow-y-auto rounded-none border-0 shadow-none
-            focus-visible:ring-1"
+          className="max-h-[300px] min-h-[150px] resize-none overflow-y-auto rounded-none border-0 shadow-none focus-visible:ring-1 focus-visible:ring-ring"
           ref={textareaRef}
           value={value}
           onBlur={onBlur}
@@ -562,9 +560,7 @@ export function NumberCell<TData>({
           min={min}
           max={max}
           step={step}
-          className="w-full [appearance:textfield] border-none bg-transparent
-            p-0 outline-none [&::-webkit-inner-spin-button]:appearance-none
-            [&::-webkit-outer-spin-button]:appearance-none"
+          className="w-full [appearance:textfield] border-none bg-transparent p-0 outline-none [&::-webkit-inner-spin-button]:appearance-none [&::-webkit-outer-spin-button]:appearance-none"
           onBlur={onBlur}
           onChange={onChange}
         />
@@ -770,14 +766,7 @@ export function UrlCell<TData>({
             href={urlHref}
             target="_blank"
             rel="noopener noreferrer"
-            className="text-primary decoration-primary/30
-              hover:decoration-primary/60 data-invalid:text-destructive
-              data-focused:text-foreground
-              data-invalid:decoration-destructive/50
-              data-focused:decoration-foreground/50
-              data-focused:hover:decoration-foreground/70
-              data-invalid:hover:decoration-destructive/70 truncate underline
-              underline-offset-2 data-invalid:cursor-not-allowed"
+            className="truncate text-primary underline decoration-primary/30 underline-offset-2 hover:decoration-primary/60 data-focused:text-foreground data-focused:decoration-foreground/50 data-focused:hover:decoration-foreground/70 data-invalid:cursor-not-allowed data-invalid:text-destructive data-invalid:decoration-destructive/50 data-invalid:hover:decoration-destructive/70"
             onClick={onLinkClick}
           >
             {displayValue}
@@ -993,8 +982,7 @@ export function SelectCell<TData>({
         >
           <SelectTrigger
             size="sm"
-            className="size-full items-start border-none p-0 shadow-none
-              focus-visible:ring-0 dark:bg-transparent [&_svg]:hidden"
+            className="size-full items-start border-none p-0 shadow-none focus-visible:ring-0 dark:bg-transparent [&_svg]:hidden"
           >
             {displayLabel === "" ? (
               <SelectValue />
@@ -1211,16 +1199,8 @@ export function MultiSelectCell<TData>({
               label: cell.column.columnDef.meta?.label ?? columnId,
             })}
           >
-            <Command
-              className="**:data-[slot=command-input-wrapper]:h-auto
-                **:data-[slot=command-input-wrapper]:border-none
-                **:data-[slot=command-input-wrapper]:p-0
-                [&_[data-slot=command-input-wrapper]_svg]:hidden"
-            >
-              <div
-                className="flex min-h-9 flex-wrap items-center gap-1 border-b
-                  px-3 py-1.5"
-              >
+            <Command className="**:data-[slot=command-input-wrapper]:h-auto **:data-[slot=command-input-wrapper]:border-none **:data-[slot=command-input-wrapper]:p-0 [&_[data-slot=command-input-wrapper]_svg]:hidden">
+              <div className="flex min-h-9 flex-wrap items-center gap-1 border-b px-3 py-1.5">
                 {selectedValues.map((value) => {
                   const option = options.find((opt) => opt.value === value);
                   const label = option?.label ?? value;
@@ -1262,10 +1242,7 @@ export function MultiSelectCell<TData>({
               </div>
               <CommandList className="max-h-full">
                 <CommandEmpty>{t("dataGrid.cell.noOptionsFound")}</CommandEmpty>
-                <CommandGroup
-                  className="max-h-[300px] scroll-py-1 overflow-x-hidden
-                    overflow-y-auto"
-                >
+                <CommandGroup className="max-h-[300px] scroll-py-1 overflow-x-hidden overflow-y-auto">
                   {options.map((option) => {
                     const isOptionSelected = selectedValues.includes(
                       option.value
@@ -1282,11 +1259,10 @@ export function MultiSelectCell<TData>({
                       >
                         <div
                           className={cn(
-                            `border-primary flex size-4 items-center
-                              justify-center rounded-sm border`,
+                            `flex size-4 items-center justify-center rounded-sm border border-primary`,
                             isOptionSelected
                               ? "bg-primary text-primary-foreground"
-                              : "opacity-50 [&_svg]:invisible"
+                              : `opacity-50 [&_svg]:invisible`
                           )}
                         >
                           <Check className="size-3" />
@@ -1302,7 +1278,7 @@ export function MultiSelectCell<TData>({
                     <CommandGroup>
                       <CommandItem
                         onSelect={clearAll}
-                        className="text-muted-foreground justify-center"
+                        className="justify-center text-muted-foreground"
                       >
                         {t("dataGrid.cell.clearAll")}
                       </CommandItem>
@@ -1328,7 +1304,7 @@ export function MultiSelectCell<TData>({
           {hiddenBadgeCount > 0 && (
             <Badge
               variant="outline"
-              className="text-muted-foreground px-1.5 py-px"
+              className="px-1.5 py-px text-muted-foreground"
             >
               +{hiddenBadgeCount}
             </Badge>
@@ -2001,7 +1977,7 @@ export function FileCell<TData>({
       isActiveSearchMatch={isActiveSearchMatch}
       readOnly={readOnly}
       className={cn({
-        "ring-primary/80 ring-1 ring-inset": isDraggingOver,
+        "ring-1 ring-primary/80 ring-inset": isDraggingOver,
       })}
       onDragEnter={onCellDragEnter}
       onDragLeave={onCellDragLeave}
@@ -2037,13 +2013,7 @@ export function FileCell<TData>({
                 data-invalid={error ? "" : undefined}
                 data-disabled={isPending ? "" : undefined}
                 tabIndex={isDragging || isPending ? -1 : 0}
-                className="hover:bg-accent/30 focus-visible:border-ring/50
-                  data-dragging:border-primary/30
-                  data-invalid:border-destructive data-dragging:bg-accent/30
-                  data-invalid:ring-destructive/20 flex cursor-pointer flex-col
-                  items-center justify-center gap-2 rounded-md border-2
-                  border-dashed p-6 transition-colors outline-none
-                  data-disabled:pointer-events-none data-disabled:opacity-50"
+                className="flex cursor-pointer flex-col items-center justify-center gap-2 rounded-md border-2 border-dashed p-6 transition-colors outline-none hover:bg-accent/30 focus-visible:border-ring/50 data-dragging:border-primary/30 data-dragging:bg-accent/30 data-invalid:border-destructive data-invalid:ring-destructive/20 data-disabled:pointer-events-none data-disabled:opacity-50"
                 ref={dropzoneRef}
                 onClick={onDropzoneClick}
                 onDragEnter={onDropzoneDragEnter}
@@ -2052,18 +2022,18 @@ export function FileCell<TData>({
                 onDrop={onDropzoneDrop}
                 onKeyDown={onDropzoneKeyDown}
               >
-                <Upload className="text-muted-foreground size-8" />
+                <Upload className="size-8 text-muted-foreground" />
                 <div className="text-center text-sm">
                   <p className="font-medium">
                     {isDragging
                       ? t("dataGrid.cell.dropFilesHere")
                       : t("dataGrid.cell.dragFilesHere")}
                   </p>
-                  <p className="text-muted-foreground text-xs">
+                  <p className="text-xs text-muted-foreground">
                     {t("dataGrid.cell.orClickToBrowse")}
                   </p>
                 </div>
-                <p id={descriptionId} className="text-muted-foreground text-xs">
+                <p id={descriptionId} className="text-xs text-muted-foreground">
                   {dropzoneDescription}
                 </p>
               </div>
@@ -2080,14 +2050,14 @@ export function FileCell<TData>({
               {files.length > 0 && (
                 <div className="flex flex-col gap-2">
                   <div className="flex items-center justify-between">
-                    <p className="text-muted-foreground text-xs font-medium">
+                    <p className="text-xs font-medium text-muted-foreground">
                       {t("dataGrid.cell.fileCount", { count: files.length })}
                     </p>
                     <Button
                       type="button"
                       variant="ghost"
                       size="sm"
-                      className="text-muted-foreground h-6 text-xs"
+                      className="h-6 text-xs text-muted-foreground"
                       onClick={() => void clearAll()}
                       disabled={isPending}
                     >
@@ -2114,16 +2084,12 @@ export function FileCell<TData>({
                         <div
                           key={file.id}
                           data-pending={isFilePending ? "" : undefined}
-                          className="bg-muted/50 flex items-center gap-2
-                            rounded-md border px-2 py-1.5
-                            data-pending:opacity-60"
+                          className="flex items-center gap-2 rounded-md border bg-muted/50 px-2 py-1.5 data-pending:opacity-60"
                         >
-                          <FileIcon
-                            className="text-muted-foreground size-4 shrink-0"
-                          />
+                          <FileIcon className="size-4 shrink-0 text-muted-foreground" />
                           <div className="flex-1 overflow-hidden">
                             <p className="truncate text-sm">{file.name}</p>
-                            <p className="text-muted-foreground text-xs">
+                            <p className="text-xs text-muted-foreground">
                               {fileStatus}
                             </p>
                           </div>
@@ -2151,10 +2117,7 @@ export function FileCell<TData>({
         </Popover>
       ) : null}
       {isDraggingOver && (
-        <div
-          className="text-primary flex items-center justify-center gap-2
-            text-sm"
-        >
+        <div className="flex items-center justify-center gap-2 text-sm text-primary">
           <Upload className="size-4" />
           <span>{t("dataGrid.cell.dropFilesHere")}</span>
         </div>
@@ -2192,7 +2155,7 @@ export function FileCell<TData>({
           {hiddenFileCount > 0 && (
             <Badge
               variant="outline"
-              className="text-muted-foreground px-1.5 py-px"
+              className="px-1.5 py-px text-muted-foreground"
             >
               +{hiddenFileCount}
             </Badge>

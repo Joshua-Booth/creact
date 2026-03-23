@@ -1,7 +1,6 @@
 /* eslint-disable @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-unsafe-call, @typescript-eslint/no-unsafe-return -- Recharts has poor TypeScript types */
 import * as React from "react";
 
-import preview from "@/storybook/preview";
 import {
   Area,
   AreaChart,
@@ -16,6 +15,8 @@ import {
   XAxis,
 } from "recharts";
 import { expect, fireEvent, userEvent } from "storybook/test";
+
+import preview from "@/storybook/preview";
 
 import type { ChartConfig } from "./chart";
 import {
@@ -237,10 +238,7 @@ export const TooltipIndicators = meta.story({
     <div className="flex flex-col gap-8">
       {(["dot", "line", "dashed"] as const).map((indicator) => (
         <div key={indicator}>
-          <p
-            className="text-muted-foreground mb-2 text-sm font-medium
-              capitalize"
-          >
+          <p className="mb-2 text-sm font-medium text-muted-foreground capitalize">
             {indicator}
           </p>
           <ChartContainer {...args}>
@@ -287,15 +285,13 @@ export const Interactive = meta.story({
               key={key}
               type="button"
               data-active={activeChart === key}
-              className="data-[active=true]:bg-muted/50 flex flex-1 flex-col
-                items-center justify-center gap-1 border-t px-6 py-4 text-left
-                even:border-l"
+              className="flex flex-1 flex-col items-center justify-center gap-1 border-t px-6 py-4 text-left even:border-l data-[active=true]:bg-muted/50"
               onClick={() => setActiveChart(key)}
             >
-              <span className="text-muted-foreground text-xs">
+              <span className="text-xs text-muted-foreground">
                 {multiSeriesConfig[key].label}
               </span>
-              <span className="text-foreground text-lg leading-none font-bold">
+              <span className="text-lg leading-none font-bold text-foreground">
                 {multiSeriesTotals[key].toLocaleString()}
               </span>
             </button>

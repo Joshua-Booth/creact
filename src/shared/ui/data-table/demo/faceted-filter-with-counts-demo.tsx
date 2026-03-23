@@ -1,7 +1,6 @@
-import type { ColumnDef } from "@tanstack/react-table";
-
 import { useMemo } from "react";
 
+import type { ColumnDef } from "@tanstack/react-table";
 import { CheckCircle2, CircleDashed, Text, XCircle } from "lucide-react";
 
 import { useDataTable } from "@/shared/lib/data-table";

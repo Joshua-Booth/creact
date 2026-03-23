@@ -1,5 +1,4 @@
 import { useEffect, useMemo, useState } from "react";
-
 import type { RefObject } from "react";
 
 const badgeWidthCache = new Map<string, number>();

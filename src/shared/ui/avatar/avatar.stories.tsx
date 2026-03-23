@@ -1,6 +1,7 @@
-import preview from "@/storybook/preview";
 import { LogOut, Plus, Settings, User } from "lucide-react";
 import { expect, userEvent, within } from "storybook/test";
+
+import preview from "@/storybook/preview";
 
 import {
   DropdownMenu,

@@ -1,4 +1,5 @@
 import i18next from "i18next";
+
 import * as z from "zod";
 
 import { emailSchema, passwordSchema } from "@/shared/lib/validation";

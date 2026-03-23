@@ -1,8 +1,7 @@
-import type { ColumnDef, TableMeta } from "@tanstack/react-table";
-
 import { memo, useCallback, useMemo } from "react";
 import { useTranslation } from "react-i18next";
 
+import type { ColumnDef, TableMeta } from "@tanstack/react-table";
 import { CopyIcon, EraserIcon, ScissorsIcon, Trash2Icon } from "lucide-react";
 import { toast } from "sonner";
 

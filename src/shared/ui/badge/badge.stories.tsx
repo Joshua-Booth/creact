@@ -1,5 +1,6 @@
-import preview from "@/storybook/preview";
 import { ArrowUpRightIcon, BadgeCheck, BookmarkIcon } from "lucide-react";
+
+import preview from "@/storybook/preview";
 
 import { Spinner } from "../spinner";
 import { Badge } from "./badge";
@@ -136,8 +137,7 @@ export const CustomColors = meta.story({
       </Badge>
       <Badge
         {...args}
-        className="bg-green-50 text-green-700 dark:bg-green-950
-          dark:text-green-300"
+        className="bg-green-50 text-green-700 dark:bg-green-950 dark:text-green-300"
       >
         Green
       </Badge>
@@ -149,8 +149,7 @@ export const CustomColors = meta.story({
       </Badge>
       <Badge
         {...args}
-        className="bg-purple-50 text-purple-700 dark:bg-purple-950
-          dark:text-purple-300"
+        className="bg-purple-50 text-purple-700 dark:bg-purple-950 dark:text-purple-300"
       >
         Purple
       </Badge>

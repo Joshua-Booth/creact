@@ -1,7 +1,6 @@
-import type { ColumnDef, Table } from "@tanstack/react-table";
-
 import { useMemo, useState } from "react";
 
+import type { ColumnDef, Table } from "@tanstack/react-table";
 import {
   ArrowUpDown,
   Check,
@@ -15,6 +14,7 @@ import {
 
 import type { CellSelectOption, RowHeightValue } from "@/shared/lib/data-grid";
 import { useDataGrid } from "@/shared/lib/data-grid";
+import { cn } from "@/shared/lib/utils";
 import { Badge } from "@/shared/ui/badge";
 import { Button } from "@/shared/ui/button";
 import {
@@ -243,8 +243,7 @@ function SortControl<TData>({ table }: { table: Table<TData> }) {
                     {active && (
                       <button
                         type="button"
-                        className="text-muted-foreground hover:text-foreground
-                          ml-auto"
+                        className="ml-auto text-muted-foreground hover:text-foreground"
                         onClick={(e) => {
                           e.stopPropagation();
                           removeSort(col.id);
@@ -370,8 +369,10 @@ function FilterControl<TData>({ table }: { table: Table<TData> }) {
                           </Badge>
                         )}
                         <ChevronDown
-                          className={`size-3.5 transition-transform
-                          ${isExpanded ? "rotate-180" : ""}`}
+                          className={cn(
+                            "size-3.5 transition-transform",
+                            isExpanded && "rotate-180"
+                          )}
                         />
                       </span>
                     </CommandItem>

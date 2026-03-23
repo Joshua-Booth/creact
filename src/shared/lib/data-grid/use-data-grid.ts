@@ -1,5 +1,13 @@
 /* eslint-disable @typescript-eslint/no-unnecessary-condition, sonarjs/cognitive-complexity, react-hooks/exhaustive-deps, @eslint-react/no-unnecessary-use-callback, @eslint-react/no-unnecessary-use-memo, @eslint-react/web-api/no-leaked-event-listener, security/detect-unsafe-regex -- Ported from diceui: ref access during render, complex hook logic, and defensive checks are intentional */
 
+import {
+  useCallback,
+  useEffect,
+  useMemo,
+  useRef,
+  useSyncExternalStore,
+} from "react";
+
 import type {
   ColumnDef,
   ColumnFiltersState,
@@ -11,22 +19,13 @@ import type {
   TableState,
   Updater,
 } from "@tanstack/react-table";
-import type { Virtualizer } from "@tanstack/react-virtual";
-
-import {
-  useCallback,
-  useEffect,
-  useMemo,
-  useRef,
-  useSyncExternalStore,
-} from "react";
-
 import {
   getCoreRowModel,
   getFilteredRowModel,
   getSortedRowModel,
   useReactTable,
 } from "@tanstack/react-table";
+import type { Virtualizer } from "@tanstack/react-virtual";
 import { useVirtualizer } from "@tanstack/react-virtual";
 import { toast } from "sonner";
 

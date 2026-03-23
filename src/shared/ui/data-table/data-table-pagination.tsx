@@ -1,8 +1,7 @@
-import type { Table } from "@tanstack/react-table";
-
+import type { ComponentProps } from "react";
 import { useTranslation } from "react-i18next";
 
-import type { ComponentProps } from "react";
+import type { Table } from "@tanstack/react-table";
 import {
   ChevronLeft,
   ChevronRight,
@@ -42,22 +41,18 @@ export function DataTablePagination<TData>({
     <div
       data-slot="data-table-pagination"
       className={cn(
-        `flex w-full flex-col-reverse items-center justify-between gap-4
-        overflow-auto p-1 sm:flex-row sm:gap-8`,
+        `flex w-full flex-col-reverse items-center justify-between gap-4 overflow-auto p-1 sm:flex-row sm:gap-8`,
         className
       )}
       {...props}
     >
-      <div className="text-muted-foreground flex-1 text-sm whitespace-nowrap">
+      <div className="flex-1 text-sm whitespace-nowrap text-muted-foreground">
         {t("dataTable.rowsSelected", {
           selected: table.getFilteredSelectedRowModel().rows.length,
           total: table.getFilteredRowModel().rows.length,
         })}
       </div>
-      <div
-        className="flex flex-col-reverse items-center gap-4 sm:flex-row sm:gap-6
-          lg:gap-8"
-      >
+      <div className="flex flex-col-reverse items-center gap-4 sm:flex-row sm:gap-6 lg:gap-8">
         <div className="flex items-center space-x-2">
           <p className="text-sm font-medium whitespace-nowrap">
             {t("dataTable.rowsPerPage")}

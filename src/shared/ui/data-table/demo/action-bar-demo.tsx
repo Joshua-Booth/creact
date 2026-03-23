@@ -1,6 +1,6 @@
-import type { ColumnDef } from "@tanstack/react-table";
-
 import { useMemo } from "react";
+
+import type { ColumnDef } from "@tanstack/react-table";
 
 import { useDataTable } from "@/shared/lib/data-table";
 import { Checkbox } from "@/shared/ui/checkbox";
@@ -74,7 +74,7 @@ export function ActionBarDemo() {
       <DataTable
         table={table}
         actionBar={
-          <div className="bg-muted rounded-md p-2 text-center text-sm">
+          <div className="rounded-md bg-muted p-2 text-center text-sm">
             Delete selected
           </div>
         }

@@ -16,7 +16,6 @@ function Pagination({ className, ...props }: React.ComponentProps<"nav">) {
 
   return (
     <nav
-      role="navigation"
       aria-label={t("pagination.label")}
       data-slot="pagination"
       className={cn("mx-auto flex w-full justify-center", className)}
@@ -133,8 +132,7 @@ function PaginationEllipsis({
       aria-hidden
       data-slot="pagination-ellipsis"
       className={cn(
-        `flex size-9 items-center justify-center
-        [&_svg:not([class*='size-'])]:size-4`,
+        `flex size-9 items-center justify-center [&_svg:not([class*='size-'])]:size-4`,
         className
       )}
       {...props}

@@ -1,6 +1,6 @@
-import type { ColumnDef } from "@tanstack/react-table";
-
 import { useMemo, useState } from "react";
+
+import type { ColumnDef } from "@tanstack/react-table";
 
 import { useDataGrid } from "@/shared/lib/data-grid";
 

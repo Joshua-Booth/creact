@@ -38,7 +38,7 @@ function DashboardError() {
 
   return (
     <div className="pt-16 text-center">
-      <p className="text-muted-foreground text-sm">
+      <p className="text-sm text-muted-foreground">
         {t("pages.dashboard.error")}
       </p>
     </div>
@@ -61,7 +61,7 @@ function DashboardContent() {
         <h1 className="text-2xl font-semibold tracking-tight">
           {t("pages.dashboard.welcome", { name: firstName })}
         </h1>
-        <p className="text-muted-foreground mt-1 text-sm">
+        <p className="mt-1 text-sm text-muted-foreground">
           {t("pages.dashboard.subtitle")}
         </p>
       </div>
@@ -83,7 +83,7 @@ function DashboardContent() {
               <p className="text-sm font-medium">
                 {firstName} {lastName}
               </p>
-              <p className="text-muted-foreground text-sm">{email}</p>
+              <p className="text-sm text-muted-foreground">{email}</p>
             </div>
           </div>
         </CardContent>

@@ -1,5 +1,6 @@
-import preview from "@/storybook/preview";
 import { expect, fn, userEvent } from "storybook/test";
+
+import preview from "@/storybook/preview";
 
 import {
   ResizableHandle,

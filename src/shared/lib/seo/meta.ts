@@ -1,10 +1,10 @@
-import type { Language } from "@/shared/i18n";
 import {
   DEFAULT_OG_IMAGE,
   getSiteUrl,
   SITE_NAME,
   TWITTER_HANDLE,
 } from "@/shared/config";
+import type { Language } from "@/shared/i18n";
 import {
   DEFAULT_LANGUAGE,
   resources,

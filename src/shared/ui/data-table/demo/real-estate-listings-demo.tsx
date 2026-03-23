@@ -1,7 +1,6 @@
-import type { ColumnDef } from "@tanstack/react-table";
-
 import { useMemo } from "react";
 
+import type { ColumnDef } from "@tanstack/react-table";
 import {
   BedDouble,
   Building2,
@@ -381,7 +380,7 @@ export function RealEstateListingsDemo() {
         ),
         cell: ({ cell }) => (
           <div className="flex items-center gap-1.5">
-            <BedDouble className="text-muted-foreground size-3.5" />
+            <BedDouble className="size-3.5 text-muted-foreground" />
             {cell.getValue<number>()}
           </div>
         ),

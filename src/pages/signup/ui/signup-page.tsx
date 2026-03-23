@@ -2,6 +2,7 @@ import { href, Link } from "react-router";
 import { Controller } from "react-hook-form";
 import { useTranslation } from "react-i18next";
 
+import logoSvg from "@/shared/assets/images/logo.svg";
 import { useHydrated } from "@/shared/lib/hydration";
 import { Button } from "@/shared/ui/button";
 import { Card, CardContent } from "@/shared/ui/card";
@@ -13,7 +14,6 @@ import {
   FieldLabel,
 } from "@/shared/ui/field";
 import { Input } from "@/shared/ui/input";
-import logoSvg from "@/shared/assets/images/logo.svg";
 
 import { useSignupForm } from "../model/use-signup-form";
 
@@ -28,10 +28,7 @@ export function SignupPage() {
   const disabled = !hydrated || isSubmitting;
 
   return (
-    <main
-      className="bg-muted flex min-h-svh items-center justify-center p-6
-        md:p-10"
-    >
+    <main className="flex min-h-svh items-center justify-center bg-muted p-6 md:p-10">
       <div className="w-full max-w-sm md:max-w-4xl">
         <Card className="overflow-hidden p-0">
           <CardContent className="grid p-0 md:grid-cols-2">
@@ -45,7 +42,7 @@ export function SignupPage() {
                   <h1 className="text-2xl font-bold">
                     {t("auth.signUp.title")}
                   </h1>
-                  <p className="text-muted-foreground text-sm text-balance">
+                  <p className="text-sm text-balance text-muted-foreground">
                     {t("auth.signUp.description")}
                   </p>
                 </div>
@@ -136,11 +133,11 @@ export function SignupPage() {
                     : t("auth.signUp.submit")}
                 </Button>
 
-                <div className="text-muted-foreground text-center text-sm">
+                <div className="text-center text-sm text-muted-foreground">
                   {t("auth.signUp.hasAccount")}{" "}
                   <Link
                     to={href("/login")}
-                    className="hover:text-primary underline underline-offset-4"
+                    className="underline underline-offset-4 hover:text-primary"
                   >
                     {t("auth.signUp.signIn")}
                   </Link>

@@ -1,6 +1,5 @@
 "use client";
 
-import type { ToasterProps } from "sonner";
 import {
   CircleCheckIcon,
   InfoIcon,
@@ -9,6 +8,7 @@ import {
   TriangleAlertIcon,
 } from "lucide-react";
 import { useTheme } from "remix-themes";
+import type { ToasterProps } from "sonner";
 import { Toaster as Sonner } from "sonner";
 
 /** Themed toast notification renderer powered by Sonner. Syncs with the app's light/dark theme and provides custom status icons. */

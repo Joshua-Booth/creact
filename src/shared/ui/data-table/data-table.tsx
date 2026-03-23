@@ -1,8 +1,7 @@
-import type { Table as TanstackTable } from "@tanstack/react-table";
-
+import type { ComponentProps } from "react";
 import { useTranslation } from "react-i18next";
 
-import type { ComponentProps } from "react";
+import type { Table as TanstackTable } from "@tanstack/react-table";
 import { flexRender } from "@tanstack/react-table";
 
 import { getCommonPinningStyles } from "@/shared/lib/data-table";

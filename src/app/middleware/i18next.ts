@@ -1,5 +1,6 @@
 import { createCookie } from "react-router";
 import { initReactI18next } from "react-i18next";
+import "i18next";
 
 import { createI18nextMiddleware } from "remix-i18next/middleware";
 
@@ -9,8 +10,6 @@ import {
   resources,
   SUPPORTED_LANGUAGES,
 } from "@/shared/i18n";
-
-import "i18next";
 
 // Cookie to store user locale preference
 export const localeCookie = createCookie("lng", {

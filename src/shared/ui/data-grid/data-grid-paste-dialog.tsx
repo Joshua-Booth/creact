@@ -1,7 +1,7 @@
-import type { TableMeta } from "@tanstack/react-table";
-
 import { memo, useCallback, useRef } from "react";
 import { Trans, useTranslation } from "react-i18next";
+
+import type { TableMeta } from "@tanstack/react-table";
 
 import type { PasteDialogState } from "@/shared/lib/data-grid";
 import { useAsRef } from "@/shared/lib/data-grid";
@@ -120,7 +120,7 @@ function PasteDialogInnerImpl({
               <span className="text-sm leading-none font-medium">
                 {t("dataGrid.paste.createNewRows")}
               </span>
-              <span className="text-muted-foreground text-sm">
+              <span className="text-sm text-muted-foreground">
                 {t("dataGrid.paste.createNewRowsDescription", {
                   count: pasteDialog.rowsNeeded,
                   suffix: rowSuffix,
@@ -135,7 +135,7 @@ function PasteDialogInnerImpl({
               <span className="text-sm leading-none font-medium">
                 {t("dataGrid.paste.keepCurrentRows")}
               </span>
-              <span className="text-muted-foreground text-sm">
+              <span className="text-sm text-muted-foreground">
                 {t("dataGrid.paste.keepCurrentRowsDescription")}
               </span>
             </div>
@@ -157,16 +157,10 @@ function RadioItem({ className, ...props }: React.ComponentProps<"input">) {
     <input
       type="radio"
       className={cn(
-        `border-input bg-background relative size-4 shrink-0 appearance-none
-        rounded-full border shadow-xs transition-[color,box-shadow]
-        outline-none`,
-        `text-primary focus-visible:border-ring focus-visible:ring-ring/50
-        focus-visible:ring-[3px]`,
+        `relative size-4 shrink-0 appearance-none rounded-full border border-input bg-background shadow-xs transition-[color,box-shadow] outline-none`,
+        `text-primary focus-visible:border-ring focus-visible:ring-[3px] focus-visible:ring-ring/50`,
         "disabled:cursor-not-allowed disabled:opacity-50",
-        `checked:before:bg-primary checked:before:absolute
-        checked:before:inset-s-1/2 checked:before:top-1/2 checked:before:size-2
-        checked:before:-translate-1/2 checked:before:rounded-full
-        checked:before:content-['']`,
+        `checked:before:absolute checked:before:inset-s-1/2 checked:before:top-1/2 checked:before:size-2 checked:before:-translate-1/2 checked:before:rounded-full checked:before:bg-primary checked:before:content-['']`,
         "dark:bg-input/30",
         className
       )}

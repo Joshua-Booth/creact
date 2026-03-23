@@ -23,9 +23,9 @@ port = "8080"
 api_port = "8000"
 
 # Config paths
-eslint_config = "./config/eslint.config.ts"
-prettier_config = "./config/.prettierrc"
-prettier_ignore = "./config/.prettierignore"
+oxlint_config = "./config/.oxlintrc.json"
+oxfmt_config = "./config/.oxfmtrc.json"
+oxfmt_ignore = "./.oxfmtignore"
 stylelint_config = "./config/.stylelintrc.json"
 playwright_config = "./config/playwright.config.ts"
 steiger_config = "./config/steiger.config.ts"
@@ -110,19 +110,19 @@ alias = "g"
 run = "pnpm exec plop --plopfile config/plopfile.ts --dest ."
 
 [tasks.format]
-description = "Format code with Prettier"
+description = "Format code with Oxfmt"
 alias = "f"
-run = "prettier --write \"**/*.{ts,tsx,js,css,json,yml,yaml,mdx}\" --config {{vars.prettier_config}} --ignore-path {{vars.prettier_ignore}} --cache"
+run = "oxfmt --config {{vars.oxfmt_config}} --ignore-path {{vars.oxfmt_ignore}} '**/*.{ts,tsx,js,css,json,yml,yaml,mdx}'"
 
 [tasks."format:files"]
 description = "Format specific files (for lint-staged)"
 hide = true
-run = "prettier --config {{vars.prettier_config}} --ignore-path {{vars.prettier_ignore}} --write"
+run = "oxfmt --config {{vars.oxfmt_config}} --ignore-path {{vars.oxfmt_ignore}} --no-error-on-unmatched-pattern"
 
 [tasks."format:check"]
-description = "Check code formatting with Prettier"
+description = "Check code formatting with Oxfmt"
 alias = "fc"
-run = "prettier --check \"**/*.{ts,tsx,js,css,json,yml,yaml,mdx}\" --config {{vars.prettier_config}} --ignore-path {{vars.prettier_ignore}} --cache"
+run = "oxfmt --check --config {{vars.oxfmt_config}} --ignore-path {{vars.oxfmt_ignore}} '**/*.{ts,tsx,js,css,json,yml,yaml,mdx}'"
 
 [tasks.fix]
 description = "Auto-fix all code quality issues"
@@ -131,21 +131,21 @@ depends = ["format", "lint", "stylelint", "knip:fix", "steiger:fix"]
 run = "echo 'All fixes applied!'"
 
 [tasks.lint]
-description = "Fix code with ESLint"
+description = "Fix code with Oxlint"
 alias = "l"
 depends = ["typegen"]
-run = "eslint . --config {{vars.eslint_config}} --max-warnings 0 --fix --cache"
+run = "oxlint -c {{vars.oxlint_config}} --fix --fix-suggestions"
 
 [tasks."lint:files"]
 description = "Lint specific files (for lint-staged)"
 hide = true
-run = "eslint --config {{vars.eslint_config}} --fix"
+run = "oxlint -c {{vars.oxlint_config}} --fix --fix-suggestions"
 
 [tasks."lint:check"]
-description = "Check code with ESLint"
+description = "Check code with Oxlint"
 alias = "lc"
 depends = ["typegen"]
-run = "eslint . --config {{vars.eslint_config}} --max-warnings 0 --cache"
+run = "oxlint -c {{vars.oxlint_config}}"
 
 [tasks.lintstaged]
 description = "Run lint-staged on staged files"
@@ -281,17 +281,17 @@ run = "pnpm audit --audit-level=high"
 description = "Run all CI checks locally"
 alias = "c"
 depends = [
-    "audit",
-    "format:check",
-    "lint:check",
-    "stylelint:check",
-    "typecheck",
-    "coverage",
-    "test:e2e",
-    "storybook:build",
-    "knip",
-    "depcruise",
-    "steiger",
-    "spell",
+  "audit",
+  "format:check",
+  "lint:check",
+  "stylelint:check",
+  "typecheck",
+  "coverage",
+  "test:e2e",
+  "storybook:build",
+  "knip",
+  "depcruise",
+  "steiger",
+  "spell",
 ]
 run = "echo 'All checks passed!'"

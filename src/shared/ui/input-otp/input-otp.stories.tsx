@@ -1,9 +1,10 @@
 import { useState } from "react";
 
-import preview from "@/storybook/preview";
 import { REGEXP_ONLY_DIGITS, REGEXP_ONLY_DIGITS_AND_CHARS } from "input-otp";
 import { RefreshCwIcon } from "lucide-react";
 import { expect, fn, userEvent } from "storybook/test";
+
+import preview from "@/storybook/preview";
 
 import { Button } from "../button";
 import {
@@ -181,7 +182,7 @@ export const Controlled = meta.story({
             <InputOTPSlot index={5} />
           </InputOTPGroup>
         </InputOTP>
-        <div className="text-muted-foreground text-center text-sm">
+        <div className="text-center text-sm text-muted-foreground">
           {value === "" ? (
             <>Enter your one-time password.</>
           ) : (
@@ -256,31 +257,20 @@ export const Form = meta.story({
             </Button>
           </div>
           <InputOTP {...args} render={undefined} id="otp-verification" required>
-            <InputOTPGroup
-              className="*:data-[slot=input-otp-slot]:h-12
-                *:data-[slot=input-otp-slot]:w-11
-                *:data-[slot=input-otp-slot]:text-xl"
-            >
+            <InputOTPGroup className="*:data-[slot=input-otp-slot]:h-12 *:data-[slot=input-otp-slot]:w-11 *:data-[slot=input-otp-slot]:text-xl">
               <InputOTPSlot index={0} />
               <InputOTPSlot index={1} />
               <InputOTPSlot index={2} />
             </InputOTPGroup>
             <InputOTPSeparator className="mx-2" />
-            <InputOTPGroup
-              className="*:data-[slot=input-otp-slot]:h-12
-                *:data-[slot=input-otp-slot]:w-11
-                *:data-[slot=input-otp-slot]:text-xl"
-            >
+            <InputOTPGroup className="*:data-[slot=input-otp-slot]:h-12 *:data-[slot=input-otp-slot]:w-11 *:data-[slot=input-otp-slot]:text-xl">
               <InputOTPSlot index={3} />
               <InputOTPSlot index={4} />
               <InputOTPSlot index={5} />
             </InputOTPGroup>
           </InputOTP>
           <FieldDescription>
-            <span
-              className="hover:text-primary cursor-pointer underline
-                underline-offset-4 transition-colors"
-            >
+            <span className="cursor-pointer underline underline-offset-4 transition-colors hover:text-primary">
               I no longer have access to this email address.
             </span>
           </FieldDescription>
@@ -291,12 +281,9 @@ export const Form = meta.story({
           <Button type="submit" className="w-full">
             Verify
           </Button>
-          <div className="text-muted-foreground text-sm">
+          <div className="text-sm text-muted-foreground">
             Having trouble signing in?{" "}
-            <span
-              className="hover:text-primary cursor-pointer underline
-                underline-offset-4 transition-colors"
-            >
+            <span className="cursor-pointer underline underline-offset-4 transition-colors hover:text-primary">
               Contact support
             </span>
           </div>

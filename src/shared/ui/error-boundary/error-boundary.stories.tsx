@@ -1,10 +1,11 @@
 import { useState } from "react";
-
 import type { ComponentProps } from "react";
-import { withI18n } from "@/storybook/decorators/with-i18n";
-import preview from "@/storybook/preview";
+
 import { RefreshCw, WifiOff } from "lucide-react";
 import { expect, userEvent } from "storybook/test";
+
+import { withI18n } from "@/storybook/decorators/with-i18n";
+import preview from "@/storybook/preview";
 
 import { Button } from "../button";
 import { ErrorBoundary } from "./error-boundary";
@@ -64,12 +65,12 @@ function CustomFallbackDemo(args: ErrorBoundaryProps) {
   const customFallback = (
     <div className="flex min-h-96 flex-col items-center justify-center p-8">
       <div className="flex flex-col items-center gap-4 text-center">
-        <div className="bg-muted rounded-full p-4">
-          <WifiOff className="text-muted-foreground size-8" />
+        <div className="rounded-full bg-muted p-4">
+          <WifiOff className="size-8 text-muted-foreground" />
         </div>
         <div className="space-y-2">
           <h2 className="text-xl font-semibold">Connection lost</h2>
-          <p className="text-muted-foreground max-w-md">
+          <p className="max-w-md text-muted-foreground">
             Please check your internet connection and try again.
           </p>
         </div>

@@ -1,7 +1,8 @@
 import { useState } from "react";
 
-import preview from "@/storybook/preview";
 import { expect, fn, userEvent, within } from "storybook/test";
+
+import preview from "@/storybook/preview";
 
 import { Button } from "../button";
 import {
@@ -47,9 +48,7 @@ const meta = preview.meta({
           <DrawerDescription>This action cannot be undone.</DrawerDescription>
         </DrawerHeader>
         <DrawerFooter>
-          <DrawerClose
-            className="bg-primary text-primary-foreground rounded-sm px-4 py-2"
-          >
+          <DrawerClose className="rounded-sm bg-primary px-4 py-2 text-primary-foreground">
             Submit
           </DrawerClose>
           <DrawerClose className="hover:underline">Cancel</DrawerClose>

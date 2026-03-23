@@ -1,6 +1,7 @@
-import preview from "@/storybook/preview";
 import { SaveIcon } from "lucide-react";
 import { expect, userEvent, waitFor } from "storybook/test";
+
+import preview from "@/storybook/preview";
 
 import { Button } from "../button";
 import { Kbd } from "../kbd";

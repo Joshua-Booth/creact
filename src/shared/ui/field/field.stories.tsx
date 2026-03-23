@@ -1,7 +1,8 @@
 import { useState } from "react";
 
-import preview from "@/storybook/preview";
 import { expect, userEvent } from "storybook/test";
+
+import preview from "@/storybook/preview";
 
 import { Button } from "../button";
 import { Checkbox } from "../checkbox";

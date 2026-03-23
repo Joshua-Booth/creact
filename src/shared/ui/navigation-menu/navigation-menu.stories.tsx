@@ -1,4 +1,3 @@
-import preview from "@/storybook/preview";
 import {
   CircleCheckIcon,
   CircleHelpIcon,
@@ -8,6 +7,8 @@ import {
   RocketIcon,
 } from "lucide-react";
 import { userEvent, within } from "storybook/test";
+
+import preview from "@/storybook/preview";
 
 import { cn } from "../../lib/utils";
 import {
@@ -52,13 +53,12 @@ function ListItem({
       <NavigationMenuLink
         href={href}
         className={cn(
-          `hover:bg-muted focus:bg-muted block space-y-1 rounded-md p-3
-          leading-none no-underline transition-colors outline-none select-none`,
+          `block space-y-1 rounded-md p-3 leading-none no-underline transition-colors outline-none select-none hover:bg-muted focus:bg-muted`,
           className
         )}
       >
         <div className="text-sm leading-none font-medium">{title}</div>
-        <p className="text-muted-foreground line-clamp-2 text-sm/snug">
+        <p className="line-clamp-2 text-sm/snug text-muted-foreground">
           {children}
         </p>
       </NavigationMenuLink>
@@ -167,21 +167,15 @@ export const GettingStarted = meta.story({
         <NavigationMenuItem>
           <NavigationMenuTrigger>Getting Started</NavigationMenuTrigger>
           <NavigationMenuContent>
-            <ul
-              className="grid gap-3 p-4 md:w-[400px] lg:w-[500px]
-                lg:grid-cols-[.75fr_1fr]"
-            >
+            <ul className="grid gap-3 p-4 md:w-[400px] lg:w-[500px] lg:grid-cols-[.75fr_1fr]">
               <li className="row-span-3">
                 <NavigationMenuLink
                   href="/"
-                  className="from-muted/50 to-muted flex size-full flex-col
-                    justify-end rounded-md bg-linear-to-b p-6 no-underline
-                    transition-all duration-200 outline-none select-none
-                    focus:shadow-md"
+                  className="flex size-full flex-col justify-end rounded-md bg-linear-to-b from-muted/50 to-muted p-6 no-underline transition-all duration-200 outline-none select-none focus:shadow-md"
                 >
                   <RocketIcon className="size-6" />
                   <div className="mt-4 mb-2 text-lg font-medium">shadcn/ui</div>
-                  <p className="text-muted-foreground text-sm/tight">
+                  <p className="text-sm/tight text-muted-foreground">
                     Beautifully designed components built with Tailwind CSS.
                   </p>
                 </NavigationMenuLink>
@@ -217,10 +211,7 @@ export const Components = meta.story({
         <NavigationMenuItem>
           <NavigationMenuTrigger>Components</NavigationMenuTrigger>
           <NavigationMenuContent>
-            <ul
-              className="grid w-[400px] gap-3 p-4 md:w-[500px] md:grid-cols-2
-                lg:w-[600px]"
-            >
+            <ul className="grid w-[400px] gap-3 p-4 md:w-[500px] md:grid-cols-2 lg:w-[600px]">
               {components.map((component) => (
                 <ListItem
                   key={component.title}
@@ -318,9 +309,7 @@ export const Simple = meta.story({
                 <li key={item.title}>
                   <NavigationMenuLink
                     href={item.href}
-                    className="hover:bg-muted focus:bg-muted block rounded-md
-                      px-3 py-2 text-sm transition-colors outline-none
-                      select-none"
+                    className="block rounded-md px-3 py-2 text-sm transition-colors outline-none select-none hover:bg-muted focus:bg-muted"
                   >
                     {item.title}
                   </NavigationMenuLink>
@@ -356,9 +345,7 @@ export const Icon = meta.story({
               <li>
                 <NavigationMenuLink
                   href="/status/backlog"
-                  className="hover:bg-muted focus:bg-muted flex items-center
-                    gap-2 rounded-md p-2 text-sm transition-colors outline-none
-                    select-none"
+                  className="flex items-center gap-2 rounded-md p-2 text-sm transition-colors outline-none select-none hover:bg-muted focus:bg-muted"
                 >
                   <CircleHelpIcon />
                   Backlog
@@ -367,9 +354,7 @@ export const Icon = meta.story({
               <li>
                 <NavigationMenuLink
                   href="/status/todo"
-                  className="hover:bg-muted focus:bg-muted flex items-center
-                    gap-2 rounded-md p-2 text-sm transition-colors outline-none
-                    select-none"
+                  className="flex items-center gap-2 rounded-md p-2 text-sm transition-colors outline-none select-none hover:bg-muted focus:bg-muted"
                 >
                   <CircleIcon />
                   To Do
@@ -378,9 +363,7 @@ export const Icon = meta.story({
               <li>
                 <NavigationMenuLink
                   href="/status/done"
-                  className="hover:bg-muted focus:bg-muted flex items-center
-                    gap-2 rounded-md p-2 text-sm transition-colors outline-none
-                    select-none"
+                  className="flex items-center gap-2 rounded-md p-2 text-sm transition-colors outline-none select-none hover:bg-muted focus:bg-muted"
                 >
                   <CircleCheckIcon />
                   Done
@@ -396,9 +379,7 @@ export const Icon = meta.story({
               <li>
                 <NavigationMenuLink
                   href="/docs"
-                  className="hover:bg-muted focus:bg-muted flex items-center
-                    gap-2 rounded-md p-2 text-sm transition-colors outline-none
-                    select-none"
+                  className="flex items-center gap-2 rounded-md p-2 text-sm transition-colors outline-none select-none hover:bg-muted focus:bg-muted"
                 >
                   <FileTextIcon />
                   Documentation
@@ -407,9 +388,7 @@ export const Icon = meta.story({
               <li>
                 <NavigationMenuLink
                   href="/components"
-                  className="hover:bg-muted focus:bg-muted flex items-center
-                    gap-2 rounded-md p-2 text-sm transition-colors outline-none
-                    select-none"
+                  className="flex items-center gap-2 rounded-md p-2 text-sm transition-colors outline-none select-none hover:bg-muted focus:bg-muted"
                 >
                   <LayoutIcon />
                   Components

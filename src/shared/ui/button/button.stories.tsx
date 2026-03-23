@@ -1,4 +1,3 @@
-import preview from "@/storybook/preview";
 import {
   ArrowUpIcon,
   ArrowUpRightIcon,
@@ -6,6 +5,8 @@ import {
   GitBranchIcon,
 } from "lucide-react";
 import { expect, fn, userEvent } from "storybook/test";
+
+import preview from "@/storybook/preview";
 
 import { Spinner } from "../spinner";
 import { Button } from "./button";

@@ -262,10 +262,7 @@ function DataGridKeyboardShortcutsImpl({
         </DialogHeader>
         <div className="px-6">
           <div className="relative">
-            <SearchIcon
-              className="text-muted-foreground absolute top-1/2 left-3 size-3.5
-                -translate-y-1/2"
-            />
+            <SearchIcon className="absolute top-1/2 left-3 size-3.5 -translate-y-1/2 text-muted-foreground" />
             <Input
               ref={inputRef}
               placeholder={t("dataGrid.keyboard.searchPlaceholder")}
@@ -275,27 +272,18 @@ function DataGridKeyboardShortcutsImpl({
             />
           </div>
         </div>
-        <Separator
-          className="mx-auto
-            data-[orientation=horizontal]:w-[calc(100%-(--spacing(12)))]"
-        />
+        <Separator className="mx-auto data-[orientation=horizontal]:w-[calc(100%-(--spacing(12)))]" />
         <div className="h-[40vh] overflow-y-auto px-6">
           {filteredGroups.length === 0 ? (
-            <div
-              className="flex h-full flex-col items-center justify-center gap-3
-                text-center"
-            >
-              <div
-                className="bg-muted text-foreground flex size-10 shrink-0
-                  items-center justify-center rounded-lg"
-              >
+            <div className="flex h-full flex-col items-center justify-center gap-3 text-center">
+              <div className="flex size-10 shrink-0 items-center justify-center rounded-lg bg-muted text-foreground">
                 <SearchIcon className="pointer-events-none size-6" />
               </div>
               <div className="flex flex-col gap-1">
                 <div className="text-lg font-medium tracking-tight">
                   {t("dataGrid.keyboard.noShortcutsFound")}
                 </div>
-                <p className="text-muted-foreground text-sm">
+                <p className="text-sm text-muted-foreground">
                   {t("dataGrid.keyboard.noShortcutsFoundDescription")}
                 </p>
               </div>
@@ -304,10 +292,10 @@ function DataGridKeyboardShortcutsImpl({
             <div className="flex flex-col gap-6">
               {filteredGroups.map((shortcutGroup) => (
                 <div key={shortcutGroup.title} className="flex flex-col gap-2">
-                  <h3 className="text-foreground text-sm font-semibold">
+                  <h3 className="text-sm font-semibold text-foreground">
                     {shortcutGroup.title}
                   </h3>
-                  <div className="divide-border divide-y rounded-md border">
+                  <div className="divide-y divide-border rounded-md border">
                     {shortcutGroup.shortcuts.map((shortcut) => (
                       <ShortcutCard
                         key={`${shortcut.description}-${shortcut.keys.join("+")}`}
@@ -347,7 +335,7 @@ function ShortcutCard({
         {keys.map((key, index) => (
           <span key={key}>
             {index > 0 && (
-              <span className="text-muted-foreground text-xs">+</span>
+              <span className="text-xs text-muted-foreground">+</span>
             )}
             <Kbd>{key}</Kbd>
           </span>

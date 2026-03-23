@@ -116,8 +116,6 @@
   "[toml]": {
     "editor.defaultFormatter": "tamasfe.even-better-toml"
   },
-  "cSpell.import": [
-    "./config/cspell.json"
-  ],
+  "cSpell.import": ["./config/cspell.json"],
   "explorerExclude.backup": {}
 }

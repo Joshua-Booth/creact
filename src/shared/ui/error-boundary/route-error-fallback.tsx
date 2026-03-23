@@ -30,7 +30,7 @@ export function RouteErrorFallback() {
       <EmptyHeader>
         <EmptyMedia
           variant="icon"
-          className="bg-destructive/10 text-destructive rounded-full"
+          className="rounded-full bg-destructive/10 text-destructive"
         >
           <AlertTriangle />
         </EmptyMedia>

@@ -1,6 +1,7 @@
+import { expect, userEvent, within } from "storybook/test";
+
 import { withI18n } from "@/storybook/decorators/with-i18n";
 import preview from "@/storybook/preview";
-import { expect, userEvent, within } from "storybook/test";
 
 import { Button } from "../button";
 import { Field, FieldGroup } from "../field";
@@ -196,7 +197,7 @@ export const StickyFooter = meta.story({
             scrolls.
           </DialogDescription>
         </DialogHeader>
-        <div className="no-scrollbar -mx-4 max-h-[50vh] overflow-y-auto px-4">
+        <div className="-mx-4 no-scrollbar max-h-[50vh] overflow-y-auto px-4">
           {LOREM_PARAGRAPHS.map((p) => (
             <p key={p.id} className="mb-4 leading-normal">
               {p.text}
@@ -227,7 +228,7 @@ export const ScrollableContent = meta.story({
             This is a dialog with scrollable content.
           </DialogDescription>
         </DialogHeader>
-        <div className="no-scrollbar -mx-4 max-h-[50vh] overflow-y-auto px-4">
+        <div className="-mx-4 no-scrollbar max-h-[50vh] overflow-y-auto px-4">
           {LOREM_PARAGRAPHS.map((p) => (
             <p key={p.id} className="mb-4 leading-normal">
               {p.text}

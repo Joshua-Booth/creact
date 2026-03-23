@@ -1,5 +1,4 @@
 import type { Decorator } from "@storybook/react-vite";
-
 import { Theme, ThemeProvider } from "remix-themes";
 
 export const withTheme: Decorator = (Story) => (

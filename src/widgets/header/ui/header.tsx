@@ -2,9 +2,9 @@ import { href, Link, NavLink } from "react-router";
 import { useTranslation } from "react-i18next";
 
 import { useAuthenticated } from "@/entities/user";
+import Logo from "@/shared/assets/images/logo.svg?react";
 import { SITE_NAME } from "@/shared/config";
 import { ModeToggle } from "@/shared/ui/mode-toggle";
-import Logo from "@/shared/assets/images/logo.svg?react";
 
 function Links({ links }: { links: { name: string; path: string }[] }) {
   return (
@@ -13,8 +13,7 @@ function Links({ links }: { links: { name: string; path: string }[] }) {
         <Link
           key={link.path}
           to={link.path}
-          className="text-muted-foreground hover:text-foreground
-            transition-colors"
+          className="text-muted-foreground transition-colors hover:text-foreground"
         >
           {link.name}
         </Link>

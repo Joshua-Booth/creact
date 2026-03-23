@@ -1,6 +1,7 @@
-import preview from "@/storybook/preview";
 import { BluetoothIcon, CircleFadingPlusIcon, Trash2Icon } from "lucide-react";
 import { expect, userEvent, within } from "storybook/test";
+
+import preview from "@/storybook/preview";
 
 import { Button } from "../button";
 import {
@@ -153,10 +154,7 @@ export const Destructive = meta.story({
       />
       <AlertDialogContent size="sm">
         <AlertDialogHeader>
-          <AlertDialogMedia
-            className="bg-destructive/10 text-destructive dark:bg-destructive/20
-              dark:text-destructive"
-          >
+          <AlertDialogMedia className="bg-destructive/10 text-destructive dark:bg-destructive/20 dark:text-destructive">
             <Trash2Icon />
           </AlertDialogMedia>
           <AlertDialogTitle>Delete chat?</AlertDialogTitle>

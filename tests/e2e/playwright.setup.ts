@@ -1,7 +1,6 @@
 import type { NetworkFixture } from "@msw/playwright";
-import type { Page } from "@playwright/test";
-
 import { defineNetworkFixture } from "@msw/playwright";
+import type { Page } from "@playwright/test";
 import { expect, test as testBase } from "@playwright/test";
 import { addCoverageReport } from "monocart-reporter";
 

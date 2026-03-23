@@ -1,7 +1,6 @@
-import type { ColumnDef } from "@tanstack/react-table";
-
 import { useMemo } from "react";
 
+import type { ColumnDef } from "@tanstack/react-table";
 import { CheckCircle2, CircleDashed, Clock, Text, XCircle } from "lucide-react";
 
 import { useDataTable } from "@/shared/lib/data-table";
@@ -216,7 +215,7 @@ export function DataTableDemo() {
           const Icon = priorityIcons[priority];
           return (
             <div className="flex items-center gap-2 capitalize">
-              <Icon className="text-muted-foreground size-3.5" />
+              <Icon className="size-3.5 text-muted-foreground" />
               {priority}
             </div>
           );

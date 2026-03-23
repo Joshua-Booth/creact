@@ -1,4 +1,5 @@
 import i18next from "i18next";
+
 import * as z from "zod";
 
 /** Email address validated as a proper email format. */

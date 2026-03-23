@@ -156,9 +156,7 @@ function DataGridSearchImpl({
     <div
       role="search"
       data-slot="grid-search"
-      className="fade-in-0 slide-in-from-top-2 bg-background animate-in absolute
-        inset-e-4 top-4 z-50 flex flex-col gap-2 rounded-lg border p-2
-        shadow-lg"
+      className="absolute inset-e-4 top-4 z-50 flex animate-in flex-col gap-2 rounded-lg border bg-background p-2 shadow-lg fade-in-0 slide-in-from-top-2"
     >
       <div className="flex items-center gap-2">
         <Input
@@ -207,10 +205,7 @@ function DataGridSearchImpl({
           </Button>
         </div>
       </div>
-      <div
-        className="text-muted-foreground flex items-center gap-1 text-xs
-          whitespace-nowrap"
-      >
+      <div className="flex items-center gap-1 text-xs whitespace-nowrap text-muted-foreground">
         {searchMatches.length > 0 ? (
           <span>
             {t("dataGrid.search.matchCounter", {

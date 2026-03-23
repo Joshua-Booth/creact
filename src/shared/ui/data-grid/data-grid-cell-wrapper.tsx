@@ -1,6 +1,5 @@
 /* eslint-disable @typescript-eslint/no-unnecessary-condition -- tableMeta methods are optional at runtime despite types */
 import { useCallback } from "react";
-
 import type { ComponentProps } from "react";
 
 import type { DataGridCellProps } from "@/shared/lib/data-grid";
@@ -173,10 +172,9 @@ export function DataGridCellWrapper<TData>({
       {...props}
       ref={composedRef}
       className={cn(
-        `size-full px-2 py-1.5 text-start text-sm outline-none
-        has-data-[slot=checkbox]:pt-2.5`,
+        `size-full px-2 py-1.5 text-start text-sm outline-none has-data-[slot=checkbox]:pt-2.5`,
         {
-          "ring-ring ring-1 ring-inset": isFocused,
+          "ring-1 ring-ring ring-inset": isFocused,
           "bg-yellow-100 dark:bg-yellow-900/30":
             isSearchMatch && !isActiveSearchMatch,
           "bg-orange-200 dark:bg-orange-900/50": isActiveSearchMatch,

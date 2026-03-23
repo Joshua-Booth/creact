@@ -1,8 +1,7 @@
-import type { Decorator } from "@storybook/react-vite";
-
+import i18n from "i18next";
 import { I18nextProvider, initReactI18next } from "react-i18next";
 
-import i18n from "i18next";
+import type { Decorator } from "@storybook/react-vite";
 
 import { I18N_CONFIG, resources } from "@/shared/i18n";
 

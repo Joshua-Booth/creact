@@ -1,5 +1,4 @@
 import type { Column } from "@tanstack/react-table";
-
 import { describe, expect, it } from "vitest";
 
 import type { ExtendedColumnFilter } from "./types";

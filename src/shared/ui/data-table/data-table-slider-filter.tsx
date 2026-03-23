@@ -1,8 +1,7 @@
-import type { Column } from "@tanstack/react-table";
-
 import { useCallback, useId, useMemo } from "react";
 import { useTranslation } from "react-i18next";
 
+import type { Column } from "@tanstack/react-table";
 import { PlusCircle, XCircle } from "lucide-react";
 
 import {
@@ -163,8 +162,7 @@ export function DataTableSliderFilter<TData>({
               <span>{title}</span>
               <Separator
                 orientation="vertical"
-                className="mx-0.5 data-[orientation=vertical]:h-4
-                  data-[orientation=vertical]:self-center"
+                className="mx-0.5 data-[orientation=vertical]:h-4 data-[orientation=vertical]:self-center"
               />
               {unitPrefix}
               {formatValue(columnFilterValue[0])} - {unitPrefix}
@@ -180,10 +178,7 @@ export function DataTableSliderFilter<TData>({
         aria-label={t("dataTable.filterBy", { title })}
       >
         <div className="flex flex-col gap-3">
-          <p
-            className="leading-none font-medium peer-disabled:cursor-not-allowed
-              peer-disabled:opacity-70"
-          >
+          <p className="leading-none font-medium peer-disabled:cursor-not-allowed peer-disabled:opacity-70">
             {title}
           </p>
           <div className="flex items-center gap-4">
@@ -192,10 +187,7 @@ export function DataTableSliderFilter<TData>({
             </Label>
             <div className="relative">
               {unit && isPrefix && (
-                <span
-                  className="bg-accent text-muted-foreground absolute inset-y-0
-                    left-0 flex items-center rounded-l-md px-2 text-sm"
-                >
+                <span className="absolute inset-y-0 left-0 flex items-center rounded-l-md bg-accent px-2 text-sm text-muted-foreground">
                   {unit}
                 </span>
               )}
@@ -214,10 +206,7 @@ export function DataTableSliderFilter<TData>({
                 className={cn("h-8 w-24", unit && (isPrefix ? "pl-8" : "pr-8"))}
               />
               {unit && !isPrefix && (
-                <span
-                  className="bg-accent text-muted-foreground absolute inset-y-0
-                    right-0 flex items-center rounded-r-md px-2 text-sm"
-                >
+                <span className="absolute inset-y-0 right-0 flex items-center rounded-r-md bg-accent px-2 text-sm text-muted-foreground">
                   {unit}
                 </span>
               )}
@@ -227,10 +216,7 @@ export function DataTableSliderFilter<TData>({
             </Label>
             <div className="relative">
               {unit && isPrefix && (
-                <span
-                  className="bg-accent text-muted-foreground absolute inset-y-0
-                    left-0 flex items-center rounded-l-md px-2 text-sm"
-                >
+                <span className="absolute inset-y-0 left-0 flex items-center rounded-l-md bg-accent px-2 text-sm text-muted-foreground">
                   {unit}
                 </span>
               )}
@@ -249,10 +235,7 @@ export function DataTableSliderFilter<TData>({
                 className={cn("h-8 w-24", unit && (isPrefix ? "pl-8" : "pr-8"))}
               />
               {unit && !isPrefix && (
-                <span
-                  className="bg-accent text-muted-foreground absolute inset-y-0
-                    right-0 flex items-center rounded-r-md px-2 text-sm"
-                >
+                <span className="absolute inset-y-0 right-0 flex items-center rounded-r-md bg-accent px-2 text-sm text-muted-foreground">
                   {unit}
                 </span>
               )}

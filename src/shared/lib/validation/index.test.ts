@@ -1,4 +1,5 @@
 import i18next from "i18next";
+
 import { beforeAll, describe, expect, it } from "vitest";
 
 import validation from "@/shared/i18n/locales/en/validation";

@@ -1,4 +1,3 @@
-import preview from "@/storybook/preview";
 import {
   ChevronDownIcon,
   ChevronRightIcon,
@@ -12,6 +11,8 @@ import {
   StarIcon,
 } from "lucide-react";
 import { expect, fn, userEvent } from "storybook/test";
+
+import preview from "@/storybook/preview";
 
 import { Avatar, AvatarFallback, AvatarImage } from "../avatar";
 import { Badge } from "../badge";
@@ -170,7 +171,7 @@ export const Image = meta.story({
           <ItemDescription>The Melodics • 2024</ItemDescription>
         </ItemContent>
         <ItemActions>
-          <MusicIcon className="text-muted-foreground size-4" />
+          <MusicIcon className="size-4 text-muted-foreground" />
         </ItemActions>
       </Item>
       <Item {...args} render={<div role="listitem" />} variant="outline">
@@ -185,7 +186,7 @@ export const Image = meta.story({
           <ItemDescription>Neon Waves • 2023</ItemDescription>
         </ItemContent>
         <ItemActions>
-          <MusicIcon className="text-muted-foreground size-4" />
+          <MusicIcon className="size-4 text-muted-foreground" />
         </ItemActions>
       </Item>
     </ItemGroup>
@@ -258,7 +259,7 @@ export const AsLink = meta.story({
             <ItemDescription>Internal link to docs</ItemDescription>
           </ItemContent>
           <ItemActions>
-            <ChevronRightIcon className="text-muted-foreground size-4" />
+            <ChevronRightIcon className="size-4 text-muted-foreground" />
           </ItemActions>
         </Item>
         <Item
@@ -277,7 +278,7 @@ export const AsLink = meta.story({
             <ItemDescription>Opens in new tab</ItemDescription>
           </ItemContent>
           <ItemActions>
-            <ExternalLinkIcon className="text-muted-foreground size-4" />
+            <ExternalLinkIcon className="size-4 text-muted-foreground" />
           </ItemActions>
         </Item>
       </div>
@@ -460,7 +461,7 @@ export const Group = meta.story({
           <ItemDescription>24 files</ItemDescription>
         </ItemContent>
         <ItemActions>
-          <ChevronRightIcon className="text-muted-foreground size-4" />
+          <ChevronRightIcon className="size-4 text-muted-foreground" />
         </ItemActions>
       </Item>
       <Item {...args} variant="outline" render={<div role="listitem" />}>
@@ -472,7 +473,7 @@ export const Group = meta.story({
           <ItemDescription>128 files</ItemDescription>
         </ItemContent>
         <ItemActions>
-          <ChevronRightIcon className="text-muted-foreground size-4" />
+          <ChevronRightIcon className="size-4 text-muted-foreground" />
         </ItemActions>
       </Item>
       <Item {...args} variant="outline" render={<div role="listitem" />}>
@@ -484,7 +485,7 @@ export const Group = meta.story({
           <ItemDescription>8 files</ItemDescription>
         </ItemContent>
         <ItemActions>
-          <ChevronRightIcon className="text-muted-foreground size-4" />
+          <ChevronRightIcon className="size-4 text-muted-foreground" />
         </ItemActions>
       </Item>
     </ItemGroup>

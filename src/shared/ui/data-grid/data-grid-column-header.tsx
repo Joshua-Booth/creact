@@ -1,3 +1,6 @@
+import { memo, useCallback } from "react";
+import { useTranslation } from "react-i18next";
+
 import type {
   ColumnSort,
   Header,
@@ -5,10 +8,6 @@ import type {
   SortingState,
   Table,
 } from "@tanstack/react-table";
-
-import { memo, useCallback } from "react";
-import { useTranslation } from "react-i18next";
-
 import {
   ChevronDownIcon,
   ChevronUpIcon,
@@ -129,8 +128,7 @@ export function DataGridColumnHeader<TData, TValue>({
       <DropdownMenu modal={false}>
         <DropdownMenuTrigger
           className={cn(
-            `hover:bg-accent/40 data-popup-open:bg-accent/40 flex size-full
-            items-center justify-between gap-2 p-2 text-sm [&_svg]:size-4`,
+            `flex size-full items-center justify-between gap-2 p-2 text-sm hover:bg-accent/40 data-popup-open:bg-accent/40 [&_svg]:size-4`,
             isAnyColumnResizing && "pointer-events-none",
             className
           )}
@@ -143,9 +141,7 @@ export function DataGridColumnHeader<TData, TValue>({
                 <Tooltip>
                   <TooltipTrigger
                     render={
-                      <columnVariant.icon
-                        className="text-muted-foreground size-3.5 shrink-0"
-                      />
+                      <columnVariant.icon className="size-3.5 shrink-0 text-muted-foreground" />
                     }
                   />
                   <TooltipContent side="top">
@@ -156,17 +152,13 @@ export function DataGridColumnHeader<TData, TValue>({
             )}
             <span className="truncate">{label}</span>
           </div>
-          <ChevronDownIcon className="text-muted-foreground shrink-0" />
+          <ChevronDownIcon className="shrink-0 text-muted-foreground" />
         </DropdownMenuTrigger>
         <DropdownMenuContent align="start" sideOffset={0} className="w-60">
           {column.getCanSort() && (
             <>
               <DropdownMenuCheckboxItem
-                className="[&_svg]:text-muted-foreground relative ltr:pr-8
-                  ltr:pl-2 rtl:pr-2 rtl:pl-8 [&>span:first-child]:ltr:right-2
-                  [&>span:first-child]:ltr:left-auto
-                  [&>span:first-child]:rtl:right-auto
-                  [&>span:first-child]:rtl:left-2"
+                className="relative ltr:pr-8 ltr:pl-2 rtl:pr-2 rtl:pl-8 [&_svg]:text-muted-foreground [&>span:first-child]:ltr:right-2 [&>span:first-child]:ltr:left-auto [&>span:first-child]:rtl:right-auto [&>span:first-child]:rtl:left-2"
                 checked={column.getIsSorted() === "asc"}
                 onClick={
                   /* istanbul ignore next -- browser-only callback tested via Storybook */ () =>
@@ -177,11 +169,7 @@ export function DataGridColumnHeader<TData, TValue>({
                 {t("dataGrid.columnHeader.sortAsc")}
               </DropdownMenuCheckboxItem>
               <DropdownMenuCheckboxItem
-                className="[&_svg]:text-muted-foreground relative ltr:pr-8
-                  ltr:pl-2 rtl:pr-2 rtl:pl-8 [&>span:first-child]:ltr:right-2
-                  [&>span:first-child]:ltr:left-auto
-                  [&>span:first-child]:rtl:right-auto
-                  [&>span:first-child]:rtl:left-2"
+                className="relative ltr:pr-8 ltr:pl-2 rtl:pr-2 rtl:pl-8 [&_svg]:text-muted-foreground [&>span:first-child]:ltr:right-2 [&>span:first-child]:ltr:left-auto [&>span:first-child]:rtl:right-auto [&>span:first-child]:rtl:left-2"
                 checked={column.getIsSorted() === "desc"}
                 onClick={
                   /* istanbul ignore next -- browser-only callback tested via Storybook */ () =>
@@ -316,14 +304,10 @@ function DataGridColumnResizerImpl<TData, TValue>({
       // eslint-disable-next-line jsx-a11y/no-noninteractive-tabindex -- focusable for keyboard navigation
       tabIndex={0}
       className={cn(
-        `bg-border hover:bg-primary focus:bg-primary absolute -end-px top-0 z-50
-        h-full w-0.5 cursor-ew-resize touch-none transition-opacity select-none
-        after:absolute after:inset-y-0 after:inset-s-1/2 after:h-full
-        after:w-[18px] after:-translate-x-1/2 after:content-['']
-        focus:outline-none`,
+        `absolute -end-px top-0 z-50 h-full w-0.5 cursor-ew-resize touch-none bg-border transition-opacity select-none after:absolute after:inset-y-0 after:inset-s-1/2 after:h-full after:w-[18px] after:-translate-x-1/2 after:content-[''] hover:bg-primary focus:bg-primary focus:outline-none`,
         header.column.getIsResizing()
           ? "bg-primary"
-          : "opacity-0 hover:opacity-100"
+          : `opacity-0 hover:opacity-100`
       )}
       onDoubleClick={onDoubleClick}
       onMouseDown={header.getResizeHandler()}

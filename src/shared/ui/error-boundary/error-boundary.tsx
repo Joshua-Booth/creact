@@ -1,7 +1,7 @@
 import { Component } from "react";
+import type { ErrorInfo, ReactNode } from "react";
 import { useTranslation } from "react-i18next";
 
-import type { ErrorInfo, ReactNode } from "react";
 import * as Sentry from "@sentry/react";
 import { AlertTriangle, RefreshCw } from "lucide-react";
 
@@ -80,7 +80,7 @@ function ErrorFallback({ onReset }: ErrorFallbackProps) {
       <EmptyHeader>
         <EmptyMedia
           variant="icon"
-          className="bg-destructive/10 text-destructive rounded-full"
+          className="rounded-full bg-destructive/10 text-destructive"
         >
           <AlertTriangle />
         </EmptyMedia>

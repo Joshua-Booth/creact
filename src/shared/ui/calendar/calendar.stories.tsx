@@ -1,11 +1,12 @@
 import * as React from "react";
 
-import type { DateRange, DayButton } from "react-day-picker";
-import preview from "@/storybook/preview";
 import { addDays } from "date-fns";
 import { Clock2Icon } from "lucide-react";
+import type { DateRange, DayButton } from "react-day-picker";
 import { action } from "storybook/actions";
 import { expect, fn, userEvent } from "storybook/test";
+
+import preview from "@/storybook/preview";
 
 import { Button } from "../button";
 import { Card, CardContent, CardFooter } from "../card";
@@ -182,7 +183,7 @@ export const Time = meta.story({
             className="p-0"
           />
         </CardContent>
-        <CardFooter className="bg-card border-t">
+        <CardFooter className="border-t bg-card">
           <FieldGroup>
             <Field>
               <FieldLabel htmlFor="time-from">Start Time</FieldLabel>
@@ -192,9 +193,7 @@ export const Time = meta.story({
                   type="time"
                   step="1"
                   defaultValue="10:30:00"
-                  className="appearance-none
-                    [&::-webkit-calendar-picker-indicator]:hidden
-                    [&::-webkit-calendar-picker-indicator]:appearance-none"
+                  className="appearance-none [&::-webkit-calendar-picker-indicator]:hidden [&::-webkit-calendar-picker-indicator]:appearance-none"
                 />
                 <InputGroupAddon>
                   <Clock2Icon className="text-muted-foreground" />
@@ -209,9 +208,7 @@ export const Time = meta.story({
                   type="time"
                   step="1"
                   defaultValue="12:30:00"
-                  className="appearance-none
-                    [&::-webkit-calendar-picker-indicator]:hidden
-                    [&::-webkit-calendar-picker-indicator]:appearance-none"
+                  className="appearance-none [&::-webkit-calendar-picker-indicator]:hidden [&::-webkit-calendar-picker-indicator]:appearance-none"
                 />
                 <InputGroupAddon>
                   <Clock2Icon className="text-muted-foreground" />
@@ -292,8 +289,7 @@ export const CustomDays = meta.story({
         selected={range}
         onSelect={setRange}
         captionLayout="dropdown"
-        className="rounded-md border [--cell-size:--spacing(10)]
-          md:[--cell-size:--spacing(12)]"
+        className="rounded-md border [--cell-size:--spacing(10)] md:[--cell-size:--spacing(12)]"
         formatters={{
           formatMonthDropdown: (date) =>
             date.toLocaleString("default", { month: "long" }),

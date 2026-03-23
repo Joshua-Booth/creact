@@ -1,8 +1,9 @@
 import { useState } from "react";
 
-import preview from "@/storybook/preview";
 import { MinusIcon } from "lucide-react";
 import { expect, userEvent } from "storybook/test";
+
+import preview from "@/storybook/preview";
 
 import {
   Field,

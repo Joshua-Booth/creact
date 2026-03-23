@@ -28,7 +28,7 @@ const meta = preview.meta({
   },
   render: (args) => (
     <div className="w-[450px]">
-      <AspectRatio {...args} className="bg-muted rounded-md">
+      <AspectRatio {...args} className="rounded-md bg-muted">
         <img
           src="https://images.unsplash.com/photo-1588345921523-c2dcdb7f1dcd?w=800&dpr=2&q=80"
           alt="Gray geometric shapes"
@@ -55,7 +55,7 @@ export const Square = meta.story({
   },
   render: (args) => (
     <div className="w-96">
-      <AspectRatio {...args} className="bg-muted rounded-md">
+      <AspectRatio {...args} className="rounded-md bg-muted">
         <img
           src="https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=800&dpr=2&q=80"
           alt="Profile avatar"
@@ -75,7 +75,7 @@ export const Portrait = meta.story({
   },
   render: (args) => (
     <div className="w-52">
-      <AspectRatio {...args} className="bg-muted rounded-md">
+      <AspectRatio {...args} className="rounded-md bg-muted">
         <img
           src="https://images.unsplash.com/photo-1551782450-a2132b4ba21d?w=800&dpr=2&q=80"
           alt="Burger on wooden board"
@@ -92,11 +92,8 @@ export const Portrait = meta.story({
 export const Video = meta.story({
   render: (args) => (
     <div className="w-[500px]">
-      <AspectRatio {...args} className="bg-muted rounded-md">
-        <div
-          className="flex size-full items-center justify-center rounded-md
-            bg-black/90"
-        >
+      <AspectRatio {...args} className="rounded-md bg-muted">
+        <div className="flex size-full items-center justify-center rounded-md bg-black/90">
           <div className="flex flex-col items-center gap-2 text-white">
             <svg
               className="size-12"

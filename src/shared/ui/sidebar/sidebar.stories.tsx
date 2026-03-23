@@ -1,5 +1,3 @@
-import { withI18n } from "@/storybook/decorators/with-i18n";
-import preview from "@/storybook/preview";
 import {
   Calendar,
   ChevronUp,
@@ -10,6 +8,9 @@ import {
   User2,
 } from "lucide-react";
 import { userEvent } from "storybook/test";
+
+import { withI18n } from "@/storybook/decorators/with-i18n";
+import preview from "@/storybook/preview";
 
 import {
   DropdownMenu,

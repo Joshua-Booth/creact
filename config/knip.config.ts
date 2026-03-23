@@ -52,6 +52,33 @@ const config: KnipConfig = {
     // Coverage tooling (loaded dynamically by vitest)
     "@vitest/coverage-istanbul",
     "monocart-coverage-reports",
+    // Oxlint JS plugins (referenced in .oxlintrc.json jsPlugins/overrides)
+    "@eslint-community/eslint-plugin-eslint-comments",
+    "eslint-plugin-barrel-files",
+    "eslint-plugin-baseline-js",
+    "eslint-plugin-better-tailwindcss",
+    "eslint-plugin-check-file",
+    "eslint-plugin-depend",
+    "eslint-plugin-jsdoc",
+    "eslint-plugin-n",
+    "eslint-plugin-perfectionist",
+    "eslint-plugin-react-dom",
+    "eslint-plugin-react-hooks-extra",
+    "eslint-plugin-react-naming-convention",
+    "eslint-plugin-react-web-api",
+    "eslint-plugin-react-x",
+    "eslint-plugin-react-you-might-not-need-an-effect",
+    "eslint-plugin-security",
+    "eslint-plugin-sonarjs",
+    "eslint-plugin-storybook",
+    "eslint-plugin-zod",
+    // Type-aware linting for oxlint
+    "oxlint-tsgolint",
+    // CLI tools (run via mise tasks, not imported in JS)
+    "oxlint",
+    "oxfmt",
+    // CSS-only (imported in CSS via @import, not JS)
+    "tailwindcss",
   ],
 
   // System tools (not npm packages)
@@ -78,12 +105,12 @@ const config: KnipConfig = {
   },
 
   // Linting & formatting
-  eslint: {
-    config: ["config/eslint.config.ts"],
+  oxlint: {
+    config: ["config/.oxlintrc.json"],
   },
 
-  prettier: {
-    config: ["config/.prettierrc"],
+  oxfmt: {
+    config: ["config/.oxfmtrc.json"],
   },
 
   stylelint: {

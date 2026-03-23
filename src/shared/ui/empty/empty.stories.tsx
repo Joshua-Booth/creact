@@ -1,4 +1,3 @@
-import preview from "@/storybook/preview";
 import {
   ArrowUpRightIcon,
   BellIcon,
@@ -8,6 +7,8 @@ import {
   RefreshCcwIcon,
   SearchIcon,
 } from "lucide-react";
+
+import preview from "@/storybook/preview";
 
 import { Avatar, AvatarFallback, AvatarImage } from "../avatar";
 import { Button } from "../button";
@@ -65,8 +66,7 @@ export const Default = meta.story({
       </EmptyContent>
       <button
         type="button"
-        className="text-muted-foreground inline-flex items-center gap-1 text-sm
-          underline-offset-4 hover:underline"
+        className="inline-flex items-center gap-1 text-sm text-muted-foreground underline-offset-4 hover:underline"
       >
         Learn More <ArrowUpRightIcon className="size-3" />
       </button>
@@ -103,7 +103,7 @@ export const Outline = meta.story({
  */
 export const Muted = meta.story({
   render: (args) => (
-    <Empty {...args} className="bg-muted/30 h-full">
+    <Empty {...args} className="h-full bg-muted/30">
       <EmptyHeader>
         <EmptyMedia variant="icon">
           <BellIcon />
@@ -161,11 +161,7 @@ export const AvatarGroup = meta.story({
     <Empty {...args}>
       <EmptyHeader>
         <EmptyMedia>
-          <div
-            className="*:data-[slot=avatar]:ring-background flex -space-x-2
-              *:data-[slot=avatar]:size-12 *:data-[slot=avatar]:ring-2
-              *:data-[slot=avatar]:grayscale"
-          >
+          <div className="flex -space-x-2 *:data-[slot=avatar]:size-12 *:data-[slot=avatar]:ring-2 *:data-[slot=avatar]:ring-background *:data-[slot=avatar]:grayscale">
             <Avatar>
               <AvatarImage src="/avatars/01.png" alt="User 1" />
               <AvatarFallback>U1</AvatarFallback>

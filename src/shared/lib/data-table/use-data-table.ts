@@ -1,3 +1,6 @@
+import { useCallback, useMemo, useState } from "react";
+import type { TransitionStartFunction } from "react";
+
 import type {
   ColumnFiltersState,
   PaginationState,
@@ -8,11 +11,6 @@ import type {
   Updater,
   VisibilityState,
 } from "@tanstack/react-table";
-
-import { useCallback, useMemo, useState } from "react";
-
-import type { SingleParser, UseQueryStateOptions } from "nuqs";
-import type { TransitionStartFunction } from "react";
 import {
   getCoreRowModel,
   getFacetedMinMaxValues,
@@ -23,6 +21,7 @@ import {
   getSortedRowModel,
   useReactTable,
 } from "@tanstack/react-table";
+import type { SingleParser, UseQueryStateOptions } from "nuqs";
 import {
   parseAsArrayOf,
   parseAsInteger,

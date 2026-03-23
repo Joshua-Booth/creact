@@ -2,10 +2,11 @@
 /* eslint-disable @typescript-eslint/no-non-null-assertion -- Test assertions on known DOM elements */
 import { useRef, useState } from "react";
 
-import { withI18n } from "@/storybook/decorators/with-i18n";
-import preview from "@/storybook/preview";
 import { SearchIcon } from "lucide-react";
 import { expect, userEvent, waitFor, within } from "storybook/test";
+
+import { withI18n } from "@/storybook/decorators/with-i18n";
+import preview from "@/storybook/preview";
 
 import { Button } from "../button";
 import { Field, FieldError, FieldLabel } from "../field";
@@ -240,7 +241,7 @@ export const CustomItems = meta.story({
             <ComboboxItem key={item.value} value={item}>
               <div className="flex flex-col">
                 <span>{item.label}</span>
-                <span className="text-muted-foreground text-xs">
+                <span className="text-xs text-muted-foreground">
                   {item.description}
                 </span>
               </div>

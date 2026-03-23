@@ -1,0 +1,108 @@
+{
+  "$schema": "../node_modules/oxfmt/configuration_schema.json",
+  "printWidth": 80,
+  "tabWidth": 2,
+  "useTabs": false,
+  "semi": true,
+  "singleQuote": false,
+  "trailingComma": "es5",
+  "arrowParens": "always",
+  "bracketSpacing": true,
+  "bracketSameLine": false,
+  "proseWrap": "preserve",
+  "quoteProps": "as-needed",
+  "htmlWhitespaceSensitivity": "css",
+  "embeddedLanguageFormatting": "auto",
+  "vueIndentScriptAndStyle": false,
+  "sortImports": {
+    "newlinesBetween": false,
+    "customGroups": [
+      {
+        "groupName": "react-core",
+        "elementNamePattern": [
+          "react",
+          "react-dom",
+          "react-dom/**",
+          "react-router",
+          "react-router/**"
+        ]
+      },
+      {
+        "groupName": "react-libs",
+        "elementNamePattern": ["react-hook-form", "react-i18next", "i18next"]
+      },
+      {
+        "groupName": "app",
+        "elementNamePattern": ["@/app", "@/app/**"]
+      },
+      {
+        "groupName": "pages",
+        "elementNamePattern": ["@/pages", "@/pages/**"]
+      },
+      {
+        "groupName": "widgets",
+        "elementNamePattern": ["@/widgets", "@/widgets/**"]
+      },
+      {
+        "groupName": "features",
+        "elementNamePattern": ["@/features", "@/features/**"]
+      },
+      {
+        "groupName": "entities",
+        "elementNamePattern": ["@/entities", "@/entities/**"]
+      },
+      {
+        "groupName": "shared",
+        "elementNamePattern": [
+          "@/shared/api",
+          "@/shared/api/**",
+          "@/shared/config",
+          "@/shared/config/**",
+          "@/shared/model",
+          "@/shared/model/**",
+          "@/shared/lib",
+          "@/shared/lib/**",
+          "@/shared/i18n",
+          "@/shared/i18n/**",
+          "@/shared/ui",
+          "@/shared/ui/**",
+          "@/shared/assets",
+          "@/shared/assets/**"
+        ]
+      },
+      {
+        "groupName": "storybook",
+        "elementNamePattern": ["@/storybook", "@/storybook/**"]
+      }
+    ],
+    "groups": [
+      ["type-builtin", "value-builtin"],
+      { "newlinesBetween": true },
+      "react-core",
+      "react-libs",
+      { "newlinesBetween": true },
+      ["type-external", "value-external", "side_effect", "unknown"],
+      { "newlinesBetween": true },
+      "type-internal",
+      [
+        "app",
+        "pages",
+        "widgets",
+        "features",
+        "entities",
+        "shared",
+        "storybook"
+      ],
+      { "newlinesBetween": true },
+      ["type-parent", "type-sibling", "type-index"],
+      ["value-parent", "value-sibling", "value-index"],
+      { "newlinesBetween": true },
+      "side_effect_style"
+    ]
+  },
+  "sortTailwindcss": {
+    "stylesheet": "../src/app/styles/globals.css",
+    "functions": ["cn", "clsx", "cva"]
+  },
+  "ignorePatterns": []
+}

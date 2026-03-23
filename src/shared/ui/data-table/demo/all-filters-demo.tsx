@@ -1,7 +1,6 @@
-import type { ColumnDef } from "@tanstack/react-table";
-
 import { useMemo } from "react";
 
+import type { ColumnDef } from "@tanstack/react-table";
 import { CalendarIcon, Text } from "lucide-react";
 
 import { useDataTable } from "@/shared/lib/data-table";
@@ -275,7 +274,7 @@ export function AllFiltersDemo() {
           const Icon = priorityIcons[priority];
           return (
             <div className="flex items-center gap-2 capitalize">
-              <Icon className="text-muted-foreground size-3.5" />
+              <Icon className="size-3.5 text-muted-foreground" />
               {priority}
             </div>
           );

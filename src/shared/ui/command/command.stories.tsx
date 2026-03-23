@@ -1,6 +1,5 @@
 import { useState } from "react";
 
-import preview from "@/storybook/preview";
 import {
   Calculator,
   Calendar,
@@ -11,6 +10,8 @@ import {
   User,
 } from "lucide-react";
 import { expect, userEvent } from "storybook/test";
+
+import preview from "@/storybook/preview";
 
 import { Button } from "../button";
 import { Kbd, KbdGroup } from "../kbd";

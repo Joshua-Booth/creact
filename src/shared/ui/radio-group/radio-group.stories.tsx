@@ -1,6 +1,7 @@
+import { expect, userEvent, waitFor } from "storybook/test";
+
 /* eslint-disable @typescript-eslint/no-non-null-assertion -- Test assertions on known DOM elements */
 import preview from "@/storybook/preview";
-import { expect, userEvent, waitFor } from "storybook/test";
 
 import {
   Field,
@@ -186,8 +187,7 @@ export const ChoiceCard = meta.story({
           <Item
             variant="outline"
             render={<label htmlFor="plus" aria-label="Plus" />}
-            className="has-data-checked:border-primary/50
-              dark:has-data-checked:bg-primary/10 cursor-pointer"
+            className="cursor-pointer has-data-checked:border-primary/50 dark:has-data-checked:bg-primary/10"
           >
             <ItemContent>
               <ItemTitle>Plus</ItemTitle>
@@ -200,8 +200,7 @@ export const ChoiceCard = meta.story({
           <Item
             variant="outline"
             render={<label htmlFor="pro" aria-label="Pro" />}
-            className="has-data-checked:border-primary/50
-              dark:has-data-checked:bg-primary/10 cursor-pointer"
+            className="cursor-pointer has-data-checked:border-primary/50 dark:has-data-checked:bg-primary/10"
           >
             <ItemContent>
               <ItemTitle>Pro</ItemTitle>
@@ -212,8 +211,7 @@ export const ChoiceCard = meta.story({
           <Item
             variant="outline"
             render={<label htmlFor="enterprise" aria-label="Enterprise" />}
-            className="has-data-checked:border-primary/50
-              dark:has-data-checked:bg-primary/10 cursor-pointer"
+            className="cursor-pointer has-data-checked:border-primary/50 dark:has-data-checked:bg-primary/10"
           >
             <ItemContent>
               <ItemTitle>Enterprise</ItemTitle>

@@ -1,10 +1,9 @@
-import type { Column } from "@tanstack/react-table";
-
 import { useMemo } from "react";
 import { useTranslation } from "react-i18next";
 
-import type { DateRange } from "react-day-picker";
+import type { Column } from "@tanstack/react-table";
 import { CalendarIcon, XCircle } from "lucide-react";
+import type { DateRange } from "react-day-picker";
 
 import { formatDate } from "@/shared/lib/data-table";
 import {
@@ -117,8 +116,7 @@ export function DataTableDateFilter<TData>({
         <>
           <Separator
             orientation="vertical"
-            className="mx-0.5 data-[orientation=vertical]:h-4
-              data-[orientation=vertical]:self-center"
+            className="mx-0.5 data-[orientation=vertical]:h-4 data-[orientation=vertical]:self-center"
           />
           <span>{dateText}</span>
         </>
@@ -146,8 +144,7 @@ export function DataTableDateFilter<TData>({
       <>
         <Separator
           orientation="vertical"
-          className="mx-0.5 data-[orientation=vertical]:h-4
-            data-[orientation=vertical]:self-center"
+          className="mx-0.5 data-[orientation=vertical]:h-4 data-[orientation=vertical]:self-center"
         />
         <span>{dateText}</span>
       </>

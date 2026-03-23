@@ -1,4 +1,5 @@
 import i18next from "i18next";
+
 import { Loader2Icon } from "lucide-react";
 
 import { cn } from "@/shared/lib/utils";

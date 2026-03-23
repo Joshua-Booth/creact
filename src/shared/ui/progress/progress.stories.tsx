@@ -1,7 +1,8 @@
 import { useState } from "react";
 
-import preview from "@/storybook/preview";
 import { expect } from "storybook/test";
+
+import preview from "@/storybook/preview";
 
 import { Field, FieldLabel } from "../field";
 import { Slider } from "../slider";

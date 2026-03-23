@@ -1,7 +1,8 @@
-import { withI18n } from "@/storybook/decorators/with-i18n";
-import preview from "@/storybook/preview";
 import { NuqsAdapter } from "nuqs/adapters/react-router/v7";
 import { expect, fireEvent, userEvent, waitFor, within } from "storybook/test";
+
+import { withI18n } from "@/storybook/decorators/with-i18n";
+import preview from "@/storybook/preview";
 
 import { ActionBarDemo } from "./demo/action-bar-demo";
 import { AllFiltersDemo } from "./demo/all-filters-demo";

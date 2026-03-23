@@ -1,8 +1,9 @@
 import { Link as RouterLink } from "react-router";
 
+import { expect } from "storybook/test";
+
 import { withI18n } from "@/storybook/decorators/with-i18n";
 import preview from "@/storybook/preview";
-import { expect } from "storybook/test";
 
 import { Button } from "../button";
 import { Field, FieldLabel } from "../field";

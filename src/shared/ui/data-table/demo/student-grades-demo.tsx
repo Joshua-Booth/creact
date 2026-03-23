@@ -1,7 +1,6 @@
-import type { ColumnDef } from "@tanstack/react-table";
-
 import { useMemo } from "react";
 
+import type { ColumnDef } from "@tanstack/react-table";
 import { CalendarIcon, Text } from "lucide-react";
 
 import { useDataTable } from "@/shared/lib/data-table";
@@ -313,8 +312,10 @@ export function StudentGradesDemo() {
           const avg = cell.getValue<number>();
           return (
             <div
-              className={`text-right font-bold tabular-nums
-                ${averageColor(avg)}`}
+              className={cn(
+                "text-right font-bold tabular-nums",
+                averageColor(avg)
+              )}
             >
               {avg}
             </div>

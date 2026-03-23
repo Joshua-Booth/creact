@@ -1,5 +1,6 @@
-import type { NormalizedOptions } from "ky";
 import i18next from "i18next";
+
+import type { NormalizedOptions } from "ky";
 import { HTTPError } from "ky";
 import { beforeAll, describe, expect, it, vi } from "vitest";
 

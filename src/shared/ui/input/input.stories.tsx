@@ -1,6 +1,7 @@
-import preview from "@/storybook/preview";
 import { SearchIcon } from "lucide-react";
 import { expect, userEvent } from "storybook/test";
+
+import preview from "@/storybook/preview";
 
 import { Badge } from "../badge";
 import { Button } from "../button";

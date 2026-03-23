@@ -1,5 +1,6 @@
-import preview from "@/storybook/preview";
 import { expect, userEvent, waitFor, within } from "storybook/test";
+
+import preview from "@/storybook/preview";
 
 import { Avatar, AvatarFallback, AvatarImage } from "../avatar";
 import { Button } from "../button";
@@ -31,7 +32,7 @@ const meta = preview.meta({
               The React Framework - created and maintained by @vercel.
             </p>
             <div className="flex items-center pt-2">
-              <span className="text-muted-foreground text-xs">
+              <span className="text-xs text-muted-foreground">
                 Joined December 2021
               </span>
             </div>

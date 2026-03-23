@@ -1,9 +1,10 @@
 import { useState } from "react";
 
-import preview from "@/storybook/preview";
 import { Theme, ThemeProvider } from "remix-themes";
 import { action } from "storybook/actions";
 import { expect, userEvent, waitFor, within } from "storybook/test";
+
+import preview from "@/storybook/preview";
 
 import type { ToasterProps } from ".";
 import { toast, Toaster } from ".";

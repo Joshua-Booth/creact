@@ -1,7 +1,6 @@
 /* eslint-disable @typescript-eslint/no-non-null-assertion -- Test assertions on known DOM elements */
 import { useState } from "react";
 
-import preview from "@/storybook/preview";
 import {
   BadgeCheck,
   Bell,
@@ -37,6 +36,8 @@ import {
   Wallet,
 } from "lucide-react";
 import { expect, userEvent, waitFor, within } from "storybook/test";
+
+import preview from "@/storybook/preview";
 
 import { Avatar, AvatarFallback, AvatarImage } from "../avatar";
 import { Button } from "../button";

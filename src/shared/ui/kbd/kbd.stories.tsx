@@ -1,5 +1,6 @@
-import preview from "@/storybook/preview";
 import { CommandIcon, PrinterIcon, SearchIcon } from "lucide-react";
+
+import preview from "@/storybook/preview";
 
 import { Button } from "../button";
 import { InputGroup, InputGroupAddon, InputGroupInput } from "../input-group";

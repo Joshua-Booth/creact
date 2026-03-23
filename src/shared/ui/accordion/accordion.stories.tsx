@@ -1,6 +1,7 @@
+import { expect, userEvent, waitFor } from "storybook/test";
+
 /* eslint-disable @typescript-eslint/no-non-null-assertion -- Test assertions on known DOM elements */
 import preview from "@/storybook/preview";
-import { expect, userEvent, waitFor } from "storybook/test";
 
 import {
   Card,

@@ -1,6 +1,5 @@
 import { useState } from "react";
 
-import preview from "@/storybook/preview";
 import {
   AppleIcon,
   CherryIcon,
@@ -11,6 +10,8 @@ import {
   SunIcon,
 } from "lucide-react";
 import { expect, fn, userEvent, within } from "storybook/test";
+
+import preview from "@/storybook/preview";
 
 import {
   Field,

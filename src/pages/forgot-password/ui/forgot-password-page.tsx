@@ -4,12 +4,12 @@ import { useTranslation } from "react-i18next";
 
 import { Mail } from "lucide-react";
 
+import logoSvg from "@/shared/assets/images/logo.svg";
 import { useHydrated } from "@/shared/lib/hydration";
 import { Button } from "@/shared/ui/button";
 import { Card, CardContent } from "@/shared/ui/card";
 import { Field, FieldError, FieldGroup, FieldLabel } from "@/shared/ui/field";
 import { Input } from "@/shared/ui/input";
-import logoSvg from "@/shared/assets/images/logo.svg";
 
 import { useForgotPasswordForm } from "../model/use-forgot-password-form";
 
@@ -24,10 +24,7 @@ export function ForgotPasswordPage() {
   const disabled = !hydrated || isSubmitting;
 
   return (
-    <main
-      className="bg-muted flex min-h-svh items-center justify-center p-6
-        md:p-10"
-    >
+    <main className="flex min-h-svh items-center justify-center bg-muted p-6 md:p-10">
       <div className="w-full max-w-sm md:max-w-4xl">
         <Card className="overflow-hidden p-0">
           <CardContent className="grid p-0 md:grid-cols-2">
@@ -35,24 +32,20 @@ export function ForgotPasswordPage() {
               {isSuccess ? (
                 <FieldGroup>
                   <div className="flex flex-col items-center text-center">
-                    <div
-                      className="bg-primary/10 text-primary mb-2 flex size-12
-                        items-center justify-center rounded-full"
-                    >
+                    <div className="mb-2 flex size-12 items-center justify-center rounded-full bg-primary/10 text-primary">
                       <Mail className="size-6" />
                     </div>
                     <h1 className="text-2xl font-bold">
                       {t("auth.forgotPassword.successTitle")}
                     </h1>
-                    <p className="text-muted-foreground text-sm text-balance">
+                    <p className="text-sm text-balance text-muted-foreground">
                       {t("auth.forgotPassword.successDescription")}
                     </p>
                   </div>
 
                   <Link
                     to={href("/login")}
-                    className="hover:text-primary text-center text-sm underline
-                      underline-offset-4"
+                    className="text-center text-sm underline underline-offset-4 hover:text-primary"
                   >
                     {t("auth.forgotPassword.backToLogin")}
                   </Link>
@@ -64,7 +57,7 @@ export function ForgotPasswordPage() {
                       <h1 className="text-2xl font-bold">
                         {t("auth.forgotPassword.title")}
                       </h1>
-                      <p className="text-muted-foreground text-sm text-balance">
+                      <p className="text-sm text-balance text-muted-foreground">
                         {t("auth.forgotPassword.description")}
                       </p>
                     </div>
@@ -111,8 +104,7 @@ export function ForgotPasswordPage() {
                     <div className="text-center">
                       <Link
                         to={href("/login")}
-                        className="text-muted-foreground hover:text-primary
-                          text-sm underline-offset-4 hover:underline"
+                        className="text-sm text-muted-foreground underline-offset-4 hover:text-primary hover:underline"
                       >
                         {t("auth.forgotPassword.backToLogin")}
                       </Link>

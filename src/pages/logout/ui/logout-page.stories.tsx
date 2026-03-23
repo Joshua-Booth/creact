@@ -1,7 +1,8 @@
-import { withI18n } from "@/storybook/decorators/with-i18n";
-import preview from "@/storybook/preview";
 import { reactRouterParameters } from "storybook-addon-remix-react-router";
 import { expect } from "storybook/test";
+
+import { withI18n } from "@/storybook/decorators/with-i18n";
+import preview from "@/storybook/preview";
 
 import { LogoutPage } from "./logout-page";
 

@@ -1,5 +1,6 @@
-import preview from "@/storybook/preview";
 import { expect, userEvent } from "storybook/test";
+
+import preview from "@/storybook/preview";
 
 import { Button } from "../button";
 import { Checkbox } from "../checkbox";
@@ -109,7 +110,7 @@ export const Optional = meta.story({
     <div className="flex flex-col gap-2">
       <Label {...args} htmlFor="optional-input">
         Bio
-        <span className="text-muted-foreground font-normal">(optional)</span>
+        <span className="font-normal text-muted-foreground">(optional)</span>
       </Label>
       <Input id="optional-input" placeholder="Tell us about yourself" />
     </div>

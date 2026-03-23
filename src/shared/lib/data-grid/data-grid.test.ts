@@ -1,6 +1,6 @@
-import type { Column, Table } from "@tanstack/react-table";
-
 import type React from "react";
+
+import type { Column, Table } from "@tanstack/react-table";
 import { describe, expect, it, vi } from "vitest";
 
 import {

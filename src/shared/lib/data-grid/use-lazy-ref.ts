@@ -1,5 +1,4 @@
 import { useRef } from "react";
-
 import type { RefObject } from "react";
 
 /**

@@ -1,7 +1,8 @@
-import { withI18n } from "@/storybook/decorators/with-i18n";
-import preview from "@/storybook/preview";
 import { ArrowUpIcon, LoaderIcon } from "lucide-react";
 import { expect } from "storybook/test";
+
+import { withI18n } from "@/storybook/decorators/with-i18n";
+import preview from "@/storybook/preview";
 
 import { Badge } from "../badge";
 import { Button } from "../button";

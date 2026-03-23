@@ -129,6 +129,13 @@
     "mascarpone",
     "porcini",
     "Satie",
-    "sqft"
+    "sqft",
+    "oxlint",
+    "oxfmt",
+    "oxfmtrc",
+    "oxfmtignore",
+    "oxlintrc",
+    "tsgolint",
+    "overfired"
   ]
 }

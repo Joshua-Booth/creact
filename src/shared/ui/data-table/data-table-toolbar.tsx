@@ -1,9 +1,8 @@
-import type { Column, Table } from "@tanstack/react-table";
-
 import { useCallback, useMemo } from "react";
+import type { ComponentProps } from "react";
 import { useTranslation } from "react-i18next";
 
-import type { ComponentProps } from "react";
+import type { Column, Table } from "@tanstack/react-table";
 import { X } from "lucide-react";
 
 import { cn } from "@/shared/lib/utils";
@@ -112,7 +111,7 @@ function DataTableToolbarFilter<TData>({
         return (
           <div className="relative">
             {columnMeta.unit && isPrefix && (
-              <span className="bg-accent text-muted-foreground absolute inset-y-0 left-0 flex items-center rounded-l-md px-2 text-sm">
+              <span className="absolute inset-y-0 left-0 flex items-center rounded-l-md bg-accent px-2 text-sm text-muted-foreground">
                 {columnMeta.unit}
               </span>
             )}
@@ -128,7 +127,7 @@ function DataTableToolbarFilter<TData>({
               )}
             />
             {columnMeta.unit && !isPrefix && (
-              <span className="bg-accent text-muted-foreground absolute inset-y-0 right-0 flex items-center rounded-r-md px-2 text-sm">
+              <span className="absolute inset-y-0 right-0 flex items-center rounded-r-md bg-accent px-2 text-sm text-muted-foreground">
                 {columnMeta.unit}
               </span>
             )}

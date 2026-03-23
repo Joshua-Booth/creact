@@ -1,7 +1,6 @@
 /* eslint-disable @typescript-eslint/no-non-null-assertion -- Test assertions on known DOM elements */
 import { useState } from "react";
 
-import preview from "@/storybook/preview";
 import {
   FileIcon,
   FolderIcon,
@@ -11,6 +10,8 @@ import {
   Trash2Icon,
 } from "lucide-react";
 import { expect, userEvent, waitFor, within } from "storybook/test";
+
+import preview from "@/storybook/preview";
 
 import {
   Menubar,

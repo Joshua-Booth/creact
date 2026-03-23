@@ -1,6 +1,6 @@
-import type { ColumnDef } from "@tanstack/react-table";
-
 import { useMemo } from "react";
+
+import type { ColumnDef } from "@tanstack/react-table";
 
 import { useDataTable } from "@/shared/lib/data-table";
 

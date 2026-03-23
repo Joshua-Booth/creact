@@ -1,3 +1,5 @@
+import { expect } from "storybook/test";
+
 import {
   withAuthenticated,
   withUnauthenticated,
@@ -5,7 +7,6 @@ import {
 import { withI18n } from "@/storybook/decorators/with-i18n";
 import { withTheme } from "@/storybook/decorators/with-theme";
 import preview from "@/storybook/preview";
-import { expect } from "storybook/test";
 
 import { Header } from "./header";
 

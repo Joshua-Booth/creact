@@ -1,3 +1,6 @@
+import { memo, useCallback, useMemo } from "react";
+import type { ComponentProps } from "react";
+
 import type {
   ColumnPinningState,
   Row,
@@ -5,10 +8,6 @@ import type {
   VisibilityState,
 } from "@tanstack/react-table";
 import type { VirtualItem } from "@tanstack/react-virtual";
-
-import { memo, useCallback, useMemo } from "react";
-
-import type { ComponentProps } from "react";
 
 import type {
   CellPosition,

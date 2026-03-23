@@ -1,5 +1,4 @@
 import type { Decorator } from "@storybook/react-vite";
-
 import { SWRConfig } from "swr";
 
 import { getAuthToken } from "@/entities/user";
@@ -10,7 +9,7 @@ configureTokenProvider(getAuthToken);
 async function fetcher(url: string) {
   const res = await fetch(url);
   if (!res.ok) throw new Error(`${res.status} ${res.statusText}`);
-  return res.json();
+  return res.json() as Promise<unknown>;
 }
 
 export const withSWR: Decorator = (Story) => (

@@ -1,10 +1,11 @@
+import i18n from "i18next";
 import { I18nextProvider } from "react-i18next";
+
+import { reactRouterParameters } from "storybook-addon-remix-react-router";
+import { expect } from "storybook/test";
 
 import { withI18n } from "@/storybook/decorators/with-i18n";
 import preview from "@/storybook/preview";
-import i18n from "i18next";
-import { reactRouterParameters } from "storybook-addon-remix-react-router";
-import { expect } from "storybook/test";
 
 import { NoMatchPage } from "./no-match-page";
 

@@ -25,8 +25,8 @@ import {
 } from "remix-themes";
 
 import { SWRProvider } from "@/app/providers/swr-provider";
-import { Header } from "@/widgets/header";
 import { SITE_NAME } from "@/shared/config";
+import { DEFAULT_LANGUAGE } from "@/shared/i18n";
 import { useHydrated } from "@/shared/lib/hydration";
 import {
   generateMeta,
@@ -34,7 +34,6 @@ import {
   generateWebSiteJsonLd,
   getSeoTranslation,
 } from "@/shared/lib/seo";
-import { DEFAULT_LANGUAGE } from "@/shared/i18n";
 import { buttonVariants } from "@/shared/ui/button";
 import { DirectionProvider } from "@/shared/ui/direction";
 import {
@@ -48,6 +47,8 @@ import {
 import { ErrorBoundary as ReactErrorBoundary } from "@/shared/ui/error-boundary";
 import { JsonLd } from "@/shared/ui/json-ld";
 import { ToastProvider } from "@/shared/ui/toast";
+import { Header } from "@/widgets/header";
+import "@/app/styles/globals.css";
 
 import type { Route } from "./+types/root";
 import {
@@ -56,8 +57,6 @@ import {
   localeCookie,
 } from "./middleware/i18next";
 import { themeSessionResolver } from "./sessions.server";
-
-import "@/app/styles/globals.css";
 
 export const middleware = [i18nextMiddleware];
 
@@ -183,7 +182,7 @@ export function ErrorBoundary() {
       <EmptyHeader>
         <EmptyMedia
           variant="icon"
-          className="bg-destructive/10 text-destructive rounded-full"
+          className="rounded-full bg-destructive/10 text-destructive"
         >
           <AlertTriangle />
         </EmptyMedia>
@@ -211,15 +210,10 @@ export function HydrateFallback() {
     <div className="flex min-h-screen items-center justify-center">
       <div className="text-center">
         <div
-          className="inline-block size-8 animate-spin rounded-full border-4
-            border-solid border-current border-r-transparent align-[-0.125em]
-            motion-reduce:animate-[spin_1.5s_linear_infinite]"
+          className="inline-block size-8 animate-spin rounded-full border-4 border-solid border-current border-r-transparent align-[-0.125em] motion-reduce:animate-[spin_1.5s_linear_infinite]"
           role="status"
         >
-          <span
-            className="absolute! -m-px! size-px! overflow-hidden! border-0! p-0!
-              whitespace-nowrap! [clip:rect(0,0,0,0)]!"
-          >
+          <span className="absolute! -m-px! size-px! overflow-hidden! border-0! p-0! whitespace-nowrap! [clip:rect(0,0,0,0)]!">
             {t("loading")}
           </span>
         </div>

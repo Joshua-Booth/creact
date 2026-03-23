@@ -1,5 +1,6 @@
-import preview from "@/storybook/preview";
 import { ChevronRightIcon } from "lucide-react";
+
+import preview from "@/storybook/preview";
 
 import { Badge } from "../badge";
 import { Button } from "../button";
@@ -103,21 +104,15 @@ export const Small = meta.story({
       <CardContent>
         <ul className="grid gap-2 py-2 text-sm">
           <li className="flex gap-2">
-            <ChevronRightIcon
-              className="text-muted-foreground mt-0.5 size-4 shrink-0"
-            />
+            <ChevronRightIcon className="mt-0.5 size-4 shrink-0 text-muted-foreground" />
             <span>Choose a schedule (daily, or weekly).</span>
           </li>
           <li className="flex gap-2">
-            <ChevronRightIcon
-              className="text-muted-foreground mt-0.5 size-4 shrink-0"
-            />
+            <ChevronRightIcon className="mt-0.5 size-4 shrink-0 text-muted-foreground" />
             <span>Send to channels or specific teammates.</span>
           </li>
           <li className="flex gap-2">
-            <ChevronRightIcon
-              className="text-muted-foreground mt-0.5 size-4 shrink-0"
-            />
+            <ChevronRightIcon className="mt-0.5 size-4 shrink-0 text-muted-foreground" />
             <span>Include charts, tables, and key metrics.</span>
           </li>
         </ul>
@@ -145,8 +140,7 @@ export const Image = meta.story({
       <img
         src="https://avatar.vercel.sh/shadcn1"
         alt="Event cover"
-        className="relative z-20 aspect-video w-full object-cover brightness-60
-          grayscale dark:brightness-40"
+        className="relative z-20 aspect-video w-full object-cover brightness-60 grayscale dark:brightness-40"
       />
       <CardHeader>
         <CardAction>

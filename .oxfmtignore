@@ -101,10 +101,10 @@ test-results
 playwright-report
 
 # Claude Code
-../.claude
+.claude
 
 # Plop templates
 *.hbs
 
 # Generated files
-../public/mockServiceWorker.js
+public/mockServiceWorker.js

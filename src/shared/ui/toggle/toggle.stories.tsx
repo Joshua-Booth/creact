@@ -1,6 +1,7 @@
-import preview from "@/storybook/preview";
 import { Bold, Italic } from "lucide-react";
 import { expect, userEvent } from "storybook/test";
+
+import preview from "@/storybook/preview";
 
 import { Toggle } from "./toggle";
 

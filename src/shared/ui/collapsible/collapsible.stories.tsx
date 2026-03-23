@@ -1,6 +1,5 @@
 import { useState } from "react";
 
-import preview from "@/storybook/preview";
 import {
   ChevronDownIcon,
   ChevronRightIcon,
@@ -11,6 +10,8 @@ import {
   MinimizeIcon,
 } from "lucide-react";
 import { expect, userEvent } from "storybook/test";
+
+import preview from "@/storybook/preview";
 
 import { Button } from "../button";
 import {
@@ -79,10 +80,7 @@ export const Default = meta.story({
             <span className="sr-only">Toggle details</span>
           </CollapsibleTrigger>
         </div>
-        <div
-          className="flex items-center justify-between rounded-md border px-4
-            py-2 text-sm"
-        >
+        <div className="flex items-center justify-between rounded-md border px-4 py-2 text-sm">
           <span className="text-muted-foreground">Status</span>
           <span className="font-medium">Shipped</span>
         </div>
@@ -114,19 +112,14 @@ export const Basic = meta.story({
   render: (args) => (
     <Card className="mx-auto w-sm">
       <CardContent>
-        <Collapsible {...args} className="data-open:bg-muted rounded-md">
+        <Collapsible {...args} className="rounded-md data-open:bg-muted">
           <CollapsibleTrigger
             render={<Button variant="ghost" className="w-full" />}
           >
             Product details
-            <ChevronDownIcon
-              className="ml-auto transition-transform
-                group-data-panel-open/button:rotate-180"
-            />
+            <ChevronDownIcon className="ml-auto transition-transform group-data-panel-open/button:rotate-180" />
           </CollapsibleTrigger>
-          <CollapsibleContent
-            className="flex flex-col items-start gap-2 p-2.5 pt-0 text-sm"
-          >
+          <CollapsibleContent className="flex flex-col items-start gap-2 p-2.5 pt-0 text-sm">
             <div>
               This panel can be expanded or collapsed to reveal additional
               content.
@@ -174,9 +167,7 @@ export const SettingsPanel = meta.story({
                 <FieldLabel className="sr-only">Radius Y</FieldLabel>
                 <Input placeholder="0" defaultValue={0} />
               </Field>
-              <CollapsibleContent
-                className="col-span-full grid grid-cols-subgrid gap-2"
-              >
+              <CollapsibleContent className="col-span-full grid grid-cols-subgrid gap-2">
                 <Field>
                   <FieldLabel className="sr-only">Radius X2</FieldLabel>
                   <Input placeholder="0" defaultValue={0} />
@@ -254,10 +245,7 @@ export const FileTree = meta.story({
                 />
               }
             >
-              <ChevronRightIcon
-                className="transition-transform
-                  group-data-panel-open/button:rotate-90"
-              />
+              <ChevronRightIcon className="transition-transform group-data-panel-open/button:rotate-90" />
               <FolderIcon />
               {fileItem.name}
             </CollapsibleTrigger>
@@ -275,7 +263,7 @@ export const FileTree = meta.story({
           key={fileItem.name}
           variant="link"
           size="sm"
-          className="text-foreground w-full justify-start gap-2"
+          className="w-full justify-start gap-2 text-foreground"
         >
           <FileIcon />
           <span>{fileItem.name}</span>
