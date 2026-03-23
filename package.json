@@ -10,6 +10,7 @@
   "packageManager": "pnpm@10.32.1",
   "scripts": {
     "prepare": "husky || true",
+    "postinstall": "msw init public/ --no-save",
     "build": "react-router build"
   },
   "engines": {
