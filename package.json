@@ -50,7 +50,7 @@
     "react-i18next": "^16.6.6",
     "react-resizable-panels": "^4.7.6",
     "react-router": "^7.13.2",
-    "recharts": "^3.8.0",
+    "recharts": "^3.8.1",
     "remix-i18next": "^7.4.2",
     "remix-themes": "^2.0.4",
     "sonner": "^2.0.7",
@@ -159,12 +159,12 @@
   "pnpm": {
     "overrides": {
       "@isaacs/brace-expansion": ">=5.0.1",
-      "@modelcontextprotocol/sdk": ">=1.27.1",
+      "@modelcontextprotocol/sdk": ">=1.28.0",
       "hono": ">=4.12.9",
       "koa": ">=3.1.2",
       "rollup": ">=4.60.0",
       "seroval": ">=1.5.1",
-      "undici": ">=7.24.5"
+      "undici": ">=7.24.6"
     },
     "auditConfig": {
       "ignoreGhsas": [
