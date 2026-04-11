@@ -79,7 +79,7 @@
     "@react-router/dev": "^7.14.0",
     "@semantic-release/changelog": "^6.0.3",
     "@semantic-release/git": "^10.0.1",
-    "@sentry/vite-plugin": "^5.1.1",
+    "@sentry/vite-plugin": "^5.2.0",
     "@storybook/addon-a11y": "^10.2.19",
     "@storybook/addon-designs": "^11.1.2",
     "@storybook/addon-docs": "^10.2.19",
