@@ -1,6 +1,5 @@
 import type { Column, Table } from "@tanstack/react-table";
 
-import type React from "react";
 import { describe, expect, it, vi } from "vitest";
 
 import {
@@ -900,7 +899,7 @@ describe("scrollCellIntoView", () => {
     scrollCellIntoView({
       container,
       targetCell,
-      tableRef: tableRef as unknown as React.RefObject<Table<unknown>>,
+      tableRef: tableRef,
       viewportOffset: 0,
       isRtl: false,
     });

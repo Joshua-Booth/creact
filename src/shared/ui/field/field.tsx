@@ -3,6 +3,7 @@
 import { useMemo } from "react";
 
 import type { VariantProps } from "class-variance-authority";
+import type * as React from "react";
 import { Field as FieldPrimitive } from "@base-ui/react/field";
 import { Fieldset as FieldsetPrimitive } from "@base-ui/react/fieldset";
 import { cva } from "class-variance-authority";
@@ -239,7 +240,7 @@ function FieldError({
   children,
   errors,
   ...props
-}: FieldPrimitive.Error.Props & {
+}: React.HTMLAttributes<HTMLDivElement> & {
   errors?: ({ message?: string } | undefined)[];
 }) {
   // eslint-disable-next-line sonarjs/function-return-type -- Different return types represent different renderable content

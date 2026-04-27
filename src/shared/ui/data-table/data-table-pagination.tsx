@@ -50,8 +50,8 @@ export function DataTablePagination<TData>({
     >
       <div className="text-muted-foreground flex-1 text-sm whitespace-nowrap">
         {t("dataTable.rowsSelected", {
-          selected: table.getFilteredSelectedRowModel().rows.length,
-          total: table.getFilteredRowModel().rows.length,
+          selected: String(table.getFilteredSelectedRowModel().rows.length),
+          total: String(table.getFilteredRowModel().rows.length),
         })}
       </div>
       <div
@@ -85,8 +85,8 @@ export function DataTablePagination<TData>({
         </div>
         <div className="flex items-center justify-center text-sm font-medium">
           {t("dataTable.page", {
-            current: table.getState().pagination.pageIndex + 1,
-            total: table.getPageCount(),
+            current: String(table.getState().pagination.pageIndex + 1),
+            total: String(table.getPageCount()),
           })}
         </div>
         <div className="flex items-center space-x-2">

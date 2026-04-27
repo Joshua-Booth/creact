@@ -168,7 +168,7 @@ export function DataTableDateFilter<TData>({
         variant="outline"
         size="sm"
         className="border-dashed px-2"
-        aria-label={t("dataTable.clearFilter", { title })}
+        aria-label={t("dataTable.clearFilter", { title: title ?? "" })}
         onClick={onReset}
       >
         <XCircle />
@@ -215,7 +215,7 @@ export function DataTableDateFilter<TData>({
       <PopoverContent
         className="w-auto p-0"
         align="start"
-        aria-label={t("dataTable.filterBy", { title })}
+        aria-label={t("dataTable.filterBy", { title: title ?? "" })}
       >
         {multiple ? (
           <Calendar

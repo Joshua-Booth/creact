@@ -35,6 +35,6 @@ export default defineMain({
   },
   features: {
     experimentalTestSyntax: true,
-    experimentalComponentsManifest: true,
+    componentsManifest: true,
   },
 });

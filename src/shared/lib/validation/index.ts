@@ -11,7 +11,8 @@ export const passwordSchema = z
   .string()
   .trim()
   .min(8, {
-    error: () => i18next.t("password.minLength", { ns: "validation", min: 8 }),
+    error: () =>
+      i18next.t("password.minLength", { ns: "validation", min: "8" }),
   })
   .regex(/[A-Z]/, {
     error: () => i18next.t("password.uppercase", { ns: "validation" }),
