@@ -44,8 +44,8 @@ function composeRefs<T>(...refs: PossibleRef<T>[]): RefCallback<T> {
  * @returns A memoized ref callback that sets all provided refs
  */
 function useComposedRefs<T>(...refs: PossibleRef<T>[]): RefCallback<T> {
-  // eslint-disable-next-line react-hooks/exhaustive-deps -- memoize by all ref values
-  return useCallback(composeRefs(...refs), refs);
+  // eslint-disable-next-line react-hooks/exhaustive-deps, react-hooks/use-memo -- variadic refs require dynamic dep array; re-memoize whenever any ref value changes
+  return useCallback(composeRefs(...refs), [...refs]);
 }
 
 export { composeRefs, useComposedRefs };
