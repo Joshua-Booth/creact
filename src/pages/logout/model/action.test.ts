@@ -23,7 +23,7 @@ describe("logoutAction", () => {
       logout: logoutFn,
     } as unknown as ReturnType<typeof useAuthStore.getState>);
     vi.mocked(api.post).mockResolvedValue(undefined as never);
-    vi.mocked(mutate).mockResolvedValue(undefined as never);
+    vi.mocked(mutate).mockResolvedValue([]);
 
     const result = await logoutAction();
 
@@ -41,7 +41,7 @@ describe("logoutAction", () => {
       logout: logoutFn,
     } as unknown as ReturnType<typeof useAuthStore.getState>);
     vi.mocked(api.post).mockRejectedValue(new Error("Server unavailable"));
-    vi.mocked(mutate).mockResolvedValue(undefined as never);
+    vi.mocked(mutate).mockResolvedValue([]);
 
     const result = await logoutAction();
 

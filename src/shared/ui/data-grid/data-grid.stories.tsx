@@ -596,7 +596,7 @@ Default.test(
       );
       if (!searchInput) throw new Error("Search input not found");
 
-      await userEvent.type(searchInput as HTMLElement, "Alice");
+      await userEvent.type(searchInput, "Alice");
 
       // Wait for debounce
       await waitFor(

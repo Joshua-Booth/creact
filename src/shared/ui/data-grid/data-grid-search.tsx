@@ -214,8 +214,8 @@ function DataGridSearchImpl({
         {searchMatches.length > 0 ? (
           <span>
             {t("dataGrid.search.matchCounter", {
-              current: matchIndex + 1,
-              total: searchMatches.length,
+              current: String(matchIndex + 1),
+              total: String(searchMatches.length),
             })}
           </span>
         ) : (

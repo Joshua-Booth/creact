@@ -58,8 +58,6 @@ import { useAsRef } from "./use-as-ref";
 import { useIsomorphicLayoutEffect } from "./use-isomorphic-layout-effect";
 import { useLazyRef } from "./use-lazy-ref";
 
-type Primitive = string | number | boolean;
-
 const DEFAULT_ROW_HEIGHT = "short";
 const OVERSCAN = 6;
 const VIEWPORT_OFFSET = 1;
@@ -589,8 +587,13 @@ export function useDataGrid<TData>({
               serializedValue = value.toISOString();
             } else if (value != null && typeof value === "object") {
               serializedValue = JSON.stringify(value);
-            } else if (value != null) {
-              serializedValue = String(value as Primitive);
+            } else if (
+              typeof value === "string" ||
+              typeof value === "number" ||
+              typeof value === "boolean" ||
+              typeof value === "bigint"
+            ) {
+              serializedValue = String(value);
             }
 
             cellData.set(cellKey, serializedValue);
@@ -1592,8 +1595,15 @@ export function useDataGrid<TData>({
             stringValue = "";
           } else if (typeof value === "object") {
             stringValue = JSON.stringify(value).toLowerCase();
+          } else if (
+            typeof value === "string" ||
+            typeof value === "number" ||
+            typeof value === "boolean" ||
+            typeof value === "bigint"
+          ) {
+            stringValue = String(value).toLowerCase();
           } else {
-            stringValue = String(value as Primitive).toLowerCase();
+            stringValue = "";
           }
 
           if (stringValue.includes(lowerQuery)) {

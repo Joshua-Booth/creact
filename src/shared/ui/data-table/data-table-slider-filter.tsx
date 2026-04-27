@@ -137,7 +137,7 @@ export function DataTableSliderFilter<TData>({
             variant="outline"
             size="sm"
             className="border-dashed px-2"
-            aria-label={t("dataTable.clearFilter", { title })}
+            aria-label={t("dataTable.clearFilter", { title: title ?? "" })}
             onClick={onReset}
           >
             <XCircle />
@@ -177,7 +177,7 @@ export function DataTableSliderFilter<TData>({
       <PopoverContent
         align="start"
         className="flex w-auto flex-col gap-4"
-        aria-label={t("dataTable.filterBy", { title })}
+        aria-label={t("dataTable.filterBy", { title: title ?? "" })}
       >
         <div className="flex flex-col gap-3">
           <p
@@ -259,11 +259,11 @@ export function DataTableSliderFilter<TData>({
             </div>
           </div>
           <Label htmlFor={`${id}-slider`} className="sr-only">
-            {t("dataTable.sliderLabel", { title })}
+            {t("dataTable.sliderLabel", { title: title ?? "" })}
           </Label>
           <Slider
             id={`${id}-slider`}
-            aria-label={t("dataTable.rangeLabel", { title })}
+            aria-label={t("dataTable.rangeLabel", { title: title ?? "" })}
             min={min}
             max={max}
             step={step}
@@ -272,7 +272,7 @@ export function DataTableSliderFilter<TData>({
           />
         </div>
         <Button
-          aria-label={t("dataTable.clearFilter", { title })}
+          aria-label={t("dataTable.clearFilter", { title: title ?? "" })}
           variant="outline"
           size="sm"
           onClick={onReset}
