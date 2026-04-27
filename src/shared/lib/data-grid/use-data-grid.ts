@@ -2228,6 +2228,7 @@ export function useDataGrid<TData>({
     tableMeta,
   ]);
 
+  // eslint-disable-next-line react-hooks/incompatible-library -- TanStack Table's useReactTable returns functions that React Compiler cannot memoize safely; intentional skip
   const table = useReactTable(tableOptions);
 
   tableRef.current ??= table;
