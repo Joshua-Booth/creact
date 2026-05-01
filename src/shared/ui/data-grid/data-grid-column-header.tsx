@@ -316,10 +316,10 @@ function DataGridColumnResizerImpl<TData, TValue>({
       // eslint-disable-next-line jsx-a11y/no-noninteractive-tabindex -- focusable for keyboard navigation
       tabIndex={0}
       className={cn(
-        `bg-border hover:bg-primary focus:bg-primary absolute -end-px top-0 z-50
-        h-full w-0.5 cursor-ew-resize touch-none transition-opacity select-none
-        after:absolute after:inset-y-0 after:inset-s-1/2 after:h-full
-        after:w-[18px] after:-translate-x-1/2 after:content-['']
+        `bg-border hover:bg-primary focus:bg-primary absolute -inset-e-px top-0
+        z-50 h-full w-0.5 cursor-ew-resize touch-none transition-opacity
+        select-none after:absolute after:inset-y-0 after:inset-s-1/2
+        after:h-full after:w-[18px] after:-translate-x-1/2 after:content-['']
         focus:outline-none`,
         header.column.getIsResizing()
           ? "bg-primary"
