@@ -19,20 +19,20 @@ export async function loginApi(data: LoginFormData): Promise<LoginResponse> {
   return api.post(AUTH_URLS.LOGIN, { json: data }).json<LoginResponse>();
 }
 
-export async function parseLoginError(error: unknown): Promise<string> {
+export function parseLoginError(error: unknown): string {
   if (error instanceof HTTPError) {
-    try {
-      const body: LoginErrorResponse = await error.response.json();
+    const body: unknown = error.data;
+    if (typeof body === "object" && body !== null) {
+      const parsed = body as LoginErrorResponse;
       return (
-        body.non_field_errors?.[0] ??
-        body.detail ??
+        parsed.non_field_errors?.[0] ??
+        parsed.detail ??
         i18next.t("errors.api.invalidCredentials")
       );
-    } catch {
-      return i18next.t("errors.api.serverError", {
-        status: String(error.response.status),
-      });
     }
+    return i18next.t("errors.api.serverError", {
+      status: String(error.response.status),
+    });
   }
   console.error("[Login] Non-HTTP error:", error);
   if (error instanceof DOMException && error.name === "AbortError") {

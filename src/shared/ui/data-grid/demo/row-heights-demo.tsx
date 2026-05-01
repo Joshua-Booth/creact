@@ -14,7 +14,6 @@ import { createSampleData, DataGridToolbar } from "./data-grid-demo";
 export function RowHeightsDemo({ readOnly = false }: { readOnly?: boolean }) {
   const [data, setData] = useState(createSampleData);
 
-  // eslint-disable-next-line @eslint-react/no-unnecessary-use-memo -- stable column definitions
   const columns = useMemo<ColumnDef<Task>[]>(
     () => [
       {

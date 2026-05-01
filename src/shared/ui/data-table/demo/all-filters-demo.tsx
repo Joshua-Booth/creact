@@ -133,7 +133,6 @@ function createFilterProjects(): FilterProject[] {
 export function AllFiltersDemo() {
   const data = useMemo(() => createFilterProjects(), []);
 
-  // eslint-disable-next-line @eslint-react/no-unnecessary-use-memo -- stable reference for table config
   const columns = useMemo<ColumnDef<FilterProject>[]>(
     () => [
       {

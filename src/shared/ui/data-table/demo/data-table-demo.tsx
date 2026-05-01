@@ -141,7 +141,6 @@ export const priorityOptions = [
 
 /** Project data table with sorting, filtering, selection, and pagination. */
 export function DataTableDemo() {
-  // eslint-disable-next-line @eslint-react/no-unnecessary-use-memo -- stable reference for table config
   const columns = useMemo<ColumnDef<Project>[]>(
     () => [
       {

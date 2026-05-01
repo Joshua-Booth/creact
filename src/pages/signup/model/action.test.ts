@@ -85,7 +85,7 @@ describe("signupAction", () => {
 
   it("should return parsed error when API throws", async () => {
     vi.mocked(signupApi).mockRejectedValue(new Error("API error"));
-    vi.mocked(parseSignupError).mockResolvedValue("Email already exists");
+    vi.mocked(parseSignupError).mockReturnValue("Email already exists");
 
     const formData = new FormData();
     formData.set("email", "user@example.com");

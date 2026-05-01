@@ -32,7 +32,7 @@ export async function loginAction(
     const response = await loginApi(result.data);
     return setAuthTokenAndRedirect(response.key);
   } catch (error) {
-    const message = await parseLoginError(error);
+    const message = parseLoginError(error);
     return { success: false, error: message };
   }
 }

@@ -36,7 +36,7 @@ export async function signupAction(
     });
     return setAuthTokenAndRedirect(response.key);
   } catch (error) {
-    const message = await parseSignupError(error);
+    const message = parseSignupError(error);
     return { success: false, error: message };
   }
 }

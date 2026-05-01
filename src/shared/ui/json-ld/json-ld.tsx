@@ -8,7 +8,7 @@ export function JsonLd<T extends object>({ data }: JsonLdProps<T>) {
   return (
     <script
       type="application/ld+json"
-      // eslint-disable-next-line @eslint-react/dom/no-dangerously-set-innerhtml -- Safe: JSON.stringify + \u003c escaping prevents script injection
+      // eslint-disable-next-line @eslint-react/dom-no-dangerously-set-innerhtml -- Safe: JSON.stringify + \u003c escaping prevents script injection
       dangerouslySetInnerHTML={{
         __html: JSON.stringify(data).replaceAll("<", "\\u003c"),
       }}

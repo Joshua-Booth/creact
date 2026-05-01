@@ -218,7 +218,6 @@ const formatPrice = (amount: number) =>
 export function RestaurantMenuDemo() {
   const data = useMemo(() => createMenuData(), []);
 
-  // eslint-disable-next-line @eslint-react/no-unnecessary-use-memo -- stable reference for table config
   const columns = useMemo<ColumnDef<MenuItem>[]>(
     () => [
       {

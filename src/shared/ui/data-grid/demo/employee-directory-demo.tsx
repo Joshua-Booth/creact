@@ -187,7 +187,6 @@ export function EmployeeDirectoryDemo({
 }) {
   const [data, setData] = useState(createEmployeeData);
 
-  // eslint-disable-next-line @eslint-react/no-unnecessary-use-memo -- stable column definitions
   const columns = useMemo<ColumnDef<Employee>[]>(
     () => [
       {

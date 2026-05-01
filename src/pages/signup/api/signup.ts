@@ -23,22 +23,22 @@ export async function signupApi(
   return api.post(AUTH_URLS.SIGNUP, { json: data }).json<SignupResponse>();
 }
 
-export async function parseSignupError(error: unknown): Promise<string> {
+export function parseSignupError(error: unknown): string {
   if (error instanceof HTTPError) {
-    try {
-      const body: SignupErrorResponse = await error.response.json();
+    const body: unknown = error.data;
+    if (typeof body === "object" && body !== null) {
+      const parsed = body as SignupErrorResponse;
       return (
-        body.email?.[0] ??
-        body.password?.[0] ??
-        body.non_field_errors?.[0] ??
-        body.detail ??
+        parsed.email?.[0] ??
+        parsed.password?.[0] ??
+        parsed.non_field_errors?.[0] ??
+        parsed.detail ??
         i18next.t("errors.api.registrationFailed")
       );
-    } catch {
-      return i18next.t("errors.api.serverError", {
-        status: String(error.response.status),
-      });
     }
+    return i18next.t("errors.api.serverError", {
+      status: String(error.response.status),
+    });
   }
   console.error("[Signup] Non-HTTP error:", error);
   if (error instanceof DOMException && error.name === "AbortError") {

@@ -28,7 +28,6 @@ function createPaginationData(): Project[] {
 export function PaginationDemo() {
   const data = useMemo(() => createPaginationData(), []);
 
-  // eslint-disable-next-line @eslint-react/no-unnecessary-use-memo -- stable reference for table config
   const columns = useMemo<ColumnDef<Project>[]>(
     () => [
       {
@@ -70,7 +69,7 @@ export function PaginationDemo() {
           const amount = cell.getValue<number>();
           return (
             <div className="text-right font-medium tabular-nums">
-              ${amount.toLocaleString()}
+              {`$${amount.toLocaleString()}`}
             </div>
           );
         },

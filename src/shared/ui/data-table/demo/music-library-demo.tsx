@@ -250,7 +250,6 @@ function StarRating({ rating }: { rating: number }) {
 export function MusicLibraryDemo() {
   const data = useMemo(() => createTrackData(), []);
 
-  // eslint-disable-next-line @eslint-react/no-unnecessary-use-memo -- stable reference for table config
   const columns = useMemo<ColumnDef<Track>[]>(
     () => [
       {

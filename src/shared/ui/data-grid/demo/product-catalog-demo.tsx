@@ -218,7 +218,6 @@ export function ProductCatalogDemo({
 }) {
   const [data, setData] = useState(createProductData);
 
-  // eslint-disable-next-line @eslint-react/no-unnecessary-use-memo -- stable column definitions
   const columns = useMemo<ColumnDef<Product>[]>(
     () => [
       {

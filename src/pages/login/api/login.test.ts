@@ -14,21 +14,18 @@ vi.mock("@/shared/api", () => {
 });
 
 function createHTTPError(body: unknown): HTTPError {
-  const response = {
-    json: () => Promise.resolve(body),
-  } as Response;
-  return new HTTPError(
+  const response = {} as Response;
+  const error = new HTTPError(
     response,
     new Request("https://api.test/login"),
     {} as NormalizedOptions
   );
+  error.data = body;
+  return error;
 }
 
 function createHTTPErrorWithJsonFailure(): HTTPError {
-  const response = {
-    status: 502,
-    json: () => Promise.reject(new SyntaxError("Unexpected token")),
-  } as Response;
+  const response = { status: 502 } as Response;
   return new HTTPError(
     response,
     new Request("https://api.test/login"),
@@ -46,48 +43,48 @@ describe("parseLoginError", () => {
     });
   });
 
-  it("should return first non_field_errors entry", async () => {
+  it("should return first non_field_errors entry", () => {
     const error = createHTTPError({
       non_field_errors: ["Invalid credentials", "Second error"],
     });
-    expect(await parseLoginError(error)).toBe("Invalid credentials");
+    expect(parseLoginError(error)).toBe("Invalid credentials");
   });
 
-  it("should return detail string", async () => {
+  it("should return detail string", () => {
     const error = createHTTPError({ detail: "Account locked" });
-    expect(await parseLoginError(error)).toBe("Account locked");
+    expect(parseLoginError(error)).toBe("Account locked");
   });
 
-  it("should return server error message when JSON parsing fails", async () => {
+  it("should return server error message when JSON parsing fails", () => {
     const error = createHTTPErrorWithJsonFailure();
-    expect(await parseLoginError(error)).toBe(
+    expect(parseLoginError(error)).toBe(
       "Server error (502). Please try again later."
     );
   });
 
-  it('should return "Invalid credentials" for empty body', async () => {
+  it('should return "Invalid credentials" for empty body', () => {
     const error = createHTTPError({});
-    expect(await parseLoginError(error)).toBe("Invalid credentials");
+    expect(parseLoginError(error)).toBe("Invalid credentials");
   });
 
-  it("should return timeout message for AbortError", async () => {
+  it("should return timeout message for AbortError", () => {
     const abortError = new DOMException(
       "The operation was aborted",
       "AbortError"
     );
-    expect(await parseLoginError(abortError)).toBe(
+    expect(parseLoginError(abortError)).toBe(
       "Request timed out. Please try again."
     );
   });
 
-  it("should return connection error message for TypeError", async () => {
-    expect(await parseLoginError(new TypeError("Failed to fetch"))).toBe(
+  it("should return connection error message for TypeError", () => {
+    expect(parseLoginError(new TypeError("Failed to fetch"))).toBe(
       "Unable to reach the server. Please check your connection."
     );
   });
 
-  it('should return "An unexpected error occurred" for non-HTTPError', async () => {
-    expect(await parseLoginError(new Error("Network failure"))).toBe(
+  it('should return "An unexpected error occurred" for non-HTTPError', () => {
+    expect(parseLoginError(new Error("Network failure"))).toBe(
       "An unexpected error occurred"
     );
   });

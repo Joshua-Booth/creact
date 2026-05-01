@@ -14,21 +14,18 @@ vi.mock("@/shared/api", () => {
 });
 
 function createHTTPError(body: unknown): HTTPError {
-  const response = {
-    json: () => Promise.resolve(body),
-  } as Response;
-  return new HTTPError(
+  const response = {} as Response;
+  const error = new HTTPError(
     response,
     new Request("https://api.test/signup"),
     {} as NormalizedOptions
   );
+  error.data = body;
+  return error;
 }
 
 function createHTTPErrorWithJsonFailure(): HTTPError {
-  const response = {
-    status: 502,
-    json: () => Promise.reject(new SyntaxError("Unexpected token")),
-  } as Response;
+  const response = { status: 502 } as Response;
   return new HTTPError(
     response,
     new Request("https://api.test/signup"),
@@ -46,70 +43,70 @@ describe("parseSignupError", () => {
     });
   });
 
-  it("should return first email error", async () => {
+  it("should return first email error", () => {
     const error = createHTTPError({
       email: ["Email already exists", "Invalid email"],
     });
-    expect(await parseSignupError(error)).toBe("Email already exists");
+    expect(parseSignupError(error)).toBe("Email already exists");
   });
 
-  it("should return first password error", async () => {
+  it("should return first password error", () => {
     const error = createHTTPError({
       password: ["Password too weak"],
     });
-    expect(await parseSignupError(error)).toBe("Password too weak");
+    expect(parseSignupError(error)).toBe("Password too weak");
   });
 
-  it("should return first non_field_errors entry", async () => {
+  it("should return first non_field_errors entry", () => {
     const error = createHTTPError({
       non_field_errors: ["Registration is disabled"],
     });
-    expect(await parseSignupError(error)).toBe("Registration is disabled");
+    expect(parseSignupError(error)).toBe("Registration is disabled");
   });
 
-  it("should return detail string", async () => {
+  it("should return detail string", () => {
     const error = createHTTPError({ detail: "Service unavailable" });
-    expect(await parseSignupError(error)).toBe("Service unavailable");
+    expect(parseSignupError(error)).toBe("Service unavailable");
   });
 
-  it("should prioritize email over password errors", async () => {
+  it("should prioritize email over password errors", () => {
     const error = createHTTPError({
       email: ["Email taken"],
       password: ["Too short"],
     });
-    expect(await parseSignupError(error)).toBe("Email taken");
+    expect(parseSignupError(error)).toBe("Email taken");
   });
 
-  it("should return server error message when JSON parsing fails", async () => {
+  it("should return server error message when JSON parsing fails", () => {
     const error = createHTTPErrorWithJsonFailure();
-    expect(await parseSignupError(error)).toBe(
+    expect(parseSignupError(error)).toBe(
       "Server error (502). Please try again later."
     );
   });
 
-  it('should return "Registration failed" for empty body', async () => {
+  it('should return "Registration failed" for empty body', () => {
     const error = createHTTPError({});
-    expect(await parseSignupError(error)).toBe("Registration failed");
+    expect(parseSignupError(error)).toBe("Registration failed");
   });
 
-  it("should return timeout message for AbortError", async () => {
+  it("should return timeout message for AbortError", () => {
     const abortError = new DOMException(
       "The operation was aborted",
       "AbortError"
     );
-    expect(await parseSignupError(abortError)).toBe(
+    expect(parseSignupError(abortError)).toBe(
       "Request timed out. Please try again."
     );
   });
 
-  it("should return connection error message for TypeError", async () => {
-    expect(await parseSignupError(new TypeError("Failed to fetch"))).toBe(
+  it("should return connection error message for TypeError", () => {
+    expect(parseSignupError(new TypeError("Failed to fetch"))).toBe(
       "Unable to reach the server. Please check your connection."
     );
   });
 
-  it('should return "An unexpected error occurred" for non-HTTPError', async () => {
-    expect(await parseSignupError(new Error("Network failure"))).toBe(
+  it('should return "An unexpected error occurred" for non-HTTPError', () => {
+    expect(parseSignupError(new Error("Network failure"))).toBe(
       "An unexpected error occurred"
     );
   });

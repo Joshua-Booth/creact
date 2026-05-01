@@ -24,7 +24,6 @@ const statusOptionsWithCounts = [
 
 /** Table with faceted filter options that display count badges. */
 export function FacetedFilterWithCountsDemo() {
-  // eslint-disable-next-line @eslint-react/no-unnecessary-use-memo -- stable reference for table config
   const columns = useMemo<ColumnDef<Project>[]>(
     () => [
       {

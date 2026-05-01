@@ -66,7 +66,7 @@ describe("loginAction", () => {
 
   it("should return parsed error when API throws", async () => {
     vi.mocked(loginApi).mockRejectedValue(new Error("API error"));
-    vi.mocked(parseLoginError).mockResolvedValue("Invalid credentials");
+    vi.mocked(parseLoginError).mockReturnValue("Invalid credentials");
 
     const formData = new FormData();
     formData.set("email", "user@example.com");
