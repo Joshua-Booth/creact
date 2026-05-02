@@ -3,7 +3,7 @@
   "extends": [
     "config:recommended",
     ":semanticCommits",
-    "schedule:weekends",
+    "schedule:monthly",
     "group:allNonMajor"
   ],
 
