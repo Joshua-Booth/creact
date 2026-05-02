@@ -1,5 +1,3 @@
-"use client";
-
 import * as React from "react";
 
 import { Toggle as TogglePrimitive } from "@base-ui/react/toggle";
@@ -88,6 +86,8 @@ function ToggleGroupItem({
         group-data-[spacing=0]/toggle-group:px-2
         group-data-[spacing=0]/toggle-group:shadow-none focus:z-10
         focus-visible:z-10
+        group-data-[spacing=0]/toggle-group:has-data-[icon=inline-end]:pr-1.5
+        group-data-[spacing=0]/toggle-group:has-data-[icon=inline-start]:pl-1.5
         group-data-horizontal/toggle-group:data-[spacing=0]:first:rounded-l-md
         group-data-vertical/toggle-group:data-[spacing=0]:first:rounded-t-md
         group-data-horizontal/toggle-group:data-[spacing=0]:last:rounded-r-md

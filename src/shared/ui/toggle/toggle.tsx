@@ -1,3 +1,5 @@
+"use client";
+
 import type { VariantProps } from "class-variance-authority";
 import { Toggle as TogglePrimitive } from "@base-ui/react/toggle";
 import { cva } from "class-variance-authority";
@@ -22,9 +24,12 @@ const toggleVariants = cva(
         outline: "border border-input bg-transparent shadow-xs hover:bg-muted",
       },
       size: {
-        default: "h-9 min-w-9 px-2",
-        sm: "h-8 min-w-8 px-1.5",
-        lg: "h-10 min-w-10 px-2.5",
+        default: `h-9 min-w-9 px-2.5 has-data-[icon=inline-end]:pr-2
+        has-data-[icon=inline-start]:pl-2`,
+        sm: `h-8 min-w-8 px-2.5 has-data-[icon=inline-end]:pr-1.5
+        has-data-[icon=inline-start]:pl-1.5`,
+        lg: `h-10 min-w-10 px-2.5 has-data-[icon=inline-end]:pr-2
+        has-data-[icon=inline-start]:pl-2`,
       },
     },
     defaultVariants: {

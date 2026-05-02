@@ -1,3 +1,5 @@
+"use client";
+
 import * as React from "react";
 import { useTranslation } from "react-i18next";
 
@@ -266,6 +268,7 @@ function Sidebar({
           data-[side=right]:right-0
           data-[side=right]:group-data-[collapsible=offcanvas]:-right-(--sidebar-width)
           md:flex`,
+          // Adjust the padding for floating and inset variants.
           /* istanbul ignore next 4 -- Variant ternary: stories only exercise default variant */
           variant === "floating" || variant === "inset"
             ? `p-2
@@ -686,7 +689,7 @@ function SidebarMenuAction({
             `group-focus-within/menu-item:opacity-100
             group-hover/menu-item:opacity-100
             peer-data-active/menu-button:text-sidebar-accent-foreground
-            md:opacity-0 data-open:opacity-100`,
+            aria-expanded:opacity-100 md:opacity-0`,
           className
         ),
       },
