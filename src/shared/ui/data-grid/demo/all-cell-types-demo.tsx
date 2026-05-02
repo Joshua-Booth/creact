@@ -147,7 +147,6 @@ const allCellTypesTagOptions = [
 export function AllCellTypesDemo({ readOnly = false }: { readOnly?: boolean }) {
   const [data, setData] = useState(createAllCellTypesData);
 
-  // eslint-disable-next-line @eslint-react/no-unnecessary-use-memo -- stable column definitions
   const columns = useMemo<ColumnDef<AllCellTypesRow>[]>(
     () => [
       {

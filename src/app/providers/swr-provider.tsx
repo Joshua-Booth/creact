@@ -16,10 +16,7 @@ const fetcher = async <T,>(url: string): Promise<T> => {
     return await api.get(url).json<T>();
   } catch (error) {
     if (error instanceof HTTPError) {
-      const body: unknown = await error.response
-        .clone()
-        .json()
-        .catch(() => error.response.clone().text());
+      const body: unknown = error.data;
       const message =
         typeof body === "object" &&
         body !== null &&

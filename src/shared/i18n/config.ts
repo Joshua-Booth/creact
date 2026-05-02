@@ -9,5 +9,4 @@ export const I18N_CONFIG = {
   interpolation: {
     escapeValue: false,
   },
-  showSupportNotice: false,
 } as const;

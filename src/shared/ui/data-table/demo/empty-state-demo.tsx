@@ -15,7 +15,6 @@ import { DataTableToolbar } from "../data-table-toolbar";
 export function EmptyStateDemo() {
   const emptyData: Project[] = [];
 
-  // eslint-disable-next-line @eslint-react/no-unnecessary-use-memo -- stable reference for table config
   const columns = useMemo<ColumnDef<Project>[]>(
     () => [
       {

@@ -107,7 +107,7 @@ const ChartStyle = ({ id, config }: { id: string; config: ChartConfig }) => {
   }
   /* istanbul ignore end @preserve */
 
-  /* eslint-disable @eslint-react/dom/no-dangerously-set-innerhtml -- CSS injection for chart theming is intentional and safe */
+  /* eslint-disable @eslint-react/dom-no-dangerously-set-innerhtml -- CSS injection for chart theming is intentional and safe */
   return (
     <style
       dangerouslySetInnerHTML={{
@@ -132,7 +132,7 @@ ${colorConfig
       }}
     />
   );
-  /* eslint-enable @eslint-react/dom/no-dangerously-set-innerhtml -- re-enable after injecting chart CSS variables */
+  /* eslint-enable @eslint-react/dom-no-dangerously-set-innerhtml -- re-enable after injecting chart CSS variables */
 };
 
 /** Recharts tooltip component for displaying data on hover. */

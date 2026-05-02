@@ -233,7 +233,6 @@ const formatCurrency = (amount: number) =>
 export function RealEstateListingsDemo() {
   const data = useMemo(() => createListingData(), []);
 
-  // eslint-disable-next-line @eslint-react/no-unnecessary-use-memo -- stable reference for table config
   const columns = useMemo<ColumnDef<Listing>[]>(
     () => [
       {

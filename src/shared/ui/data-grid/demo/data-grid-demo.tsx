@@ -530,7 +530,6 @@ function ViewControl<TData>({ table }: { table: Table<TData> }) {
 export function DataGridDemo({ readOnly = false }: { readOnly?: boolean }) {
   const [data, setData] = useState(createSampleData);
 
-  // eslint-disable-next-line @eslint-react/no-unnecessary-use-memo -- stable column definitions
   const columns = useMemo<ColumnDef<Task>[]>(
     () => [
       {

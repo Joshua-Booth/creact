@@ -14,7 +14,6 @@ import { projects } from "./data-table-demo";
 
 /** Table with an action bar that appears when rows are selected. */
 export function ActionBarDemo() {
-  // eslint-disable-next-line @eslint-react/no-unnecessary-use-memo -- stable reference for table config
   const columns = useMemo<ColumnDef<Project>[]>(
     () => [
       {

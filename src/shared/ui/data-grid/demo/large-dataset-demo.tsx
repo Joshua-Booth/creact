@@ -32,7 +32,6 @@ function createLargeDataset(): Task[] {
 export function LargeDatasetDemo({ readOnly = false }: { readOnly?: boolean }) {
   const [data, setData] = useState(createLargeDataset);
 
-  // eslint-disable-next-line @eslint-react/no-unnecessary-use-memo -- stable column definitions
   const columns = useMemo<ColumnDef<Task>[]>(
     () => [
       {

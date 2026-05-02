@@ -118,7 +118,7 @@ export function useBadgeOverflow<T>({
     function measureWidth() {
       if (containerRef.current) {
         const width = containerRef.current.clientWidth - containerPadding;
-        // eslint-disable-next-line @eslint-react/hooks-extra/no-direct-set-state-in-use-effect -- intentional: sync container width from ResizeObserver
+        // eslint-disable-next-line @eslint-react/set-state-in-effect -- intentional: sync container width from ResizeObserver
         setContainerWidth(width);
       }
     }

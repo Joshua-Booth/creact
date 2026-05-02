@@ -13,7 +13,6 @@ import { projects } from "./data-table-demo";
 
 /** Table with non-sortable, non-hideable column headers rendered as plain text. */
 export function NonSortableColumnDemo() {
-  // eslint-disable-next-line @eslint-react/no-unnecessary-use-memo -- stable reference for table config
   const columns = useMemo<ColumnDef<Project>[]>(
     () => [
       {

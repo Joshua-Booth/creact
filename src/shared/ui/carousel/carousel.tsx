@@ -64,14 +64,13 @@ function Carousel({
   const [canScrollPrev, setCanScrollPrev] = React.useState(false);
   const [canScrollNext, setCanScrollNext] = React.useState(false);
 
-  // eslint-disable-next-line @eslint-react/no-unnecessary-use-callback -- Stable reference needed for api.on() event handlers
   const onSelect = React.useCallback((api: CarouselApi) => {
     /* istanbul ignore start @preserve -- Defensive guard: api is always defined when called from useEffect */
     if (!api) return;
     /* istanbul ignore end @preserve */
-    // eslint-disable-next-line @eslint-react/hooks-extra/no-direct-set-state-in-use-effect -- Syncing state with external carousel API is intentional
+    // eslint-disable-next-line @eslint-react/set-state-in-effect -- Syncing state with external carousel API is intentional
     setCanScrollPrev(api.canScrollPrev());
-    // eslint-disable-next-line @eslint-react/hooks-extra/no-direct-set-state-in-use-effect -- Syncing state with external carousel API is intentional
+    // eslint-disable-next-line @eslint-react/set-state-in-effect -- Syncing state with external carousel API is intentional
     setCanScrollNext(api.canScrollNext());
   }, []);
 

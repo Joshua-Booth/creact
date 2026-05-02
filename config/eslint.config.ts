@@ -1,3 +1,5 @@
+// eslint-disable-next-line @typescript-eslint/triple-slash-reference -- ambient module decls for untyped eslint plugins
+/// <reference path="./eslint-plugins.d.ts" />
 import path from "node:path";
 
 import comments from "@eslint-community/eslint-plugin-eslint-comments/configs";
@@ -47,6 +49,9 @@ export default defineConfig([
 
   // React
   eslintReact.configs["strict-typescript"],
+  // Avoid duplicate hooks-of-rules and exhaustive-deps reports.
+  // eslint-plugin-react-hooks remains the source of truth.
+  eslintReact.configs["disable-conflict-eslint-plugin-react-hooks"],
   reactHooks.configs.flat.recommended,
   reactYouMightNotNeedAnEffect.configs.recommended,
   // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access -- incomplete types in jsx-a11y
@@ -74,6 +79,28 @@ export default defineConfig([
 
   // Storybook
   ...storybook.configs["flat/recommended"],
+
+  // Storybook stories: render callbacks are intentionally lowercase per project
+  // convention (must spread {...args}); disable rules-of-hooks here so hooks
+  // can be called inside `render: (args) => { const [...] = useState(...) }`.
+  {
+    files: ["**/*.stories.{ts,tsx}"],
+    rules: {
+      "@eslint-react/rules-of-hooks": "off",
+      "react-hooks/rules-of-hooks": "off",
+    },
+  },
+
+  // Data-grid module: ported from diceui. Inline component factories,
+  // ref-access patterns, and defensive checks are intentional.
+  {
+    files: ["src/shared/ui/data-grid/**", "src/shared/lib/data-grid/**"],
+    rules: {
+      "@eslint-react/static-components": "off",
+      "@eslint-react/purity": "off",
+      "@eslint-react/exhaustive-deps": "off",
+    },
+  },
 
   // Tailwind CSS
   {

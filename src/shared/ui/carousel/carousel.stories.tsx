@@ -75,6 +75,7 @@ function CarouselWithDots(args: React.ComponentProps<typeof Carousel>) {
 
 function CarouselWithThumbnails(args: React.ComponentProps<typeof Carousel>) {
   const [api, setApi] = React.useState<CarouselApi>();
+  // eslint-disable-next-line @eslint-react/no-unused-state -- read in effect to sync thumb strip
   const [thumbApi, setThumbApi] = React.useState<CarouselApi>();
 
   const images = [
