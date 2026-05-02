@@ -20,7 +20,5 @@
   },
   "menuColor": "default",
   "menuAccent": "subtle",
-  "registries": {
-    "@storybook": "https://registry.lloydrichards.dev/v2/r/{name}.json"
-  }
+  "registries": {}
 }
