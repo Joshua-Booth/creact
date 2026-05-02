@@ -1,10 +1,21 @@
-onlyBuiltDependencies:
-  - "@parcel/watcher"
-  - esbuild
-  - "@sentry/cli"
-  - msw
-  - protobufjs
-  - storybook-addon-remix-react-router
+allowBuilds:
+  "@parcel/watcher": true
+  esbuild: true
+  "@sentry/cli": true
+  msw: true
+  protobufjs: true
+  storybook-addon-remix-react-router: true
+  core-js: false
 
-ignoredBuiltDependencies:
-  - core-js
+overrides:
+  "@isaacs/brace-expansion": ">=5.0.1"
+  "@modelcontextprotocol/sdk": ">=1.29.0"
+  hono: ">=4.12.14"
+  koa: ">=3.2.0"
+  rollup: ">=4.60.2"
+  seroval: ">=1.5.2"
+  undici: ">=7.25.0"
+
+auditConfig:
+  ignoreGhsas:
+    - GHSA-w5hq-g745-h8pq
