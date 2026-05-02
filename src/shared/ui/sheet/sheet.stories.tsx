@@ -1,6 +1,6 @@
 import { withI18n } from "@/storybook/decorators/with-i18n";
 import preview from "@/storybook/preview";
-import { expect, userEvent, within } from "storybook/test";
+import { expect, userEvent, waitFor, within } from "storybook/test";
 
 import { Button } from "../button";
 import { Input } from "../input";
@@ -174,8 +174,8 @@ Default.test(
       await userEvent.click(
         await canvasBody.findByRole("button", { name: /save changes/i })
       );
-      await expect(await canvasBody.findByRole("dialog")).toHaveAttribute(
-        "data-closed"
+      await waitFor(() =>
+        expect(canvasBody.queryByRole("dialog")).not.toBeInTheDocument()
       );
     });
   }
@@ -199,8 +199,8 @@ Default.test(
       await userEvent.click(
         await canvasBody.findByRole("button", { name: /close/i })
       );
-      await expect(await canvasBody.findByRole("dialog")).toHaveAttribute(
-        "data-closed"
+      await waitFor(() =>
+        expect(canvasBody.queryByRole("dialog")).not.toBeInTheDocument()
       );
     });
   }
