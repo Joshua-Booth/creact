@@ -106,7 +106,7 @@ const config: KnipConfig = {
 
   // Release
   "semantic-release": {
-    config: ["config/.releaserc.json"],
+    config: [".releaserc.json"],
   },
 
   // TypeScript

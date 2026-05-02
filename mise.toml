@@ -29,7 +29,6 @@ prettier_ignore = "./config/.prettierignore"
 stylelint_config = "./config/.stylelintrc.json"
 playwright_config = "./config/playwright.config.ts"
 steiger_config = "./config/steiger.config.ts"
-releaserc = "./config/.releaserc.json"
 knip_config = "./config/knip.config.ts"
 depcruise_config = "./config/.dependency-cruiser.js"
 cspell_config = "./config/cspell.json"
@@ -180,12 +179,12 @@ run = "cspell --config {{vars.cspell_config}} --no-must-find-files"
 [tasks.release]
 description = "Create a new release using semantic-release"
 confirm = "This will create a new release. Continue?"
-run = "semantic-release -c {{vars.releaserc}}"
+run = "semantic-release"
 
 [tasks."release:dry"]
 alias = "rd"
 description = "Preview the next release without publishing"
-run = "semantic-release -c {{vars.releaserc}} --dry-run"
+run = "semantic-release --dry-run"
 
 [tasks.steiger]
 description = "Run Steiger architecture linter"
