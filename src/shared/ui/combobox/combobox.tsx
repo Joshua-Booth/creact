@@ -138,7 +138,7 @@ function ComboboxContent({
             data-closed:fade-out-0 data-closed:zoom-out-95 relative
             max-h-(--available-height) w-(--anchor-width)
             max-w-(--available-width)
-            min-w-[calc(var(--anchor-width)+--spacing(7))]
+            min-w-[calc(var(--anchor-width)+(--spacing(7)))]
             origin-(--transform-origin) overflow-hidden rounded-md shadow-md
             ring-1 duration-100 data-[chips=true]:min-w-(--anchor-width)
             *:data-[slot=input-group]:m-1 *:data-[slot=input-group]:mb-0
@@ -159,7 +159,7 @@ function ComboboxList({ className, ...props }: ComboboxPrimitive.List.Props) {
       data-slot="combobox-list"
       className={cn(
         `no-scrollbar
-        max-h-[min(calc(--spacing(72)---spacing(9)),calc(var(--available-height)---spacing(9)))]
+        max-h-[min(calc(--spacing(72)-(--spacing(9))),calc(var(--available-height)-(--spacing(9))))]
         scroll-py-1 overflow-y-auto overscroll-contain p-1 data-empty:p-0`,
         className
       )}
