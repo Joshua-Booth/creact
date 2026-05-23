@@ -259,8 +259,8 @@ importers:
         specifier: ^4.3.2
         version: 4.3.2(@commitlint/lint@20.5.3)
       commitlint-plugin-selective-scope:
-        specifier: ^1.0.1
-        version: 1.0.1
+        specifier: ^1.0.2
+        version: 1.0.2
       conventional-changelog-conventionalcommits:
         specifier: ^9.3.1
         version: 9.3.1
@@ -4571,8 +4571,8 @@ packages:
     peerDependencies:
       '@commitlint/lint': '>=19 <21'
 
-  commitlint-plugin-selective-scope@1.0.1:
-    resolution: {integrity: sha512-GG9NpByCO9mUkIVg7mEdCgrZ6pTn990xC1SdLRm5R8VEaXN6m4TFExDgAUJtaiFeJ1InQHH1/OXMFbzJPwHoEw==}
+  commitlint-plugin-selective-scope@1.0.2:
+    resolution: {integrity: sha512-hMpsT3p1iMUBRwM8V+Nn+NAQlBaMPgEqJD3OELWiUsgQnqHAoevAh0Ha6lWzbV3V+y0HtluJPCAprz+8mL8Wcg==}
 
   compare-func@2.0.0:
     resolution: {integrity: sha512-zHig5N+tPWARooBnb0Zx1MFcdfpyJrfTJ3Y5L+IFvUm8rM74hHz66z0gw0x4tijh5CorKkKUCnW82R2vmpeCRA==}
@@ -13550,7 +13550,7 @@ snapshots:
     dependencies:
       '@commitlint/lint': 20.5.3
 
-  commitlint-plugin-selective-scope@1.0.1: {}
+  commitlint-plugin-selective-scope@1.0.2: {}
 
   compare-func@2.0.0:
     dependencies:

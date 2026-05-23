@@ -99,7 +99,7 @@
     "@vueless/storybook-dark-mode": "^10.0.8",
     "autoprefixer": "^10.5.0",
     "commitlint-plugin-function-rules": "^4.3.2",
-    "commitlint-plugin-selective-scope": "^1.0.1",
+    "commitlint-plugin-selective-scope": "^1.0.2",
     "conventional-changelog-conventionalcommits": "^9.3.1",
     "cspell": "^10.0.0",
     "dependency-cruiser": "^17.4.0",
