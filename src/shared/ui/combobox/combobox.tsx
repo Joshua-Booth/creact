@@ -1,7 +1,7 @@
 import * as React from "react";
 import { useTranslation } from "react-i18next";
 
-import { Combobox as ComboboxPrimitive } from "@base-ui/react";
+import { Combobox as ComboboxPrimitive } from "@base-ui/react/combobox";
 import { CheckIcon, ChevronDownIcon, XIcon } from "lucide-react";
 
 import { cn } from "@/shared/lib/utils";
