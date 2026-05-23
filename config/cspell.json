@@ -43,6 +43,7 @@
     "**/.react-router/**",
     "**/coverage/**",
     "**/pnpm-lock.yaml",
+    "**/skills-lock.json",
     "**/playwright-report/**",
     "**/test-results/**",
     "**/tmp/**",
