@@ -69,8 +69,8 @@ importers:
         specifier: ^1.46.1
         version: 1.46.1
       i18next:
-        specifier: ^26.0.8
-        version: 26.0.8(typescript@6.0.3)
+        specifier: ^26.2.0
+        version: 26.2.0(typescript@6.0.3)
       i18next-browser-languagedetector:
         specifier: ^8.2.1
         version: 8.2.1
@@ -108,8 +108,8 @@ importers:
         specifier: ^7.74.0
         version: 7.74.0(react@19.2.6)
       react-i18next:
-        specifier: ^17.0.6
-        version: 17.0.6(i18next@26.0.8(typescript@6.0.3))(react-dom@19.2.6(react@19.2.6))(react@19.2.6)(typescript@6.0.3)
+        specifier: ^17.0.8
+        version: 17.0.8(i18next@26.2.0(typescript@6.0.3))(react-dom@19.2.6(react@19.2.6))(react@19.2.6)(typescript@6.0.3)
       react-resizable-panels:
         specifier: ^4.10.0
         version: 4.10.0(react-dom@19.2.6(react@19.2.6))(react@19.2.6)
@@ -121,7 +121,7 @@ importers:
         version: 3.8.1(@types/react@19.2.15)(react-dom@19.2.6(react@19.2.6))(react-is@17.0.2)(react@19.2.6)(redux@5.0.1)
       remix-i18next:
         specifier: ^7.5.0
-        version: 7.5.0(i18next@26.0.8(typescript@6.0.3))(react-i18next@17.0.6(i18next@26.0.8(typescript@6.0.3))(react-dom@19.2.6(react@19.2.6))(react@19.2.6)(typescript@6.0.3))(react-router@7.15.1(react-dom@19.2.6(react@19.2.6))(react@19.2.6))(react@19.2.6)
+        version: 7.5.0(i18next@26.2.0(typescript@6.0.3))(react-i18next@17.0.8(i18next@26.2.0(typescript@6.0.3))(react-dom@19.2.6(react@19.2.6))(react@19.2.6)(typescript@6.0.3))(react-router@7.15.1(react-dom@19.2.6(react@19.2.6))(react@19.2.6))(react@19.2.6)
       remix-themes:
         specifier: ^2.0.4
         version: 2.0.4(react-router@7.15.1(react-dom@19.2.6(react@19.2.6))(react@19.2.6))
@@ -6117,8 +6117,8 @@ packages:
     resolution: {integrity: sha512-BUS/xzHDXNwGKKBQTaNWxY3xvgC40jcYw+4nSpTlaxcGenAubgIgBFuq4CIeeYcs3UkAQs8mf5y6iLnHhd01vw==}
     engines: {node: '>=20'}
 
-  i18next@26.0.8:
-    resolution: {integrity: sha512-BRzLom0mhDhV9v0QhgUUHWQJuwFmnr1194xEcNLYD6ym8y8s542n4jXUvRLnhNTbh9PmpU6kGZamyuGHQMsGjw==}
+  i18next@26.2.0:
+    resolution: {integrity: sha512-zwBHldHdTmwN7r6UNc7lC6GWNN+YYg3DrRSeHR5PRRBf5QnJZcYHrQc0uaU26qZeYxR7iFZD+Y315dPnKP47wA==}
     peerDependencies:
       typescript: ^5 || ^6
     peerDependenciesMeta:
@@ -7904,10 +7904,10 @@ packages:
       react: '>=16.8.0'
       react-dom: '>=16.8.0'
 
-  react-i18next@17.0.6:
-    resolution: {integrity: sha512-WzJ6SMKF+GTD7JZZqxSR1AKKmXjaSu39sClUrNlwxS4Tl7a99O+ltFy6yhPMO+wgZuxpQjJ2PZkfrQKmAqrLhw==}
+  react-i18next@17.0.8:
+    resolution: {integrity: sha512-0ooKbGLU8JXhe1zwpQUWIeXSgLPOfwJmgheWRIUpcoA0CpyabpGhayjdG+/eA5esC1AQ8h2jWpXjJfzQzeDOCw==}
     peerDependencies:
-      i18next: '>= 26.0.1'
+      i18next: '>= 26.2.0'
       react: '>= 16.8.0'
       react-dom: '*'
       react-native: '*'
@@ -15310,7 +15310,7 @@ snapshots:
 
   i18next-fetch-backend@7.0.0: {}
 
-  i18next@26.0.8(typescript@6.0.3):
+  i18next@26.2.0(typescript@6.0.3):
     optionalDependencies:
       typescript: 6.0.3
 
@@ -17214,11 +17214,11 @@ snapshots:
       react: 19.2.6
       react-dom: 19.2.6(react@19.2.6)
 
-  react-i18next@17.0.6(i18next@26.0.8(typescript@6.0.3))(react-dom@19.2.6(react@19.2.6))(react@19.2.6)(typescript@6.0.3):
+  react-i18next@17.0.8(i18next@26.2.0(typescript@6.0.3))(react-dom@19.2.6(react@19.2.6))(react@19.2.6)(typescript@6.0.3):
     dependencies:
       '@babel/runtime': 7.29.2
       html-parse-stringify: 3.0.1
-      i18next: 26.0.8(typescript@6.0.3)
+      i18next: 26.2.0(typescript@6.0.3)
       react: 19.2.6
       use-sync-external-store: 1.6.0(react@19.2.6)
     optionalDependencies:
@@ -17486,11 +17486,11 @@ snapshots:
       mdast-util-to-markdown: 2.1.2
       unified: 11.0.5
 
-  remix-i18next@7.5.0(i18next@26.0.8(typescript@6.0.3))(react-i18next@17.0.6(i18next@26.0.8(typescript@6.0.3))(react-dom@19.2.6(react@19.2.6))(react@19.2.6)(typescript@6.0.3))(react-router@7.15.1(react-dom@19.2.6(react@19.2.6))(react@19.2.6))(react@19.2.6):
+  remix-i18next@7.5.0(i18next@26.2.0(typescript@6.0.3))(react-i18next@17.0.8(i18next@26.2.0(typescript@6.0.3))(react-dom@19.2.6(react@19.2.6))(react@19.2.6)(typescript@6.0.3))(react-router@7.15.1(react-dom@19.2.6(react@19.2.6))(react@19.2.6))(react@19.2.6):
     dependencies:
-      i18next: 26.0.8(typescript@6.0.3)
+      i18next: 26.2.0(typescript@6.0.3)
       react: 19.2.6
-      react-i18next: 17.0.6(i18next@26.0.8(typescript@6.0.3))(react-dom@19.2.6(react@19.2.6))(react@19.2.6)(typescript@6.0.3)
+      react-i18next: 17.0.8(i18next@26.2.0(typescript@6.0.3))(react-dom@19.2.6(react@19.2.6))(react@19.2.6)(typescript@6.0.3)
       react-router: 7.15.1(react-dom@19.2.6(react@19.2.6))(react@19.2.6)
 
   remix-themes@2.0.4(react-router@7.15.1(react-dom@19.2.6(react@19.2.6))(react@19.2.6)):
