@@ -22,9 +22,20 @@ export class ApiError extends Error {
 }
 
 /**
+ * Set the `Authorization` header to the bearer token when one is present.
+ * @param headers - The outgoing request headers to mutate.
+ * @param token - The auth token, or null when unauthenticated.
+ */
+export function applyAuthHeader(headers: Headers, token: string | null): void {
+  // eslint-disable-next-line security/detect-possible-timing-attacks -- False positive: checking existence, not comparing secrets
+  if (token !== null) headers.set("Authorization", `Token ${token}`);
+}
+
+/**
  * Pre-configured ky HTTP client with token injection, 30s timeout,
  * and retry logic for transient server errors.
  */
+// Stryker disable all : ky instance config — declarative, browser-only, covered via E2E
 /* istanbul ignore start @preserve -- ky instance config: browser-only, tested transitively via E2E */
 export const api = ky.create({
   prefix: env.VITE_API_ROOT_URL ?? "",
@@ -33,12 +44,10 @@ export const api = ky.create({
   hooks: {
     beforeRequest: [
       ({ request }) => {
-        const token = getToken();
-        // eslint-disable-next-line security/detect-possible-timing-attacks -- False positive: checking existence, not comparing secrets
-        if (token !== null)
-          request.headers.set("Authorization", `Token ${token}`);
+        applyAuthHeader(request.headers, getToken());
       },
     ],
   },
 });
 /* istanbul ignore end @preserve */
+// Stryker restore all
