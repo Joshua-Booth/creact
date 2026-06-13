@@ -10,23 +10,34 @@ import type { FeatureFlagOptions, FeatureFlagPayload } from "./types";
 
 /**
  * Check if a boolean feature flag is enabled.
- * Returns `undefined` while loading, or falls back to `defaultValue`.
+ *
+ * Falls back to `defaultValue` while flags are still loading or when the flag is
+ * absent, so the value is stable from the first render with no `undefined`
+ * flicker. Supplying a `defaultValue` narrows the return type to `boolean`; omit
+ * it to get `boolean | undefined`.
  * @param key - Feature flag key to check
  * @param options - Configuration including optional defaultValue
- * @returns Whether the feature flag is enabled, or undefined while loading
+ * @returns Whether the feature flag is enabled
  * @example
  * ```tsx
  * const isEnabled = useFeatureFlag("new-feature", { defaultValue: false });
  * return isEnabled ? <NewFeature /> : <OldFeature />;
  * ```
  */
-export const useFeatureFlag = (
+export function useFeatureFlag(
+  key: FeatureFlagKey,
+  options: FeatureFlagOptions<boolean> & { defaultValue: boolean }
+): boolean;
+export function useFeatureFlag(
   key: FeatureFlagKey,
   options?: FeatureFlagOptions<boolean>
-): boolean | undefined => {
-  const enabled = useFeatureFlagEnabled(key);
-  return enabled ?? options?.defaultValue;
-};
+): boolean | undefined;
+export function useFeatureFlag(
+  key: FeatureFlagKey,
+  options?: FeatureFlagOptions<boolean>
+): boolean | undefined {
+  return useFeatureFlagEnabled(key) ?? options?.defaultValue;
+}
 
 /**
  * Get the variant key for multivariate/A/B test flags.
