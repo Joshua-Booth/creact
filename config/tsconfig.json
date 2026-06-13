@@ -18,11 +18,10 @@
     "jsx": "react-jsx",
     "moduleResolution": "bundler",
     "allowImportingTsExtensions": true,
-    "baseUrl": "..",
     "rootDirs": ["../src", "../.react-router/types/src"],
     "paths": {
-      "@/*": ["./src/*"],
-      "@/storybook/*": ["./.storybook/*"]
+      "@/*": ["../src/*"],
+      "@/storybook/*": ["../.storybook/*"]
     }
   },
   "include": [
