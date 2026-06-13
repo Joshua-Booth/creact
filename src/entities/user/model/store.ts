@@ -26,24 +26,30 @@ export const useAuthStore = create<AuthState>()((set) => ({
   },
 }));
 
-// Sync auth state across browser tabs via storage events
+/**
+ * Sync the auth store to a token change made in another browser tab.
+ * @param event - The storage event (only `key` and `newValue` are read).
+ */
+export function syncAuthFromStorage(
+  event: Pick<StorageEvent, "key" | "newValue">
+): void {
+  if (event.key !== TOKEN_KEY) return;
+  const { token } = useAuthStore.getState();
+
+  if (event.newValue === null && token !== null) {
+    useAuthStore.setState({ token: null });
+  } else if (event.newValue !== null && event.newValue !== token) {
+    useAuthStore.setState({ token: event.newValue });
+  }
+}
+
+// Wire cross-tab sync (browser only)
 if (typeof window !== "undefined") {
-  const onStorage = (event: StorageEvent) => {
-    if (event.key !== TOKEN_KEY) return;
-    const { token } = useAuthStore.getState();
-
-    if (event.newValue === null && token !== null) {
-      useAuthStore.setState({ token: null });
-    } else if (event.newValue !== null && event.newValue !== token) {
-      useAuthStore.setState({ token: event.newValue });
-    }
-  };
-
-  window.addEventListener("storage", onStorage);
+  window.addEventListener("storage", syncAuthFromStorage);
 
   if (import.meta.hot) {
     import.meta.hot.dispose(() => {
-      window.removeEventListener("storage", onStorage);
+      window.removeEventListener("storage", syncAuthFromStorage);
     });
   }
 }

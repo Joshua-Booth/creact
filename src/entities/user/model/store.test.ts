@@ -26,7 +26,7 @@ vi.stubGlobal("localStorage", localStorageMock);
 vi.spyOn(console, "warn").mockImplementation(vi.fn());
 
 // Must import after stubbing localStorage so the module initializes with the mock
-const { useAuthStore } = await import("./store");
+const { useAuthStore, syncAuthFromStorage } = await import("./store");
 
 describe("useAuthStore", () => {
   beforeEach(() => {
@@ -58,5 +58,48 @@ describe("useAuthStore", () => {
     const state = useAuthStore.getState();
     expect(state.token).toBeNull();
     expect(localStorageMock.removeItem).toHaveBeenCalledWith("token");
+  });
+});
+
+describe("syncAuthFromStorage", () => {
+  beforeEach(() => {
+    useAuthStore.setState({ token: null });
+  });
+
+  it("ignores storage events for unrelated keys", () => {
+    useAuthStore.setState({ token: "keep" });
+    syncAuthFromStorage({ key: "unrelated", newValue: null });
+    expect(useAuthStore.getState().token).toBe("keep");
+  });
+
+  it("clears the token when another tab removes it", () => {
+    useAuthStore.setState({ token: "old" });
+    syncAuthFromStorage({ key: "token", newValue: null });
+    expect(useAuthStore.getState().token).toBeNull();
+  });
+
+  it("adopts a new token set by another tab", () => {
+    useAuthStore.setState({ token: "old" });
+    syncAuthFromStorage({ key: "token", newValue: "new" });
+    expect(useAuthStore.getState().token).toBe("new");
+  });
+
+  it("does not touch state when cleared but already null", () => {
+    const listener = vi.fn();
+    const unsubscribe = useAuthStore.subscribe(listener);
+    syncAuthFromStorage({ key: "token", newValue: null });
+    unsubscribe();
+    expect(useAuthStore.getState().token).toBeNull();
+    expect(listener).not.toHaveBeenCalled();
+  });
+
+  it("does not re-set state when the new value equals the current token", () => {
+    useAuthStore.setState({ token: "same" });
+    const listener = vi.fn();
+    const unsubscribe = useAuthStore.subscribe(listener);
+    syncAuthFromStorage({ key: "token", newValue: "same" });
+    unsubscribe();
+    expect(useAuthStore.getState().token).toBe("same");
+    expect(listener).not.toHaveBeenCalled();
   });
 });
