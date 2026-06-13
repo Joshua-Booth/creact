@@ -116,7 +116,8 @@ run = "prettier --write \"**/*.{ts,tsx,js,css,json,yml,yaml,mdx}\" --config {{va
 [tasks."format:files"]
 description = "Format specific files (for lint-staged)"
 hide = true
-run = "prettier --config {{vars.prettier_config}} --ignore-path {{vars.prettier_ignore}} --write"
+# --ignore-unknown: skip files Prettier can't parse (e.g. .toml) instead of failing
+run = "prettier --config {{vars.prettier_config}} --ignore-path {{vars.prettier_ignore}} --ignore-unknown --write"
 
 [tasks."format:check"]
 description = "Check code formatting with Prettier"
