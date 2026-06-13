@@ -2291,6 +2291,9 @@ export function useDataGrid<TData>({
     measureElement: isFirefox
       ? undefined
       : (element) => element?.getBoundingClientRect().height,
+    // Reuse cached row measurements while the grid is hidden (e.g. inside a
+    // collapsed tab/dialog) so they don't collapse to 0 and reflow on reveal.
+    useCachedMeasurements: true,
   });
   /* istanbul ignore end @preserve */
 
