@@ -14,8 +14,10 @@ export default defineConfig({
         // Server-only (Node APIs, not executable in browser/jsdom)
         "src/app/entry.server.tsx",
         "src/app/sessions.server.ts",
-        // Route entry files (thin wrappers, tested via E2E)
-        "src/app/routes/**",
+        // Route component wrappers (thin; tested via E2E). Loader-only route
+        // modules (sitemap/robots/locales) are unit-tested and stay measured.
+        "src/app/routes/*.tsx",
+        "src/app/routes/action.set-theme.ts",
         // Translation resources (static data)
         "src/shared/i18n/locales/**",
         // Framework bootstrap (not unit-testable)
