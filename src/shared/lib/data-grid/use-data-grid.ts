@@ -3109,6 +3109,7 @@ export function useDataGrid<TData>({
     const currentState = store.getState();
     const autoFocus = propsRef.current.autoFocus;
 
+    /* eslint-disable react-you-might-not-need-an-effect/no-event-handler -- Autofocus-on-mount guard reads data/columns length to decide imperative focus */
     if (
       autoFocus != null &&
       autoFocus !== false &&
@@ -3117,6 +3118,7 @@ export function useDataGrid<TData>({
       !currentState.focusedCell &&
       navigableColumnIds.length > 0
     ) {
+      /* eslint-enable react-you-might-not-need-an-effect/no-event-handler -- Re-enable after the autofocus guard condition */
       const rafId = requestAnimationFrame(() => {
         if (typeof autoFocus === "object") {
           const { rowIndex, columnId } = autoFocus;

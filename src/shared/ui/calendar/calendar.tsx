@@ -229,6 +229,7 @@ function CalendarDayButton({
 
   const ref = React.useRef<HTMLButtonElement>(null);
   React.useEffect(() => {
+    // eslint-disable-next-line react-you-might-not-need-an-effect/no-event-handler -- Imperative DOM focus driven by react-day-picker's focused modifier
     if (modifiers.focused) ref.current?.focus();
   }, [modifiers.focused]);
 

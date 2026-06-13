@@ -250,6 +250,7 @@ export default function Root({ loaderData: { locale } }: Route.ComponentProps) {
   // Sync client-side i18n with server-detected locale
   /* istanbul ignore start @preserve -- Locale sync only triggers when server locale differs from client */
   useEffect(() => {
+    // eslint-disable-next-line react-you-might-not-need-an-effect/no-event-handler -- Syncing i18n to the server-detected route-loader locale is a legitimate external-system sync
     if (i18n.language !== locale) void i18n.changeLanguage(locale);
   }, [locale, i18n]);
   /* istanbul ignore end @preserve */

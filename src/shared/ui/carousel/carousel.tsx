@@ -100,6 +100,7 @@ function Carousel({
   /* istanbul ignore end @preserve */
 
   React.useEffect(() => {
+    // eslint-disable-next-line react-you-might-not-need-an-effect/no-event-handler -- Exposing the embla api instance to the parent is intentional imperative-API exposure
     if (!api || !setApi) return;
     // eslint-disable-next-line react-you-might-not-need-an-effect/no-pass-data-to-parent -- Exposing imperative API to parent is intentional; the parent needs the api instance created by useEmblaCarousel
     setApi(api);

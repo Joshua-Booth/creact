@@ -84,6 +84,7 @@ function DataGridSearchImpl({
   const inputRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
+    // eslint-disable-next-line react-you-might-not-need-an-effect/no-event-handler -- Imperative focus of the search input when it opens
     if (searchOpen) {
       requestAnimationFrame(() => {
         inputRef.current?.focus();

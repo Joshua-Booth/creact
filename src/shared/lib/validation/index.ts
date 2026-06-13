@@ -10,19 +10,21 @@ export const emailSchema = z.email({
 export const passwordSchema = z
   .string()
   .trim()
-  .min(8, {
-    error: () =>
-      i18next.t("password.minLength", { ns: "validation", min: "8" }),
-  })
-  .regex(/[A-Z]/, {
-    error: () => i18next.t("password.uppercase", { ns: "validation" }),
-  })
-  .regex(/[a-z]/, {
-    error: () => i18next.t("password.lowercase", { ns: "validation" }),
-  })
-  .regex(/\d/, {
-    error: () => i18next.t("password.number", { ns: "validation" }),
-  });
+  .check(
+    z.minLength(8, {
+      error: () =>
+        i18next.t("password.minLength", { ns: "validation", min: "8" }),
+    }),
+    z.regex(/[A-Z]/, {
+      error: () => i18next.t("password.uppercase", { ns: "validation" }),
+    }),
+    z.regex(/[a-z]/, {
+      error: () => i18next.t("password.lowercase", { ns: "validation" }),
+    }),
+    z.regex(/\d/, {
+      error: () => i18next.t("password.number", { ns: "validation" }),
+    })
+  );
 
 /** Simple password with no strength requirements, just non-empty. */
 export const simplePasswordSchema = z
