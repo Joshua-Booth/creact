@@ -34,6 +34,7 @@ depcruise_config = "./config/.dependency-cruiser.js"
 cspell_config = "./config/cspell.json"
 storybook_config = "./.storybook"
 lintstaged_config = "./config/.lintstagedrc"
+stryker_config = "./config/stryker.config.json"
 
 [tasks.build]
 description = "Build the application"
@@ -258,6 +259,12 @@ run = [
     "E2E=true react-router build",
     "playwright test --config {{vars.playwright_config}}",
 ]
+
+[tasks.mutation]
+description = "Run mutation testing with Stryker (report-only)"
+alias = "mt"
+depends = ["typegen"]
+run = "stryker run {{vars.stryker_config}}"
 
 [tasks.typegen]
 description = "Generate React Router route types"

@@ -158,6 +158,36 @@ jobs:
       - name: Build application
         run: mise run build
 
+  # Report-only. NOTE: the mutation score is unreliable on Vitest 4.1 (upstream
+  # bug stryker-mutator/stryker-js#5928) and undercounts — informational only,
+  # never gated. See README "Mutation Testing". Remove the caveat once fixed.
+  mutation:
+    name: Mutation Testing
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+      - uses: ./.github/actions/setup
+
+      # Restore Stryker's incremental file so PRs only re-test changed mutants.
+      - name: Restore mutation cache
+        uses: actions/cache@v4
+        with:
+          path: coverage/stryker/incremental.json
+          key: stryker-incremental-${{ github.sha }}
+          restore-keys: |
+            stryker-incremental-
+
+      - name: Run mutation tests (report-only)
+        run: mise run mutation
+
+      - uses: actions/upload-artifact@v7
+        if: ${{ !cancelled() }}
+        with:
+          name: mutation-report
+          path: coverage/stryker/
+          retention-days: 7
+          if-no-files-found: ignore
+
   coverage-merge:
     name: Merge Coverage Reports
     runs-on: ubuntu-latest

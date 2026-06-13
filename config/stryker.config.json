@@ -1,0 +1,52 @@
+{
+  "$schema": "../node_modules/@stryker-mutator/core/schema/stryker-schema.json",
+  "testRunner": "vitest",
+  "plugins": ["@stryker-mutator/vitest-runner"],
+  "vitest": {
+    "configFile": "config/vitest.config.ts",
+    "related": false
+  },
+  "mutate": [
+    "src/**/*.ts",
+    "!src/**/*.{test,stories}.ts",
+    "!src/**/{index,types}.ts",
+    "!src/**/*.d.ts",
+    "!src/app/routes.ts",
+    "!src/app/routes/*.tsx",
+    "!src/app/routes/action.set-theme.ts",
+    "!src/app/sessions.server.ts",
+    "!src/app/middleware/**",
+    "!src/shared/i18n/locales/**",
+    "!src/shared/assets/**",
+    "!src/shared/lib/analytics/**",
+    "!src/shared/lib/feature-flags/**",
+    "!src/shared/lib/data-table/config.ts",
+    "!src/shared/ui/**",
+    "!src/shared/config/env.ts",
+    "!src/shared/lib/device/**",
+    "!src/shared/lib/hydration/**",
+    "!src/**/use-*.ts",
+    "!src/**/hooks.ts",
+    "!src/**/compose-refs.ts"
+  ],
+  "ignorePatterns": ["dist", ".react-router", "coverage", "storybook-static"],
+  "reporters": ["html", "clear-text", "progress"],
+  "htmlReporter": {
+    "fileName": "coverage/stryker/index.html"
+  },
+  "clearTextReporter": {
+    "allowColor": true,
+    "maxTestsToLog": 3
+  },
+  "incremental": true,
+  "incrementalFile": "coverage/stryker/incremental.json",
+  "tempDirName": ".stryker-tmp",
+  "cleanTempDir": true,
+  "concurrency": 4,
+  "timeoutMS": 60000,
+  "thresholds": {
+    "high": 80,
+    "low": 60,
+    "break": null
+  }
+}
