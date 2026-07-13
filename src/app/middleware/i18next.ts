@@ -1,7 +1,7 @@
 import { createCookie } from "react-router";
 import { initReactI18next } from "react-i18next";
 
-import { createI18nextMiddleware } from "remix-i18next/middleware";
+import { createI18nextMiddleware } from "remix-i18next";
 
 import { env } from "@/shared/config";
 import {

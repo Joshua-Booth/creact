@@ -8,6 +8,8 @@ import devtoolsJson from "vite-plugin-devtools-json";
 import reactScan from "vite-plugin-react-scan";
 import svgr from "vite-plugin-svgr";
 
+import { aliases } from "./vite-aliases";
+
 const isE2E = process.env.E2E === "true";
 
 export default defineConfig({
@@ -40,7 +42,7 @@ export default defineConfig({
         ]),
   ],
   resolve: {
-    tsconfigPaths: true,
+    alias: aliases,
   },
   optimizeDeps: {
     exclude: ["fsevents"],

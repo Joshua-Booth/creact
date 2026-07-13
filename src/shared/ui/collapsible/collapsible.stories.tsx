@@ -215,8 +215,7 @@ export const FileTree = meta.story({
   },
   render: (args) => {
     type FileTreeItem =
-      | { name: string }
-      | { name: string; items: FileTreeItem[] };
+      { name: string } | { name: string; items: FileTreeItem[] };
 
     const fileTree: FileTreeItem[] = [
       {

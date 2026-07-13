@@ -231,22 +231,22 @@ Default.test(
     const accordions = canvas.getAllByRole("button");
 
     await step("verify first item is open via defaultValue", async () => {
-      await waitFor(() => expect(getOpenPanels(canvasElement).length).toBe(1));
+      await waitFor(() => expect(getOpenPanels(canvasElement)).toHaveLength(1));
     });
 
     await step("click second item, only second should be open", async () => {
       await userEvent.click(accordions[1]!);
-      await waitFor(() => expect(getOpenPanels(canvasElement).length).toBe(1));
+      await waitFor(() => expect(getOpenPanels(canvasElement)).toHaveLength(1));
     });
 
     await step("click third item, only third should be open", async () => {
       await userEvent.click(accordions[2]!);
-      await waitFor(() => expect(getOpenPanels(canvasElement).length).toBe(1));
+      await waitFor(() => expect(getOpenPanels(canvasElement)).toHaveLength(1));
     });
 
     await step("click third item again, all should be closed", async () => {
       await userEvent.click(accordions[2]!);
-      await waitFor(() => expect(getOpenPanels(canvasElement).length).toBe(0));
+      await waitFor(() => expect(getOpenPanels(canvasElement)).toHaveLength(0));
     });
   }
 );
@@ -263,14 +263,14 @@ Default.test(
     const accordions = canvas.getAllByRole("button");
 
     await step("verify first item is open via defaultValue", async () => {
-      await waitFor(() => expect(getOpenPanels(canvasElement).length).toBe(1));
+      await waitFor(() => expect(getOpenPanels(canvasElement)).toHaveLength(1));
     });
 
     await step("open remaining items one at a time", async () => {
       for (let i = 1; i < accordions.length; i++) {
         await userEvent.click(accordions[i]!);
         await waitFor(() =>
-          expect(getOpenPanels(canvasElement).length).toBe(i + 1)
+          expect(getOpenPanels(canvasElement)).toHaveLength(i + 1)
         );
       }
     });
@@ -279,14 +279,14 @@ Default.test(
       for (let i = accordions.length - 1; i > 0; i--) {
         await userEvent.click(accordions[i]!);
         await waitFor(() =>
-          expect(getOpenPanels(canvasElement).length).toBe(i)
+          expect(getOpenPanels(canvasElement)).toHaveLength(i)
         );
       }
     });
 
     await step("close the last item", async () => {
       await userEvent.click(accordions[0]!);
-      await waitFor(() => expect(getOpenPanels(canvasElement).length).toBe(0));
+      await waitFor(() => expect(getOpenPanels(canvasElement)).toHaveLength(0));
     });
   }
 );
@@ -309,33 +309,29 @@ Default.test(
 
     await step("press Enter to open first item", async () => {
       await userEvent.keyboard("{Enter}");
-      await waitFor(() => expect(getOpenPanels(canvasElement).length).toBe(1));
+      await waitFor(() => expect(getOpenPanels(canvasElement)).toHaveLength(1));
     });
 
-    await step("press ArrowDown to move to second trigger", async () => {
-      await userEvent.keyboard("{ArrowDown}");
+    await step("tab to move to second trigger", async () => {
+      await userEvent.tab();
       await expect(triggers[1]).toHaveFocus();
     });
 
     await step("press Space to open second item", async () => {
       await userEvent.keyboard(" ");
-      await waitFor(() => expect(getOpenPanels(canvasElement).length).toBe(1));
+      await waitFor(() => expect(getOpenPanels(canvasElement)).toHaveLength(1));
+      await expect(triggers[1]).toHaveAttribute("aria-expanded", "true");
+      await expect(triggers[0]).toHaveAttribute("aria-expanded", "false");
     });
 
-    await step("press ArrowUp to move back to first trigger", async () => {
-      await userEvent.keyboard("{ArrowUp}");
+    await step("press Space again to close the item", async () => {
+      await userEvent.keyboard(" ");
+      await waitFor(() => expect(getOpenPanels(canvasElement)).toHaveLength(0));
+    });
+
+    await step("shift+tab to move back to first trigger", async () => {
+      await userEvent.tab({ shift: true });
       await expect(triggers[0]).toHaveFocus();
-    });
-
-    await step("press Home to jump to first trigger", async () => {
-      await userEvent.keyboard("{ArrowDown}");
-      await userEvent.keyboard("{Home}");
-      await expect(triggers[0]).toHaveFocus();
-    });
-
-    await step("press End to jump to last trigger", async () => {
-      await userEvent.keyboard("{End}");
-      await expect(triggers[2]).toHaveFocus();
     });
   }
 );

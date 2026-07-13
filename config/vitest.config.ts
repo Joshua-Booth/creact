@@ -4,12 +4,14 @@ import { fileURLToPath } from "node:url";
 import react from "@vitejs/plugin-react";
 import { defineConfig } from "vitest/config";
 
+import { aliases } from "./vite-aliases";
+
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
 export default defineConfig({
   plugins: [react()],
   resolve: {
-    tsconfigPaths: true,
+    alias: aliases,
   },
   test: {
     name: "unit",

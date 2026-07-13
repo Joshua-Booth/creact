@@ -16,8 +16,8 @@ type CarouselOptions = UseCarouselParameters[0];
 type CarouselPlugin = UseCarouselParameters[1];
 
 interface CarouselProps {
-  opts?: CarouselOptions;
-  plugins?: CarouselPlugin;
+  opts?: NonNullable<CarouselOptions>;
+  plugins?: NonNullable<CarouselPlugin>;
   orientation?: "horizontal" | "vertical";
   setApi?: (api: CarouselApi) => void;
 }

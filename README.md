@@ -7,7 +7,7 @@
   </a>
 
   <h2 style="padding-top:0;margin-top:20px">creact</h2>
-  <h4 style="padding-top:20px">A React web app template with Vite, React Router v7, and TypeScript.</h4>
+  <h4 style="padding-top:20px">A React web app template with Vite, React Router v8, and TypeScript.</h4>
 
   <br />
 
@@ -62,7 +62,7 @@
 creact is a React project template for quickly setting up new web applications. Built with:
 
 - **React 19** with concurrent features and automatic batching
-- **React Router v7** for file-based routing and data loading
+- **React Router v8** for file-based routing and data loading
 - **Vite** for fast development and optimized production builds
 - **TypeScript** for type safety
 - **Zustand** for lightweight state management
@@ -70,7 +70,7 @@ creact is a React project template for quickly setting up new web applications. 
 
 The template is modular - remove or customize any parts that don't fit your needs.
 
-**Rendering Mode:** This template uses Server-Side Rendering (SSR) with React Router v7. SSR is required for proper Tailwind CSS v4 critical CSS injection and hydration. If you need SPA-only mode, consider using Tailwind CSS v3 instead.
+**Rendering Mode:** This template uses Server-Side Rendering (SSR) with React Router v8. SSR is required for proper Tailwind CSS v4 critical CSS injection and hydration. If you need SPA-only mode, consider using Tailwind CSS v3 instead.
 
 Take a look at the <a href="#features">features</a> to see what's included. If there's something you think should be added, feel free to create a [feature request](https://github.com/Joshua-Booth/creact/issues/new).
 
@@ -83,7 +83,7 @@ For more information about this project check out the [wiki].
 ## Features
 
 - :scissors: **Customisable** - Only use the parts you need for your project
-- :zap: **Build tooling** - Fast development with [Vite] and [React Router v7]
+- :zap: **Build tooling** - Fast development with [Vite] and [React Router v8]
 - :file_folder: **Data management** - State management with [Zustand], data fetching with [SWR], and API requests with [ky]
 - :iphone: **Responsive design** - Utility-first styling with [Tailwind CSS v4]
 - :arrow_right_hook: **Git hooks** - Automated code quality checks with [Husky]
@@ -101,7 +101,7 @@ For more information about this project check out the [wiki].
 - :shield: **Validation** - Type-safe schema validation with [Zod]
 
 [vite]: https://vite.dev/
-[react router v7]: https://reactrouter.com/
+[react router v8]: https://reactrouter.com/
 [zustand]: https://github.com/pmndrs/zustand
 [swr]: https://swr.vercel.app/
 [ky]: https://github.com/sindresorhus/ky
@@ -138,8 +138,8 @@ This project requires the following:
 
 - [Git](https://git-scm.com/downloads)
 - [mise](https://mise.jdx.dev/) for task running and version management
-- [Node.js 24.12.0+](https://nodejs.org/en/download/) (auto-installed by mise)
-- [pnpm 10.28.0+](https://pnpm.io/installation) (auto-installed by mise)
+- [Node.js 24.18.0+](https://nodejs.org/en/download/) (auto-installed by mise)
+- [pnpm 11.12.0+](https://pnpm.io/installation) (auto-installed by mise)
 
 ### Installing mise
 

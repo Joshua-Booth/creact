@@ -164,10 +164,7 @@ export function DataGrid<TData>({
                   });
 
                 let ariaSortValue:
-                  | "ascending"
-                  | "descending"
-                  | "none"
-                  | undefined;
+                  "ascending" | "descending" | "none" | undefined;
                 /* istanbul ignore start @preserve -- browser-only callback tested via Storybook */
                 if (currentSort?.desc === false) {
                   ariaSortValue = "ascending";

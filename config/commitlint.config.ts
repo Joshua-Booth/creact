@@ -187,7 +187,7 @@ const config: UserConfig = {
       "always",
       ({ subject }: Commit): RuleResult => {
         if (!subject) return [true];
-        const firstWord = subject.split(" ")[0].toLowerCase();
+        const firstWord = (subject.split(" ")[0] ?? "").toLowerCase();
 
         // Only match non-imperative forms (NOT the base imperative form)
         const nonImperative =
@@ -262,7 +262,7 @@ const config: UserConfig = {
           "handle",
           "process",
         ];
-        const firstWord = subject.split(" ")[0].toLowerCase();
+        const firstWord = (subject.split(" ")[0] ?? "").toLowerCase();
 
         if (weakVerbs.includes(firstWord)) {
           return [
@@ -308,7 +308,7 @@ const config: UserConfig = {
       "always",
       ({ subject }: Commit): RuleResult => {
         if (!subject) return [true];
-        const firstWord = subject.split(" ")[0];
+        const firstWord = subject.split(" ")[0] ?? "";
 
         // Skip short words and known exceptions
         const exceptions = [
@@ -418,8 +418,7 @@ const config: UserConfig = {
         if (!subject) return [true];
 
         // Match " and " but not in compound nouns like "drag-and-drop"
-        // eslint-disable-next-line sonarjs/slow-regex -- simple word-boundary check, input is short commit subject
-        if (/\s+and\s+/i.test(subject) && !/-and-/i.test(subject)) {
+        if (/\sand\s/i.test(subject) && !/-and-/i.test(subject)) {
           return [
             false,
             'Consider splitting into atomic commits - subject contains "and" (suggests multiple changes)',

@@ -25,6 +25,7 @@
     }
   },
   "include": [
+    "./*.ts",
     "../src",
     "../tests",
     "../.react-router/types/**/*",

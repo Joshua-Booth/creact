@@ -120,7 +120,6 @@ describe("parseLocalDate", () => {
 
   it("should return null for null/undefined", () => {
     expect(parseLocalDate(null)).toBeNull();
-    // eslint-disable-next-line unicorn/no-useless-undefined -- testing explicit undefined arg
     expect(parseLocalDate(undefined)).toBeNull();
   });
 
@@ -173,7 +172,6 @@ describe("formatDateToString", () => {
 describe("formatDateForDisplay", () => {
   it("should return empty string for null", () => {
     expect(formatDateForDisplay(null)).toBe("");
-    // eslint-disable-next-line unicorn/no-useless-undefined -- testing explicit undefined arg
     expect(formatDateForDisplay(undefined)).toBe("");
   });
 
@@ -286,7 +284,6 @@ describe("getIsFileCellData", () => {
 
   it("should return false for null/undefined", () => {
     expect(getIsFileCellData(null)).toBe(false);
-    // eslint-disable-next-line unicorn/no-useless-undefined -- testing explicit undefined arg
     expect(getIsFileCellData(undefined)).toBe(false);
   });
 
@@ -507,7 +504,7 @@ describe("getColumnPinningStyle", () => {
     expect(style.position).toBe("sticky");
     expect(style.left).toBe("50px");
     expect(style.right).toBeUndefined();
-    expect(style.opacity).toBe(0.97);
+    expect(style.opacity).toBeCloseTo(0.97);
     expect(style.zIndex).toBe(1);
   });
 

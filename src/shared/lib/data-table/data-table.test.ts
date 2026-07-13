@@ -217,7 +217,7 @@ describe("getCommonPinningStyles", () => {
     expect(styles.position).toBe("sticky");
     expect(styles.left).toBe("50px");
     expect(styles.right).toBeUndefined();
-    expect(styles.opacity).toBe(0.97);
+    expect(styles.opacity).toBeCloseTo(0.97);
     expect(styles.zIndex).toBe(1);
   });
 

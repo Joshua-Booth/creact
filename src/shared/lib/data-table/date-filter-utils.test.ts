@@ -21,7 +21,6 @@ describe("getIsDateRange", () => {
 
 describe("parseAsDate", () => {
   it("should return undefined for undefined input", () => {
-    // eslint-disable-next-line unicorn/no-useless-undefined -- explicitly testing undefined parameter
     expect(parseAsDate(undefined)).toBeUndefined();
   });
 
@@ -54,7 +53,6 @@ describe("parseColumnFilterValue", () => {
   });
 
   it("should return empty array for undefined", () => {
-    // eslint-disable-next-line unicorn/no-useless-undefined -- explicitly testing undefined parameter
     expect(parseColumnFilterValue(undefined)).toEqual([]);
   });
 

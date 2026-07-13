@@ -350,8 +350,7 @@ function FilterControl<TData>({ table }: { table: Table<TData> }) {
                 const isExpanded = expandedColumn === fc.id;
                 const currentValues =
                   (table.getColumn(fc.id)?.getFilterValue() as
-                    | string[]
-                    | undefined) ?? [];
+                    string[] | undefined) ?? [];
 
                 return (
                   <div key={fc.id}>

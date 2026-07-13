@@ -2,10 +2,12 @@ import tailwindcss from "@tailwindcss/vite";
 import { defineConfig } from "vite";
 import svgr from "vite-plugin-svgr";
 
+import { aliases } from "../config/vite-aliases";
+
 export default defineConfig({
   plugins: [tailwindcss(), svgr()],
   resolve: {
-    tsconfigPaths: true,
+    alias: aliases,
   },
   define: {
     // Skip t3-env validation — Storybook has no real env vars.

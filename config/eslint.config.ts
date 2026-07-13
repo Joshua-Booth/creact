@@ -287,7 +287,7 @@ export default defineConfig([
       "unicorn/catch-error-name": "error",
       "unicorn/consistent-function-scoping": "error",
       "unicorn/error-message": "error",
-      "unicorn/no-array-for-each": "error",
+      "unicorn/no-for-each": "error",
       "unicorn/no-array-reduce": "error",
       "unicorn/no-useless-undefined": "error",
       "unicorn/prefer-array-find": "error",
@@ -319,7 +319,7 @@ export default defineConfig([
       "unicorn/require-number-to-fixed-digits-argument": "error",
       // Code quality and consistency rules
       "unicorn/no-empty-file": "error",
-      "unicorn/no-instanceof-array": "error",
+      "unicorn/no-instanceof-builtins": "error",
       "unicorn/no-static-only-class": "error",
       "unicorn/no-lonely-if": "error",
       "unicorn/no-negated-condition": "error",

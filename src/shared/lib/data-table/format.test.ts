@@ -23,7 +23,6 @@ describe("formatDate", () => {
   });
 
   it("should return empty string for undefined", () => {
-    // eslint-disable-next-line unicorn/no-useless-undefined -- testing explicit undefined arg
     expect(formatDate(undefined)).toBe("");
   });
 
