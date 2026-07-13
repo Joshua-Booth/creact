@@ -2,6 +2,33 @@
 
 All notable changes to this project will be documented in this file.
 
+## [2.1.0](https://github.com/Joshua-Booth/creact/compare/v2.0.1...v2.1.0) (2026-07-13)
+
+### Features
+
+* **app:** add shadcn typeset styling system ([c5cc5a0](https://github.com/Joshua-Booth/creact/commit/c5cc5a0dbaac261367e0d3c315f8e20e8e1e2a9a))
+* **shared:** add shadcn chat interface components ([c8bce90](https://github.com/Joshua-Booth/creact/commit/c8bce907d65b1b555d0a335f459a61160dbfc131))
+* **shared:** cache data-grid row measurements while hidden ([9e52fc0](https://github.com/Joshua-Booth/creact/commit/9e52fc068f1a0a3885a21fcde31159f294e71de7))
+* **shared:** narrow useFeatureFlag return type via overloads ([f6f1d2f](https://github.com/Joshua-Booth/creact/commit/f6f1d2f6897647a147b2ba65e1aac7ce19903827))
+* **shared:** set toggle-group default spacing to 2 ([75026d7](https://github.com/Joshua-Booth/creact/commit/75026d733d1a2e716ae1ab24da5052ddf651c299))
+* **shared:** update UI components to latest shadcn ([#173](https://github.com/Joshua-Booth/creact/issues/173)) ([58d9e18](https://github.com/Joshua-Booth/creact/commit/58d9e189ec65a994e34f20103402a445cea2c7e5))
+* **shared:** upgrade @base-ui/react to 1.5.0 ([9c2f114](https://github.com/Joshua-Booth/creact/commit/9c2f11452adcd771a29b6dedea8115cb39a0eb3e))
+* **shared:** upgrade react-day-picker to 10.0 ([5005f71](https://github.com/Joshua-Booth/creact/commit/5005f718da4424e896583a72eb5be822592a427e))
+
+### Bug Fixes
+
+* **deps:** override transitive fast-uri to patch CVE ([aba6d4c](https://github.com/Joshua-Booth/creact/commit/aba6d4ce06bc8cc37fadafe0f585303012f93d92))
+* **deps:** patch shell-quote critical and prune dormant overrides ([d40578c](https://github.com/Joshua-Booth/creact/commit/d40578c786dcd8ab46cbb1076d4b1c270f9f886b))
+
+### Code Refactoring
+
+* **app:** move ambient declarations to app layer ([3e74571](https://github.com/Joshua-Booth/creact/commit/3e74571d58f0d64305890bdecae5dda65a41cb5f))
+
+### Documentation
+
+* **release:** backfill CHANGELOG.md for v2.0.1 ([2460330](https://github.com/Joshua-Booth/creact/commit/24603302e1cb318721f8a41335fd5e50cd1861ff))
+* **release:** point version badge at latest github release ([9a546e1](https://github.com/Joshua-Booth/creact/commit/9a546e1df187909dc2df41103e4f44d66e440ebf))
+
 ## [2.0.1](https://github.com/Joshua-Booth/creact/compare/v2.0.0...v2.0.1) (2026-05-02)
 
 
