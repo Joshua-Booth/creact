@@ -274,8 +274,7 @@ run = "react-router typegen"
 description = "Run TypeScript type checking"
 alias = "tt"
 depends = ["typegen"]
-# Sequential so a failure in either project fails the task. The previous
-# `tsc & tsc & wait` form swallowed both exit codes (a bare `wait` returns 0).
+# Sequential — parallelizing with `& … & wait` swallows the exit codes
 run = [
     "tsc --noEmit",
     "tsc --noEmit --project config/tsconfig.node.json",

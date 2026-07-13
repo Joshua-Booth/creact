@@ -52,7 +52,7 @@ const config: KnipConfig = {
     // Coverage tooling (loaded dynamically by vitest)
     "@vitest/coverage-istanbul",
     "monocart-coverage-reports",
-    // Mutation testing: CLI binary (mise tasks) + plugin referenced by name in config
+    // Mutation testing (run via mise tasks)
     "@stryker-mutator/core",
     "@stryker-mutator/vitest-runner",
   ],

@@ -28,7 +28,7 @@ export const useAuthStore = create<AuthState>()((set) => ({
 
 /**
  * Sync the auth store to a token change made in another browser tab.
- * @param event - The storage event (only `key` and `newValue` are read).
+ * @param event - The storage event.
  */
 export function syncAuthFromStorage(
   event: Pick<StorageEvent, "key" | "newValue">

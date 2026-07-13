@@ -338,16 +338,6 @@ mise run coverage     # Generate test coverage report (alias: mise run tc)
 mise run mutation     # Run mutation testing with Stryker, report-only (alias: mise run mt)
 ```
 
-### Mutation Testing
-
-[Stryker] measures _test effectiveness_: it mutates the source (flips operators, removes statements) and checks whether your tests catch each change. Surviving mutants reveal weak assertions.
-
-```sh
-mise run mutation     # Report-only; HTML report at coverage/stryker/ (alias: mise run mt)
-```
-
-Targets the node-runnable logic layer (`model`, `lib`, `api`, `config`); components and hooks run in a browser Stryker can't drive, so they're excluded in [`config/stryker.config.json`](config/stryker.config.json). CI runs it report-only and uploads the report.
-
 ### API Mocking
 
 E2E tests use a reusable mock system built on `@msw/playwright` for API mocking. Mocks are defined in `tests/e2e/mocks/`.
