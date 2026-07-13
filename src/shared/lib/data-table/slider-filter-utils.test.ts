@@ -1,3 +1,4 @@
+import { fc } from "@fast-check/vitest";
 import { describe, expect, it } from "vitest";
 
 import {
@@ -28,6 +29,29 @@ describe("getIsValidRange", () => {
   it("should return false for three-element array", () => {
     expect(getIsValidRange([1, 2, 3])).toBe(false);
   });
+
+  it("accepts any two-number tuple (property)", () => {
+    fc.assert(
+      fc.property(
+        fc.double({ noNaN: true }),
+        fc.double({ noNaN: true }),
+        (a, b) => {
+          expect(getIsValidRange([a, b])).toBe(true);
+        }
+      )
+    );
+  });
+
+  it("rejects any array whose length is not exactly 2 (property)", () => {
+    fc.assert(
+      fc.property(
+        fc.array(fc.integer()).filter((a) => a.length !== 2),
+        (arr) => {
+          expect(getIsValidRange(arr)).toBe(false);
+        }
+      )
+    );
+  });
 });
 
 describe("parseValuesAsNumbers", () => {
@@ -51,6 +75,22 @@ describe("parseValuesAsNumbers", () => {
   it("should return undefined for non-array", () => {
     expect(parseValuesAsNumbers("not-array")).toBeUndefined();
     expect(parseValuesAsNumbers(null)).toBeUndefined();
+  });
+
+  it("returns the numeric tuple unchanged for number inputs (property)", () => {
+    fc.assert(
+      fc.property(fc.integer(), fc.integer(), (a, b) => {
+        expect(parseValuesAsNumbers([a, b])).toEqual([a, b]);
+      })
+    );
+  });
+
+  it("parses numeric strings back to their numbers (property)", () => {
+    fc.assert(
+      fc.property(fc.integer(), fc.integer(), (a, b) => {
+        expect(parseValuesAsNumbers([String(a), String(b)])).toEqual([a, b]);
+      })
+    );
   });
 });
 

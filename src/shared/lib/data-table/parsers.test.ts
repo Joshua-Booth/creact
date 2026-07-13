@@ -1,3 +1,4 @@
+import { fc } from "@fast-check/vitest";
 import { describe, expect, it } from "vitest";
 
 import { getFiltersStateParser, getSortingStateParser } from "./parsers";
@@ -60,6 +61,18 @@ describe("getSortingStateParser", () => {
     const parser = getSortingStateParser<TestData>(new Set(["title"]));
     const result = parser.parse('[{"id":"title","desc":false}]');
     expect(result).toEqual([{ id: "title", desc: false }]);
+  });
+
+  it("eq is reflexive for any sorting state (property)", () => {
+    const parser = getSortingStateParser<Record<string, unknown>>();
+    fc.assert(
+      fc.property(
+        fc.array(fc.record({ id: fc.string(), desc: fc.boolean() })),
+        (sort) => {
+          expect(parser.eq(sort, sort)).toBe(true);
+        }
+      )
+    );
   });
 });
 

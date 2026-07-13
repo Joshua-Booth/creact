@@ -28,6 +28,8 @@ coverage
 playwright-report
 .playwright-cli
 test-results
+.stryker-tmp
+reports
 
 # Editor
 .vscode/*.code-workspace

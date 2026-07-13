@@ -34,6 +34,7 @@ depcruise_config = "./config/.dependency-cruiser.js"
 cspell_config = "./config/cspell.json"
 storybook_config = "./.storybook"
 lintstaged_config = "./config/.lintstagedrc"
+stryker_config = "./config/stryker.config.json"
 
 [tasks.build]
 description = "Build the application"
@@ -259,6 +260,12 @@ run = [
     "playwright test --config {{vars.playwright_config}}",
 ]
 
+[tasks.mutation]
+description = "Run mutation testing with Stryker (report-only)"
+alias = "mt"
+depends = ["typegen"]
+run = "stryker run {{vars.stryker_config}}"
+
 [tasks.typegen]
 description = "Generate React Router route types"
 run = "react-router typegen"
@@ -267,7 +274,11 @@ run = "react-router typegen"
 description = "Run TypeScript type checking"
 alias = "tt"
 depends = ["typegen"]
-run = "tsc --noEmit & tsc --noEmit --project config/tsconfig.node.json & wait"
+# Sequential — parallelizing with `& … & wait` swallows the exit codes
+run = [
+    "tsc --noEmit",
+    "tsc --noEmit --project config/tsconfig.node.json",
+]
 
 [tasks.storybook]
 description = "Start Storybook dev server"

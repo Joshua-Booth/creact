@@ -91,7 +91,7 @@ For more information about this project check out the [wiki].
 - :arrows_counterclockwise: **Dependency updates** - Automated dependency updates with [Renovate]
 - :shirt: **Linting** - [ESLint], [Prettier], [stylelint], [commitlint], [knip] for unused code detection, and [cspell] for spell checking
 - :building_construction: **Architecture** - [Feature-Sliced Design][fsd] with [Steiger] for architecture linting and [Plop] for scaffolding
-- :white_check_mark: **Testing** - Unit and integration tests with [Vitest], E2E tests with [Playwright], API mocking with [MSW]
+- :white_check_mark: **Testing** - Unit and integration tests with [Vitest], E2E tests with [Playwright], API mocking with [MSW], mutation testing with [Stryker]
 - :chart_with_upwards_trend: **Coverage reports** - Test coverage tracking
 - :wrench: **Task runner** - Development workflows with [mise]
 - :package: **Third party integrations** - [Sentry] and [PostHog] ready to configure
@@ -121,6 +121,7 @@ For more information about this project check out the [wiki].
 [vitest]: https://vitest.dev/
 [playwright]: https://playwright.dev/
 [msw]: https://mswjs.io/
+[stryker]: https://stryker-mutator.io/
 [mise]: https://mise.jdx.dev/
 [sentry]: https://sentry.io/
 [posthog]: https://posthog.com/
@@ -334,6 +335,7 @@ mise run test:all     # Run all tests in single-run mode (alias: mise run ta)
 mise run test:ui      # Open Vitest UI (alias: mise run tui)
 mise run test:e2e     # Run end-to-end tests with Playwright (alias: mise run te)
 mise run coverage     # Generate test coverage report (alias: mise run tc)
+mise run mutation     # Run mutation testing with Stryker, report-only (alias: mise run mt)
 ```
 
 ### API Mocking

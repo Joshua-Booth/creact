@@ -16,11 +16,10 @@
     "noImplicitOverride": true,
     "forceConsistentCasingInFileNames": true,
     "jsx": "react-jsx",
-    "types": ["node"],
-    "baseUrl": "..",
+    "types": ["node", "vite/client"],
     "paths": {
-      "@/*": ["./src/*"],
-      "@/storybook/*": ["./.storybook/*"]
+      "@/*": ["../src/*"],
+      "@/storybook/*": ["../.storybook/*"]
     }
   },
   "include": [

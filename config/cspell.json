@@ -37,6 +37,7 @@
     "**/build/**",
     "**/.react-router/**",
     "**/coverage/**",
+    "**/reports/**",
     "**/pnpm-lock.yaml",
     "**/skills-lock.json",
     "**/playwright-report/**",
