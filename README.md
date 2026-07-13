@@ -23,8 +23,8 @@
       />
     </a>
     <img
-      alt="GitHub package.json version"
-      src="https://img.shields.io/github/package-json/v/Joshua-Booth/creact?style=for-the-badge"
+      alt="GitHub release"
+      src="https://img.shields.io/github/v/release/Joshua-Booth/creact?label=version&style=for-the-badge"
     />
     <img
       alt="Dependencies"
