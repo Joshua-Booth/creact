@@ -25,7 +25,7 @@ peerDependencyRules:
 overrides:
   # shell-quote: forces transitive launch-editor (via react-router-devtools) off
   # the vulnerable 1.8.3 onto patched 1.8.4 (GHSA-w7jw-789q-3m8p).
-  shell-quote: ">=1.8.4"
+  shell-quote: ">=1.9.0"
 
 auditConfig:
   ignoreGhsas:
