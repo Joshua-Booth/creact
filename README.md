@@ -139,7 +139,7 @@ This project requires the following:
 - [Git](https://git-scm.com/downloads)
 - [mise](https://mise.jdx.dev/) for task running and version management
 - [Node.js 24.18.0+](https://nodejs.org/en/download/) (auto-installed by mise)
-- [pnpm 11.12.0+](https://pnpm.io/installation) (auto-installed by mise)
+- [pnpm 12.0.0+](https://pnpm.io/installation) (auto-installed by mise)
 
 ### Installing mise
 
