@@ -1,9 +1,8 @@
-import type { ColumnDef } from "@tanstack/react-table";
-
 import { useMemo } from "react";
 
 import { CheckCircle2, CircleDashed, Text, XCircle } from "lucide-react";
 
+import type { DataTableColumnDef } from "@/shared/lib/data-table";
 import { useDataTable } from "@/shared/lib/data-table";
 
 import type { Project } from "./data-table-demo";
@@ -24,7 +23,7 @@ const statusOptionsWithCounts = [
 
 /** Table with faceted filter options that display count badges. */
 export function FacetedFilterWithCountsDemo() {
-  const columns = useMemo<ColumnDef<Project>[]>(
+  const columns = useMemo<DataTableColumnDef<Project>[]>(
     () => [
       {
         id: "title",

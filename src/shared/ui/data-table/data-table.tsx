@@ -1,10 +1,11 @@
-import type { Table as TanstackTable } from "@tanstack/react-table";
+import type { RowData } from "@tanstack/react-table";
 
 import { useTranslation } from "react-i18next";
 
 import type { ComponentProps } from "react";
 import { flexRender } from "@tanstack/react-table";
 
+import type { DataTableInstance } from "@/shared/lib/data-table";
 import { getCommonPinningStyles } from "@/shared/lib/data-table";
 import { cn } from "@/shared/lib/utils";
 import {
@@ -18,15 +19,15 @@ import {
 
 import { DataTablePagination } from "./data-table-pagination";
 
-interface DataTableProps<TData> extends ComponentProps<"div"> {
+interface DataTableProps<TData extends RowData> extends ComponentProps<"div"> {
   /** TanStack Table instance controlling the data, columns, and row state. */
-  table: TanstackTable<TData>;
+  table: DataTableInstance<TData>;
   /** Floating action bar shown when rows are selected. */
   actionBar?: React.ReactNode;
 }
 
 /** Feature-rich data table powered by TanStack Table with sorting, filtering, pagination, and row selection. */
-export function DataTable<TData>({
+export function DataTable<TData extends RowData>({
   table,
   actionBar,
   children,

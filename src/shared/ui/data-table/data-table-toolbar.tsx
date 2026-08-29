@@ -1,4 +1,4 @@
-import type { Column, Table } from "@tanstack/react-table";
+import type { RowData } from "@tanstack/react-table";
 
 import { useCallback, useMemo } from "react";
 import { useTranslation } from "react-i18next";
@@ -6,6 +6,10 @@ import { useTranslation } from "react-i18next";
 import type { ComponentProps } from "react";
 import { X } from "lucide-react";
 
+import type {
+  DataTableColumn,
+  DataTableInstance,
+} from "@/shared/lib/data-table";
 import { cn } from "@/shared/lib/utils";
 import { Button } from "@/shared/ui/button";
 import { Input } from "@/shared/ui/input";
@@ -15,20 +19,22 @@ import { DataTableFacetedFilter } from "./data-table-faceted-filter";
 import { DataTableSliderFilter } from "./data-table-slider-filter";
 import { DataTableViewOptions } from "./data-table-view-options";
 
-interface DataTableToolbarProps<TData> extends ComponentProps<"div"> {
+interface DataTableToolbarProps<
+  TData extends RowData,
+> extends ComponentProps<"div"> {
   /** TanStack Table instance for reading filterable columns and resetting filters. */
-  table: Table<TData>;
+  table: DataTableInstance<TData>;
 }
 
 /** Toolbar that auto-renders column filters based on column meta and provides a reset button. */
-export function DataTableToolbar<TData>({
+export function DataTableToolbar<TData extends RowData>({
   table,
   children,
   className,
   ...props
 }: DataTableToolbarProps<TData>) {
   const { t } = useTranslation("components");
-  const isFiltered = table.getState().columnFilters.length > 0;
+  const isFiltered = table.state.columnFilters.length > 0;
 
   const columns = useMemo(
     () => table.getAllColumns().filter((column) => column.getCanFilter()),
@@ -75,12 +81,12 @@ export function DataTableToolbar<TData>({
   );
 }
 
-interface DataTableToolbarFilterProps<TData> {
-  column: Column<TData>;
+interface DataTableToolbarFilterProps<TData extends RowData> {
+  column: DataTableColumn<TData>;
 }
 
 /** Renders the appropriate filter control for a column based on its meta variant. */
-function DataTableToolbarFilter<TData>({
+function DataTableToolbarFilter<TData extends RowData>({
   column,
 }: DataTableToolbarFilterProps<TData>) {
   const columnMeta = column.columnDef.meta;

@@ -1,4 +1,4 @@
-import type { Table } from "@tanstack/react-table";
+import type { RowData } from "@tanstack/react-table";
 
 import { useTranslation } from "react-i18next";
 
@@ -10,6 +10,7 @@ import {
   ChevronsRight,
 } from "lucide-react";
 
+import type { DataTableInstance } from "@/shared/lib/data-table";
 import { cn } from "@/shared/lib/utils";
 import { Button } from "@/shared/ui/button";
 import {
@@ -22,15 +23,17 @@ import {
 
 const DEFAULT_PAGE_SIZE_OPTIONS = [10, 20, 30, 40, 50];
 
-interface DataTablePaginationProps<TData> extends ComponentProps<"div"> {
+interface DataTablePaginationProps<
+  TData extends RowData,
+> extends ComponentProps<"div"> {
   /** TanStack Table instance for reading and updating pagination state. */
-  table: Table<TData>;
+  table: DataTableInstance<TData>;
   /** Available page size choices shown in the rows-per-page dropdown. */
   pageSizeOptions?: number[];
 }
 
 /** Pagination controls with page navigation, rows-per-page selector, and selection count. */
-export function DataTablePagination<TData>({
+export function DataTablePagination<TData extends RowData>({
   table,
   pageSizeOptions = DEFAULT_PAGE_SIZE_OPTIONS,
   className,
@@ -63,7 +66,7 @@ export function DataTablePagination<TData>({
             {t("dataTable.rowsPerPage")}
           </p>
           <Select
-            value={`${table.getState().pagination.pageSize}`}
+            value={`${table.state.pagination.pageSize}`}
             onValueChange={(value) => {
               table.setPageSize(Number(value));
             }}
@@ -72,7 +75,7 @@ export function DataTablePagination<TData>({
               aria-label={t("dataTable.rowsPerPage")}
               className="h-8 w-18 data-size:h-8"
             >
-              <SelectValue placeholder={table.getState().pagination.pageSize} />
+              <SelectValue placeholder={table.state.pagination.pageSize} />
             </SelectTrigger>
             <SelectContent side="top">
               {pageSizeOptions.map((pageSize) => (
@@ -85,7 +88,7 @@ export function DataTablePagination<TData>({
         </div>
         <div className="flex items-center justify-center text-sm font-medium">
           {t("dataTable.page", {
-            current: String(table.getState().pagination.pageIndex + 1),
+            current: String(table.state.pagination.pageIndex + 1),
             total: String(table.getPageCount()),
           })}
         </div>

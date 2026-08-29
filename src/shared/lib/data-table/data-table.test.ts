@@ -1,7 +1,6 @@
-import type { Column } from "@tanstack/react-table";
-
 import { describe, expect, it } from "vitest";
 
+import type { DataTableColumn } from "./features";
 import type { ExtendedColumnFilter } from "./types";
 import { dataTableConfig } from "./config";
 import {
@@ -178,7 +177,7 @@ describe("getValidFilters", () => {
 
 function createMockColumn(
   overrides: {
-    isPinned?: false | "left" | "right";
+    isPinned?: false | "start" | "end";
     isLastLeft?: boolean;
     isFirstRight?: boolean;
     start?: number;
@@ -189,14 +188,14 @@ function createMockColumn(
   return {
     getIsPinned: () => overrides.isPinned ?? false,
     getIsLastColumn: (side: string) =>
-      side === "left" ? (overrides.isLastLeft ?? false) : false,
+      side === "start" ? (overrides.isLastLeft ?? false) : false,
     getIsFirstColumn: (side: string) =>
-      side === "right" ? (overrides.isFirstRight ?? false) : false,
+      side === "end" ? (overrides.isFirstRight ?? false) : false,
     getStart: () => overrides.start ?? 0,
     getAfter: () => overrides.after ?? 0,
     getSize: () => overrides.size ?? 150,
     columnDef: { size: overrides.size },
-  } as unknown as Column<unknown>;
+  } as unknown as DataTableColumn<Record<string, unknown>>;
 }
 
 describe("getCommonPinningStyles", () => {
@@ -212,7 +211,7 @@ describe("getCommonPinningStyles", () => {
 
   it("should return sticky position for left-pinned column", () => {
     const styles = getCommonPinningStyles({
-      column: createMockColumn({ isPinned: "left", start: 50 }),
+      column: createMockColumn({ isPinned: "start", start: 50 }),
     });
     expect(styles.position).toBe("sticky");
     expect(styles.left).toBe("50px");
@@ -223,7 +222,7 @@ describe("getCommonPinningStyles", () => {
 
   it("should return sticky position for right-pinned column", () => {
     const styles = getCommonPinningStyles({
-      column: createMockColumn({ isPinned: "right", after: 100 }),
+      column: createMockColumn({ isPinned: "end", after: 100 }),
     });
     expect(styles.position).toBe("sticky");
     expect(styles.right).toBe("100px");
@@ -232,7 +231,7 @@ describe("getCommonPinningStyles", () => {
 
   it("should add left border shadow for last left-pinned column with border", () => {
     const styles = getCommonPinningStyles({
-      column: createMockColumn({ isPinned: "left", isLastLeft: true }),
+      column: createMockColumn({ isPinned: "start", isLastLeft: true }),
       withBorder: true,
     });
     expect(styles.boxShadow).toBe("-4px 0 4px -4px var(--border) inset");
@@ -240,7 +239,7 @@ describe("getCommonPinningStyles", () => {
 
   it("should add right border shadow for first right-pinned column with border", () => {
     const styles = getCommonPinningStyles({
-      column: createMockColumn({ isPinned: "right", isFirstRight: true }),
+      column: createMockColumn({ isPinned: "end", isFirstRight: true }),
       withBorder: true,
     });
     expect(styles.boxShadow).toBe("4px 0 4px -4px var(--border) inset");
@@ -248,7 +247,7 @@ describe("getCommonPinningStyles", () => {
 
   it("should not add shadow for middle left-pinned column with border", () => {
     const styles = getCommonPinningStyles({
-      column: createMockColumn({ isPinned: "left", isLastLeft: false }),
+      column: createMockColumn({ isPinned: "start", isLastLeft: false }),
       withBorder: true,
     });
     expect(styles.boxShadow).toBeUndefined();
@@ -256,7 +255,7 @@ describe("getCommonPinningStyles", () => {
 
   it("should not add border shadow without withBorder", () => {
     const styles = getCommonPinningStyles({
-      column: createMockColumn({ isPinned: "left", isLastLeft: true }),
+      column: createMockColumn({ isPinned: "start", isLastLeft: true }),
     });
     expect(styles.boxShadow).toBeUndefined();
   });

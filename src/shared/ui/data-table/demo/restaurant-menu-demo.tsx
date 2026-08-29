@@ -1,9 +1,8 @@
-import type { ColumnDef } from "@tanstack/react-table";
-
 import { useMemo } from "react";
 
 import { Text } from "lucide-react";
 
+import type { DataTableColumnDef } from "@/shared/lib/data-table";
 import { useDataTable } from "@/shared/lib/data-table";
 import { cn } from "@/shared/lib/utils";
 import { Badge } from "@/shared/ui/badge";
@@ -218,7 +217,7 @@ const formatPrice = (amount: number) =>
 export function RestaurantMenuDemo() {
   const data = useMemo(() => createMenuData(), []);
 
-  const columns = useMemo<ColumnDef<MenuItem>[]>(
+  const columns = useMemo<DataTableColumnDef<MenuItem>[]>(
     () => [
       {
         id: "name",

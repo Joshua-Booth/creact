@@ -11,11 +11,20 @@ export {
   getFilterOperators,
   getValidFilters,
 } from "./data-table";
+export { dataTableFeatures } from "./features";
+export type {
+  DataTableColumn,
+  DataTableColumnDef,
+  DataTableFeatures,
+  DataTableInstance,
+  DataTableRowAction,
+} from "./features";
 export { formatDate } from "./format";
 export { getFiltersStateParser, getSortingStateParser } from "./parsers";
 export type { FilterItemSchema } from "./parsers";
 export type {
-  DataTableRowAction,
+  DataTableColumnMeta,
+  DataTableTableMeta,
   ExtendedColumnFilter,
   ExtendedColumnSort,
   FilterOperator,

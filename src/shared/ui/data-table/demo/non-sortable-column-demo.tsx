@@ -1,7 +1,6 @@
-import type { ColumnDef } from "@tanstack/react-table";
-
 import { useMemo } from "react";
 
+import type { DataTableColumnDef } from "@/shared/lib/data-table";
 import { useDataTable } from "@/shared/lib/data-table";
 
 import type { Project } from "./data-table-demo";
@@ -13,7 +12,7 @@ import { projects } from "./data-table-demo";
 
 /** Table with non-sortable, non-hideable column headers rendered as plain text. */
 export function NonSortableColumnDemo() {
-  const columns = useMemo<ColumnDef<Project>[]>(
+  const columns = useMemo<DataTableColumnDef<Project>[]>(
     () => [
       {
         id: "id",

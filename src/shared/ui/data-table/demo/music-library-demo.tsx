@@ -1,9 +1,8 @@
-import type { ColumnDef } from "@tanstack/react-table";
-
 import { useMemo } from "react";
 
 import { CalendarIcon, Text } from "lucide-react";
 
+import type { DataTableColumnDef } from "@/shared/lib/data-table";
 import { useDataTable } from "@/shared/lib/data-table";
 import { cn } from "@/shared/lib/utils";
 import { Badge } from "@/shared/ui/badge";
@@ -250,14 +249,17 @@ function StarRating({ rating }: { rating: number }) {
 export function MusicLibraryDemo() {
   const data = useMemo(() => createTrackData(), []);
 
-  const columns = useMemo<ColumnDef<Track>[]>(
+  const columns = useMemo<DataTableColumnDef<Track>[]>(
     () => [
       {
         id: "select",
         header: ({ table }) => (
           <Checkbox
             checked={table.getIsAllPageRowsSelected()}
-            indeterminate={table.getIsSomePageRowsSelected()}
+            indeterminate={
+              table.getIsSomePageRowsSelected() &&
+              !table.getIsAllPageRowsSelected()
+            }
             onCheckedChange={(value) => table.toggleAllPageRowsSelected(value)}
             aria-label="Select all"
           />

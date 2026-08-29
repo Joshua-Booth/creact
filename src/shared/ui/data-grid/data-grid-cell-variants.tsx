@@ -1,3 +1,5 @@
+import type { RowData } from "@tanstack/react-table";
+
 import {
   useCallback,
   useEffect,
@@ -74,7 +76,7 @@ function preventDefaultAndStopPropagation(event: React.SyntheticEvent) {
 /* istanbul ignore start @preserve -- browser-only cell variants tested via Storybook interaction tests */
 
 /** Short text cell with contentEditable inline editing. */
-export function ShortTextCell<TData>({
+export function ShortTextCell<TData extends RowData>({
   cell,
   tableMeta,
   rowIndex,
@@ -240,7 +242,7 @@ export function ShortTextCell<TData>({
 }
 
 /** Long text cell with popover textarea editor. */
-export function LongTextCell<TData>({
+export function LongTextCell<TData extends RowData>({
   cell,
   tableMeta,
   rowIndex,
@@ -431,7 +433,7 @@ export function LongTextCell<TData>({
 }
 
 /** Number cell with numeric input editor. */
-export function NumberCell<TData>({
+export function NumberCell<TData extends RowData>({
   cell,
   tableMeta,
   rowIndex,
@@ -576,7 +578,7 @@ export function NumberCell<TData>({
 }
 
 /** URL cell with contentEditable editing and clickable link display. */
-export function UrlCell<TData>({
+export function UrlCell<TData extends RowData>({
   cell,
   tableMeta,
   rowIndex,
@@ -807,7 +809,7 @@ export function UrlCell<TData>({
 }
 
 /** Checkbox cell with toggle on click/space/enter. */
-export function CheckboxCell<TData>({
+export function CheckboxCell<TData extends RowData>({
   cell,
   tableMeta,
   rowIndex,
@@ -902,7 +904,7 @@ export function CheckboxCell<TData>({
 }
 
 /** Select cell with dropdown selection. */
-export function SelectCell<TData>({
+export function SelectCell<TData extends RowData>({
   cell,
   tableMeta,
   rowIndex,
@@ -1036,7 +1038,7 @@ export function SelectCell<TData>({
 }
 
 /** Multi-select cell with command-based multi-select popover. */
-export function MultiSelectCell<TData>({
+export function MultiSelectCell<TData extends RowData>({
   cell,
   tableMeta,
   rowIndex,
@@ -1340,7 +1342,7 @@ export function MultiSelectCell<TData>({
 }
 
 /** Date cell with calendar popover. */
-export function DateCell<TData>({
+export function DateCell<TData extends RowData>({
   cell,
   tableMeta,
   rowIndex,
@@ -1452,7 +1454,7 @@ export function DateCell<TData>({
 }
 
 /** File cell with drag-and-drop upload and file management popover. */
-export function FileCell<TData>({
+export function FileCell<TData extends RowData>({
   cell,
   tableMeta,
   rowIndex,

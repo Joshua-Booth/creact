@@ -1,4 +1,4 @@
-import type { Column, Table } from "@tanstack/react-table";
+import type { RowData, Table } from "@tanstack/react-table";
 
 import type * as React from "react";
 import {
@@ -21,6 +21,7 @@ import {
   TextInitialIcon,
 } from "lucide-react";
 
+import type { DataGridColumn, DataGridFeatures } from "./features";
 import type {
   CellOpts,
   CellPosition,
@@ -147,9 +148,9 @@ export function getLineCount(rowHeight: RowHeightValue): number {
  * @param params.isLastColumn - Whether this is the last column
  * @returns An object indicating which borders to show
  */
-export function getColumnBorderVisibility<TData>(params: {
-  column: Column<TData>;
-  nextColumn?: Column<TData>;
+export function getColumnBorderVisibility<TData extends RowData>(params: {
+  column: DataGridColumn<TData>;
+  nextColumn?: DataGridColumn<TData>;
   isLastColumn: boolean;
 }): {
   showEndBorder: boolean;
@@ -159,13 +160,13 @@ export function getColumnBorderVisibility<TData>(params: {
 
   const isPinned = column.getIsPinned();
   const isFirstRightPinnedColumn =
-    isPinned === "right" && column.getIsFirstColumn("right");
+    isPinned === "end" && column.getIsFirstColumn("end");
   const isLastRightPinnedColumn =
-    isPinned === "right" && column.getIsLastColumn("right");
+    isPinned === "end" && column.getIsLastColumn("end");
 
   const nextIsPinned = nextColumn?.getIsPinned();
   const isBeforeRightPinned =
-    nextIsPinned === "right" && nextColumn?.getIsFirstColumn("right");
+    nextIsPinned === "end" && nextColumn?.getIsFirstColumn("end");
 
   const showEndBorder =
     !isBeforeRightPinned && (isLastColumn || !isLastRightPinnedColumn);
@@ -186,8 +187,8 @@ export function getColumnBorderVisibility<TData>(params: {
  * @param params.dir - The text direction
  * @returns CSS properties for the pinned column
  */
-export function getColumnPinningStyle<TData>(params: {
-  column: Column<TData>;
+export function getColumnPinningStyle<TData extends RowData>(params: {
+  column: DataGridColumn<TData>;
   withBorder?: boolean;
   dir?: Direction;
 }): React.CSSProperties {
@@ -195,16 +196,16 @@ export function getColumnPinningStyle<TData>(params: {
 
   const isPinned = column.getIsPinned();
   const isLastLeftPinnedColumn =
-    isPinned === "left" && column.getIsLastColumn("left");
+    isPinned === "start" && column.getIsLastColumn("start");
   const isFirstRightPinnedColumn =
-    isPinned === "right" && column.getIsFirstColumn("right");
+    isPinned === "end" && column.getIsFirstColumn("end");
 
   const isRtl = dir === "rtl";
 
   const leftPosition =
-    isPinned === "left" ? `${column.getStart("left")}px` : undefined;
+    isPinned === "start" ? `${column.getStart("start")}px` : undefined;
   const rightPosition =
-    isPinned === "right" ? `${column.getAfter("right")}px` : undefined;
+    isPinned === "end" ? `${column.getAfter("end")}px` : undefined;
 
   let boxShadow: string | undefined;
   if (withBorder) {
@@ -262,10 +263,10 @@ export function getScrollDirection(
  * @param params.direction - The scroll direction hint
  * @param params.isRtl - Whether the layout is right-to-left
  */
-export function scrollCellIntoView<TData>(params: {
+export function scrollCellIntoView<TData extends RowData>(params: {
   container: HTMLDivElement;
   targetCell: HTMLDivElement;
-  tableRef: React.RefObject<Table<TData> | null>;
+  tableRef: React.RefObject<Table<DataGridFeatures, TData> | null>;
   viewportOffset: number;
   direction?: "left" | "right" | "home" | "end";
   isRtl: boolean;
@@ -280,8 +281,8 @@ export function scrollCellIntoView<TData>(params: {
   const isActuallyRtl = isRtl || hasNegativeScroll;
 
   const currentTable = tableRef.current;
-  const leftPinnedColumns = currentTable?.getLeftVisibleLeafColumns() ?? [];
-  const rightPinnedColumns = currentTable?.getRightVisibleLeafColumns() ?? [];
+  const leftPinnedColumns = currentTable?.getStartVisibleLeafColumns() ?? [];
+  const rightPinnedColumns = currentTable?.getEndVisibleLeafColumns() ?? [];
 
   const leftPinnedWidth = leftPinnedColumns.reduce(
     (sum, c) => sum + c.getSize(),

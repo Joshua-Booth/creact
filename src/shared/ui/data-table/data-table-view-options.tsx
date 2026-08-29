@@ -1,10 +1,11 @@
-import type { Table } from "@tanstack/react-table";
+import type { RowData } from "@tanstack/react-table";
 
 import { useMemo } from "react";
 import { useTranslation } from "react-i18next";
 
 import { Check, Settings2 } from "lucide-react";
 
+import type { DataTableInstance } from "@/shared/lib/data-table";
 import { cn } from "@/shared/lib/utils";
 import { Button } from "@/shared/ui/button";
 import {
@@ -17,15 +18,15 @@ import {
 } from "@/shared/ui/command";
 import { Popover, PopoverContent, PopoverTrigger } from "@/shared/ui/popover";
 
-interface DataTableViewOptionsProps<TData> extends React.ComponentProps<
-  typeof PopoverContent
-> {
+interface DataTableViewOptionsProps<
+  TData extends RowData,
+> extends React.ComponentProps<typeof PopoverContent> {
   /** TanStack Table instance for toggling column visibility. */
-  table: Table<TData>;
+  table: DataTableInstance<TData>;
 }
 
 /** Column visibility toggle popover with searchable column list. */
-export function DataTableViewOptions<TData>({
+export function DataTableViewOptions<TData extends RowData>({
   table,
   ...props
 }: DataTableViewOptionsProps<TData>) {

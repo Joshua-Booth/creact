@@ -1,4 +1,4 @@
-import type { ColumnDef, TableMeta } from "@tanstack/react-table";
+import type { RowData } from "@tanstack/react-table";
 
 import { memo, useCallback, useMemo } from "react";
 import { useTranslation } from "react-i18next";
@@ -6,7 +6,12 @@ import { useTranslation } from "react-i18next";
 import { CopyIcon, EraserIcon, ScissorsIcon, Trash2Icon } from "lucide-react";
 import { toast } from "sonner";
 
-import type { CellUpdate, ContextMenuState } from "@/shared/lib/data-grid";
+import type {
+  CellUpdate,
+  ContextMenuState,
+  DataGridColumnDef,
+  DataGridTableMeta,
+} from "@/shared/lib/data-grid";
 import { parseCellKey, useAsRef } from "@/shared/lib/data-grid";
 import {
   DropdownMenu,
@@ -16,17 +21,17 @@ import {
   DropdownMenuTrigger,
 } from "@/shared/ui/dropdown-menu";
 
-interface DataGridContextMenuProps<TData> {
+interface DataGridContextMenuProps<TData extends RowData> {
   /** Table metadata providing callbacks for selection, data updates, and row deletion. */
-  tableMeta: TableMeta<TData>;
+  tableMeta: DataGridTableMeta;
   /** Column definitions used to determine empty values when clearing cells. */
-  columns: ColumnDef<TData>[];
+  columns: readonly DataGridColumnDef<TData>[];
   /** Open/position state controlling the context menu visibility. */
   contextMenu: ContextMenuState;
 }
 
 /** Right-click context menu with copy, cut, clear, and delete row actions. */
-export function DataGridContextMenu<TData>({
+export function DataGridContextMenu<TData extends RowData>({
   tableMeta,
   columns,
   contextMenu,
@@ -57,10 +62,10 @@ export function DataGridContextMenu<TData>({
   );
 }
 
-interface ContextMenuInnerProps<TData>
+interface ContextMenuInnerProps<TData extends RowData>
   extends
     Pick<
-      TableMeta<TData>,
+      DataGridTableMeta,
       | "dataGridRef"
       | "onContextMenuOpenChange"
       | "selectionState"
@@ -70,9 +75,9 @@ interface ContextMenuInnerProps<TData>
       | "onCellsCut"
       | "readOnly"
     >,
-    Required<Pick<TableMeta<TData>, "contextMenu">> {
-  tableMeta: TableMeta<TData>;
-  columns: ColumnDef<TData>[];
+    Required<Pick<DataGridTableMeta, "contextMenu">> {
+  tableMeta: DataGridTableMeta;
+  columns: readonly DataGridColumnDef<TData>[];
 }
 
 /* istanbul ignore start @preserve -- memo comparator is a performance optimization */
@@ -91,7 +96,7 @@ const ContextMenuInner = memo(ContextMenuInnerImpl, (prev, next) => {
 /* istanbul ignore end @preserve */
 
 /* istanbul ignore start @preserve -- browser-only context menu tested via Storybook */
-function ContextMenuInnerImpl<TData>({
+function ContextMenuInnerImpl<TData extends RowData>({
   tableMeta,
   columns,
   dataGridRef,

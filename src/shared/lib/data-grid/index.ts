@@ -25,6 +25,14 @@ export {
   parseLocalDate,
   scrollCellIntoView,
 } from "./data-grid";
+export { dataGridFeatures } from "./features";
+export type {
+  DataGridCellProps,
+  DataGridColumn,
+  DataGridColumnDef,
+  DataGridFeatures,
+  DataGridInstance,
+} from "./features";
 export type {
   BooleanFilterOperator,
   CellOpts,
@@ -33,7 +41,8 @@ export type {
   CellSelectOption,
   CellUpdate,
   ContextMenuState,
-  DataGridCellProps,
+  DataGridColumnMeta,
+  DataGridTableMeta,
   DateFilterOperator,
   Direction,
   FileCellData,

@@ -1,4 +1,4 @@
-import type { Column } from "@tanstack/react-table";
+import type { RowData } from "@tanstack/react-table";
 
 import { useTranslation } from "react-i18next";
 
@@ -10,6 +10,7 @@ import {
   X,
 } from "lucide-react";
 
+import type { DataTableColumn } from "@/shared/lib/data-table";
 import { cn } from "@/shared/lib/utils";
 import {
   DropdownMenu,
@@ -20,17 +21,17 @@ import {
 } from "@/shared/ui/dropdown-menu";
 
 interface DataTableColumnHeaderProps<
-  TData,
+  TData extends RowData,
   TValue,
 > extends React.ComponentProps<typeof DropdownMenuTrigger> {
   /** Column instance to control sorting and visibility state. */
-  column: Column<TData, TValue>;
+  column: DataTableColumn<TData, TValue>;
   /** Display label rendered in the header. */
   label: string;
 }
 
 /** Sortable column header with ascending/descending/hide controls via dropdown menu. */
-export function DataTableColumnHeader<TData, TValue>({
+export function DataTableColumnHeader<TData extends RowData, TValue>({
   column,
   label,
   className,

@@ -1,4 +1,4 @@
-import type { Column } from "@tanstack/react-table";
+import type { RowData } from "@tanstack/react-table";
 
 import { useMemo } from "react";
 import { useTranslation } from "react-i18next";
@@ -6,6 +6,7 @@ import { useTranslation } from "react-i18next";
 import type { DateRange } from "react-day-picker";
 import { CalendarIcon, XCircle } from "lucide-react";
 
+import type { DataTableColumn } from "@/shared/lib/data-table";
 import { formatDate } from "@/shared/lib/data-table";
 import {
   formatDateRangeLabel,
@@ -21,9 +22,9 @@ import { Separator } from "@/shared/ui/separator";
 
 type DateSelection = Date[] | DateRange;
 
-interface DataTableDateFilterProps<TData> {
+interface DataTableDateFilterProps<TData extends RowData> {
   /** Column instance to read and write date filter values. */
-  column: Column<TData>;
+  column: DataTableColumn<TData>;
   /** Display label for the filter trigger button. */
   title?: string;
   /** When true, enables date range selection instead of single date. */
@@ -31,7 +32,7 @@ interface DataTableDateFilterProps<TData> {
 }
 
 /** Calendar-based date filter popover supporting single date or date range selection. */
-export function DataTableDateFilter<TData>({
+export function DataTableDateFilter<TData extends RowData>({
   column,
   title,
   multiple,

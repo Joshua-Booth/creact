@@ -1,7 +1,6 @@
-import type { ColumnDef } from "@tanstack/react-table";
-
 import { useMemo, useState } from "react";
 
+import type { DataGridColumnDef } from "@/shared/lib/data-grid";
 import { useDataGrid } from "@/shared/lib/data-grid";
 
 import { DataGrid } from "../data-grid";
@@ -187,7 +186,7 @@ export function EmployeeDirectoryDemo({
 }) {
   const [data, setData] = useState(createEmployeeData);
 
-  const columns = useMemo<ColumnDef<Employee>[]>(
+  const columns = useMemo<DataGridColumnDef<Employee>[]>(
     () => [
       {
         id: "fullName",
@@ -268,14 +267,19 @@ export function EmployeeDirectoryDemo({
     enableSearch: true,
     rowHeight: "short",
     initialState: {
-      columnPinning: { left: ["fullName"] },
+      columnPinning: { start: ["fullName"], end: [] },
     },
     readOnly,
   });
 
   return (
     <div className="w-full max-w-6xl space-y-2">
-      <DataGridToolbar table={table} enableSort enableFilter enableView />
+      <DataGridToolbar<Employee>
+        table={table}
+        enableSort
+        enableFilter
+        enableView
+      />
       <DataGridKeyboardShortcuts enableSearch={!!dataGridProps.searchState} />
       <DataGrid {...dataGridProps} table={table} height={380} />
     </div>

@@ -1,9 +1,9 @@
 import type {
   ColumnSort,
   Header,
+  RowData,
   SortDirection,
   SortingState,
-  Table,
 } from "@tanstack/react-table";
 
 import { memo, useCallback } from "react";
@@ -18,6 +18,10 @@ import {
   XIcon,
 } from "lucide-react";
 
+import type {
+  DataGridFeatures,
+  DataGridInstance,
+} from "@/shared/lib/data-grid";
 import { getColumnVariant } from "@/shared/lib/data-grid";
 import { cn } from "@/shared/lib/utils";
 import {
@@ -35,17 +39,18 @@ import {
   TooltipTrigger,
 } from "@/shared/ui/tooltip";
 
-interface DataGridColumnHeaderProps<TData, TValue> extends React.ComponentProps<
-  typeof DropdownMenuTrigger
-> {
+interface DataGridColumnHeaderProps<
+  TData extends RowData,
+  TValue,
+> extends React.ComponentProps<typeof DropdownMenuTrigger> {
   /** TanStack Table header instance for this column. */
-  header: Header<TData, TValue>;
+  header: Header<DataGridFeatures, TData, TValue>;
   /** TanStack Table instance for accessing sorting and sizing state. */
-  table: Table<TData>;
+  table: DataGridInstance<TData>;
 }
 
 /** Column header with sort, pin, hide dropdown and draggable column resizer. */
-export function DataGridColumnHeader<TData, TValue>({
+export function DataGridColumnHeader<TData extends RowData, TValue>({
   header,
   table,
   className,
@@ -60,14 +65,14 @@ export function DataGridColumnHeader<TData, TValue>({
       : column.id);
 
   const isAnyColumnResizing =
-    table.getState().columnSizingInfo.isResizingColumn !== false;
+    table.state.columnResizing.isResizingColumn !== false;
 
   const cellVariant = column.columnDef.meta?.cell;
   const columnVariant = getColumnVariant(cellVariant?.variant);
 
   const pinnedPosition = column.getIsPinned();
-  const isPinnedLeft = pinnedPosition === "left";
-  const isPinnedRight = pinnedPosition === "right";
+  const isPinnedLeft = pinnedPosition === "start";
+  const isPinnedRight = pinnedPosition === "end";
 
   /* istanbul ignore start @preserve -- browser-only callback tested via Storybook */
   const onSortingChange = useCallback(
@@ -99,11 +104,11 @@ export function DataGridColumnHeader<TData, TValue>({
   }, [column.id, table]);
 
   const onLeftPin = useCallback(() => {
-    column.pin("left");
+    column.pin("start");
   }, [column]);
 
   const onRightPin = useCallback(() => {
-    column.pin("right");
+    column.pin("end");
   }, [column]);
 
   const onUnpin = useCallback(() => {
@@ -283,20 +288,20 @@ const DataGridColumnResizer = memo(DataGridColumnResizerImpl, (prev, next) => {
 /* istanbul ignore end @preserve */
 
 interface DataGridColumnResizerProps<
-  TData,
+  TData extends RowData,
   TValue,
 > extends DataGridColumnHeaderProps<TData, TValue> {
   label: string;
 }
 
 /* istanbul ignore start @preserve -- browser-only resizer tested via Storybook */
-function DataGridColumnResizerImpl<TData, TValue>({
+function DataGridColumnResizerImpl<TData extends RowData, TValue>({
   header,
   table,
   label,
 }: DataGridColumnResizerProps<TData, TValue>) {
   const { t } = useTranslation("components");
-  const defaultColumnDef = table._getDefaultColumnDef();
+  const defaultColumnDef = table.getDefaultColumnDef();
 
   /* istanbul ignore start @preserve -- browser-only callback tested via Storybook */
   const onDoubleClick = useCallback(() => {

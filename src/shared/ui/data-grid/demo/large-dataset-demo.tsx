@@ -1,7 +1,6 @@
-import type { ColumnDef } from "@tanstack/react-table";
-
 import { useMemo, useState } from "react";
 
+import type { DataGridColumnDef } from "@/shared/lib/data-grid";
 import { useDataGrid } from "@/shared/lib/data-grid";
 
 import type { Task } from "./data-grid-demo";
@@ -32,7 +31,7 @@ function createLargeDataset(): Task[] {
 export function LargeDatasetDemo({ readOnly = false }: { readOnly?: boolean }) {
   const [data, setData] = useState(createLargeDataset);
 
-  const columns = useMemo<ColumnDef<Task>[]>(
+  const columns = useMemo<DataGridColumnDef<Task>[]>(
     () => [
       {
         id: "title",
@@ -114,7 +113,7 @@ export function LargeDatasetDemo({ readOnly = false }: { readOnly?: boolean }) {
 
   return (
     <div className="w-full max-w-5xl space-y-2">
-      <DataGridToolbar
+      <DataGridToolbar<Task>
         table={table}
         enableSort
         enableFilter

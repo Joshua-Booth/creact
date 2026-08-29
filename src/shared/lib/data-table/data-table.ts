@@ -1,5 +1,6 @@
-import type { Column } from "@tanstack/react-table";
+import type { RowData } from "@tanstack/react-table";
 
+import type { DataTableColumn } from "./features";
 import type {
   ExtendedColumnFilter,
   FilterOperator,
@@ -14,24 +15,24 @@ import { dataTableConfig } from "./config";
  * @param root0.withBorder - Whether to include border shadow styles
  * @returns CSS properties for the pinned column
  */
-export function getCommonPinningStyles<TData>({
+export function getCommonPinningStyles<TData extends RowData>({
   column,
   withBorder = false,
 }: {
-  column: Column<TData>;
+  column: DataTableColumn<TData>;
   withBorder?: boolean;
 }): React.CSSProperties {
   const isPinned = column.getIsPinned();
-  const isLastLeftPinnedColumn =
-    isPinned === "left" && column.getIsLastColumn("left");
-  const isFirstRightPinnedColumn =
-    isPinned === "right" && column.getIsFirstColumn("right");
+  const isLastStartPinnedColumn =
+    isPinned === "start" && column.getIsLastColumn("start");
+  const isFirstEndPinnedColumn =
+    isPinned === "end" && column.getIsFirstColumn("end");
 
   let boxShadow: string | undefined;
   if (withBorder) {
-    if (isLastLeftPinnedColumn) {
+    if (isLastStartPinnedColumn) {
       boxShadow = "-4px 0 4px -4px var(--border) inset";
-    } else if (isFirstRightPinnedColumn) {
+    } else if (isFirstEndPinnedColumn) {
       boxShadow = "4px 0 4px -4px var(--border) inset";
     }
   }
@@ -40,8 +41,8 @@ export function getCommonPinningStyles<TData>({
 
   return {
     boxShadow,
-    left: isPinned === "left" ? `${column.getStart("left")}px` : undefined,
-    right: isPinned === "right" ? `${column.getAfter("right")}px` : undefined,
+    left: isPinned === "start" ? `${column.getStart("start")}px` : undefined,
+    right: isPinned === "end" ? `${column.getAfter("end")}px` : undefined,
     opacity: isPinned === false ? 1 : 0.97,
     position: isPinned === false ? "relative" : "sticky",
     background: "var(--background)",

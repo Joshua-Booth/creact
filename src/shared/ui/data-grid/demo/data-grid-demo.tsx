@@ -1,4 +1,4 @@
-import type { ColumnDef, Table } from "@tanstack/react-table";
+import type { RowData } from "@tanstack/react-table";
 
 import { useMemo, useState } from "react";
 
@@ -13,8 +13,14 @@ import {
   X,
 } from "lucide-react";
 
-import type { CellSelectOption, RowHeightValue } from "@/shared/lib/data-grid";
+import type {
+  CellSelectOption,
+  DataGridColumnDef,
+  DataGridInstance,
+  RowHeightValue,
+} from "@/shared/lib/data-grid";
 import { useDataGrid } from "@/shared/lib/data-grid";
+import { cn } from "@/shared/lib/utils";
 import { Badge } from "@/shared/ui/badge";
 import { Button } from "@/shared/ui/button";
 import {
@@ -142,8 +148,8 @@ const ROW_HEIGHT_LABELS: Record<RowHeightValue, string> = {
   "extra-tall": "Extra Tall",
 };
 
-interface DataGridToolbarProps<TData> {
-  table: Table<TData>;
+interface DataGridToolbarProps<TData extends RowData> {
+  table: DataGridInstance<TData>;
   enableSort?: boolean;
   enableFilter?: boolean;
   enableRowHeight?: boolean;
@@ -151,7 +157,7 @@ interface DataGridToolbarProps<TData> {
 }
 
 /** Configurable toolbar for DataGrid demos with sort, filter, row-height, and column-visibility controls. */
-export function DataGridToolbar<TData>({
+export function DataGridToolbar<TData extends RowData>({
   table,
   enableSort = false,
   enableFilter = false,
@@ -174,8 +180,12 @@ export function DataGridToolbar<TData>({
   );
 }
 
-function SortControl<TData>({ table }: { table: Table<TData> }) {
-  const sorting = table.getState().sorting;
+function SortControl<TData extends RowData>({
+  table,
+}: {
+  table: DataGridInstance<TData>;
+}) {
+  const sorting = table.state.sorting;
   const [open, setOpen] = useState(false);
 
   const sortableColumns = table
@@ -270,7 +280,9 @@ interface FilterableColumn {
   options: CellSelectOption[];
 }
 
-function getFilterableColumns<TData>(table: Table<TData>): FilterableColumn[] {
+function getFilterableColumns<TData extends RowData>(
+  table: DataGridInstance<TData>
+): FilterableColumn[] {
   return table
     .getAllColumns()
     .filter((col) => {
@@ -295,8 +307,12 @@ function getFilterableColumns<TData>(table: Table<TData>): FilterableColumn[] {
     });
 }
 
-function FilterControl<TData>({ table }: { table: Table<TData> }) {
-  const columnFilters = table.getState().columnFilters;
+function FilterControl<TData extends RowData>({
+  table,
+}: {
+  table: DataGridInstance<TData>;
+}) {
+  const columnFilters = table.state.columnFilters;
   const [open, setOpen] = useState(false);
   const [expandedColumn, setExpandedColumn] = useState<string | null>(null);
 
@@ -369,8 +385,10 @@ function FilterControl<TData>({ table }: { table: Table<TData> }) {
                           </Badge>
                         )}
                         <ChevronDown
-                          className={`size-3.5 transition-transform
-                          ${isExpanded ? "rotate-180" : ""}`}
+                          className={cn(
+                            "size-3.5 transition-transform",
+                            isExpanded && "rotate-180"
+                          )}
                         />
                       </span>
                     </CommandItem>
@@ -472,7 +490,11 @@ function RowHeightControl({
   );
 }
 
-function ViewControl<TData>({ table }: { table: Table<TData> }) {
+function ViewControl<TData extends RowData>({
+  table,
+}: {
+  table: DataGridInstance<TData>;
+}) {
   const [open, setOpen] = useState(false);
 
   const hideableColumns = table
@@ -529,7 +551,7 @@ function ViewControl<TData>({ table }: { table: Table<TData> }) {
 export function DataGridDemo({ readOnly = false }: { readOnly?: boolean }) {
   const [data, setData] = useState(createSampleData);
 
-  const columns = useMemo<ColumnDef<Task>[]>(
+  const columns = useMemo<DataGridColumnDef<Task>[]>(
     () => [
       {
         id: "title",
@@ -651,7 +673,7 @@ export function DataGridDemo({ readOnly = false }: { readOnly?: boolean }) {
 
   return (
     <div className="w-full max-w-5xl space-y-2">
-      <DataGridToolbar
+      <DataGridToolbar<Task>
         table={table}
         enableSort
         enableFilter

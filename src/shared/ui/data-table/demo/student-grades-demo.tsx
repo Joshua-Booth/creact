@@ -1,9 +1,8 @@
-import type { ColumnDef } from "@tanstack/react-table";
-
 import { useMemo } from "react";
 
 import { CalendarIcon, Text } from "lucide-react";
 
+import type { DataTableColumnDef } from "@/shared/lib/data-table";
 import { useDataTable } from "@/shared/lib/data-table";
 import { cn } from "@/shared/lib/utils";
 import { Badge } from "@/shared/ui/badge";
@@ -182,14 +181,17 @@ function averageColor(avg: number): string {
 export function StudentGradesDemo() {
   const data = useMemo(() => createStudentData(), []);
 
-  const columns = useMemo<ColumnDef<Student>[]>(
+  const columns = useMemo<DataTableColumnDef<Student>[]>(
     () => [
       {
         id: "select",
         header: ({ table }) => (
           <Checkbox
             checked={table.getIsAllPageRowsSelected()}
-            indeterminate={table.getIsSomePageRowsSelected()}
+            indeterminate={
+              table.getIsSomePageRowsSelected() &&
+              !table.getIsAllPageRowsSelected()
+            }
             onCheckedChange={(value) => table.toggleAllPageRowsSelected(value)}
             aria-label="Select all"
           />
@@ -312,8 +314,10 @@ export function StudentGradesDemo() {
           const avg = cell.getValue<number>();
           return (
             <div
-              className={`text-right font-bold tabular-nums
-                ${averageColor(avg)}`}
+              className={cn(
+                "text-right font-bold tabular-nums",
+                averageColor(avg)
+              )}
             >
               {avg}
             </div>

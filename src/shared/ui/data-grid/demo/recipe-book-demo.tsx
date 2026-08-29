@@ -1,8 +1,6 @@
-import type { ColumnDef } from "@tanstack/react-table";
-
 import { useMemo, useState } from "react";
 
-import type { FileCellData } from "@/shared/lib/data-grid";
+import type { DataGridColumnDef, FileCellData } from "@/shared/lib/data-grid";
 import { useDataGrid } from "@/shared/lib/data-grid";
 
 import { DataGrid } from "../data-grid";
@@ -201,7 +199,7 @@ const dietaryOptions = [
 export function RecipeBookDemo({ readOnly = false }: { readOnly?: boolean }) {
   const [data, setData] = useState(createRecipeData);
 
-  const columns = useMemo<ColumnDef<Recipe>[]>(
+  const columns = useMemo<DataGridColumnDef<Recipe>[]>(
     () => [
       {
         id: "name",
@@ -326,7 +324,7 @@ export function RecipeBookDemo({ readOnly = false }: { readOnly?: boolean }) {
 
   return (
     <div className="w-full max-w-6xl space-y-2">
-      <DataGridToolbar
+      <DataGridToolbar<Recipe>
         table={table}
         enableSort
         enableFilter

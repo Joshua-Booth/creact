@@ -1,7 +1,8 @@
-import type { Column, Table } from "@tanstack/react-table";
+import type { RowData, Table } from "@tanstack/react-table";
 
 import { describe, expect, it, vi } from "vitest";
 
+import type { DataGridColumn, DataGridFeatures } from "./features";
 import {
   flexRender,
   formatDateForDisplay,
@@ -405,16 +406,18 @@ describe("flexRender", () => {
   });
 });
 
-function mockBorderColumn<TData>(overrides: {
-  isPinned?: false | "left" | "right";
+function mockBorderColumn<
+  TData extends RowData = Record<string, unknown>,
+>(overrides: {
+  isPinned?: false | "start" | "end";
   isFirstRight?: boolean;
   isLastRight?: boolean;
-}): Column<TData> {
+}): DataGridColumn<TData> {
   return {
     getIsPinned: () => overrides.isPinned ?? false,
     getIsFirstColumn: () => overrides.isFirstRight ?? false,
     getIsLastColumn: () => overrides.isLastRight ?? false,
-  } as unknown as Column<TData>;
+  } as unknown as DataGridColumn<TData>;
 }
 
 describe("getColumnBorderVisibility", () => {
@@ -441,7 +444,7 @@ describe("getColumnBorderVisibility", () => {
 
   it("should hide end border before first right-pinned column", () => {
     const col = mockBorderColumn({ isPinned: false });
-    const next = mockBorderColumn({ isPinned: "right", isFirstRight: true });
+    const next = mockBorderColumn({ isPinned: "end", isFirstRight: true });
     const result = getColumnBorderVisibility({
       column: col,
       nextColumn: next,
@@ -451,7 +454,7 @@ describe("getColumnBorderVisibility", () => {
   });
 
   it("should show start border for first right-pinned column", () => {
-    const col = mockBorderColumn({ isPinned: "right", isFirstRight: true });
+    const col = mockBorderColumn({ isPinned: "end", isFirstRight: true });
     const result = getColumnBorderVisibility({
       column: col,
       isLastColumn: false,
@@ -460,7 +463,7 @@ describe("getColumnBorderVisibility", () => {
   });
 
   it("should hide end border for last right-pinned column that is not last column", () => {
-    const col = mockBorderColumn({ isPinned: "right", isLastRight: true });
+    const col = mockBorderColumn({ isPinned: "end", isLastRight: true });
     const result = getColumnBorderVisibility({
       column: col,
       isLastColumn: false,
@@ -469,14 +472,16 @@ describe("getColumnBorderVisibility", () => {
   });
 });
 
-function mockPinColumn<TData>(overrides: {
-  isPinned?: false | "left" | "right";
+function mockPinColumn<
+  TData extends RowData = Record<string, unknown>,
+>(overrides: {
+  isPinned?: false | "start" | "end";
   isLastLeft?: boolean;
   isFirstRight?: boolean;
   start?: number;
   after?: number;
   size?: number;
-}): Column<TData> {
+}): DataGridColumn<TData> {
   return {
     getIsPinned: () => overrides.isPinned ?? false,
     getIsLastColumn: () => overrides.isLastLeft ?? false,
@@ -484,7 +489,7 @@ function mockPinColumn<TData>(overrides: {
     getStart: () => overrides.start ?? 0,
     getAfter: () => overrides.after ?? 0,
     getSize: () => overrides.size ?? 100,
-  } as unknown as Column<TData>;
+  } as unknown as DataGridColumn<TData>;
 }
 
 describe("getColumnPinningStyle", () => {
@@ -499,7 +504,7 @@ describe("getColumnPinningStyle", () => {
   });
 
   it("should return sticky position for left-pinned column", () => {
-    const col = mockPinColumn({ isPinned: "left", start: 50, size: 100 });
+    const col = mockPinColumn({ isPinned: "start", start: 50, size: 100 });
     const style = getColumnPinningStyle({ column: col });
     expect(style.position).toBe("sticky");
     expect(style.left).toBe("50px");
@@ -509,7 +514,7 @@ describe("getColumnPinningStyle", () => {
   });
 
   it("should return sticky position for right-pinned column", () => {
-    const col = mockPinColumn({ isPinned: "right", after: 30, size: 100 });
+    const col = mockPinColumn({ isPinned: "end", after: 30, size: 100 });
     const style = getColumnPinningStyle({ column: col });
     expect(style.position).toBe("sticky");
     expect(style.right).toBe("30px");
@@ -517,45 +522,45 @@ describe("getColumnPinningStyle", () => {
   });
 
   it("should not add box shadow for middle pinned column with border", () => {
-    const col = mockPinColumn({ isPinned: "left", isLastLeft: false });
+    const col = mockPinColumn({ isPinned: "start", isLastLeft: false });
     const style = getColumnPinningStyle({ column: col, withBorder: true });
     expect(style.boxShadow).toBeUndefined();
   });
 
   it("should add box shadow for last left-pinned column with border", () => {
-    const col = mockPinColumn({ isPinned: "left", isLastLeft: true });
+    const col = mockPinColumn({ isPinned: "start", isLastLeft: true });
     const style = getColumnPinningStyle({ column: col, withBorder: true });
     expect(style.boxShadow).toBe("-4px 0 4px -4px var(--border) inset");
   });
 
   it("should add box shadow for first right-pinned column with border", () => {
-    const col = mockPinColumn({ isPinned: "right", isFirstRight: true });
+    const col = mockPinColumn({ isPinned: "end", isFirstRight: true });
     const style = getColumnPinningStyle({ column: col, withBorder: true });
     expect(style.boxShadow).toBe("4px 0 4px -4px var(--border) inset");
   });
 
   it("should not add box shadow without border flag", () => {
-    const col = mockPinColumn({ isPinned: "left", isLastLeft: true });
+    const col = mockPinColumn({ isPinned: "start", isLastLeft: true });
     const style = getColumnPinningStyle({ column: col });
     expect(style.boxShadow).toBeUndefined();
   });
 
   it("should swap left/right in RTL mode", () => {
-    const col = mockPinColumn({ isPinned: "left", start: 50 });
+    const col = mockPinColumn({ isPinned: "start", start: 50 });
     const style = getColumnPinningStyle({ column: col, dir: "rtl" });
     expect(style.right).toBe("50px");
     expect(style.left).toBeUndefined();
   });
 
   it("should swap right to left in RTL mode for right-pinned", () => {
-    const col = mockPinColumn({ isPinned: "right", after: 30 });
+    const col = mockPinColumn({ isPinned: "end", after: 30 });
     const style = getColumnPinningStyle({ column: col, dir: "rtl" });
     expect(style.left).toBe("30px");
     expect(style.right).toBeUndefined();
   });
 
   it("should swap box shadow direction in RTL for last left-pinned", () => {
-    const col = mockPinColumn({ isPinned: "left", isLastLeft: true });
+    const col = mockPinColumn({ isPinned: "start", isLastLeft: true });
     const style = getColumnPinningStyle({
       column: col,
       withBorder: true,
@@ -565,7 +570,7 @@ describe("getColumnPinningStyle", () => {
   });
 
   it("should swap box shadow direction in RTL for first right-pinned", () => {
-    const col = mockPinColumn({ isPinned: "right", isFirstRight: true });
+    const col = mockPinColumn({ isPinned: "end", isFirstRight: true });
     const style = getColumnPinningStyle({
       column: col,
       withBorder: true,
@@ -607,9 +612,9 @@ function createScrollMockElements(overrides?: {
 
   const tableRef = {
     current: {
-      getLeftVisibleLeafColumns: () => [],
-      getRightVisibleLeafColumns: () => [],
-    } as unknown as Table<unknown>,
+      getStartVisibleLeafColumns: () => [],
+      getEndVisibleLeafColumns: () => [],
+    } as unknown as Table<DataGridFeatures, Record<string, unknown>>,
   };
 
   return { container, targetCell, tableRef };
@@ -800,9 +805,9 @@ describe("scrollCellIntoView", () => {
 
     const tableRef = {
       current: {
-        getLeftVisibleLeafColumns: () => [{ getSize: () => 120 }],
-        getRightVisibleLeafColumns: () => [],
-      } as unknown as Table<unknown>,
+        getStartVisibleLeafColumns: () => [{ getSize: () => 120 }],
+        getEndVisibleLeafColumns: () => [],
+      } as unknown as Table<DataGridFeatures, Record<string, unknown>>,
     };
 
     scrollCellIntoView({
@@ -843,9 +848,9 @@ describe("scrollCellIntoView", () => {
 
     const tableRef = {
       current: {
-        getLeftVisibleLeafColumns: () => [],
-        getRightVisibleLeafColumns: () => [{ getSize: () => 120 }],
-      } as unknown as Table<unknown>,
+        getStartVisibleLeafColumns: () => [],
+        getEndVisibleLeafColumns: () => [{ getSize: () => 120 }],
+      } as unknown as Table<DataGridFeatures, Record<string, unknown>>,
     };
 
     scrollCellIntoView({

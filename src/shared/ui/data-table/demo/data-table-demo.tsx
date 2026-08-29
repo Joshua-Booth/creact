@@ -1,9 +1,8 @@
-import type { ColumnDef } from "@tanstack/react-table";
-
 import { useMemo } from "react";
 
 import { CheckCircle2, CircleDashed, Clock, Text, XCircle } from "lucide-react";
 
+import type { DataTableColumnDef } from "@/shared/lib/data-table";
 import { useDataTable } from "@/shared/lib/data-table";
 import { Badge } from "@/shared/ui/badge";
 import { Checkbox } from "@/shared/ui/checkbox";
@@ -141,14 +140,17 @@ export const priorityOptions = [
 
 /** Project data table with sorting, filtering, selection, and pagination. */
 export function DataTableDemo() {
-  const columns = useMemo<ColumnDef<Project>[]>(
+  const columns = useMemo<DataTableColumnDef<Project>[]>(
     () => [
       {
         id: "select",
         header: ({ table }) => (
           <Checkbox
             checked={table.getIsAllPageRowsSelected()}
-            indeterminate={table.getIsSomePageRowsSelected()}
+            indeterminate={
+              table.getIsSomePageRowsSelected() &&
+              !table.getIsAllPageRowsSelected()
+            }
             onCheckedChange={(value) => table.toggleAllPageRowsSelected(value)}
             aria-label="Select all"
           />

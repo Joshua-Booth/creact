@@ -1,8 +1,8 @@
 import type {
   ColumnPinningState,
+  ColumnVisibilityState,
   Row,
-  TableMeta,
-  VisibilityState,
+  RowData,
 } from "@tanstack/react-table";
 import type { VirtualItem } from "@tanstack/react-virtual";
 
@@ -12,6 +12,8 @@ import type { ComponentProps } from "react";
 
 import type {
   CellPosition,
+  DataGridFeatures,
+  DataGridTableMeta,
   Direction,
   RowHeightValue,
 } from "@/shared/lib/data-grid";
@@ -27,14 +29,16 @@ import { cn } from "@/shared/lib/utils";
 
 import { DataGridCell } from "./data-grid-cell";
 
-interface DataGridRowProps<TData> extends ComponentProps<"div"> {
-  row: Row<TData>;
-  tableMeta: TableMeta<TData>;
+interface DataGridRowProps<
+  TData extends RowData,
+> extends ComponentProps<"div"> {
+  row: Row<DataGridFeatures, TData>;
+  tableMeta: DataGridTableMeta;
   virtualItem: VirtualItem;
   measureElement: (node: Element | null) => void;
   rowMapRef: React.RefObject<Map<number, HTMLDivElement>>;
   rowHeight: RowHeightValue;
-  columnVisibility: VisibilityState;
+  columnVisibility: ColumnVisibilityState;
   columnPinning: ColumnPinningState;
   focusedCell: CellPosition | null;
   editingCell: CellPosition | null;
@@ -95,7 +99,7 @@ export const DataGridRow = memo(DataGridRowImpl, (prev, next) => {
 }) as typeof DataGridRowImpl;
 /* istanbul ignore end @preserve */
 
-function DataGridRowImpl<TData>({
+function DataGridRowImpl<TData extends RowData>({
   row,
   tableMeta,
   virtualItem,

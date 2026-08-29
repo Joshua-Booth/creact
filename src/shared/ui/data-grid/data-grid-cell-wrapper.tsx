@@ -1,4 +1,6 @@
 /* eslint-disable @typescript-eslint/no-unnecessary-condition -- tableMeta methods are optional at runtime despite types */
+import type { RowData } from "@tanstack/react-table";
+
 import { useCallback } from "react";
 
 import type { ComponentProps } from "react";
@@ -8,11 +10,11 @@ import { getCellKey } from "@/shared/lib/data-grid";
 import { useComposedRefs } from "@/shared/lib/data-grid/compose-refs";
 import { cn } from "@/shared/lib/utils";
 
-interface DataGridCellWrapperProps<TData>
+interface DataGridCellWrapperProps<TData extends RowData>
   extends DataGridCellProps<TData>, ComponentProps<"div"> {}
 
 /** Cell interaction wrapper that manages focus, selection, editing entry, and mouse/keyboard event delegation. */
-export function DataGridCellWrapper<TData>({
+export function DataGridCellWrapper<TData extends RowData>({
   tableMeta,
   rowIndex,
   columnId,

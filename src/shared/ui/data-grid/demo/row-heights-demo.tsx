@@ -1,7 +1,6 @@
-import type { ColumnDef } from "@tanstack/react-table";
-
 import { useMemo, useState } from "react";
 
+import type { DataGridColumnDef } from "@/shared/lib/data-grid";
 import { useDataGrid } from "@/shared/lib/data-grid";
 
 import type { Task } from "./data-grid-demo";
@@ -14,7 +13,7 @@ import { createSampleData, DataGridToolbar } from "./data-grid-demo";
 export function RowHeightsDemo({ readOnly = false }: { readOnly?: boolean }) {
   const [data, setData] = useState(createSampleData);
 
-  const columns = useMemo<ColumnDef<Task>[]>(
+  const columns = useMemo<DataGridColumnDef<Task>[]>(
     () => [
       {
         id: "title",
@@ -69,7 +68,7 @@ export function RowHeightsDemo({ readOnly = false }: { readOnly?: boolean }) {
 
   return (
     <div className="w-full max-w-4xl space-y-2">
-      <DataGridToolbar table={table} enableRowHeight enableView />
+      <DataGridToolbar<Task> table={table} enableRowHeight enableView />
       <DataGrid {...dataGridProps} table={table} height={500} />
     </div>
   );

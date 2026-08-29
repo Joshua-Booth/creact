@@ -1,10 +1,11 @@
-import type { Column } from "@tanstack/react-table";
+import type { RowData } from "@tanstack/react-table";
 
 import { useCallback, useId, useMemo } from "react";
 import { useTranslation } from "react-i18next";
 
 import { PlusCircle, XCircle } from "lucide-react";
 
+import type { DataTableColumn } from "@/shared/lib/data-table";
 import {
   formatValue,
   getIsValidRange,
@@ -26,15 +27,15 @@ interface Range {
   max: number;
 }
 
-interface DataTableSliderFilterProps<TData> {
+interface DataTableSliderFilterProps<TData extends RowData> {
   /** Column instance to read and write numeric range filter values. */
-  column: Column<TData>;
+  column: DataTableColumn<TData>;
   /** Display label for the filter trigger button. */
   title?: string;
 }
 
 /** Numeric range filter popover with dual inputs and a slider for min/max selection. */
-export function DataTableSliderFilter<TData>({
+export function DataTableSliderFilter<TData extends RowData>({
   column,
   title,
 }: DataTableSliderFilterProps<TData>) {

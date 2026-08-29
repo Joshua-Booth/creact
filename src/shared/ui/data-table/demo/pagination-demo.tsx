@@ -1,7 +1,6 @@
-import type { ColumnDef } from "@tanstack/react-table";
-
 import { useMemo } from "react";
 
+import type { DataTableColumnDef } from "@/shared/lib/data-table";
 import { useDataTable } from "@/shared/lib/data-table";
 import { Badge } from "@/shared/ui/badge";
 
@@ -28,7 +27,7 @@ function createPaginationData(): Project[] {
 export function PaginationDemo() {
   const data = useMemo(() => createPaginationData(), []);
 
-  const columns = useMemo<ColumnDef<Project>[]>(
+  const columns = useMemo<DataTableColumnDef<Project>[]>(
     () => [
       {
         id: "title",

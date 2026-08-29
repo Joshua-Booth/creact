@@ -1,7 +1,6 @@
-import type { ColumnDef } from "@tanstack/react-table";
-
 import { useMemo } from "react";
 
+import type { DataTableColumnDef } from "@/shared/lib/data-table";
 import { useDataTable } from "@/shared/lib/data-table";
 
 import type { Project } from "./data-table-demo";
@@ -15,7 +14,7 @@ import { DataTableToolbar } from "../data-table-toolbar";
 export function EmptyStateDemo() {
   const emptyData: Project[] = [];
 
-  const columns = useMemo<ColumnDef<Project>[]>(
+  const columns = useMemo<DataTableColumnDef<Project>[]>(
     () => [
       {
         id: "title",

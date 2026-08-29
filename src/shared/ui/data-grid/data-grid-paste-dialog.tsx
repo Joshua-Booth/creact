@@ -1,9 +1,10 @@
-import type { TableMeta } from "@tanstack/react-table";
-
 import { memo, useCallback, useRef } from "react";
 import { Trans, useTranslation } from "react-i18next";
 
-import type { PasteDialogState } from "@/shared/lib/data-grid";
+import type {
+  DataGridTableMeta,
+  PasteDialogState,
+} from "@/shared/lib/data-grid";
 import { useAsRef } from "@/shared/lib/data-grid";
 import { cn } from "@/shared/lib/utils";
 import { Button } from "@/shared/ui/button";
@@ -16,18 +17,18 @@ import {
   DialogTitle,
 } from "@/shared/ui/dialog";
 
-interface DataGridPasteDialogProps<TData> {
+interface DataGridPasteDialogProps {
   /** Table metadata providing paste and dialog state callbacks. */
-  tableMeta: TableMeta<TData>;
+  tableMeta: DataGridTableMeta;
   /** Open/state controlling the paste dialog and rows-needed count. */
   pasteDialog: PasteDialogState;
 }
 
 /** Confirmation dialog shown when pasted clipboard data exceeds available rows, offering to expand the grid. */
-export function DataGridPasteDialog<TData>({
+export function DataGridPasteDialog({
   tableMeta,
   pasteDialog,
-}: DataGridPasteDialogProps<TData>) {
+}: DataGridPasteDialogProps) {
   const onPasteDialogOpenChange = tableMeta.onPasteDialogOpenChange;
   const onCellsPaste = tableMeta.onCellsPaste;
 
@@ -46,8 +47,8 @@ export function DataGridPasteDialog<TData>({
 
 interface PasteDialogInnerProps
   extends
-    Pick<TableMeta<unknown>, "onPasteDialogOpenChange" | "onCellsPaste">,
-    Required<Pick<TableMeta<unknown>, "pasteDialog">> {}
+    Pick<DataGridTableMeta, "onPasteDialogOpenChange" | "onCellsPaste">,
+    Required<Pick<DataGridTableMeta, "pasteDialog">> {}
 
 /* istanbul ignore start @preserve -- memo comparator is a performance optimization */
 const PasteDialogInner = memo(PasteDialogInnerImpl, (prev, next) => {

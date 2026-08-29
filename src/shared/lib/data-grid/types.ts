@@ -1,5 +1,3 @@
-import type { Cell, RowData, TableMeta } from "@tanstack/react-table";
-
 export type Direction = "ltr" | "rtl";
 
 export type RowHeightValue = "short" | "medium" | "tall" | "extra-tall";
@@ -55,80 +53,78 @@ export interface CellUpdate {
   value: unknown;
 }
 
-declare module "@tanstack/react-table" {
-  // biome-ignore lint/correctness/noUnusedVariables: TData and TValue are used in the ColumnMeta interface
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars -- required by module augmentation
-  interface ColumnMeta<TData extends RowData, TValue> {
-    label?: string;
-    cell?: CellOpts;
-  }
+/**
+ * Column-level meta registered through the `columnMeta` feature slot
+ * (v9 replacement for the global `ColumnMeta` module augmentation).
+ */
+export interface DataGridColumnMeta {
+  label?: string;
+  cell?: CellOpts;
+}
 
-  // biome-ignore lint/correctness/noUnusedVariables: TData is used in the TableMeta interface
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars -- required by module augmentation
-  interface TableMeta<TData extends RowData> {
-    dataGridRef?: React.RefObject<HTMLElement | null>;
-    cellMapRef?: React.RefObject<Map<string, HTMLDivElement>>;
-    focusedCell?: CellPosition | null;
-    editingCell?: CellPosition | null;
-    selectionState?: SelectionState;
-    searchOpen?: boolean;
-    getIsCellSelected?: (rowIndex: number, columnId: string) => boolean;
-    getIsSearchMatch?: (rowIndex: number, columnId: string) => boolean;
-    getIsActiveSearchMatch?: (rowIndex: number, columnId: string) => boolean;
-    getVisualRowIndex?: (rowId: string) => number | undefined;
-    rowHeight?: RowHeightValue;
-    onRowHeightChange?: (value: RowHeightValue) => void;
-    onRowSelect?: (
-      rowIndex: number,
-      checked: boolean,
-      shiftKey: boolean
-    ) => void;
-    onDataUpdate?: (params: CellUpdate | CellUpdate[]) => void;
-    onRowsDelete?: (rowIndices: number[]) => void | Promise<void>;
-    onColumnClick?: (columnId: string) => void;
-    onCellClick?: (
-      rowIndex: number,
-      columnId: string,
-      event?: React.MouseEvent
-    ) => void;
-    onCellDoubleClick?: (rowIndex: number, columnId: string) => void;
-    onCellMouseDown?: (
-      rowIndex: number,
-      columnId: string,
-      event: React.MouseEvent
-    ) => void;
-    onCellMouseEnter?: (rowIndex: number, columnId: string) => void;
-    onCellMouseUp?: () => void;
-    onCellContextMenu?: (
-      rowIndex: number,
-      columnId: string,
-      event: React.MouseEvent
-    ) => void;
-    onCellEditingStart?: (rowIndex: number, columnId: string) => void;
-    onCellEditingStop?: (opts?: {
-      direction?: NavigationDirection;
-      moveToNextRow?: boolean;
-    }) => void;
-    onCellsCopy?: () => void;
-    onCellsCut?: () => void;
-    onCellsPaste?: (expand?: boolean) => void;
-    onSelectionClear?: () => void;
-    onFilesUpload?: (params: {
-      files: File[];
-      rowIndex: number;
-      columnId: string;
-    }) => Promise<FileCellData[]>;
-    onFilesDelete?: (params: {
-      fileIds: string[];
-      rowIndex: number;
-      columnId: string;
-    }) => void | Promise<void>;
-    contextMenu?: ContextMenuState;
-    onContextMenuOpenChange?: (open: boolean) => void;
-    pasteDialog?: PasteDialogState;
-    onPasteDialogOpenChange?: (open: boolean) => void;
-    readOnly?: boolean;
-  }
+/**
+ * Table-level meta registered through the `tableMeta` feature slot
+ * (v9 replacement for the global `TableMeta` module augmentation).
+ */
+export interface DataGridTableMeta {
+  dataGridRef?: React.RefObject<HTMLElement | null>;
+  cellMapRef?: React.RefObject<Map<string, HTMLDivElement>>;
+  focusedCell?: CellPosition | null;
+  editingCell?: CellPosition | null;
+  selectionState?: SelectionState;
+  searchOpen?: boolean;
+  getIsCellSelected?: (rowIndex: number, columnId: string) => boolean;
+  getIsSearchMatch?: (rowIndex: number, columnId: string) => boolean;
+  getIsActiveSearchMatch?: (rowIndex: number, columnId: string) => boolean;
+  getVisualRowIndex?: (rowId: string) => number | undefined;
+  rowHeight?: RowHeightValue;
+  onRowHeightChange?: (value: RowHeightValue) => void;
+  onRowSelect?: (rowIndex: number, checked: boolean, shiftKey: boolean) => void;
+  onDataUpdate?: (params: CellUpdate | CellUpdate[]) => void;
+  onRowsDelete?: (rowIndices: number[]) => void | Promise<void>;
+  onColumnClick?: (columnId: string) => void;
+  onCellClick?: (
+    rowIndex: number,
+    columnId: string,
+    event?: React.MouseEvent
+  ) => void;
+  onCellDoubleClick?: (rowIndex: number, columnId: string) => void;
+  onCellMouseDown?: (
+    rowIndex: number,
+    columnId: string,
+    event: React.MouseEvent
+  ) => void;
+  onCellMouseEnter?: (rowIndex: number, columnId: string) => void;
+  onCellMouseUp?: () => void;
+  onCellContextMenu?: (
+    rowIndex: number,
+    columnId: string,
+    event: React.MouseEvent
+  ) => void;
+  onCellEditingStart?: (rowIndex: number, columnId: string) => void;
+  onCellEditingStop?: (opts?: {
+    direction?: NavigationDirection;
+    moveToNextRow?: boolean;
+  }) => void;
+  onCellsCopy?: () => void;
+  onCellsCut?: () => void;
+  onCellsPaste?: (expand?: boolean) => void;
+  onSelectionClear?: () => void;
+  onFilesUpload?: (params: {
+    files: File[];
+    rowIndex: number;
+    columnId: string;
+  }) => Promise<FileCellData[]>;
+  onFilesDelete?: (params: {
+    fileIds: string[];
+    rowIndex: number;
+    columnId: string;
+  }) => void | Promise<void>;
+  contextMenu?: ContextMenuState;
+  onContextMenuOpenChange?: (open: boolean) => void;
+  pasteDialog?: PasteDialogState;
+  onPasteDialogOpenChange?: (open: boolean) => void;
+  readOnly?: boolean;
 }
 
 export interface CellPosition {
@@ -185,20 +181,6 @@ export interface SearchState {
   onSearch: (query: string) => void;
   onNavigateToNextMatch: () => void;
   onNavigateToPrevMatch: () => void;
-}
-
-export interface DataGridCellProps<TData> {
-  cell: Cell<TData, unknown>;
-  tableMeta: TableMeta<TData>;
-  rowIndex: number;
-  columnId: string;
-  rowHeight: RowHeightValue;
-  isEditing: boolean;
-  isFocused: boolean;
-  isSelected: boolean;
-  isSearchMatch: boolean;
-  isActiveSearchMatch: boolean;
-  readOnly: boolean;
 }
 
 export interface FileCellData {

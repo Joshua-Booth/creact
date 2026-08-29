@@ -1,11 +1,11 @@
-import type { Column } from "@tanstack/react-table";
+import type { RowData } from "@tanstack/react-table";
 
 import { useCallback, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
 
 import { Check, PlusCircle, XCircle } from "lucide-react";
 
-import type { Option } from "@/shared/lib/data-table";
+import type { DataTableColumn, Option } from "@/shared/lib/data-table";
 import { cn } from "@/shared/lib/utils";
 import { Badge } from "@/shared/ui/badge";
 import { Button } from "@/shared/ui/button";
@@ -23,9 +23,9 @@ import { Separator } from "@/shared/ui/separator";
 
 import { ButtonGroup } from "../button-group";
 
-interface DataTableFacetedFilterProps<TData, TValue> {
+interface DataTableFacetedFilterProps<TData extends RowData, TValue> {
   /** Column instance to read and write filter values. */
-  column?: Column<TData, TValue>;
+  column?: DataTableColumn<TData, TValue>;
   /** Display label for the filter trigger button. */
   title?: string;
   /** Selectable filter options with labels, icons, and optional counts. */
@@ -35,7 +35,7 @@ interface DataTableFacetedFilterProps<TData, TValue> {
 }
 
 /** Faceted filter popover with searchable option list for single or multi-value column filtering. */
-export function DataTableFacetedFilter<TData, TValue>({
+export function DataTableFacetedFilter<TData extends RowData, TValue>({
   column,
   title,
   options,

@@ -1,8 +1,6 @@
-import type { ColumnDef } from "@tanstack/react-table";
-
 import { useMemo, useState } from "react";
 
-import type { FileCellData } from "@/shared/lib/data-grid";
+import type { DataGridColumnDef, FileCellData } from "@/shared/lib/data-grid";
 import { useDataGrid } from "@/shared/lib/data-grid";
 
 import { DataGrid } from "../data-grid";
@@ -218,7 +216,7 @@ export function ProductCatalogDemo({
 }) {
   const [data, setData] = useState(createProductData);
 
-  const columns = useMemo<ColumnDef<Product>[]>(
+  const columns = useMemo<DataGridColumnDef<Product>[]>(
     () => [
       {
         id: "name",
@@ -347,14 +345,14 @@ export function ProductCatalogDemo({
     enablePaste: !readOnly,
     rowHeight: "extra-tall",
     initialState: {
-      columnPinning: { left: ["name"] },
+      columnPinning: { start: ["name"], end: [] },
     },
     readOnly,
   });
 
   return (
     <div className="w-full max-w-7xl space-y-2">
-      <DataGridToolbar
+      <DataGridToolbar<Product>
         table={table}
         enableSort
         enableFilter
