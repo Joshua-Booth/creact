@@ -2,6 +2,16 @@
 
 All notable changes to this project will be documented in this file.
 
+## [2.2.0](https://github.com/[secure]/creact/compare/v2.1.0...v2.2.0) (2026-08-29)
+
+### Features
+
+* **shared:** migrate tables to react-table v9 ([bf26420](https://github.com/[secure]/creact/commit/bf2642010cca30581f2114de9802b04d6f608906))
+
+### Bug Fixes
+
+* **deps:** patch vulnerable transitive dependencies ([7c6297a](https://github.com/[secure]/creact/commit/7c6297a78be3373a62a0585b4751565315584dd5))
+
 ## [2.1.0](https://github.com/Joshua-Booth/creact/compare/v2.0.1...v2.1.0) (2026-07-13)
 
 ### Features
