@@ -31,43 +31,34 @@ const meta = preview.meta({
 // --- Stories ---
 
 export const Default = meta.story({
-  parameters: {
-    msw: {
-      handlers: [
-        http.get("**/auth/user/", () => {
-          return HttpResponse.json(mockUser);
-        }),
-      ],
-    },
+  beforeEach({ msw }) {
+    msw.use(
+      http.get("**/auth/user/", () => {
+        return HttpResponse.json(mockUser);
+      })
+    );
   },
 });
 
 export const Loading = meta.story({
-  parameters: {
-    msw: {
-      handlers: [
-        http.get("**/auth/user/", () => {
-          // eslint-disable-next-line @typescript-eslint/no-empty-function -- intentionally never resolves
-          return new Promise<never>(() => {});
-        }),
-      ],
-    },
+  beforeEach({ msw }) {
+    msw.use(
+      http.get("**/auth/user/", () => {
+        // eslint-disable-next-line @typescript-eslint/no-empty-function -- intentionally never resolves
+        return new Promise<never>(() => {});
+      })
+    );
   },
 });
 
 export const ErrorState = meta.story({
   name: "Error",
-  parameters: {
-    msw: {
-      handlers: [
-        http.get("**/auth/user/", () => {
-          return HttpResponse.json(
-            { message: "Unauthorized" },
-            { status: 401 }
-          );
-        }),
-      ],
-    },
+  beforeEach({ msw }) {
+    msw.use(
+      http.get("**/auth/user/", () => {
+        return HttpResponse.json({ message: "Unauthorized" }, { status: 401 });
+      })
+    );
   },
 });
 
