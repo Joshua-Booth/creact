@@ -2,8 +2,7 @@ import type { VariantProps } from "class-variance-authority";
 import { mergeProps } from "@base-ui/react/merge-props";
 import { useRender } from "@base-ui/react/use-render";
 import { cva } from "class-variance-authority";
-
-import { cn } from "@/shared/lib/utils";
+import { cn } from "cn";
 
 /** Empty state placeholder displayed when a section has no content. Centers its children with a dashed border and balanced text. */
 function Empty({ className, ...props }: React.ComponentProps<"div">) {

@@ -4,10 +4,10 @@ import { useTranslation } from "react-i18next";
 
 import type { ComponentProps } from "react";
 import { flexRender } from "@tanstack/react-table";
+import { cn } from "cn";
 
 import type { DataTableInstance } from "@/shared/lib/data-table";
 import { getCommonPinningStyles } from "@/shared/lib/data-table";
-import { cn } from "@/shared/lib/utils";
 import {
   Table,
   TableBody,

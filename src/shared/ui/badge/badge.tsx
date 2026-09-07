@@ -2,8 +2,7 @@ import type { VariantProps } from "class-variance-authority";
 import { mergeProps } from "@base-ui/react/merge-props";
 import { useRender } from "@base-ui/react/use-render";
 import { cva } from "class-variance-authority";
-
-import { cn } from "@/shared/lib/utils";
+import { cn } from "cn";
 
 /** Style variants for the {@link Badge} component. */
 const badgeVariants = cva(

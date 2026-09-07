@@ -3,9 +3,8 @@ import { useTranslation } from "react-i18next";
 
 import { mergeProps } from "@base-ui/react/merge-props";
 import { useRender } from "@base-ui/react/use-render";
+import { cn } from "cn";
 import { ChevronRightIcon, MoreHorizontalIcon } from "lucide-react";
-
-import { cn } from "@/shared/lib/utils";
 
 /** Navigation trail showing the current page location within a hierarchy. */
 function Breadcrumb({ className, ...props }: React.ComponentProps<"nav">) {

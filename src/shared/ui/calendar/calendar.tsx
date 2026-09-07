@@ -9,6 +9,7 @@ import type {
   RootProps,
   WeekNumber,
 } from "react-day-picker";
+import { cn } from "cn";
 import {
   ChevronDownIcon,
   ChevronLeftIcon,
@@ -16,7 +17,6 @@ import {
 } from "lucide-react";
 import { DayPicker, getDefaultClassNames } from "react-day-picker";
 
-import { cn } from "@/shared/lib/utils";
 import { Button, buttonVariants } from "@/shared/ui/button";
 
 /** Outer container override for the react-day-picker root element. */

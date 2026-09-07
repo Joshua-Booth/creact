@@ -4,9 +4,9 @@ import * as React from "react";
 import { useTranslation } from "react-i18next";
 
 import { Dialog as SheetPrimitive } from "@base-ui/react/dialog";
+import { cn } from "cn";
 import { XIcon } from "lucide-react";
 
-import { cn } from "@/shared/lib/utils";
 import { Button } from "@/shared/ui/button";
 
 /**

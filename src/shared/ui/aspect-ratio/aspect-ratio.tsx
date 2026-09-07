@@ -1,4 +1,4 @@
-import { cn } from "@/shared/lib/utils";
+import { cn } from "cn";
 
 /** Constrains child content to a specified aspect ratio. */
 function AspectRatio({

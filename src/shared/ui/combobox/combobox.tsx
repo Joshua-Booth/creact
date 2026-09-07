@@ -2,9 +2,9 @@ import * as React from "react";
 import { useTranslation } from "react-i18next";
 
 import { Combobox as ComboboxPrimitive } from "@base-ui/react/combobox";
+import { cn } from "cn";
 import { CheckIcon, ChevronDownIcon, XIcon } from "lucide-react";
 
-import { cn } from "@/shared/lib/utils";
 import { Button } from "@/shared/ui/button";
 import {
   InputGroup,

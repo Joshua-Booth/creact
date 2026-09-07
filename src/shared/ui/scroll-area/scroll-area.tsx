@@ -1,6 +1,5 @@
 import { ScrollArea as ScrollAreaPrimitive } from "@base-ui/react/scroll-area";
-
-import { cn } from "@/shared/lib/utils";
+import { cn } from "cn";
 
 /** Custom scrollbar container powered by Base UI. Wraps content in a viewport with styled overlay scrollbars. */
 function ScrollArea({

@@ -7,8 +7,8 @@ import type * as React from "react";
 import { Field as FieldPrimitive } from "@base-ui/react/field";
 import { Fieldset as FieldsetPrimitive } from "@base-ui/react/fieldset";
 import { cva } from "class-variance-authority";
+import { cn } from "cn";
 
-import { cn } from "@/shared/lib/utils";
 import { Separator } from "@/shared/ui/separator";
 
 import { Label } from "../label";

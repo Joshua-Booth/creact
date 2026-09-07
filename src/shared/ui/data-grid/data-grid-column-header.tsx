@@ -9,6 +9,7 @@ import type {
 import { memo, useCallback } from "react";
 import { useTranslation } from "react-i18next";
 
+import { cn } from "cn";
 import {
   ChevronDownIcon,
   ChevronUpIcon,
@@ -23,7 +24,6 @@ import type {
   DataGridInstance,
 } from "@/shared/lib/data-grid";
 import { getColumnVariant } from "@/shared/lib/data-grid";
-import { cn } from "@/shared/lib/utils";
 import {
   DropdownMenu,
   DropdownMenuCheckboxItem,

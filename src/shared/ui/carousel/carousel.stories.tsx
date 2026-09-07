@@ -2,11 +2,11 @@
 import * as React from "react";
 
 import preview from "@/storybook/preview";
+import { cn } from "cn";
 import Autoplay from "embla-carousel-autoplay";
 import { expect, userEvent, waitFor } from "storybook/test";
 
 import type { CarouselApi } from "./carousel";
-import { cn } from "../../lib/utils";
 import {
   Carousel,
   CarouselContent,

@@ -4,9 +4,9 @@ import * as React from "react";
 import { useTranslation } from "react-i18next";
 
 import { Command as CommandPrimitive } from "cmdk";
+import { cn } from "cn";
 import { CheckIcon, SearchIcon } from "lucide-react";
 
-import { cn } from "@/shared/lib/utils";
 import {
   Dialog,
   DialogContent,

@@ -1,13 +1,13 @@
 import * as React from "react";
 import { useTranslation } from "react-i18next";
 
+import { cn } from "cn";
 import {
   ChevronLeftIcon,
   ChevronRightIcon,
   MoreHorizontalIcon,
 } from "lucide-react";
 
-import { cn } from "@/shared/lib/utils";
 import { Button } from "@/shared/ui/button";
 
 /** Page navigation control with previous/next buttons and numbered page links. */

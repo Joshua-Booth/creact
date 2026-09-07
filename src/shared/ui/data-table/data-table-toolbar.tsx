@@ -4,13 +4,13 @@ import { useCallback, useMemo } from "react";
 import { useTranslation } from "react-i18next";
 
 import type { ComponentProps } from "react";
+import { cn } from "cn";
 import { X } from "lucide-react";
 
 import type {
   DataTableColumn,
   DataTableInstance,
 } from "@/shared/lib/data-table";
-import { cn } from "@/shared/lib/utils";
 import { Button } from "@/shared/ui/button";
 import { Input } from "@/shared/ui/input";
 

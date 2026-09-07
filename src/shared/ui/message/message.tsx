@@ -1,6 +1,6 @@
 import * as React from "react";
 
-import { cn } from "@/shared/lib/utils";
+import { cn } from "cn";
 
 /** Vertical container that groups related messages together. */
 function MessageGroup({ className, ...props }: React.ComponentProps<"div">) {

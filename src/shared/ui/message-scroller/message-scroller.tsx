@@ -6,9 +6,9 @@ import {
   useMessageScrollerScrollable,
   useMessageScrollerVisibility,
 } from "@shadcn/react/message-scroller";
+import { cn } from "cn";
 import { ArrowDownIcon } from "lucide-react";
 
-import { cn } from "@/shared/lib/utils";
 import { Button } from "@/shared/ui/button";
 
 /** Context provider that shares scroller state with descendant components. */

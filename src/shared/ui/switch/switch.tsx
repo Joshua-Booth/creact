@@ -1,6 +1,5 @@
 import { Switch as SwitchPrimitive } from "@base-ui/react/switch";
-
-import { cn } from "@/shared/lib/utils";
+import { cn } from "cn";
 
 /** Toggle switch input with a sliding thumb indicator. Wraps `@base-ui/react/switch`. */
 function Switch({

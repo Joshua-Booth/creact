@@ -1,12 +1,13 @@
 import { memo, useCallback, useRef } from "react";
 import { Trans, useTranslation } from "react-i18next";
 
+import { cn } from "cn";
+
 import type {
   DataGridTableMeta,
   PasteDialogState,
 } from "@/shared/lib/data-grid";
 import { useAsRef } from "@/shared/lib/data-grid";
-import { cn } from "@/shared/lib/utils";
 import { Button } from "@/shared/ui/button";
 import {
   Dialog,

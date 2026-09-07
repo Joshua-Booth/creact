@@ -2,6 +2,7 @@ import type { RowData } from "@tanstack/react-table";
 
 import { useMemo, useState } from "react";
 
+import { cn } from "cn";
 import {
   ArrowUpDown,
   Check,
@@ -20,7 +21,6 @@ import type {
   RowHeightValue,
 } from "@/shared/lib/data-grid";
 import { useDataGrid } from "@/shared/lib/data-grid";
-import { cn } from "@/shared/lib/utils";
 import { Badge } from "@/shared/ui/badge";
 import { Button } from "@/shared/ui/button";
 import {
