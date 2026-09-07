@@ -4,10 +4,13 @@ const config: KnipConfig = {
   entry: [
     // Route entry files (referenced by routes.ts)
     "src/app/routes/*.tsx",
-    // Shared public APIs (lib segments have individual entry points)
-    "src/shared/assets/index.ts",
+    // FSD public APIs (slice/segment index.ts barrels): exports are the
+    // contract offered to consumers, so they are entries, not dead code
+    "src/entities/*/index.ts",
+    "src/widgets/*/index.ts",
+    "src/pages/*/index.ts",
+    "src/shared/*/index.ts",
     "src/shared/lib/*/index.ts",
-    "src/shared/i18n/index.ts",
   ],
 
   project: ["src/**/*.{ts,tsx}", "tests/**/*.{ts,tsx}"],
@@ -129,7 +132,6 @@ const config: KnipConfig = {
   },
 
   ignoreExportsUsedInFile: true,
-  includeEntryExports: true,
 };
 
 export default config;
