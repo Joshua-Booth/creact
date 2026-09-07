@@ -3,6 +3,7 @@ import type { RowData } from "@tanstack/react-table";
 import { useTranslation } from "react-i18next";
 
 import type { ComponentProps } from "react";
+import { cn } from "cn";
 import {
   ChevronLeft,
   ChevronRight,
@@ -11,7 +12,6 @@ import {
 } from "lucide-react";
 
 import type { DataTableInstance } from "@/shared/lib/data-table";
-import { cn } from "@/shared/lib/utils";
 import { Button } from "@/shared/ui/button";
 import {
   Select,

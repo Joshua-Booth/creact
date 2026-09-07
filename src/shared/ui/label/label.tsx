@@ -2,7 +2,7 @@
 
 import * as React from "react";
 
-import { cn } from "@/shared/lib/utils";
+import { cn } from "cn";
 
 /** Accessible form label that dims automatically when its associated control is disabled. */
 function Label({ className, ...props }: React.ComponentProps<"label">) {

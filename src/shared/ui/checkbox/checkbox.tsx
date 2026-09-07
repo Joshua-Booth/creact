@@ -1,9 +1,8 @@
 "use client";
 
 import { Checkbox as CheckboxPrimitive } from "@base-ui/react/checkbox";
+import { cn } from "cn";
 import { CheckIcon } from "lucide-react";
-
-import { cn } from "@/shared/lib/utils";
 
 /** Toggle control for boolean options. Wraps `@base-ui/react/checkbox` with project styling. */
 function Checkbox({ className, ...props }: CheckboxPrimitive.Root.Props) {

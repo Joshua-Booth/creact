@@ -4,8 +4,8 @@ import type { VariantProps } from "class-variance-authority";
 import { mergeProps } from "@base-ui/react/merge-props";
 import { useRender } from "@base-ui/react/use-render";
 import { cva } from "class-variance-authority";
+import { cn } from "cn";
 
-import { cn } from "@/shared/lib/utils";
 import { Button } from "@/shared/ui/button";
 
 /** Style variants for the {@link Attachment} component. */

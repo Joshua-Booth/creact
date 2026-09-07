@@ -1,7 +1,6 @@
 import { Accordion as AccordionPrimitive } from "@base-ui/react/accordion";
+import { cn } from "cn";
 import { ChevronDownIcon, ChevronUpIcon } from "lucide-react";
-
-import { cn } from "@/shared/lib/utils";
 
 /** Vertically stacked set of collapsible content sections. Wraps `@base-ui/react/collapsible` with project styling. */
 function Accordion({ className, ...props }: AccordionPrimitive.Root.Props) {

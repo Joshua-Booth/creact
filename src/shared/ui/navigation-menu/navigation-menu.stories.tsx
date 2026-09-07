@@ -1,4 +1,5 @@
 import preview from "@/storybook/preview";
+import { cn } from "cn";
 import {
   CircleCheckIcon,
   CircleHelpIcon,
@@ -9,7 +10,6 @@ import {
 } from "lucide-react";
 import { userEvent, within } from "storybook/test";
 
-import { cn } from "../../lib/utils";
 import {
   NavigationMenu,
   NavigationMenuContent,

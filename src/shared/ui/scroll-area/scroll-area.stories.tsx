@@ -1,7 +1,7 @@
 import preview from "@/storybook/preview";
+import { cn } from "cn";
 import { expect } from "storybook/test";
 
-import { cn } from "../../lib/utils";
 import { ScrollArea, ScrollBar } from "./scroll-area";
 
 // --- Helpers ---

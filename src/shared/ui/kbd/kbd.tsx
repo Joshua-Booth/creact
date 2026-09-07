@@ -1,4 +1,4 @@
-import { cn } from "@/shared/lib/utils";
+import { cn } from "cn";
 
 /** Inline keyboard shortcut badge for displaying key combinations. */
 function Kbd({ className, ...props }: React.ComponentProps<"kbd">) {

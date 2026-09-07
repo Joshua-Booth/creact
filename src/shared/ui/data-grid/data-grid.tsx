@@ -3,6 +3,7 @@ import type { RowData } from "@tanstack/react-table";
 import { useCallback } from "react";
 import { useTranslation } from "react-i18next";
 
+import { cn } from "cn";
 import { Plus } from "lucide-react";
 
 import type { Direction, useDataGrid } from "@/shared/lib/data-grid";
@@ -12,7 +13,6 @@ import {
   getColumnPinningStyle,
   useAsRef,
 } from "@/shared/lib/data-grid";
-import { cn } from "@/shared/lib/utils";
 
 import { DataGridColumnHeader } from "./data-grid-column-header";
 import { DataGridContextMenu } from "./data-grid-context-menu";

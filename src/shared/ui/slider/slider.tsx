@@ -3,8 +3,7 @@
 import * as React from "react";
 
 import { Slider as SliderPrimitive } from "@base-ui/react/slider";
-
-import { cn } from "@/shared/lib/utils";
+import { cn } from "cn";
 
 /** Range slider input for selecting numeric values. Supports single or multi-thumb configurations with a visible track indicator. */
 function Slider({

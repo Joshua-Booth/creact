@@ -1,8 +1,7 @@
 "use client";
 
+import { cn } from "cn";
 import * as ResizablePrimitive from "react-resizable-panels";
-
-import { cn } from "@/shared/lib/utils";
 
 /** Resizable panel layout powered by react-resizable-panels. Arranges child panels in a split-view with draggable dividers. */
 function ResizablePanelGroup({

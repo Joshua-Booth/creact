@@ -1,8 +1,7 @@
 import type { VariantProps } from "class-variance-authority";
 import { Button as ButtonPrimitive } from "@base-ui/react/button";
 import { cva } from "class-variance-authority";
-
-import { cn } from "@/shared/lib/utils";
+import { cn } from "cn";
 
 /** Style variants for the {@link Button} component. */
 const buttonVariants = cva(

@@ -3,9 +3,8 @@
 import * as React from "react";
 
 import { Select as SelectPrimitive } from "@base-ui/react/select";
+import { cn } from "cn";
 import { CheckIcon, ChevronDownIcon, ChevronUpIcon } from "lucide-react";
-
-import { cn } from "@/shared/lib/utils";
 
 /** Single-value selection dropdown. Wraps `@base-ui/react/select` with project styling. */
 const Select = SelectPrimitive.Root;

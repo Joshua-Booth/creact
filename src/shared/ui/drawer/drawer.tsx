@@ -2,9 +2,8 @@
 
 import * as React from "react";
 
+import { cn } from "cn";
 import { Drawer as DrawerPrimitive } from "vaul";
-
-import { cn } from "@/shared/lib/utils";
 
 /**
  * Touch-friendly bottom sheet overlay powered by Vaul. Supports swipe-to-dismiss and directional rendering.

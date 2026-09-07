@@ -1,6 +1,6 @@
 import * as React from "react";
 
-import { cn } from "@/shared/lib/utils";
+import { cn } from "cn";
 
 /** Styled container for grouping related content with consistent padding and borders. */
 function Card({

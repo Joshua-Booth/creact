@@ -1,9 +1,8 @@
 import * as React from "react";
 
 import { Menu as MenuPrimitive } from "@base-ui/react/menu";
+import { cn } from "cn";
 import { CheckIcon, ChevronRightIcon } from "lucide-react";
-
-import { cn } from "@/shared/lib/utils";
 
 /** Context-triggered menu for presenting a list of actions. Wraps `@base-ui/react/menu` with project styling and animation. */
 function DropdownMenu({ ...props }: MenuPrimitive.Root.Props) {

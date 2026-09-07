@@ -1,7 +1,6 @@
 import { Radio as RadioPrimitive } from "@base-ui/react/radio";
 import { RadioGroup as RadioGroupPrimitive } from "@base-ui/react/radio-group";
-
-import { cn } from "@/shared/lib/utils";
+import { cn } from "cn";
 
 /** Group of mutually exclusive radio options. Wraps `@base-ui/react/radio-group`. */
 function RadioGroup({ className, ...props }: RadioGroupPrimitive.Props) {

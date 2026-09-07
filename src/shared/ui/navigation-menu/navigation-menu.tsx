@@ -1,9 +1,8 @@
 /* eslint-disable better-tailwindcss/no-unknown-classes -- base-ui uses data-activation-direction, data-ending-style, and xs: breakpoint */
 import { NavigationMenu as NavigationMenuPrimitive } from "@base-ui/react/navigation-menu";
 import { cva } from "class-variance-authority";
+import { cn } from "cn";
 import { ChevronDownIcon } from "lucide-react";
-
-import { cn } from "@/shared/lib/utils";
 
 /** Horizontal navigation bar with animated dropdown content panels. Wraps `@base-ui/react/navigation-menu` with smooth transitions. */
 function NavigationMenu({

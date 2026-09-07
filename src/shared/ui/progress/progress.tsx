@@ -1,8 +1,7 @@
 "use client";
 
 import { Progress as ProgressPrimitive } from "@base-ui/react/progress";
-
-import { cn } from "@/shared/lib/utils";
+import { cn } from "cn";
 
 /** Horizontal progress bar indicating completion percentage. Wraps Base UI Progress. */
 function Progress({

@@ -1,8 +1,7 @@
 "use client";
 
 import { PreviewCard as PreviewCardPrimitive } from "@base-ui/react/preview-card";
-
-import { cn } from "@/shared/lib/utils";
+import { cn } from "cn";
 
 /**
  * Popup card that appears on hover for previewing linked content. Wraps `@base-ui/react/preview-card`.

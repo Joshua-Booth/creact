@@ -4,8 +4,8 @@ import type { VariantProps } from "class-variance-authority";
 import { mergeProps } from "@base-ui/react/merge-props";
 import { useRender } from "@base-ui/react/use-render";
 import { cva } from "class-variance-authority";
+import { cn } from "cn";
 
-import { cn } from "@/shared/lib/utils";
 import { Separator } from "@/shared/ui/separator";
 
 /** Container that arranges `Item` children in a vertical list. */

@@ -4,10 +4,10 @@ import * as React from "react";
 import { useTranslation } from "react-i18next";
 
 import type { UseEmblaCarouselType } from "embla-carousel-react";
+import { cn } from "cn";
 import useEmblaCarousel from "embla-carousel-react";
 import { ChevronLeftIcon, ChevronRightIcon } from "lucide-react";
 
-import { cn } from "@/shared/lib/utils";
 import { Button } from "@/shared/ui/button";
 
 type CarouselApi = UseEmblaCarouselType[1];

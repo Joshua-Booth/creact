@@ -10,6 +10,7 @@ import {
 } from "react";
 import { useTranslation } from "react-i18next";
 
+import { cn } from "cn";
 import { Check, Upload, X } from "lucide-react";
 import { toast } from "sonner";
 
@@ -26,7 +27,6 @@ import {
 } from "@/shared/lib/data-grid";
 import { useBadgeOverflow } from "@/shared/lib/data-grid/use-badge-overflow";
 import { useDebouncedCallback } from "@/shared/lib/data-table/use-debounced-callback";
-import { cn } from "@/shared/lib/utils";
 import { Badge } from "@/shared/ui/badge";
 import { Button } from "@/shared/ui/button";
 import { Calendar } from "@/shared/ui/calendar";

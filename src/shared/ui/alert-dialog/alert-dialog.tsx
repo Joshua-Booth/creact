@@ -3,8 +3,8 @@
 import * as React from "react";
 
 import { AlertDialog as AlertDialogPrimitive } from "@base-ui/react/alert-dialog";
+import { cn } from "cn";
 
-import { cn } from "@/shared/lib/utils";
 import { Button } from "@/shared/ui/button";
 
 /**

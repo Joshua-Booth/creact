@@ -2,7 +2,7 @@
 
 import * as React from "react";
 
-import { cn } from "@/shared/lib/utils";
+import { cn } from "cn";
 
 /** Responsive data table wrapped in a horizontally scrollable container. */
 function Table({ className, ...props }: React.ComponentProps<"table">) {

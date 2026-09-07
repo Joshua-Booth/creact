@@ -3,6 +3,7 @@ import type { RowData } from "@tanstack/react-table";
 import { useCallback, useId, useMemo } from "react";
 import { useTranslation } from "react-i18next";
 
+import { cn } from "cn";
 import { PlusCircle, XCircle } from "lucide-react";
 
 import type { DataTableColumn } from "@/shared/lib/data-table";
@@ -11,7 +12,6 @@ import {
   getIsValidRange,
   parseValuesAsNumbers,
 } from "@/shared/lib/data-table/slider-filter-utils";
-import { cn } from "@/shared/lib/utils";
 import { Button } from "@/shared/ui/button";
 import { ButtonGroup } from "@/shared/ui/button-group";
 import { Input } from "@/shared/ui/input";

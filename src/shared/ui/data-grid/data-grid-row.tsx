@@ -9,6 +9,7 @@ import type { VirtualItem } from "@tanstack/react-virtual";
 import { memo, useCallback, useMemo } from "react";
 
 import type { ComponentProps } from "react";
+import { cn } from "cn";
 
 import type {
   CellPosition,
@@ -25,7 +26,6 @@ import {
   getRowHeightValue,
 } from "@/shared/lib/data-grid";
 import { useComposedRefs } from "@/shared/lib/data-grid/compose-refs";
-import { cn } from "@/shared/lib/utils";
 
 import { DataGridCell } from "./data-grid-cell";
 

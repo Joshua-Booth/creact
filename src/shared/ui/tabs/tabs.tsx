@@ -1,8 +1,7 @@
 import type { VariantProps } from "class-variance-authority";
 import { Tabs as TabsPrimitive } from "@base-ui/react/tabs";
 import { cva } from "class-variance-authority";
-
-import { cn } from "@/shared/lib/utils";
+import { cn } from "cn";
 
 /** Tabbed interface for switching between content panels. Supports horizontal and vertical orientations. */
 function Tabs({

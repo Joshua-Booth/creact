@@ -1,8 +1,7 @@
 import * as React from "react";
 
 import { Input as InputPrimitive } from "@base-ui/react/input";
-
-import { cn } from "@/shared/lib/utils";
+import { cn } from "cn";
 
 /**
  * Text input field with project styling and validation states.

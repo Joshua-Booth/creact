@@ -22,7 +22,7 @@
     "prettier-plugin-classnames",
     "prettier-plugin-merge"
   ],
-  "customFunctions": ["cn", "clsx", "cva"],
+  "customFunctions": ["cn", "cva"],
   "importOrder": [
     "<TYPES>",
     "<BUILTIN_MODULES>",
