@@ -216,49 +216,18 @@ describe("formatFileSize", () => {
 });
 
 describe("getFileIcon", () => {
-  it("should return image icon for image types", () => {
-    const icon = getFileIcon("image/png");
-    expect(icon).toBeDefined();
-  });
-
-  it("should return video icon for video types", () => {
-    const icon = getFileIcon("video/mp4");
-    expect(icon).toBeDefined();
-  });
-
-  it("should return audio icon for audio types", () => {
-    const icon = getFileIcon("audio/mpeg");
-    expect(icon).toBeDefined();
-  });
-
-  it("should return text icon for PDF", () => {
-    const icon = getFileIcon("application/pdf");
-    expect(icon).toBeDefined();
-  });
-
-  it("should return archive icon for zip", () => {
-    const icon = getFileIcon("application/zip");
-    expect(icon).toBeDefined();
-  });
-
-  it("should return text icon for word documents", () => {
-    const icon = getFileIcon("application/msword");
-    expect(icon).toBeDefined();
-  });
-
-  it("should return spreadsheet icon for excel", () => {
-    const icon = getFileIcon("application/vnd.ms-excel");
-    expect(icon).toBeDefined();
-  });
-
-  it("should return presentation icon for powerpoint", () => {
-    const icon = getFileIcon("application/vnd.ms-powerpoint");
-    expect(icon).toBeDefined();
-  });
-
-  it("should return generic file icon for unknown types", () => {
-    const icon = getFileIcon("application/octet-stream");
-    expect(icon).toBeDefined();
+  it.each([
+    ["image", "image/png"],
+    ["video", "video/mp4"],
+    ["audio", "audio/mpeg"],
+    ["PDF", "application/pdf"],
+    ["zip", "application/zip"],
+    ["word document", "application/msword"],
+    ["excel", "application/vnd.ms-excel"],
+    ["powerpoint", "application/vnd.ms-powerpoint"],
+    ["unknown", "application/octet-stream"],
+  ])("should return an icon for %s types", (_label, mimeType) => {
+    expect(getFileIcon(mimeType)).toBeDefined();
   });
 
   // Verify all icons are distinct for key types
@@ -621,162 +590,96 @@ function createScrollMockElements(overrides?: {
 }
 
 describe("scrollCellIntoView", () => {
-  it("should not scroll when cell is fully visible", () => {
-    const { container, targetCell, tableRef } = createScrollMockElements({
-      containerLeft: 0,
-      containerRight: 500,
-      cellLeft: 100,
-      cellRight: 200,
-    });
+  const visibleCell = {
+    containerLeft: 0,
+    containerRight: 500,
+    cellLeft: 100,
+    cellRight: 200,
+  };
+  const clippedRight = {
+    containerLeft: 0,
+    containerRight: 500,
+    cellLeft: 450,
+    cellRight: 600,
+  };
+  const clippedLeft = {
+    containerLeft: 100,
+    containerRight: 500,
+    cellLeft: 50,
+    cellRight: 150,
+  };
 
-    scrollCellIntoView({
-      container,
-      targetCell,
-      tableRef,
-      viewportOffset: 0,
+  it.each([
+    {
+      name: "should not scroll when cell is fully visible",
+      rects: visibleCell,
+      direction: undefined,
       isRtl: false,
-    });
-
-    expect(container.scrollLeft).toBe(0);
-  });
-
-  it("should scroll right when cell is clipped right", () => {
-    const { container, targetCell, tableRef } = createScrollMockElements({
-      containerLeft: 0,
-      containerRight: 500,
-      cellLeft: 450,
-      cellRight: 600,
-    });
-
-    scrollCellIntoView({
-      container,
-      targetCell,
-      tableRef,
-      viewportOffset: 0,
+      expected: 0,
+    },
+    {
+      name: "should scroll right when cell is clipped right",
+      rects: clippedRight,
+      direction: undefined,
       isRtl: false,
-    });
-
-    expect(container.scrollLeft).toBe(100);
-  });
-
-  it("should scroll left when cell is clipped left", () => {
-    const { container, targetCell, tableRef } = createScrollMockElements({
-      containerLeft: 100,
-      containerRight: 500,
-      cellLeft: 50,
-      cellRight: 150,
-    });
-
-    scrollCellIntoView({
-      container,
-      targetCell,
-      tableRef,
-      viewportOffset: 0,
+      expected: 100,
+    },
+    {
+      name: "should scroll left when cell is clipped left",
+      rects: clippedLeft,
+      direction: undefined,
       isRtl: false,
-    });
-
-    expect(container.scrollLeft).toBe(-50);
-  });
-
-  it("should scroll right with explicit right direction", () => {
-    const { container, targetCell, tableRef } = createScrollMockElements({
-      containerLeft: 0,
-      containerRight: 500,
-      cellLeft: 450,
-      cellRight: 600,
-    });
-
-    scrollCellIntoView({
-      container,
-      targetCell,
-      tableRef,
-      viewportOffset: 0,
+      expected: -50,
+    },
+    {
+      name: "should scroll right with explicit right direction",
+      rects: clippedRight,
       direction: "right",
       isRtl: false,
-    });
-
-    expect(container.scrollLeft).toBe(100);
-  });
-
-  it("should scroll left with explicit left direction", () => {
-    const { container, targetCell, tableRef } = createScrollMockElements({
-      containerLeft: 100,
-      containerRight: 500,
-      cellLeft: 50,
-      cellRight: 150,
-    });
-
-    scrollCellIntoView({
-      container,
-      targetCell,
-      tableRef,
-      viewportOffset: 0,
+      expected: 100,
+    },
+    {
+      name: "should scroll left with explicit left direction",
+      rects: clippedLeft,
       direction: "left",
       isRtl: false,
-    });
-
-    expect(container.scrollLeft).toBe(-50);
-  });
-
-  it("should handle end direction in LTR (scrolls right)", () => {
-    const { container, targetCell, tableRef } = createScrollMockElements({
-      containerLeft: 0,
-      containerRight: 500,
-      cellLeft: 450,
-      cellRight: 600,
-    });
-
-    scrollCellIntoView({
-      container,
-      targetCell,
-      tableRef,
-      viewportOffset: 0,
+      expected: -50,
+    },
+    {
+      name: "should handle end direction in LTR (scrolls right)",
+      rects: clippedRight,
       direction: "end",
       isRtl: false,
-    });
-
-    expect(container.scrollLeft).toBe(100);
-  });
-
-  it("should handle home direction in LTR (scrolls left)", () => {
-    const { container, targetCell, tableRef } = createScrollMockElements({
-      containerLeft: 100,
-      containerRight: 500,
-      cellLeft: 50,
-      cellRight: 150,
-    });
-
-    scrollCellIntoView({
-      container,
-      targetCell,
-      tableRef,
-      viewportOffset: 0,
+      expected: 100,
+    },
+    {
+      name: "should handle home direction in LTR (scrolls left)",
+      rects: clippedLeft,
       direction: "home",
       isRtl: false,
-    });
-
-    expect(container.scrollLeft).toBe(-50);
-  });
-
-  it("should swap home/end semantics in RTL", () => {
-    const { container, targetCell, tableRef } = createScrollMockElements({
-      containerLeft: 0,
-      containerRight: 500,
-      cellLeft: 450,
-      cellRight: 600,
-    });
+      expected: -50,
+    },
+    {
+      // In RTL, "home" scrolls right
+      name: "should swap home/end semantics in RTL",
+      rects: clippedRight,
+      direction: "home",
+      isRtl: true,
+      expected: 100,
+    },
+  ] as const)("$name", ({ rects, direction, isRtl, expected }) => {
+    const { container, targetCell, tableRef } = createScrollMockElements(rects);
 
     scrollCellIntoView({
       container,
       targetCell,
       tableRef,
       viewportOffset: 0,
-      direction: "home",
-      isRtl: true,
+      direction,
+      isRtl,
     });
 
-    // In RTL, "home" scrolls right
-    expect(container.scrollLeft).toBe(100);
+    expect(container.scrollLeft).toBe(expected);
   });
 
   it("should account for pinned column widths", () => {
