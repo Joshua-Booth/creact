@@ -28,7 +28,6 @@ prettier_config = "./config/.prettierrc"
 prettier_ignore = "./config/.prettierignore"
 stylelint_config = "./config/.stylelintrc.json"
 playwright_config = "./config/playwright.config.ts"
-steiger_config = "./config/steiger.config.ts"
 knip_config = "./config/knip.config.ts"
 depcruise_config = "./config/.dependency-cruiser.js"
 cspell_config = "./config/cspell.json"
@@ -190,12 +189,12 @@ run = "semantic-release --dry-run"
 
 [tasks.steiger]
 description = "Run Steiger architecture linter"
-run = "steiger ./src --config {{vars.steiger_config}}"
+run = "steiger ./src"
 
 [tasks."steiger:fix"]
 description = "Run Steiger with auto-fix"
 alias = "sf"
-run = "steiger --fix ./src --config {{vars.steiger_config}}"
+run = "steiger --fix ./src"
 
 [tasks.stylelint]
 description = "Fix CSS/SCSS with Stylelint"

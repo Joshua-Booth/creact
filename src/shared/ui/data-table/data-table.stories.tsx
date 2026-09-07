@@ -813,21 +813,13 @@ Pagination.test(
       });
       await userEvent.click(trigger);
 
-      await waitFor(async () => {
-        const option =
-          canvasElement.ownerDocument.querySelector('[role="option"]');
-        await expect(option).not.toBeNull();
-      });
-
-      // Select 20 rows per page
-      const options =
-        canvasElement.ownerDocument.querySelectorAll('[role="option"]');
-      for (const opt of options) {
-        if (opt.textContent === "20") {
-          await userEvent.click(opt);
-          break;
-        }
-      }
+      // Select 20 rows per page. The popup mounts in its closed state before
+      // it opens, so wait for an accessible option rather than any option DOM.
+      const option = await within(canvasElement.ownerDocument.body).findByRole(
+        "option",
+        { name: "20" }
+      );
+      await userEvent.click(option);
     });
   }
 );
