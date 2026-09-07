@@ -49,24 +49,13 @@ describe("validation schemas", () => {
       expect(passwordSchema.safeParse("MySecure123").success).toBe(true);
     });
 
-    it("should reject passwords shorter than 8 characters", () => {
-      const result = passwordSchema.safeParse("Pass1");
-      expect(result.success).toBe(false);
-    });
-
-    it("should reject passwords without uppercase letters", () => {
-      const result = passwordSchema.safeParse("password1");
-      expect(result.success).toBe(false);
-    });
-
-    it("should reject passwords without lowercase letters", () => {
-      const result = passwordSchema.safeParse("PASSWORD1");
-      expect(result.success).toBe(false);
-    });
-
-    it("should reject passwords without numbers", () => {
-      const result = passwordSchema.safeParse("Password");
-      expect(result.success).toBe(false);
+    it.each([
+      ["shorter than 8 characters", "Pass1"],
+      ["without uppercase letters", "password1"],
+      ["without lowercase letters", "PASSWORD1"],
+      ["without numbers", "Password"],
+    ])("should reject passwords %s", (_reason, password) => {
+      expect(passwordSchema.safeParse(password).success).toBe(false);
     });
 
     it("should return translated minLength error message", () => {

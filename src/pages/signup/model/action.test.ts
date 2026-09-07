@@ -15,53 +15,43 @@ vi.mock("@/entities/user", () => ({
 }));
 
 describe("signupAction", () => {
-  it("should return validation error for invalid email", async () => {
-    const formData = new FormData();
-    formData.set("email", "not-an-email");
-    formData.set("password", "Password1");
-    formData.set("confirmPassword", "Password1");
+  it.each([
+    {
+      reason: "invalid email",
+      email: "not-an-email",
+      password: "Password1",
+      confirmPassword: "Password1",
+    },
+    {
+      reason: "weak password",
+      email: "user@example.com",
+      password: "weak",
+      confirmPassword: "weak",
+    },
+    {
+      reason: "password mismatch",
+      email: "user@example.com",
+      password: "Password1",
+      confirmPassword: "Password2",
+    },
+  ])(
+    "should return validation error for $reason",
+    async ({ email, password, confirmPassword }) => {
+      const formData = new FormData();
+      formData.set("email", email);
+      formData.set("password", password);
+      formData.set("confirmPassword", confirmPassword);
 
-    const result = await signupAction(formData);
+      const result = await signupAction(formData);
 
-    expect(result).toEqual(
-      expect.objectContaining({
-        success: false,
-        error: expect.any(String) as string,
-      })
-    );
-  });
-
-  it("should return validation error for weak password", async () => {
-    const formData = new FormData();
-    formData.set("email", "user@example.com");
-    formData.set("password", "weak");
-    formData.set("confirmPassword", "weak");
-
-    const result = await signupAction(formData);
-
-    expect(result).toEqual(
-      expect.objectContaining({
-        success: false,
-        error: expect.any(String) as string,
-      })
-    );
-  });
-
-  it("should return validation error for password mismatch", async () => {
-    const formData = new FormData();
-    formData.set("email", "user@example.com");
-    formData.set("password", "Password1");
-    formData.set("confirmPassword", "Password2");
-
-    const result = await signupAction(formData);
-
-    expect(result).toEqual(
-      expect.objectContaining({
-        success: false,
-        error: expect.any(String) as string,
-      })
-    );
-  });
+      expect(result).toEqual(
+        expect.objectContaining({
+          success: false,
+          error: expect.any(String) as string,
+        })
+      );
+    }
+  );
 
   it("should call setAuthTokenAndRedirect on successful signup", async () => {
     const mockResponse = new Response(null, { status: 302 });
