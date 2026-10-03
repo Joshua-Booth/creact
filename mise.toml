@@ -83,7 +83,7 @@ run = "mise run coverage:merge"
 [tasks."coverage:serve"]
 description = "Serve the merged coverage report"
 alias = "tcs"
-run = "pnpm exec serve coverage/merged/html -p 9123"
+run = "pnpm dlx serve coverage/merged/html -p 9123"
 
 [tasks.depcruise]
 description = "Check for circular dependencies and other dependency issues"
