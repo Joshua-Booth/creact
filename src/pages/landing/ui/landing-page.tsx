@@ -8,13 +8,8 @@ export function LandingPage() {
   const { t } = useTranslation();
 
   return (
-    <main
-      className="container mx-auto flex min-h-[calc(100dvh-4rem)] items-start
-        justify-center px-4 pt-[20vh]"
-    >
-      <section
-        className="flex flex-col items-center gap-4 text-center text-pretty"
-      >
+    <main className="container mx-auto flex min-h-[calc(100dvh-4rem)] items-start justify-center px-4 pt-[20vh]">
+      <section className="flex flex-col items-center gap-4 text-center text-pretty">
         <h1 className="text-accent-foreground text-4xl font-bold">
           {t("pages.landing.heading")}
         </h1>

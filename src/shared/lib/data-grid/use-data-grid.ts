@@ -365,7 +365,7 @@ export function useDataGrid<TData extends RowData>({
     return columns
       .map((c): string | undefined => {
         if (c.id) return c.id;
-        if ("accessorKey" in c) return c.accessorKey as string;
+        return "accessorKey" in c ? (c.accessorKey as string) : undefined;
       })
       .filter(Boolean);
   }, [columns]);
@@ -2310,7 +2310,7 @@ export function useDataGrid<TData extends RowData>({
       const navigableId = propsRef.current.columns
         .map((c): string | undefined => {
           if (c.id) return c.id;
-          if ("accessorKey" in c) return c.accessorKey as string;
+          return "accessorKey" in c ? (c.accessorKey as string) : undefined;
         })
         .filter(Boolean)
         .find((c) => !NON_NAVIGABLE_COLUMN_IDS.has(c));

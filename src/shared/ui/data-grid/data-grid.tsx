@@ -122,8 +122,7 @@ export function DataGrid<TData extends RowData>({
         data-slot="grid"
         tabIndex={0}
         ref={dataGridRef}
-        className="relative grid overflow-auto rounded-md border select-none
-          focus:outline-none"
+        className="relative grid overflow-auto rounded-md border select-none focus:outline-none"
         style={{
           ...columnSizeVars,
           maxHeight: `${height}px`,
@@ -166,7 +165,10 @@ export function DataGrid<TData extends RowData>({
                   });
 
                 let ariaSortValue:
-                  "ascending" | "descending" | "none" | undefined;
+                  | "ascending"
+                  | "descending"
+                  | "none"
+                  | undefined;
                 /* istanbul ignore start @preserve -- browser-only callback tested via Storybook */
                 if (currentSort?.desc === false) {
                   ariaSortValue = "ascending";
@@ -287,9 +289,7 @@ export function DataGrid<TData extends RowData>({
               <div
                 role="gridcell"
                 tabIndex={0}
-                className="bg-muted/30 hover:bg-muted/50 focus:bg-muted/50
-                  relative flex h-9 grow items-center transition-colors
-                  focus:outline-none"
+                className="bg-muted/30 hover:bg-muted/50 focus:bg-muted/50 relative flex h-9 grow items-center transition-colors focus:outline-none"
                 style={{
                   width: table.getTotalSize(),
                   minWidth: table.getTotalSize(),
@@ -297,10 +297,7 @@ export function DataGrid<TData extends RowData>({
                 onClick={onRowAdd}
                 onKeyDown={onFooterCellKeyDown}
               >
-                <div
-                  className="text-muted-foreground sticky inset-s-0 flex
-                    items-center gap-2 px-3"
-                >
+                <div className="text-muted-foreground sticky inset-s-0 flex items-center gap-2 px-3">
                   <Plus className="size-3.5" />
                   <span className="text-sm">{t("dataGrid.addRow")}</span>
                 </div>

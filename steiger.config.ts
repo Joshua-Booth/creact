@@ -2,7 +2,6 @@ import fsd from "@feature-sliced/steiger-plugin";
 import { defineConfig } from "steiger";
 
 // steiger has no --config flag; it discovers this file from the repo root.
-// eslint-disable-next-line @typescript-eslint/no-unsafe-argument -- incomplete types
 export default defineConfig([
   // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment -- incomplete types
   ...fsd.configs.recommended,

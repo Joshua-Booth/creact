@@ -164,8 +164,7 @@ export function DataTableSliderFilter<TData extends RowData>({
               <span>{title}</span>
               <Separator
                 orientation="vertical"
-                className="mx-0.5 data-[orientation=vertical]:h-4
-                  data-[orientation=vertical]:self-center"
+                className="mx-0.5 data-[orientation=vertical]:h-4 data-[orientation=vertical]:self-center"
               />
               {unitPrefix}
               {formatValue(columnFilterValue[0])} - {unitPrefix}
@@ -181,10 +180,7 @@ export function DataTableSliderFilter<TData extends RowData>({
         aria-label={t("dataTable.filterBy", { title: title ?? "" })}
       >
         <div className="flex flex-col gap-3">
-          <p
-            className="leading-none font-medium peer-disabled:cursor-not-allowed
-              peer-disabled:opacity-70"
-          >
+          <p className="leading-none font-medium peer-disabled:cursor-not-allowed peer-disabled:opacity-70">
             {title}
           </p>
           <div className="flex items-center gap-4">
@@ -193,10 +189,7 @@ export function DataTableSliderFilter<TData extends RowData>({
             </Label>
             <div className="relative">
               {unit && isPrefix && (
-                <span
-                  className="bg-accent text-muted-foreground absolute inset-y-0
-                    left-0 flex items-center rounded-l-md px-2 text-sm"
-                >
+                <span className="bg-accent text-muted-foreground absolute inset-y-0 left-0 flex items-center rounded-l-md px-2 text-sm">
                   {unit}
                 </span>
               )}
@@ -215,10 +208,7 @@ export function DataTableSliderFilter<TData extends RowData>({
                 className={cn("h-8 w-24", unit && (isPrefix ? "pl-8" : "pr-8"))}
               />
               {unit && !isPrefix && (
-                <span
-                  className="bg-accent text-muted-foreground absolute inset-y-0
-                    right-0 flex items-center rounded-r-md px-2 text-sm"
-                >
+                <span className="bg-accent text-muted-foreground absolute inset-y-0 right-0 flex items-center rounded-r-md px-2 text-sm">
                   {unit}
                 </span>
               )}
@@ -228,10 +218,7 @@ export function DataTableSliderFilter<TData extends RowData>({
             </Label>
             <div className="relative">
               {unit && isPrefix && (
-                <span
-                  className="bg-accent text-muted-foreground absolute inset-y-0
-                    left-0 flex items-center rounded-l-md px-2 text-sm"
-                >
+                <span className="bg-accent text-muted-foreground absolute inset-y-0 left-0 flex items-center rounded-l-md px-2 text-sm">
                   {unit}
                 </span>
               )}
@@ -250,10 +237,7 @@ export function DataTableSliderFilter<TData extends RowData>({
                 className={cn("h-8 w-24", unit && (isPrefix ? "pl-8" : "pr-8"))}
               />
               {unit && !isPrefix && (
-                <span
-                  className="bg-accent text-muted-foreground absolute inset-y-0
-                    right-0 flex items-center rounded-r-md px-2 text-sm"
-                >
+                <span className="bg-accent text-muted-foreground absolute inset-y-0 right-0 flex items-center rounded-r-md px-2 text-sm">
                   {unit}
                 </span>
               )}

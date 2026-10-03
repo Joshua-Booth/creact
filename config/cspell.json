@@ -127,6 +127,9 @@
     "mascarpone",
     "porcini",
     "Satie",
-    "sqft"
+    "sqft",
+    "nonoctal",
+    "proptypes",
+    "tsgolint"
   ]
 }

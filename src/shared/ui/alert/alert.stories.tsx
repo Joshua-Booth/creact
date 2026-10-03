@@ -90,8 +90,7 @@ export const Colors = meta.story({
   render: (args) => (
     <Alert
       {...args}
-      className="max-w-md border-amber-200 bg-amber-50 text-amber-900
-        dark:border-amber-900 dark:bg-amber-950 dark:text-amber-50"
+      className="max-w-md border-amber-200 bg-amber-50 text-amber-900 dark:border-amber-900 dark:bg-amber-950 dark:text-amber-50"
     >
       <AlertTriangleIcon />
       <AlertTitle>Your subscription will expire in 3 days.</AlertTitle>

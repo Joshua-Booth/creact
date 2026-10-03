@@ -47,9 +47,7 @@ const meta = preview.meta({
           <DrawerDescription>This action cannot be undone.</DrawerDescription>
         </DrawerHeader>
         <DrawerFooter>
-          <DrawerClose
-            className="bg-primary text-primary-foreground rounded-sm px-4 py-2"
-          >
+          <DrawerClose className="bg-primary text-primary-foreground rounded-sm px-4 py-2">
             Submit
           </DrawerClose>
           <DrawerClose className="hover:underline">Cancel</DrawerClose>

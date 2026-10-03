@@ -237,10 +237,7 @@ export const TooltipIndicators = meta.story({
     <div className="flex flex-col gap-8">
       {(["dot", "line", "dashed"] as const).map((indicator) => (
         <div key={indicator}>
-          <p
-            className="text-muted-foreground mb-2 text-sm font-medium
-              capitalize"
-          >
+          <p className="text-muted-foreground mb-2 text-sm font-medium capitalize">
             {indicator}
           </p>
           <ChartContainer {...args}>
@@ -287,9 +284,7 @@ export const Interactive = meta.story({
               key={key}
               type="button"
               data-active={activeChart === key}
-              className="data-[active=true]:bg-muted/50 flex flex-1 flex-col
-                items-center justify-center gap-1 border-t px-6 py-4 text-left
-                even:border-l"
+              className="data-[active=true]:bg-muted/50 flex flex-1 flex-col items-center justify-center gap-1 border-t px-6 py-4 text-left even:border-l"
               onClick={() => setActiveChart(key)}
             >
               <span className="text-muted-foreground text-xs">

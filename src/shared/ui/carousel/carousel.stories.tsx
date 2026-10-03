@@ -40,10 +40,7 @@ function CarouselWithDots(args: React.ComponentProps<typeof Carousel>) {
         <CarouselContent>
           {Array.from({ length: 5 }).map((_, index) => (
             <CarouselItem key={`slide-${index + 1}`}>
-              <div
-                className="bg-card flex aspect-square items-center
-                  justify-center rounded-sm border p-6"
-              >
+              <div className="bg-card flex aspect-square items-center justify-center rounded-sm border p-6">
                 <span className="text-4xl font-semibold">{index + 1}</span>
               </div>
             </CarouselItem>
@@ -178,10 +175,7 @@ const meta = preview.meta({
       <CarouselContent>
         {Array.from({ length: 5 }).map((_, index) => (
           <CarouselItem key={`slide-${index + 1}`}>
-            <div
-              className="bg-card flex aspect-square items-center justify-center
-                rounded-sm border p-6"
-            >
+            <div className="bg-card flex aspect-square items-center justify-center rounded-sm border p-6">
               <span className="text-4xl font-semibold">{index + 1}</span>
             </div>
           </CarouselItem>
@@ -220,10 +214,7 @@ export const Size = meta.story({
             key={`slide-${index + 1}`}
             className="md:basis-1/2 lg:basis-1/3"
           >
-            <div
-              className="bg-card flex aspect-square items-center justify-center
-                rounded-sm border p-6"
-            >
+            <div className="bg-card flex aspect-square items-center justify-center rounded-sm border p-6">
               <span className="text-4xl font-semibold">{index + 1}</span>
             </div>
           </CarouselItem>
@@ -251,10 +242,7 @@ export const Spacing = meta.story({
             key={`slide-${index + 1}`}
             className="basis-1/3 pl-2 md:pl-4"
           >
-            <div
-              className="bg-card flex aspect-square items-center justify-center
-                rounded-sm border p-6"
-            >
+            <div className="bg-card flex aspect-square items-center justify-center rounded-sm border p-6">
               <span className="text-2xl font-semibold">{index + 1}</span>
             </div>
           </CarouselItem>
@@ -278,10 +266,7 @@ export const Orientation = meta.story({
       <CarouselContent className="-mt-1 h-[200px]">
         {Array.from({ length: 5 }).map((_, index) => (
           <CarouselItem key={`slide-${index + 1}`} className="basis-1/3 pt-1">
-            <div
-              className="bg-card flex items-center justify-center rounded-sm
-                border p-6"
-            >
+            <div className="bg-card flex items-center justify-center rounded-sm border p-6">
               <span className="text-3xl font-semibold">{index + 1}</span>
             </div>
           </CarouselItem>
@@ -317,10 +302,7 @@ export const AutoPlay = meta.story({
       <CarouselContent>
         {Array.from({ length: 5 }).map((_, index) => (
           <CarouselItem key={`slide-${index + 1}`}>
-            <div
-              className="bg-card flex aspect-square items-center justify-center
-                rounded-sm border p-6"
-            >
+            <div className="bg-card flex aspect-square items-center justify-center rounded-sm border p-6">
               <span className="text-4xl font-semibold">{index + 1}</span>
             </div>
           </CarouselItem>
@@ -341,10 +323,7 @@ export const Loop = meta.story({
       <CarouselContent>
         {Array.from({ length: 5 }).map((_, index) => (
           <CarouselItem key={`slide-${index + 1}`}>
-            <div
-              className="bg-card flex aspect-square items-center justify-center
-                rounded-sm border p-6"
-            >
+            <div className="bg-card flex aspect-square items-center justify-center rounded-sm border p-6">
               <span className="text-4xl font-semibold">{index + 1}</span>
             </div>
           </CarouselItem>

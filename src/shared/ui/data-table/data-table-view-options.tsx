@@ -48,6 +48,7 @@ export function DataTableViewOptions<TData extends RowData>({
         render={
           <Button
             aria-label={t("dataTable.toggleColumns")}
+            // eslint-disable-next-line jsx-a11y/role-has-required-aria-props -- PopoverTrigger sets aria-expanded/aria-controls at runtime
             role="combobox"
             variant="outline"
             size="sm"

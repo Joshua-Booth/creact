@@ -19,6 +19,7 @@ import {
   parseAsArrayOf,
   parseAsInteger,
   parseAsString,
+  throttle,
   useQueryState,
   useQueryStates,
 } from "nuqs";
@@ -132,7 +133,7 @@ export function useDataTable<TData extends RowData>(
       history,
       scroll,
       shallow,
-      throttleMs,
+      limitUrlUpdates: throttle(throttleMs),
       debounceMs,
       clearOnDefault,
       startTransition,
@@ -221,6 +222,7 @@ export function useDataTable<TData extends RowData>(
       SingleParser<string> | SingleParser<string[]>
     > = {};
     for (const column of filterableColumns) {
+      // eslint-disable-next-line unicorn/prefer-ternary -- keeps the per-branch istanbul ignore comments
       if (column.meta?.options) {
         /* istanbul ignore next @preserve */
         parsers[column.id ?? ""] = parseAsArrayOf(

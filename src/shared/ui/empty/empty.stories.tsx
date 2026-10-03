@@ -65,8 +65,7 @@ export const Default = meta.story({
       </EmptyContent>
       <button
         type="button"
-        className="text-muted-foreground inline-flex items-center gap-1 text-sm
-          underline-offset-4 hover:underline"
+        className="text-muted-foreground inline-flex items-center gap-1 text-sm underline-offset-4 hover:underline"
       >
         Learn More <ArrowUpRightIcon className="size-3" />
       </button>
@@ -161,11 +160,7 @@ export const AvatarGroup = meta.story({
     <Empty {...args}>
       <EmptyHeader>
         <EmptyMedia>
-          <div
-            className="*:data-[slot=avatar]:ring-background flex -space-x-2
-              *:data-[slot=avatar]:size-12 *:data-[slot=avatar]:ring-2
-              *:data-[slot=avatar]:grayscale"
-          >
+          <div className="*:data-[slot=avatar]:ring-background flex -space-x-2 *:data-[slot=avatar]:size-12 *:data-[slot=avatar]:ring-2 *:data-[slot=avatar]:grayscale">
             <Avatar>
               <AvatarImage src="/avatars/01.png" alt="User 1" />
               <AvatarFallback>U1</AvatarFallback>

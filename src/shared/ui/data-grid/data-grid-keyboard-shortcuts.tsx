@@ -262,10 +262,7 @@ function DataGridKeyboardShortcutsImpl({
         </DialogHeader>
         <div className="px-6">
           <div className="relative">
-            <SearchIcon
-              className="text-muted-foreground absolute top-1/2 left-3 size-3.5
-                -translate-y-1/2"
-            />
+            <SearchIcon className="text-muted-foreground absolute top-1/2 left-3 size-3.5 -translate-y-1/2" />
             <Input
               ref={inputRef}
               placeholder={t("dataGrid.keyboard.searchPlaceholder")}
@@ -275,20 +272,11 @@ function DataGridKeyboardShortcutsImpl({
             />
           </div>
         </div>
-        <Separator
-          className="mx-auto
-            data-[orientation=horizontal]:w-[calc(100%-(--spacing(12)))]"
-        />
+        <Separator className="mx-auto data-[orientation=horizontal]:w-[calc(100%-(--spacing(12)))]" />
         <div className="h-[40vh] overflow-y-auto px-6">
           {filteredGroups.length === 0 ? (
-            <div
-              className="flex h-full flex-col items-center justify-center gap-3
-                text-center"
-            >
-              <div
-                className="bg-muted text-foreground flex size-10 shrink-0
-                  items-center justify-center rounded-lg"
-              >
+            <div className="flex h-full flex-col items-center justify-center gap-3 text-center">
+              <div className="bg-muted text-foreground flex size-10 shrink-0 items-center justify-center rounded-lg">
                 <SearchIcon className="pointer-events-none size-6" />
               </div>
               <div className="flex flex-col gap-1">

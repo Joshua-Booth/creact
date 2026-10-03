@@ -193,19 +193,16 @@ export const RenderProp = meta.story({
     <Breadcrumb {...args}>
       <BreadcrumbList>
         <BreadcrumbItem>
-          {/* eslint-disable-next-line jsx-a11y/anchor-has-content -- content provided by BreadcrumbLink children */}
           <BreadcrumbLink render={<a href="/" />}>Home</BreadcrumbLink>
         </BreadcrumbItem>
         <BreadcrumbSeparator />
         <BreadcrumbItem>
-          {/* eslint-disable-next-line jsx-a11y/anchor-has-content -- content provided by BreadcrumbLink children */}
           <BreadcrumbLink render={<a href="/settings" />}>
             Settings
           </BreadcrumbLink>
         </BreadcrumbItem>
         <BreadcrumbSeparator />
         <BreadcrumbItem>
-          {/* eslint-disable-next-line jsx-a11y/anchor-has-content -- content provided by BreadcrumbLink children */}
           <BreadcrumbLink render={<a href="/settings/account" />}>
             Account
           </BreadcrumbLink>

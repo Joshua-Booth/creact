@@ -7,7 +7,6 @@ import { withRouter } from "storybook-addon-remix-react-router";
 
 import { withDirection } from "./decorators/with-direction";
 import { withI18n } from "./decorators/with-i18n";
-
 import "../src/app/styles/globals.css";
 import "./storybook-dark.css";
 
@@ -17,7 +16,7 @@ export default definePreview({
     addonA11y,
     addonMsw(async () => {
       const worker = setupWorker();
-      await worker.start({ onUnhandledRequest: "bypass", quiet: true });
+      await worker.start({ onUnhandledFrame: "bypass", quiet: true });
       return worker;
     }),
   ],
