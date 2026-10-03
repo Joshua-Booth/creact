@@ -178,7 +178,17 @@ export default defineConfig({
       "error",
       { allowWholeFile: true },
     ],
-    "@eslint-community/eslint-comments/require-description": "warn",
+    "@eslint-community/eslint-comments/require-description": [
+      "warn",
+      {
+        additionalDirectives: [
+          "oxlint-disable",
+          "oxlint-disable-line",
+          "oxlint-disable-next-line",
+          "oxlint-enable",
+        ],
+      },
+    ],
 
     // TypeScript strict + stylistic type-checked (type-aware rules via tsgolint)
     ...errors([
@@ -469,6 +479,7 @@ export default defineConfig({
     "security/detect-child-process": "warn",
     "security/detect-disable-mustache-escape": "warn",
     "security/detect-eval-with-expression": "warn",
+    "security/detect-invisible-characters": "warn",
     "security/detect-new-buffer": "warn",
     "security/detect-no-csrf-before-method-override": "warn",
     "security/detect-non-literal-fs-filename": "warn",
@@ -481,6 +492,18 @@ export default defineConfig({
     // Dependencies, Zod
     "depend/ban-dependencies": "error",
     ...zod.configs.recommended.rules,
+    // eslint-plugin-zod 5 moved these from recommended into strict/stylistic
+    ...errors([
+      "zod/array-style",
+      "zod/prefer-enum-over-literal-union",
+      "zod/prefer-loose-object",
+      "zod/prefer-meta",
+      "zod/prefer-meta-last",
+      "zod/prefer-nullish",
+      "zod/prefer-strict-object",
+      "zod/prefer-string-schema-with-trim",
+      "zod/prefer-trim-before-string-length-checks",
+    ]),
 
     // Import/export sorting (named items only - statement order handled by Oxfmt)
     "perfectionist/sort-named-exports": ["error", { type: "natural" }],
@@ -495,6 +518,7 @@ export default defineConfig({
     "jsdoc-js/require-returns-type": "off",
     "jsdoc-js/require-param-type": "off",
     "jsdoc-js/require-jsdoc": "off",
+    "jsdoc-js/ts-ban-ts-comment": "off", // typescript/ban-ts-comment covers this
 
     // Unicorn (selective modern JS patterns)
     ...errors([
