@@ -726,7 +726,6 @@ export default defineConfig({
     // Generated files
     ".react-router/**",
     ".netlify/**",
-    "public/mockServiceWorker.js",
     // CommonJS config files (not type-checked)
     "config/.dependency-cruiser.js",
     // Claude Code skills/plugins and local tooling (gitignored)

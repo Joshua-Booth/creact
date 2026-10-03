@@ -1,11 +1,12 @@
 import tailwindcss from "@tailwindcss/vite";
+import { msw } from "msw/vite";
 import { defineConfig } from "vite";
 import svgr from "vite-plugin-svgr";
 
 import { aliases } from "../config/vite-aliases";
 
 export default defineConfig({
-  plugins: [tailwindcss(), svgr()],
+  plugins: [tailwindcss(), svgr(), msw({ mode: "worker-only" })],
   resolve: {
     alias: aliases,
   },
