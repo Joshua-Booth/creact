@@ -106,8 +106,7 @@ export function DataTableFacetedFilter<TData extends RowData, TValue>({
             {title}
             <Separator
               orientation="vertical"
-              className="mx-0.5 data-[orientation=vertical]:h-4
-                data-[orientation=vertical]:self-center"
+              className="mx-0.5 data-[orientation=vertical]:h-4 data-[orientation=vertical]:self-center"
             />
             <Badge
               variant="secondary"
@@ -162,10 +161,7 @@ export function DataTableFacetedFilter<TData extends RowData, TValue>({
           <CommandInput placeholder={title} />
           <CommandList className="max-h-full">
             <CommandEmpty>{t("dataTable.noResultsFound")}</CommandEmpty>
-            <CommandGroup
-              className="max-h-[300px] scroll-py-1 overflow-x-hidden
-                overflow-y-auto"
-            >
+            <CommandGroup className="max-h-[300px] scroll-py-1 overflow-x-hidden overflow-y-auto">
               {options.map((option) => {
                 const isSelected = selectedValues.has(option.value);
 
@@ -176,11 +172,9 @@ export function DataTableFacetedFilter<TData extends RowData, TValue>({
                   >
                     <div
                       className={cn(
-                        `border-primary flex size-4 items-center justify-center
-                        rounded-sm border`,
+                        `border-primary flex size-4 items-center justify-center rounded-sm border`,
                         isSelected
-                          ? `bg-primary text-primary-foreground
-                            [&_svg]:text-primary-foreground!`
+                          ? `bg-primary text-primary-foreground [&_svg]:text-primary-foreground!`
                           : "bg-inherit opacity-50 [&_svg]:invisible"
                       )}
                     >

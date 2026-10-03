@@ -171,12 +171,12 @@ export function DataGridCellWrapper<TData extends RowData>({
       data-editing={isEditing ? "" : undefined}
       data-focused={isFocused ? "" : undefined}
       data-selected={isSelected ? "" : undefined}
+      // eslint-disable-next-line jsx-a11y/no-noninteractive-tabindex -- roving tabindex; Oxlint ignores allowExpressionValues
       tabIndex={isFocused && !isEditing ? 0 : -1}
       {...props}
       ref={composedRef}
       className={cn(
-        `size-full px-2 py-1.5 text-start text-sm outline-none
-        has-data-[slot=checkbox]:pt-2.5`,
+        `size-full px-2 py-1.5 text-start text-sm outline-none has-data-[slot=checkbox]:pt-2.5`,
         {
           "ring-ring ring-1 ring-inset": isFocused,
           "bg-yellow-100 dark:bg-yellow-900/30":

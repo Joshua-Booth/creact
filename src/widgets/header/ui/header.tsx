@@ -13,8 +13,7 @@ function Links({ links }: { links: { name: string; path: string }[] }) {
         <Link
           key={link.path}
           to={link.path}
-          className="text-muted-foreground hover:text-foreground
-            transition-colors"
+          className="text-muted-foreground hover:text-foreground transition-colors"
         >
           {link.name}
         </Link>

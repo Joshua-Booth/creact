@@ -89,7 +89,7 @@ For more information about this project check out the [wiki].
 - :arrow_right_hook: **Git hooks** - Automated code quality checks with [Husky]
 - :bookmark: **Versioning** - Automated SemVer versioning, changelogs, and releases with [semantic-release]
 - :arrows_counterclockwise: **Dependency updates** - Automated dependency updates with [Renovate]
-- :shirt: **Linting** - [ESLint], [Prettier], [stylelint], [commitlint], [knip] for unused code detection, and [cspell] for spell checking
+- :shirt: **Linting** - [Oxlint], [Oxfmt], [stylelint], [commitlint], [knip] for unused code detection, and [cspell] for spell checking
 - :building_construction: **Architecture** - [Feature-Sliced Design][fsd] with [Steiger] for architecture linting and [Plop] for scaffolding
 - :white_check_mark: **Testing** - Unit and integration tests with [Vitest], E2E tests with [Playwright], API mocking with [MSW], mutation testing with [Stryker]
 - :chart_with_upwards_trend: **Coverage reports** - Test coverage tracking
@@ -109,8 +109,8 @@ For more information about this project check out the [wiki].
 [husky]: https://github.com/typicode/husky
 [semantic-release]: https://github.com/semantic-release/semantic-release
 [renovate]: https://github.com/renovatebot/renovate
-[eslint]: https://eslint.org/
-[prettier]: https://prettier.io/
+[oxlint]: https://oxc.rs/docs/guide/usage/linter
+[oxfmt]: https://oxc.rs/docs/guide/usage/formatter
 [stylelint]: https://stylelint.io/
 [commitlint]: https://commitlint.js.org/#/
 [knip]: https://knip.dev/
@@ -155,7 +155,6 @@ Once mise is installed, it will automatically install and use the correct Node.j
 ### Other useful global dependencies
 
 - [git-cz](https://www.npmjs.com/package/git-cz) for conventional commits
-- [prettier](https://www.npmjs.com/package/prettier) for code formatting
 
 ## Installation
 
@@ -390,14 +389,18 @@ test("shows error for invalid credentials", async ({ network, page }) => {
 
 ```sh
 mise run fix          # Auto-fix all code quality issues (alias: mise run x)
-mise run lint         # Run ESLint (alias: mise run l)
+mise run lint         # Run Oxlint (alias: mise run l)
 mise run stylelint    # Run stylelint (alias: mise run sl)
 mise run typecheck    # Run TypeScript type checking (alias: mise run tt)
-mise run format       # Format code with Prettier (alias: mise run f)
+mise run format       # Format code with Oxfmt (alias: mise run f)
 mise run knip         # Find unused code, exports, and dependencies (alias: mise run k)
 mise run spell        # Check spelling with cspell (alias: mise run sp)
 mise run steiger      # Run FSD architecture linter
 ```
+
+Oxlint runs type-aware rules through `oxlint-tsgolint`, and ESLint plugins with no native port (SonarJS, ESLint React, better-tailwindcss, etc.) through its alpha [JS plugin layer](https://oxc.rs/docs/guide/usage/linter/js-plugins). Rules that couldn't be carried over from ESLint are listed at the top of `oxlint.config.ts`.
+
+Oxfmt has no equivalent of `prettier-plugin-classnames`, so long Tailwind class strings stay on one line. If you wrap a class string by hand, `mise run format` may need a second run before `format:check` passes.
 
 ### Other Tasks
 

@@ -192,9 +192,7 @@ export const Time = meta.story({
                   type="time"
                   step="1"
                   defaultValue="10:30:00"
-                  className="appearance-none
-                    [&::-webkit-calendar-picker-indicator]:hidden
-                    [&::-webkit-calendar-picker-indicator]:appearance-none"
+                  className="appearance-none [&::-webkit-calendar-picker-indicator]:hidden [&::-webkit-calendar-picker-indicator]:appearance-none"
                 />
                 <InputGroupAddon>
                   <Clock2Icon className="text-muted-foreground" />
@@ -209,9 +207,7 @@ export const Time = meta.story({
                   type="time"
                   step="1"
                   defaultValue="12:30:00"
-                  className="appearance-none
-                    [&::-webkit-calendar-picker-indicator]:hidden
-                    [&::-webkit-calendar-picker-indicator]:appearance-none"
+                  className="appearance-none [&::-webkit-calendar-picker-indicator]:hidden [&::-webkit-calendar-picker-indicator]:appearance-none"
                 />
                 <InputGroupAddon>
                   <Clock2Icon className="text-muted-foreground" />
@@ -292,8 +288,7 @@ export const CustomDays = meta.story({
         selected={range}
         onSelect={setRange}
         captionLayout="dropdown"
-        className="rounded-md border [--cell-size:--spacing(10)]
-          md:[--cell-size:--spacing(12)]"
+        className="rounded-md border [--cell-size:--spacing(10)] md:[--cell-size:--spacing(12)]"
         formatters={{
           formatMonthDropdown: (date) =>
             date.toLocaleString("default", { month: "long" }),

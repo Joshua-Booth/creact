@@ -47,6 +47,8 @@ const config: KnipConfig = {
     "es-toolkit",
     // CLI tool for spell checking (run via mise tasks)
     "cspell",
+    // CLI formatter (run via mise tasks)
+    "oxfmt",
     // Imported in .storybook/preview.tsx (not traced by knip's Storybook plugin)
     "msw-storybook-addon",
     // Coverage tooling (loaded dynamically by vitest)
@@ -81,12 +83,8 @@ const config: KnipConfig = {
   },
 
   // Linting & formatting
-  eslint: {
-    config: ["config/eslint.config.ts"],
-  },
-
-  prettier: {
-    config: ["config/.prettierrc"],
+  oxlint: {
+    config: ["oxlint.config.ts"],
   },
 
   stylelint: {

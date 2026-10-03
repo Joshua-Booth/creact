@@ -63,9 +63,7 @@ export const Horizontal = meta.story({
         <div className="flex w-max space-x-4 p-4">
           {artworks.map((artwork) => (
             <figure key={artwork.artist} className="shrink-0">
-              <div
-                className="bg-muted aspect-3/4 h-40 overflow-hidden rounded-md"
-              />
+              <div className="bg-muted aspect-3/4 h-40 overflow-hidden rounded-md" />
               <figcaption className="text-muted-foreground pt-2 text-xs">
                 Photo by{" "}
                 <span className="text-foreground font-semibold">

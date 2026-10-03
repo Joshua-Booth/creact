@@ -7,7 +7,6 @@ import { withRouter } from "storybook-addon-remix-react-router";
 
 import { withDirection } from "./decorators/with-direction";
 import { withI18n } from "./decorators/with-i18n";
-
 import "../src/app/styles/globals.css";
 import "./storybook-dark.css";
 

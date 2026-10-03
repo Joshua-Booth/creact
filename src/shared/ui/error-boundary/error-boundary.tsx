@@ -53,7 +53,6 @@ export class ErrorBoundary extends Component<
   };
   /* istanbul ignore end @preserve */
 
-  // eslint-disable-next-line sonarjs/function-return-type -- Error boundaries need conditional rendering by design
   override render(): ReactNode {
     if (this.state.hasError) {
       if (this.props.fallback != null) {

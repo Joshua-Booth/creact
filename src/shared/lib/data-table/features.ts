@@ -55,8 +55,10 @@ export const dataTableFeatures = tableFeatures({
   facetedRowModel: createFacetedRowModel(),
   facetedUniqueValues: createFacetedUniqueValues(),
   facetedMinMaxValues: createFacetedMinMaxValues(),
+  /* eslint-disable @typescript-eslint/no-deprecated -- full registries keep "auto" resolution (see above) */
   filterFns,
   sortFns,
+  /* eslint-enable @typescript-eslint/no-deprecated -- end of full registries */
   tableMeta: metaHelper<DataTableTableMeta>(),
   columnMeta: metaHelper<DataTableColumnMeta>(),
 });

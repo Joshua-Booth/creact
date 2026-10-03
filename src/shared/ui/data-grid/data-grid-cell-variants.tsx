@@ -418,9 +418,7 @@ export function LongTextCell<TData extends RowData>({
       >
         <Textarea
           placeholder={t("dataGrid.cell.enterText")}
-          className="focus-visible:ring-ring max-h-[300px] min-h-[150px]
-            resize-none overflow-y-auto rounded-none border-0 shadow-none
-            focus-visible:ring-1"
+          className="focus-visible:ring-ring max-h-[300px] min-h-[150px] resize-none overflow-y-auto rounded-none border-0 shadow-none focus-visible:ring-1"
           ref={textareaRef}
           value={value}
           onBlur={onBlur}
@@ -564,9 +562,7 @@ export function NumberCell<TData extends RowData>({
           min={min}
           max={max}
           step={step}
-          className="w-full [appearance:textfield] border-none bg-transparent
-            p-0 outline-none [&::-webkit-inner-spin-button]:appearance-none
-            [&::-webkit-outer-spin-button]:appearance-none"
+          className="w-full [appearance:textfield] border-none bg-transparent p-0 outline-none [&::-webkit-inner-spin-button]:appearance-none [&::-webkit-outer-spin-button]:appearance-none"
           onBlur={onBlur}
           onChange={onChange}
         />
@@ -772,14 +768,7 @@ export function UrlCell<TData extends RowData>({
             href={urlHref}
             target="_blank"
             rel="noopener noreferrer"
-            className="text-primary decoration-primary/30
-              hover:decoration-primary/60 data-invalid:text-destructive
-              data-focused:text-foreground
-              data-invalid:decoration-destructive/50
-              data-focused:decoration-foreground/50
-              data-focused:hover:decoration-foreground/70
-              data-invalid:hover:decoration-destructive/70 truncate underline
-              underline-offset-2 data-invalid:cursor-not-allowed"
+            className="text-primary decoration-primary/30 hover:decoration-primary/60 data-invalid:text-destructive data-focused:text-foreground data-invalid:decoration-destructive/50 data-focused:decoration-foreground/50 data-focused:hover:decoration-foreground/70 data-invalid:hover:decoration-destructive/70 truncate underline underline-offset-2 data-invalid:cursor-not-allowed"
             onClick={onLinkClick}
           >
             {displayValue}
@@ -995,8 +984,7 @@ export function SelectCell<TData extends RowData>({
         >
           <SelectTrigger
             size="sm"
-            className="size-full items-start border-none p-0 shadow-none
-              focus-visible:ring-0 dark:bg-transparent [&_svg]:hidden"
+            className="size-full items-start border-none p-0 shadow-none focus-visible:ring-0 dark:bg-transparent [&_svg]:hidden"
           >
             {displayLabel === "" ? (
               <SelectValue />
@@ -1213,16 +1201,8 @@ export function MultiSelectCell<TData extends RowData>({
               label: cell.column.columnDef.meta?.label ?? columnId,
             })}
           >
-            <Command
-              className="**:data-[slot=command-input-wrapper]:h-auto
-                **:data-[slot=command-input-wrapper]:border-none
-                **:data-[slot=command-input-wrapper]:p-0
-                [&_[data-slot=command-input-wrapper]_svg]:hidden"
-            >
-              <div
-                className="flex min-h-9 flex-wrap items-center gap-1 border-b
-                  px-3 py-1.5"
-              >
+            <Command className="**:data-[slot=command-input-wrapper]:h-auto **:data-[slot=command-input-wrapper]:border-none **:data-[slot=command-input-wrapper]:p-0 [&_[data-slot=command-input-wrapper]_svg]:hidden">
+              <div className="flex min-h-9 flex-wrap items-center gap-1 border-b px-3 py-1.5">
                 {selectedValues.map((value) => {
                   const option = options.find((opt) => opt.value === value);
                   const label = option?.label ?? value;
@@ -1264,10 +1244,7 @@ export function MultiSelectCell<TData extends RowData>({
               </div>
               <CommandList className="max-h-full">
                 <CommandEmpty>{t("dataGrid.cell.noOptionsFound")}</CommandEmpty>
-                <CommandGroup
-                  className="max-h-[300px] scroll-py-1 overflow-x-hidden
-                    overflow-y-auto"
-                >
+                <CommandGroup className="max-h-[300px] scroll-py-1 overflow-x-hidden overflow-y-auto">
                   {options.map((option) => {
                     const isOptionSelected = selectedValues.includes(
                       option.value
@@ -1284,8 +1261,7 @@ export function MultiSelectCell<TData extends RowData>({
                       >
                         <div
                           className={cn(
-                            `border-primary flex size-4 items-center
-                              justify-center rounded-sm border`,
+                            `border-primary flex size-4 items-center justify-center rounded-sm border`,
                             isOptionSelected
                               ? "bg-primary text-primary-foreground"
                               : "opacity-50 [&_svg]:invisible"
@@ -2039,13 +2015,7 @@ export function FileCell<TData extends RowData>({
                 data-invalid={error ? "" : undefined}
                 data-disabled={isPending ? "" : undefined}
                 tabIndex={isDragging || isPending ? -1 : 0}
-                className="hover:bg-accent/30 focus-visible:border-ring/50
-                  data-dragging:border-primary/30
-                  data-invalid:border-destructive data-dragging:bg-accent/30
-                  data-invalid:ring-destructive/20 flex cursor-pointer flex-col
-                  items-center justify-center gap-2 rounded-md border-2
-                  border-dashed p-6 transition-colors outline-none
-                  data-disabled:pointer-events-none data-disabled:opacity-50"
+                className="hover:bg-accent/30 focus-visible:border-ring/50 data-dragging:border-primary/30 data-invalid:border-destructive data-dragging:bg-accent/30 data-invalid:ring-destructive/20 flex cursor-pointer flex-col items-center justify-center gap-2 rounded-md border-2 border-dashed p-6 transition-colors outline-none data-disabled:pointer-events-none data-disabled:opacity-50"
                 ref={dropzoneRef}
                 onClick={onDropzoneClick}
                 onDragEnter={onDropzoneDragEnter}
@@ -2116,13 +2086,9 @@ export function FileCell<TData extends RowData>({
                         <div
                           key={file.id}
                           data-pending={isFilePending ? "" : undefined}
-                          className="bg-muted/50 flex items-center gap-2
-                            rounded-md border px-2 py-1.5
-                            data-pending:opacity-60"
+                          className="bg-muted/50 flex items-center gap-2 rounded-md border px-2 py-1.5 data-pending:opacity-60"
                         >
-                          <FileIcon
-                            className="text-muted-foreground size-4 shrink-0"
-                          />
+                          <FileIcon className="text-muted-foreground size-4 shrink-0" />
                           <div className="flex-1 overflow-hidden">
                             <p className="truncate text-sm">{file.name}</p>
                             <p className="text-muted-foreground text-xs">
@@ -2153,10 +2119,7 @@ export function FileCell<TData extends RowData>({
         </Popover>
       ) : null}
       {isDraggingOver && (
-        <div
-          className="text-primary flex items-center justify-center gap-2
-            text-sm"
-        >
+        <div className="text-primary flex items-center justify-center gap-2 text-sm">
           <Upload className="size-4" />
           <span>{t("dataGrid.cell.dropFilesHere")}</span>
         </div>
