@@ -23,9 +23,6 @@ port = "8080"
 api_port = "8000"
 
 # Config paths
-eslint_config = "./config/eslint.config.ts"
-prettier_config = "./config/.prettierrc"
-prettier_ignore = "./config/.prettierignore"
 stylelint_config = "./config/.stylelintrc.json"
 playwright_config = "./config/playwright.config.ts"
 steiger_config = "./config/steiger.config.ts"
@@ -109,21 +106,22 @@ description = "Scaffold FSD slices and components"
 alias = "g"
 run = "pnpm exec plop --plopfile config/plopfile.ts --dest ."
 
+# Oxfmt reads the root .oxfmtrc.json (its ignorePatterns only match files below it)
 [tasks.format]
-description = "Format code with Prettier"
+description = "Format code with Oxfmt"
 alias = "f"
-run = "prettier --write \"**/*.{ts,tsx,js,css,json,yml,yaml,mdx}\" --config {{vars.prettier_config}} --ignore-path {{vars.prettier_ignore}} --cache"
+run = "oxfmt"
 
 [tasks."format:files"]
 description = "Format specific files (for lint-staged)"
 hide = true
-# --ignore-unknown: skip files Prettier can't parse (e.g. .toml) instead of failing
-run = "prettier --config {{vars.prettier_config}} --ignore-path {{vars.prettier_ignore}} --ignore-unknown --write"
+# Ignored or unsupported files (e.g. .md, .toml) are skipped instead of failing
+run = "oxfmt --no-error-on-unmatched-pattern"
 
 [tasks."format:check"]
-description = "Check code formatting with Prettier"
+description = "Check code formatting with Oxfmt"
 alias = "fc"
-run = "prettier --check \"**/*.{ts,tsx,js,css,json,yml,yaml,mdx}\" --config {{vars.prettier_config}} --ignore-path {{vars.prettier_ignore}} --cache"
+run = "oxfmt --check"
 
 [tasks.fix]
 description = "Auto-fix all code quality issues"
@@ -131,22 +129,23 @@ alias = "x"
 depends = ["format", "lint", "stylelint", "knip:fix", "steiger:fix"]
 run = "echo 'All fixes applied!'"
 
+# Oxlint reads the root oxlint.config.ts (its ignorePatterns only match files below it)
 [tasks.lint]
-description = "Fix code with ESLint"
+description = "Fix code with Oxlint"
 alias = "l"
 depends = ["typegen"]
-run = "eslint . --config {{vars.eslint_config}} --max-warnings 0 --fix --cache"
+run = "oxlint --max-warnings 0 --fix"
 
 [tasks."lint:files"]
 description = "Lint specific files (for lint-staged)"
 hide = true
-run = "eslint --config {{vars.eslint_config}} --fix"
+run = "oxlint --fix"
 
 [tasks."lint:check"]
-description = "Check code with ESLint"
+description = "Check code with Oxlint"
 alias = "lc"
 depends = ["typegen"]
-run = "eslint . --config {{vars.eslint_config}} --max-warnings 0 --cache"
+run = "oxlint --max-warnings 0"
 
 [tasks.lintstaged]
 description = "Run lint-staged on staged files"

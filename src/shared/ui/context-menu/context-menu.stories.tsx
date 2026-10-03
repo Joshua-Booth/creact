@@ -41,10 +41,7 @@ const meta = preview.meta({
   args: {},
   render: (args) => (
     <ContextMenu {...args}>
-      <ContextMenuTrigger
-        className="bg-accent flex h-48 w-96 items-center justify-center
-          rounded-md border border-dashed text-sm"
-      >
+      <ContextMenuTrigger className="bg-accent flex h-48 w-96 items-center justify-center rounded-md border border-dashed text-sm">
         Right click here
       </ContextMenuTrigger>
       <ContextMenuContent className="w-44">
@@ -96,10 +93,7 @@ export const Submenu = meta.story({
   },
   render: (args) => (
     <ContextMenu {...args}>
-      <ContextMenuTrigger
-        className="bg-accent flex h-48 w-96 items-center justify-center
-          rounded-md border border-dashed text-sm"
-      >
+      <ContextMenuTrigger className="bg-accent flex h-48 w-96 items-center justify-center rounded-md border border-dashed text-sm">
         Right click here
       </ContextMenuTrigger>
       <ContextMenuContent className="w-44">
@@ -143,10 +137,7 @@ export const Submenu = meta.story({
 export const Shortcuts = meta.story({
   render: (args) => (
     <ContextMenu {...args}>
-      <ContextMenuTrigger
-        className="bg-accent flex h-48 w-96 items-center justify-center
-          rounded-md border border-dashed text-sm"
-      >
+      <ContextMenuTrigger className="bg-accent flex h-48 w-96 items-center justify-center rounded-md border border-dashed text-sm">
         Right click here
       </ContextMenuTrigger>
       <ContextMenuContent className="w-44">
@@ -182,10 +173,7 @@ export const Shortcuts = meta.story({
 export const Groups = meta.story({
   render: (args) => (
     <ContextMenu {...args}>
-      <ContextMenuTrigger
-        className="bg-accent flex h-48 w-96 items-center justify-center
-          rounded-md border border-dashed text-sm"
-      >
+      <ContextMenuTrigger className="bg-accent flex h-48 w-96 items-center justify-center rounded-md border border-dashed text-sm">
         Right click here
       </ContextMenuTrigger>
       <ContextMenuContent className="w-44">
@@ -232,10 +220,7 @@ export const Groups = meta.story({
 export const Icons = meta.story({
   render: (args) => (
     <ContextMenu {...args}>
-      <ContextMenuTrigger
-        className="bg-accent flex h-48 w-96 items-center justify-center
-          rounded-md border border-dashed text-sm"
-      >
+      <ContextMenuTrigger className="bg-accent flex h-48 w-96 items-center justify-center rounded-md border border-dashed text-sm">
         Right click here
       </ContextMenuTrigger>
       <ContextMenuContent className="w-44">
@@ -276,10 +261,7 @@ export const Checkboxes = meta.story({
 
     return (
       <ContextMenu {...args}>
-        <ContextMenuTrigger
-          className="bg-accent flex h-48 w-96 items-center justify-center
-            rounded-md border border-dashed text-sm"
-        >
+        <ContextMenuTrigger className="bg-accent flex h-48 w-96 items-center justify-center rounded-md border border-dashed text-sm">
           Right click here
         </ContextMenuTrigger>
         <ContextMenuContent className="w-44">
@@ -317,10 +299,7 @@ export const Radio = meta.story({
 
     return (
       <ContextMenu {...args}>
-        <ContextMenuTrigger
-          className="bg-accent flex h-48 w-96 items-center justify-center
-            rounded-md border border-dashed text-sm"
-        >
+        <ContextMenuTrigger className="bg-accent flex h-48 w-96 items-center justify-center rounded-md border border-dashed text-sm">
           Right click here
         </ContextMenuTrigger>
         <ContextMenuContent className="w-32">
@@ -345,10 +324,7 @@ export const Radio = meta.story({
 export const Destructive = meta.story({
   render: (args) => (
     <ContextMenu {...args}>
-      <ContextMenuTrigger
-        className="bg-accent flex h-48 w-96 items-center justify-center
-          rounded-md border border-dashed text-sm"
-      >
+      <ContextMenuTrigger className="bg-accent flex h-48 w-96 items-center justify-center rounded-md border border-dashed text-sm">
         Right click here
       </ContextMenuTrigger>
       <ContextMenuContent className="w-44">
@@ -378,10 +354,7 @@ export const Sides = meta.story({
   render: (args) => (
     <div className="grid w-sm grid-cols-2 gap-4">
       <ContextMenu {...args}>
-        <ContextMenuTrigger
-          className="flex aspect-video w-full max-w-xs items-center
-            justify-center rounded-xl border border-dashed text-sm"
-        >
+        <ContextMenuTrigger className="flex aspect-video w-full max-w-xs items-center justify-center rounded-xl border border-dashed text-sm">
           Right click (top)
         </ContextMenuTrigger>
         <ContextMenuContent side="top">
@@ -393,10 +366,7 @@ export const Sides = meta.story({
         </ContextMenuContent>
       </ContextMenu>
       <ContextMenu>
-        <ContextMenuTrigger
-          className="flex aspect-video w-full max-w-xs items-center
-            justify-center rounded-xl border border-dashed text-sm"
-        >
+        <ContextMenuTrigger className="flex aspect-video w-full max-w-xs items-center justify-center rounded-xl border border-dashed text-sm">
           Right click (right)
         </ContextMenuTrigger>
         <ContextMenuContent side="right">
@@ -408,10 +378,7 @@ export const Sides = meta.story({
         </ContextMenuContent>
       </ContextMenu>
       <ContextMenu>
-        <ContextMenuTrigger
-          className="flex aspect-video w-full max-w-xs items-center
-            justify-center rounded-xl border border-dashed text-sm"
-        >
+        <ContextMenuTrigger className="flex aspect-video w-full max-w-xs items-center justify-center rounded-xl border border-dashed text-sm">
           Right click (bottom)
         </ContextMenuTrigger>
         <ContextMenuContent side="bottom">
@@ -423,10 +390,7 @@ export const Sides = meta.story({
         </ContextMenuContent>
       </ContextMenu>
       <ContextMenu>
-        <ContextMenuTrigger
-          className="flex aspect-video w-full max-w-xs items-center
-            justify-center rounded-xl border border-dashed text-sm"
-        >
+        <ContextMenuTrigger className="flex aspect-video w-full max-w-xs items-center justify-center rounded-xl border border-dashed text-sm">
           Right click (left)
         </ContextMenuTrigger>
         <ContextMenuContent side="left">

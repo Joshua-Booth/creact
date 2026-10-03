@@ -22,10 +22,7 @@ export function LoginPage() {
   const disabled = !hydrated || isSubmitting;
 
   return (
-    <main
-      className="bg-muted flex min-h-svh items-center justify-center p-6
-        md:p-10"
-    >
+    <main className="bg-muted flex min-h-svh items-center justify-center p-6 md:p-10">
       <div className="w-full max-w-sm md:max-w-4xl">
         <Card className="overflow-hidden p-0">
           <CardContent className="grid p-0 md:grid-cols-2">
@@ -78,8 +75,7 @@ export function LoginPage() {
                         </FieldLabel>
                         <Link
                           to={href("/forgot-password")}
-                          className="text-muted-foreground hover:text-foreground
-                            ml-auto text-xs underline-offset-4 hover:underline"
+                          className="text-muted-foreground hover:text-foreground ml-auto text-xs underline-offset-4 hover:underline"
                         >
                           {t("auth.login.forgotPassword")}
                         </Link>

@@ -24,10 +24,7 @@ export function ForgotPasswordPage() {
   const disabled = !hydrated || isSubmitting;
 
   return (
-    <main
-      className="bg-muted flex min-h-svh items-center justify-center p-6
-        md:p-10"
-    >
+    <main className="bg-muted flex min-h-svh items-center justify-center p-6 md:p-10">
       <div className="w-full max-w-sm md:max-w-4xl">
         <Card className="overflow-hidden p-0">
           <CardContent className="grid p-0 md:grid-cols-2">
@@ -35,10 +32,7 @@ export function ForgotPasswordPage() {
               {isSuccess ? (
                 <FieldGroup>
                   <div className="flex flex-col items-center text-center">
-                    <div
-                      className="bg-primary/10 text-primary mb-2 flex size-12
-                        items-center justify-center rounded-full"
-                    >
+                    <div className="bg-primary/10 text-primary mb-2 flex size-12 items-center justify-center rounded-full">
                       <Mail className="size-6" />
                     </div>
                     <h1 className="text-2xl font-bold">
@@ -51,8 +45,7 @@ export function ForgotPasswordPage() {
 
                   <Link
                     to={href("/login")}
-                    className="hover:text-primary text-center text-sm underline
-                      underline-offset-4"
+                    className="hover:text-primary text-center text-sm underline underline-offset-4"
                   >
                     {t("auth.forgotPassword.backToLogin")}
                   </Link>
@@ -111,8 +104,7 @@ export function ForgotPasswordPage() {
                     <div className="text-center">
                       <Link
                         to={href("/login")}
-                        className="text-muted-foreground hover:text-primary
-                          text-sm underline-offset-4 hover:underline"
+                        className="text-muted-foreground hover:text-primary text-sm underline-offset-4 hover:underline"
                       >
                         {t("auth.forgotPassword.backToLogin")}
                       </Link>

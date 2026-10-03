@@ -253,8 +253,7 @@ function SortControl<TData extends RowData>({
                     {active && (
                       <button
                         type="button"
-                        className="text-muted-foreground hover:text-foreground
-                          ml-auto"
+                        className="text-muted-foreground hover:text-foreground ml-auto"
                         onClick={(e) => {
                           e.stopPropagation();
                           removeSort(col.id);
@@ -366,7 +365,8 @@ function FilterControl<TData extends RowData>({
                 const isExpanded = expandedColumn === fc.id;
                 const currentValues =
                   (table.getColumn(fc.id)?.getFilterValue() as
-                    string[] | undefined) ?? [];
+                    | string[]
+                    | undefined) ?? [];
 
                 return (
                   <div key={fc.id}>

@@ -93,10 +93,7 @@ export const Video = meta.story({
   render: (args) => (
     <div className="w-[500px]">
       <AspectRatio {...args} className="bg-muted rounded-md">
-        <div
-          className="flex size-full items-center justify-center rounded-md
-            bg-black/90"
-        >
+        <div className="flex size-full items-center justify-center rounded-md bg-black/90">
           <div className="flex flex-col items-center gap-2 text-white">
             <svg
               className="size-12"

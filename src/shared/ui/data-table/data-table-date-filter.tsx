@@ -40,7 +40,6 @@ export function DataTableDateFilter<TData extends RowData>({
   const { t } = useTranslation("components");
   const columnFilterValue = column.getFilterValue();
 
-  // eslint-disable-next-line sonarjs/function-return-type -- union type DateSelection requires different return shapes
   const selectedDates = useMemo<DateSelection>(() => {
     /* istanbul ignore else @preserve */
     if (columnFilterValue == null) {
@@ -118,8 +117,7 @@ export function DataTableDateFilter<TData extends RowData>({
         <>
           <Separator
             orientation="vertical"
-            className="mx-0.5 data-[orientation=vertical]:h-4
-              data-[orientation=vertical]:self-center"
+            className="mx-0.5 data-[orientation=vertical]:h-4 data-[orientation=vertical]:self-center"
           />
           <span>{dateText}</span>
         </>
@@ -147,8 +145,7 @@ export function DataTableDateFilter<TData extends RowData>({
       <>
         <Separator
           orientation="vertical"
-          className="mx-0.5 data-[orientation=vertical]:h-4
-            data-[orientation=vertical]:self-center"
+          className="mx-0.5 data-[orientation=vertical]:h-4 data-[orientation=vertical]:self-center"
         />
         <span>{dateText}</span>
       </>

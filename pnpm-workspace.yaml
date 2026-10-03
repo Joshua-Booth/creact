@@ -20,9 +20,10 @@ overrides:
   # shell-quote: forces transitive launch-editor (via react-router-devtools) off
   # the vulnerable 1.8.3 onto patched 1.8.4 (GHSA-w7jw-789q-3m8p).
   shell-quote: ">=1.9.0"
-  # qs: forces transitive @modelcontextprotocol/sdk/express off the vulnerable
-  # 6.15.1 onto patched >=6.15.2 (arrayLimit bypass advisory).
-  qs: ">=6.15.2"
+  # qs: forces transitive qs (express via @modelcontextprotocol/sdk, and
+  # typed-rest-client via Stryker) onto patched >=6.16.0 (arrayLimit bypass
+  # and isBuffer DoS advisories).
+  qs: ">=6.16.0"
   # valibot: forces transitive eslint-plugin-better-tailwindcss off the
   # vulnerable 1.2.0 onto patched >=1.4.2.
   valibot: ">=1.4.2"
@@ -33,3 +34,7 @@ auditConfig:
     # esbuild Deno binary-integrity RCE — Deno-only, not exploitable in this
     # Node project; patched >=0.28.1 but reachable only via deep transitives.
     - GHSA-gv7w-rqvm-qjhr
+    # braces stack exhaustion on deeply nested patterns — no patched release
+    # (3.0.3 is latest). Dev-only: micromatch in shadcn, stylelint, steiger
+    # and semantic-release expands repo-authored globs, not user input.
+    - GHSA-vfj7-8cjw-p6xm

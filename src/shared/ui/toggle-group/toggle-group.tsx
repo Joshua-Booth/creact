@@ -49,10 +49,7 @@ function ToggleGroup({
       aria-orientation={undefined}
       style={{ "--gap": spacing } as React.CSSProperties}
       className={cn(
-        `group/toggle-group flex w-fit flex-row items-center
-        gap-[--spacing(var(--gap))] rounded-md data-vertical:flex-col
-        data-vertical:items-stretch
-        data-[spacing=0]:data-[variant=outline]:shadow-xs`,
+        `group/toggle-group flex w-fit flex-row items-center gap-[--spacing(var(--gap))] rounded-md data-vertical:flex-col data-vertical:items-stretch data-[spacing=0]:data-[variant=outline]:shadow-xs`,
         className
       )}
       {...props}
@@ -81,21 +78,7 @@ function ToggleGroupItem({
       /* istanbul ignore end @preserve */
       data-spacing={context.spacing}
       className={cn(
-        `data-[state=on]:bg-muted shrink-0
-        group-data-[spacing=0]/toggle-group:rounded-none
-        group-data-[spacing=0]/toggle-group:px-2
-        group-data-[spacing=0]/toggle-group:shadow-none focus:z-10
-        focus-visible:z-10
-        group-data-[spacing=0]/toggle-group:has-data-[icon=inline-end]:pr-1.5
-        group-data-[spacing=0]/toggle-group:has-data-[icon=inline-start]:pl-1.5
-        group-data-horizontal/toggle-group:data-[spacing=0]:first:rounded-l-md
-        group-data-vertical/toggle-group:data-[spacing=0]:first:rounded-t-md
-        group-data-horizontal/toggle-group:data-[spacing=0]:last:rounded-r-md
-        group-data-vertical/toggle-group:data-[spacing=0]:last:rounded-b-md
-        group-data-horizontal/toggle-group:data-[spacing=0]:data-[variant=outline]:border-l-0
-        group-data-vertical/toggle-group:data-[spacing=0]:data-[variant=outline]:border-t-0
-        group-data-horizontal/toggle-group:data-[spacing=0]:data-[variant=outline]:first:border-l
-        group-data-vertical/toggle-group:data-[spacing=0]:data-[variant=outline]:first:border-t`,
+        `data-[state=on]:bg-muted shrink-0 group-data-[spacing=0]/toggle-group:rounded-none group-data-[spacing=0]/toggle-group:px-2 group-data-[spacing=0]/toggle-group:shadow-none focus:z-10 focus-visible:z-10 group-data-[spacing=0]/toggle-group:has-data-[icon=inline-end]:pr-1.5 group-data-[spacing=0]/toggle-group:has-data-[icon=inline-start]:pl-1.5 group-data-horizontal/toggle-group:data-[spacing=0]:first:rounded-l-md group-data-vertical/toggle-group:data-[spacing=0]:first:rounded-t-md group-data-horizontal/toggle-group:data-[spacing=0]:last:rounded-r-md group-data-vertical/toggle-group:data-[spacing=0]:last:rounded-b-md group-data-horizontal/toggle-group:data-[spacing=0]:data-[variant=outline]:border-l-0 group-data-vertical/toggle-group:data-[spacing=0]:data-[variant=outline]:border-t-0 group-data-horizontal/toggle-group:data-[spacing=0]:data-[variant=outline]:first:border-l group-data-vertical/toggle-group:data-[spacing=0]:data-[variant=outline]:first:border-t`,
         /* istanbul ignore next 4 -- Context always provides variant/size in stories */
         toggleVariants({
           variant: context.variant ?? variant,

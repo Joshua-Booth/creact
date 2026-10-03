@@ -490,8 +490,7 @@ export const Custom = meta.story({
         data-slot="input-group-control"
         placeholder="Type your message..."
         rows={3}
-        className="placeholder:text-muted-foreground w-full flex-1 resize-none
-          border-0 bg-transparent px-3 py-2 text-sm outline-none"
+        className="placeholder:text-muted-foreground w-full flex-1 resize-none border-0 bg-transparent px-3 py-2 text-sm outline-none"
       />
       <InputGroupAddon align="block-end" className="border-t">
         <InputGroupButton className="ml-auto" size="xs">

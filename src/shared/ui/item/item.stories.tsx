@@ -249,7 +249,6 @@ export const Header = meta.story({
  */
 export const AsLink = meta.story({
   render: (args) => {
-    /* eslint-disable jsx-a11y/anchor-has-content -- content provided by Item children via render prop */
     return (
       <div className="flex w-96 flex-col gap-4">
         <Item {...args} render={<a href="#internal" />}>
@@ -282,7 +281,6 @@ export const AsLink = meta.story({
         </Item>
       </div>
     );
-    /* eslint-enable jsx-a11y/anchor-has-content -- re-enable after anchor rendered via asChild prop */
   },
 });
 

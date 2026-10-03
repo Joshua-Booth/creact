@@ -49,8 +49,10 @@ export const dataGridFeatures = tableFeatures({
   rowSortingFeature,
   filteredRowModel: createFilteredRowModel(),
   sortedRowModel: createSortedRowModel(),
+  /* eslint-disable @typescript-eslint/no-deprecated -- full registries keep "auto" resolution (see above) */
   filterFns,
   sortFns,
+  /* eslint-enable @typescript-eslint/no-deprecated -- end of full registries */
   tableMeta: metaHelper<DataGridTableMeta>(),
   columnMeta: metaHelper<DataGridColumnMeta>(),
 });

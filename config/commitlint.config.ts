@@ -114,8 +114,9 @@ const config: UserConfig = {
       ERROR,
       "always",
       {
-        // Feature development - FSD layers + ui/types
-        feat: [...FSD_SCOPES, "ui", "types"],
+        // Feature development - FSD layers + ui/types, plus config for
+        // template tooling changes (e.g. a new linter) that ship as features
+        feat: [...FSD_SCOPES, "ui", "types", "config"],
         fix: [...FSD_SCOPES, "ui", "types", "deps"],
         refactor: [...FSD_SCOPES, "ui", "types"],
         perf: [...FSD_SCOPES, "ui", "types"],

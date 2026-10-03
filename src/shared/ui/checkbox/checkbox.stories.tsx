@@ -242,7 +242,6 @@ export const InTable = meta.story({
     const selectAll = selectedRows.size === tableData.length;
 
     const handleSelectAll = (checked: boolean) => {
-      // eslint-disable-next-line sonarjs/no-selector-parameter -- Standard checkbox handler pattern
       if (checked) {
         setSelectedRows(new Set(tableData.map((row) => row.id)));
       } else {
