@@ -344,7 +344,7 @@ E2E tests use a reusable mock system built on `@msw/playwright` for API mocking.
 **Define handlers** in `tests/e2e/mocks/handlers.ts`:
 
 ```ts
-import { http, HttpResponse } from "msw";
+import { http, HttpResponse } from "msw/http";
 
 export const handlers = [
   http.post("**/auth/login/", () => {
