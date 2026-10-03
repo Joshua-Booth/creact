@@ -106,7 +106,7 @@ description = "Scaffold FSD slices and components"
 alias = "g"
 run = "pnpm exec plop --plopfile config/plopfile.ts --dest ."
 
-# Oxfmt reads the root .oxfmtrc.json (ignore patterns resolve relative to it)
+# Oxfmt reads the root .oxfmtrc.json (its ignorePatterns only match files below it)
 [tasks.format]
 description = "Format code with Oxfmt"
 alias = "f"
@@ -129,7 +129,7 @@ alias = "x"
 depends = ["format", "lint", "stylelint", "knip:fix", "steiger:fix"]
 run = "echo 'All fixes applied!'"
 
-# Oxlint reads the root oxlint.config.ts (override globs resolve relative to it)
+# Oxlint reads the root oxlint.config.ts (its ignorePatterns only match files below it)
 [tasks.lint]
 description = "Fix code with Oxlint"
 alias = "l"

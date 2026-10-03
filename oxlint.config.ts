@@ -1,5 +1,5 @@
-// Oxlint must be configured from the repo root: override globs resolve
-// relative to the config file and can't reach outside its directory.
+// Lives at the repo root: ignorePatterns only match files inside the config
+// file's directory, so a config in config/ couldn't ignore src/, public/, etc.
 //
 // Not covered compared with the previous ESLint setup:
 // - @typescript-eslint/naming-convention: no Oxlint or tsgolint equivalent.
