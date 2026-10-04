@@ -188,6 +188,17 @@ alias = "rd"
 description = "Preview the next release without publishing"
 run = "semantic-release --dry-run"
 
+[tasks."registry:build"]
+description = "Generate registry.json from the FSD tree"
+run = "node scripts/build-registry.ts"
+
+[tasks."registry:check"]
+description = "Verify registry.json is in sync and schema-valid"
+run = [
+    "node scripts/build-registry.ts --check",
+    "pnpm exec shadcn registry validate",
+]
+
 [tasks.steiger]
 description = "Run Steiger architecture linter"
 run = "steiger ./src --config {{vars.steiger_config}}"
@@ -310,5 +321,6 @@ depends = [
     "depcruise",
     "steiger",
     "spell",
+    "registry:check",
 ]
 run = "echo 'All checks passed!'"

@@ -1,0 +1,2965 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry.json",
+  "name": "creact",
+  "homepage": "https://github.com/Joshua-Booth/creact",
+  "items": [
+    {
+      "name": "accordion",
+      "type": "registry:ui",
+      "title": "Accordion",
+      "description": "Vertically stacked set of collapsible content sections. Wraps `@base-ui/react/collapsible` with project styling.",
+      "dependencies": [
+        "@base-ui/react@^1.7.0",
+        "cn@^0.2.5",
+        "lucide-react@^1.34.0"
+      ],
+      "registryDependencies": ["Joshua-Booth/creact/card"],
+      "files": [
+        {
+          "path": "src/shared/ui/accordion/accordion.stories.tsx",
+          "type": "registry:ui",
+          "target": "@ui/accordion/accordion.stories.tsx"
+        },
+        {
+          "path": "src/shared/ui/accordion/accordion.tsx",
+          "type": "registry:ui",
+          "target": "@ui/accordion/accordion.tsx"
+        },
+        {
+          "path": "src/shared/ui/accordion/index.ts",
+          "type": "registry:ui",
+          "target": "@ui/accordion/index.ts"
+        }
+      ],
+      "docs": "Stories require the creact Storybook setup (add Joshua-Booth/creact/storybook-setup). Without it, exclude **/*.stories.tsx from typechecking."
+    },
+    {
+      "name": "alert",
+      "type": "registry:ui",
+      "title": "Alert",
+      "description": "Style variants for the {@link Alert} component.",
+      "dependencies": [
+        "class-variance-authority@^0.7.1",
+        "cn@^0.2.5",
+        "lucide-react@^1.34.0"
+      ],
+      "registryDependencies": ["Joshua-Booth/creact/button"],
+      "files": [
+        {
+          "path": "src/shared/ui/alert/alert.stories.tsx",
+          "type": "registry:ui",
+          "target": "@ui/alert/alert.stories.tsx"
+        },
+        {
+          "path": "src/shared/ui/alert/alert.tsx",
+          "type": "registry:ui",
+          "target": "@ui/alert/alert.tsx"
+        },
+        {
+          "path": "src/shared/ui/alert/index.ts",
+          "type": "registry:ui",
+          "target": "@ui/alert/index.ts"
+        }
+      ],
+      "docs": "Stories require the creact Storybook setup (add Joshua-Booth/creact/storybook-setup). Without it, exclude **/*.stories.tsx from typechecking."
+    },
+    {
+      "name": "alert-dialog",
+      "type": "registry:ui",
+      "title": "Alert Dialog",
+      "description": "Focus-trapped confirmation dialog that requires explicit user action before proceeding. Wraps `@base-ui/react/alert-dialog`.",
+      "dependencies": [
+        "@base-ui/react@^1.7.0",
+        "cn@^0.2.5",
+        "lucide-react@^1.34.0"
+      ],
+      "registryDependencies": ["Joshua-Booth/creact/button"],
+      "files": [
+        {
+          "path": "src/shared/ui/alert-dialog/alert-dialog.stories.tsx",
+          "type": "registry:ui",
+          "target": "@ui/alert-dialog/alert-dialog.stories.tsx"
+        },
+        {
+          "path": "src/shared/ui/alert-dialog/alert-dialog.tsx",
+          "type": "registry:ui",
+          "target": "@ui/alert-dialog/alert-dialog.tsx"
+        },
+        {
+          "path": "src/shared/ui/alert-dialog/index.ts",
+          "type": "registry:ui",
+          "target": "@ui/alert-dialog/index.ts"
+        }
+      ],
+      "docs": "Stories require the creact Storybook setup (add Joshua-Booth/creact/storybook-setup). Without it, exclude **/*.stories.tsx from typechecking."
+    },
+    {
+      "name": "analytics",
+      "type": "registry:lib",
+      "title": "Analytics",
+      "description": "Hook providing analytics tracking methods.",
+      "dependencies": ["@posthog/react@^1.10.5"],
+      "files": [
+        {
+          "path": "src/shared/lib/analytics/index.ts",
+          "type": "registry:lib",
+          "target": "@lib/analytics/index.ts"
+        }
+      ]
+    },
+    {
+      "name": "api",
+      "type": "registry:lib",
+      "title": "Api",
+      "description": "Get auth headers from the configured token provider.",
+      "dependencies": ["ky@^2.0.2", "swr@^2.5.1"],
+      "devDependencies": ["vitest@^4.1.11"],
+      "files": [
+        {
+          "path": "src/shared/api/client.test.ts",
+          "type": "registry:lib",
+          "target": "~/src/shared/api/client.test.ts"
+        },
+        {
+          "path": "src/shared/api/client.ts",
+          "type": "registry:lib",
+          "target": "~/src/shared/api/client.ts"
+        },
+        {
+          "path": "src/shared/api/hooks.ts",
+          "type": "registry:lib",
+          "target": "~/src/shared/api/hooks.ts"
+        },
+        {
+          "path": "src/shared/api/index.ts",
+          "type": "registry:lib",
+          "target": "~/src/shared/api/index.ts"
+        },
+        {
+          "path": "src/shared/api/token-provider.test.ts",
+          "type": "registry:lib",
+          "target": "~/src/shared/api/token-provider.test.ts"
+        },
+        {
+          "path": "src/shared/api/token-provider.ts",
+          "type": "registry:lib",
+          "target": "~/src/shared/api/token-provider.ts"
+        }
+      ]
+    },
+    {
+      "name": "aspect-ratio",
+      "type": "registry:ui",
+      "title": "Aspect Ratio",
+      "description": "Constrains child content to a specified aspect ratio.",
+      "dependencies": ["cn@^0.2.5"],
+      "registryDependencies": ["Joshua-Booth/creact/skeleton"],
+      "files": [
+        {
+          "path": "src/shared/ui/aspect-ratio/aspect-ratio.stories.tsx",
+          "type": "registry:ui",
+          "target": "@ui/aspect-ratio/aspect-ratio.stories.tsx"
+        },
+        {
+          "path": "src/shared/ui/aspect-ratio/aspect-ratio.tsx",
+          "type": "registry:ui",
+          "target": "@ui/aspect-ratio/aspect-ratio.tsx"
+        },
+        {
+          "path": "src/shared/ui/aspect-ratio/index.ts",
+          "type": "registry:ui",
+          "target": "@ui/aspect-ratio/index.ts"
+        }
+      ],
+      "docs": "Stories require the creact Storybook setup (add Joshua-Booth/creact/storybook-setup). Without it, exclude **/*.stories.tsx from typechecking."
+    },
+    {
+      "name": "attachment",
+      "type": "registry:ui",
+      "title": "Attachment",
+      "description": "Style variants for the {@link Attachment} component.",
+      "dependencies": [
+        "@base-ui/react@^1.7.0",
+        "class-variance-authority@^0.7.1",
+        "cn@^0.2.5",
+        "lucide-react@^1.34.0"
+      ],
+      "registryDependencies": [
+        "Joshua-Booth/creact/button",
+        "Joshua-Booth/creact/spinner"
+      ],
+      "files": [
+        {
+          "path": "src/shared/ui/attachment/attachment.stories.tsx",
+          "type": "registry:ui",
+          "target": "@ui/attachment/attachment.stories.tsx"
+        },
+        {
+          "path": "src/shared/ui/attachment/attachment.tsx",
+          "type": "registry:ui",
+          "target": "@ui/attachment/attachment.tsx"
+        },
+        {
+          "path": "src/shared/ui/attachment/index.ts",
+          "type": "registry:ui",
+          "target": "@ui/attachment/index.ts"
+        }
+      ],
+      "docs": "Stories require the creact Storybook setup (add Joshua-Booth/creact/storybook-setup). Without it, exclude **/*.stories.tsx from typechecking."
+    },
+    {
+      "name": "avatar",
+      "type": "registry:ui",
+      "title": "Avatar",
+      "description": "Circular user avatar displaying an image with fallback initials.",
+      "dependencies": [
+        "@base-ui/react@^1.7.0",
+        "cn@^0.2.5",
+        "lucide-react@^1.34.0"
+      ],
+      "registryDependencies": ["Joshua-Booth/creact/dropdown-menu"],
+      "files": [
+        {
+          "path": "src/shared/ui/avatar/avatar.stories.tsx",
+          "type": "registry:ui",
+          "target": "@ui/avatar/avatar.stories.tsx"
+        },
+        {
+          "path": "src/shared/ui/avatar/avatar.tsx",
+          "type": "registry:ui",
+          "target": "@ui/avatar/avatar.tsx"
+        },
+        {
+          "path": "src/shared/ui/avatar/index.ts",
+          "type": "registry:ui",
+          "target": "@ui/avatar/index.ts"
+        }
+      ],
+      "docs": "Stories require the creact Storybook setup (add Joshua-Booth/creact/storybook-setup). Without it, exclude **/*.stories.tsx from typechecking."
+    },
+    {
+      "name": "badge",
+      "type": "registry:ui",
+      "title": "Badge",
+      "description": "Style variants for the {@link Badge} component.",
+      "dependencies": [
+        "@base-ui/react@^1.7.0",
+        "class-variance-authority@^0.7.1",
+        "cn@^0.2.5",
+        "lucide-react@^1.34.0"
+      ],
+      "registryDependencies": ["Joshua-Booth/creact/spinner"],
+      "files": [
+        {
+          "path": "src/shared/ui/badge/badge.stories.tsx",
+          "type": "registry:ui",
+          "target": "@ui/badge/badge.stories.tsx"
+        },
+        {
+          "path": "src/shared/ui/badge/badge.tsx",
+          "type": "registry:ui",
+          "target": "@ui/badge/badge.tsx"
+        },
+        {
+          "path": "src/shared/ui/badge/index.ts",
+          "type": "registry:ui",
+          "target": "@ui/badge/index.ts"
+        }
+      ],
+      "docs": "Stories require the creact Storybook setup (add Joshua-Booth/creact/storybook-setup). Without it, exclude **/*.stories.tsx from typechecking."
+    },
+    {
+      "name": "breadcrumb",
+      "type": "registry:ui",
+      "title": "Breadcrumb",
+      "description": "Navigation trail showing the current page location within a hierarchy.",
+      "dependencies": [
+        "@base-ui/react@^1.7.0",
+        "cn@^0.2.5",
+        "lucide-react@^1.34.0",
+        "react-i18next@^17.0.12"
+      ],
+      "registryDependencies": ["Joshua-Booth/creact/dropdown-menu"],
+      "files": [
+        {
+          "path": "src/shared/ui/breadcrumb/breadcrumb.stories.tsx",
+          "type": "registry:ui",
+          "target": "@ui/breadcrumb/breadcrumb.stories.tsx"
+        },
+        {
+          "path": "src/shared/ui/breadcrumb/breadcrumb.tsx",
+          "type": "registry:ui",
+          "target": "@ui/breadcrumb/breadcrumb.tsx"
+        },
+        {
+          "path": "src/shared/ui/breadcrumb/index.ts",
+          "type": "registry:ui",
+          "target": "@ui/breadcrumb/index.ts"
+        }
+      ],
+      "docs": "Stories require the creact Storybook setup (add Joshua-Booth/creact/storybook-setup). Without it, exclude **/*.stories.tsx from typechecking."
+    },
+    {
+      "name": "bubble",
+      "type": "registry:ui",
+      "title": "Bubble",
+      "description": "Vertical container that groups related bubbles together.",
+      "dependencies": [
+        "@base-ui/react@^1.7.0",
+        "class-variance-authority@^0.7.1",
+        "cn@^0.2.5"
+      ],
+      "files": [
+        {
+          "path": "src/shared/ui/bubble/bubble.stories.tsx",
+          "type": "registry:ui",
+          "target": "@ui/bubble/bubble.stories.tsx"
+        },
+        {
+          "path": "src/shared/ui/bubble/bubble.tsx",
+          "type": "registry:ui",
+          "target": "@ui/bubble/bubble.tsx"
+        },
+        {
+          "path": "src/shared/ui/bubble/index.ts",
+          "type": "registry:ui",
+          "target": "@ui/bubble/index.ts"
+        }
+      ],
+      "docs": "Stories require the creact Storybook setup (add Joshua-Booth/creact/storybook-setup). Without it, exclude **/*.stories.tsx from typechecking."
+    },
+    {
+      "name": "button",
+      "type": "registry:ui",
+      "title": "Button",
+      "description": "Style variants for the {@link Button} component.",
+      "dependencies": [
+        "@base-ui/react@^1.7.0",
+        "class-variance-authority@^0.7.1",
+        "cn@^0.2.5",
+        "lucide-react@^1.34.0"
+      ],
+      "registryDependencies": ["Joshua-Booth/creact/spinner"],
+      "files": [
+        {
+          "path": "src/shared/ui/button/button.stories.tsx",
+          "type": "registry:ui",
+          "target": "@ui/button/button.stories.tsx"
+        },
+        {
+          "path": "src/shared/ui/button/button.tsx",
+          "type": "registry:ui",
+          "target": "@ui/button/button.tsx"
+        },
+        {
+          "path": "src/shared/ui/button/index.ts",
+          "type": "registry:ui",
+          "target": "@ui/button/index.ts"
+        }
+      ],
+      "docs": "Stories require the creact Storybook setup (add Joshua-Booth/creact/storybook-setup). Without it, exclude **/*.stories.tsx from typechecking."
+    },
+    {
+      "name": "button-group",
+      "type": "registry:ui",
+      "title": "Button Group",
+      "description": "Layout variants for the {@link ButtonGroup} component.",
+      "dependencies": [
+        "@base-ui/react@^1.7.0",
+        "class-variance-authority@^0.7.1",
+        "cn@^0.2.5",
+        "lucide-react@^1.34.0"
+      ],
+      "registryDependencies": [
+        "Joshua-Booth/creact/button",
+        "Joshua-Booth/creact/dropdown-menu",
+        "Joshua-Booth/creact/field",
+        "Joshua-Booth/creact/input",
+        "Joshua-Booth/creact/input-group",
+        "Joshua-Booth/creact/popover",
+        "Joshua-Booth/creact/select",
+        "Joshua-Booth/creact/separator",
+        "Joshua-Booth/creact/textarea",
+        "Joshua-Booth/creact/tooltip"
+      ],
+      "files": [
+        {
+          "path": "src/shared/ui/button-group/button-group.stories.tsx",
+          "type": "registry:ui",
+          "target": "@ui/button-group/button-group.stories.tsx"
+        },
+        {
+          "path": "src/shared/ui/button-group/button-group.tsx",
+          "type": "registry:ui",
+          "target": "@ui/button-group/button-group.tsx"
+        },
+        {
+          "path": "src/shared/ui/button-group/index.ts",
+          "type": "registry:ui",
+          "target": "@ui/button-group/index.ts"
+        }
+      ],
+      "docs": "Stories require the creact Storybook setup (add Joshua-Booth/creact/storybook-setup). Without it, exclude **/*.stories.tsx from typechecking."
+    },
+    {
+      "name": "calendar",
+      "type": "registry:ui",
+      "title": "Calendar",
+      "description": "Outer container override for the react-day-picker root element.",
+      "dependencies": [
+        "cn@^0.2.5",
+        "date-fns@^4.4.0",
+        "lucide-react@^1.34.0",
+        "react-day-picker@^10.0.1"
+      ],
+      "registryDependencies": [
+        "Joshua-Booth/creact/button",
+        "Joshua-Booth/creact/card",
+        "Joshua-Booth/creact/field",
+        "Joshua-Booth/creact/input-group"
+      ],
+      "files": [
+        {
+          "path": "src/shared/ui/calendar/calendar.stories.tsx",
+          "type": "registry:ui",
+          "target": "@ui/calendar/calendar.stories.tsx"
+        },
+        {
+          "path": "src/shared/ui/calendar/calendar.tsx",
+          "type": "registry:ui",
+          "target": "@ui/calendar/calendar.tsx"
+        },
+        {
+          "path": "src/shared/ui/calendar/index.ts",
+          "type": "registry:ui",
+          "target": "@ui/calendar/index.ts"
+        }
+      ],
+      "docs": "Stories require the creact Storybook setup (add Joshua-Booth/creact/storybook-setup). Without it, exclude **/*.stories.tsx from typechecking."
+    },
+    {
+      "name": "card",
+      "type": "registry:ui",
+      "title": "Card",
+      "description": "Styled container for grouping related content with consistent padding and borders.",
+      "dependencies": ["cn@^0.2.5", "lucide-react@^1.34.0"],
+      "registryDependencies": [
+        "Joshua-Booth/creact/badge",
+        "Joshua-Booth/creact/button",
+        "Joshua-Booth/creact/input",
+        "Joshua-Booth/creact/label"
+      ],
+      "files": [
+        {
+          "path": "src/shared/ui/card/card.stories.tsx",
+          "type": "registry:ui",
+          "target": "@ui/card/card.stories.tsx"
+        },
+        {
+          "path": "src/shared/ui/card/card.tsx",
+          "type": "registry:ui",
+          "target": "@ui/card/card.tsx"
+        },
+        {
+          "path": "src/shared/ui/card/index.ts",
+          "type": "registry:ui",
+          "target": "@ui/card/index.ts"
+        }
+      ],
+      "docs": "Stories require the creact Storybook setup (add Joshua-Booth/creact/storybook-setup). Without it, exclude **/*.stories.tsx from typechecking."
+    },
+    {
+      "name": "carousel",
+      "type": "registry:ui",
+      "title": "Carousel",
+      "description": "Hook to access carousel state and scroll controls from child components.",
+      "dependencies": [
+        "cn@^0.2.5",
+        "embla-carousel-autoplay@^8.6.0",
+        "embla-carousel-react@^8.6.0",
+        "lucide-react@^1.34.0",
+        "react-i18next@^17.0.12"
+      ],
+      "registryDependencies": ["Joshua-Booth/creact/button"],
+      "files": [
+        {
+          "path": "src/shared/ui/carousel/carousel.stories.tsx",
+          "type": "registry:ui",
+          "target": "@ui/carousel/carousel.stories.tsx"
+        },
+        {
+          "path": "src/shared/ui/carousel/carousel.tsx",
+          "type": "registry:ui",
+          "target": "@ui/carousel/carousel.tsx"
+        },
+        {
+          "path": "src/shared/ui/carousel/index.ts",
+          "type": "registry:ui",
+          "target": "@ui/carousel/index.ts"
+        }
+      ],
+      "docs": "Stories require the creact Storybook setup (add Joshua-Booth/creact/storybook-setup). Without it, exclude **/*.stories.tsx from typechecking."
+    },
+    {
+      "name": "chart",
+      "type": "registry:ui",
+      "title": "Chart",
+      "description": "Configuration mapping chart data keys to labels, icons, and theme-aware colors.",
+      "dependencies": ["cn@^0.2.5", "recharts@^3.9.2"],
+      "files": [
+        {
+          "path": "src/shared/ui/chart/chart.stories.tsx",
+          "type": "registry:ui",
+          "target": "@ui/chart/chart.stories.tsx"
+        },
+        {
+          "path": "src/shared/ui/chart/chart.tsx",
+          "type": "registry:ui",
+          "target": "@ui/chart/chart.tsx"
+        },
+        {
+          "path": "src/shared/ui/chart/index.ts",
+          "type": "registry:ui",
+          "target": "@ui/chart/index.ts"
+        }
+      ],
+      "docs": "Stories require the creact Storybook setup (add Joshua-Booth/creact/storybook-setup). Without it, exclude **/*.stories.tsx from typechecking."
+    },
+    {
+      "name": "checkbox",
+      "type": "registry:ui",
+      "title": "Checkbox",
+      "description": "Toggle control for boolean options. Wraps `@base-ui/react/checkbox` with project styling.",
+      "dependencies": [
+        "@base-ui/react@^1.7.0",
+        "cn@^0.2.5",
+        "lucide-react@^1.34.0"
+      ],
+      "registryDependencies": [
+        "Joshua-Booth/creact/field",
+        "Joshua-Booth/creact/table"
+      ],
+      "files": [
+        {
+          "path": "src/shared/ui/checkbox/checkbox.stories.tsx",
+          "type": "registry:ui",
+          "target": "@ui/checkbox/checkbox.stories.tsx"
+        },
+        {
+          "path": "src/shared/ui/checkbox/checkbox.tsx",
+          "type": "registry:ui",
+          "target": "@ui/checkbox/checkbox.tsx"
+        },
+        {
+          "path": "src/shared/ui/checkbox/index.ts",
+          "type": "registry:ui",
+          "target": "@ui/checkbox/index.ts"
+        }
+      ],
+      "docs": "Stories require the creact Storybook setup (add Joshua-Booth/creact/storybook-setup). Without it, exclude **/*.stories.tsx from typechecking."
+    },
+    {
+      "name": "collapsible",
+      "type": "registry:ui",
+      "title": "Collapsible",
+      "description": "Expandable/collapsible content section. Wraps `@base-ui/react/collapsible` with animation.",
+      "dependencies": ["@base-ui/react@^1.7.0", "lucide-react@^1.34.0"],
+      "registryDependencies": [
+        "Joshua-Booth/creact/button",
+        "Joshua-Booth/creact/card",
+        "Joshua-Booth/creact/field",
+        "Joshua-Booth/creact/input"
+      ],
+      "files": [
+        {
+          "path": "src/shared/ui/collapsible/collapsible.stories.tsx",
+          "type": "registry:ui",
+          "target": "@ui/collapsible/collapsible.stories.tsx"
+        },
+        {
+          "path": "src/shared/ui/collapsible/collapsible.tsx",
+          "type": "registry:ui",
+          "target": "@ui/collapsible/collapsible.tsx"
+        },
+        {
+          "path": "src/shared/ui/collapsible/index.ts",
+          "type": "registry:ui",
+          "target": "@ui/collapsible/index.ts"
+        }
+      ],
+      "docs": "Stories require the creact Storybook setup (add Joshua-Booth/creact/storybook-setup). Without it, exclude **/*.stories.tsx from typechecking."
+    },
+    {
+      "name": "combobox",
+      "type": "registry:ui",
+      "title": "Combobox",
+      "description": "Autocomplete select component combining a text input with a filterable dropdown list. Wraps `@base-ui/react` combobox primitives.",
+      "dependencies": [
+        "@base-ui/react@^1.7.0",
+        "cn@^0.2.5",
+        "lucide-react@^1.34.0",
+        "react-i18next@^17.0.12"
+      ],
+      "registryDependencies": [
+        "Joshua-Booth/creact/button",
+        "Joshua-Booth/creact/field",
+        "Joshua-Booth/creact/input-group"
+      ],
+      "files": [
+        {
+          "path": "src/shared/ui/combobox/combobox.stories.tsx",
+          "type": "registry:ui",
+          "target": "@ui/combobox/combobox.stories.tsx"
+        },
+        {
+          "path": "src/shared/ui/combobox/combobox.tsx",
+          "type": "registry:ui",
+          "target": "@ui/combobox/combobox.tsx"
+        },
+        {
+          "path": "src/shared/ui/combobox/index.ts",
+          "type": "registry:ui",
+          "target": "@ui/combobox/index.ts"
+        }
+      ],
+      "docs": "Stories require the creact Storybook setup (add Joshua-Booth/creact/storybook-setup). Without it, exclude **/*.stories.tsx from typechecking."
+    },
+    {
+      "name": "command",
+      "type": "registry:ui",
+      "title": "Command",
+      "description": "Searchable command palette for finding and executing actions. Built on cmdk.",
+      "dependencies": [
+        "cmdk@^1.1.1",
+        "cn@^0.2.5",
+        "lucide-react@^1.34.0",
+        "react-i18next@^17.0.12"
+      ],
+      "registryDependencies": [
+        "Joshua-Booth/creact/button",
+        "Joshua-Booth/creact/dialog",
+        "Joshua-Booth/creact/input-group",
+        "Joshua-Booth/creact/kbd",
+        "Joshua-Booth/creact/popover"
+      ],
+      "files": [
+        {
+          "path": "src/shared/ui/command/command.stories.tsx",
+          "type": "registry:ui",
+          "target": "@ui/command/command.stories.tsx"
+        },
+        {
+          "path": "src/shared/ui/command/command.tsx",
+          "type": "registry:ui",
+          "target": "@ui/command/command.tsx"
+        },
+        {
+          "path": "src/shared/ui/command/index.ts",
+          "type": "registry:ui",
+          "target": "@ui/command/index.ts"
+        }
+      ],
+      "docs": "Stories require the creact Storybook setup (add Joshua-Booth/creact/storybook-setup). Without it, exclude **/*.stories.tsx from typechecking."
+    },
+    {
+      "name": "commit-conventions",
+      "type": "registry:item",
+      "title": "Commit Conventions",
+      "description": "creact commitlint config: FSD-aware scopes, imperative mood, and atomic-commit rules.",
+      "devDependencies": [
+        "@commitlint/cli@^21.2.2",
+        "@commitlint/config-conventional@^21.2.2",
+        "@commitlint/types@^21.2.0",
+        "commitlint-plugin-function-rules@^5.0.1",
+        "commitlint-plugin-selective-scope@^1.0.3"
+      ],
+      "files": [
+        {
+          "path": "config/commitlint.config.ts",
+          "type": "registry:file",
+          "target": "~/config/commitlint.config.ts"
+        },
+        {
+          "path": "config/commitlint-ci.config.ts",
+          "type": "registry:file",
+          "target": "~/config/commitlint-ci.config.ts"
+        }
+      ],
+      "docs": "Wire into husky: commitlint --config config/commitlint.config.ts --edit $1"
+    },
+    {
+      "name": "context-menu",
+      "type": "registry:ui",
+      "title": "Context Menu",
+      "description": "Right-click context menu for presenting contextual actions. Wraps `@base-ui/react/context-menu` with keyboard navigation.",
+      "dependencies": [
+        "@base-ui/react@^1.7.0",
+        "cn@^0.2.5",
+        "lucide-react@^1.34.0"
+      ],
+      "files": [
+        {
+          "path": "src/shared/ui/context-menu/context-menu.stories.tsx",
+          "type": "registry:ui",
+          "target": "@ui/context-menu/context-menu.stories.tsx"
+        },
+        {
+          "path": "src/shared/ui/context-menu/context-menu.tsx",
+          "type": "registry:ui",
+          "target": "@ui/context-menu/context-menu.tsx"
+        },
+        {
+          "path": "src/shared/ui/context-menu/index.ts",
+          "type": "registry:ui",
+          "target": "@ui/context-menu/index.ts"
+        }
+      ],
+      "docs": "Stories require the creact Storybook setup (add Joshua-Booth/creact/storybook-setup). Without it, exclude **/*.stories.tsx from typechecking."
+    },
+    {
+      "name": "data-grid",
+      "type": "registry:ui",
+      "title": "Data Grid",
+      "description": "Text direction for bidirectional layout support.",
+      "dependencies": [
+        "@tanstack/react-table@^9.2.4",
+        "@tanstack/react-virtual@^3.14.10",
+        "cn@^0.2.5",
+        "lucide-react@^1.34.0",
+        "react-i18next@^17.0.12",
+        "sonner@^2.0.7"
+      ],
+      "devDependencies": ["vitest@^4.1.11"],
+      "registryDependencies": [
+        "Joshua-Booth/creact/badge",
+        "Joshua-Booth/creact/button",
+        "Joshua-Booth/creact/calendar",
+        "Joshua-Booth/creact/checkbox",
+        "Joshua-Booth/creact/command",
+        "Joshua-Booth/creact/data-table",
+        "Joshua-Booth/creact/dialog",
+        "Joshua-Booth/creact/direction",
+        "Joshua-Booth/creact/dropdown-menu",
+        "Joshua-Booth/creact/input",
+        "Joshua-Booth/creact/kbd",
+        "Joshua-Booth/creact/popover",
+        "Joshua-Booth/creact/select",
+        "Joshua-Booth/creact/separator",
+        "Joshua-Booth/creact/skeleton",
+        "Joshua-Booth/creact/textarea",
+        "Joshua-Booth/creact/toggle-group",
+        "Joshua-Booth/creact/tooltip"
+      ],
+      "files": [
+        {
+          "path": "src/shared/ui/data-grid/data-grid-cell-variants.tsx",
+          "type": "registry:ui",
+          "target": "@ui/data-grid/data-grid-cell-variants.tsx"
+        },
+        {
+          "path": "src/shared/ui/data-grid/data-grid-cell-wrapper.tsx",
+          "type": "registry:ui",
+          "target": "@ui/data-grid/data-grid-cell-wrapper.tsx"
+        },
+        {
+          "path": "src/shared/ui/data-grid/data-grid-cell.tsx",
+          "type": "registry:ui",
+          "target": "@ui/data-grid/data-grid-cell.tsx"
+        },
+        {
+          "path": "src/shared/ui/data-grid/data-grid-column-header.tsx",
+          "type": "registry:ui",
+          "target": "@ui/data-grid/data-grid-column-header.tsx"
+        },
+        {
+          "path": "src/shared/ui/data-grid/data-grid-context-menu.tsx",
+          "type": "registry:ui",
+          "target": "@ui/data-grid/data-grid-context-menu.tsx"
+        },
+        {
+          "path": "src/shared/ui/data-grid/data-grid-keyboard-shortcuts.tsx",
+          "type": "registry:ui",
+          "target": "@ui/data-grid/data-grid-keyboard-shortcuts.tsx"
+        },
+        {
+          "path": "src/shared/ui/data-grid/data-grid-paste-dialog.tsx",
+          "type": "registry:ui",
+          "target": "@ui/data-grid/data-grid-paste-dialog.tsx"
+        },
+        {
+          "path": "src/shared/ui/data-grid/data-grid-row.tsx",
+          "type": "registry:ui",
+          "target": "@ui/data-grid/data-grid-row.tsx"
+        },
+        {
+          "path": "src/shared/ui/data-grid/data-grid-search.tsx",
+          "type": "registry:ui",
+          "target": "@ui/data-grid/data-grid-search.tsx"
+        },
+        {
+          "path": "src/shared/ui/data-grid/data-grid.stories.tsx",
+          "type": "registry:ui",
+          "target": "@ui/data-grid/data-grid.stories.tsx"
+        },
+        {
+          "path": "src/shared/ui/data-grid/data-grid.tsx",
+          "type": "registry:ui",
+          "target": "@ui/data-grid/data-grid.tsx"
+        },
+        {
+          "path": "src/shared/ui/data-grid/demo/all-cell-types-demo.tsx",
+          "type": "registry:ui",
+          "target": "@ui/data-grid/demo/all-cell-types-demo.tsx"
+        },
+        {
+          "path": "src/shared/ui/data-grid/demo/data-grid-demo.tsx",
+          "type": "registry:ui",
+          "target": "@ui/data-grid/demo/data-grid-demo.tsx"
+        },
+        {
+          "path": "src/shared/ui/data-grid/demo/employee-directory-demo.tsx",
+          "type": "registry:ui",
+          "target": "@ui/data-grid/demo/employee-directory-demo.tsx"
+        },
+        {
+          "path": "src/shared/ui/data-grid/demo/large-dataset-demo.tsx",
+          "type": "registry:ui",
+          "target": "@ui/data-grid/demo/large-dataset-demo.tsx"
+        },
+        {
+          "path": "src/shared/ui/data-grid/demo/mock-files-upload.ts",
+          "type": "registry:ui",
+          "target": "@ui/data-grid/demo/mock-files-upload.ts"
+        },
+        {
+          "path": "src/shared/ui/data-grid/demo/product-catalog-demo.tsx",
+          "type": "registry:ui",
+          "target": "@ui/data-grid/demo/product-catalog-demo.tsx"
+        },
+        {
+          "path": "src/shared/ui/data-grid/demo/recipe-book-demo.tsx",
+          "type": "registry:ui",
+          "target": "@ui/data-grid/demo/recipe-book-demo.tsx"
+        },
+        {
+          "path": "src/shared/ui/data-grid/demo/row-heights-demo.tsx",
+          "type": "registry:ui",
+          "target": "@ui/data-grid/demo/row-heights-demo.tsx"
+        },
+        {
+          "path": "src/shared/ui/data-grid/index.ts",
+          "type": "registry:ui",
+          "target": "@ui/data-grid/index.ts"
+        },
+        {
+          "path": "src/shared/lib/data-grid/compose-refs.ts",
+          "type": "registry:lib",
+          "target": "@lib/data-grid/compose-refs.ts"
+        },
+        {
+          "path": "src/shared/lib/data-grid/data-grid.test.ts",
+          "type": "registry:lib",
+          "target": "@lib/data-grid/data-grid.test.ts"
+        },
+        {
+          "path": "src/shared/lib/data-grid/data-grid.ts",
+          "type": "registry:lib",
+          "target": "@lib/data-grid/data-grid.ts"
+        },
+        {
+          "path": "src/shared/lib/data-grid/features.ts",
+          "type": "registry:lib",
+          "target": "@lib/data-grid/features.ts"
+        },
+        {
+          "path": "src/shared/lib/data-grid/index.ts",
+          "type": "registry:lib",
+          "target": "@lib/data-grid/index.ts"
+        },
+        {
+          "path": "src/shared/lib/data-grid/types.ts",
+          "type": "registry:lib",
+          "target": "@lib/data-grid/types.ts"
+        },
+        {
+          "path": "src/shared/lib/data-grid/use-as-ref.ts",
+          "type": "registry:lib",
+          "target": "@lib/data-grid/use-as-ref.ts"
+        },
+        {
+          "path": "src/shared/lib/data-grid/use-badge-overflow.ts",
+          "type": "registry:lib",
+          "target": "@lib/data-grid/use-badge-overflow.ts"
+        },
+        {
+          "path": "src/shared/lib/data-grid/use-data-grid.ts",
+          "type": "registry:lib",
+          "target": "@lib/data-grid/use-data-grid.ts"
+        },
+        {
+          "path": "src/shared/lib/data-grid/use-isomorphic-layout-effect.ts",
+          "type": "registry:lib",
+          "target": "@lib/data-grid/use-isomorphic-layout-effect.ts"
+        },
+        {
+          "path": "src/shared/lib/data-grid/use-lazy-ref.ts",
+          "type": "registry:lib",
+          "target": "@lib/data-grid/use-lazy-ref.ts"
+        }
+      ],
+      "docs": "Stories require the creact Storybook setup (add Joshua-Booth/creact/storybook-setup). Without it, exclude **/*.stories.tsx from typechecking."
+    },
+    {
+      "name": "data-table",
+      "type": "registry:ui",
+      "title": "Data Table",
+      "description": "TanStack Table instance controlling the data, columns, and row state.",
+      "dependencies": [
+        "@tanstack/react-table@^9.2.4",
+        "cn@^0.2.5",
+        "lucide-react@^1.34.0",
+        "nuqs@^2.10.1",
+        "react-day-picker@^10.0.1",
+        "react-i18next@^17.0.12",
+        "zod@^4.4.3"
+      ],
+      "devDependencies": ["@fast-check/vitest@^0.4.1", "vitest@^4.1.11"],
+      "registryDependencies": [
+        "Joshua-Booth/creact/badge",
+        "Joshua-Booth/creact/button",
+        "Joshua-Booth/creact/button-group",
+        "Joshua-Booth/creact/calendar",
+        "Joshua-Booth/creact/checkbox",
+        "Joshua-Booth/creact/command",
+        "Joshua-Booth/creact/dropdown-menu",
+        "Joshua-Booth/creact/input",
+        "Joshua-Booth/creact/label",
+        "Joshua-Booth/creact/popover",
+        "Joshua-Booth/creact/select",
+        "Joshua-Booth/creact/separator",
+        "Joshua-Booth/creact/slider",
+        "Joshua-Booth/creact/table"
+      ],
+      "files": [
+        {
+          "path": "src/shared/ui/data-table/data-table-column-header.tsx",
+          "type": "registry:ui",
+          "target": "@ui/data-table/data-table-column-header.tsx"
+        },
+        {
+          "path": "src/shared/ui/data-table/data-table-date-filter.tsx",
+          "type": "registry:ui",
+          "target": "@ui/data-table/data-table-date-filter.tsx"
+        },
+        {
+          "path": "src/shared/ui/data-table/data-table-faceted-filter.tsx",
+          "type": "registry:ui",
+          "target": "@ui/data-table/data-table-faceted-filter.tsx"
+        },
+        {
+          "path": "src/shared/ui/data-table/data-table-pagination.tsx",
+          "type": "registry:ui",
+          "target": "@ui/data-table/data-table-pagination.tsx"
+        },
+        {
+          "path": "src/shared/ui/data-table/data-table-slider-filter.tsx",
+          "type": "registry:ui",
+          "target": "@ui/data-table/data-table-slider-filter.tsx"
+        },
+        {
+          "path": "src/shared/ui/data-table/data-table-toolbar.tsx",
+          "type": "registry:ui",
+          "target": "@ui/data-table/data-table-toolbar.tsx"
+        },
+        {
+          "path": "src/shared/ui/data-table/data-table-view-options.tsx",
+          "type": "registry:ui",
+          "target": "@ui/data-table/data-table-view-options.tsx"
+        },
+        {
+          "path": "src/shared/ui/data-table/data-table.stories.tsx",
+          "type": "registry:ui",
+          "target": "@ui/data-table/data-table.stories.tsx"
+        },
+        {
+          "path": "src/shared/ui/data-table/data-table.tsx",
+          "type": "registry:ui",
+          "target": "@ui/data-table/data-table.tsx"
+        },
+        {
+          "path": "src/shared/ui/data-table/demo/action-bar-demo.tsx",
+          "type": "registry:ui",
+          "target": "@ui/data-table/demo/action-bar-demo.tsx"
+        },
+        {
+          "path": "src/shared/ui/data-table/demo/all-filters-demo.tsx",
+          "type": "registry:ui",
+          "target": "@ui/data-table/demo/all-filters-demo.tsx"
+        },
+        {
+          "path": "src/shared/ui/data-table/demo/data-table-demo.tsx",
+          "type": "registry:ui",
+          "target": "@ui/data-table/demo/data-table-demo.tsx"
+        },
+        {
+          "path": "src/shared/ui/data-table/demo/empty-state-demo.tsx",
+          "type": "registry:ui",
+          "target": "@ui/data-table/demo/empty-state-demo.tsx"
+        },
+        {
+          "path": "src/shared/ui/data-table/demo/faceted-filter-with-counts-demo.tsx",
+          "type": "registry:ui",
+          "target": "@ui/data-table/demo/faceted-filter-with-counts-demo.tsx"
+        },
+        {
+          "path": "src/shared/ui/data-table/demo/music-library-demo.tsx",
+          "type": "registry:ui",
+          "target": "@ui/data-table/demo/music-library-demo.tsx"
+        },
+        {
+          "path": "src/shared/ui/data-table/demo/non-sortable-column-demo.tsx",
+          "type": "registry:ui",
+          "target": "@ui/data-table/demo/non-sortable-column-demo.tsx"
+        },
+        {
+          "path": "src/shared/ui/data-table/demo/pagination-demo.tsx",
+          "type": "registry:ui",
+          "target": "@ui/data-table/demo/pagination-demo.tsx"
+        },
+        {
+          "path": "src/shared/ui/data-table/demo/real-estate-listings-demo.tsx",
+          "type": "registry:ui",
+          "target": "@ui/data-table/demo/real-estate-listings-demo.tsx"
+        },
+        {
+          "path": "src/shared/ui/data-table/demo/restaurant-menu-demo.tsx",
+          "type": "registry:ui",
+          "target": "@ui/data-table/demo/restaurant-menu-demo.tsx"
+        },
+        {
+          "path": "src/shared/ui/data-table/demo/student-grades-demo.tsx",
+          "type": "registry:ui",
+          "target": "@ui/data-table/demo/student-grades-demo.tsx"
+        },
+        {
+          "path": "src/shared/ui/data-table/index.ts",
+          "type": "registry:ui",
+          "target": "@ui/data-table/index.ts"
+        },
+        {
+          "path": "src/shared/lib/data-table/config.ts",
+          "type": "registry:lib",
+          "target": "@lib/data-table/config.ts"
+        },
+        {
+          "path": "src/shared/lib/data-table/data-table.test.ts",
+          "type": "registry:lib",
+          "target": "@lib/data-table/data-table.test.ts"
+        },
+        {
+          "path": "src/shared/lib/data-table/data-table.ts",
+          "type": "registry:lib",
+          "target": "@lib/data-table/data-table.ts"
+        },
+        {
+          "path": "src/shared/lib/data-table/date-filter-utils.test.ts",
+          "type": "registry:lib",
+          "target": "@lib/data-table/date-filter-utils.test.ts"
+        },
+        {
+          "path": "src/shared/lib/data-table/date-filter-utils.ts",
+          "type": "registry:lib",
+          "target": "@lib/data-table/date-filter-utils.ts"
+        },
+        {
+          "path": "src/shared/lib/data-table/features.ts",
+          "type": "registry:lib",
+          "target": "@lib/data-table/features.ts"
+        },
+        {
+          "path": "src/shared/lib/data-table/format.test.ts",
+          "type": "registry:lib",
+          "target": "@lib/data-table/format.test.ts"
+        },
+        {
+          "path": "src/shared/lib/data-table/format.ts",
+          "type": "registry:lib",
+          "target": "@lib/data-table/format.ts"
+        },
+        {
+          "path": "src/shared/lib/data-table/index.ts",
+          "type": "registry:lib",
+          "target": "@lib/data-table/index.ts"
+        },
+        {
+          "path": "src/shared/lib/data-table/parsers.test.ts",
+          "type": "registry:lib",
+          "target": "@lib/data-table/parsers.test.ts"
+        },
+        {
+          "path": "src/shared/lib/data-table/parsers.ts",
+          "type": "registry:lib",
+          "target": "@lib/data-table/parsers.ts"
+        },
+        {
+          "path": "src/shared/lib/data-table/slider-filter-utils.test.ts",
+          "type": "registry:lib",
+          "target": "@lib/data-table/slider-filter-utils.test.ts"
+        },
+        {
+          "path": "src/shared/lib/data-table/slider-filter-utils.ts",
+          "type": "registry:lib",
+          "target": "@lib/data-table/slider-filter-utils.ts"
+        },
+        {
+          "path": "src/shared/lib/data-table/types.ts",
+          "type": "registry:lib",
+          "target": "@lib/data-table/types.ts"
+        },
+        {
+          "path": "src/shared/lib/data-table/use-callback-ref.ts",
+          "type": "registry:lib",
+          "target": "@lib/data-table/use-callback-ref.ts"
+        },
+        {
+          "path": "src/shared/lib/data-table/use-data-table.test.ts",
+          "type": "registry:lib",
+          "target": "@lib/data-table/use-data-table.test.ts"
+        },
+        {
+          "path": "src/shared/lib/data-table/use-data-table.ts",
+          "type": "registry:lib",
+          "target": "@lib/data-table/use-data-table.ts"
+        },
+        {
+          "path": "src/shared/lib/data-table/use-debounced-callback.ts",
+          "type": "registry:lib",
+          "target": "@lib/data-table/use-debounced-callback.ts"
+        }
+      ],
+      "docs": "Stories require the creact Storybook setup (add Joshua-Booth/creact/storybook-setup). Without it, exclude **/*.stories.tsx from typechecking."
+    },
+    {
+      "name": "device",
+      "type": "registry:lib",
+      "title": "Device",
+      "description": "Device for creact projects.",
+      "files": [
+        {
+          "path": "src/shared/lib/device/breakpoints.ts",
+          "type": "registry:lib",
+          "target": "@lib/device/breakpoints.ts"
+        },
+        {
+          "path": "src/shared/lib/device/hooks.ts",
+          "type": "registry:lib",
+          "target": "@lib/device/hooks.ts"
+        },
+        {
+          "path": "src/shared/lib/device/index.ts",
+          "type": "registry:lib",
+          "target": "@lib/device/index.ts"
+        }
+      ]
+    },
+    {
+      "name": "dialog",
+      "type": "registry:ui",
+      "title": "Dialog",
+      "description": "Focus-trapped modal window overlaid on the primary content. Wraps `@base-ui/react/dialog` with project styling and animation presets.",
+      "dependencies": [
+        "@base-ui/react@^1.7.0",
+        "cn@^0.2.5",
+        "lucide-react@^1.34.0",
+        "react-i18next@^17.0.12"
+      ],
+      "registryDependencies": [
+        "Joshua-Booth/creact/button",
+        "Joshua-Booth/creact/field",
+        "Joshua-Booth/creact/input",
+        "Joshua-Booth/creact/label"
+      ],
+      "files": [
+        {
+          "path": "src/shared/ui/dialog/dialog.stories.tsx",
+          "type": "registry:ui",
+          "target": "@ui/dialog/dialog.stories.tsx"
+        },
+        {
+          "path": "src/shared/ui/dialog/dialog.tsx",
+          "type": "registry:ui",
+          "target": "@ui/dialog/dialog.tsx"
+        },
+        {
+          "path": "src/shared/ui/dialog/index.ts",
+          "type": "registry:ui",
+          "target": "@ui/dialog/index.ts"
+        }
+      ],
+      "docs": "Stories require the creact Storybook setup (add Joshua-Booth/creact/storybook-setup). Without it, exclude **/*.stories.tsx from typechecking."
+    },
+    {
+      "name": "direction",
+      "type": "registry:ui",
+      "title": "Direction",
+      "description": "Context provider for text direction (LTR/RTL) with locale-aware detection.",
+      "dependencies": ["@base-ui/react@^1.7.0"],
+      "files": [
+        {
+          "path": "src/shared/ui/direction/direction.tsx",
+          "type": "registry:ui",
+          "target": "@ui/direction/direction.tsx"
+        },
+        {
+          "path": "src/shared/ui/direction/index.ts",
+          "type": "registry:ui",
+          "target": "@ui/direction/index.ts"
+        }
+      ]
+    },
+    {
+      "name": "docs",
+      "type": "registry:ui",
+      "title": "Docs",
+      "description": "Docs for creact projects.",
+      "devDependencies": ["@storybook/addon-docs@^10.5.10"],
+      "registryDependencies": [
+        "Joshua-Booth/creact/alert-dialog",
+        "Joshua-Booth/creact/button",
+        "Joshua-Booth/creact/button-group",
+        "Joshua-Booth/creact/combobox",
+        "Joshua-Booth/creact/context-menu",
+        "Joshua-Booth/creact/dialog",
+        "Joshua-Booth/creact/drawer",
+        "Joshua-Booth/creact/dropdown-menu",
+        "Joshua-Booth/creact/input",
+        "Joshua-Booth/creact/input-group",
+        "Joshua-Booth/creact/input-otp",
+        "Joshua-Booth/creact/menubar",
+        "Joshua-Booth/creact/native-select",
+        "Joshua-Booth/creact/navigation-menu",
+        "Joshua-Booth/creact/select",
+        "Joshua-Booth/creact/sheet",
+        "Joshua-Booth/creact/textarea",
+        "Joshua-Booth/creact/toggle",
+        "Joshua-Booth/creact/toggle-group"
+      ],
+      "files": [
+        {
+          "path": "src/shared/ui/docs/buttons-and-toggles.mdx",
+          "type": "registry:ui",
+          "target": "@ui/docs/buttons-and-toggles.mdx"
+        },
+        {
+          "path": "src/shared/ui/docs/form-inputs.mdx",
+          "type": "registry:ui",
+          "target": "@ui/docs/form-inputs.mdx"
+        },
+        {
+          "path": "src/shared/ui/docs/index.ts",
+          "type": "registry:ui",
+          "target": "@ui/docs/index.ts"
+        },
+        {
+          "path": "src/shared/ui/docs/menus.mdx",
+          "type": "registry:ui",
+          "target": "@ui/docs/menus.mdx"
+        },
+        {
+          "path": "src/shared/ui/docs/overlays.mdx",
+          "type": "registry:ui",
+          "target": "@ui/docs/overlays.mdx"
+        }
+      ]
+    },
+    {
+      "name": "drawer",
+      "type": "registry:ui",
+      "title": "Drawer",
+      "description": "Touch-friendly bottom sheet overlay powered by Vaul. Supports swipe-to-dismiss and directional rendering.",
+      "dependencies": ["cn@^0.2.5", "vaul@^1.1.2"],
+      "registryDependencies": [
+        "Joshua-Booth/creact/button",
+        "Joshua-Booth/creact/dialog",
+        "Joshua-Booth/creact/input",
+        "Joshua-Booth/creact/label"
+      ],
+      "files": [
+        {
+          "path": "src/shared/ui/drawer/drawer.stories.tsx",
+          "type": "registry:ui",
+          "target": "@ui/drawer/drawer.stories.tsx"
+        },
+        {
+          "path": "src/shared/ui/drawer/drawer.tsx",
+          "type": "registry:ui",
+          "target": "@ui/drawer/drawer.tsx"
+        },
+        {
+          "path": "src/shared/ui/drawer/index.ts",
+          "type": "registry:ui",
+          "target": "@ui/drawer/index.ts"
+        }
+      ],
+      "docs": "Stories require the creact Storybook setup (add Joshua-Booth/creact/storybook-setup). Without it, exclude **/*.stories.tsx from typechecking."
+    },
+    {
+      "name": "dropdown-menu",
+      "type": "registry:ui",
+      "title": "Dropdown Menu",
+      "description": "Context-triggered menu for presenting a list of actions. Wraps `@base-ui/react/menu` with project styling and animation.",
+      "dependencies": [
+        "@base-ui/react@^1.7.0",
+        "cn@^0.2.5",
+        "lucide-react@^1.34.0"
+      ],
+      "registryDependencies": [
+        "Joshua-Booth/creact/avatar",
+        "Joshua-Booth/creact/button"
+      ],
+      "files": [
+        {
+          "path": "src/shared/ui/dropdown-menu/dropdown-menu.stories.tsx",
+          "type": "registry:ui",
+          "target": "@ui/dropdown-menu/dropdown-menu.stories.tsx"
+        },
+        {
+          "path": "src/shared/ui/dropdown-menu/dropdown-menu.tsx",
+          "type": "registry:ui",
+          "target": "@ui/dropdown-menu/dropdown-menu.tsx"
+        },
+        {
+          "path": "src/shared/ui/dropdown-menu/index.ts",
+          "type": "registry:ui",
+          "target": "@ui/dropdown-menu/index.ts"
+        }
+      ],
+      "docs": "Stories require the creact Storybook setup (add Joshua-Booth/creact/storybook-setup). Without it, exclude **/*.stories.tsx from typechecking."
+    },
+    {
+      "name": "empty",
+      "type": "registry:ui",
+      "title": "Empty",
+      "description": "Empty state placeholder displayed when a section has no content. Centers its children with a dashed border and balanced text.",
+      "dependencies": [
+        "@base-ui/react@^1.7.0",
+        "class-variance-authority@^0.7.1",
+        "cn@^0.2.5",
+        "lucide-react@^1.34.0"
+      ],
+      "registryDependencies": [
+        "Joshua-Booth/creact/avatar",
+        "Joshua-Booth/creact/button",
+        "Joshua-Booth/creact/input-group",
+        "Joshua-Booth/creact/kbd"
+      ],
+      "files": [
+        {
+          "path": "src/shared/ui/empty/empty.stories.tsx",
+          "type": "registry:ui",
+          "target": "@ui/empty/empty.stories.tsx"
+        },
+        {
+          "path": "src/shared/ui/empty/empty.tsx",
+          "type": "registry:ui",
+          "target": "@ui/empty/empty.tsx"
+        },
+        {
+          "path": "src/shared/ui/empty/index.ts",
+          "type": "registry:ui",
+          "target": "@ui/empty/index.ts"
+        }
+      ],
+      "docs": "Stories require the creact Storybook setup (add Joshua-Booth/creact/storybook-setup). Without it, exclude **/*.stories.tsx from typechecking."
+    },
+    {
+      "name": "error-boundary",
+      "type": "registry:ui",
+      "title": "Error Boundary",
+      "description": "Catches JavaScript errors in the child component tree, reports them to Sentry, and displays a fallback UI.",
+      "dependencies": [
+        "@sentry/react@^10.71.0",
+        "i18next@^26.4.0",
+        "lucide-react@^1.34.0",
+        "react-i18next@^17.0.12",
+        "react-router@^8.3.1"
+      ],
+      "devDependencies": ["storybook-addon-remix-react-router@^7.0.0"],
+      "registryDependencies": [
+        "Joshua-Booth/creact/button",
+        "Joshua-Booth/creact/empty"
+      ],
+      "files": [
+        {
+          "path": "src/shared/ui/error-boundary/error-boundary.stories.tsx",
+          "type": "registry:ui",
+          "target": "@ui/error-boundary/error-boundary.stories.tsx"
+        },
+        {
+          "path": "src/shared/ui/error-boundary/error-boundary.tsx",
+          "type": "registry:ui",
+          "target": "@ui/error-boundary/error-boundary.tsx"
+        },
+        {
+          "path": "src/shared/ui/error-boundary/index.ts",
+          "type": "registry:ui",
+          "target": "@ui/error-boundary/index.ts"
+        },
+        {
+          "path": "src/shared/ui/error-boundary/route-error-fallback.stories.tsx",
+          "type": "registry:ui",
+          "target": "@ui/error-boundary/route-error-fallback.stories.tsx"
+        },
+        {
+          "path": "src/shared/ui/error-boundary/route-error-fallback.tsx",
+          "type": "registry:ui",
+          "target": "@ui/error-boundary/route-error-fallback.tsx"
+        }
+      ],
+      "docs": "Stories require the creact Storybook setup (add Joshua-Booth/creact/storybook-setup). Without it, exclude **/*.stories.tsx from typechecking."
+    },
+    {
+      "name": "feature-flags",
+      "type": "registry:lib",
+      "title": "Feature Flags",
+      "description": "Feature Flags for creact projects.",
+      "dependencies": ["@posthog/react@^1.10.5"],
+      "files": [
+        {
+          "path": "src/shared/lib/feature-flags/feature-gate.tsx",
+          "type": "registry:lib",
+          "target": "@lib/feature-flags/feature-gate.tsx"
+        },
+        {
+          "path": "src/shared/lib/feature-flags/index.ts",
+          "type": "registry:lib",
+          "target": "@lib/feature-flags/index.ts"
+        },
+        {
+          "path": "src/shared/lib/feature-flags/keys.ts",
+          "type": "registry:lib",
+          "target": "@lib/feature-flags/keys.ts"
+        },
+        {
+          "path": "src/shared/lib/feature-flags/types.ts",
+          "type": "registry:lib",
+          "target": "@lib/feature-flags/types.ts"
+        },
+        {
+          "path": "src/shared/lib/feature-flags/use-feature-flags.ts",
+          "type": "registry:lib",
+          "target": "@lib/feature-flags/use-feature-flags.ts"
+        }
+      ]
+    },
+    {
+      "name": "field",
+      "type": "registry:ui",
+      "title": "Field",
+      "description": "Fieldset container for grouping related form fields with accessible semantics.",
+      "dependencies": [
+        "@base-ui/react@^1.7.0",
+        "class-variance-authority@^0.7.1",
+        "cn@^0.2.5"
+      ],
+      "registryDependencies": [
+        "Joshua-Booth/creact/button",
+        "Joshua-Booth/creact/checkbox",
+        "Joshua-Booth/creact/input",
+        "Joshua-Booth/creact/label",
+        "Joshua-Booth/creact/radio-group",
+        "Joshua-Booth/creact/select",
+        "Joshua-Booth/creact/separator",
+        "Joshua-Booth/creact/slider",
+        "Joshua-Booth/creact/switch",
+        "Joshua-Booth/creact/textarea"
+      ],
+      "files": [
+        {
+          "path": "src/shared/ui/field/field.stories.tsx",
+          "type": "registry:ui",
+          "target": "@ui/field/field.stories.tsx"
+        },
+        {
+          "path": "src/shared/ui/field/field.tsx",
+          "type": "registry:ui",
+          "target": "@ui/field/field.tsx"
+        },
+        {
+          "path": "src/shared/ui/field/index.ts",
+          "type": "registry:ui",
+          "target": "@ui/field/index.ts"
+        }
+      ],
+      "docs": "Stories require the creact Storybook setup (add Joshua-Booth/creact/storybook-setup). Without it, exclude **/*.stories.tsx from typechecking."
+    },
+    {
+      "name": "fsd-scaffolding",
+      "type": "registry:item",
+      "title": "FSD Scaffolding",
+      "description": "Plop generators for Feature-Sliced Design: scaffold slices and UI components with stories in the creact layout.",
+      "devDependencies": ["plop@^4.0.5"],
+      "files": [
+        {
+          "path": "config/plopfile.ts",
+          "type": "registry:file",
+          "target": "~/config/plopfile.ts"
+        },
+        {
+          "path": "config/plop-templates/slice/index.ts.hbs",
+          "type": "registry:file",
+          "target": "~/config/plop-templates/slice/index.ts.hbs"
+        },
+        {
+          "path": "config/plop-templates/slice/lib-test.ts.hbs",
+          "type": "registry:file",
+          "target": "~/config/plop-templates/slice/lib-test.ts.hbs"
+        },
+        {
+          "path": "config/plop-templates/slice/segment-file.ts.hbs",
+          "type": "registry:file",
+          "target": "~/config/plop-templates/slice/segment-file.ts.hbs"
+        },
+        {
+          "path": "config/plop-templates/slice/ui-component.tsx.hbs",
+          "type": "registry:file",
+          "target": "~/config/plop-templates/slice/ui-component.tsx.hbs"
+        },
+        {
+          "path": "config/plop-templates/slice/ui-stories.tsx.hbs",
+          "type": "registry:file",
+          "target": "~/config/plop-templates/slice/ui-stories.tsx.hbs"
+        },
+        {
+          "path": "config/plop-templates/ui-component/component.tsx.hbs",
+          "type": "registry:file",
+          "target": "~/config/plop-templates/ui-component/component.tsx.hbs"
+        },
+        {
+          "path": "config/plop-templates/ui-component/index.ts.hbs",
+          "type": "registry:file",
+          "target": "~/config/plop-templates/ui-component/index.ts.hbs"
+        },
+        {
+          "path": "config/plop-templates/ui-component/stories.tsx.hbs",
+          "type": "registry:file",
+          "target": "~/config/plop-templates/ui-component/stories.tsx.hbs"
+        }
+      ],
+      "docs": "Run with: plop --plopfile config/plopfile.ts --dest ."
+    },
+    {
+      "name": "hover-card",
+      "type": "registry:ui",
+      "title": "Hover Card",
+      "description": "Popup card that appears on hover for previewing linked content. Wraps `@base-ui/react/preview-card`.",
+      "dependencies": ["@base-ui/react@^1.7.0", "cn@^0.2.5"],
+      "registryDependencies": [
+        "Joshua-Booth/creact/avatar",
+        "Joshua-Booth/creact/button"
+      ],
+      "files": [
+        {
+          "path": "src/shared/ui/hover-card/hover-card.stories.tsx",
+          "type": "registry:ui",
+          "target": "@ui/hover-card/hover-card.stories.tsx"
+        },
+        {
+          "path": "src/shared/ui/hover-card/hover-card.tsx",
+          "type": "registry:ui",
+          "target": "@ui/hover-card/hover-card.tsx"
+        },
+        {
+          "path": "src/shared/ui/hover-card/index.ts",
+          "type": "registry:ui",
+          "target": "@ui/hover-card/index.ts"
+        }
+      ],
+      "docs": "Stories require the creact Storybook setup (add Joshua-Booth/creact/storybook-setup). Without it, exclude **/*.stories.tsx from typechecking."
+    },
+    {
+      "name": "hydration",
+      "type": "registry:lib",
+      "title": "Hydration",
+      "description": "Hydration for creact projects.",
+      "files": [
+        {
+          "path": "src/shared/lib/hydration/index.ts",
+          "type": "registry:lib",
+          "target": "@lib/hydration/index.ts"
+        },
+        {
+          "path": "src/shared/lib/hydration/use-hydrated.ts",
+          "type": "registry:lib",
+          "target": "@lib/hydration/use-hydrated.ts"
+        }
+      ]
+    },
+    {
+      "name": "input",
+      "type": "registry:ui",
+      "title": "Input",
+      "description": "Text input field with project styling and validation states.",
+      "dependencies": [
+        "@base-ui/react@^1.7.0",
+        "cn@^0.2.5",
+        "lucide-react@^1.34.0"
+      ],
+      "registryDependencies": [
+        "Joshua-Booth/creact/badge",
+        "Joshua-Booth/creact/button",
+        "Joshua-Booth/creact/button-group",
+        "Joshua-Booth/creact/field",
+        "Joshua-Booth/creact/input-group",
+        "Joshua-Booth/creact/select"
+      ],
+      "files": [
+        {
+          "path": "src/shared/ui/input/index.ts",
+          "type": "registry:ui",
+          "target": "@ui/input/index.ts"
+        },
+        {
+          "path": "src/shared/ui/input/input.stories.tsx",
+          "type": "registry:ui",
+          "target": "@ui/input/input.stories.tsx"
+        },
+        {
+          "path": "src/shared/ui/input/input.tsx",
+          "type": "registry:ui",
+          "target": "@ui/input/input.tsx"
+        }
+      ],
+      "docs": "Stories require the creact Storybook setup (add Joshua-Booth/creact/storybook-setup). Without it, exclude **/*.stories.tsx from typechecking."
+    },
+    {
+      "name": "input-group",
+      "type": "registry:ui",
+      "title": "Input Group",
+      "description": "Container that visually groups an input with addon elements like icons and buttons.",
+      "dependencies": [
+        "class-variance-authority@^0.7.1",
+        "cn@^0.2.5",
+        "lucide-react@^1.34.0"
+      ],
+      "registryDependencies": [
+        "Joshua-Booth/creact/button",
+        "Joshua-Booth/creact/dropdown-menu",
+        "Joshua-Booth/creact/field",
+        "Joshua-Booth/creact/input",
+        "Joshua-Booth/creact/kbd",
+        "Joshua-Booth/creact/spinner",
+        "Joshua-Booth/creact/textarea"
+      ],
+      "files": [
+        {
+          "path": "src/shared/ui/input-group/index.ts",
+          "type": "registry:ui",
+          "target": "@ui/input-group/index.ts"
+        },
+        {
+          "path": "src/shared/ui/input-group/input-group.stories.tsx",
+          "type": "registry:ui",
+          "target": "@ui/input-group/input-group.stories.tsx"
+        },
+        {
+          "path": "src/shared/ui/input-group/input-group.tsx",
+          "type": "registry:ui",
+          "target": "@ui/input-group/input-group.tsx"
+        }
+      ],
+      "docs": "Stories require the creact Storybook setup (add Joshua-Booth/creact/storybook-setup). Without it, exclude **/*.stories.tsx from typechecking."
+    },
+    {
+      "name": "input-otp",
+      "type": "registry:ui",
+      "title": "Input Otp",
+      "description": "One-time password input with individual character slots. Built on input-otp.",
+      "dependencies": ["cn@^0.2.5", "input-otp@^1.5.0", "lucide-react@^1.34.0"],
+      "registryDependencies": [
+        "Joshua-Booth/creact/button",
+        "Joshua-Booth/creact/card",
+        "Joshua-Booth/creact/field"
+      ],
+      "files": [
+        {
+          "path": "src/shared/ui/input-otp/index.ts",
+          "type": "registry:ui",
+          "target": "@ui/input-otp/index.ts"
+        },
+        {
+          "path": "src/shared/ui/input-otp/input-otp.stories.tsx",
+          "type": "registry:ui",
+          "target": "@ui/input-otp/input-otp.stories.tsx"
+        },
+        {
+          "path": "src/shared/ui/input-otp/input-otp.tsx",
+          "type": "registry:ui",
+          "target": "@ui/input-otp/input-otp.tsx"
+        }
+      ],
+      "docs": "Stories require the creact Storybook setup (add Joshua-Booth/creact/storybook-setup). Without it, exclude **/*.stories.tsx from typechecking."
+    },
+    {
+      "name": "item",
+      "type": "registry:ui",
+      "title": "Item",
+      "description": "Container that arranges `Item` children in a vertical list.",
+      "dependencies": [
+        "@base-ui/react@^1.7.0",
+        "class-variance-authority@^0.7.1",
+        "cn@^0.2.5",
+        "lucide-react@^1.34.0"
+      ],
+      "registryDependencies": [
+        "Joshua-Booth/creact/avatar",
+        "Joshua-Booth/creact/badge",
+        "Joshua-Booth/creact/button",
+        "Joshua-Booth/creact/dropdown-menu",
+        "Joshua-Booth/creact/separator"
+      ],
+      "files": [
+        {
+          "path": "src/shared/ui/item/index.ts",
+          "type": "registry:ui",
+          "target": "@ui/item/index.ts"
+        },
+        {
+          "path": "src/shared/ui/item/item.stories.tsx",
+          "type": "registry:ui",
+          "target": "@ui/item/item.stories.tsx"
+        },
+        {
+          "path": "src/shared/ui/item/item.tsx",
+          "type": "registry:ui",
+          "target": "@ui/item/item.tsx"
+        }
+      ],
+      "docs": "Stories require the creact Storybook setup (add Joshua-Booth/creact/storybook-setup). Without it, exclude **/*.stories.tsx from typechecking."
+    },
+    {
+      "name": "json-ld",
+      "type": "registry:ui",
+      "title": "Json Ld",
+      "description": "Injects a JSON-LD structured data script tag into the page for SEO.",
+      "files": [
+        {
+          "path": "src/shared/ui/json-ld/index.ts",
+          "type": "registry:ui",
+          "target": "@ui/json-ld/index.ts"
+        },
+        {
+          "path": "src/shared/ui/json-ld/json-ld.tsx",
+          "type": "registry:ui",
+          "target": "@ui/json-ld/json-ld.tsx"
+        }
+      ]
+    },
+    {
+      "name": "kbd",
+      "type": "registry:ui",
+      "title": "Kbd",
+      "description": "Inline keyboard shortcut badge for displaying key combinations.",
+      "dependencies": ["cn@^0.2.5", "lucide-react@^1.34.0"],
+      "registryDependencies": [
+        "Joshua-Booth/creact/button",
+        "Joshua-Booth/creact/input-group",
+        "Joshua-Booth/creact/tooltip"
+      ],
+      "files": [
+        {
+          "path": "src/shared/ui/kbd/index.ts",
+          "type": "registry:ui",
+          "target": "@ui/kbd/index.ts"
+        },
+        {
+          "path": "src/shared/ui/kbd/kbd.stories.tsx",
+          "type": "registry:ui",
+          "target": "@ui/kbd/kbd.stories.tsx"
+        },
+        {
+          "path": "src/shared/ui/kbd/kbd.tsx",
+          "type": "registry:ui",
+          "target": "@ui/kbd/kbd.tsx"
+        }
+      ],
+      "docs": "Stories require the creact Storybook setup (add Joshua-Booth/creact/storybook-setup). Without it, exclude **/*.stories.tsx from typechecking."
+    },
+    {
+      "name": "label",
+      "type": "registry:ui",
+      "title": "Label",
+      "description": "Accessible form label that dims automatically when its associated control is disabled.",
+      "dependencies": ["cn@^0.2.5"],
+      "registryDependencies": [
+        "Joshua-Booth/creact/button",
+        "Joshua-Booth/creact/checkbox",
+        "Joshua-Booth/creact/field",
+        "Joshua-Booth/creact/input",
+        "Joshua-Booth/creact/select",
+        "Joshua-Booth/creact/textarea"
+      ],
+      "files": [
+        {
+          "path": "src/shared/ui/label/index.ts",
+          "type": "registry:ui",
+          "target": "@ui/label/index.ts"
+        },
+        {
+          "path": "src/shared/ui/label/label.stories.tsx",
+          "type": "registry:ui",
+          "target": "@ui/label/label.stories.tsx"
+        },
+        {
+          "path": "src/shared/ui/label/label.tsx",
+          "type": "registry:ui",
+          "target": "@ui/label/label.tsx"
+        }
+      ],
+      "docs": "Stories require the creact Storybook setup (add Joshua-Booth/creact/storybook-setup). Without it, exclude **/*.stories.tsx from typechecking."
+    },
+    {
+      "name": "linting",
+      "type": "registry:item",
+      "title": "Linting",
+      "description": "creact ESLint 10 flat config: typescript-eslint strict, React, a11y, security, sonarjs, unicorn, FSD boundaries, Tailwind class checks, and more.",
+      "devDependencies": [
+        "@eslint-community/eslint-plugin-eslint-comments@^4.7.2",
+        "@eslint-react/eslint-plugin@^5.18.7",
+        "@eslint/js@^10.0.1",
+        "@vitest/eslint-plugin@^1.6.27",
+        "eslint@^10.9.1",
+        "eslint-plugin-barrel-files@^3.0.1",
+        "eslint-plugin-baseline-js@^0.7.1",
+        "eslint-plugin-better-tailwindcss@^4.7.0",
+        "eslint-plugin-check-file@^3.3.2",
+        "eslint-plugin-depend@^1.5.0",
+        "eslint-plugin-jsdoc@^64.3.5",
+        "eslint-plugin-jsx-a11y@^6.10.2",
+        "eslint-plugin-n@^18.3.0",
+        "eslint-plugin-perfectionist@^5.11.0",
+        "eslint-plugin-promise@^7.3.0",
+        "eslint-plugin-react-hooks@^7.1.1",
+        "eslint-plugin-react-you-might-not-need-an-effect@^1.0.2",
+        "eslint-plugin-security@^4.0.1",
+        "eslint-plugin-sonarjs@^4.2.0",
+        "eslint-plugin-storybook@^10.6.0",
+        "eslint-plugin-unicorn@^73.0.0",
+        "eslint-plugin-zod@^4.12.0",
+        "globals@^17.11.0",
+        "typescript-eslint@^8.68.0"
+      ],
+      "files": [
+        {
+          "path": "config/eslint.config.ts",
+          "type": "registry:file",
+          "target": "~/config/eslint.config.ts"
+        },
+        {
+          "path": "config/eslint-plugins.d.ts",
+          "type": "registry:file",
+          "target": "~/config/eslint-plugins.d.ts"
+        }
+      ],
+      "docs": "Run with: eslint . --config ./config/eslint.config.ts --max-warnings 0"
+    },
+    {
+      "name": "marker",
+      "type": "registry:ui",
+      "title": "Marker",
+      "description": "Style variants for the {@link Marker} component.",
+      "dependencies": [
+        "@base-ui/react@^1.7.0",
+        "class-variance-authority@^0.7.1",
+        "cn@^0.2.5",
+        "lucide-react@^1.34.0"
+      ],
+      "registryDependencies": ["Joshua-Booth/creact/spinner"],
+      "files": [
+        {
+          "path": "src/shared/ui/marker/index.ts",
+          "type": "registry:ui",
+          "target": "@ui/marker/index.ts"
+        },
+        {
+          "path": "src/shared/ui/marker/marker.stories.tsx",
+          "type": "registry:ui",
+          "target": "@ui/marker/marker.stories.tsx"
+        },
+        {
+          "path": "src/shared/ui/marker/marker.tsx",
+          "type": "registry:ui",
+          "target": "@ui/marker/marker.tsx"
+        }
+      ],
+      "docs": "Stories require the creact Storybook setup (add Joshua-Booth/creact/storybook-setup). Without it, exclude **/*.stories.tsx from typechecking."
+    },
+    {
+      "name": "menubar",
+      "type": "registry:ui",
+      "title": "Menubar",
+      "description": "Horizontal menu bar that groups multiple dropdown menus into a single accessible control. Wraps `@base-ui/react/menubar` with dropdown menu composition.",
+      "dependencies": [
+        "@base-ui/react@^1.7.0",
+        "cn@^0.2.5",
+        "lucide-react@^1.34.0"
+      ],
+      "registryDependencies": ["Joshua-Booth/creact/dropdown-menu"],
+      "files": [
+        {
+          "path": "src/shared/ui/menubar/index.ts",
+          "type": "registry:ui",
+          "target": "@ui/menubar/index.ts"
+        },
+        {
+          "path": "src/shared/ui/menubar/menubar.stories.tsx",
+          "type": "registry:ui",
+          "target": "@ui/menubar/menubar.stories.tsx"
+        },
+        {
+          "path": "src/shared/ui/menubar/menubar.tsx",
+          "type": "registry:ui",
+          "target": "@ui/menubar/menubar.tsx"
+        }
+      ],
+      "docs": "Stories require the creact Storybook setup (add Joshua-Booth/creact/storybook-setup). Without it, exclude **/*.stories.tsx from typechecking."
+    },
+    {
+      "name": "message",
+      "type": "registry:ui",
+      "title": "Message",
+      "description": "Vertical container that groups related messages together.",
+      "dependencies": ["cn@^0.2.5", "lucide-react@^1.34.0"],
+      "registryDependencies": [
+        "Joshua-Booth/creact/attachment",
+        "Joshua-Booth/creact/bubble",
+        "Joshua-Booth/creact/button"
+      ],
+      "files": [
+        {
+          "path": "src/shared/ui/message/index.ts",
+          "type": "registry:ui",
+          "target": "@ui/message/index.ts"
+        },
+        {
+          "path": "src/shared/ui/message/message.stories.tsx",
+          "type": "registry:ui",
+          "target": "@ui/message/message.stories.tsx"
+        },
+        {
+          "path": "src/shared/ui/message/message.tsx",
+          "type": "registry:ui",
+          "target": "@ui/message/message.tsx"
+        }
+      ],
+      "docs": "Stories require the creact Storybook setup (add Joshua-Booth/creact/storybook-setup). Without it, exclude **/*.stories.tsx from typechecking."
+    },
+    {
+      "name": "message-scroller",
+      "type": "registry:ui",
+      "title": "Message Scroller",
+      "description": "Context provider that shares scroller state with descendant components.",
+      "dependencies": [
+        "@shadcn/react@^0.3.1",
+        "cn@^0.2.5",
+        "lucide-react@^1.34.0"
+      ],
+      "registryDependencies": [
+        "Joshua-Booth/creact/bubble",
+        "Joshua-Booth/creact/button",
+        "Joshua-Booth/creact/marker",
+        "Joshua-Booth/creact/message"
+      ],
+      "files": [
+        {
+          "path": "src/shared/ui/message-scroller/index.ts",
+          "type": "registry:ui",
+          "target": "@ui/message-scroller/index.ts"
+        },
+        {
+          "path": "src/shared/ui/message-scroller/message-scroller.stories.tsx",
+          "type": "registry:ui",
+          "target": "@ui/message-scroller/message-scroller.stories.tsx"
+        },
+        {
+          "path": "src/shared/ui/message-scroller/message-scroller.tsx",
+          "type": "registry:ui",
+          "target": "@ui/message-scroller/message-scroller.tsx"
+        }
+      ],
+      "docs": "Stories require the creact Storybook setup (add Joshua-Booth/creact/storybook-setup). Without it, exclude **/*.stories.tsx from typechecking."
+    },
+    {
+      "name": "mode-toggle",
+      "type": "registry:ui",
+      "title": "Mode Toggle",
+      "description": "Dropdown button that switches between light, dark, and system color themes.",
+      "dependencies": [
+        "lucide-react@^1.34.0",
+        "react-i18next@^17.0.12",
+        "remix-themes@^2.0.4"
+      ],
+      "registryDependencies": [
+        "Joshua-Booth/creact/button",
+        "Joshua-Booth/creact/dropdown-menu"
+      ],
+      "files": [
+        {
+          "path": "src/shared/ui/mode-toggle/index.ts",
+          "type": "registry:ui",
+          "target": "@ui/mode-toggle/index.ts"
+        },
+        {
+          "path": "src/shared/ui/mode-toggle/mode-toggle.stories.tsx",
+          "type": "registry:ui",
+          "target": "@ui/mode-toggle/mode-toggle.stories.tsx"
+        },
+        {
+          "path": "src/shared/ui/mode-toggle/mode-toggle.tsx",
+          "type": "registry:ui",
+          "target": "@ui/mode-toggle/mode-toggle.tsx"
+        }
+      ],
+      "docs": "Stories require the creact Storybook setup (add Joshua-Booth/creact/storybook-setup). Without it, exclude **/*.stories.tsx from typechecking."
+    },
+    {
+      "name": "native-select",
+      "type": "registry:ui",
+      "title": "Native Select",
+      "description": "Browser-native select element with project styling.",
+      "dependencies": ["cn@^0.2.5", "lucide-react@^1.34.0"],
+      "files": [
+        {
+          "path": "src/shared/ui/native-select/index.ts",
+          "type": "registry:ui",
+          "target": "@ui/native-select/index.ts"
+        },
+        {
+          "path": "src/shared/ui/native-select/native-select.stories.tsx",
+          "type": "registry:ui",
+          "target": "@ui/native-select/native-select.stories.tsx"
+        },
+        {
+          "path": "src/shared/ui/native-select/native-select.tsx",
+          "type": "registry:ui",
+          "target": "@ui/native-select/native-select.tsx"
+        }
+      ],
+      "docs": "Stories require the creact Storybook setup (add Joshua-Booth/creact/storybook-setup). Without it, exclude **/*.stories.tsx from typechecking."
+    },
+    {
+      "name": "navigation-menu",
+      "type": "registry:ui",
+      "title": "Navigation Menu",
+      "description": "Horizontal navigation bar with animated dropdown content panels. Wraps `@base-ui/react/navigation-menu` with smooth transitions.",
+      "dependencies": [
+        "@base-ui/react@^1.7.0",
+        "class-variance-authority@^0.7.1",
+        "cn@^0.2.5",
+        "lucide-react@^1.34.0"
+      ],
+      "files": [
+        {
+          "path": "src/shared/ui/navigation-menu/index.ts",
+          "type": "registry:ui",
+          "target": "@ui/navigation-menu/index.ts"
+        },
+        {
+          "path": "src/shared/ui/navigation-menu/navigation-menu.stories.tsx",
+          "type": "registry:ui",
+          "target": "@ui/navigation-menu/navigation-menu.stories.tsx"
+        },
+        {
+          "path": "src/shared/ui/navigation-menu/navigation-menu.tsx",
+          "type": "registry:ui",
+          "target": "@ui/navigation-menu/navigation-menu.tsx"
+        }
+      ],
+      "docs": "Stories require the creact Storybook setup (add Joshua-Booth/creact/storybook-setup). Without it, exclude **/*.stories.tsx from typechecking."
+    },
+    {
+      "name": "pagination",
+      "type": "registry:ui",
+      "title": "Pagination",
+      "description": "Page navigation control with previous/next buttons and numbered page links.",
+      "dependencies": [
+        "cn@^0.2.5",
+        "lucide-react@^1.34.0",
+        "react-i18next@^17.0.12",
+        "react-router@^8.3.1"
+      ],
+      "registryDependencies": [
+        "Joshua-Booth/creact/button",
+        "Joshua-Booth/creact/field",
+        "Joshua-Booth/creact/select"
+      ],
+      "files": [
+        {
+          "path": "src/shared/ui/pagination/index.ts",
+          "type": "registry:ui",
+          "target": "@ui/pagination/index.ts"
+        },
+        {
+          "path": "src/shared/ui/pagination/pagination.stories.tsx",
+          "type": "registry:ui",
+          "target": "@ui/pagination/pagination.stories.tsx"
+        },
+        {
+          "path": "src/shared/ui/pagination/pagination.tsx",
+          "type": "registry:ui",
+          "target": "@ui/pagination/pagination.tsx"
+        }
+      ],
+      "docs": "Stories require the creact Storybook setup (add Joshua-Booth/creact/storybook-setup). Without it, exclude **/*.stories.tsx from typechecking."
+    },
+    {
+      "name": "popover",
+      "type": "registry:ui",
+      "title": "Popover",
+      "description": "Floating popup anchored to a trigger element for rich content display. Wraps `@base-ui/react/popover`.",
+      "dependencies": ["@base-ui/react@^1.7.0", "cn@^0.2.5"],
+      "registryDependencies": [
+        "Joshua-Booth/creact/button",
+        "Joshua-Booth/creact/input",
+        "Joshua-Booth/creact/label"
+      ],
+      "files": [
+        {
+          "path": "src/shared/ui/popover/index.ts",
+          "type": "registry:ui",
+          "target": "@ui/popover/index.ts"
+        },
+        {
+          "path": "src/shared/ui/popover/popover.stories.tsx",
+          "type": "registry:ui",
+          "target": "@ui/popover/popover.stories.tsx"
+        },
+        {
+          "path": "src/shared/ui/popover/popover.tsx",
+          "type": "registry:ui",
+          "target": "@ui/popover/popover.tsx"
+        }
+      ],
+      "docs": "Stories require the creact Storybook setup (add Joshua-Booth/creact/storybook-setup). Without it, exclude **/*.stories.tsx from typechecking."
+    },
+    {
+      "name": "progress",
+      "type": "registry:ui",
+      "title": "Progress",
+      "description": "Horizontal progress bar indicating completion percentage. Wraps Base UI Progress.",
+      "dependencies": ["@base-ui/react@^1.7.0", "cn@^0.2.5"],
+      "registryDependencies": [
+        "Joshua-Booth/creact/field",
+        "Joshua-Booth/creact/slider"
+      ],
+      "files": [
+        {
+          "path": "src/shared/ui/progress/index.ts",
+          "type": "registry:ui",
+          "target": "@ui/progress/index.ts"
+        },
+        {
+          "path": "src/shared/ui/progress/progress.stories.tsx",
+          "type": "registry:ui",
+          "target": "@ui/progress/progress.stories.tsx"
+        },
+        {
+          "path": "src/shared/ui/progress/progress.tsx",
+          "type": "registry:ui",
+          "target": "@ui/progress/progress.tsx"
+        }
+      ],
+      "docs": "Stories require the creact Storybook setup (add Joshua-Booth/creact/storybook-setup). Without it, exclude **/*.stories.tsx from typechecking."
+    },
+    {
+      "name": "radio-group",
+      "type": "registry:ui",
+      "title": "Radio Group",
+      "description": "Group of mutually exclusive radio options. Wraps `@base-ui/react/radio-group`.",
+      "dependencies": ["@base-ui/react@^1.7.0", "cn@^0.2.5"],
+      "registryDependencies": [
+        "Joshua-Booth/creact/field",
+        "Joshua-Booth/creact/item"
+      ],
+      "files": [
+        {
+          "path": "src/shared/ui/radio-group/index.ts",
+          "type": "registry:ui",
+          "target": "@ui/radio-group/index.ts"
+        },
+        {
+          "path": "src/shared/ui/radio-group/radio-group.stories.tsx",
+          "type": "registry:ui",
+          "target": "@ui/radio-group/radio-group.stories.tsx"
+        },
+        {
+          "path": "src/shared/ui/radio-group/radio-group.tsx",
+          "type": "registry:ui",
+          "target": "@ui/radio-group/radio-group.tsx"
+        }
+      ],
+      "docs": "Stories require the creact Storybook setup (add Joshua-Booth/creact/storybook-setup). Without it, exclude **/*.stories.tsx from typechecking."
+    },
+    {
+      "name": "resizable",
+      "type": "registry:ui",
+      "title": "Resizable",
+      "description": "Resizable panel layout powered by react-resizable-panels. Arranges child panels in a split-view with draggable dividers.",
+      "dependencies": ["cn@^0.2.5", "react-resizable-panels@^4.12.3"],
+      "files": [
+        {
+          "path": "src/shared/ui/resizable/index.ts",
+          "type": "registry:ui",
+          "target": "@ui/resizable/index.ts"
+        },
+        {
+          "path": "src/shared/ui/resizable/resizable.stories.tsx",
+          "type": "registry:ui",
+          "target": "@ui/resizable/resizable.stories.tsx"
+        },
+        {
+          "path": "src/shared/ui/resizable/resizable.tsx",
+          "type": "registry:ui",
+          "target": "@ui/resizable/resizable.tsx"
+        }
+      ],
+      "docs": "Stories require the creact Storybook setup (add Joshua-Booth/creact/storybook-setup). Without it, exclude **/*.stories.tsx from typechecking."
+    },
+    {
+      "name": "scroll-area",
+      "type": "registry:ui",
+      "title": "Scroll Area",
+      "description": "Custom scrollbar container powered by Base UI. Wraps content in a viewport with styled overlay scrollbars.",
+      "dependencies": ["@base-ui/react@^1.7.0", "cn@^0.2.5"],
+      "files": [
+        {
+          "path": "src/shared/ui/scroll-area/index.ts",
+          "type": "registry:ui",
+          "target": "@ui/scroll-area/index.ts"
+        },
+        {
+          "path": "src/shared/ui/scroll-area/scroll-area.stories.tsx",
+          "type": "registry:ui",
+          "target": "@ui/scroll-area/scroll-area.stories.tsx"
+        },
+        {
+          "path": "src/shared/ui/scroll-area/scroll-area.tsx",
+          "type": "registry:ui",
+          "target": "@ui/scroll-area/scroll-area.tsx"
+        }
+      ],
+      "docs": "Stories require the creact Storybook setup (add Joshua-Booth/creact/storybook-setup). Without it, exclude **/*.stories.tsx from typechecking."
+    },
+    {
+      "name": "select",
+      "type": "registry:ui",
+      "title": "Select",
+      "description": "Single-value selection dropdown. Wraps `@base-ui/react/select` with project styling.",
+      "dependencies": [
+        "@base-ui/react@^1.7.0",
+        "cn@^0.2.5",
+        "lucide-react@^1.34.0"
+      ],
+      "registryDependencies": [
+        "Joshua-Booth/creact/field",
+        "Joshua-Booth/creact/switch"
+      ],
+      "files": [
+        {
+          "path": "src/shared/ui/select/index.ts",
+          "type": "registry:ui",
+          "target": "@ui/select/index.ts"
+        },
+        {
+          "path": "src/shared/ui/select/select.stories.tsx",
+          "type": "registry:ui",
+          "target": "@ui/select/select.stories.tsx"
+        },
+        {
+          "path": "src/shared/ui/select/select.tsx",
+          "type": "registry:ui",
+          "target": "@ui/select/select.tsx"
+        }
+      ],
+      "docs": "Stories require the creact Storybook setup (add Joshua-Booth/creact/storybook-setup). Without it, exclude **/*.stories.tsx from typechecking."
+    },
+    {
+      "name": "seo",
+      "type": "registry:lib",
+      "title": "Seo",
+      "description": "Seo for creact projects.",
+      "devDependencies": ["vitest@^4.1.11"],
+      "files": [
+        {
+          "path": "src/shared/lib/seo/index.ts",
+          "type": "registry:lib",
+          "target": "@lib/seo/index.ts"
+        },
+        {
+          "path": "src/shared/lib/seo/json-ld.test.ts",
+          "type": "registry:lib",
+          "target": "@lib/seo/json-ld.test.ts"
+        },
+        {
+          "path": "src/shared/lib/seo/json-ld.ts",
+          "type": "registry:lib",
+          "target": "@lib/seo/json-ld.ts"
+        },
+        {
+          "path": "src/shared/lib/seo/meta.test.ts",
+          "type": "registry:lib",
+          "target": "@lib/seo/meta.test.ts"
+        },
+        {
+          "path": "src/shared/lib/seo/meta.ts",
+          "type": "registry:lib",
+          "target": "@lib/seo/meta.ts"
+        },
+        {
+          "path": "src/shared/lib/seo/types.ts",
+          "type": "registry:lib",
+          "target": "@lib/seo/types.ts"
+        }
+      ]
+    },
+    {
+      "name": "separator",
+      "type": "registry:ui",
+      "title": "Separator",
+      "description": "Visual divider rendered as a horizontal or vertical line. Defaults to horizontal orientation.",
+      "dependencies": ["@base-ui/react@^1.7.0", "cn@^0.2.5"],
+      "files": [
+        {
+          "path": "src/shared/ui/separator/index.ts",
+          "type": "registry:ui",
+          "target": "@ui/separator/index.ts"
+        },
+        {
+          "path": "src/shared/ui/separator/separator.stories.tsx",
+          "type": "registry:ui",
+          "target": "@ui/separator/separator.stories.tsx"
+        },
+        {
+          "path": "src/shared/ui/separator/separator.tsx",
+          "type": "registry:ui",
+          "target": "@ui/separator/separator.tsx"
+        }
+      ],
+      "docs": "Stories require the creact Storybook setup (add Joshua-Booth/creact/storybook-setup). Without it, exclude **/*.stories.tsx from typechecking."
+    },
+    {
+      "name": "sheet",
+      "type": "registry:ui",
+      "title": "Sheet",
+      "description": "Side panel overlay that slides in from a screen edge. Wraps `@base-ui/react/dialog` with directional slide animations.",
+      "dependencies": [
+        "@base-ui/react@^1.7.0",
+        "cn@^0.2.5",
+        "lucide-react@^1.34.0",
+        "react-i18next@^17.0.12"
+      ],
+      "registryDependencies": [
+        "Joshua-Booth/creact/button",
+        "Joshua-Booth/creact/input",
+        "Joshua-Booth/creact/label"
+      ],
+      "files": [
+        {
+          "path": "src/shared/ui/sheet/index.ts",
+          "type": "registry:ui",
+          "target": "@ui/sheet/index.ts"
+        },
+        {
+          "path": "src/shared/ui/sheet/sheet.stories.tsx",
+          "type": "registry:ui",
+          "target": "@ui/sheet/sheet.stories.tsx"
+        },
+        {
+          "path": "src/shared/ui/sheet/sheet.tsx",
+          "type": "registry:ui",
+          "target": "@ui/sheet/sheet.tsx"
+        }
+      ],
+      "docs": "Stories require the creact Storybook setup (add Joshua-Booth/creact/storybook-setup). Without it, exclude **/*.stories.tsx from typechecking."
+    },
+    {
+      "name": "sidebar",
+      "type": "registry:ui",
+      "title": "Sidebar",
+      "description": "Hook to access sidebar state and controls from any child component.",
+      "dependencies": [
+        "@base-ui/react@^1.7.0",
+        "class-variance-authority@^0.7.1",
+        "cn@^0.2.5",
+        "lucide-react@^1.34.0",
+        "react-i18next@^17.0.12"
+      ],
+      "registryDependencies": [
+        "Joshua-Booth/creact/button",
+        "Joshua-Booth/creact/device",
+        "Joshua-Booth/creact/dropdown-menu",
+        "Joshua-Booth/creact/input",
+        "Joshua-Booth/creact/separator",
+        "Joshua-Booth/creact/sheet",
+        "Joshua-Booth/creact/skeleton",
+        "Joshua-Booth/creact/tooltip"
+      ],
+      "files": [
+        {
+          "path": "src/shared/ui/sidebar/index.ts",
+          "type": "registry:ui",
+          "target": "@ui/sidebar/index.ts"
+        },
+        {
+          "path": "src/shared/ui/sidebar/sidebar.stories.tsx",
+          "type": "registry:ui",
+          "target": "@ui/sidebar/sidebar.stories.tsx"
+        },
+        {
+          "path": "src/shared/ui/sidebar/sidebar.tsx",
+          "type": "registry:ui",
+          "target": "@ui/sidebar/sidebar.tsx"
+        }
+      ],
+      "docs": "Stories require the creact Storybook setup (add Joshua-Booth/creact/storybook-setup). Without it, exclude **/*.stories.tsx from typechecking."
+    },
+    {
+      "name": "skeleton",
+      "type": "registry:ui",
+      "title": "Skeleton",
+      "description": "Animated placeholder that indicates content is loading. Renders a pulsing rounded rectangle.",
+      "dependencies": ["cn@^0.2.5"],
+      "registryDependencies": ["Joshua-Booth/creact/card"],
+      "files": [
+        {
+          "path": "src/shared/ui/skeleton/index.ts",
+          "type": "registry:ui",
+          "target": "@ui/skeleton/index.ts"
+        },
+        {
+          "path": "src/shared/ui/skeleton/skeleton.stories.tsx",
+          "type": "registry:ui",
+          "target": "@ui/skeleton/skeleton.stories.tsx"
+        },
+        {
+          "path": "src/shared/ui/skeleton/skeleton.tsx",
+          "type": "registry:ui",
+          "target": "@ui/skeleton/skeleton.tsx"
+        }
+      ],
+      "docs": "Stories require the creact Storybook setup (add Joshua-Booth/creact/storybook-setup). Without it, exclude **/*.stories.tsx from typechecking."
+    },
+    {
+      "name": "slider",
+      "type": "registry:ui",
+      "title": "Slider",
+      "description": "Range slider input for selecting numeric values. Supports single or multi-thumb configurations with a visible track indicator.",
+      "dependencies": ["@base-ui/react@^1.7.0", "cn@^0.2.5"],
+      "registryDependencies": ["Joshua-Booth/creact/field"],
+      "files": [
+        {
+          "path": "src/shared/ui/slider/index.ts",
+          "type": "registry:ui",
+          "target": "@ui/slider/index.ts"
+        },
+        {
+          "path": "src/shared/ui/slider/slider.stories.tsx",
+          "type": "registry:ui",
+          "target": "@ui/slider/slider.stories.tsx"
+        },
+        {
+          "path": "src/shared/ui/slider/slider.tsx",
+          "type": "registry:ui",
+          "target": "@ui/slider/slider.tsx"
+        }
+      ],
+      "docs": "Stories require the creact Storybook setup (add Joshua-Booth/creact/storybook-setup). Without it, exclude **/*.stories.tsx from typechecking."
+    },
+    {
+      "name": "spinner",
+      "type": "registry:ui",
+      "title": "Spinner",
+      "description": "Animated loading spinner icon with an accessible translated label.",
+      "dependencies": ["cn@^0.2.5", "i18next@^26.4.0", "lucide-react@^1.34.0"],
+      "registryDependencies": [
+        "Joshua-Booth/creact/badge",
+        "Joshua-Booth/creact/button",
+        "Joshua-Booth/creact/empty",
+        "Joshua-Booth/creact/input-group"
+      ],
+      "files": [
+        {
+          "path": "src/shared/ui/spinner/index.ts",
+          "type": "registry:ui",
+          "target": "@ui/spinner/index.ts"
+        },
+        {
+          "path": "src/shared/ui/spinner/spinner.stories.tsx",
+          "type": "registry:ui",
+          "target": "@ui/spinner/spinner.stories.tsx"
+        },
+        {
+          "path": "src/shared/ui/spinner/spinner.tsx",
+          "type": "registry:ui",
+          "target": "@ui/spinner/spinner.tsx"
+        }
+      ],
+      "docs": "Stories require the creact Storybook setup (add Joshua-Booth/creact/storybook-setup). Without it, exclude **/*.stories.tsx from typechecking."
+    },
+    {
+      "name": "storybook-setup",
+      "type": "registry:item",
+      "title": "Storybook Setup",
+      "description": "creact Storybook 10 infrastructure: preview with i18n and theme decorators, browser-mode vitest wiring, and MSW addon setup. Required for the stories shipped with UI items.",
+      "dependencies": [
+        "i18next@^26.4.0",
+        "react-i18next@^17.0.12",
+        "remix-themes@^2.0.4",
+        "swr@^2.5.1"
+      ],
+      "devDependencies": [
+        "@storybook/addon-a11y@^10.5.10",
+        "@storybook/addon-docs@^10.5.10",
+        "@storybook/addon-vitest@^10.5.10",
+        "@storybook/react-vite@^10.5.10",
+        "@tailwindcss/vite@^4.3.3",
+        "@vitest/browser-playwright@4.1.11",
+        "msw@^2.15.0",
+        "msw-storybook-addon@^3.0.0",
+        "remark-gfm@^4.0.1",
+        "storybook-addon-remix-react-router@^7.0.0",
+        "vite@^8.2.2",
+        "vite-plugin-svgr@^5.2.0",
+        "vitest@^4.1.11"
+      ],
+      "registryDependencies": [
+        "Joshua-Booth/creact/api",
+        "Joshua-Booth/creact/direction"
+      ],
+      "files": [
+        {
+          "path": ".storybook/decorators/with-auth.tsx",
+          "type": "registry:file",
+          "target": "~/.storybook/decorators/with-auth.tsx"
+        },
+        {
+          "path": ".storybook/decorators/with-direction.tsx",
+          "type": "registry:file",
+          "target": "~/.storybook/decorators/with-direction.tsx"
+        },
+        {
+          "path": ".storybook/decorators/with-i18n.tsx",
+          "type": "registry:file",
+          "target": "~/.storybook/decorators/with-i18n.tsx"
+        },
+        {
+          "path": ".storybook/decorators/with-swr.tsx",
+          "type": "registry:file",
+          "target": "~/.storybook/decorators/with-swr.tsx"
+        },
+        {
+          "path": ".storybook/decorators/with-theme.tsx",
+          "type": "registry:file",
+          "target": "~/.storybook/decorators/with-theme.tsx"
+        },
+        {
+          "path": ".storybook/main.ts",
+          "type": "registry:file",
+          "target": "~/.storybook/main.ts"
+        },
+        {
+          "path": ".storybook/preview.tsx",
+          "type": "registry:file",
+          "target": "~/.storybook/preview.tsx"
+        },
+        {
+          "path": ".storybook/storybook-dark.css",
+          "type": "registry:file",
+          "target": "~/.storybook/storybook-dark.css"
+        },
+        {
+          "path": ".storybook/tsconfig.json",
+          "type": "registry:file",
+          "target": "~/.storybook/tsconfig.json"
+        },
+        {
+          "path": ".storybook/vite.config.ts",
+          "type": "registry:file",
+          "target": "~/.storybook/vite.config.ts"
+        },
+        {
+          "path": ".storybook/vitest.config.ts",
+          "type": "registry:file",
+          "target": "~/.storybook/vitest.config.ts"
+        },
+        {
+          "path": ".storybook/vitest.setup.ts",
+          "type": "registry:file",
+          "target": "~/.storybook/vitest.setup.ts"
+        },
+        {
+          "path": ".storybook/vitest.shims.d.ts",
+          "type": "registry:file",
+          "target": "~/.storybook/vitest.shims.d.ts"
+        },
+        {
+          "path": "config/vite-aliases.ts",
+          "type": "registry:file",
+          "target": "~/config/vite-aliases.ts"
+        }
+      ],
+      "docs": "Expects the creact layout (src/app/styles/globals.css, @/* path alias). Run storybook with: storybook dev --config-dir .storybook"
+    },
+    {
+      "name": "switch",
+      "type": "registry:ui",
+      "title": "Switch",
+      "description": "Toggle switch input with a sliding thumb indicator. Wraps `@base-ui/react/switch`.",
+      "dependencies": ["@base-ui/react@^1.7.0", "cn@^0.2.5"],
+      "registryDependencies": [
+        "Joshua-Booth/creact/button",
+        "Joshua-Booth/creact/field"
+      ],
+      "files": [
+        {
+          "path": "src/shared/ui/switch/index.ts",
+          "type": "registry:ui",
+          "target": "@ui/switch/index.ts"
+        },
+        {
+          "path": "src/shared/ui/switch/switch.stories.tsx",
+          "type": "registry:ui",
+          "target": "@ui/switch/switch.stories.tsx"
+        },
+        {
+          "path": "src/shared/ui/switch/switch.tsx",
+          "type": "registry:ui",
+          "target": "@ui/switch/switch.tsx"
+        }
+      ],
+      "docs": "Stories require the creact Storybook setup (add Joshua-Booth/creact/storybook-setup). Without it, exclude **/*.stories.tsx from typechecking."
+    },
+    {
+      "name": "table",
+      "type": "registry:ui",
+      "title": "Table",
+      "description": "Responsive data table wrapped in a horizontally scrollable container.",
+      "dependencies": ["cn@^0.2.5", "lucide-react@^1.34.0"],
+      "registryDependencies": [
+        "Joshua-Booth/creact/button",
+        "Joshua-Booth/creact/dropdown-menu"
+      ],
+      "files": [
+        {
+          "path": "src/shared/ui/table/index.ts",
+          "type": "registry:ui",
+          "target": "@ui/table/index.ts"
+        },
+        {
+          "path": "src/shared/ui/table/table.stories.tsx",
+          "type": "registry:ui",
+          "target": "@ui/table/table.stories.tsx"
+        },
+        {
+          "path": "src/shared/ui/table/table.tsx",
+          "type": "registry:ui",
+          "target": "@ui/table/table.tsx"
+        }
+      ],
+      "docs": "Stories require the creact Storybook setup (add Joshua-Booth/creact/storybook-setup). Without it, exclude **/*.stories.tsx from typechecking."
+    },
+    {
+      "name": "tabs",
+      "type": "registry:ui",
+      "title": "Tabs",
+      "description": "Tabbed interface for switching between content panels. Supports horizontal and vertical orientations.",
+      "dependencies": [
+        "@base-ui/react@^1.7.0",
+        "class-variance-authority@^0.7.1",
+        "cn@^0.2.5",
+        "lucide-react@^1.34.0"
+      ],
+      "files": [
+        {
+          "path": "src/shared/ui/tabs/index.ts",
+          "type": "registry:ui",
+          "target": "@ui/tabs/index.ts"
+        },
+        {
+          "path": "src/shared/ui/tabs/tabs.stories.tsx",
+          "type": "registry:ui",
+          "target": "@ui/tabs/tabs.stories.tsx"
+        },
+        {
+          "path": "src/shared/ui/tabs/tabs.tsx",
+          "type": "registry:ui",
+          "target": "@ui/tabs/tabs.tsx"
+        }
+      ],
+      "docs": "Stories require the creact Storybook setup (add Joshua-Booth/creact/storybook-setup). Without it, exclude **/*.stories.tsx from typechecking."
+    },
+    {
+      "name": "textarea",
+      "type": "registry:ui",
+      "title": "Textarea",
+      "description": "Multi-line text input with automatic field sizing. Styled with focus, error, and disabled states.",
+      "dependencies": ["cn@^0.2.5"],
+      "registryDependencies": [
+        "Joshua-Booth/creact/button",
+        "Joshua-Booth/creact/field"
+      ],
+      "files": [
+        {
+          "path": "src/shared/ui/textarea/index.ts",
+          "type": "registry:ui",
+          "target": "@ui/textarea/index.ts"
+        },
+        {
+          "path": "src/shared/ui/textarea/textarea.stories.tsx",
+          "type": "registry:ui",
+          "target": "@ui/textarea/textarea.stories.tsx"
+        },
+        {
+          "path": "src/shared/ui/textarea/textarea.tsx",
+          "type": "registry:ui",
+          "target": "@ui/textarea/textarea.tsx"
+        }
+      ],
+      "docs": "Stories require the creact Storybook setup (add Joshua-Booth/creact/storybook-setup). Without it, exclude **/*.stories.tsx from typechecking."
+    },
+    {
+      "name": "theme",
+      "type": "registry:theme",
+      "title": "Theme",
+      "description": "creact design tokens: neutral oklch palette, chart and sidebar colors, radius, light and dark modes.",
+      "dependencies": [
+        "@fontsource-variable/inter@^5.3.0",
+        "tw-animate-css@^1.4.0"
+      ],
+      "cssVars": {
+        "theme": {
+          "font-sans": "'Inter Variable', sans-serif"
+        },
+        "light": {
+          "foreground": "oklch(0.145 0 0)",
+          "card": "oklch(1 0 0)",
+          "card-foreground": "oklch(0.145 0 0)",
+          "popover": "oklch(1 0 0)",
+          "popover-foreground": "oklch(0.145 0 0)",
+          "primary": "oklch(0.205 0 0)",
+          "primary-foreground": "oklch(0.985 0 0)",
+          "secondary": "oklch(0.97 0 0)",
+          "secondary-foreground": "oklch(0.205 0 0)",
+          "muted": "oklch(0.97 0 0)",
+          "muted-foreground": "oklch(0.44 0 0)",
+          "accent": "oklch(0.97 0 0)",
+          "accent-foreground": "oklch(0.205 0 0)",
+          "destructive": "oklch(0.45 0.22 27)",
+          "border": "oklch(0.922 0 0)",
+          "input": "oklch(0.922 0 0)",
+          "ring": "oklch(0.708 0 0)",
+          "chart-1": "oklch(0.646 0.222 41.116)",
+          "chart-2": "oklch(0.6 0.118 184.704)",
+          "chart-3": "oklch(0.398 0.07 227.392)",
+          "chart-4": "oklch(0.828 0.189 84.429)",
+          "chart-5": "oklch(0.769 0.188 70.08)",
+          "radius": "0.625rem",
+          "sidebar": "oklch(0.985 0 0)",
+          "sidebar-foreground": "oklch(0.145 0 0)",
+          "sidebar-primary": "oklch(0.205 0 0)",
+          "sidebar-primary-foreground": "oklch(0.985 0 0)",
+          "sidebar-accent": "oklch(0.97 0 0)",
+          "sidebar-accent-foreground": "oklch(0.205 0 0)",
+          "sidebar-border": "oklch(0.922 0 0)",
+          "sidebar-ring": "oklch(0.708 0 0)"
+        },
+        "dark": {
+          "foreground": "oklch(0.985 0 0)",
+          "card": "oklch(0.205 0 0)",
+          "card-foreground": "oklch(0.985 0 0)",
+          "popover": "oklch(0.205 0 0)",
+          "popover-foreground": "oklch(0.985 0 0)",
+          "primary": "oklch(0.922 0 0)",
+          "primary-foreground": "oklch(0.205 0 0)",
+          "secondary": "oklch(0.269 0 0)",
+          "secondary-foreground": "oklch(0.985 0 0)",
+          "muted": "oklch(0.269 0 0)",
+          "muted-foreground": "oklch(0.708 0 0)",
+          "accent": "oklch(0.269 0 0)",
+          "accent-foreground": "oklch(0.985 0 0)",
+          "destructive": "oklch(0.704 0.191 22.216)",
+          "border": "oklch(1 0 0 / 10%)",
+          "input": "oklch(1 0 0 / 15%)",
+          "ring": "oklch(0.556 0 0)",
+          "chart-1": "oklch(0.488 0.243 264.376)",
+          "chart-2": "oklch(0.696 0.17 162.48)",
+          "chart-3": "oklch(0.769 0.188 70.08)",
+          "chart-4": "oklch(0.627 0.265 303.9)",
+          "chart-5": "oklch(0.645 0.246 16.439)",
+          "sidebar": "oklch(0.205 0 0)",
+          "sidebar-foreground": "oklch(0.985 0 0)",
+          "sidebar-primary": "oklch(0.488 0.243 264.376)",
+          "sidebar-primary-foreground": "oklch(0.985 0 0)",
+          "sidebar-accent": "oklch(0.269 0 0)",
+          "sidebar-accent-foreground": "oklch(0.985 0 0)",
+          "sidebar-border": "oklch(1 0 0 / 10%)",
+          "sidebar-ring": "oklch(0.556 0 0)"
+        }
+      },
+      "docs": "Import the font and animations in your global stylesheet: @import \"@fontsource-variable/inter\"; @import \"tw-animate-css\";"
+    },
+    {
+      "name": "toast",
+      "type": "registry:ui",
+      "title": "Toast",
+      "description": "Themed toast notification renderer powered by Sonner. Syncs with the app's light/dark theme and provides custom status icons.",
+      "dependencies": [
+        "lucide-react@^1.34.0",
+        "remix-themes@^2.0.4",
+        "sonner@^2.0.7"
+      ],
+      "registryDependencies": ["Joshua-Booth/creact/button"],
+      "files": [
+        {
+          "path": "src/shared/ui/toast/index.ts",
+          "type": "registry:ui",
+          "target": "@ui/toast/index.ts"
+        },
+        {
+          "path": "src/shared/ui/toast/toast-provider.tsx",
+          "type": "registry:ui",
+          "target": "@ui/toast/toast-provider.tsx"
+        },
+        {
+          "path": "src/shared/ui/toast/toast.stories.tsx",
+          "type": "registry:ui",
+          "target": "@ui/toast/toast.stories.tsx"
+        },
+        {
+          "path": "src/shared/ui/toast/toast.tsx",
+          "type": "registry:ui",
+          "target": "@ui/toast/toast.tsx"
+        }
+      ],
+      "docs": "Stories require the creact Storybook setup (add Joshua-Booth/creact/storybook-setup). Without it, exclude **/*.stories.tsx from typechecking."
+    },
+    {
+      "name": "toggle",
+      "type": "registry:ui",
+      "title": "Toggle",
+      "description": "Style variants for the {@link Toggle} component.",
+      "dependencies": [
+        "@base-ui/react@^1.7.0",
+        "class-variance-authority@^0.7.1",
+        "cn@^0.2.5",
+        "lucide-react@^1.34.0"
+      ],
+      "files": [
+        {
+          "path": "src/shared/ui/toggle/index.ts",
+          "type": "registry:ui",
+          "target": "@ui/toggle/index.ts"
+        },
+        {
+          "path": "src/shared/ui/toggle/toggle.stories.tsx",
+          "type": "registry:ui",
+          "target": "@ui/toggle/toggle.stories.tsx"
+        },
+        {
+          "path": "src/shared/ui/toggle/toggle.tsx",
+          "type": "registry:ui",
+          "target": "@ui/toggle/toggle.tsx"
+        }
+      ],
+      "docs": "Stories require the creact Storybook setup (add Joshua-Booth/creact/storybook-setup). Without it, exclude **/*.stories.tsx from typechecking."
+    },
+    {
+      "name": "toggle-group",
+      "type": "registry:ui",
+      "title": "Toggle Group",
+      "description": "Container for a group of related toggle buttons. Propagates shared variant, size, spacing, and orientation to child items via context.",
+      "dependencies": [
+        "@base-ui/react@^1.7.0",
+        "class-variance-authority@^0.7.1",
+        "cn@^0.2.5",
+        "lucide-react@^1.34.0"
+      ],
+      "registryDependencies": ["Joshua-Booth/creact/toggle"],
+      "files": [
+        {
+          "path": "src/shared/ui/toggle-group/index.ts",
+          "type": "registry:ui",
+          "target": "@ui/toggle-group/index.ts"
+        },
+        {
+          "path": "src/shared/ui/toggle-group/toggle-group.stories.tsx",
+          "type": "registry:ui",
+          "target": "@ui/toggle-group/toggle-group.stories.tsx"
+        },
+        {
+          "path": "src/shared/ui/toggle-group/toggle-group.tsx",
+          "type": "registry:ui",
+          "target": "@ui/toggle-group/toggle-group.tsx"
+        }
+      ],
+      "docs": "Stories require the creact Storybook setup (add Joshua-Booth/creact/storybook-setup). Without it, exclude **/*.stories.tsx from typechecking."
+    },
+    {
+      "name": "tooltip",
+      "type": "registry:ui",
+      "title": "Tooltip",
+      "description": "Shared configuration provider for all tooltips in a subtree. Controls open delay across nested instances.",
+      "dependencies": [
+        "@base-ui/react@^1.7.0",
+        "cn@^0.2.5",
+        "lucide-react@^1.34.0"
+      ],
+      "registryDependencies": [
+        "Joshua-Booth/creact/button",
+        "Joshua-Booth/creact/kbd"
+      ],
+      "files": [
+        {
+          "path": "src/shared/ui/tooltip/index.ts",
+          "type": "registry:ui",
+          "target": "@ui/tooltip/index.ts"
+        },
+        {
+          "path": "src/shared/ui/tooltip/tooltip.stories.tsx",
+          "type": "registry:ui",
+          "target": "@ui/tooltip/tooltip.stories.tsx"
+        },
+        {
+          "path": "src/shared/ui/tooltip/tooltip.tsx",
+          "type": "registry:ui",
+          "target": "@ui/tooltip/tooltip.tsx"
+        }
+      ],
+      "docs": "Stories require the creact Storybook setup (add Joshua-Booth/creact/storybook-setup). Without it, exclude **/*.stories.tsx from typechecking."
+    },
+    {
+      "name": "validation",
+      "type": "registry:lib",
+      "title": "Validation",
+      "description": "Email address validated as a proper email format.",
+      "dependencies": [
+        "@hookform/resolvers@^5.9.1",
+        "i18next@^26.4.0",
+        "zod@^4.4.3"
+      ],
+      "devDependencies": ["vitest@^4.1.11"],
+      "files": [
+        {
+          "path": "src/shared/lib/validation/index.test.ts",
+          "type": "registry:lib",
+          "target": "@lib/validation/index.test.ts"
+        },
+        {
+          "path": "src/shared/lib/validation/index.ts",
+          "type": "registry:lib",
+          "target": "@lib/validation/index.ts"
+        }
+      ]
+    }
+  ]
+}
