@@ -1,18 +1,5 @@
 // Lives at the repo root: ignorePatterns only match files inside the config
 // file's directory, so a config in config/ couldn't ignore src/, public/, etc.
-//
-// Not covered compared with the previous ESLint setup:
-// - @typescript-eslint/naming-convention: no Oxlint or tsgolint equivalent.
-// - Type-aware rules inside JS plugins: Oxlint gives JS plugins no type info,
-//   so ~26 SonarJS rules load but never report. Most duplicate TypeScript
-//   strict mode or the typescript/* rules below; no-ignored-return,
-//   index-of-compare-to-positive-number, no-in-misuse and
-//   no-incompatible-assertion-types have no replacement.
-// - eslint-plugin-n: only node/no-exports-assign is native. tsc and knip
-//   cover missing and extraneous imports.
-// - unicorn/consistent-destructuring and unicorn/prefer-switch: not ported.
-// - jsx-a11y allowExpressionValues is ignored, so expression tabIndex values
-//   on non-interactive elements need a disable comment.
 import eslintReact from "@eslint-react/eslint-plugin";
 import betterTailwindcss from "eslint-plugin-better-tailwindcss";
 import jsdoc from "eslint-plugin-jsdoc";
@@ -24,21 +11,9 @@ import { defineConfig } from "oxlint";
 
 type Rules = NonNullable<Parameters<typeof defineConfig>[0]["rules"]>;
 
-/**
- * Enable every listed rule at "error".
- * @param names - rule names
- * @returns rules config
- */
 const errors = (names: string[]): Rules =>
   Object.fromEntries(names.map((name) => [name, "error"]));
 
-/**
- * Re-key a preset's rules under a JS plugin alias (e.g. jsdoc → jsdoc-js).
- * @param rules - preset rules
- * @param from - original plugin prefix
- * @param to - alias prefix
- * @returns rules config
- */
 const alias = (rules: object, from: string, to: string): Rules =>
   Object.fromEntries(
     Object.entries(rules).map(([name, value]) => [
@@ -50,7 +25,6 @@ const alias = (rules: object, from: string, to: string): Rules =>
 const [, storybookStories, storybookMain] =
   storybook.configs["flat/recommended"];
 
-// eslint-plugin-sonarjs types its configs loosely (optional, legacy shapes)
 const sonarjsRecommended = sonarjs.configs?.recommended as { rules: Rules };
 
 const requireJsdoc: Rules[string] = [
@@ -66,7 +40,6 @@ const requireJsdoc: Rules[string] = [
 ];
 
 export default defineConfig({
-  // Only the rules below run; don't let Oxlint's default categories add more.
   categories: { correctness: "off" },
   options: {
     typeAware: true,
@@ -83,7 +56,6 @@ export default defineConfig({
     "vitest",
     "node",
   ],
-  // ESLint plugins with no native Oxlint port run through the JS plugin layer.
   // Native plugin names are reserved, so eslint-plugin-jsdoc loads as jsdoc-js.
   jsPlugins: [
     "@eslint-community/eslint-plugin-eslint-comments",
@@ -106,7 +78,6 @@ export default defineConfig({
   },
 
   rules: {
-    // JavaScript recommended (rules TypeScript already enforces are omitted)
     ...errors([
       "for-direction",
       "no-async-promise-executor",
@@ -152,22 +123,18 @@ export default defineConfig({
       "require-yield",
       "use-isnan",
       "valid-typeof",
-      // Extension rules from typescript-eslint's strict preset
       "no-array-constructor",
       "no-empty-function",
       "no-unused-expressions",
       "no-useless-constructor",
-      // typescript-eslint's eslint-recommended additions
       "no-var",
       "prefer-const",
       "prefer-rest-params",
       "prefer-spread",
-      // Native stand-ins for type-aware SonarJS rules (see note below)
       "array-callback-return",
     ]),
     "no-unused-vars": ["error", { argsIgnorePattern: "^_" }],
 
-    // ESLint directive comments best practices
     ...errors([
       "@eslint-community/eslint-comments/no-aggregating-enable",
       "@eslint-community/eslint-comments/no-duplicate-disable",
@@ -178,9 +145,18 @@ export default defineConfig({
       "error",
       { allowWholeFile: true },
     ],
-    "@eslint-community/eslint-comments/require-description": "warn",
+    "@eslint-community/eslint-comments/require-description": [
+      "warn",
+      {
+        additionalDirectives: [
+          "oxlint-disable",
+          "oxlint-disable-line",
+          "oxlint-disable-next-line",
+          "oxlint-enable",
+        ],
+      },
+    ],
 
-    // TypeScript strict + stylistic type-checked (type-aware rules via tsgolint)
     ...errors([
       "typescript/adjacent-overload-signatures",
       "typescript/array-type",
@@ -263,7 +239,6 @@ export default defineConfig({
       "typescript/unbound-method",
       "typescript/unified-signatures",
       "typescript/use-unknown-in-catch-callback-variable",
-      // Native stand-in for SonarJS no-alphabetical-sort
       "typescript/require-array-sort-compare",
     ]),
     "typescript/ban-ts-comment": ["error", { minimumDescriptionLength: 10 }],
@@ -286,22 +261,20 @@ export default defineConfig({
       { allowNumber: true },
     ],
     "typescript/return-await": ["error", "error-handling-correctness-only"],
-    // Strict boolean expressions - require explicit boolean checks
     "typescript/strict-boolean-expressions": [
       "error",
       {
         allowString: false,
         allowNumber: false,
-        allowNullableObject: true, // Allow `if (obj)` for nullable objects
-        allowNullableBoolean: true, // Allow `if (bool)` for nullable booleans
-        allowNullableString: true, // Allow `if (str)` for optional string props (common in React)
+        allowNullableObject: true,
+        allowNullableBoolean: true,
+        allowNullableString: true,
         allowNullableNumber: false,
         allowNullableEnum: false,
         allowAny: false,
       },
     ],
 
-    // React
     ...eslintReact.configs["strict-typescript"].rules,
     ...errors([
       "react/error-boundaries",
@@ -321,7 +294,6 @@ export default defineConfig({
     "react/unsupported-syntax": "warn",
     ...reactYouMightNotNeedAnEffect.configs.recommended.rules,
 
-    // Accessibility (jsx-a11y recommended)
     ...errors([
       "jsx-a11y/alt-text",
       "jsx-a11y/anchor-has-content",
@@ -440,7 +412,6 @@ export default defineConfig({
       },
     ],
 
-    // Promise handling
     ...errors([
       "promise/always-return",
       "promise/catch-or-return",
@@ -454,21 +425,19 @@ export default defineConfig({
     "promise/no-return-in-finally": "warn",
     "promise/valid-params": "warn",
 
-    // Code quality / smells
     ...sonarjsRecommended.rules,
     "sonarjs/cognitive-complexity": ["error", 20],
-    "sonarjs/todo-tag": "off", // TODOs are acceptable during development
-    "sonarjs/no-hardcoded-passwords": "off", // Too many false positives (i18n strings, test fixtures)
-    "sonarjs/prefer-read-only-props": "off", // TypeScript already enforces immutability at compile time
-    "sonarjs/deprecation": "off", // Already covered by typescript/no-deprecated
+    "sonarjs/todo-tag": "off",
+    "sonarjs/no-hardcoded-passwords": "off",
+    "sonarjs/prefer-read-only-props": "off",
+    "sonarjs/deprecation": "off",
 
-    // Security (eslint-plugin-security recommended; object-injection omitted —
-    // too many false positives for legitimate array access)
     "security/detect-bidi-characters": "warn",
     "security/detect-buffer-noassert": "warn",
     "security/detect-child-process": "warn",
     "security/detect-disable-mustache-escape": "warn",
     "security/detect-eval-with-expression": "warn",
+    "security/detect-invisible-characters": "warn",
     "security/detect-new-buffer": "warn",
     "security/detect-no-csrf-before-method-override": "warn",
     "security/detect-non-literal-fs-filename": "warn",
@@ -478,15 +447,23 @@ export default defineConfig({
     "security/detect-pseudoRandomBytes": "warn",
     "security/detect-unsafe-regex": "warn",
 
-    // Dependencies, Zod
     "depend/ban-dependencies": "error",
     ...zod.configs.recommended.rules,
+    ...errors([
+      "zod/array-style",
+      "zod/prefer-enum-over-literal-union",
+      "zod/prefer-loose-object",
+      "zod/prefer-meta",
+      "zod/prefer-meta-last",
+      "zod/prefer-nullish",
+      "zod/prefer-strict-object",
+      "zod/prefer-string-schema-with-trim",
+      "zod/prefer-trim-before-string-length-checks",
+    ]),
 
-    // Import/export sorting (named items only - statement order handled by Oxfmt)
     "perfectionist/sort-named-exports": ["error", { type: "natural" }],
     "perfectionist/sort-named-imports": ["error", { type: "natural" }],
 
-    // JSDoc: TypeScript already provides types in function signatures
     ...alias(
       jsdoc.configs["flat/recommended-typescript-flavor"].rules ?? {},
       "jsdoc",
@@ -495,8 +472,8 @@ export default defineConfig({
     "jsdoc-js/require-returns-type": "off",
     "jsdoc-js/require-param-type": "off",
     "jsdoc-js/require-jsdoc": "off",
+    "jsdoc-js/ts-ban-ts-comment": "off",
 
-    // Unicorn (selective modern JS patterns)
     ...errors([
       "unicorn/catch-error-name",
       "unicorn/consistent-function-scoping",
@@ -534,25 +511,20 @@ export default defineConfig({
       "unicorn/no-lonely-if",
       "unicorn/no-negated-condition",
       "unicorn/no-nested-ternary",
-      // Native stand-in for SonarJS no-misleading-array-reverse
       "unicorn/no-array-reverse",
     ]),
     "unicorn/no-useless-undefined": ["error", { checkArguments: false }],
 
-    // Barrel files (FSD architecture)
     "barrel-files/avoid-re-export-all": "error",
   },
 
   overrides: [
-    // Storybook
     {
       // Oxlint globs don't support the preset's extglob patterns
       files: ["**/*.stories.{ts,tsx}"],
       jsPlugins: ["eslint-plugin-storybook"],
       rules: {
         ...storybookStories.rules,
-        // Render callbacks are intentionally lowercase per project convention
-        // (must spread {...args}), so hooks are called inside `render`.
         "react/rules-of-hooks": "off",
         "@eslint-react/rules-of-hooks": "off",
       },
@@ -563,8 +535,6 @@ export default defineConfig({
       rules: storybookMain.rules,
     },
 
-    // Data-grid module: ported from diceui. Inline component factories,
-    // ref-access patterns, and defensive checks are intentional.
     {
       files: ["src/shared/ui/data-grid/**", "src/shared/lib/data-grid/**"],
       rules: {
@@ -575,22 +545,18 @@ export default defineConfig({
       },
     },
 
-    // Tailwind CSS
     {
       files: ["**/*.tsx"],
       jsPlugins: ["eslint-plugin-better-tailwindcss"],
       rules: {
         ...betterTailwindcss.configs.recommended.rules,
-        // Correctness: errors
         "better-tailwindcss/no-conflicting-classes": "error",
         "better-tailwindcss/no-duplicate-classes": "error",
         "better-tailwindcss/no-deprecated-classes": "error",
-        // Stylistic: warnings (all autofixable)
         "better-tailwindcss/no-unknown-classes": [
           "warn",
           { ignore: ["^cn-", "^toaster$"] },
         ],
-        // Class ordering handled by Oxfmt's sortTailwindcss
         "better-tailwindcss/enforce-consistent-class-order": "off",
         "better-tailwindcss/enforce-consistent-line-wrapping": "off",
         "better-tailwindcss/enforce-canonical-classes": "warn",
@@ -598,7 +564,6 @@ export default defineConfig({
       },
     },
 
-    // File and folder naming conventions (kebab-case enforcement)
     {
       files: ["**/*.{ts,tsx}"],
       excludeFiles: ["src/app/routes/**"],
@@ -615,7 +580,6 @@ export default defineConfig({
       },
     },
 
-    // Require JSDoc for public API hooks and utilities
     {
       files: [
         "src/shared/lib/**/*.{ts,tsx}",
@@ -629,13 +593,11 @@ export default defineConfig({
       rules: { "jsdoc-js/require-jsdoc": requireJsdoc },
     },
 
-    // Require JSDoc descriptions on UI component exports
     {
       files: ["src/shared/ui/**/*.{ts,tsx}"],
       excludeFiles: ["**/*.stories.*", "**/*.test.*", "**/index.ts"],
       rules: {
         "jsdoc-js/require-jsdoc": requireJsdoc,
-        // TypeScript + Storybook handles params/returns — don't require them for UI
         "jsdoc-js/require-param": "off",
         "jsdoc-js/require-returns": "off",
         "jsdoc-js/require-param-description": "off",
@@ -643,7 +605,6 @@ export default defineConfig({
       },
     },
 
-    // Unit tests (Vitest)
     {
       files: ["src/**/*.test.{ts,tsx}", "src/**/*.spec.{ts,tsx}"],
       rules: {
@@ -678,13 +639,11 @@ export default defineConfig({
       },
     },
 
-    // Server-side files (Node.js rules)
     {
       files: ["**/*.server.ts", "**/server/**/*.ts"],
       rules: { "node/no-exports-assign": "error" },
     },
 
-    // Scripts — build tooling, not user-facing; fs paths are safe
     {
       files: ["scripts/**/*.ts"],
       rules: { "security/detect-non-literal-fs-filename": "off" },
@@ -699,13 +658,9 @@ export default defineConfig({
     "playwright-report",
     "**/*.d.ts",
     "tests/e2e/**",
-    // Generated files
     ".react-router/**",
     ".netlify/**",
-    "public/mockServiceWorker.js",
-    // CommonJS config files (not type-checked)
     "config/.dependency-cruiser.js",
-    // Claude Code skills/plugins and local tooling (gitignored)
     "**/skills/**",
     ".claude/**",
   ],

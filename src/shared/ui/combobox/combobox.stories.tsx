@@ -130,7 +130,7 @@ export const Multiple = meta.story({
         multiple
         defaultValue={undefined}
         value={values}
-        onValueChange={(newValues) => setValues(newValues as string[])}
+        onValueChange={(newValues) => setValues(newValues)}
       >
         <ComboboxChips ref={anchorRef} className="w-80">
           {values.map((value) => (

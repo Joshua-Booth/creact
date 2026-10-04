@@ -43,8 +43,7 @@
     "**/playwright-report/**",
     "**/test-results/**",
     "**/tmp/**",
-    "**/storybook-static/**",
-    "**/mockServiceWorker.js"
+    "**/storybook-static/**"
   ],
   "words": [
     "Amara",

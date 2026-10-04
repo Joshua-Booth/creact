@@ -18,6 +18,11 @@ const meta = preview.meta({
   args: {
     position: "bottom-right",
   },
+  // sonner keeps toasts in a module-level store and (since 2.0.8) replays
+  // still-active toasts to a newly mounted Toaster, so clear it between tests.
+  beforeEach: () => {
+    toast.dismiss();
+  },
   decorators: [
     (Story) => (
       <ThemeProvider

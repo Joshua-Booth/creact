@@ -25,7 +25,6 @@ api_port = "8000"
 # Config paths
 stylelint_config = "./config/.stylelintrc.json"
 playwright_config = "./config/playwright.config.ts"
-steiger_config = "./config/steiger.config.ts"
 knip_config = "./config/knip.config.ts"
 depcruise_config = "./config/.dependency-cruiser.js"
 cspell_config = "./config/cspell.json"
@@ -84,7 +83,7 @@ run = "mise run coverage:merge"
 [tasks."coverage:serve"]
 description = "Serve the merged coverage report"
 alias = "tcs"
-run = "pnpm exec serve coverage/merged/html -p 9123"
+run = "pnpm dlx serve coverage/merged/html -p 9123"
 
 [tasks.depcruise]
 description = "Check for circular dependencies and other dependency issues"
@@ -106,7 +105,6 @@ description = "Scaffold FSD slices and components"
 alias = "g"
 run = "pnpm exec plop --plopfile config/plopfile.ts --dest ."
 
-# Oxfmt reads the root .oxfmtrc.json (its ignorePatterns only match files below it)
 [tasks.format]
 description = "Format code with Oxfmt"
 alias = "f"
@@ -115,7 +113,6 @@ run = "oxfmt"
 [tasks."format:files"]
 description = "Format specific files (for lint-staged)"
 hide = true
-# Ignored or unsupported files (e.g. .md, .toml) are skipped instead of failing
 run = "oxfmt --no-error-on-unmatched-pattern"
 
 [tasks."format:check"]
@@ -129,7 +126,6 @@ alias = "x"
 depends = ["format", "lint", "stylelint", "knip:fix", "steiger:fix"]
 run = "echo 'All fixes applied!'"
 
-# Oxlint reads the root oxlint.config.ts (its ignorePatterns only match files below it)
 [tasks.lint]
 description = "Fix code with Oxlint"
 alias = "l"
@@ -189,12 +185,12 @@ run = "semantic-release --dry-run"
 
 [tasks.steiger]
 description = "Run Steiger architecture linter"
-run = "steiger ./src --config {{vars.steiger_config}}"
+run = "steiger ./src"
 
 [tasks."steiger:fix"]
 description = "Run Steiger with auto-fix"
 alias = "sf"
-run = "steiger --fix ./src --config {{vars.steiger_config}}"
+run = "steiger --fix ./src"
 
 [tasks.stylelint]
 description = "Fix CSS/SCSS with Stylelint"

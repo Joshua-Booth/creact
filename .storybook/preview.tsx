@@ -16,7 +16,7 @@ export default definePreview({
     addonA11y,
     addonMsw(async () => {
       const worker = setupWorker();
-      await worker.start({ onUnhandledRequest: "bypass", quiet: true });
+      await worker.start({ onUnhandledFrame: "bypass", quiet: true });
       return worker;
     }),
   ],

@@ -15,6 +15,14 @@ import { getInstance } from "./middleware/i18next";
 
 Sentry.init({
   dsn: env.SENTRY_DSN ?? env.VITE_SENTRY_DSN,
+  // Sentry 11 collects user info, cookies, HTTP bodies and stack-frame local
+  // variables by default. Auth requests carry passwords, so opt out as v10 did.
+  dataCollection: {
+    userInfo: false,
+    cookies: false,
+    httpBodies: [],
+    stackFrameVariables: false,
+  },
   tracesSampleRate: env.NODE_ENV === "production" ? 0.1 : 1.0,
 });
 

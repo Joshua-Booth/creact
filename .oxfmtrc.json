@@ -156,7 +156,6 @@
     "**/*.hbs",
     ".vscode/",
     "pnpm-lock.yaml",
-    "public/mockServiceWorker.js",
     ".claude/"
   ]
 }

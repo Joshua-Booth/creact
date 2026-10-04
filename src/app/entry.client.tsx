@@ -19,6 +19,9 @@ configureTokenProvider(getAuthToken);
 
 Sentry.init({
   dsn: env.VITE_SENTRY_DSN,
+  // Sentry 11 collects user info, cookies and HTTP bodies by default. Auth
+  // requests carry passwords, so keep the v10 opt-out defaults.
+  dataCollection: { userInfo: false, cookies: false, httpBodies: [] },
   integrations: [
     Sentry.browserTracingIntegration(),
     Sentry.replayIntegration(),
