@@ -122,6 +122,15 @@ jobs:
       - name: Run Steiger
         run: mise run steiger
 
+  registry:
+    name: Registry Sync
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+      - uses: ./.github/actions/setup
+      - name: Verify registry.json is in sync
+        run: mise run registry:check
+
   css-lint:
     name: CSS Lint
     runs-on: ubuntu-latest
