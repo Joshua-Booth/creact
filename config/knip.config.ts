@@ -4,8 +4,6 @@ const config: KnipConfig = {
   entry: [
     // Route entry files (referenced by routes.ts)
     "src/app/routes/*.tsx",
-    // FSD public APIs (slice/segment index.ts barrels): exports are the
-    // contract offered to consumers, so they are entries, not dead code
     "src/entities/*/index.ts",
     "src/widgets/*/index.ts",
     "src/pages/*/index.ts",
@@ -50,7 +48,6 @@ const config: KnipConfig = {
     "es-toolkit",
     // CLI tool for spell checking (run via mise tasks)
     "cspell",
-    // CLI formatter (run via mise tasks)
     "oxfmt",
     // Imported in .storybook/preview.tsx (not traced by knip's Storybook plugin)
     "msw-storybook-addon",

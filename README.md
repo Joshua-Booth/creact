@@ -398,7 +398,7 @@ mise run spell        # Check spelling with cspell (alias: mise run sp)
 mise run steiger      # Run FSD architecture linter
 ```
 
-Oxlint runs type-aware rules through `oxlint-tsgolint`, and ESLint plugins with no native port (SonarJS, ESLint React, better-tailwindcss, etc.) through its alpha [JS plugin layer](https://oxc.rs/docs/guide/usage/linter/js-plugins). Rules that couldn't be carried over from ESLint are listed at the top of `oxlint.config.ts`.
+Oxlint runs type-aware rules through `oxlint-tsgolint`, and ESLint plugins with no native port (SonarJS, ESLint React, better-tailwindcss, etc.) through its alpha [JS plugin layer](https://oxc.rs/docs/guide/usage/linter/js-plugins). Rules that couldn't be carried over from ESLint: `@typescript-eslint/naming-convention`, the type-aware SonarJS rules (Oxlint gives JS plugins no type info; most duplicate TypeScript strict mode, but `no-ignored-return`, `index-of-compare-to-positive-number`, `no-in-misuse` and `no-incompatible-assertion-types` have no replacement), most of `eslint-plugin-n` (tsc and knip cover missing and extraneous imports), and `unicorn/consistent-destructuring` and `unicorn/prefer-switch`.
 
 Oxfmt has no equivalent of `prettier-plugin-classnames`, so long Tailwind class strings stay on one line. If you wrap a class string by hand, `mise run format` may need a second run before `format:check` passes.
 

@@ -3,12 +3,9 @@ import { defineConfig } from "steiger";
 
 // steiger has no --config flag; it discovers this file from the repo root.
 export default defineConfig([
-  // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment -- incomplete types
+  // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment -- steiger-plugin's types import @steiger/toolkit, which it only lists as a devDependency
   ...fsd.configs.recommended,
   {
-    // `app` is unsliced and its segments are named by the framework (route
-    // middleware, React providers); `shared/assets` is the conventional home
-    // for static files. The rule has no allow-list, so scope it off here.
     files: ["./src/app/**", "./src/shared/assets/**"],
     rules: {
       "fsd/segments-by-purpose": "off",

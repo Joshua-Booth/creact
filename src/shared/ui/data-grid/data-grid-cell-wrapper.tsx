@@ -171,7 +171,7 @@ export function DataGridCellWrapper<TData extends RowData>({
       data-editing={isEditing ? "" : undefined}
       data-focused={isFocused ? "" : undefined}
       data-selected={isSelected ? "" : undefined}
-      // eslint-disable-next-line jsx-a11y/no-noninteractive-tabindex -- roving tabindex; Oxlint ignores allowExpressionValues
+      // eslint-disable-next-line jsx-a11y/no-noninteractive-tabindex -- roving tabindex target inside the row's role="gridcell" element
       tabIndex={isFocused && !isEditing ? 0 : -1}
       {...props}
       ref={composedRef}

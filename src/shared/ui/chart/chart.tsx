@@ -297,8 +297,6 @@ function ChartLegendContent({
   hideIcon?: boolean;
   nameKey?: string;
 } & RechartsPrimitive.DefaultLegendContentProps &
-  // Legend forwards its own props (incl. `position`, added in recharts 3.10 to
-  // replace the deprecated `verticalAlign`) to custom content at runtime.
   Pick<RechartsPrimitive.LegendProps, "position">) {
   const { config } = useChart();
 
