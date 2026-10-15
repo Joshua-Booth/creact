@@ -278,6 +278,67 @@ Generates `src/shared/ui/{name}/{name}.tsx`, `{name}.stories.tsx`, and `index.ts
 
 [plop]: https://plopjs.com/
 
+## Registry
+
+creact is also a [shadcn registry], so a project with the creact layout can pull components, the theme and tooling config back from it.
+
+### Add items to a project
+
+The project needs Tailwind CSS v4, the `@/*` path alias pointing at `src/*`, and these aliases in its `components.json`:
+
+```json
+"aliases": {
+  "components": "@/shared/ui",
+  "ui": "@/shared/ui",
+  "lib": "@/shared/lib",
+  "utils": "@/shared/lib/utils",
+  "hooks": "@/shared/lib/hooks"
+}
+```
+
+Then add items by name:
+
+```sh
+pnpm dlx shadcn@latest add Joshua-Booth/creact/theme Joshua-Booth/creact/data-table
+```
+
+The items are:
+
+- one per component in `src/shared/ui`, with its unit tests. Stories and demos stay in creact, as they need its Storybook setup.
+- the `src/shared/lib` slices those components import, such as `device` and `data-table-core`. shadcn adds these for you.
+- `theme`, the colour tokens, radius, font and base styles from `src/app/styles/globals.css`.
+- `storybook-setup`, `linting`, `commit-conventions` and `fsd-scaffolding`, creact's tooling config.
+
+`registry.json` lists every item and what it depends on.
+
+Note: shadcn rewrites barrel imports in the files it adds, so `@/shared/ui/button` becomes `@/shared/ui/button/button`. Both point at the same component, and Steiger only checks imports from layers above `shared`, so leave them.
+
+Note: pnpm doesn't run a dependency's build scripts until you allow them. If an install stops on ignored builds, add the package to `allowBuilds` in `pnpm-workspace.yaml` and run `shadcn add` again.
+
+### Update the registry
+
+`scripts/build-registry.ts` generates `registry.json` from `src/shared`, `globals.css` and the tooling config. Run it after changing any of them:
+
+```sh
+mise run registry:build
+```
+
+CI runs `mise run registry:check` and fails if `registry.json` is out of date.
+
+### Try a branch before merging
+
+Registry items point at each other on the default branch. To try a branch, build the registry for it, push, and add items at that ref:
+
+```sh
+node scripts/build-registry.ts --ref my-branch
+git commit -am "chore(config): point the registry at my-branch" && git push
+pnpm dlx shadcn@latest add Joshua-Booth/creact/data-table#my-branch
+```
+
+Run `mise run registry:build` and commit again before merging, as the CI check fails on a registry that points at a branch.
+
+[shadcn registry]: https://ui.shadcn.com/docs/registry
+
 ## AI Assistant Integration
 
 This template includes configuration for the [shadcn MCP server](https://ui.shadcn.com/docs/cli#mcp-server) and the [Storybook MCP server](https://storybook.js.org/docs/mcp), enabling AI assistants to browse and install shadcn/ui components and interact with Storybook stories.
