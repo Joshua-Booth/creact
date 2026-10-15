@@ -186,7 +186,11 @@ export function useDataTable<TData extends RowData>(
   );
 
   const columnIds = useMemo(() => {
-    return new Set(columns.map((column) => column.id).filter(Boolean));
+    return new Set(
+      columns
+        .map((column) => column.id)
+        .filter((id): id is string => Boolean(id))
+    );
   }, [columns]);
 
   const [sorting, setSorting] = useQueryState(
