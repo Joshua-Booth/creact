@@ -1,7 +1,10 @@
 import { useMemo, useState } from "react";
 
-import type { DataGridColumnDef, FileCellData } from "@/shared/lib/data-grid";
-import { useDataGrid } from "@/shared/lib/data-grid";
+import type {
+  DataGridColumnDef,
+  FileCellData,
+} from "@/shared/lib/data-grid-core";
+import { useDataGrid } from "@/shared/lib/data-grid-core";
 
 import { DataGrid } from "../data-grid";
 import { DataGridToolbar } from "./data-grid-demo";

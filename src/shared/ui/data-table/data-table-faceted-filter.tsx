@@ -6,7 +6,7 @@ import { useTranslation } from "react-i18next";
 import { cn } from "cn";
 import { Check, PlusCircle, XCircle } from "lucide-react";
 
-import type { DataTableColumn, Option } from "@/shared/lib/data-table";
+import type { DataTableColumn, Option } from "@/shared/lib/data-table-core";
 import { Badge } from "@/shared/ui/badge";
 import { Button } from "@/shared/ui/button";
 import {

@@ -6,9 +6,9 @@ import { useCallback } from "react";
 import type { ComponentProps } from "react";
 import { cn } from "cn";
 
-import type { DataGridCellProps } from "@/shared/lib/data-grid";
-import { getCellKey } from "@/shared/lib/data-grid";
-import { useComposedRefs } from "@/shared/lib/data-grid/compose-refs";
+import type { DataGridCellProps } from "@/shared/lib/data-grid-core";
+import { getCellKey } from "@/shared/lib/data-grid-core";
+import { useComposedRefs } from "@/shared/lib/data-grid-core/compose-refs";
 
 interface DataGridCellWrapperProps<TData extends RowData>
   extends DataGridCellProps<TData>, ComponentProps<"div"> {}

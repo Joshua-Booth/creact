@@ -6,8 +6,8 @@ import { cn } from "cn";
 import type {
   DataGridTableMeta,
   PasteDialogState,
-} from "@/shared/lib/data-grid";
-import { useAsRef } from "@/shared/lib/data-grid";
+} from "@/shared/lib/data-grid-core";
+import { useAsRef } from "@/shared/lib/data-grid-core";
 import { Button } from "@/shared/ui/button";
 import {
   Dialog,

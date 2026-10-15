@@ -11,7 +11,7 @@ import {
   ChevronsRight,
 } from "lucide-react";
 
-import type { DataTableInstance } from "@/shared/lib/data-table";
+import type { DataTableInstance } from "@/shared/lib/data-table-core";
 import { Button } from "@/shared/ui/button";
 import {
   Select,

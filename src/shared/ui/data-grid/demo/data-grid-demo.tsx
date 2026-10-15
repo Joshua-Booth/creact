@@ -19,8 +19,8 @@ import type {
   DataGridColumnDef,
   DataGridInstance,
   RowHeightValue,
-} from "@/shared/lib/data-grid";
-import { useDataGrid } from "@/shared/lib/data-grid";
+} from "@/shared/lib/data-grid-core";
+import { useDataGrid } from "@/shared/lib/data-grid-core";
 import { Badge } from "@/shared/ui/badge";
 import { Button } from "@/shared/ui/button";
 import {

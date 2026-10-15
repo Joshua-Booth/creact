@@ -2,7 +2,7 @@ import type { RowData } from "@tanstack/react-table";
 
 import { memo } from "react";
 
-import type { DataGridCellProps } from "@/shared/lib/data-grid";
+import type { DataGridCellProps } from "@/shared/lib/data-grid-core";
 
 import {
   CheckboxCell,

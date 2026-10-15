@@ -1,7 +1,7 @@
 import { useMemo } from "react";
 
-import type { DataTableColumnDef } from "@/shared/lib/data-table";
-import { useDataTable } from "@/shared/lib/data-table";
+import type { DataTableColumnDef } from "@/shared/lib/data-table-core";
+import { useDataTable } from "@/shared/lib/data-table-core";
 
 import type { Project } from "./data-table-demo";
 import { DataTable } from "../data-table";

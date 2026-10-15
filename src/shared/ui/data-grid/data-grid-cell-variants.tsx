@@ -14,7 +14,10 @@ import { cn } from "cn";
 import { Check, Upload, X } from "lucide-react";
 import { toast } from "sonner";
 
-import type { DataGridCellProps, FileCellData } from "@/shared/lib/data-grid";
+import type {
+  DataGridCellProps,
+  FileCellData,
+} from "@/shared/lib/data-grid-core";
 import {
   formatDateForDisplay,
   formatDateToString,
@@ -24,9 +27,9 @@ import {
   getLineCount,
   getUrlHref,
   parseLocalDate,
-} from "@/shared/lib/data-grid";
-import { useBadgeOverflow } from "@/shared/lib/data-grid/use-badge-overflow";
-import { useDebouncedCallback } from "@/shared/lib/data-table/use-debounced-callback";
+} from "@/shared/lib/data-grid-core";
+import { useBadgeOverflow } from "@/shared/lib/data-grid-core/use-badge-overflow";
+import { useDebouncedCallback } from "@/shared/lib/data-table-core/use-debounced-callback";
 import { Badge } from "@/shared/ui/badge";
 import { Button } from "@/shared/ui/button";
 import { Calendar } from "@/shared/ui/calendar";

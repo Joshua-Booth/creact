@@ -22,8 +22,8 @@ import {
 import type {
   DataGridFeatures,
   DataGridInstance,
-} from "@/shared/lib/data-grid";
-import { getColumnVariant } from "@/shared/lib/data-grid";
+} from "@/shared/lib/data-grid-core";
+import { getColumnVariant } from "@/shared/lib/data-grid-core";
 import {
   DropdownMenu,
   DropdownMenuCheckboxItem,

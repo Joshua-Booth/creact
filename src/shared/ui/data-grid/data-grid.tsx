@@ -6,13 +6,13 @@ import { useTranslation } from "react-i18next";
 import { cn } from "cn";
 import { Plus } from "lucide-react";
 
-import type { Direction, useDataGrid } from "@/shared/lib/data-grid";
+import type { Direction, useDataGrid } from "@/shared/lib/data-grid-core";
 import {
   flexRender,
   getColumnBorderVisibility,
   getColumnPinningStyle,
   useAsRef,
-} from "@/shared/lib/data-grid";
+} from "@/shared/lib/data-grid-core";
 
 import { DataGridColumnHeader } from "./data-grid-column-header";
 import { DataGridContextMenu } from "./data-grid-context-menu";

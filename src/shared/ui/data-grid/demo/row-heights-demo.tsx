@@ -1,7 +1,7 @@
 import { useMemo, useState } from "react";
 
-import type { DataGridColumnDef } from "@/shared/lib/data-grid";
-import { useDataGrid } from "@/shared/lib/data-grid";
+import type { DataGridColumnDef } from "@/shared/lib/data-grid-core";
+import { useDataGrid } from "@/shared/lib/data-grid-core";
 
 import type { Task } from "./data-grid-demo";
 import { DataGrid } from "../data-grid";

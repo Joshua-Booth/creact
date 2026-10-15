@@ -765,18 +765,15 @@
         "react-i18next@^17.0.15",
         "sonner@^2.0.8"
       ],
-      "devDependencies": [
-        "vitest@^5.0.3"
-      ],
       "registryDependencies": [
         "Joshua-Booth/creact/badge",
         "Joshua-Booth/creact/button",
         "Joshua-Booth/creact/calendar",
         "Joshua-Booth/creact/checkbox",
         "Joshua-Booth/creact/command",
-        "Joshua-Booth/creact/data-table",
+        "Joshua-Booth/creact/data-grid-core",
+        "Joshua-Booth/creact/data-table-core",
         "Joshua-Booth/creact/dialog",
-        "Joshua-Booth/creact/direction",
         "Joshua-Booth/creact/dropdown-menu",
         "Joshua-Booth/creact/input",
         "Joshua-Booth/creact/kbd",
@@ -888,64 +885,84 @@
           "path": "src/shared/ui/data-grid/index.ts",
           "type": "registry:ui",
           "target": "@ui/data-grid/index.ts"
-        },
-        {
-          "path": "src/shared/lib/data-grid/compose-refs.ts",
-          "type": "registry:lib",
-          "target": "@lib/data-grid/compose-refs.ts"
-        },
-        {
-          "path": "src/shared/lib/data-grid/data-grid.test.ts",
-          "type": "registry:lib",
-          "target": "@lib/data-grid/data-grid.test.ts"
-        },
-        {
-          "path": "src/shared/lib/data-grid/data-grid.ts",
-          "type": "registry:lib",
-          "target": "@lib/data-grid/data-grid.ts"
-        },
-        {
-          "path": "src/shared/lib/data-grid/features.ts",
-          "type": "registry:lib",
-          "target": "@lib/data-grid/features.ts"
-        },
-        {
-          "path": "src/shared/lib/data-grid/index.ts",
-          "type": "registry:lib",
-          "target": "@lib/data-grid/index.ts"
-        },
-        {
-          "path": "src/shared/lib/data-grid/types.ts",
-          "type": "registry:lib",
-          "target": "@lib/data-grid/types.ts"
-        },
-        {
-          "path": "src/shared/lib/data-grid/use-as-ref.ts",
-          "type": "registry:lib",
-          "target": "@lib/data-grid/use-as-ref.ts"
-        },
-        {
-          "path": "src/shared/lib/data-grid/use-badge-overflow.ts",
-          "type": "registry:lib",
-          "target": "@lib/data-grid/use-badge-overflow.ts"
-        },
-        {
-          "path": "src/shared/lib/data-grid/use-data-grid.ts",
-          "type": "registry:lib",
-          "target": "@lib/data-grid/use-data-grid.ts"
-        },
-        {
-          "path": "src/shared/lib/data-grid/use-isomorphic-layout-effect.ts",
-          "type": "registry:lib",
-          "target": "@lib/data-grid/use-isomorphic-layout-effect.ts"
-        },
-        {
-          "path": "src/shared/lib/data-grid/use-lazy-ref.ts",
-          "type": "registry:lib",
-          "target": "@lib/data-grid/use-lazy-ref.ts"
         }
       ],
       "docs": "Stories require the creact Storybook setup (add Joshua-Booth/creact/storybook-setup). Without it, exclude **/*.stories.tsx from typechecking."
+    },
+    {
+      "name": "data-grid-core",
+      "type": "registry:lib",
+      "title": "Data Grid Core",
+      "description": "Ported from tablecn by Sadman Sakib",
+      "dependencies": [
+        "@tanstack/react-table@^9.2.4",
+        "@tanstack/react-virtual@^3.14.13",
+        "lucide-react@^1.49.0",
+        "sonner@^2.0.8"
+      ],
+      "devDependencies": [
+        "vitest@^5.0.3"
+      ],
+      "registryDependencies": [
+        "Joshua-Booth/creact/direction"
+      ],
+      "files": [
+        {
+          "path": "src/shared/lib/data-grid-core/compose-refs.ts",
+          "type": "registry:lib",
+          "target": "@lib/data-grid-core/compose-refs.ts"
+        },
+        {
+          "path": "src/shared/lib/data-grid-core/data-grid.test.ts",
+          "type": "registry:lib",
+          "target": "@lib/data-grid-core/data-grid.test.ts"
+        },
+        {
+          "path": "src/shared/lib/data-grid-core/data-grid.ts",
+          "type": "registry:lib",
+          "target": "@lib/data-grid-core/data-grid.ts"
+        },
+        {
+          "path": "src/shared/lib/data-grid-core/features.ts",
+          "type": "registry:lib",
+          "target": "@lib/data-grid-core/features.ts"
+        },
+        {
+          "path": "src/shared/lib/data-grid-core/index.ts",
+          "type": "registry:lib",
+          "target": "@lib/data-grid-core/index.ts"
+        },
+        {
+          "path": "src/shared/lib/data-grid-core/types.ts",
+          "type": "registry:lib",
+          "target": "@lib/data-grid-core/types.ts"
+        },
+        {
+          "path": "src/shared/lib/data-grid-core/use-as-ref.ts",
+          "type": "registry:lib",
+          "target": "@lib/data-grid-core/use-as-ref.ts"
+        },
+        {
+          "path": "src/shared/lib/data-grid-core/use-badge-overflow.ts",
+          "type": "registry:lib",
+          "target": "@lib/data-grid-core/use-badge-overflow.ts"
+        },
+        {
+          "path": "src/shared/lib/data-grid-core/use-data-grid.ts",
+          "type": "registry:lib",
+          "target": "@lib/data-grid-core/use-data-grid.ts"
+        },
+        {
+          "path": "src/shared/lib/data-grid-core/use-isomorphic-layout-effect.ts",
+          "type": "registry:lib",
+          "target": "@lib/data-grid-core/use-isomorphic-layout-effect.ts"
+        },
+        {
+          "path": "src/shared/lib/data-grid-core/use-lazy-ref.ts",
+          "type": "registry:lib",
+          "target": "@lib/data-grid-core/use-lazy-ref.ts"
+        }
+      ]
     },
     {
       "name": "data-table",
@@ -958,12 +975,7 @@
         "lucide-react@^1.49.0",
         "nuqs@^2.10.1",
         "react-day-picker@^10.0.2",
-        "react-i18next@^17.0.15",
-        "zod@^4.6.5"
-      ],
-      "devDependencies": [
-        "@fast-check/vitest@^0.5.0",
-        "vitest@^5.0.3"
+        "react-i18next@^17.0.15"
       ],
       "registryDependencies": [
         "Joshua-Booth/creact/badge",
@@ -972,6 +984,7 @@
         "Joshua-Booth/creact/calendar",
         "Joshua-Booth/creact/checkbox",
         "Joshua-Booth/creact/command",
+        "Joshua-Booth/creact/data-table-core",
         "Joshua-Booth/creact/dropdown-menu",
         "Joshua-Booth/creact/input",
         "Joshua-Booth/creact/label",
@@ -1086,99 +1099,116 @@
           "path": "src/shared/ui/data-table/index.ts",
           "type": "registry:ui",
           "target": "@ui/data-table/index.ts"
-        },
-        {
-          "path": "src/shared/lib/data-table/config.ts",
-          "type": "registry:lib",
-          "target": "@lib/data-table/config.ts"
-        },
-        {
-          "path": "src/shared/lib/data-table/data-table.test.ts",
-          "type": "registry:lib",
-          "target": "@lib/data-table/data-table.test.ts"
-        },
-        {
-          "path": "src/shared/lib/data-table/data-table.ts",
-          "type": "registry:lib",
-          "target": "@lib/data-table/data-table.ts"
-        },
-        {
-          "path": "src/shared/lib/data-table/date-filter-utils.test.ts",
-          "type": "registry:lib",
-          "target": "@lib/data-table/date-filter-utils.test.ts"
-        },
-        {
-          "path": "src/shared/lib/data-table/date-filter-utils.ts",
-          "type": "registry:lib",
-          "target": "@lib/data-table/date-filter-utils.ts"
-        },
-        {
-          "path": "src/shared/lib/data-table/features.ts",
-          "type": "registry:lib",
-          "target": "@lib/data-table/features.ts"
-        },
-        {
-          "path": "src/shared/lib/data-table/format.test.ts",
-          "type": "registry:lib",
-          "target": "@lib/data-table/format.test.ts"
-        },
-        {
-          "path": "src/shared/lib/data-table/format.ts",
-          "type": "registry:lib",
-          "target": "@lib/data-table/format.ts"
-        },
-        {
-          "path": "src/shared/lib/data-table/index.ts",
-          "type": "registry:lib",
-          "target": "@lib/data-table/index.ts"
-        },
-        {
-          "path": "src/shared/lib/data-table/parsers.test.ts",
-          "type": "registry:lib",
-          "target": "@lib/data-table/parsers.test.ts"
-        },
-        {
-          "path": "src/shared/lib/data-table/parsers.ts",
-          "type": "registry:lib",
-          "target": "@lib/data-table/parsers.ts"
-        },
-        {
-          "path": "src/shared/lib/data-table/slider-filter-utils.test.ts",
-          "type": "registry:lib",
-          "target": "@lib/data-table/slider-filter-utils.test.ts"
-        },
-        {
-          "path": "src/shared/lib/data-table/slider-filter-utils.ts",
-          "type": "registry:lib",
-          "target": "@lib/data-table/slider-filter-utils.ts"
-        },
-        {
-          "path": "src/shared/lib/data-table/types.ts",
-          "type": "registry:lib",
-          "target": "@lib/data-table/types.ts"
-        },
-        {
-          "path": "src/shared/lib/data-table/use-callback-ref.ts",
-          "type": "registry:lib",
-          "target": "@lib/data-table/use-callback-ref.ts"
-        },
-        {
-          "path": "src/shared/lib/data-table/use-data-table.test.ts",
-          "type": "registry:lib",
-          "target": "@lib/data-table/use-data-table.test.ts"
-        },
-        {
-          "path": "src/shared/lib/data-table/use-data-table.ts",
-          "type": "registry:lib",
-          "target": "@lib/data-table/use-data-table.ts"
-        },
-        {
-          "path": "src/shared/lib/data-table/use-debounced-callback.ts",
-          "type": "registry:lib",
-          "target": "@lib/data-table/use-debounced-callback.ts"
         }
       ],
       "docs": "Stories require the creact Storybook setup (add Joshua-Booth/creact/storybook-setup). Without it, exclude **/*.stories.tsx from typechecking."
+    },
+    {
+      "name": "data-table-core",
+      "type": "registry:lib",
+      "title": "Data Table Core",
+      "description": "Ported from tablecn by Sadman Sakib",
+      "dependencies": [
+        "@tanstack/react-table@^9.2.4",
+        "nuqs@^2.10.1",
+        "zod@^4.6.5"
+      ],
+      "devDependencies": [
+        "@fast-check/vitest@^0.5.0",
+        "vitest@^5.0.3"
+      ],
+      "files": [
+        {
+          "path": "src/shared/lib/data-table-core/config.ts",
+          "type": "registry:lib",
+          "target": "@lib/data-table-core/config.ts"
+        },
+        {
+          "path": "src/shared/lib/data-table-core/data-table.test.ts",
+          "type": "registry:lib",
+          "target": "@lib/data-table-core/data-table.test.ts"
+        },
+        {
+          "path": "src/shared/lib/data-table-core/data-table.ts",
+          "type": "registry:lib",
+          "target": "@lib/data-table-core/data-table.ts"
+        },
+        {
+          "path": "src/shared/lib/data-table-core/date-filter-utils.test.ts",
+          "type": "registry:lib",
+          "target": "@lib/data-table-core/date-filter-utils.test.ts"
+        },
+        {
+          "path": "src/shared/lib/data-table-core/date-filter-utils.ts",
+          "type": "registry:lib",
+          "target": "@lib/data-table-core/date-filter-utils.ts"
+        },
+        {
+          "path": "src/shared/lib/data-table-core/features.ts",
+          "type": "registry:lib",
+          "target": "@lib/data-table-core/features.ts"
+        },
+        {
+          "path": "src/shared/lib/data-table-core/format.test.ts",
+          "type": "registry:lib",
+          "target": "@lib/data-table-core/format.test.ts"
+        },
+        {
+          "path": "src/shared/lib/data-table-core/format.ts",
+          "type": "registry:lib",
+          "target": "@lib/data-table-core/format.ts"
+        },
+        {
+          "path": "src/shared/lib/data-table-core/index.ts",
+          "type": "registry:lib",
+          "target": "@lib/data-table-core/index.ts"
+        },
+        {
+          "path": "src/shared/lib/data-table-core/parsers.test.ts",
+          "type": "registry:lib",
+          "target": "@lib/data-table-core/parsers.test.ts"
+        },
+        {
+          "path": "src/shared/lib/data-table-core/parsers.ts",
+          "type": "registry:lib",
+          "target": "@lib/data-table-core/parsers.ts"
+        },
+        {
+          "path": "src/shared/lib/data-table-core/slider-filter-utils.test.ts",
+          "type": "registry:lib",
+          "target": "@lib/data-table-core/slider-filter-utils.test.ts"
+        },
+        {
+          "path": "src/shared/lib/data-table-core/slider-filter-utils.ts",
+          "type": "registry:lib",
+          "target": "@lib/data-table-core/slider-filter-utils.ts"
+        },
+        {
+          "path": "src/shared/lib/data-table-core/types.ts",
+          "type": "registry:lib",
+          "target": "@lib/data-table-core/types.ts"
+        },
+        {
+          "path": "src/shared/lib/data-table-core/use-callback-ref.ts",
+          "type": "registry:lib",
+          "target": "@lib/data-table-core/use-callback-ref.ts"
+        },
+        {
+          "path": "src/shared/lib/data-table-core/use-data-table.test.ts",
+          "type": "registry:lib",
+          "target": "@lib/data-table-core/use-data-table.test.ts"
+        },
+        {
+          "path": "src/shared/lib/data-table-core/use-data-table.ts",
+          "type": "registry:lib",
+          "target": "@lib/data-table-core/use-data-table.ts"
+        },
+        {
+          "path": "src/shared/lib/data-table-core/use-debounced-callback.ts",
+          "type": "registry:lib",
+          "target": "@lib/data-table-core/use-debounced-callback.ts"
+        }
+      ]
     },
     {
       "name": "device",

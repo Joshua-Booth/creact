@@ -11,8 +11,8 @@ import type {
   ContextMenuState,
   DataGridColumnDef,
   DataGridTableMeta,
-} from "@/shared/lib/data-grid";
-import { parseCellKey, useAsRef } from "@/shared/lib/data-grid";
+} from "@/shared/lib/data-grid-core";
+import { parseCellKey, useAsRef } from "@/shared/lib/data-grid-core";
 import {
   DropdownMenu,
   DropdownMenuContent,

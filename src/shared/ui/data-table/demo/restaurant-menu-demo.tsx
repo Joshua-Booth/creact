@@ -3,8 +3,8 @@ import { useMemo } from "react";
 import { cn } from "cn";
 import { Text } from "lucide-react";
 
-import type { DataTableColumnDef } from "@/shared/lib/data-table";
-import { useDataTable } from "@/shared/lib/data-table";
+import type { DataTableColumnDef } from "@/shared/lib/data-table-core";
+import { useDataTable } from "@/shared/lib/data-table-core";
 import { Badge } from "@/shared/ui/badge";
 
 import { DataTable } from "../data-table";
