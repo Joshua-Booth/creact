@@ -29,6 +29,7 @@ const IDENTITY = [
   "-c",
   "user.email=test@example.invalid",
 ];
+const SRC = "apps/web/src";
 const CHECKS = ["build", "typecheck", "lint", "format:check", "test"];
 const STACK_IDS = Object.keys(STACKS) as StackId[];
 const STYLING_IDS = Object.keys(STYLINGS).filter((id): id is StylingId =>
@@ -179,18 +180,8 @@ for (const [id, styling] of STACK_IDS.flatMap((stackId) =>
         const signature = readFileSync(path.join(dir, stack.signature), "utf8");
         t.assert.doesNotMatch(signature, /reactCompiler/);
 
-        const manifest = JSON.parse(pkg) as Record<string, object | undefined>;
-        const names = new Set(
-          ["dependencies", "devDependencies"].flatMap((key) =>
-            Object.keys(manifest[key] ?? {})
-          )
-        );
         t.assert.deepStrictEqual(
-          (prune?.dependencies ?? []).filter((name) => names.has(name)),
-          []
-        );
-        t.assert.deepStrictEqual(
-          (prune?.files ?? []).filter((file) =>
+          (prune?.paths ?? []).filter((file) =>
             existsSync(path.join(dir, file))
           ),
           []
@@ -245,7 +236,7 @@ for (const [id, styling] of STACK_IDS.flatMap((stackId) =>
 
       it("builds CSS that carries the values from the project's tokens.css", (t: TestContext) => {
         const tokens = readFileSync(
-          path.join(dir, stack.srcRoot, "styles", "tokens.css"),
+          path.join(dir, SRC, "styles", "tokens.css"),
           "utf8"
         );
         const accent = tokens
@@ -275,10 +266,10 @@ for (const [id, styling] of STACK_IDS.flatMap((stackId) =>
         ) as { compilerOptions: { paths: Record<string, string[]> } };
         const [alias, targets] =
           Object.entries(tsconfig.compilerOptions.paths)[0] ?? [];
-        t.assert.deepStrictEqual(targets, [`./${stack.srcRoot}/*`]);
+        t.assert.deepStrictEqual(targets, [`./${SRC}/*`]);
         const prefix = alias?.replace("*", "") ?? "";
 
-        const probe = path.join(dir, stack.srcRoot, "probe");
+        const probe = path.join(dir, SRC, "probe");
         mkdirSync(probe);
         writeFileSync(
           path.join(probe, "add.ts"),
@@ -309,7 +300,7 @@ for (const [id, styling] of STACK_IDS.flatMap((stackId) =>
         t.assert.strictEqual(commit.status, 0, commit.stdout + commit.stderr);
         const committed = sh(dir, "git", [
           "show",
-          `HEAD:${stack.srcRoot}/probe/add.ts`,
+          `HEAD:${SRC}/probe/add.ts`,
         ]).stdout;
         t.assert.match(committed, /return a \+ b;/);
 
@@ -360,7 +351,7 @@ for (const [id, styling] of STACK_IDS.flatMap((stackId) =>
       });
 
       it("fails lint on a planted styling mistake and passes once it's gone", (t: TestContext) => {
-        const planted = path.join(dir, stack.srcRoot, "planted.tsx");
+        const planted = path.join(dir, SRC, "planted.tsx");
         writeFileSync(planted, proof.badComponent);
         const failed = sh(dir, "pnpm", ["run", "lint"]);
         rmSync(planted);

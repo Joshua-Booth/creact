@@ -1,29 +1,89 @@
 {
   "package.json": {
-    "name": "next-app",
+    "name": "app",
+    "private": true,
+    "workspaces": ["apps/*", "packages/*"],
+    "type": "module",
+    "scripts": {
+      "dev": "pnpm -r dev",
+      "build": "pnpm -r --if-present build",
+      "check-types": "pnpm -r check-types",
+      "dev:web": "pnpm --filter web dev",
+      "env:generate": "varlock codegen --path ./apps/web/",
+      "postinstall": "varlock codegen --path ./apps/web/"
+    },
+    "dependencies": {
+      "zod": "catalog:"
+    },
+    "devDependencies": {
+      "@app/config": "workspace:*",
+      "@types/node": "catalog:",
+      "typescript": "catalog:",
+      "varlock": "catalog:"
+    },
+    "packageManager": "pnpm@12.12.1"
+  },
+  "tsconfig.json": {
+    "extends": "@app/config/tsconfig.base.json"
+  },
+  "packages/config/tsconfig.base.json": {
+    "$schema": "https://json.schemastore.org/tsconfig",
+    "compilerOptions": {
+      "target": "ESNext",
+      "module": "ESNext",
+      "moduleResolution": "bundler",
+      "lib": ["ESNext"],
+      "verbatimModuleSyntax": true,
+      "strict": true,
+      "skipLibCheck": true,
+      "resolveJsonModule": true,
+      "allowSyntheticDefaultImports": true,
+      "esModuleInterop": true,
+      "forceConsistentCasingInFileNames": true,
+      "isolatedModules": true,
+      "noUncheckedIndexedAccess": true,
+      "noUnusedLocals": true,
+      "noUnusedParameters": true,
+      "noFallthroughCasesInSwitch": true,
+      "types": ["node"]
+    }
+  },
+  "apps/web/package.json": {
+    "name": "web",
     "version": "0.1.0",
     "private": true,
     "scripts": {
-      "dev": "next dev",
+      "dev": "next dev --port 3001",
       "build": "next build",
-      "start": "next start"
+      "check-types": "tsc --noEmit",
+      "start": "next start",
+      "env:generate": "varlock codegen"
     },
     "dependencies": {
-      "next": "16.4.0",
-      "react": "19.3.0",
-      "react-dom": "19.3.0"
+      "@app/ui": "workspace:*",
+      "@swc/helpers": "^0.5.23",
+      "@varlock/nextjs-integration": "1.2.2",
+      "babel-plugin-react-compiler": "^1.0.0",
+      "lucide-react": "catalog:",
+      "next": "^16.3.4",
+      "next-themes": "catalog:",
+      "react": "catalog:",
+      "react-dom": "catalog:",
+      "sonner": "catalog:",
+      "varlock": "catalog:",
+      "zod": "catalog:"
     },
     "devDependencies": {
-      "@tailwindcss/turbopack": "^4",
-      "@types/node": "^20",
-      "@types/react": "^19",
-      "@types/react-dom": "^19",
-      "tailwindcss": "^4",
-      "typescript": "^5"
-    },
-    "packageManager": "pnpm@12.0.0"
+      "@app/config": "workspace:*",
+      "@tailwindcss/postcss": "catalog:",
+      "@types/node": "catalog:",
+      "@types/react": "catalog:",
+      "@types/react-dom": "catalog:",
+      "tailwindcss": "catalog:",
+      "typescript": "catalog:"
+    }
   },
-  "tsconfig.json": {
+  "apps/web/tsconfig.json": {
     "compilerOptions": {
       "target": "ES2017",
       "lib": ["dom", "dom.iterable", "esnext"],
@@ -36,6 +96,7 @@
       "moduleResolution": "bundler",
       "resolveJsonModule": true,
       "isolatedModules": true,
+      "verbatimModuleSyntax": true,
       "jsx": "react-jsx",
       "incremental": true,
       "plugins": [
@@ -44,7 +105,8 @@
         }
       ],
       "paths": {
-        "@/*": ["./src/*"]
+        "@/*": ["./src/*"],
+        "@app/ui/*": ["../../packages/ui/src/*"]
       }
     },
     "include": [
@@ -52,9 +114,8 @@
       "**/*.ts",
       "**/*.tsx",
       ".next/types/**/*.ts",
-      ".next/dev/types/**/*.ts",
-      "**/*.mts"
+      ".next/dev/types/**/*.ts"
     ],
-    "exclude": ["node_modules"]
+    "exclude": ["./node_modules"]
   }
 }

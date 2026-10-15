@@ -6,7 +6,7 @@ import {
   readdir,
   readFile,
   rename,
-  unlink,
+  rm,
   writeFile,
 } from "node:fs/promises";
 import path from "node:path";
@@ -16,6 +16,8 @@ import {
   type ExtraId,
   EXTRAS,
   isBuilt,
+  isProjectName,
+  type ProjectName,
   type StylingId,
   STYLINGS,
   UsageError,
@@ -36,109 +38,208 @@ export type OverlayId = "base" | StylingId | ExtraId;
 
 export type Scope = "all" | StackId;
 
+export const JSON_FILES = [
+  "package.json",
+  "tsconfig.json",
+  "packages/config/tsconfig.base.json",
+  "apps/web/package.json",
+  "apps/web/tsconfig.json",
+] as const;
+
+export type JsonFile = (typeof JSON_FILES)[number];
+
+export type Manifest = Extract<
+  JsonFile,
+  "package.json" | `${string}/package.json`
+>;
+
+const MANIFESTS = JSON_FILES.filter((file): file is Manifest =>
+  file.endsWith("package.json")
+);
+
 export interface Packages {
   readonly dependencies: readonly string[];
   readonly devDependencies: readonly string[];
 }
 
-interface Prune {
-  readonly files?: readonly string[];
-  readonly dependencies?: readonly string[];
+export interface Addition extends Packages {
+  readonly manifest: Manifest;
 }
 
-interface Part extends Partial<Packages> {
-  readonly packageJson?: JsonObject;
-  readonly tsconfig?: JsonObject;
+// null removes the key and an object descends into it, so a prune can never
+// set a value.
+export interface Removal {
+  readonly [key: string]: Removal | null;
+}
+
+interface Prune {
+  readonly paths?: readonly string[];
+  readonly json?: Readonly<Partial<Record<JsonFile, Removal>>>;
+}
+
+interface Part {
+  readonly json?: Readonly<Partial<Record<JsonFile, JsonObject>>>;
+  readonly packages?: Readonly<Partial<Record<Manifest, Partial<Packages>>>>;
   readonly prune?: Prune;
 }
 
 export type Overlay = Readonly<Partial<Record<Scope, Part>>>;
 
+function withoutDependencies(names: readonly string[]): Removal {
+  const gone = Object.fromEntries(names.map((name) => [name, null]));
+  return { dependencies: gone, devDependencies: gone };
+}
+
+const STRICT = {
+  strict: true,
+  noUncheckedIndexedAccess: true,
+  noImplicitOverride: true,
+  erasableSyntaxOnly: true,
+  verbatimModuleSyntax: true,
+  forceConsistentCasingInFileNames: true,
+} as const satisfies JsonObject;
+
 export const OVERLAYS: Readonly<Record<OverlayId, Overlay>> = {
   base: {
     all: {
-      packageJson: {
-        type: "module",
-        scripts: {
-          lint: "pnpm run typegen && oxlint --max-warnings 0",
-          format: "oxfmt",
-          "format:check": "oxfmt --check",
-          typecheck: "pnpm run typegen && tsc",
-          test: "vitest run",
-          prepare: "husky || true",
+      json: {
+        "package.json": {
+          type: "module",
+          scripts: {
+            lint: "pnpm -r --if-present typegen && oxlint --max-warnings 0",
+            format: "oxfmt",
+            "format:check": "oxfmt --check",
+            typecheck: "pnpm -r --if-present check-types && tsc",
+            test: "vitest run",
+            prepare: "husky || true",
+          },
+        },
+        "tsconfig.json": {
+          include: ["*.ts"],
+          compilerOptions: { noEmit: true, allowImportingTsExtensions: true },
+        },
+        "packages/config/tsconfig.base.json": { compilerOptions: STRICT },
+        "apps/web/package.json": {
+          type: "module",
+          scripts: { "check-types": "pnpm run typegen && tsc --noEmit" },
+        },
+        "apps/web/tsconfig.json": { compilerOptions: STRICT },
+      },
+      packages: {
+        "package.json": {
+          devDependencies: [
+            "@commitlint/cli",
+            "@commitlint/config-conventional",
+            "@commitlint/types",
+            "@eslint-community/eslint-plugin-eslint-comments",
+            "@eslint-react/eslint-plugin",
+            "eslint-plugin-barrel-files",
+            "eslint-plugin-check-file",
+            "eslint-plugin-depend",
+            "eslint-plugin-jsdoc",
+            "eslint-plugin-perfectionist",
+            "eslint-plugin-react-you-might-not-need-an-effect",
+            "eslint-plugin-security",
+            "eslint-plugin-sonarjs",
+            "husky",
+            "lint-staged",
+            "oxfmt",
+            "oxlint",
+            "oxlint-tsgolint",
+            "vitest",
+          ],
         },
       },
-      tsconfig: {
-        compilerOptions: {
-          strict: true,
-          noUncheckedIndexedAccess: true,
-          noImplicitOverride: true,
-          erasableSyntaxOnly: true,
-          verbatimModuleSyntax: true,
-          forceConsistentCasingInFileNames: true,
-          allowImportingTsExtensions: true,
-        },
-      },
-      devDependencies: [
-        "@commitlint/cli",
-        "@commitlint/config-conventional",
-        "@commitlint/types",
-        "@eslint-community/eslint-plugin-eslint-comments",
-        "@eslint-react/eslint-plugin",
-        "eslint-plugin-barrel-files",
-        "eslint-plugin-check-file",
-        "eslint-plugin-depend",
-        "eslint-plugin-jsdoc",
-        "eslint-plugin-perfectionist",
-        "eslint-plugin-react-you-might-not-need-an-effect",
-        "eslint-plugin-security",
-        "eslint-plugin-sonarjs",
-        "husky",
-        "lint-staged",
-        "oxfmt",
-        "oxlint",
-        "oxlint-tsgolint",
-        "vitest",
-      ],
+      prune: { paths: ["bunfig.toml", "apps/web/bunfig.toml"] },
     },
   },
-  tailwind: { all: { devDependencies: ["eslint-plugin-better-tailwindcss"] } },
+  tailwind: {
+    all: {
+      packages: {
+        "package.json": {
+          devDependencies: ["eslint-plugin-better-tailwindcss"],
+        },
+      },
+    },
+  },
   stylex: {
     all: {
-      dependencies: ["@stylexjs/stylex"],
-      devDependencies: ["@stylexjs/eslint-plugin"],
+      packages: {
+        "package.json": { devDependencies: ["@stylexjs/eslint-plugin"] },
+        "apps/web/package.json": { dependencies: ["@stylexjs/stylex"] },
+      },
+      prune: {
+        paths: [
+          "packages/ui",
+          "apps/web/components.json",
+          "apps/web/src/components",
+        ],
+        json: {
+          "apps/web/package.json": withoutDependencies([
+            "@{{name}}/ui",
+            "lucide-react",
+            "next-themes",
+            "sonner",
+            "tailwindcss",
+            "@tailwindcss/vite",
+            "@tailwindcss/postcss",
+          ]),
+          "apps/web/tsconfig.json": {
+            compilerOptions: { paths: { "@{{name}}/ui/*": null } },
+          },
+        },
+      },
     },
     "react-router": {
-      devDependencies: ["@stylexjs/unplugin"],
-      prune: {
-        files: ["app/welcome/logo-dark.svg", "app/welcome/logo-light.svg"],
-        dependencies: ["tailwindcss", "@tailwindcss/vite"],
+      packages: {
+        "apps/web/package.json": { devDependencies: ["@stylexjs/unplugin"] },
       },
     },
     next: {
-      devDependencies: [
-        "@stylexjs/babel-plugin",
-        "@stylexjs/postcss-plugin",
-        "postcss",
-      ],
-      prune: { files: ["src/app/page.module.css"] },
+      packages: {
+        "apps/web/package.json": {
+          devDependencies: [
+            "@stylexjs/babel-plugin",
+            "@stylexjs/postcss-plugin",
+            "postcss",
+          ],
+        },
+      },
+      // Turbopack runs an .mjs PostCSS config in its own runtime, where
+      // import.meta.dirname in the babel config it imports is undefined.
+      prune: { paths: ["apps/web/postcss.config.mjs"] },
     },
   },
 };
 
+interface JsonRemoval {
+  readonly file: JsonFile;
+  readonly removal: Removal;
+}
+
 export type Op =
-  | ({ readonly kind: "prune" } & Required<Prune>)
+  | {
+      readonly kind: "prune";
+      readonly paths: readonly string[];
+      readonly json: readonly JsonRemoval[];
+    }
   | { readonly kind: "file"; readonly path: string; readonly content: string }
   | {
       readonly kind: "json";
-      readonly path: "package.json" | "tsconfig.json";
+      readonly path: JsonFile;
       readonly patch: JsonObject;
     }
-  | ({ readonly kind: "deps" } & Packages);
+  | ({ readonly kind: "deps" } & Addition);
+
+export interface Project {
+  readonly stack: StackId;
+  readonly name: ProjectName;
+}
 
 export interface State extends Choices {
-  readonly schema: 1;
+  readonly schema: 2;
   readonly creact: string;
+  readonly name: ProjectName;
   readonly hashes: Readonly<Record<string, string>>;
 }
 
@@ -159,7 +260,7 @@ export interface ApplyReport {
   readonly files: Readonly<Record<string, Outcome>>;
   readonly hashes: Readonly<Record<string, string>>;
   readonly pruned: readonly string[];
-  readonly missing: Packages;
+  readonly missing: readonly Addition[];
 }
 
 function scopes(stack: StackId): readonly Scope[] {
@@ -198,26 +299,25 @@ export async function loadLayer(
 export function plan(
   files: ReadonlyMap<string, string>,
   ids: readonly OverlayId[],
-  stackId: StackId
+  project: Project
 ): readonly Op[] {
-  const stack = STACKS[stackId];
-  const vars = { srcRoot: stack.srcRoot, globalCss: stack.globalCss };
+  const vars = { name: project.name };
   const parts = ids.flatMap((id) =>
-    scopes(stackId).flatMap((scope) => OVERLAYS[id][scope] ?? [])
+    scopes(project.stack).flatMap((scope) => OVERLAYS[id][scope] ?? [])
   );
-  const listed = (pick: (part: Part) => readonly string[] | undefined) =>
-    parts.flatMap((part) => pick(part) ?? []);
 
-  let packageJson: JsonObject = { scripts: { typegen: stack.typegen } };
-  let tsconfig: JsonObject = {};
-  for (const part of parts) {
-    packageJson = merge(packageJson, part.packageJson ?? {});
-    tsconfig = merge(tsconfig, part.tsconfig ?? {});
-  }
-  const prune = {
-    files: listed((part) => part.prune?.files),
-    dependencies: listed((part) => part.prune?.dependencies),
-  };
+  const paths = parts
+    .flatMap((part) => part.prune?.paths ?? [])
+    .map((entry) => render("prune", entry, vars));
+  const removals = parts.flatMap((part) =>
+    JSON_FILES.flatMap((file) => {
+      const removal = part.prune?.json?.[file];
+      return removal === undefined
+        ? []
+        : [{ file, removal: renderKeys(removal, vars) }];
+    })
+  );
+
   const fileOps = [...files]
     .map(([file, content]) => ({
       kind: "file" as const,
@@ -225,18 +325,37 @@ export function plan(
       content: render(file, content, vars),
     }))
     .toSorted((a, b) => a.path.localeCompare(b.path));
+
+  const seed: Partial<Record<JsonFile, JsonObject>> = {
+    "apps/web/package.json": {
+      scripts: { typegen: STACKS[project.stack].typegen },
+    },
+  };
+  const jsonOps = JSON_FILES.flatMap((file) => {
+    let patch = seed[file] ?? {};
+    for (const part of parts) patch = merge(patch, part.json?.[file] ?? {});
+    return Object.keys(patch).length > 0
+      ? [{ kind: "json" as const, path: file, patch }]
+      : [];
+  });
+
+  const depsOps = MANIFESTS.flatMap((manifest) => {
+    const listed = (key: keyof Packages) =>
+      parts.flatMap((part) => part.packages?.[manifest]?.[key] ?? []);
+    const dependencies = listed("dependencies");
+    const devDependencies = listed("devDependencies");
+    return dependencies.length + devDependencies.length > 0
+      ? [{ kind: "deps" as const, manifest, dependencies, devDependencies }]
+      : [];
+  });
+
   return [
-    ...(prune.files.length + prune.dependencies.length > 0
-      ? [{ kind: "prune" as const, ...prune }]
+    ...(paths.length + removals.length > 0
+      ? [{ kind: "prune" as const, paths, json: removals }]
       : []),
     ...fileOps,
-    { kind: "json", path: "package.json", patch: packageJson },
-    { kind: "json", path: "tsconfig.json", patch: tsconfig },
-    {
-      kind: "deps",
-      dependencies: listed((part) => part.dependencies),
-      devDependencies: listed((part) => part.devDependencies),
-    },
+    ...jsonOps,
+    ...depsOps,
   ];
 }
 
@@ -252,6 +371,18 @@ export function render(
   });
 }
 
+function renderKeys(
+  removal: Removal,
+  vars: Readonly<Record<string, string>>
+): Removal {
+  return Object.fromEntries(
+    Object.entries(removal).map(([key, value]) => [
+      render("prune", key, vars),
+      value === null ? null : renderKeys(value, vars),
+    ])
+  );
+}
+
 export function merge(doc: JsonObject, patch: JsonObject): JsonObject {
   const result: Record<string, Json> = { ...doc };
   for (const [key, value] of Object.entries(patch)) {
@@ -262,6 +393,25 @@ export function merge(doc: JsonObject, patch: JsonObject): JsonObject {
   return result;
 }
 
+function remove(
+  doc: JsonObject,
+  removal: Removal
+): readonly [JsonObject, readonly string[]] {
+  const removed: string[] = [];
+  const kept = Object.entries(doc).flatMap(([key, value]): [string, Json][] => {
+    const rule = removal[key];
+    if (rule === null) {
+      removed.push(key);
+      return [];
+    }
+    if (rule === undefined || !isObject(value)) return [[key, value]];
+    const [inner, gone] = remove(value, rule);
+    removed.push(...gone);
+    return [[key, inner]];
+  });
+  return [Object.fromEntries(kept), removed];
+}
+
 export async function apply(
   dir: string,
   ops: readonly Op[],
@@ -270,7 +420,7 @@ export async function apply(
   const files: Record<string, Outcome> = {};
   const hashes: Record<string, string> = {};
   let pruned: readonly string[] = [];
-  let missing: Packages = { dependencies: [], devDependencies: [] };
+  const missing: Addition[] = [];
 
   for (const op of ops) {
     switch (op.kind) {
@@ -289,16 +439,23 @@ export async function apply(
         break;
       }
       case "deps": {
-        const pkg = await readJson(path.join(dir, "package.json"));
+        const pkg = await readJson(path.join(dir, op.manifest));
         const present = new Set(
           DEPENDENCY_MAPS.flatMap((key) => Object.keys(objectAt(pkg, key)))
         );
-        missing = {
-          dependencies: op.dependencies.filter((name) => !present.has(name)),
-          devDependencies: op.devDependencies.filter(
-            (name) => !present.has(name)
-          ),
+        const absent = (names: readonly string[]) =>
+          names.filter((name) => !present.has(name));
+        const addition = {
+          manifest: op.manifest,
+          dependencies: absent(op.dependencies),
+          devDependencies: absent(op.devDependencies),
         };
+        if (
+          addition.dependencies.length + addition.devDependencies.length >
+          0
+        ) {
+          missing.push(addition);
+        }
         break;
       }
     }
@@ -308,28 +465,28 @@ export async function apply(
 
 async function applyPrune(
   dir: string,
-  prune: Required<Prune>
-): Promise<readonly string[]> {
-  const files = prune.files.filter((file) => existsSync(path.join(dir, file)));
-  for (const file of files) await unlink(path.join(dir, file));
-
-  const manifest = path.join(dir, "package.json");
-  const pkg = await readJson(manifest);
-  const removed = prune.dependencies.filter((name) =>
-    DEPENDENCY_MAPS.some((key) => Object.hasOwn(objectAt(pkg, key), name))
-  );
-  if (removed.length > 0) {
-    const next: Record<string, Json> = { ...pkg };
-    for (const key of DEPENDENCY_MAPS.filter((map) => isObject(pkg[map]))) {
-      next[key] = Object.fromEntries(
-        Object.entries(objectAt(pkg, key)).filter(
-          ([name]) => !removed.includes(name)
-        )
-      );
-    }
-    await writeAtomic(manifest, `${JSON.stringify(next, null, 2)}\n`);
+  prune: {
+    readonly paths: readonly string[];
+    readonly json: readonly JsonRemoval[];
   }
-  return [...removed, ...files];
+): Promise<readonly string[]> {
+  const paths = prune.paths.filter((entry) =>
+    existsSync(path.join(dir, entry))
+  );
+  for (const entry of paths) {
+    await rm(path.join(dir, entry), { recursive: true, force: true });
+  }
+
+  const keys = new Set<string>();
+  for (const { file, removal } of prune.json) {
+    const target = path.join(dir, file);
+    const [doc, removed] = remove(await readJson(target), removal);
+    if (removed.length > 0) {
+      await writeAtomic(target, `${JSON.stringify(doc, null, 2)}\n`);
+      for (const key of removed) keys.add(key);
+    }
+  }
+  return [...paths, ...keys];
 }
 
 async function applyFile(
@@ -361,15 +518,22 @@ async function applyJson(file: string, patch: JsonObject): Promise<Outcome> {
   await writeAtomic(file, `${JSON.stringify(next, null, 2)}\n`);
   return "written";
 }
-
 export async function readState(dir: string): Promise<State | undefined> {
   const file = path.join(dir, STATE_FILE);
   if (!existsSync(file)) return undefined;
   const raw = await readJson(file);
-  const { schema, creact, stack, styling, monorepo, extras, hashes } = raw;
+  const { schema, creact, name, stack, styling, monorepo, extras, hashes } =
+    raw;
+  if (schema === 1) {
+    throw new UsageError(
+      `${file} comes from the first create-creact, which made single-package projects. This one makes monorepos and can't update it.`
+    );
+  }
   const valid =
-    schema === 1 &&
+    schema === 2 &&
     typeof creact === "string" &&
+    typeof name === "string" &&
+    isProjectName(name) &&
     typeof stack === "string" &&
     Object.hasOwn(STACKS, stack) &&
     typeof styling === "string" &&

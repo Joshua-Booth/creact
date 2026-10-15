@@ -51,7 +51,10 @@ function format(report: Report): string {
   const without = pruned.length > 0 ? `, without ${pruned.join(", ")}` : "";
   const base =
     report.base === "created" ? `created with ${BTS}${without}` : "kept";
-  const toAdd = missing.dependencies.length + missing.devDependencies.length;
+  const toAdd = missing.flatMap((addition) => [
+    ...addition.dependencies,
+    ...addition.devDependencies,
+  ]).length;
   const install =
     report.install === "done"
       ? "done, then lint --fix and format"

@@ -18,8 +18,11 @@ import { after, describe, it, type TestContext } from "node:test";
 
 import {
   apply,
+  JSON_FILES,
+  type JsonFile,
   type JsonObject,
   loadLayer,
+  type Manifest,
   merge,
   type Op,
   type OverlayId,
@@ -71,61 +74,51 @@ const SHARED_FILES = [
   "oxlint.config.ts",
   "oxlint.styling.ts",
   "vitest.config.ts",
+  "apps/web/src/index.css",
+  "apps/web/src/styles/tokens.css",
+  "apps/web/src/styles/tokens.test.ts",
 ];
+
+const TAILWIND_FILES = [
+  ...SHARED_FILES,
+  "apps/web/src/styles/tokens.tailwind.css",
+];
+
+const STYLEX_FILES = [...SHARED_FILES, "apps/web/src/styles/tokens.stylex.ts"];
 
 const FILES: Readonly<
   Record<StackId, Readonly<Record<StylingId, readonly string[]>>>
 > = {
   "react-router": {
-    tailwind: [
-      ...SHARED_FILES,
-      "app/app.css",
-      "app/styles/tokens.css",
-      "app/styles/tokens.tailwind.css",
-      "app/styles/tokens.test.ts",
-    ],
+    tailwind: TAILWIND_FILES,
     stylex: [
-      ...SHARED_FILES,
-      "app/app.css",
-      "app/root.tsx",
-      "app/styles/tokens.css",
-      "app/styles/tokens.stylex.ts",
-      "app/styles/tokens.test.ts",
-      "app/welcome/welcome.tsx",
-      "vite.config.ts",
+      ...STYLEX_FILES,
+      "apps/web/vite.config.ts",
+      "apps/web/src/root.tsx",
+      "apps/web/src/routes/_index.tsx",
     ],
   },
   next: {
-    tailwind: [
-      ...SHARED_FILES,
-      "src/app/globals.css",
-      "src/styles/tokens.css",
-      "src/styles/tokens.tailwind.css",
-      "src/styles/tokens.test.ts",
-    ],
+    tailwind: TAILWIND_FILES,
     stylex: [
-      ...SHARED_FILES,
-      "babel.config.js",
-      "postcss.config.js",
-      "src/app/globals.css",
-      "src/app/page.tsx",
-      "src/styles/tokens.css",
-      "src/styles/tokens.stylex.ts",
-      "src/styles/tokens.test.ts",
+      ...STYLEX_FILES,
+      "apps/web/babel.config.js",
+      "apps/web/postcss.config.js",
+      "apps/web/src/app/layout.tsx",
+      "apps/web/src/app/page.tsx",
     ],
   },
 };
 
-function fixture(stack: StackId): {
-  readonly "package.json": JsonObject;
-  readonly "tsconfig.json": JsonObject;
-} {
+const NAME = projectName("/work/app");
+
+function fixture(stack: StackId): Readonly<Record<JsonFile, JsonObject>> {
   return JSON.parse(
     readFileSync(
       path.join(import.meta.dirname, "fixtures", `${stack}.json`),
       "utf8"
     )
-  ) as { "package.json": JsonObject; "tsconfig.json": JsonObject };
+  ) as Record<JsonFile, JsonObject>;
 }
 
 async function ops(
@@ -133,25 +126,25 @@ async function ops(
   styling: StylingId = "tailwind"
 ): Promise<readonly Op[]> {
   const ids: readonly OverlayId[] = ["base", styling];
-  return plan(await loadLayer(LAYER, ids, stack), ids, stack);
+  return plan(await loadLayer(LAYER, ids, stack), ids, { stack, name: NAME });
 }
 
 function fileOps(all: readonly Op[]) {
   return all.flatMap((op) => (op.kind === "file" ? [op] : []));
 }
 
-function packagesToAdd(all: readonly Op[], runtimeOnly = false): string[] {
+function pruneOp(all: readonly Op[]) {
+  return all.find((op) => op.kind === "prune");
+}
+
+function packagesToAdd(all: readonly Op[]): string[] {
   return all.flatMap((op) =>
-    op.kind === "deps"
-      ? [...op.dependencies, ...(runtimeOnly ? [] : op.devDependencies)]
-      : []
+    op.kind === "deps" ? [...op.dependencies, ...op.devDependencies] : []
   );
 }
 
-function readPackage(dir: string): JsonObject {
-  return JSON.parse(
-    readFileSync(path.join(dir, "package.json"), "utf8")
-  ) as JsonObject;
+function readJsonFile(dir: string, file: JsonFile): JsonObject {
+  return JSON.parse(readFileSync(path.join(dir, file), "utf8")) as JsonObject;
 }
 
 function packageNames(pkg: JsonObject): string[] {
@@ -170,7 +163,7 @@ function packagesUsed(file: string, content: string): string[] {
         (match) => match[1]
       )
   );
-  const configPlugins = /^(babel|postcss)\.config\./.test(file)
+  const configPlugins = /^(babel|postcss)\.config\./.test(path.basename(file))
     ? [
         ...content.matchAll(/presets: \["([\w@/.-]+)"/g),
         ...content.matchAll(/\[\s*"([\w@/.-]+)",\s*\{/g),
@@ -185,7 +178,7 @@ function packagesUsed(file: string, content: string): string[] {
   );
 }
 
-function patch(all: readonly Op[], file: string): JsonObject {
+function patch(all: readonly Op[], file: JsonFile): JsonObject {
   const op = all.find(
     (candidate) => candidate.kind === "json" && candidate.path === file
   );
@@ -194,18 +187,17 @@ function patch(all: readonly Op[], file: string): JsonObject {
 
 function upstreamBase(
   stack: StackId,
-  extra: JsonObject = {},
+  extra: Readonly<Partial<Record<JsonFile, JsonObject>>> = {},
   dir = tempDir()
 ): string {
   const files = fixture(stack);
-  writeFileSync(
-    path.join(dir, "package.json"),
-    JSON.stringify(merge(files["package.json"], extra))
-  );
-  writeFileSync(
-    path.join(dir, "tsconfig.json"),
-    JSON.stringify(files["tsconfig.json"])
-  );
+  for (const file of JSON_FILES) {
+    mkdirSync(path.dirname(path.join(dir, file)), { recursive: true });
+    writeFileSync(
+      path.join(dir, file),
+      JSON.stringify(merge(files[file], extra[file] ?? {}))
+    );
+  }
   return dir;
 }
 
@@ -233,13 +225,14 @@ function gitInit(dir: string): void {
   git(dir, ["init", "--quiet"]);
 }
 
-function recordState(dir: string, stack: string): void {
+function recordState(dir: string, stack: string, schema = 2): void {
   mkdirSync(path.join(dir, ".creact"));
   writeFileSync(
     path.join(dir, STATE_FILE),
     JSON.stringify({
-      schema: 1,
+      schema,
       creact: "0.0.0",
+      name: "app",
       stack,
       styling: "tailwind",
       monorepo: "pnpm",
@@ -651,13 +644,18 @@ describe("a directory inside another git work tree", () => {
 });
 
 describe("plan", () => {
-  it("fills every {{name}} in layer paths and contents from the stack row", async (t: TestContext) => {
+  it("fills every {{name}} in layer paths, contents and prune entries", async (t: TestContext) => {
     for (const { stack, styling } of CELLS) {
-      for (const op of fileOps(await ops(stack, styling))) {
+      const all = await ops(stack, styling);
+      for (const op of fileOps(all)) {
         t.assert.doesNotMatch(op.path, /\{\{/);
         t.assert.doesNotMatch(op.content, /\{\{/, op.path);
       }
+      t.assert.doesNotMatch(JSON.stringify(pruneOp(all)), /\{\{/);
     }
+    const stylex = JSON.stringify(pruneOp(await ops("next", "stylex")));
+    t.assert.match(stylex, /"@app\/ui":null/);
+    t.assert.match(stylex, /"@app\/ui\/\*":null/);
   });
 
   it("plans exactly the files each stack and styling needs", async (t: TestContext) => {
@@ -672,13 +670,26 @@ describe("plan", () => {
     }
   });
 
+  it("never prunes a path the layer writes", async (t: TestContext) => {
+    for (const { stack, styling } of CELLS) {
+      const all = await ops(stack, styling);
+      const pruned = pruneOp(all)?.paths ?? [];
+      const clashes = fileOps(all).filter((op) =>
+        pruned.some(
+          (entry) => op.path === entry || op.path.startsWith(`${entry}/`)
+        )
+      );
+      t.assert.deepStrictEqual(clashes, [], `${stack} + ${styling}`);
+    }
+  });
+
   it("plans no Tailwind for a StyleX project", async (t: TestContext) => {
     for (const stack of STACK_IDS) {
       const all = await ops(stack, "stylex");
       for (const op of fileOps(all)) {
         t.assert.doesNotMatch(
           op.content,
-          /@import "tailwindcss"|@tailwindcss\/|className=/,
+          /@import "tailwindcss"|@tailwindcss\/|\/ui\/globals\.css|className=/,
           `${stack} ${op.path}`
         );
       }
@@ -686,46 +697,80 @@ describe("plan", () => {
         packagesToAdd(all).filter((name) => name.includes("tailwind")),
         []
       );
-    }
-  });
 
-  it("points Tailwind lint at the stack's own global stylesheet", async (t: TestContext) => {
-    for (const stack of STACK_IDS) {
-      const styling = (await ops(stack)).find(
-        (op) => op.kind === "file" && op.path === "oxlint.styling.ts"
-      );
-      t.assert.ok(
-        styling?.kind === "file" &&
-          styling.content.includes(`entryPoint: "${STACKS[stack].globalCss}"`),
+      const dir = upstreamBase(stack);
+      await apply(dir, all, UPSTREAM_ONLY);
+      const app = readJsonFile(dir, "apps/web/package.json");
+      t.assert.deepStrictEqual(
+        packageNames(app).filter(
+          (name) => name.includes("tailwind") || name === "@app/ui"
+        ),
+        [],
         stack
       );
+      const { paths } = readJsonFile(dir, "apps/web/tsconfig.json")
+        .compilerOptions as { paths: JsonObject };
+      t.assert.deepStrictEqual(paths, { "@/*": ["./src/*"] }, stack);
     }
   });
 
-  it("declares every package a planned file uses, and StyleX as a runtime dependency", async (t: TestContext) => {
+  it("points Tailwind lint at the app's own stylesheet", async (t: TestContext) => {
+    for (const stack of STACK_IDS) {
+      const all = await ops(stack);
+      const styling = fileOps(all).find(
+        (op) => op.path === "oxlint.styling.ts"
+      );
+      t.assert.match(
+        styling?.content ?? "",
+        /"better-tailwindcss": \{\s*cwd: "apps\/web",\s*entryPoint: "src\/index\.css",?\s*\}/
+      );
+      const css = fileOps(all).find(
+        (op) => op.path === "apps/web/src/index.css"
+      );
+      t.assert.match(
+        css?.content ?? "",
+        /^@import "@app\/ui\/globals\.css";\n/
+      );
+    }
+  });
+
+  it("declares every package a planned file uses where that file resolves it", async (t: TestContext) => {
     for (const { stack, styling } of CELLS) {
+      const dir = upstreamBase(stack);
       const all = await ops(stack, styling);
-      const pruned = new Set(
-        all.flatMap((op) => (op.kind === "prune" ? op.dependencies : []))
-      );
-      const declared = new Set([
-        ...packagesToAdd(all),
-        ...packageNames(fixture(stack)["package.json"]).filter(
-          (name) => !pruned.has(name)
-        ),
-      ]);
+      const report = await apply(dir, all, UPSTREAM_ONLY);
+      const declared = (manifest: Manifest) =>
+        new Set([
+          ...packageNames(readJsonFile(dir, manifest)),
+          ...report.missing.flatMap((addition) =>
+            addition.manifest === manifest
+              ? [...addition.dependencies, ...addition.devDependencies]
+              : []
+          ),
+        ]);
+      const root = declared("package.json");
+      const app = declared("apps/web/package.json");
       const used = fileOps(all).flatMap((op) =>
-        packagesUsed(op.path, op.content)
+        packagesUsed(op.path, op.content).map((name) => ({
+          name,
+          inApp: op.path.startsWith("apps/web/"),
+        }))
       );
-      t.assert.ok(used.length > 10, used.join(", "));
+      t.assert.ok(used.length > 10, `${stack} + ${styling}`);
       t.assert.deepStrictEqual(
-        [...new Set(used)].filter((name) => !declared.has(name)),
+        [
+          ...new Set(
+            used
+              .filter(
+                ({ name, inApp }) =>
+                  !root.has(name) && !(inApp && app.has(name))
+              )
+              .map(({ name }) => name)
+          ),
+        ],
         [],
         `${stack} + ${styling}`
       );
-      if (styling === "stylex") {
-        t.assert.ok(packagesToAdd(all, true).includes("@stylexjs/stylex"));
-      }
     }
   });
 
@@ -754,19 +799,39 @@ describe("plan", () => {
 });
 
 describe("merge", () => {
-  it("keeps upstream's stack options while adding creact's strictness", async (t: TestContext) => {
-    const next = merge(
-      fixture("next")["tsconfig.json"],
-      patch(await ops("next"), "tsconfig.json")
-    );
-    const options = next.compilerOptions as JsonObject;
-    t.assert.deepStrictEqual(options.plugins, [{ name: "next" }]);
-    t.assert.deepStrictEqual(options.paths, { "@/*": ["./src/*"] });
-    t.assert.strictEqual(options.noUncheckedIndexedAccess, true);
+  it("keeps Better-T-Stack's compiler options while adding creact's strictness", async (t: TestContext) => {
+    for (const stack of STACK_IDS) {
+      const all = await ops(stack);
+      for (const file of [
+        "apps/web/tsconfig.json",
+        "packages/config/tsconfig.base.json",
+      ] as const) {
+        const options = merge(fixture(stack)[file], patch(all, file))
+          .compilerOptions as JsonObject;
+        t.assert.strictEqual(options.noUncheckedIndexedAccess, true);
+        t.assert.strictEqual(options.erasableSyntaxOnly, true);
+        t.assert.strictEqual(options.allowImportingTsExtensions, undefined);
+      }
+      const app = merge(
+        fixture(stack)["apps/web/tsconfig.json"],
+        patch(all, "apps/web/tsconfig.json")
+      ).compilerOptions as JsonObject;
+      t.assert.deepStrictEqual(app.paths, {
+        "@/*": ["./src/*"],
+        "@app/ui/*": ["../../packages/ui/src/*"],
+      });
+    }
 
+    const next = merge(
+      fixture("next")["apps/web/tsconfig.json"],
+      patch(await ops("next"), "apps/web/tsconfig.json")
+    );
+    t.assert.deepStrictEqual((next.compilerOptions as JsonObject).plugins, [
+      { name: "next" },
+    ]);
     const rr = merge(
-      fixture("react-router")["tsconfig.json"],
-      patch(await ops("react-router"), "tsconfig.json")
+      fixture("react-router")["apps/web/tsconfig.json"],
+      patch(await ops("react-router"), "apps/web/tsconfig.json")
     );
     t.assert.deepStrictEqual((rr.compilerOptions as JsonObject).rootDirs, [
       ".",
@@ -774,29 +839,59 @@ describe("merge", () => {
     ]);
   });
 
-  it("resets creact's scripts and leaves upstream's other keys alone", async (t: TestContext) => {
+  it("points the root tsconfig at creact's own config files", async (t: TestContext) => {
+    const root = merge(
+      fixture("next")["tsconfig.json"],
+      patch(await ops("next"), "tsconfig.json")
+    );
+    t.assert.deepStrictEqual(root, {
+      extends: "@app/config/tsconfig.base.json",
+      include: ["*.ts"],
+      compilerOptions: { noEmit: true, allowImportingTsExtensions: true },
+    });
+  });
+
+  it("resets creact's scripts and leaves Better-T-Stack's other keys alone", async (t: TestContext) => {
+    const all = await ops("react-router");
     const upstream = merge(fixture("react-router")["package.json"], {
       scripts: { lint: "eslint ." },
     });
-    const merged = merge(
-      upstream,
-      patch(await ops("react-router"), "package.json")
-    );
+    const merged = merge(upstream, patch(all, "package.json"));
     const scripts = merged.scripts as JsonObject;
     t.assert.strictEqual(
       scripts.lint,
-      "pnpm run typegen && oxlint --max-warnings 0"
+      "pnpm -r --if-present typegen && oxlint --max-warnings 0"
     );
-    t.assert.strictEqual(scripts.typegen, "react-router typegen");
-    t.assert.strictEqual(scripts.dev, "react-router dev");
-    t.assert.deepStrictEqual(merged.dependencies, upstream.dependencies);
+    t.assert.strictEqual(
+      scripts.typecheck,
+      "pnpm -r --if-present check-types && tsc"
+    );
+    t.assert.strictEqual(scripts.dev, "pnpm -r dev");
+    t.assert.strictEqual(scripts["check-types"], "pnpm -r check-types");
+    t.assert.strictEqual(
+      scripts.postinstall,
+      "varlock codegen --path ./apps/web/"
+    );
     t.assert.deepStrictEqual(merged.devDependencies, upstream.devDependencies);
+
+    const app = merge(
+      fixture("react-router")["apps/web/package.json"],
+      patch(all, "apps/web/package.json")
+    );
+    t.assert.deepStrictEqual(
+      [app.type, (app.scripts as JsonObject).typegen],
+      ["module", "react-router typegen"]
+    );
+    t.assert.strictEqual(
+      (app.scripts as JsonObject).build,
+      "react-router build"
+    );
   });
 
   it("returns the same document when applied twice", async (t: TestContext) => {
     for (const stack of STACK_IDS) {
       const all = await ops(stack);
-      for (const file of ["package.json", "tsconfig.json"] as const) {
+      for (const file of JSON_FILES) {
         const once = merge(fixture(stack)[file], patch(all, file));
         t.assert.deepStrictEqual(
           merge(once, patch(all, file)),
@@ -809,19 +904,28 @@ describe("merge", () => {
 });
 
 describe("apply", () => {
-  it("adds only dev dependencies missing from both dependency maps", async (t: TestContext) => {
-    const dir = upstreamBase("react-router", {
-      dependencies: { husky: "^1.0.0" },
-      devDependencies: { vitest: "^99.0.0" },
+  it("adds only packages missing from both dependency maps of their own manifest", async (t: TestContext) => {
+    const dir = upstreamBase("next", {
+      "package.json": {
+        dependencies: { husky: "^1.0.0" },
+        devDependencies: { vitest: "^99.0.0" },
+      },
+      "apps/web/package.json": { devDependencies: { postcss: "^8.0.0" } },
     });
-    const report = await apply(dir, await ops("react-router"), UPSTREAM_ONLY);
-    const missing = report.missing.devDependencies;
-    t.assert.strictEqual(missing.includes("husky"), false);
-    t.assert.strictEqual(missing.includes("vitest"), false);
-    t.assert.strictEqual(missing.includes("oxlint"), true);
-    const pkg = JSON.parse(
-      readFileSync(path.join(dir, "package.json"), "utf8")
-    ) as JsonObject;
+    const report = await apply(dir, await ops("next", "stylex"), UPSTREAM_ONLY);
+    const [root, app] = report.missing;
+    t.assert.strictEqual(root?.manifest, "package.json");
+    t.assert.strictEqual(root.devDependencies.includes("husky"), false);
+    t.assert.strictEqual(root.devDependencies.includes("vitest"), false);
+    t.assert.ok(root.devDependencies.includes("oxlint"));
+    t.assert.ok(root.devDependencies.includes("@stylexjs/eslint-plugin"));
+    t.assert.deepStrictEqual(app, {
+      manifest: "apps/web/package.json",
+      dependencies: ["@stylexjs/stylex"],
+      devDependencies: ["@stylexjs/babel-plugin", "@stylexjs/postcss-plugin"],
+    });
+    t.assert.strictEqual(report.missing.length, 2);
+    const pkg = readJsonFile(dir, "package.json");
     t.assert.strictEqual((pkg.devDependencies as JsonObject).vitest, "^99.0.0");
   });
 
@@ -878,7 +982,13 @@ describe("apply", () => {
   });
 });
 
-const LOGOS = ["app/welcome/logo-dark.svg", "app/welcome/logo-light.svg"];
+const UPSTREAM_UI = [
+  "bunfig.toml",
+  "apps/web/bunfig.toml",
+  "packages/ui/src/components/button.tsx",
+  "apps/web/components.json",
+  "apps/web/src/components/header.tsx",
+];
 
 function plant(dir: string, files: readonly string[]): void {
   for (const file of files) {
@@ -887,62 +997,110 @@ function plant(dir: string, files: readonly string[]): void {
   }
 }
 
-describe("the stylex plan on upstream's base", () => {
-  it("removes React Router's Tailwind and logos from a fresh base and reports them", async (t: TestContext) => {
-    const dir = upstreamBase("react-router");
-    plant(dir, LOGOS);
-    const all = await ops("react-router", "stylex");
-    const report = await apply(dir, all, UPSTREAM_ONLY);
-    t.assert.deepStrictEqual(report.pruned, [
+describe("the prune on Better-T-Stack's base", () => {
+  it("removes the shadcn package, its components and Tailwind from a fresh StyleX base and reports them", async (t: TestContext) => {
+    const dir = upstreamBase("next");
+    plant(dir, [...UPSTREAM_UI, "apps/web/postcss.config.mjs"]);
+    const report = await apply(dir, await ops("next", "stylex"), UPSTREAM_ONLY);
+    t.assert.deepStrictEqual(report.pruned.toSorted(), [
+      "@app/ui",
+      "@app/ui/*",
+      "@tailwindcss/postcss",
+      "apps/web/bunfig.toml",
+      "apps/web/components.json",
+      "apps/web/postcss.config.mjs",
+      "apps/web/src/components",
+      "bunfig.toml",
+      "lucide-react",
+      "next-themes",
+      "packages/ui",
+      "sonner",
       "tailwindcss",
-      "@tailwindcss/vite",
-      ...LOGOS,
     ]);
     t.assert.deepStrictEqual(
-      LOGOS.filter((logo) => existsSync(path.join(dir, logo))),
+      [...UPSTREAM_UI, "packages/ui", "apps/web/postcss.config.mjs"].filter(
+        (file) => existsSync(path.join(dir, file))
+      ),
       []
     );
-    const names = packageNames(readPackage(dir));
-    t.assert.deepStrictEqual(
-      names.filter((name) => name.includes("tailwind")),
-      []
+    t.assert.ok(
+      packageNames(readJsonFile(dir, "apps/web/package.json")).includes("next")
     );
-    t.assert.ok(names.includes("react-router"));
   });
 
-  it("keeps the Tailwind the owner put back on a rerun", async (t: TestContext) => {
+  it("keeps the Tailwind and shadcn package the owner put back on a rerun", async (t: TestContext) => {
     const dir = upstreamBase("react-router");
     const all = await ops("react-router", "stylex");
     const first = await apply(dir, all, UPSTREAM_ONLY);
+    const manifest = path.join(dir, "apps/web/package.json");
     writeFileSync(
-      path.join(dir, "package.json"),
+      manifest,
       JSON.stringify(
-        merge(readPackage(dir), { devDependencies: { tailwindcss: "^4" } })
+        merge(readJsonFile(dir, "apps/web/package.json"), {
+          devDependencies: { tailwindcss: "^4" },
+        })
       )
     );
-    plant(dir, LOGOS);
+    plant(dir, UPSTREAM_UI);
     const second = await apply(dir, all, recorded(first.hashes));
     t.assert.deepStrictEqual(second.pruned, []);
-    t.assert.ok(packageNames(readPackage(dir)).includes("tailwindcss"));
-    t.assert.ok(LOGOS.every((logo) => existsSync(path.join(dir, logo))));
+    t.assert.ok(
+      packageNames(readJsonFile(dir, "apps/web/package.json")).includes(
+        "tailwindcss"
+      )
+    );
+    t.assert.ok(UPSTREAM_UI.every((file) => existsSync(path.join(dir, file))));
   });
 
-  it("removes Next's page.module.css from a fresh base only", async (t: TestContext) => {
-    const all = await ops("next", "stylex");
-    const fresh = upstreamBase("next");
-    plant(fresh, ["src/app/page.module.css"]);
-    const created = await apply(fresh, all, UPSTREAM_ONLY);
-    t.assert.deepStrictEqual(created.pruned, ["src/app/page.module.css"]);
-    t.assert.strictEqual(
-      existsSync(path.join(fresh, "src/app/page.module.css")),
-      false
+  it("removes only the Bun settings from a fresh Tailwind base", async (t: TestContext) => {
+    const dir = upstreamBase("react-router");
+    plant(dir, UPSTREAM_UI);
+    const report = await apply(dir, await ops("react-router"), UPSTREAM_ONLY);
+    t.assert.deepStrictEqual(report.pruned, [
+      "bunfig.toml",
+      "apps/web/bunfig.toml",
+    ]);
+    t.assert.ok(
+      existsSync(path.join(dir, "packages/ui/src/components/button.tsx"))
     );
+    t.assert.ok(
+      packageNames(readJsonFile(dir, "apps/web/package.json")).includes(
+        "@app/ui"
+      )
+    );
+  });
+});
 
-    const rerun = upstreamBase("next");
-    plant(rerun, ["src/app/page.module.css"]);
-    const converged = await apply(rerun, all, recorded({}));
-    t.assert.deepStrictEqual(converged.pruned, []);
-    t.assert.ok(existsSync(path.join(rerun, "src/app/page.module.css")));
+describe("a Turborepo base", () => {
+  it("keeps Better-T-Stack's turbo scripts and runs creact's own tasks without turbo", async (t: TestContext) => {
+    const dir = upstreamBase("react-router", {
+      "package.json": {
+        scripts: {
+          dev: "turbo run dev",
+          build: "turbo run build",
+          "check-types": "turbo run check-types",
+          "dev:web": "turbo run dev -F web --",
+        },
+      },
+    });
+    await apply(dir, await ops("react-router"), UPSTREAM_ONLY);
+    const scripts = readJsonFile(dir, "package.json").scripts as JsonObject;
+    t.assert.strictEqual(scripts["check-types"], "turbo run check-types");
+    t.assert.strictEqual(scripts.build, "turbo run build");
+    for (const task of [
+      "lint",
+      "format",
+      "format:check",
+      "typecheck",
+      "test",
+      "prepare",
+    ]) {
+      const script = scripts[task];
+      t.assert.ok(
+        typeof script === "string" && !/\b(turbo|nx)\b/.test(script),
+        task
+      );
+    }
   });
 });
 
@@ -951,5 +1109,21 @@ describe("readState", () => {
     const dir = tempDir();
     recordState(dir, "vue");
     await t.assert.rejects(readState(dir), UsageError);
+  });
+
+  it("refuses a state file from the single-package spike and says why", async (t: TestContext) => {
+    const dir = tempDir();
+    recordState(dir, "next", 1);
+    await t.assert.rejects(readState(dir), {
+      name: "UsageError",
+      message: /made single-package projects/,
+    });
+  });
+
+  it("reads the project name and monorepo tool back", async (t: TestContext) => {
+    const dir = tempDir();
+    recordState(dir, "next");
+    const state = await readState(dir);
+    t.assert.deepStrictEqual([state?.name, state?.monorepo], ["app", "pnpm"]);
   });
 });

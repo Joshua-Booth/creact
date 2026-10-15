@@ -4,22 +4,16 @@ export const BTS = "create-better-t-stack@3.46.1";
 
 export interface Stack {
   readonly signature: string;
-  readonly srcRoot: string;
-  readonly globalCss: string;
   readonly typegen: string;
 }
 
 export const STACKS = {
   "react-router": {
     signature: "apps/web/react-router.config.ts",
-    srcRoot: "app",
-    globalCss: "app/app.css",
     typegen: "react-router typegen",
   },
   next: {
     signature: "apps/web/next.config.ts",
-    srcRoot: "src",
-    globalCss: "src/app/globals.css",
     typegen: "next typegen",
   },
 } as const satisfies Record<string, Stack>;

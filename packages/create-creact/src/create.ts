@@ -5,12 +5,12 @@ import path from "node:path";
 
 import pkg from "../package.json" with { type: "json" };
 import {
+  type Addition,
   apply,
   type ApplyReport,
   loadLayer,
   type Op,
   type OverlayId,
-  type Packages,
   plan,
   type Prior,
   readState,
@@ -47,29 +47,33 @@ export async function create(
   layerDir: string
 ): Promise<Report> {
   const target = await inspect(request.dir);
-  const prior = target.kind === "project" ? target.state : undefined;
-  const choices = resolveChoices(request, prior);
+  const recorded = target.kind === "project" ? target.state : undefined;
+  const choices = resolveChoices(request, recorded);
+  const name = recorded?.name ?? projectName(request.dir);
   const ids: readonly OverlayId[] = [
     "base",
     choices.styling,
     ...choices.extras,
   ];
-  const ops = plan(
-    await loadLayer(layerDir, ids, choices.stack),
-    ids,
-    choices.stack
-  );
+  const ops = plan(await loadLayer(layerDir, ids, choices.stack), ids, {
+    stack: choices.stack,
+    name,
+  });
 
   let layer: ApplyReport;
   if (target.kind === "fresh") {
-    const name = projectName(request.dir);
     const staging = path.join(
       path.dirname(request.dir),
       `.${name}.creact-staging`
     );
     await rm(staging, { recursive: true, force: true });
     const base = await obtainBase(staging, choices, name);
-    layer = await applyLayer(base, ops, { kind: "upstream-only" }, choices);
+    layer = await applyLayer(
+      base,
+      ops,
+      { kind: "upstream-only" },
+      { name, choices }
+    );
     await place(base, request.dir, target.exists);
     await rm(staging, { recursive: true, force: true });
   } else {
@@ -77,7 +81,7 @@ export async function create(
       request.dir,
       ops,
       { kind: "recorded", hashes: target.state.hashes },
-      choices
+      { name, choices }
     );
   }
 
@@ -124,7 +128,7 @@ async function outerRepo(dir: string): Promise<string | undefined> {
 // Better-T-Stack keeps a history of every project it makes in its data
 // directory under HOME (XDG_DATA_HOME on Linux), so it gets an empty one.
 // pnpm keeps the real HOME and its store.
-async function obtainBase(
+export async function obtainBase(
   staging: string,
   choices: Choices,
   name: ProjectName
@@ -158,13 +162,14 @@ async function applyLayer(
   dir: string,
   ops: readonly Op[],
   prior: Prior,
-  choices: Choices
+  project: { readonly name: ProjectName; readonly choices: Choices }
 ): Promise<ApplyReport> {
   const layer = await apply(dir, ops, prior);
   await writeState(dir, {
-    schema: 1,
+    schema: 2,
     creact: pkg.version,
-    ...choices,
+    name: project.name,
+    ...project.choices,
     hashes: layer.hashes,
   });
   return layer;
@@ -201,17 +206,25 @@ async function initGit(dir: string): Promise<Report["git"]> {
 
 // pnpm add skips the project's own prepare script, which installs the git
 // hooks.
-async function install(dir: string, missing: Packages): Promise<void> {
-  const { dependencies, devDependencies } = missing;
-  if (dependencies.length > 0) {
-    await run("pnpm", ["add", ...dependencies], dir);
+async function install(
+  dir: string,
+  missing: readonly Addition[]
+): Promise<void> {
+  for (const { manifest, dependencies, devDependencies } of missing) {
+    const cwd = path.join(dir, path.dirname(manifest));
+    const root = manifest === "package.json" ? ["--workspace-root"] : [];
+    if (dependencies.length > 0) {
+      await run("pnpm", ["add", ...root, ...dependencies], cwd);
+    }
+    if (devDependencies.length > 0) {
+      await run(
+        "pnpm",
+        ["add", ...root, "--save-dev", ...devDependencies],
+        cwd
+      );
+    }
   }
-  if (devDependencies.length > 0) {
-    await run("pnpm", ["add", "--save-dev", ...devDependencies], dir);
-  }
-  if (dependencies.length + devDependencies.length === 0) {
-    await run("pnpm", ["install"], dir);
-  }
+  if (missing.length === 0) await run("pnpm", ["install"], dir);
   await run("pnpm", ["run", "prepare"], dir);
 }
 

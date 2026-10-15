@@ -2,20 +2,21 @@ import path from "node:path";
 
 import { reactRouter } from "@react-router/dev/vite";
 import stylex from "@stylexjs/unplugin";
+import { varlockVitePlugin } from "@varlock/vite-integration";
 import { defineConfig } from "vite";
 
 const rootDir = import.meta.dirname;
 
 export default defineConfig({
+  resolve: { tsconfigPaths: true },
+  optimizeDeps: { entries: ["src/**/*.{ts,tsx}"] },
   plugins: [
+    varlockVitePlugin({ ssrInjectMode: "auto-load" }),
     stylex.vite({
       useCSSLayers: { before: ["reset"] },
-      aliases: { "~/*": [path.join(rootDir, "app", "*")] },
+      aliases: { "@/*": [path.join(rootDir, "src", "*")] },
       unstable_moduleResolution: { type: "commonJS", rootDir },
     }),
     reactRouter(),
   ],
-  resolve: {
-    tsconfigPaths: true,
-  },
 });
