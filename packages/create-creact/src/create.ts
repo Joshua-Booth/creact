@@ -228,7 +228,11 @@ async function install(
   await run("pnpm", ["run", "prepare"], dir);
 }
 
+// oxlint applies one fix per overlapping range in a pass, so the shadcn code
+// Better-T-Stack writes needs a second pass before lint passes.
 async function fixThenFormat(dir: string): Promise<void> {
-  await run("pnpm", ["run", "lint", "--fix"], dir);
+  if (!(await succeeds("pnpm", ["run", "lint", "--fix"], dir))) {
+    await run("pnpm", ["run", "lint", "--fix"], dir);
+  }
   await run("pnpm", ["run", "format"], dir);
 }

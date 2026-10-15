@@ -7,9 +7,6 @@ import { defineConfig } from "oxlint";
 import { styling } from "./oxlint.styling.ts";
 
 type Rules = NonNullable<Parameters<typeof defineConfig>[0]["rules"]>;
-type Override = NonNullable<
-  Parameters<typeof defineConfig>[0]["overrides"]
->[number];
 
 const errors = (names: string[]): Rules =>
   Object.fromEntries(names.map((name) => [name, "error"]));
