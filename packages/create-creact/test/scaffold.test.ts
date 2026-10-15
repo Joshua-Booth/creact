@@ -15,6 +15,7 @@ import { tmpdir } from "node:os";
 import path from "node:path";
 import { after, before, describe, it, type TestContext } from "node:test";
 
+import type { StylingId } from "../src/options.ts";
 import { create } from "../src/create.ts";
 import { type StackId, STACKS } from "../src/stacks.ts";
 
@@ -47,6 +48,29 @@ function sh(
 function porcelain(dir: string): string {
   return sh(dir, "git", ["status", "--porcelain"]).stdout;
 }
+
+const CSS_OUTPUT: Readonly<Record<StackId, string>> = {
+  "react-router": "build/client/assets",
+  next: ".next/static",
+};
+
+function builtCss(dir: string): string {
+  return readdirSync(dir, { recursive: true, encoding: "utf8" })
+    .filter((file) => file.endsWith(".css"))
+    .map((file) => readFileSync(path.join(dir, file), "utf8"))
+    .join("\n");
+}
+
+// What the built CSS must and must not hold, beyond the tokens.css values.
+const PROOF = {
+  tailwind: {
+    present: [],
+    absent: [/--color-page:\s*var\(--color-page\)/],
+  },
+} satisfies Record<
+  StylingId,
+  { readonly present: readonly RegExp[]; readonly absent: readonly RegExp[] }
+>;
 
 const SAVED_NEXT_PREFERENCES = {
   macos: "Library/Preferences/create-next-app-nodejs",
@@ -164,6 +188,23 @@ for (const id of Object.keys(STACKS) as StackId[]) {
         }
       });
 
+      it("builds CSS that carries the values from the project's tokens.css", (t: TestContext) => {
+        const tokens = readFileSync(
+          path.join(dir, stack.srcRoot, "styles", "tokens.css"),
+          "utf8"
+        );
+        const accent = tokens
+          .split("--color-accent:")[1]
+          ?.split(";")[0]
+          ?.trim();
+        const css = builtCss(path.join(dir, CSS_OUTPUT[id]));
+        t.assert.ok(accent !== undefined && css.includes(accent), accent);
+        for (const mark of PROOF.tailwind.present) t.assert.match(css, mark);
+        for (const mark of PROOF.tailwind.absent) {
+          t.assert.doesNotMatch(css, mark);
+        }
+      });
+
       it("leaves no tracked file changed and no new file after its own tools ran", (t: TestContext) => {
         t.assert.strictEqual(porcelain(dir), "");
       });
@@ -221,7 +262,7 @@ for (const id of Object.keys(STACKS) as StackId[]) {
 
         const result = sh(dir, "pnpm", ["run", "test"]);
         t.assert.strictEqual(result.status, 0, result.stdout + result.stderr);
-        t.assert.match(result.stdout, /1 passed/);
+        t.assert.match(result.stdout, /2 passed/);
       });
 
       it("updates an unedited layer file and keeps an edited one", async (t: TestContext) => {

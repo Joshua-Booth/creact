@@ -355,7 +355,9 @@ describe("plan", () => {
     );
     const files = await loadLayer(LAYER, IDS, "next");
     const specifiers = [...files.values()].flatMap((content) => [
-      ...[...content.matchAll(/from "([^".][^"]*)"/g)].map((match) => match[1]),
+      ...[...content.matchAll(/from "(?![.~]|@\/|node:)([^"]+)"/g)].map(
+        (match) => match[1]
+      ),
       ...[...content.matchAll(/jsPlugins: \[([^\]]*)\]/g)].flatMap((block) =>
         [...(block[1] ?? "").matchAll(/(?<!name: )"([\w@/.-]+)"/g)].map(
           (match) => match[1]

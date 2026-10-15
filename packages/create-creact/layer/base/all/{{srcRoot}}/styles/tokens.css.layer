@@ -1,0 +1,15 @@
+:root {
+  --color-page: #ffffff;
+  --color-ink: #171717;
+  --color-accent: #2563eb;
+  --spacing-gutter: 1.5rem;
+  --radius-card: 0.75rem;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --color-page: #0a0a0a;
+    --color-ink: #ededed;
+    --color-accent: #60a5fa;
+  }
+}
