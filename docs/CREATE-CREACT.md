@@ -20,7 +20,7 @@ Every prompt has a flag, so an agent never waits on a question.
 | `<dir>` | a path outside any git repository that is missing, empty, or a project this command made | required |
 | `--stack` | `react-router`, `next` | required, or `react-router` with `--yes` |
 | `--styling` | `tailwind`, `stylex` | `tailwind` |
-| `--storybook`, `--msw`, `--playwright`, `--i18n`, `--posthog`, `--sentry` | extras, not built yet | off |
+| `--shadcn`, `--storybook`, `--msw`, `--playwright`, `--i18n`, `--posthog`, `--sentry` | extras, not built yet | off |
 | `--no-install` | skip `pnpm install` and the lint and format pass | installs |
 | `--no-git` | skip `git init` | inits |
 | `--yes`, `-y` | take the default for every choice not given | |
@@ -63,7 +63,7 @@ StyleX on each stack:
 
 What works on one path only:
 
-- The shadcn registry from JB-90 is Tailwind only, as its components are Tailwind classes.
+- The shadcn registry from JB-90 is Tailwind only, as its components are Tailwind classes. `--help` marks the planned `--shadcn` extra as Tailwind only, and the command refuses an extra like it on a StyleX project, new or recorded.
 - `sortTailwindcss` in `.oxfmtrc.json` stays on both paths. It only sorts class strings, and a StyleX project has none.
 
 Note: Vitest doesn't run the StyleX compiler, so a test that renders a StyleX component throws `Unexpected 'stylex.defineConsts' call at runtime`. `tokens.test.ts` reads the files as text for that reason.

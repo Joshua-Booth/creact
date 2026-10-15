@@ -3,10 +3,11 @@ import { parseArgs } from "node:util";
 
 import { type StackId, STACKS } from "./stacks.ts";
 
-interface Feature {
+export interface Feature {
   readonly status: "built" | "planned";
   readonly summary: string;
   readonly note?: string;
+  readonly onlyWith?: readonly (keyof typeof STYLINGS)[];
 }
 
 type Built<R> = {
@@ -20,6 +21,11 @@ export const STYLINGS = {
 } as const satisfies Record<string, Feature>;
 
 export const EXTRAS = {
+  shadcn: {
+    status: "planned",
+    summary: "shadcn/ui components from creact's registry",
+    onlyWith: ["tailwind"],
+  },
   storybook: {
     status: "planned",
     summary: "Storybook, with stories run as tests",
@@ -188,8 +194,23 @@ export function parseRequest(argv: readonly string[], cwd: string): Parsed {
 
 export function resolveChoices(
   request: Request,
-  recorded: Choices | undefined
+  recorded: Choices | undefined,
+  registry: Readonly<Record<string, Feature>> = EXTRAS
 ): Choices {
+  const choices = choose(request, recorded);
+  const extras: readonly string[] = choices.extras;
+  for (const extra of extras) {
+    const onlyWith = registry[extra]?.onlyWith;
+    if (onlyWith !== undefined && !onlyWith.includes(choices.styling)) {
+      throw new UsageError(
+        `--${extra} works with --styling ${onlyWith.join("|")}, and ${request.dir} is ${choices.styling}`
+      );
+    }
+  }
+  return choices;
+}
+
+function choose(request: Request, recorded: Choices | undefined): Choices {
   if (recorded !== undefined) {
     for (const key of ["stack", "styling"] as const) {
       const asked = request[key];
@@ -234,10 +255,14 @@ function choicesLine(registry: Readonly<Record<string, Feature>>): string {
 
 function helpText(): string {
   const registry: Readonly<Record<string, Feature>> = EXTRAS;
-  const extras = Object.entries(registry).map(
-    ([id, extra]) =>
-      `  --${id.padEnd(16)}${extra.status === "planned" ? "planned: " : ""}${extra.summary}`
-  );
+  const extras = Object.entries(registry).map(([id, extra]) => {
+    const planned = extra.status === "planned" ? "planned: " : "";
+    const only =
+      extra.onlyWith === undefined
+        ? ""
+        : ` (${extra.onlyWith.join(", ")} only)`;
+    return `  --${id.padEnd(16)}${planned}${extra.summary}${only}`;
+  });
   return [
     "Usage: create-creact <dir> [flags]",
     "",

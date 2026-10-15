@@ -31,6 +31,7 @@ import {
 } from "../src/layer.ts";
 import {
   DEFAULTS,
+  type Feature,
   isBuilt,
   type Parsed,
   parseRequest,
@@ -312,6 +313,13 @@ describe("parseRequest", () => {
       t.assert.ok(text.includes(word), word);
     }
   });
+
+  it("marks an extra that needs one styling in the help text", (t: TestContext) => {
+    const parsed = parse(["--help"]);
+    const text = parsed.kind === "help" ? parsed.text : "";
+    t.assert.match(text, /--shadcn {10}.*\(tailwind only\)\n/);
+    t.assert.doesNotMatch(text, /--storybook .*only\)/);
+  });
 });
 
 describe("resolveChoices", () => {
@@ -356,6 +364,46 @@ describe("resolveChoices", () => {
       () =>
         resolveChoices(request(["app", "--stack", "react-router"]), recorded),
       UsageError
+    );
+  });
+});
+
+const TAILWIND_ONLY: Readonly<Record<string, Feature>> = {
+  registry: { status: "built", summary: "a registry", onlyWith: ["tailwind"] },
+};
+
+function asking(argv: readonly string[]): Request {
+  return { ...request(argv), extras: ["registry"] } as unknown as Request;
+}
+
+describe("an extra that needs one styling", () => {
+  it("is refused on a new StyleX project", (t: TestContext) => {
+    t.assert.throws(
+      () =>
+        resolveChoices(
+          asking(["app", "--yes", "--styling", "stylex"]),
+          undefined,
+          TAILWIND_ONLY
+        ),
+      {
+        name: "UsageError",
+        message: `--registry works with --styling tailwind, and ${path.resolve(CWD, "app")} is stylex`,
+      }
+    );
+  });
+
+  it("is refused on a project recorded as StyleX", (t: TestContext) => {
+    const recorded = { stack: "next", styling: "stylex", extras: [] } as const;
+    t.assert.throws(
+      () => resolveChoices(asking(["app"]), recorded, TAILWIND_ONLY),
+      UsageError
+    );
+  });
+
+  it("is taken on its own styling", (t: TestContext) => {
+    t.assert.deepStrictEqual(
+      resolveChoices(asking(["app", "--yes"]), undefined, TAILWIND_ONLY).extras,
+      ["registry"]
     );
   });
 });
