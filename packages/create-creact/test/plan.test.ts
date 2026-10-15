@@ -1,7 +1,11 @@
-/* oxlint-disable typescript/no-floating-promises, sonarjs/assertions-in-tests --
- * node:test's describe and it return promises the runner awaits, and sonarjs
- * misses node:assert calls whenever oxlint lints more than this one file. */
+/* oxlint-disable typescript/no-floating-promises, sonarjs/assertions-in-tests, security/detect-non-literal-fs-filename --
+ * node:test's describe and it return promises the runner awaits, sonarjs
+ * misses node:assert calls whenever oxlint lints more than this one file, and
+ * every path is a temp dir the test made. */
 import assert from "node:assert/strict";
+import { spawnSync } from "node:child_process";
+import { existsSync } from "node:fs";
+import { tmpdir } from "node:os";
 import path from "node:path";
 import { describe, it } from "node:test";
 
@@ -15,6 +19,11 @@ import {
 } from "../src/options.ts";
 
 const CWD = "/work";
+const MAIN = path.join(import.meta.dirname, "../src/main.ts");
+
+function cli(argv: readonly string[]) {
+  return spawnSync(process.execPath, [MAIN, ...argv], { encoding: "utf8" });
+}
 
 function parse(argv: readonly string[]): Parsed {
   return parseRequest(argv, CWD);
@@ -129,5 +138,22 @@ describe("resolveChoices", () => {
         resolveChoices(request(["app", "--stack", "react-router"]), recorded),
       UsageError
     );
+  });
+});
+
+describe("main", () => {
+  it("exits 2 with every planned flag named on stderr", () => {
+    const result = cli(["app", "--styling", "stylex", "--playwright"]);
+    assert.equal(result.status, 2);
+    assert.match(result.stderr, /--styling stylex.*--playwright/);
+    assert.equal(result.stdout, "");
+  });
+
+  it("exits 2 before touching disk when a new project has no --stack", () => {
+    const dir = path.join(tmpdir(), `creact-missing-${process.pid}`);
+    const result = cli([dir]);
+    assert.equal(result.status, 2);
+    assert.match(result.stderr, /--stack/);
+    assert.equal(existsSync(dir), false);
   });
 });
