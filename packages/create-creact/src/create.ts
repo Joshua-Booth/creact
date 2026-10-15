@@ -20,12 +20,14 @@ import {
 } from "./layer.ts";
 import {
   type Choices,
+  type ProjectName,
+  projectName,
   type Request,
   resolveChoices,
   UsageError,
 } from "./options.ts";
 import { CommandFailed, output, run, succeeds } from "./shell.ts";
-import { STACKS } from "./stacks.ts";
+import { BTS, btsArgs, STACKS } from "./stacks.ts";
 
 export interface Report {
   readonly dir: string;
@@ -60,12 +62,13 @@ export async function create(
 
   let layer: ApplyReport;
   if (target.kind === "fresh") {
+    const name = projectName(request.dir);
     const staging = path.join(
       path.dirname(request.dir),
-      `.${path.basename(request.dir)}.creact-staging`
+      `.${name}.creact-staging`
     );
     await rm(staging, { recursive: true, force: true });
-    const base = await obtainBase(staging, choices, path.basename(request.dir));
+    const base = await obtainBase(staging, choices, name);
     layer = await applyLayer(base, ops, { kind: "upstream-only" }, choices);
     await place(base, request.dir, target.exists);
     await rm(staging, { recursive: true, force: true });
@@ -118,37 +121,34 @@ async function outerRepo(dir: string): Promise<string | undefined> {
   return top === undefined || top === own ? undefined : top;
 }
 
-// create-next-app's --yes reads preferences saved under HOME (XDG_CONFIG_HOME
-// on Linux), so the upstream CLI gets an empty one. pnpm keeps the real HOME
-// and its store.
+// Better-T-Stack keeps a history of every project it makes in its data
+// directory under HOME (XDG_DATA_HOME on Linux), so it gets an empty one.
+// pnpm keeps the real HOME and its store.
 async function obtainBase(
   staging: string,
   choices: Choices,
-  name: string
+  name: ProjectName
 ): Promise<string> {
-  const stack = STACKS[choices.stack];
   const home = path.join(staging, ".home");
   await mkdir(home, { recursive: true });
   await run(
     "pnpm",
     [
-      `--package=${stack.cli}@latest`,
+      `--package=${BTS}`,
       "dlx",
       "env",
       `HOME=${home}`,
-      `XDG_CONFIG_HOME=${path.join(home, ".config")}`,
-      stack.cli,
-      name,
-      ...stack.flags[choices.styling],
-      stack.skipInstall,
-      stack.skipGit,
+      `XDG_DATA_HOME=${path.join(home, ".local", "share")}`,
+      "create-better-t-stack",
+      ...btsArgs(name, choices.stack, choices.monorepo),
     ],
     staging
   );
   const base = path.join(staging, name);
-  if (!existsSync(path.join(base, stack.signature))) {
+  const { signature } = STACKS[choices.stack];
+  if (!existsSync(path.join(base, signature))) {
     throw new CommandFailed(
-      `${stack.cli} finished without writing ${stack.signature}, so its output changed shape`
+      `${BTS} finished without writing ${signature}, so its output changed shape`
     );
   }
   return base;

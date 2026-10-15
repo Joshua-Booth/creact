@@ -35,6 +35,7 @@ import {
   isBuilt,
   type Parsed,
   parseRequest,
+  projectName,
   type Request,
   resolveChoices,
   type StylingId,
@@ -42,7 +43,7 @@ import {
   UsageError,
 } from "../src/options.ts";
 import { withoutGitContext } from "../src/shell.ts";
-import { type StackId, STACKS } from "../src/stacks.ts";
+import { btsArgs, type StackId, STACKS } from "../src/stacks.ts";
 
 const CWD = "/work";
 const IDENTITY = [
@@ -241,6 +242,7 @@ function recordState(dir: string, stack: string): void {
       creact: "0.0.0",
       stack,
       styling: "tailwind",
+      monorepo: "pnpm",
       extras: [],
       hashes: {},
     })
@@ -291,6 +293,18 @@ describe("parseRequest", () => {
     );
   });
 
+  it("takes --monorepo nx and leaves it unset when not given", (t: TestContext) => {
+    t.assert.strictEqual(request(["app", "--monorepo", "nx"]).monorepo, "nx");
+    t.assert.strictEqual(request(["app"]).monorepo, undefined);
+  });
+
+  it("rejects a monorepo tool outside the table and lists the real ones", (t: TestContext) => {
+    t.assert.strictEqual(
+      usage(["app", "--monorepo", "vite-plus"]),
+      "--monorepo must be one of pnpm, turborepo, nx"
+    );
+  });
+
   it("rejects a planned extra rather than silently skipping it", (t: TestContext) => {
     t.assert.match(usage(["app", "--stack", "next", "--i18n"]), /--i18n/);
   });
@@ -327,7 +341,13 @@ describe("parseRequest", () => {
   it("lists every stack and every extra in the help text", (t: TestContext) => {
     const parsed = parse(["--help"]);
     const text = parsed.kind === "help" ? parsed.text : "";
-    for (const word of ["react-router", "next", "stylex", "--storybook"]) {
+    for (const word of [
+      "react-router",
+      "next",
+      "stylex",
+      "turborepo",
+      "--storybook",
+    ]) {
       t.assert.ok(text.includes(word), word);
     }
   });
@@ -355,33 +375,115 @@ describe("resolveChoices", () => {
       {
         stack: DEFAULTS.stack,
         styling: DEFAULTS.styling,
+        monorepo: "pnpm",
         extras: [],
       }
     );
   });
 
+  const RECORDED = {
+    stack: "next",
+    styling: "tailwind",
+    monorepo: "turborepo",
+    extras: [],
+  } as const;
+
   it("takes the recorded choices on a rerun with no flags", (t: TestContext) => {
-    const recorded = {
-      stack: "next",
-      styling: "tailwind",
-      extras: [],
-    } as const;
     t.assert.deepStrictEqual(
-      resolveChoices(request(["app"]), recorded),
-      recorded
+      resolveChoices(request(["app"]), RECORDED),
+      RECORDED
     );
   });
 
-  it("refuses a --stack that contradicts the recorded project", (t: TestContext) => {
-    const recorded = {
-      stack: "next",
-      styling: "tailwind",
-      extras: [],
-    } as const;
+  it("refuses a --stack or --monorepo that contradicts the recorded project", (t: TestContext) => {
+    const dir = path.resolve(CWD, "app");
     t.assert.throws(
       () =>
-        resolveChoices(request(["app", "--stack", "react-router"]), recorded),
-      UsageError
+        resolveChoices(request(["app", "--stack", "react-router"]), RECORDED),
+      {
+        name: "UsageError",
+        message: `${dir} is recorded as stack next, so --stack react-router can't apply`,
+      }
+    );
+    t.assert.throws(
+      () => resolveChoices(request(["app", "--monorepo", "pnpm"]), RECORDED),
+      {
+        name: "UsageError",
+        message: `${dir} is recorded as monorepo turborepo, so --monorepo pnpm can't apply`,
+      }
+    );
+  });
+});
+
+describe("projectName", () => {
+  it("takes a directory name npm can scope", (t: TestContext) => {
+    t.assert.strictEqual(projectName("/work/my-app_2.web"), "my-app_2.web");
+  });
+
+  it("refuses a name npm can't scope", (t: TestContext) => {
+    for (const name of ["My App", ".app", "-app", "app!"]) {
+      t.assert.throws(
+        () => projectName(path.join("/work", name)),
+        (error) =>
+          error instanceof UsageError &&
+          error.message.startsWith(`${name} would become the package scope`)
+      );
+    }
+  });
+});
+
+function addon(args: readonly string[]): string | undefined {
+  return args[args.indexOf("--addons") + 1];
+}
+
+describe("btsArgs", () => {
+  const app = projectName("/work/app");
+
+  it("answers every Better-T-Stack prompt with a flag and never passes --yes", (t: TestContext) => {
+    t.assert.deepStrictEqual(btsArgs(app, "react-router", "pnpm"), [
+      "app",
+      "--frontend",
+      "react-router",
+      "--addons",
+      "none",
+      "--backend",
+      "none",
+      "--runtime",
+      "none",
+      "--database",
+      "none",
+      "--orm",
+      "none",
+      "--api",
+      "none",
+      "--auth",
+      "none",
+      "--payments",
+      "none",
+      "--examples",
+      "none",
+      "--db-setup",
+      "none",
+      "--web-deploy",
+      "none",
+      "--server-deploy",
+      "none",
+      "--no-install",
+      "--no-git",
+      "--package-manager",
+      "pnpm",
+      "--disable-analytics",
+      "--no-render-title",
+    ]);
+  });
+
+  it("passes the monorepo tool as Better-T-Stack's addon", (t: TestContext) => {
+    t.assert.strictEqual(addon(btsArgs(app, "next", "turborepo")), "turborepo");
+    t.assert.strictEqual(addon(btsArgs(app, "next", "nx")), "nx");
+    t.assert.strictEqual(
+      btsArgs(app, "next", "turborepo").filter((arg) => arg === "--addons")
+        .length,
+      1
     );
   });
 });
@@ -411,7 +513,12 @@ describe("an extra that needs one styling", () => {
   });
 
   it("is refused on a project recorded as StyleX", (t: TestContext) => {
-    const recorded = { stack: "next", styling: "stylex", extras: [] } as const;
+    const recorded = {
+      stack: "next",
+      styling: "stylex",
+      monorepo: "pnpm",
+      extras: [],
+    } as const;
     t.assert.throws(
       () => resolveChoices(asking(["app"]), recorded, TAILWIND_ONLY),
       UsageError
@@ -440,6 +547,15 @@ describe("main", () => {
     t.assert.strictEqual(result.status, 2);
     t.assert.match(result.stderr, /^create-creact: [^\n]*--stack[^\n]*\n$/);
     t.assert.strictEqual(existsSync(dir), false);
+  });
+
+  it("exits 2 before touching disk when the directory name can't be a package scope", (t: TestContext) => {
+    const dir = path.join(tempDir(), "My App");
+    const result = cli([dir, "--stack", "next"]);
+    t.assert.strictEqual(result.status, 2);
+    t.assert.match(result.stderr, /^create-creact: My App would become /);
+    t.assert.strictEqual(existsSync(dir), false);
+    t.assert.deepStrictEqual(readdirSync(path.dirname(dir)), []);
   });
 
   it("ends the unknown-flag reason before pointing at --help", (t: TestContext) => {

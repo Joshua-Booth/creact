@@ -339,6 +339,7 @@ for (const [id, styling] of STACK_IDS.flatMap((stackId) =>
             dir,
             stack: undefined,
             styling: undefined,
+            monorepo: undefined,
             extras: [],
             yes: false,
             install: false,

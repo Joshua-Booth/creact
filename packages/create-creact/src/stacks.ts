@@ -1,67 +1,23 @@
-import type { StylingId } from "./options.ts";
+import type { Feature, ProjectName } from "./options.ts";
+
+export const BTS = "create-better-t-stack@3.46.1";
 
 export interface Stack {
-  readonly cli: string;
-  readonly flags: Readonly<Record<StylingId, readonly string[]>>;
-  readonly skipInstall: string;
-  readonly skipGit: string;
   readonly signature: string;
   readonly srcRoot: string;
   readonly globalCss: string;
   readonly typegen: string;
 }
 
-// create-react-router has no styling flag and always writes Tailwind, which
-// the stylex overlay prunes.
-const REACT_ROUTER_FLAGS = [
-  "--yes",
-  "--package-manager",
-  "pnpm",
-  "--agent-skills",
-  "--no-motion",
-  "--no-color",
-];
-
-// --no-linter and --no-react-compiler are missing from create-next-app's
-// --help but read from argv.
-function nextFlags(tailwind: "--tailwind" | "--no-tailwind"): string[] {
-  return [
-    "--yes",
-    "--ts",
-    tailwind,
-    "--no-linter",
-    "--no-react-compiler",
-    "--cache-components",
-    "--app",
-    "--src-dir",
-    "--import-alias",
-    "@/*",
-    "--agents-md",
-    "--use-pnpm",
-    "--no-agent-feedback",
-  ];
-}
-
 export const STACKS = {
   "react-router": {
-    cli: "create-react-router",
-    flags: { tailwind: REACT_ROUTER_FLAGS, stylex: REACT_ROUTER_FLAGS },
-    skipInstall: "--no-install",
-    skipGit: "--no-git-init",
-    signature: "react-router.config.ts",
+    signature: "apps/web/react-router.config.ts",
     srcRoot: "app",
     globalCss: "app/app.css",
     typegen: "react-router typegen",
   },
   next: {
-    cli: "create-next-app",
-    flags: {
-      tailwind: nextFlags("--tailwind"),
-      stylex: nextFlags("--no-tailwind"),
-    },
-    skipInstall: "--skip-install",
-    skipGit: "--disable-git",
-    signature: "next.config.ts",
+    signature: "apps/web/next.config.ts",
     srcRoot: "src",
     globalCss: "src/app/globals.css",
     typegen: "next typegen",
@@ -69,3 +25,47 @@ export const STACKS = {
 } as const satisfies Record<string, Stack>;
 
 export type StackId = keyof typeof STACKS;
+
+// vite-plus is left out, as it takes over the lint, format and hook scripts.
+export const MONOREPOS = {
+  pnpm: { status: "built", summary: "pnpm workspaces", addon: "none" },
+  turborepo: { status: "built", summary: "Turborepo", addon: "turborepo" },
+  nx: { status: "built", summary: "Nx", addon: "nx" },
+} as const satisfies Record<string, Feature & { readonly addon: string }>;
+
+export type MonorepoId = keyof typeof MONOREPOS;
+
+const NONE = [
+  "backend",
+  "runtime",
+  "database",
+  "orm",
+  "api",
+  "auth",
+  "payments",
+  "examples",
+  "db-setup",
+  "web-deploy",
+  "server-deploy",
+];
+
+export function btsArgs(
+  name: ProjectName,
+  stack: StackId,
+  monorepo: MonorepoId
+): readonly string[] {
+  return [
+    name,
+    "--frontend",
+    stack,
+    "--addons",
+    MONOREPOS[monorepo].addon,
+    ...NONE.flatMap((option) => [`--${option}`, "none"]),
+    "--no-install",
+    "--no-git",
+    "--package-manager",
+    "pnpm",
+    "--disable-analytics",
+    "--no-render-title",
+  ];
+}

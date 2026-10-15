@@ -20,7 +20,7 @@ import {
   STYLINGS,
   UsageError,
 } from "./options.ts";
-import { type StackId, STACKS } from "./stacks.ts";
+import { MONOREPOS, type StackId, STACKS } from "./stacks.ts";
 
 export type Json =
   | string
@@ -366,7 +366,7 @@ export async function readState(dir: string): Promise<State | undefined> {
   const file = path.join(dir, STATE_FILE);
   if (!existsSync(file)) return undefined;
   const raw = await readJson(file);
-  const { schema, creact, stack, styling, extras, hashes } = raw;
+  const { schema, creact, stack, styling, monorepo, extras, hashes } = raw;
   const valid =
     schema === 1 &&
     typeof creact === "string" &&
@@ -374,6 +374,8 @@ export async function readState(dir: string): Promise<State | undefined> {
     Object.hasOwn(STACKS, stack) &&
     typeof styling === "string" &&
     isBuilt(STYLINGS, styling) &&
+    typeof monorepo === "string" &&
+    Object.hasOwn(MONOREPOS, monorepo) &&
     Array.isArray(extras) &&
     extras.every((id) => typeof id === "string" && isBuilt(EXTRAS, id)) &&
     isObject(hashes) &&
