@@ -51,3 +51,11 @@ storybook-static
 
 # Generated files
 dependency-graph.svg
+
+!/.claude/
+/.claude/*
+!/.claude/settings.json
+!/.claude/rules/
+!/.claude/skills/
+!/.claude/workflows/
+/.agents/skills/
