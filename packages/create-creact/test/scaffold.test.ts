@@ -27,6 +27,8 @@ const IDENTITY = [
   "user.email=test@example.invalid",
 ];
 const CHECKS = ["build", "typecheck", "lint", "format:check", "test"];
+// Network-bound, so opt-in: 1 runs every stack, a comma list names some.
+const SCAFFOLD = new Set(process.env.CREACT_SCAFFOLD?.split(","));
 
 // creact's mise.toml sets NODE_ENV=development, and next build can't
 // prerender under it. A generated project starts from a clean NODE_ENV.
@@ -76,7 +78,9 @@ for (const id of Object.keys(STACKS) as StackId[]) {
 
   describe(
     `scaffold ${id}`,
-    { skip: process.env.CREACT_SCAFFOLD !== "1" && "set CREACT_SCAFFOLD=1" },
+    {
+      skip: !SCAFFOLD.has("1") && !SCAFFOLD.has(id) && "set CREACT_SCAFFOLD=1",
+    },
     () => {
       let parent = "";
       let dir = "";
