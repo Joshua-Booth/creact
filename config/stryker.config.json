@@ -29,7 +29,14 @@
     "!src/**/hooks.ts",
     "!src/**/compose-refs.ts"
   ],
-  "ignorePatterns": ["dist", ".react-router", "coverage", "storybook-static"],
+  "ignorePatterns": [
+    "dist",
+    ".react-router",
+    "coverage",
+    "storybook-static",
+    ".claude",
+    ".agents"
+  ],
   "reporters": ["html", "clear-text", "progress"],
   "htmlReporter": {
     "fileName": "coverage/stryker/index.html"
