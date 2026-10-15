@@ -255,6 +255,16 @@ alias = "tsb"
 depends = ["build"]
 run = "vitest --config {{vars.storybook_config}}/vitest.config.ts"
 
+[tasks."test:cli"]
+description = "Run the create-creact plan tests"
+dir = "packages/create-creact"
+run = "node --test test/plan.test.ts"
+
+[tasks."test:scaffold"]
+description = "Scaffold create-creact projects (CREACT_SCAFFOLD=1 or a stack list)"
+dir = "packages/create-creact"
+run = "node --test test/scaffold.test.ts"
+
 [tasks."test:all"]
 description = "Run all tests (unit, storybook, e2e)"
 alias = "ta"
@@ -285,6 +295,7 @@ depends = ["typegen"]
 run = [
     "tsc --noEmit",
     "tsc --noEmit --project config/tsconfig.node.json",
+    "tsc --noEmit --project packages/create-creact/tsconfig.json",
 ]
 
 [tasks.storybook]
