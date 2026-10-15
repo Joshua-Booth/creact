@@ -153,17 +153,84 @@ function parseImports(source: string): string[] {
   return [...stripComments(source).matchAll(pattern)].map((match) => match[1]);
 }
 
-// The first sentence of a file's leading JSDoc, if it has one.
-function extractDescription(source: string): string | undefined {
-  const start = source.indexOf("/**");
-  if (start === -1) return undefined;
-  const end = source.indexOf("*/", start);
-  const block = source.slice(start + 3, end === -1 ? source.length : end);
-  for (const rawLine of block.split("\n")) {
-    const line = rawLine.replace(/^[\s*]+/, "").trim();
-    if (line.length > 0) return line;
-  }
-  return undefined;
+interface DocSymbol {
+  keyword: "function" | "const" | "class";
+  name: string;
+}
+
+interface DocComment {
+  /** First paragraph of the JSDoc, joined into one line. */
+  text: string;
+  /** The declaration the JSDoc is attached to, if any. */
+  symbol?: DocSymbol;
+}
+
+function docComments(source: string): DocComment[] {
+  return [...source.matchAll(/\/\*\*([\s\S]*?)\*\//g)].map((match) => {
+    const paragraph: string[] = [];
+    for (const rawLine of match[1].split("\n")) {
+      const line = rawLine.replace(/^\s*\*?\s?/, "").trim();
+      if (line.startsWith("@") || (line === "" && paragraph.length > 0)) break;
+      if (line !== "") paragraph.push(line);
+    }
+    const declaration = /^(?:export\s)?(function|const|class)\s(\w+)/.exec(
+      source.slice(match.index + match[0].length).trimStart()
+    );
+    return {
+      text: paragraph.join(" "),
+      ...(declaration !== null && {
+        symbol: {
+          keyword: declaration[1] as DocSymbol["keyword"],
+          name: declaration[2],
+        },
+      }),
+    };
+  });
+}
+
+/**
+ * Picks an item's description from the JSDoc in its source files, main file
+ * first: the doc of the symbol named after the item (`InputOTP`), else of
+ * the first PascalCase function or const, else of the item's hook
+ * (`useDevice`), else the main file's first JSDoc.
+ * @param name - Item name
+ * @param dir - Item source directory
+ * @param files - Shipped files, relative to dir
+ * @returns The description, or undefined when no JSDoc qualifies
+ */
+function describe(
+  name: string,
+  dir: string,
+  files: string[]
+): string | undefined {
+  const mainFiles = [`${name}.tsx`, `${name}.ts`, "index.ts"];
+  const rank = (file: string) => {
+    const index = mainFiles.indexOf(file);
+    return index === -1 ? mainFiles.length : index;
+  };
+  const commentsByFile = files
+    .filter((file) => /\.tsx?$/.test(file) && !/\.test\.tsx?$/.test(file))
+    .sort((a, b) => rank(a) - rank(b))
+    .map((file) => ({
+      isMain: mainFiles.includes(file),
+      comments: docComments(readFileSync(path.join(dir, file), "utf8")).filter(
+        (comment) => comment.text !== ""
+      ),
+    }));
+  const comments = commentsByFile.flatMap((file) => file.comments);
+  const find = (matches: (symbol: DocSymbol) => boolean) =>
+    comments.find(({ symbol }) => symbol !== undefined && matches(symbol));
+  // A -core lib slice is named after the ui item it backs: useDataTable.
+  const symbolName = name.replace(/-core$/, "").replaceAll("-", "");
+  return (
+    find((symbol) => symbol.name.toLowerCase() === symbolName) ??
+    find(
+      (symbol) =>
+        symbol.keyword !== "class" && /^[A-Z][a-z]\w*$/.test(symbol.name)
+    ) ??
+    find((symbol) => symbol.name.toLowerCase() === `use${symbolName}`) ??
+    commentsByFile.find((file) => file.isMain)?.comments[0]
+  )?.text;
 }
 
 /**
@@ -284,13 +351,10 @@ function buildSliceItem(type: SliceType, name: string): RegistryItem {
     shipped.map((file) => path.join(dir, file)),
     [dir]
   );
-  const mainFiles = new Set([`${name}.tsx`, `${name}.ts`, "index.ts"]);
-  const description = shipped
-    .filter((file) => mainFiles.has(file))
-    .map((file) =>
-      extractDescription(readFileSync(path.join(dir, file), "utf8"))
-    )
-    .find((text) => text !== undefined);
+  const description = describe(name, dir, shipped);
+  if (description === undefined) {
+    warnings.push(`${name}: no JSDoc to describe the item`);
+  }
   return {
     name,
     type,
