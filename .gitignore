@@ -52,7 +52,6 @@ storybook-static
 # Generated files
 dependency-graph.svg
 
-# Agent setup: track the shared parts of .claude, restore skills from skills-lock.json
 !/.claude/
 /.claude/*
 !/.claude/settings.json

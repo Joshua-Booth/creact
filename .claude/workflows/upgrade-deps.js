@@ -10,22 +10,17 @@ export const meta = {
   ],
 }
 
-// ── Config ────────────────────────────────────────────────────────────────
-// @types/node is pinned to the Node major (currently 24) — bumping to 25 would
-// drift the types ahead of the runtime. Override via args.pinned if needed.
 const PINNED = (args && args.pinned) || ['@types/node']
 const INCLUDE_MAJORS = !args || args.includeMajors !== false
 
-// Fast attribution gate used per-upgrade. The heavy `mise run check` (e2e,
-// storybook, coverage, audit, knip, depcruise, steiger, spell) is the FINAL gate.
-const VALIDATE =
+const UPGRADE_GATE =
   'mise run typecheck && mise run lint:check && mise run test:unit && mise run build'
+const FULL_GATE = 'mise run check'
 
 const RUN_RULES =
   'Use `mise run <task>` and `mise x -- <cmd>` (never bare pnpm/npx). Never `git -C`. ' +
   'Do NOT commit or push — leave changes in the working tree for review.'
 
-// ── Schemas ───────────────────────────────────────────────────────────────
 const DEP = {
   type: 'object',
   required: ['name', 'current', 'latest', 'dev'],
@@ -102,7 +97,6 @@ const INTEGRATE_SCHEMA = {
   },
 }
 
-// ── 1. Discover ─────────────────────────────────────────────────────────────
 phase('Discover')
 const pinnedList = JSON.stringify(PINNED)
 const discovery = await agent(
@@ -113,7 +107,7 @@ Run \`mise x -- pnpm outdated --format json\`. For each entry compare current vs
 - safe   = minor or patch bump (major unchanged).
 Mark dev=true if dependencyType is devDependencies.
 
-EXCLUDE entirely (put in "excluded" with a reason) any dep whose name is in this pinned list: ${pinnedList} — these track an external constraint and must not move.
+EXCLUDE entirely (put in "excluded" with a reason) any dep whose name is in this pinned list: ${pinnedList} — these track an external constraint (@types/node follows the Node major in mise.toml) and must not move.
 
 Return safe[], majors[] (excluding pinned), and excluded[]. Do not modify any files. ${RUN_RULES}`,
   { phase: 'Discover', schema: DISCOVERY_SCHEMA, label: 'discover-outdated' },
@@ -122,12 +116,11 @@ log(`Discovered ${discovery.safe.length} safe + ${discovery.majors.length} major
 
 const majors = INCLUDE_MAJORS ? discovery.majors : []
 
-// ── 2. Baseline ───────────────────────────────────────────────────────────────
 phase('Baseline')
 const baseline = await agent(
   `Establish the pre-upgrade baseline so regressions can be attributed. Touch NO dependency.
 
-Run: ${VALIDATE}
+Run: ${UPGRADE_GATE}
 Report green=true only if all pass. List any pre-existing failures verbatim (short) so later phases can tell new breakage from old. ${RUN_RULES}`,
   { phase: 'Baseline', schema: BASELINE_SCHEMA, label: 'baseline' },
 )
@@ -135,7 +128,6 @@ if (!baseline.green) {
   log(`⚠ Baseline is RED before any upgrade: ${baseline.preExistingFailures.join('; ')} — later results judged against this.`)
 }
 
-// ── 3. Upgrade: safe batch (main tree) ‖ majors (isolated worktrees) ──────────
 phase('Upgrade')
 const safeNames = discovery.safe.map((d) => d.name)
 
@@ -148,7 +140,7 @@ Deps to bump to their latest (names): ${JSON.stringify(safeNames)}
 Steps:
 1. For each, set its package.json range to the latest (preserve the ^ caret style already used).
 2. \`mise x -- pnpm install\`.
-3. Validate: ${VALIDATE}
+3. Validate: ${UPGRADE_GATE}
 4. If validation FAILS: bisect. Identify the offending dep(s) by selectively reverting suspects (re-install + re-validate) until green. Revert only what's necessary; record each reverted dep with the reason. Keep everything that passes.
 
 Baseline pre-existing failures (NOT your regressions, ignore these): ${JSON.stringify(baseline.preExistingFailures)}
@@ -169,7 +161,7 @@ Then:
 1. Bump ONLY ${dep.name} to ${dep.latest} in package.json (keep caret style).
 2. \`mise x -- pnpm install\`.
 3. Apply any fixes the breaking changes require. For Oxlint or lint-plugin majors, run \`mise run lint\` (autofix) and resolve newly-surfaced rule violations in our code or oxlint.config.ts; record what you changed in fixesApplied[].
-4. Validate: ${VALIDATE}
+4. Validate: ${UPGRADE_GATE}
 5. passed=true only if validation is green (ignoring these pre-existing baseline failures: ${JSON.stringify(baseline.preExistingFailures)}). If it cannot be made green without large/ambiguous changes, set passed=false and list blockers[].
 
 You are in a throwaway worktree — your file edits will NOT be merged automatically; only your structured verdict is used. So describe fixesApplied[] precisely enough to reproduce in the main tree. ${RUN_RULES}`,
@@ -184,7 +176,6 @@ const majorVerdicts = majorResults.filter(Boolean)
 const greenMajors = majorVerdicts.filter((m) => m && m.passed)
 log(`Safe batch: ${safe ? safe.applied.length : 0} applied, ${safe ? safe.reverted.length : 0} reverted. Majors green: ${greenMajors.map((m) => m.name).join(', ') || 'none'}`)
 
-// ── 4. Integrate + full verification ──────────────────────────────────────────
 phase('Integrate')
 const integration = await agent(
   `Finalize the dependency upgrade in the MAIN working tree, then run the full verification suite.
@@ -200,7 +191,7 @@ ${majorVerdicts.filter((m) => !m.passed).map((m) => `• ${m.name}: ${JSON.strin
 
 Steps:
 1. Edit package.json for each green major, \`mise x -- pnpm install\`, reproduce the listed fixes.
-2. Run the FULL gate: \`mise run check\`.
+2. Run the FULL gate: \`${FULL_GATE}\`.
 3. Distinguish failures: upgrade-caused vs pre-existing-baseline (${JSON.stringify(baseline.preExistingFailures)}) vs environmental/flaky (e.g. e2e needing a browser/server that's unavailable in this runner). Report each in checkFailures with that label. finalGreen=true only if no upgrade-caused failures remain.
 
 Produce a concise markdown "report" for the user containing: counts upgraded (safe/major), the DX highlights worth knowing from the majors (${JSON.stringify(greenMajors.flatMap((m) => m.dxHighlights))}), anything reverted/skipped and why, and the verification verdict. Note that committing is left to the user (suggest a \`chore(deps)\` commit; do NOT commit yourself). ${RUN_RULES}`,
