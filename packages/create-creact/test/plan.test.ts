@@ -1,6 +1,7 @@
-/* oxlint-disable typescript/no-floating-promises, security/detect-non-literal-fs-filename --
- * node:test's describe and it return promises the runner awaits, and every
- * path is a temp dir the test made or the package's own layer. */
+/* oxlint-disable typescript/no-floating-promises, security/detect-non-literal-fs-filename, sonarjs/no-os-command-from-path --
+ * node:test's describe and it return promises the runner awaits, every
+ * path is a temp dir the test made or the package's own layer, and git
+ * comes from PATH here as it does in the CLI. */
 import { spawnSync } from "node:child_process";
 import {
   existsSync,
@@ -68,8 +69,11 @@ function patch(all: readonly Op[], file: string): JsonObject {
   return op?.kind === "json" ? op.patch : {};
 }
 
-function upstreamBase(stack: StackId, extra: JsonObject = {}): string {
-  const dir = tempDir();
+function upstreamBase(
+  stack: StackId,
+  extra: JsonObject = {},
+  dir = tempDir()
+): string {
   const files = fixture(stack);
   writeFileSync(
     path.join(dir, "package.json"),
@@ -92,6 +96,25 @@ function tempDir(): string {
   const dir = mkdtempSync(path.join(tmpdir(), "creact-plan-"));
   TEMP_DIRS.push(dir);
   return dir;
+}
+
+function gitInit(dir: string): void {
+  spawnSync("git", ["init", "--quiet"], { cwd: dir });
+}
+
+function recordState(dir: string, stack: string): void {
+  mkdirSync(path.join(dir, ".creact"));
+  writeFileSync(
+    path.join(dir, STATE_FILE),
+    JSON.stringify({
+      schema: 1,
+      creact: "0.0.0",
+      stack,
+      styling: "tailwind",
+      extras: [],
+      hashes: {},
+    })
+  );
 }
 
 const UPSTREAM_ONLY: Prior = { kind: "upstream-only" };
@@ -241,8 +264,63 @@ describe("main", () => {
     const dir = path.join(tmpdir(), `creact-missing-${process.pid}`);
     const result = cli([dir]);
     t.assert.strictEqual(result.status, 2);
-    t.assert.match(result.stderr, /--stack/);
+    t.assert.match(result.stderr, /^create-creact: [^\n]*--stack[^\n]*\n$/);
     t.assert.strictEqual(existsSync(dir), false);
+  });
+
+  it("ends the unknown-flag reason before pointing at --help", (t: TestContext) => {
+    const result = cli(["app", "--bogus"]);
+    t.assert.strictEqual(result.status, 2);
+    t.assert.match(result.stderr, /'-- "--bogus"'?\. Run with --help/);
+  });
+});
+
+describe("a directory inside another git work tree", () => {
+  const FLAGS = ["--stack", "next", "--no-install", "--no-git"];
+  const REFUSAL = /inside the git repository at /;
+
+  it("is refused while missing, and nothing is written", (t: TestContext) => {
+    const repo = tempDir();
+    gitInit(repo);
+    const dir = path.join(repo, "app");
+    const result = cli([dir, ...FLAGS]);
+    t.assert.strictEqual(result.status, 2, result.stderr);
+    t.assert.match(result.stderr, REFUSAL);
+    t.assert.deepStrictEqual(readdirSync(repo), [".git"]);
+  });
+
+  it("is refused while empty", (t: TestContext) => {
+    const repo = tempDir();
+    gitInit(repo);
+    const dir = path.join(repo, "app");
+    mkdirSync(dir);
+    const result = cli([dir, ...FLAGS]);
+    t.assert.strictEqual(result.status, 2, result.stderr);
+    t.assert.match(result.stderr, REFUSAL);
+    t.assert.deepStrictEqual(readdirSync(dir), []);
+  });
+
+  it("is refused on a rerun, and the project is left as it was", (t: TestContext) => {
+    const repo = tempDir();
+    gitInit(repo);
+    const dir = path.join(repo, "app");
+    mkdirSync(dir);
+    upstreamBase("next", {}, dir);
+    recordState(dir, "next");
+    const before = readdirSync(dir).toSorted();
+    const result = cli([dir, "--no-install", "--no-git"]);
+    t.assert.strictEqual(result.status, 2, result.stderr);
+    t.assert.match(result.stderr, REFUSAL);
+    t.assert.deepStrictEqual(readdirSync(dir).toSorted(), before);
+  });
+
+  it("is a rerun like any other when the project is its own repository", (t: TestContext) => {
+    const dir = upstreamBase("next");
+    recordState(dir, "next");
+    gitInit(dir);
+    const result = cli([dir, "--no-install", "--no-git"]);
+    t.assert.strictEqual(result.status, 0, result.stderr);
+    t.assert.match(result.stdout, /base {5}kept\n/);
   });
 });
 
@@ -434,18 +512,7 @@ describe("apply", () => {
 describe("readState", () => {
   it("refuses a state file naming a stack outside the table", async (t: TestContext) => {
     const dir = tempDir();
-    mkdirSync(path.join(dir, ".creact"));
-    writeFileSync(
-      path.join(dir, STATE_FILE),
-      JSON.stringify({
-        schema: 1,
-        creact: "0.0.0",
-        stack: "vue",
-        styling: "tailwind",
-        extras: [],
-        hashes: {},
-      })
-    );
+    recordState(dir, "vue");
     await t.assert.rejects(readState(dir), UsageError);
   });
 });
