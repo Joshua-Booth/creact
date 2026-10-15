@@ -10,6 +10,7 @@ import {
   loadLayer,
   type Op,
   type OverlayId,
+  type Packages,
   plan,
   type Prior,
   readState,
@@ -51,7 +52,11 @@ export async function create(
     choices.styling,
     ...choices.extras,
   ];
-  const ops = plan(await loadLayer(layerDir, ids), ids, STACKS[choices.stack]);
+  const ops = plan(
+    await loadLayer(layerDir, ids, choices.stack),
+    ids,
+    choices.stack
+  );
 
   let layer: ApplyReport;
   if (target.kind === "fresh") {
@@ -75,7 +80,7 @@ export async function create(
 
   const git = request.git ? await initGit(request.dir) : "skipped";
   if (request.install) {
-    await install(request.dir, layer.missingDevDeps);
+    await install(request.dir, layer.missing);
     await fixThenFormat(request.dir);
   }
 
@@ -196,12 +201,17 @@ async function initGit(dir: string): Promise<Report["git"]> {
 
 // pnpm add skips the project's own prepare script, which installs the git
 // hooks.
-async function install(dir: string, missing: readonly string[]): Promise<void> {
-  await run(
-    "pnpm",
-    missing.length > 0 ? ["add", "--save-dev", ...missing] : ["install"],
-    dir
-  );
+async function install(dir: string, missing: Packages): Promise<void> {
+  const { dependencies, devDependencies } = missing;
+  if (dependencies.length > 0) {
+    await run("pnpm", ["add", ...dependencies], dir);
+  }
+  if (devDependencies.length > 0) {
+    await run("pnpm", ["add", "--save-dev", ...devDependencies], dir);
+  }
+  if (dependencies.length + devDependencies.length === 0) {
+    await run("pnpm", ["install"], dir);
+  }
   await run("pnpm", ["run", "prepare"], dir);
 }
 

@@ -228,7 +228,7 @@ for (const id of Object.keys(STACKS) as StackId[]) {
         const layer = path.join(parent, "layer");
         cpSync(LAYER, layer, { recursive: true });
         for (const file of ["vitest.config.ts", "commitlint.config.ts"]) {
-          const source = path.join(layer, "base", `${file}.layer`);
+          const source = path.join(layer, "base", "all", `${file}.layer`);
           writeFileSync(
             source,
             `${readFileSync(source, "utf8")}// newer layer\n`

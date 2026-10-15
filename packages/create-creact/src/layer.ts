@@ -1,7 +1,14 @@
 /* oxlint-disable security/detect-non-literal-fs-filename -- every path is under the project dir or the CLI's own layer dir */
 import { createHash } from "node:crypto";
 import { existsSync } from "node:fs";
-import { mkdir, readdir, readFile, rename, writeFile } from "node:fs/promises";
+import {
+  mkdir,
+  readdir,
+  readFile,
+  rename,
+  unlink,
+  writeFile,
+} from "node:fs/promises";
 import path from "node:path";
 
 import {
@@ -13,7 +20,7 @@ import {
   STYLINGS,
   UsageError,
 } from "./options.ts";
-import { type Stack, STACKS } from "./stacks.ts";
+import { type StackId, STACKS } from "./stacks.ts";
 
 export type Json =
   | string
@@ -27,69 +34,86 @@ export type JsonObject = Readonly<Record<string, Json>>;
 // oxlint-disable-next-line typescript/no-redundant-type-constituents -- ExtraId is never until the first extra is built
 export type OverlayId = "base" | StylingId | ExtraId;
 
-interface Overlay {
-  readonly packageJson?: JsonObject;
-  readonly tsconfig?: JsonObject;
+export type Scope = "all" | StackId;
+
+export interface Packages {
+  readonly dependencies: readonly string[];
   readonly devDependencies: readonly string[];
 }
 
+interface Prune {
+  readonly files?: readonly string[];
+  readonly dependencies?: readonly string[];
+}
+
+interface Part extends Partial<Packages> {
+  readonly packageJson?: JsonObject;
+  readonly tsconfig?: JsonObject;
+  readonly prune?: Prune;
+}
+
+export type Overlay = Readonly<Partial<Record<Scope, Part>>>;
+
 export const OVERLAYS: Readonly<Record<OverlayId, Overlay>> = {
   base: {
-    packageJson: {
-      type: "module",
-      scripts: {
-        lint: "pnpm run typegen && oxlint --max-warnings 0",
-        format: "oxfmt",
-        "format:check": "oxfmt --check",
-        typecheck: "pnpm run typegen && tsc",
-        test: "vitest run",
-        prepare: "husky || true",
+    all: {
+      packageJson: {
+        type: "module",
+        scripts: {
+          lint: "pnpm run typegen && oxlint --max-warnings 0",
+          format: "oxfmt",
+          "format:check": "oxfmt --check",
+          typecheck: "pnpm run typegen && tsc",
+          test: "vitest run",
+          prepare: "husky || true",
+        },
       },
-    },
-    tsconfig: {
-      compilerOptions: {
-        strict: true,
-        noUncheckedIndexedAccess: true,
-        noImplicitOverride: true,
-        erasableSyntaxOnly: true,
-        verbatimModuleSyntax: true,
-        forceConsistentCasingInFileNames: true,
-        allowImportingTsExtensions: true,
+      tsconfig: {
+        compilerOptions: {
+          strict: true,
+          noUncheckedIndexedAccess: true,
+          noImplicitOverride: true,
+          erasableSyntaxOnly: true,
+          verbatimModuleSyntax: true,
+          forceConsistentCasingInFileNames: true,
+          allowImportingTsExtensions: true,
+        },
       },
+      devDependencies: [
+        "@commitlint/cli",
+        "@commitlint/config-conventional",
+        "@commitlint/types",
+        "@eslint-community/eslint-plugin-eslint-comments",
+        "@eslint-react/eslint-plugin",
+        "eslint-plugin-barrel-files",
+        "eslint-plugin-check-file",
+        "eslint-plugin-depend",
+        "eslint-plugin-jsdoc",
+        "eslint-plugin-perfectionist",
+        "eslint-plugin-react-you-might-not-need-an-effect",
+        "eslint-plugin-security",
+        "eslint-plugin-sonarjs",
+        "husky",
+        "lint-staged",
+        "oxfmt",
+        "oxlint",
+        "oxlint-tsgolint",
+        "vitest",
+      ],
     },
-    devDependencies: [
-      "@commitlint/cli",
-      "@commitlint/config-conventional",
-      "@commitlint/types",
-      "@eslint-community/eslint-plugin-eslint-comments",
-      "@eslint-react/eslint-plugin",
-      "eslint-plugin-barrel-files",
-      "eslint-plugin-check-file",
-      "eslint-plugin-depend",
-      "eslint-plugin-jsdoc",
-      "eslint-plugin-perfectionist",
-      "eslint-plugin-react-you-might-not-need-an-effect",
-      "eslint-plugin-security",
-      "eslint-plugin-sonarjs",
-      "husky",
-      "lint-staged",
-      "oxfmt",
-      "oxlint",
-      "oxlint-tsgolint",
-      "vitest",
-    ],
   },
-  tailwind: { devDependencies: ["eslint-plugin-better-tailwindcss"] },
+  tailwind: { all: { devDependencies: ["eslint-plugin-better-tailwindcss"] } },
 };
 
 export type Op =
+  | ({ readonly kind: "prune" } & Required<Prune>)
   | { readonly kind: "file"; readonly path: string; readonly content: string }
   | {
       readonly kind: "json";
       readonly path: "package.json" | "tsconfig.json";
       readonly patch: JsonObject;
     }
-  | { readonly kind: "devDeps"; readonly names: readonly string[] };
+  | ({ readonly kind: "deps" } & Packages);
 
 export interface State extends Choices {
   readonly schema: 1;
@@ -106,21 +130,31 @@ export type Prior =
 
 export const STATE_FILE = ".creact/state.json";
 
+const DEPENDENCY_MAPS = ["dependencies", "devDependencies"] as const;
+
 type Outcome = "written" | "unchanged" | "kept";
 
 export interface ApplyReport {
   readonly files: Readonly<Record<string, Outcome>>;
   readonly hashes: Readonly<Record<string, string>>;
-  readonly missingDevDeps: readonly string[];
+  readonly pruned: readonly string[];
+  readonly missing: Packages;
+}
+
+function scopes(stack: StackId): readonly Scope[] {
+  return ["all", stack];
 }
 
 export async function loadLayer(
   layerDir: string,
-  ids: readonly OverlayId[]
+  ids: readonly OverlayId[],
+  stack: StackId
 ): Promise<ReadonlyMap<string, string>> {
   const files = new Map<string, string>();
-  for (const id of ids) {
-    const root = path.join(layerDir, id);
+  const roots = ids.flatMap((id) =>
+    scopes(stack).map((scope) => path.join(layerDir, id, scope))
+  );
+  for (const root of roots.filter((dir) => existsSync(dir))) {
     const entries = await readdir(root, {
       recursive: true,
       withFileTypes: true,
@@ -143,29 +177,45 @@ export async function loadLayer(
 export function plan(
   files: ReadonlyMap<string, string>,
   ids: readonly OverlayId[],
-  stack: Stack
+  stackId: StackId
 ): readonly Op[] {
+  const stack = STACKS[stackId];
   const vars = { srcRoot: stack.srcRoot, globalCss: stack.globalCss };
+  const parts = ids.flatMap((id) =>
+    scopes(stackId).flatMap((scope) => OVERLAYS[id][scope] ?? [])
+  );
+  const listed = (pick: (part: Part) => readonly string[] | undefined) =>
+    parts.flatMap((part) => pick(part) ?? []);
+
   let packageJson: JsonObject = { scripts: { typegen: stack.typegen } };
   let tsconfig: JsonObject = {};
-  const devDependencies: string[] = [];
-  for (const overlay of ids.map((id) => OVERLAYS[id])) {
-    packageJson = merge(packageJson, overlay.packageJson ?? {});
-    tsconfig = merge(tsconfig, overlay.tsconfig ?? {});
-    devDependencies.push(...overlay.devDependencies);
+  for (const part of parts) {
+    packageJson = merge(packageJson, part.packageJson ?? {});
+    tsconfig = merge(tsconfig, part.tsconfig ?? {});
   }
+  const prune = {
+    files: listed((part) => part.prune?.files),
+    dependencies: listed((part) => part.prune?.dependencies),
+  };
   const fileOps = [...files]
-    .toSorted(([a], [b]) => a.localeCompare(b))
-    .map(([file, content]): Op => ({
-      kind: "file",
-      path: file,
+    .map(([file, content]) => ({
+      kind: "file" as const,
+      path: render(file, file, vars),
       content: render(file, content, vars),
-    }));
+    }))
+    .toSorted((a, b) => a.path.localeCompare(b.path));
   return [
+    ...(prune.files.length + prune.dependencies.length > 0
+      ? [{ kind: "prune" as const, ...prune }]
+      : []),
     ...fileOps,
     { kind: "json", path: "package.json", patch: packageJson },
     { kind: "json", path: "tsconfig.json", patch: tsconfig },
-    { kind: "devDeps", names: devDependencies },
+    {
+      kind: "deps",
+      dependencies: listed((part) => part.dependencies),
+      devDependencies: listed((part) => part.devDependencies),
+    },
   ];
 }
 
@@ -198,10 +248,15 @@ export async function apply(
 ): Promise<ApplyReport> {
   const files: Record<string, Outcome> = {};
   const hashes: Record<string, string> = {};
-  let missingDevDeps: readonly string[] = [];
+  let pruned: readonly string[] = [];
+  let missing: Packages = { dependencies: [], devDependencies: [] };
 
   for (const op of ops) {
     switch (op.kind) {
+      case "prune": {
+        if (prior.kind === "upstream-only") pruned = await applyPrune(dir, op);
+        break;
+      }
       case "file": {
         const result = await applyFile(dir, op.path, op.content, prior);
         files[op.path] = result.outcome;
@@ -212,18 +267,48 @@ export async function apply(
         files[op.path] = await applyJson(path.join(dir, op.path), op.patch);
         break;
       }
-      case "devDeps": {
+      case "deps": {
         const pkg = await readJson(path.join(dir, "package.json"));
-        const present = new Set([
-          ...Object.keys(objectAt(pkg, "dependencies")),
-          ...Object.keys(objectAt(pkg, "devDependencies")),
-        ]);
-        missingDevDeps = op.names.filter((name) => !present.has(name));
+        const present = new Set(
+          DEPENDENCY_MAPS.flatMap((key) => Object.keys(objectAt(pkg, key)))
+        );
+        missing = {
+          dependencies: op.dependencies.filter((name) => !present.has(name)),
+          devDependencies: op.devDependencies.filter(
+            (name) => !present.has(name)
+          ),
+        };
         break;
       }
     }
   }
-  return { files, hashes, missingDevDeps };
+  return { files, hashes, pruned, missing };
+}
+
+async function applyPrune(
+  dir: string,
+  prune: Required<Prune>
+): Promise<readonly string[]> {
+  const files = prune.files.filter((file) => existsSync(path.join(dir, file)));
+  for (const file of files) await unlink(path.join(dir, file));
+
+  const manifest = path.join(dir, "package.json");
+  const pkg = await readJson(manifest);
+  const removed = prune.dependencies.filter((name) =>
+    DEPENDENCY_MAPS.some((key) => Object.hasOwn(objectAt(pkg, key), name))
+  );
+  if (removed.length > 0) {
+    const next: Record<string, Json> = { ...pkg };
+    for (const key of DEPENDENCY_MAPS.filter((map) => isObject(pkg[map]))) {
+      next[key] = Object.fromEntries(
+        Object.entries(objectAt(pkg, key)).filter(
+          ([name]) => !removed.includes(name)
+        )
+      );
+    }
+    await writeAtomic(manifest, `${JSON.stringify(next, null, 2)}\n`);
+  }
+  return [...removed, ...files];
 }
 
 async function applyFile(

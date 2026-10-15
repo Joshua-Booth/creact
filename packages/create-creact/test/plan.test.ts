@@ -59,7 +59,7 @@ function fixture(stack: StackId): {
 }
 
 async function ops(stack: StackId): Promise<readonly Op[]> {
-  return plan(await loadLayer(LAYER, IDS), IDS, STACKS[stack]);
+  return plan(await loadLayer(LAYER, IDS, stack), IDS, stack);
 }
 
 function patch(all: readonly Op[], file: string): JsonObject {
@@ -349,9 +349,11 @@ describe("plan", () => {
 
   it("adds a dev dependency for every package a layer file imports or loads as a plugin", async (t: TestContext) => {
     const declared = new Set(
-      Object.values(OVERLAYS).flatMap((overlay) => overlay.devDependencies)
+      Object.values(OVERLAYS).flatMap((overlay) =>
+        Object.values(overlay).flatMap((part) => part.devDependencies ?? [])
+      )
     );
-    const files = await loadLayer(LAYER, IDS);
+    const files = await loadLayer(LAYER, IDS, "next");
     const specifiers = [...files.values()].flatMap((content) => [
       ...[...content.matchAll(/from "([^".][^"]*)"/g)].map((match) => match[1]),
       ...[...content.matchAll(/jsPlugins: \[([^\]]*)\]/g)].flatMap((block) =>
@@ -381,9 +383,19 @@ describe("plan", () => {
     for (const [id, styling] of Object.entries(STYLINGS)) {
       if (styling.status !== "built") continue;
       t.assert.ok(
-        existsSync(path.join(LAYER, id, "oxlint.styling.ts.layer")),
+        existsSync(path.join(LAYER, id, "all", "oxlint.styling.ts.layer")),
         id
       );
+    }
+  });
+
+  it("scopes every layer directory to all or one stack", (t: TestContext) => {
+    const scopes = new Set(["all", ...STACK_IDS]);
+    for (const id of readdirSync(LAYER)) {
+      const stray = readdirSync(path.join(LAYER, id)).filter(
+        (scope) => !scopes.has(scope)
+      );
+      t.assert.deepStrictEqual(stray, [], id);
     }
   });
 });
@@ -450,9 +462,10 @@ describe("apply", () => {
       devDependencies: { vitest: "^99.0.0" },
     });
     const report = await apply(dir, await ops("react-router"), UPSTREAM_ONLY);
-    t.assert.strictEqual(report.missingDevDeps.includes("husky"), false);
-    t.assert.strictEqual(report.missingDevDeps.includes("vitest"), false);
-    t.assert.strictEqual(report.missingDevDeps.includes("oxlint"), true);
+    const missing = report.missing.devDependencies;
+    t.assert.strictEqual(missing.includes("husky"), false);
+    t.assert.strictEqual(missing.includes("vitest"), false);
+    t.assert.strictEqual(missing.includes("oxlint"), true);
     const pkg = JSON.parse(
       readFileSync(path.join(dir, "package.json"), "utf8")
     ) as JsonObject;
@@ -506,6 +519,50 @@ describe("apply", () => {
     writeFileSync(path.join(rerun, ".oxfmtrc.json"), "{}\n");
     const converged = await apply(rerun, await ops("next"), recorded({}));
     t.assert.strictEqual(converged.files[".oxfmtrc.json"], "kept");
+  });
+});
+
+const PRUNE: Op = {
+  kind: "prune",
+  files: ["logo.svg"],
+  dependencies: ["tailwindcss", "absent"],
+};
+
+function dirWithLogo(): string {
+  const dir = upstreamBase("react-router");
+  writeFileSync(path.join(dir, "logo.svg"), "<svg/>");
+  return dir;
+}
+
+describe("prune", () => {
+  it("removes upstream's superseded files and packages from a fresh base and reports them", async (t: TestContext) => {
+    const dir = dirWithLogo();
+    const report = await apply(dir, [PRUNE], UPSTREAM_ONLY);
+    t.assert.deepStrictEqual(report.pruned, ["tailwindcss", "logo.svg"]);
+    t.assert.strictEqual(existsSync(path.join(dir, "logo.svg")), false);
+    const pkg = JSON.parse(
+      readFileSync(path.join(dir, "package.json"), "utf8")
+    ) as JsonObject;
+    t.assert.strictEqual(
+      Object.hasOwn(pkg.devDependencies as JsonObject, "tailwindcss"),
+      false
+    );
+    t.assert.deepStrictEqual(
+      pkg.dependencies,
+      fixture("react-router")["package.json"].dependencies
+    );
+  });
+
+  it("leaves what the owner put back alone on a rerun", async (t: TestContext) => {
+    const dir = dirWithLogo();
+    const before = readFileSync(path.join(dir, "package.json"), "utf8");
+    const report = await apply(dir, [PRUNE], recorded({}));
+    t.assert.deepStrictEqual(report.pruned, []);
+    t.assert.strictEqual(existsSync(path.join(dir, "logo.svg")), true);
+    t.assert.strictEqual(
+      readFileSync(path.join(dir, "package.json"), "utf8"),
+      before
+    );
   });
 });
 
