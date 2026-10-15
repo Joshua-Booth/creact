@@ -9,11 +9,13 @@
       "title": "Accordion",
       "description": "Vertically stacked set of collapsible content sections. Wraps `@base-ui/react/collapsible` with project styling.",
       "dependencies": [
-        "@base-ui/react@^1.7.0",
-        "cn@^0.2.5",
-        "lucide-react@^1.34.0"
+        "@base-ui/react@^1.8.0",
+        "cn@^0.4.0",
+        "lucide-react@^1.49.0"
       ],
-      "registryDependencies": ["Joshua-Booth/creact/card"],
+      "registryDependencies": [
+        "Joshua-Booth/creact/card"
+      ],
       "files": [
         {
           "path": "src/shared/ui/accordion/accordion.stories.tsx",
@@ -40,10 +42,12 @@
       "description": "Style variants for the {@link Alert} component.",
       "dependencies": [
         "class-variance-authority@^0.7.1",
-        "cn@^0.2.5",
-        "lucide-react@^1.34.0"
+        "cn@^0.4.0",
+        "lucide-react@^1.49.0"
       ],
-      "registryDependencies": ["Joshua-Booth/creact/button"],
+      "registryDependencies": [
+        "Joshua-Booth/creact/button"
+      ],
       "files": [
         {
           "path": "src/shared/ui/alert/alert.stories.tsx",
@@ -69,11 +73,13 @@
       "title": "Alert Dialog",
       "description": "Focus-trapped confirmation dialog that requires explicit user action before proceeding. Wraps `@base-ui/react/alert-dialog`.",
       "dependencies": [
-        "@base-ui/react@^1.7.0",
-        "cn@^0.2.5",
-        "lucide-react@^1.34.0"
+        "@base-ui/react@^1.8.0",
+        "cn@^0.4.0",
+        "lucide-react@^1.49.0"
       ],
-      "registryDependencies": ["Joshua-Booth/creact/button"],
+      "registryDependencies": [
+        "Joshua-Booth/creact/button"
+      ],
       "files": [
         {
           "path": "src/shared/ui/alert-dialog/alert-dialog.stories.tsx",
@@ -98,7 +104,9 @@
       "type": "registry:lib",
       "title": "Analytics",
       "description": "Hook providing analytics tracking methods.",
-      "dependencies": ["@posthog/react@^1.10.5"],
+      "dependencies": [
+        "@posthog/react@^1.11.3"
+      ],
       "files": [
         {
           "path": "src/shared/lib/analytics/index.ts",
@@ -112,8 +120,13 @@
       "type": "registry:lib",
       "title": "Api",
       "description": "Get auth headers from the configured token provider.",
-      "dependencies": ["ky@^2.0.2", "swr@^2.5.1"],
-      "devDependencies": ["vitest@^4.1.11"],
+      "dependencies": [
+        "ky@^2.1.0",
+        "swr@^2.5.1"
+      ],
+      "devDependencies": [
+        "vitest@^5.0.3"
+      ],
       "files": [
         {
           "path": "src/shared/api/client.test.ts",
@@ -152,8 +165,12 @@
       "type": "registry:ui",
       "title": "Aspect Ratio",
       "description": "Constrains child content to a specified aspect ratio.",
-      "dependencies": ["cn@^0.2.5"],
-      "registryDependencies": ["Joshua-Booth/creact/skeleton"],
+      "dependencies": [
+        "cn@^0.4.0"
+      ],
+      "registryDependencies": [
+        "Joshua-Booth/creact/skeleton"
+      ],
       "files": [
         {
           "path": "src/shared/ui/aspect-ratio/aspect-ratio.stories.tsx",
@@ -179,10 +196,10 @@
       "title": "Attachment",
       "description": "Style variants for the {@link Attachment} component.",
       "dependencies": [
-        "@base-ui/react@^1.7.0",
+        "@base-ui/react@^1.8.0",
         "class-variance-authority@^0.7.1",
-        "cn@^0.2.5",
-        "lucide-react@^1.34.0"
+        "cn@^0.4.0",
+        "lucide-react@^1.49.0"
       ],
       "registryDependencies": [
         "Joshua-Booth/creact/button",
@@ -213,11 +230,13 @@
       "title": "Avatar",
       "description": "Circular user avatar displaying an image with fallback initials.",
       "dependencies": [
-        "@base-ui/react@^1.7.0",
-        "cn@^0.2.5",
-        "lucide-react@^1.34.0"
+        "@base-ui/react@^1.8.0",
+        "cn@^0.4.0",
+        "lucide-react@^1.49.0"
       ],
-      "registryDependencies": ["Joshua-Booth/creact/dropdown-menu"],
+      "registryDependencies": [
+        "Joshua-Booth/creact/dropdown-menu"
+      ],
       "files": [
         {
           "path": "src/shared/ui/avatar/avatar.stories.tsx",
@@ -243,12 +262,14 @@
       "title": "Badge",
       "description": "Style variants for the {@link Badge} component.",
       "dependencies": [
-        "@base-ui/react@^1.7.0",
+        "@base-ui/react@^1.8.0",
         "class-variance-authority@^0.7.1",
-        "cn@^0.2.5",
-        "lucide-react@^1.34.0"
+        "cn@^0.4.0",
+        "lucide-react@^1.49.0"
       ],
-      "registryDependencies": ["Joshua-Booth/creact/spinner"],
+      "registryDependencies": [
+        "Joshua-Booth/creact/spinner"
+      ],
       "files": [
         {
           "path": "src/shared/ui/badge/badge.stories.tsx",
@@ -274,12 +295,14 @@
       "title": "Breadcrumb",
       "description": "Navigation trail showing the current page location within a hierarchy.",
       "dependencies": [
-        "@base-ui/react@^1.7.0",
-        "cn@^0.2.5",
-        "lucide-react@^1.34.0",
-        "react-i18next@^17.0.12"
+        "@base-ui/react@^1.8.0",
+        "cn@^0.4.0",
+        "lucide-react@^1.49.0",
+        "react-i18next@^17.0.15"
       ],
-      "registryDependencies": ["Joshua-Booth/creact/dropdown-menu"],
+      "registryDependencies": [
+        "Joshua-Booth/creact/dropdown-menu"
+      ],
       "files": [
         {
           "path": "src/shared/ui/breadcrumb/breadcrumb.stories.tsx",
@@ -305,9 +328,9 @@
       "title": "Bubble",
       "description": "Vertical container that groups related bubbles together.",
       "dependencies": [
-        "@base-ui/react@^1.7.0",
+        "@base-ui/react@^1.8.0",
         "class-variance-authority@^0.7.1",
-        "cn@^0.2.5"
+        "cn@^0.4.0"
       ],
       "files": [
         {
@@ -334,12 +357,14 @@
       "title": "Button",
       "description": "Style variants for the {@link Button} component.",
       "dependencies": [
-        "@base-ui/react@^1.7.0",
+        "@base-ui/react@^1.8.0",
         "class-variance-authority@^0.7.1",
-        "cn@^0.2.5",
-        "lucide-react@^1.34.0"
+        "cn@^0.4.0",
+        "lucide-react@^1.49.0"
       ],
-      "registryDependencies": ["Joshua-Booth/creact/spinner"],
+      "registryDependencies": [
+        "Joshua-Booth/creact/spinner"
+      ],
       "files": [
         {
           "path": "src/shared/ui/button/button.stories.tsx",
@@ -365,10 +390,10 @@
       "title": "Button Group",
       "description": "Layout variants for the {@link ButtonGroup} component.",
       "dependencies": [
-        "@base-ui/react@^1.7.0",
+        "@base-ui/react@^1.8.0",
         "class-variance-authority@^0.7.1",
-        "cn@^0.2.5",
-        "lucide-react@^1.34.0"
+        "cn@^0.4.0",
+        "lucide-react@^1.49.0"
       ],
       "registryDependencies": [
         "Joshua-Booth/creact/button",
@@ -407,10 +432,10 @@
       "title": "Calendar",
       "description": "Outer container override for the react-day-picker root element.",
       "dependencies": [
-        "cn@^0.2.5",
+        "cn@^0.4.0",
         "date-fns@^4.4.0",
-        "lucide-react@^1.34.0",
-        "react-day-picker@^10.0.1"
+        "lucide-react@^1.49.0",
+        "react-day-picker@^10.0.2"
       ],
       "registryDependencies": [
         "Joshua-Booth/creact/button",
@@ -442,7 +467,10 @@
       "type": "registry:ui",
       "title": "Card",
       "description": "Styled container for grouping related content with consistent padding and borders.",
-      "dependencies": ["cn@^0.2.5", "lucide-react@^1.34.0"],
+      "dependencies": [
+        "cn@^0.4.0",
+        "lucide-react@^1.49.0"
+      ],
       "registryDependencies": [
         "Joshua-Booth/creact/badge",
         "Joshua-Booth/creact/button",
@@ -474,13 +502,15 @@
       "title": "Carousel",
       "description": "Hook to access carousel state and scroll controls from child components.",
       "dependencies": [
-        "cn@^0.2.5",
+        "cn@^0.4.0",
         "embla-carousel-autoplay@^8.6.0",
         "embla-carousel-react@^8.6.0",
-        "lucide-react@^1.34.0",
-        "react-i18next@^17.0.12"
+        "lucide-react@^1.49.0",
+        "react-i18next@^17.0.15"
       ],
-      "registryDependencies": ["Joshua-Booth/creact/button"],
+      "registryDependencies": [
+        "Joshua-Booth/creact/button"
+      ],
       "files": [
         {
           "path": "src/shared/ui/carousel/carousel.stories.tsx",
@@ -505,7 +535,10 @@
       "type": "registry:ui",
       "title": "Chart",
       "description": "Configuration mapping chart data keys to labels, icons, and theme-aware colors.",
-      "dependencies": ["cn@^0.2.5", "recharts@^3.9.2"],
+      "dependencies": [
+        "cn@^0.4.0",
+        "recharts@^3.10.1"
+      ],
       "files": [
         {
           "path": "src/shared/ui/chart/chart.stories.tsx",
@@ -531,9 +564,9 @@
       "title": "Checkbox",
       "description": "Toggle control for boolean options. Wraps `@base-ui/react/checkbox` with project styling.",
       "dependencies": [
-        "@base-ui/react@^1.7.0",
-        "cn@^0.2.5",
-        "lucide-react@^1.34.0"
+        "@base-ui/react@^1.8.0",
+        "cn@^0.4.0",
+        "lucide-react@^1.49.0"
       ],
       "registryDependencies": [
         "Joshua-Booth/creact/field",
@@ -563,7 +596,10 @@
       "type": "registry:ui",
       "title": "Collapsible",
       "description": "Expandable/collapsible content section. Wraps `@base-ui/react/collapsible` with animation.",
-      "dependencies": ["@base-ui/react@^1.7.0", "lucide-react@^1.34.0"],
+      "dependencies": [
+        "@base-ui/react@^1.8.0",
+        "lucide-react@^1.49.0"
+      ],
       "registryDependencies": [
         "Joshua-Booth/creact/button",
         "Joshua-Booth/creact/card",
@@ -595,10 +631,10 @@
       "title": "Combobox",
       "description": "Autocomplete select component combining a text input with a filterable dropdown list. Wraps `@base-ui/react` combobox primitives.",
       "dependencies": [
-        "@base-ui/react@^1.7.0",
-        "cn@^0.2.5",
-        "lucide-react@^1.34.0",
-        "react-i18next@^17.0.12"
+        "@base-ui/react@^1.8.0",
+        "cn@^0.4.0",
+        "lucide-react@^1.49.0",
+        "react-i18next@^17.0.15"
       ],
       "registryDependencies": [
         "Joshua-Booth/creact/button",
@@ -631,9 +667,9 @@
       "description": "Searchable command palette for finding and executing actions. Built on cmdk.",
       "dependencies": [
         "cmdk@^1.1.1",
-        "cn@^0.2.5",
-        "lucide-react@^1.34.0",
-        "react-i18next@^17.0.12"
+        "cn@^0.4.0",
+        "lucide-react@^1.49.0",
+        "react-i18next@^17.0.15"
       ],
       "registryDependencies": [
         "Joshua-Booth/creact/button",
@@ -667,9 +703,9 @@
       "title": "Commit Conventions",
       "description": "creact commitlint config: FSD-aware scopes, imperative mood, and atomic-commit rules.",
       "devDependencies": [
-        "@commitlint/cli@^21.2.2",
-        "@commitlint/config-conventional@^21.2.2",
-        "@commitlint/types@^21.2.0",
+        "@commitlint/cli@^21.2.3",
+        "@commitlint/config-conventional@^21.2.3",
+        "@commitlint/types@^21.2.3",
         "commitlint-plugin-function-rules@^5.0.1",
         "commitlint-plugin-selective-scope@^1.0.3"
       ],
@@ -693,9 +729,9 @@
       "title": "Context Menu",
       "description": "Right-click context menu for presenting contextual actions. Wraps `@base-ui/react/context-menu` with keyboard navigation.",
       "dependencies": [
-        "@base-ui/react@^1.7.0",
-        "cn@^0.2.5",
-        "lucide-react@^1.34.0"
+        "@base-ui/react@^1.8.0",
+        "cn@^0.4.0",
+        "lucide-react@^1.49.0"
       ],
       "files": [
         {
@@ -723,13 +759,15 @@
       "description": "Text direction for bidirectional layout support.",
       "dependencies": [
         "@tanstack/react-table@^9.2.4",
-        "@tanstack/react-virtual@^3.14.10",
-        "cn@^0.2.5",
-        "lucide-react@^1.34.0",
-        "react-i18next@^17.0.12",
-        "sonner@^2.0.7"
+        "@tanstack/react-virtual@^3.14.13",
+        "cn@^0.4.0",
+        "lucide-react@^1.49.0",
+        "react-i18next@^17.0.15",
+        "sonner@^2.0.8"
       ],
-      "devDependencies": ["vitest@^4.1.11"],
+      "devDependencies": [
+        "vitest@^5.0.3"
+      ],
       "registryDependencies": [
         "Joshua-Booth/creact/badge",
         "Joshua-Booth/creact/button",
@@ -916,14 +954,17 @@
       "description": "TanStack Table instance controlling the data, columns, and row state.",
       "dependencies": [
         "@tanstack/react-table@^9.2.4",
-        "cn@^0.2.5",
-        "lucide-react@^1.34.0",
+        "cn@^0.4.0",
+        "lucide-react@^1.49.0",
         "nuqs@^2.10.1",
-        "react-day-picker@^10.0.1",
-        "react-i18next@^17.0.12",
-        "zod@^4.4.3"
+        "react-day-picker@^10.0.2",
+        "react-i18next@^17.0.15",
+        "zod@^4.6.5"
       ],
-      "devDependencies": ["@fast-check/vitest@^0.4.1", "vitest@^4.1.11"],
+      "devDependencies": [
+        "@fast-check/vitest@^0.5.0",
+        "vitest@^5.0.3"
+      ],
       "registryDependencies": [
         "Joshua-Booth/creact/badge",
         "Joshua-Booth/creact/button",
@@ -1168,10 +1209,10 @@
       "title": "Dialog",
       "description": "Focus-trapped modal window overlaid on the primary content. Wraps `@base-ui/react/dialog` with project styling and animation presets.",
       "dependencies": [
-        "@base-ui/react@^1.7.0",
-        "cn@^0.2.5",
-        "lucide-react@^1.34.0",
-        "react-i18next@^17.0.12"
+        "@base-ui/react@^1.8.0",
+        "cn@^0.4.0",
+        "lucide-react@^1.49.0",
+        "react-i18next@^17.0.15"
       ],
       "registryDependencies": [
         "Joshua-Booth/creact/button",
@@ -1203,7 +1244,9 @@
       "type": "registry:ui",
       "title": "Direction",
       "description": "Context provider for text direction (LTR/RTL) with locale-aware detection.",
-      "dependencies": ["@base-ui/react@^1.7.0"],
+      "dependencies": [
+        "@base-ui/react@^1.8.0"
+      ],
       "files": [
         {
           "path": "src/shared/ui/direction/direction.tsx",
@@ -1222,7 +1265,9 @@
       "type": "registry:ui",
       "title": "Docs",
       "description": "Docs for creact projects.",
-      "devDependencies": ["@storybook/addon-docs@^10.5.10"],
+      "devDependencies": [
+        "@storybook/addon-docs@^10.6.1"
+      ],
       "registryDependencies": [
         "Joshua-Booth/creact/alert-dialog",
         "Joshua-Booth/creact/button",
@@ -1277,7 +1322,10 @@
       "type": "registry:ui",
       "title": "Drawer",
       "description": "Touch-friendly bottom sheet overlay powered by Vaul. Supports swipe-to-dismiss and directional rendering.",
-      "dependencies": ["cn@^0.2.5", "vaul@^1.1.2"],
+      "dependencies": [
+        "cn@^0.4.0",
+        "vaul@^1.1.2"
+      ],
       "registryDependencies": [
         "Joshua-Booth/creact/button",
         "Joshua-Booth/creact/dialog",
@@ -1309,9 +1357,9 @@
       "title": "Dropdown Menu",
       "description": "Context-triggered menu for presenting a list of actions. Wraps `@base-ui/react/menu` with project styling and animation.",
       "dependencies": [
-        "@base-ui/react@^1.7.0",
-        "cn@^0.2.5",
-        "lucide-react@^1.34.0"
+        "@base-ui/react@^1.8.0",
+        "cn@^0.4.0",
+        "lucide-react@^1.49.0"
       ],
       "registryDependencies": [
         "Joshua-Booth/creact/avatar",
@@ -1342,10 +1390,10 @@
       "title": "Empty",
       "description": "Empty state placeholder displayed when a section has no content. Centers its children with a dashed border and balanced text.",
       "dependencies": [
-        "@base-ui/react@^1.7.0",
+        "@base-ui/react@^1.8.0",
         "class-variance-authority@^0.7.1",
-        "cn@^0.2.5",
-        "lucide-react@^1.34.0"
+        "cn@^0.4.0",
+        "lucide-react@^1.49.0"
       ],
       "registryDependencies": [
         "Joshua-Booth/creact/avatar",
@@ -1378,13 +1426,15 @@
       "title": "Error Boundary",
       "description": "Catches JavaScript errors in the child component tree, reports them to Sentry, and displays a fallback UI.",
       "dependencies": [
-        "@sentry/react@^10.71.0",
-        "i18next@^26.4.0",
-        "lucide-react@^1.34.0",
-        "react-i18next@^17.0.12",
-        "react-router@^8.3.1"
+        "@sentry/react@^11.2.0",
+        "i18next@^26.4.2",
+        "lucide-react@^1.49.0",
+        "react-i18next@^17.0.15",
+        "react-router@^8.4.0"
       ],
-      "devDependencies": ["storybook-addon-remix-react-router@^7.0.0"],
+      "devDependencies": [
+        "storybook-addon-remix-react-router@^7.0.0"
+      ],
       "registryDependencies": [
         "Joshua-Booth/creact/button",
         "Joshua-Booth/creact/empty"
@@ -1423,7 +1473,9 @@
       "type": "registry:lib",
       "title": "Feature Flags",
       "description": "Feature Flags for creact projects.",
-      "dependencies": ["@posthog/react@^1.10.5"],
+      "dependencies": [
+        "@posthog/react@^1.11.3"
+      ],
       "files": [
         {
           "path": "src/shared/lib/feature-flags/feature-gate.tsx",
@@ -1458,9 +1510,9 @@
       "title": "Field",
       "description": "Fieldset container for grouping related form fields with accessible semantics.",
       "dependencies": [
-        "@base-ui/react@^1.7.0",
+        "@base-ui/react@^1.8.0",
         "class-variance-authority@^0.7.1",
-        "cn@^0.2.5"
+        "cn@^0.4.0"
       ],
       "registryDependencies": [
         "Joshua-Booth/creact/button",
@@ -1498,7 +1550,9 @@
       "type": "registry:item",
       "title": "FSD Scaffolding",
       "description": "Plop generators for Feature-Sliced Design: scaffold slices and UI components with stories in the creact layout.",
-      "devDependencies": ["plop@^4.0.5"],
+      "devDependencies": [
+        "plop@^4.0.5"
+      ],
       "files": [
         {
           "path": "config/plopfile.ts",
@@ -1553,7 +1607,10 @@
       "type": "registry:ui",
       "title": "Hover Card",
       "description": "Popup card that appears on hover for previewing linked content. Wraps `@base-ui/react/preview-card`.",
-      "dependencies": ["@base-ui/react@^1.7.0", "cn@^0.2.5"],
+      "dependencies": [
+        "@base-ui/react@^1.8.0",
+        "cn@^0.4.0"
+      ],
       "registryDependencies": [
         "Joshua-Booth/creact/avatar",
         "Joshua-Booth/creact/button"
@@ -1601,9 +1658,9 @@
       "title": "Input",
       "description": "Text input field with project styling and validation states.",
       "dependencies": [
-        "@base-ui/react@^1.7.0",
-        "cn@^0.2.5",
-        "lucide-react@^1.34.0"
+        "@base-ui/react@^1.8.0",
+        "cn@^0.4.0",
+        "lucide-react@^1.49.0"
       ],
       "registryDependencies": [
         "Joshua-Booth/creact/badge",
@@ -1639,8 +1696,8 @@
       "description": "Container that visually groups an input with addon elements like icons and buttons.",
       "dependencies": [
         "class-variance-authority@^0.7.1",
-        "cn@^0.2.5",
-        "lucide-react@^1.34.0"
+        "cn@^0.4.0",
+        "lucide-react@^1.49.0"
       ],
       "registryDependencies": [
         "Joshua-Booth/creact/button",
@@ -1675,7 +1732,11 @@
       "type": "registry:ui",
       "title": "Input Otp",
       "description": "One-time password input with individual character slots. Built on input-otp.",
-      "dependencies": ["cn@^0.2.5", "input-otp@^1.5.0", "lucide-react@^1.34.0"],
+      "dependencies": [
+        "cn@^0.4.0",
+        "input-otp@^1.5.0",
+        "lucide-react@^1.49.0"
+      ],
       "registryDependencies": [
         "Joshua-Booth/creact/button",
         "Joshua-Booth/creact/card",
@@ -1706,10 +1767,10 @@
       "title": "Item",
       "description": "Container that arranges `Item` children in a vertical list.",
       "dependencies": [
-        "@base-ui/react@^1.7.0",
+        "@base-ui/react@^1.8.0",
         "class-variance-authority@^0.7.1",
-        "cn@^0.2.5",
-        "lucide-react@^1.34.0"
+        "cn@^0.4.0",
+        "lucide-react@^1.49.0"
       ],
       "registryDependencies": [
         "Joshua-Booth/creact/avatar",
@@ -1760,7 +1821,10 @@
       "type": "registry:ui",
       "title": "Kbd",
       "description": "Inline keyboard shortcut badge for displaying key combinations.",
-      "dependencies": ["cn@^0.2.5", "lucide-react@^1.34.0"],
+      "dependencies": [
+        "cn@^0.4.0",
+        "lucide-react@^1.49.0"
+      ],
       "registryDependencies": [
         "Joshua-Booth/creact/button",
         "Joshua-Booth/creact/input-group",
@@ -1790,7 +1854,9 @@
       "type": "registry:ui",
       "title": "Label",
       "description": "Accessible form label that dims automatically when its associated control is disabled.",
-      "dependencies": ["cn@^0.2.5"],
+      "dependencies": [
+        "cn@^0.4.0"
+      ],
       "registryDependencies": [
         "Joshua-Booth/creact/button",
         "Joshua-Booth/creact/checkbox",
@@ -1822,46 +1888,32 @@
       "name": "linting",
       "type": "registry:item",
       "title": "Linting",
-      "description": "creact ESLint 10 flat config: typescript-eslint strict, React, a11y, security, sonarjs, unicorn, FSD boundaries, Tailwind class checks, and more.",
+      "description": "creact Oxlint and Oxfmt config: type-aware TypeScript, React, a11y, sonarjs, unicorn, JSDoc and Tailwind class checks, plus import sorting.",
       "devDependencies": [
-        "@eslint-community/eslint-plugin-eslint-comments@^4.7.2",
-        "@eslint-react/eslint-plugin@^5.18.7",
-        "@eslint/js@^10.0.1",
-        "@vitest/eslint-plugin@^1.6.27",
-        "eslint@^10.9.1",
-        "eslint-plugin-barrel-files@^3.0.1",
-        "eslint-plugin-baseline-js@^0.7.1",
+        "@eslint-react/eslint-plugin@^5.23.3",
         "eslint-plugin-better-tailwindcss@^4.7.0",
-        "eslint-plugin-check-file@^3.3.2",
-        "eslint-plugin-depend@^1.5.0",
-        "eslint-plugin-jsdoc@^64.3.5",
-        "eslint-plugin-jsx-a11y@^6.10.2",
-        "eslint-plugin-n@^18.3.0",
-        "eslint-plugin-perfectionist@^5.11.0",
-        "eslint-plugin-promise@^7.3.0",
-        "eslint-plugin-react-hooks@^7.1.1",
+        "eslint-plugin-jsdoc@^65.0.1",
         "eslint-plugin-react-you-might-not-need-an-effect@^1.0.2",
-        "eslint-plugin-security@^4.0.1",
-        "eslint-plugin-sonarjs@^4.2.0",
-        "eslint-plugin-storybook@^10.6.0",
-        "eslint-plugin-unicorn@^73.0.0",
-        "eslint-plugin-zod@^4.12.0",
-        "globals@^17.11.0",
-        "typescript-eslint@^8.68.0"
+        "eslint-plugin-sonarjs@^4.2.2",
+        "eslint-plugin-storybook@^10.6.1",
+        "eslint-plugin-zod@^5.0.0",
+        "oxfmt@^0.71.0",
+        "oxlint@^1.86.0",
+        "oxlint-tsgolint@^7.0.2003"
       ],
       "files": [
         {
-          "path": "config/eslint.config.ts",
+          "path": "oxlint.config.ts",
           "type": "registry:file",
-          "target": "~/config/eslint.config.ts"
+          "target": "~/oxlint.config.ts"
         },
         {
-          "path": "config/eslint-plugins.d.ts",
+          "path": ".oxfmtrc.json",
           "type": "registry:file",
-          "target": "~/config/eslint-plugins.d.ts"
+          "target": "~/.oxfmtrc.json"
         }
       ],
-      "docs": "Run with: eslint . --config ./config/eslint.config.ts --max-warnings 0"
+      "docs": "Run with: oxlint --max-warnings 0 && oxfmt --check"
     },
     {
       "name": "marker",
@@ -1869,12 +1921,14 @@
       "title": "Marker",
       "description": "Style variants for the {@link Marker} component.",
       "dependencies": [
-        "@base-ui/react@^1.7.0",
+        "@base-ui/react@^1.8.0",
         "class-variance-authority@^0.7.1",
-        "cn@^0.2.5",
-        "lucide-react@^1.34.0"
+        "cn@^0.4.0",
+        "lucide-react@^1.49.0"
       ],
-      "registryDependencies": ["Joshua-Booth/creact/spinner"],
+      "registryDependencies": [
+        "Joshua-Booth/creact/spinner"
+      ],
       "files": [
         {
           "path": "src/shared/ui/marker/index.ts",
@@ -1900,11 +1954,13 @@
       "title": "Menubar",
       "description": "Horizontal menu bar that groups multiple dropdown menus into a single accessible control. Wraps `@base-ui/react/menubar` with dropdown menu composition.",
       "dependencies": [
-        "@base-ui/react@^1.7.0",
-        "cn@^0.2.5",
-        "lucide-react@^1.34.0"
+        "@base-ui/react@^1.8.0",
+        "cn@^0.4.0",
+        "lucide-react@^1.49.0"
       ],
-      "registryDependencies": ["Joshua-Booth/creact/dropdown-menu"],
+      "registryDependencies": [
+        "Joshua-Booth/creact/dropdown-menu"
+      ],
       "files": [
         {
           "path": "src/shared/ui/menubar/index.ts",
@@ -1929,7 +1985,10 @@
       "type": "registry:ui",
       "title": "Message",
       "description": "Vertical container that groups related messages together.",
-      "dependencies": ["cn@^0.2.5", "lucide-react@^1.34.0"],
+      "dependencies": [
+        "cn@^0.4.0",
+        "lucide-react@^1.49.0"
+      ],
       "registryDependencies": [
         "Joshua-Booth/creact/attachment",
         "Joshua-Booth/creact/bubble",
@@ -1961,8 +2020,8 @@
       "description": "Context provider that shares scroller state with descendant components.",
       "dependencies": [
         "@shadcn/react@^0.3.1",
-        "cn@^0.2.5",
-        "lucide-react@^1.34.0"
+        "cn@^0.4.0",
+        "lucide-react@^1.49.0"
       ],
       "registryDependencies": [
         "Joshua-Booth/creact/bubble",
@@ -1995,8 +2054,8 @@
       "title": "Mode Toggle",
       "description": "Dropdown button that switches between light, dark, and system color themes.",
       "dependencies": [
-        "lucide-react@^1.34.0",
-        "react-i18next@^17.0.12",
+        "lucide-react@^1.49.0",
+        "react-i18next@^17.0.15",
         "remix-themes@^2.0.4"
       ],
       "registryDependencies": [
@@ -2027,7 +2086,10 @@
       "type": "registry:ui",
       "title": "Native Select",
       "description": "Browser-native select element with project styling.",
-      "dependencies": ["cn@^0.2.5", "lucide-react@^1.34.0"],
+      "dependencies": [
+        "cn@^0.4.0",
+        "lucide-react@^1.49.0"
+      ],
       "files": [
         {
           "path": "src/shared/ui/native-select/index.ts",
@@ -2053,10 +2115,10 @@
       "title": "Navigation Menu",
       "description": "Horizontal navigation bar with animated dropdown content panels. Wraps `@base-ui/react/navigation-menu` with smooth transitions.",
       "dependencies": [
-        "@base-ui/react@^1.7.0",
+        "@base-ui/react@^1.8.0",
         "class-variance-authority@^0.7.1",
-        "cn@^0.2.5",
-        "lucide-react@^1.34.0"
+        "cn@^0.4.0",
+        "lucide-react@^1.49.0"
       ],
       "files": [
         {
@@ -2083,10 +2145,10 @@
       "title": "Pagination",
       "description": "Page navigation control with previous/next buttons and numbered page links.",
       "dependencies": [
-        "cn@^0.2.5",
-        "lucide-react@^1.34.0",
-        "react-i18next@^17.0.12",
-        "react-router@^8.3.1"
+        "cn@^0.4.0",
+        "lucide-react@^1.49.0",
+        "react-i18next@^17.0.15",
+        "react-router@^8.4.0"
       ],
       "registryDependencies": [
         "Joshua-Booth/creact/button",
@@ -2117,7 +2179,10 @@
       "type": "registry:ui",
       "title": "Popover",
       "description": "Floating popup anchored to a trigger element for rich content display. Wraps `@base-ui/react/popover`.",
-      "dependencies": ["@base-ui/react@^1.7.0", "cn@^0.2.5"],
+      "dependencies": [
+        "@base-ui/react@^1.8.0",
+        "cn@^0.4.0"
+      ],
       "registryDependencies": [
         "Joshua-Booth/creact/button",
         "Joshua-Booth/creact/input",
@@ -2147,7 +2212,10 @@
       "type": "registry:ui",
       "title": "Progress",
       "description": "Horizontal progress bar indicating completion percentage. Wraps Base UI Progress.",
-      "dependencies": ["@base-ui/react@^1.7.0", "cn@^0.2.5"],
+      "dependencies": [
+        "@base-ui/react@^1.8.0",
+        "cn@^0.4.0"
+      ],
       "registryDependencies": [
         "Joshua-Booth/creact/field",
         "Joshua-Booth/creact/slider"
@@ -2176,7 +2244,10 @@
       "type": "registry:ui",
       "title": "Radio Group",
       "description": "Group of mutually exclusive radio options. Wraps `@base-ui/react/radio-group`.",
-      "dependencies": ["@base-ui/react@^1.7.0", "cn@^0.2.5"],
+      "dependencies": [
+        "@base-ui/react@^1.8.0",
+        "cn@^0.4.0"
+      ],
       "registryDependencies": [
         "Joshua-Booth/creact/field",
         "Joshua-Booth/creact/item"
@@ -2205,7 +2276,10 @@
       "type": "registry:ui",
       "title": "Resizable",
       "description": "Resizable panel layout powered by react-resizable-panels. Arranges child panels in a split-view with draggable dividers.",
-      "dependencies": ["cn@^0.2.5", "react-resizable-panels@^4.12.3"],
+      "dependencies": [
+        "cn@^0.4.0",
+        "react-resizable-panels@^4.14.1"
+      ],
       "files": [
         {
           "path": "src/shared/ui/resizable/index.ts",
@@ -2230,7 +2304,10 @@
       "type": "registry:ui",
       "title": "Scroll Area",
       "description": "Custom scrollbar container powered by Base UI. Wraps content in a viewport with styled overlay scrollbars.",
-      "dependencies": ["@base-ui/react@^1.7.0", "cn@^0.2.5"],
+      "dependencies": [
+        "@base-ui/react@^1.8.0",
+        "cn@^0.4.0"
+      ],
       "files": [
         {
           "path": "src/shared/ui/scroll-area/index.ts",
@@ -2256,9 +2333,9 @@
       "title": "Select",
       "description": "Single-value selection dropdown. Wraps `@base-ui/react/select` with project styling.",
       "dependencies": [
-        "@base-ui/react@^1.7.0",
-        "cn@^0.2.5",
-        "lucide-react@^1.34.0"
+        "@base-ui/react@^1.8.0",
+        "cn@^0.4.0",
+        "lucide-react@^1.49.0"
       ],
       "registryDependencies": [
         "Joshua-Booth/creact/field",
@@ -2288,7 +2365,9 @@
       "type": "registry:lib",
       "title": "Seo",
       "description": "Seo for creact projects.",
-      "devDependencies": ["vitest@^4.1.11"],
+      "devDependencies": [
+        "vitest@^5.0.3"
+      ],
       "files": [
         {
           "path": "src/shared/lib/seo/index.ts",
@@ -2327,7 +2406,10 @@
       "type": "registry:ui",
       "title": "Separator",
       "description": "Visual divider rendered as a horizontal or vertical line. Defaults to horizontal orientation.",
-      "dependencies": ["@base-ui/react@^1.7.0", "cn@^0.2.5"],
+      "dependencies": [
+        "@base-ui/react@^1.8.0",
+        "cn@^0.4.0"
+      ],
       "files": [
         {
           "path": "src/shared/ui/separator/index.ts",
@@ -2353,10 +2435,10 @@
       "title": "Sheet",
       "description": "Side panel overlay that slides in from a screen edge. Wraps `@base-ui/react/dialog` with directional slide animations.",
       "dependencies": [
-        "@base-ui/react@^1.7.0",
-        "cn@^0.2.5",
-        "lucide-react@^1.34.0",
-        "react-i18next@^17.0.12"
+        "@base-ui/react@^1.8.0",
+        "cn@^0.4.0",
+        "lucide-react@^1.49.0",
+        "react-i18next@^17.0.15"
       ],
       "registryDependencies": [
         "Joshua-Booth/creact/button",
@@ -2388,11 +2470,11 @@
       "title": "Sidebar",
       "description": "Hook to access sidebar state and controls from any child component.",
       "dependencies": [
-        "@base-ui/react@^1.7.0",
+        "@base-ui/react@^1.8.0",
         "class-variance-authority@^0.7.1",
-        "cn@^0.2.5",
-        "lucide-react@^1.34.0",
-        "react-i18next@^17.0.12"
+        "cn@^0.4.0",
+        "lucide-react@^1.49.0",
+        "react-i18next@^17.0.15"
       ],
       "registryDependencies": [
         "Joshua-Booth/creact/button",
@@ -2428,8 +2510,12 @@
       "type": "registry:ui",
       "title": "Skeleton",
       "description": "Animated placeholder that indicates content is loading. Renders a pulsing rounded rectangle.",
-      "dependencies": ["cn@^0.2.5"],
-      "registryDependencies": ["Joshua-Booth/creact/card"],
+      "dependencies": [
+        "cn@^0.4.0"
+      ],
+      "registryDependencies": [
+        "Joshua-Booth/creact/card"
+      ],
       "files": [
         {
           "path": "src/shared/ui/skeleton/index.ts",
@@ -2454,8 +2540,13 @@
       "type": "registry:ui",
       "title": "Slider",
       "description": "Range slider input for selecting numeric values. Supports single or multi-thumb configurations with a visible track indicator.",
-      "dependencies": ["@base-ui/react@^1.7.0", "cn@^0.2.5"],
-      "registryDependencies": ["Joshua-Booth/creact/field"],
+      "dependencies": [
+        "@base-ui/react@^1.8.0",
+        "cn@^0.4.0"
+      ],
+      "registryDependencies": [
+        "Joshua-Booth/creact/field"
+      ],
       "files": [
         {
           "path": "src/shared/ui/slider/index.ts",
@@ -2480,7 +2571,11 @@
       "type": "registry:ui",
       "title": "Spinner",
       "description": "Animated loading spinner icon with an accessible translated label.",
-      "dependencies": ["cn@^0.2.5", "i18next@^26.4.0", "lucide-react@^1.34.0"],
+      "dependencies": [
+        "cn@^0.4.0",
+        "i18next@^26.4.2",
+        "lucide-react@^1.49.0"
+      ],
       "registryDependencies": [
         "Joshua-Booth/creact/badge",
         "Joshua-Booth/creact/button",
@@ -2512,25 +2607,25 @@
       "title": "Storybook Setup",
       "description": "creact Storybook 10 infrastructure: preview with i18n and theme decorators, browser-mode vitest wiring, and MSW addon setup. Required for the stories shipped with UI items.",
       "dependencies": [
-        "i18next@^26.4.0",
-        "react-i18next@^17.0.12",
+        "i18next@^26.4.2",
+        "react-i18next@^17.0.15",
         "remix-themes@^2.0.4",
         "swr@^2.5.1"
       ],
       "devDependencies": [
-        "@storybook/addon-a11y@^10.5.10",
-        "@storybook/addon-docs@^10.5.10",
-        "@storybook/addon-vitest@^10.5.10",
-        "@storybook/react-vite@^10.5.10",
+        "@storybook/addon-a11y@^10.6.1",
+        "@storybook/addon-docs@^10.6.1",
+        "@storybook/addon-vitest@^10.6.1",
+        "@storybook/react-vite@^10.6.1",
         "@tailwindcss/vite@^4.3.3",
-        "@vitest/browser-playwright@4.1.11",
-        "msw@^2.15.0",
-        "msw-storybook-addon@^3.0.0",
+        "@vitest/browser-playwright@5.0.3",
+        "msw@^3.0.1",
+        "msw-storybook-addon@^3.0.3",
         "remark-gfm@^4.0.1",
         "storybook-addon-remix-react-router@^7.0.0",
-        "vite@^8.2.2",
+        "vite@^8.3.2",
         "vite-plugin-svgr@^5.2.0",
-        "vitest@^4.1.11"
+        "vitest@^5.0.3"
       ],
       "registryDependencies": [
         "Joshua-Booth/creact/api",
@@ -2615,7 +2710,10 @@
       "type": "registry:ui",
       "title": "Switch",
       "description": "Toggle switch input with a sliding thumb indicator. Wraps `@base-ui/react/switch`.",
-      "dependencies": ["@base-ui/react@^1.7.0", "cn@^0.2.5"],
+      "dependencies": [
+        "@base-ui/react@^1.8.0",
+        "cn@^0.4.0"
+      ],
       "registryDependencies": [
         "Joshua-Booth/creact/button",
         "Joshua-Booth/creact/field"
@@ -2644,7 +2742,10 @@
       "type": "registry:ui",
       "title": "Table",
       "description": "Responsive data table wrapped in a horizontally scrollable container.",
-      "dependencies": ["cn@^0.2.5", "lucide-react@^1.34.0"],
+      "dependencies": [
+        "cn@^0.4.0",
+        "lucide-react@^1.49.0"
+      ],
       "registryDependencies": [
         "Joshua-Booth/creact/button",
         "Joshua-Booth/creact/dropdown-menu"
@@ -2674,10 +2775,10 @@
       "title": "Tabs",
       "description": "Tabbed interface for switching between content panels. Supports horizontal and vertical orientations.",
       "dependencies": [
-        "@base-ui/react@^1.7.0",
+        "@base-ui/react@^1.8.0",
         "class-variance-authority@^0.7.1",
-        "cn@^0.2.5",
-        "lucide-react@^1.34.0"
+        "cn@^0.4.0",
+        "lucide-react@^1.49.0"
       ],
       "files": [
         {
@@ -2703,7 +2804,9 @@
       "type": "registry:ui",
       "title": "Textarea",
       "description": "Multi-line text input with automatic field sizing. Styled with focus, error, and disabled states.",
-      "dependencies": ["cn@^0.2.5"],
+      "dependencies": [
+        "cn@^0.4.0"
+      ],
       "registryDependencies": [
         "Joshua-Booth/creact/button",
         "Joshua-Booth/creact/field"
@@ -2814,11 +2917,13 @@
       "title": "Toast",
       "description": "Themed toast notification renderer powered by Sonner. Syncs with the app's light/dark theme and provides custom status icons.",
       "dependencies": [
-        "lucide-react@^1.34.0",
+        "lucide-react@^1.49.0",
         "remix-themes@^2.0.4",
-        "sonner@^2.0.7"
+        "sonner@^2.0.8"
       ],
-      "registryDependencies": ["Joshua-Booth/creact/button"],
+      "registryDependencies": [
+        "Joshua-Booth/creact/button"
+      ],
       "files": [
         {
           "path": "src/shared/ui/toast/index.ts",
@@ -2849,10 +2954,10 @@
       "title": "Toggle",
       "description": "Style variants for the {@link Toggle} component.",
       "dependencies": [
-        "@base-ui/react@^1.7.0",
+        "@base-ui/react@^1.8.0",
         "class-variance-authority@^0.7.1",
-        "cn@^0.2.5",
-        "lucide-react@^1.34.0"
+        "cn@^0.4.0",
+        "lucide-react@^1.49.0"
       ],
       "files": [
         {
@@ -2879,12 +2984,14 @@
       "title": "Toggle Group",
       "description": "Container for a group of related toggle buttons. Propagates shared variant, size, spacing, and orientation to child items via context.",
       "dependencies": [
-        "@base-ui/react@^1.7.0",
+        "@base-ui/react@^1.8.0",
         "class-variance-authority@^0.7.1",
-        "cn@^0.2.5",
-        "lucide-react@^1.34.0"
+        "cn@^0.4.0",
+        "lucide-react@^1.49.0"
       ],
-      "registryDependencies": ["Joshua-Booth/creact/toggle"],
+      "registryDependencies": [
+        "Joshua-Booth/creact/toggle"
+      ],
       "files": [
         {
           "path": "src/shared/ui/toggle-group/index.ts",
@@ -2910,9 +3017,9 @@
       "title": "Tooltip",
       "description": "Shared configuration provider for all tooltips in a subtree. Controls open delay across nested instances.",
       "dependencies": [
-        "@base-ui/react@^1.7.0",
-        "cn@^0.2.5",
-        "lucide-react@^1.34.0"
+        "@base-ui/react@^1.8.0",
+        "cn@^0.4.0",
+        "lucide-react@^1.49.0"
       ],
       "registryDependencies": [
         "Joshua-Booth/creact/button",
@@ -2944,10 +3051,12 @@
       "description": "Email address validated as a proper email format.",
       "dependencies": [
         "@hookform/resolvers@^5.9.1",
-        "i18next@^26.4.0",
-        "zod@^4.4.3"
+        "i18next@^26.4.2",
+        "zod@^4.6.5"
       ],
-      "devDependencies": ["vitest@^4.1.11"],
+      "devDependencies": [
+        "vitest@^5.0.3"
+      ],
       "files": [
         {
           "path": "src/shared/lib/validation/index.test.ts",

@@ -480,9 +480,10 @@ function buildInfraItems(): RegistryItem[] {
       type: "registry:item",
       title: "Linting",
       description:
-        "creact ESLint 10 flat config: typescript-eslint strict, React, a11y, security, sonarjs, unicorn, FSD boundaries, Tailwind class checks, and more.",
-      paths: ["config/eslint.config.ts", "config/eslint-plugins.d.ts"],
-      docs: "Run with: eslint . --config ./config/eslint.config.ts --max-warnings 0",
+        "creact Oxlint and Oxfmt config: type-aware TypeScript, React, a11y, sonarjs, unicorn, JSDoc and Tailwind class checks, plus import sorting.",
+      paths: ["oxlint.config.ts", ".oxfmtrc.json"],
+      extraPackages: ["oxfmt", "oxlint-tsgolint"],
+      docs: "Run with: oxlint --max-warnings 0 && oxfmt --check",
     }),
     buildInfraItem({
       name: "commit-conventions",
