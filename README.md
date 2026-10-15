@@ -304,7 +304,7 @@ pnpm dlx shadcn@latest add Joshua-Booth/creact/theme Joshua-Booth/creact/data-ta
 
 The items are:
 
-- one per component in `src/shared/ui`, with its unit tests. Stories and demos stay in creact, as they need its Storybook setup.
+- one per component in `src/shared/ui`, with its unit tests, so items with tests add vitest to `devDependencies`. Stories and demos stay in creact, as they need its Storybook setup.
 - the `src/shared/lib` slices those components import, such as `device` and `data-table-core`. shadcn adds these for you.
 - `theme`, the colour tokens, radius, font and base styles from `src/app/styles/globals.css`.
 - `storybook-setup`, `linting`, `commit-conventions` and `fsd-scaffolding`, creact's tooling config.
@@ -330,7 +330,7 @@ allowBuilds:
 mise run registry:build
 ```
 
-CI runs `mise run registry:check` and fails if `registry.json` is out of date.
+CI runs `mise run registry:check`. It fails if `registry.json` is out of date or the generator prints a warning. It also type-checks `src/shared` without ts-reset, as projects that add the items don't load it.
 
 ### Try a branch before merging
 
