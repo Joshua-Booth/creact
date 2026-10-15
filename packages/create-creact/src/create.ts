@@ -1,6 +1,6 @@
-/* oxlint-disable security/detect-non-literal-fs-filename -- every path is the directory the caller named, its sibling staging dir, or inside one of them */
+/* oxlint-disable security/detect-non-literal-fs-filename -- every path is the directory the caller named, an ancestor of it, its sibling staging dir, or inside one of them */
 import { existsSync } from "node:fs";
-import { mkdir, readdir, rename, rm } from "node:fs/promises";
+import { mkdir, readdir, realpath, rename, rm } from "node:fs/promises";
 import path from "node:path";
 
 import pkg from "../package.json" with { type: "json" };
@@ -23,7 +23,7 @@ import {
   resolveChoices,
   UsageError,
 } from "./options.ts";
-import { CommandFailed, run, succeeds } from "./shell.ts";
+import { CommandFailed, output, run, succeeds } from "./shell.ts";
 import { STACKS } from "./stacks.ts";
 
 export interface Report {
@@ -90,6 +90,12 @@ export async function create(
 }
 
 async function inspect(dir: string): Promise<Target> {
+  const repo = await outerRepo(dir);
+  if (repo !== undefined) {
+    throw new UsageError(
+      `${dir} is inside the git repository at ${repo}, so the project would get no repository of its own. Pick a directory outside it.`
+    );
+  }
   if (!existsSync(dir)) return { kind: "fresh", exists: false };
   const state = await readState(dir);
   if (state !== undefined) return { kind: "project", state };
@@ -97,6 +103,14 @@ async function inspect(dir: string): Promise<Target> {
   throw new UsageError(
     `${dir} isn't empty and has no ${STATE_FILE}, so create-creact didn't make it. Pick a new directory.`
   );
+}
+
+async function outerRepo(dir: string): Promise<string | undefined> {
+  let probe = dir;
+  while (!existsSync(probe)) probe = path.dirname(probe);
+  const top = await output("git", ["rev-parse", "--show-toplevel"], probe);
+  const own = existsSync(dir) ? await realpath(dir) : undefined;
+  return top === undefined || top === own ? undefined : top;
 }
 
 // create-next-app's --yes reads preferences saved under HOME (XDG_CONFIG_HOME

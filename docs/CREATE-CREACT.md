@@ -5,16 +5,18 @@
 ## Run it
 
 ```sh
-node packages/create-creact/src/main.ts my-app --stack next
-node packages/create-creact/src/main.ts my-app --stack react-router --no-install --no-git
-node packages/create-creact/src/main.ts my-app --yes
+node packages/create-creact/src/main.ts ../my-app --stack next
+node packages/create-creact/src/main.ts ../my-app --stack react-router --no-install --no-git
+node packages/create-creact/src/main.ts ../my-app --yes
 ```
+
+The directory must sit outside this checkout and any other git repository, as the project gets its own. Inside one, the command exits 2 and writes nothing.
 
 Every prompt has a flag, so an agent never waits on a question.
 
 | Flag | Values | Default |
 | --- | --- | --- |
-| `<dir>` | a path that is missing, empty, or a project this command made | required |
+| `<dir>` | a path outside any git repository that is missing, empty, or a project this command made | required |
 | `--stack` | `react-router`, `next` | required, or `react-router` with `--yes` |
 | `--styling` | `tailwind`, `stylex` (not built, JB-89) | `tailwind` |
 | `--storybook`, `--msw`, `--playwright`, `--i18n`, `--posthog`, `--sentry` | extras, not built yet | off |
