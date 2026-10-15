@@ -559,7 +559,7 @@ export async function writeState(dir: string, state: State): Promise<void> {
   await writeAtomic(file, `${JSON.stringify(state, null, 2)}\n`);
 }
 
-function isObject(value: Json | undefined): value is JsonObject {
+export function isObject(value: Json | undefined): value is JsonObject {
   return typeof value === "object" && value !== null && !Array.isArray(value);
 }
 
