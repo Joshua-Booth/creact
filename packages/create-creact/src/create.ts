@@ -1,4 +1,4 @@
-/* oxlint-disable security/detect-non-literal-fs-filename -- every path is under the directory the caller named */
+/* oxlint-disable security/detect-non-literal-fs-filename -- every path is the directory the caller named, its sibling staging dir, or inside one of them */
 import { existsSync } from "node:fs";
 import { mkdir, readdir, rename, rm } from "node:fs/promises";
 import path from "node:path";
@@ -11,6 +11,7 @@ import {
   type Op,
   type OverlayId,
   plan,
+  type Prior,
   readState,
   type State,
   STATE_FILE,
@@ -38,8 +39,6 @@ type Target =
   | { readonly kind: "fresh"; readonly exists: boolean }
   | { readonly kind: "project"; readonly state: State };
 
-// Every step converges, so running again on the same directory finishes an
-// interrupted run, and on a finished project takes the current layer.
 export async function create(
   request: Request,
   layerDir: string
@@ -62,15 +61,23 @@ export async function create(
     );
     await rm(staging, { recursive: true, force: true });
     const base = await obtainBase(staging, choices, path.basename(request.dir));
-    layer = await applyLayer(base, ops, undefined, choices);
+    layer = await applyLayer(base, ops, { kind: "upstream-only" }, choices);
     await place(base, request.dir, target.exists);
     await rm(staging, { recursive: true, force: true });
   } else {
-    layer = await applyLayer(request.dir, ops, prior, choices);
+    layer = await applyLayer(
+      request.dir,
+      ops,
+      { kind: "recorded", hashes: target.state.hashes },
+      choices
+    );
   }
 
   const git = request.git ? await initGit(request.dir) : "skipped";
-  if (request.install) await install(request.dir, layer.missingDevDeps);
+  if (request.install) {
+    await install(request.dir, layer.missingDevDeps);
+    await fixThenFormat(request.dir);
+  }
 
   return {
     dir: request.dir,
@@ -114,6 +121,8 @@ async function obtainBase(
       stack.cli,
       name,
       ...stack.flags[choices.styling],
+      stack.skipInstall,
+      stack.skipGit,
     ],
     staging
   );
@@ -129,7 +138,7 @@ async function obtainBase(
 async function applyLayer(
   dir: string,
   ops: readonly Op[],
-  prior: State | undefined,
+  prior: Prior,
   choices: Choices
 ): Promise<ApplyReport> {
   const layer = await apply(dir, ops, prior);
@@ -137,13 +146,13 @@ async function applyLayer(
     schema: 1,
     creact: pkg.version,
     ...choices,
-    files: layer.hashes,
+    hashes: layer.hashes,
   });
   return layer;
 }
 
-// A missing target takes one atomic rename. An existing empty one may be the
-// caller's cwd, so it keeps its inode and receives the entries instead.
+// An existing empty target may be the caller's cwd, so it keeps its inode
+// and receives the entries instead.
 async function place(
   base: string,
   target: string,
@@ -153,9 +162,13 @@ async function place(
     await rename(base, target);
     return;
   }
+  const stateDir = path.dirname(STATE_FILE);
   for (const entry of await readdir(base)) {
-    await rename(path.join(base, entry), path.join(target, entry));
+    if (entry !== stateDir) {
+      await rename(path.join(base, entry), path.join(target, entry));
+    }
   }
+  await rename(path.join(base, stateDir), path.join(target, stateDir));
 }
 
 // Before install, because husky's prepare script needs .git to set the hooks.
@@ -168,8 +181,7 @@ async function initGit(dir: string): Promise<Report["git"]> {
 }
 
 // pnpm add skips the project's own prepare script, which installs the git
-// hooks. lint --fix and format then bring upstream's files to the layer's
-// rules, in that order so the fixes come out formatted.
+// hooks.
 async function install(dir: string, missing: readonly string[]): Promise<void> {
   await run(
     "pnpm",
@@ -177,6 +189,9 @@ async function install(dir: string, missing: readonly string[]): Promise<void> {
     dir
   );
   await run("pnpm", ["run", "prepare"], dir);
+}
+
+async function fixThenFormat(dir: string): Promise<void> {
   await run("pnpm", ["run", "lint", "--fix"], dir);
   await run("pnpm", ["run", "format"], dir);
 }

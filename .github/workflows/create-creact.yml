@@ -9,7 +9,6 @@ on:
       - ".github/workflows/create-creact.yml"
   workflow_dispatch:
   schedule:
-    # Weekly, because upstream's create CLIs change without a commit here.
     - cron: "0 18 * * 0"
 
 concurrency:
@@ -27,8 +26,6 @@ jobs:
       - name: Run the offline plan tests
         run: mise run test:cli
 
-  # No HUSKY: 0 here, unlike ci.yml: the test checks the generated project's
-  # own git hooks.
   scaffold:
     name: Scaffold ${{ matrix.stack }}
     runs-on: ubuntu-latest

@@ -1,6 +1,6 @@
 /* oxlint-disable typescript/no-floating-promises, security/detect-non-literal-fs-filename --
  * node:test's describe and it return promises the runner awaits, and every
- * path is a temp dir the test made. */
+ * path is a temp dir the test made or the package's own layer. */
 import { spawnSync, type SpawnSyncReturns } from "node:child_process";
 import {
   cpSync,
@@ -27,7 +27,6 @@ const IDENTITY = [
   "user.email=test@example.invalid",
 ];
 const CHECKS = ["build", "typecheck", "lint", "format:check", "test"];
-// Network-bound, so opt-in: 1 runs every stack, a comma list names some.
 const SCAFFOLD = new Set(process.env.CREACT_SCAFFOLD?.split(","));
 
 // creact's mise.toml sets NODE_ENV=development, and next build can't
@@ -49,18 +48,17 @@ function porcelain(dir: string): string {
   return sh(dir, "git", ["status", "--porcelain"]).stdout;
 }
 
-// A HOME whose saved create-next-app preferences turn on ESLint and the React
-// Compiler, in both places its config library looks. The store stays the
-// real one so pnpm doesn't download everything again.
-function seededEnv(parent: string): NodeJS.ProcessEnv {
+const SAVED_NEXT_PREFERENCES = {
+  macos: "Library/Preferences/create-next-app-nodejs",
+  linux: ".config/create-next-app-nodejs",
+};
+
+function withSavedNextPreferences(parent: string): NodeJS.ProcessEnv {
   const home = path.join(parent, "home");
   const preferences = JSON.stringify({
     preferences: { linter: "eslint", eslint: true, reactCompiler: true },
   });
-  for (const dir of [
-    "Library/Preferences/create-next-app-nodejs",
-    ".config/create-next-app-nodejs",
-  ]) {
+  for (const dir of Object.values(SAVED_NEXT_PREFERENCES)) {
     mkdirSync(path.join(home, dir), { recursive: true });
     writeFileSync(path.join(home, dir, "config.json"), preferences);
   }
@@ -89,7 +87,7 @@ for (const id of Object.keys(STACKS) as StackId[]) {
       before(() => {
         parent = mkdtempSync(path.join(tmpdir(), "create-creact-"));
         dir = path.join(parent, "app");
-        env = seededEnv(parent);
+        env = withSavedNextPreferences(parent);
       });
 
       after(() => {

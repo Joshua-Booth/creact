@@ -59,9 +59,7 @@ function format(report: Report): string {
     `create-creact: ${stack} + ${styling} in ${report.dir}`,
     `  base     ${base}`,
     `  layer    ${named("written").length} written, ${named("unchanged").length} unchanged, ${kept.length} kept`,
-    ...kept.map(
-      (file) => `           kept ${file}: edited since create-creact wrote it`
-    ),
+    ...kept.map((file) => `           kept ${file}, which the project changed`),
     `  git      ${report.git}`,
     `  install  ${install}`,
     `next: cd ${report.dir} && pnpm dev`,

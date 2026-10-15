@@ -1,16 +1,13 @@
 import type { StylingId } from "./options.ts";
 
 export interface Stack {
-  /** The upstream create CLI, run with `pnpm dlx` at `latest`. Its bin has the same name. */
   readonly cli: string;
-  /** Everything after the project name. Install and git stay off: creact runs both once, after the layer. */
   readonly flags: Readonly<Record<StylingId, readonly string[]>>;
-  /** A file every base of this stack has. Its absence means upstream changed shape. */
+  readonly skipInstall: string;
+  readonly skipGit: string;
   readonly signature: string;
-  /** The directory upstream's `paths` alias points at. */
   readonly srcRoot: string;
   readonly globalCss: string;
-  /** Writes route types. Type-aware lint and tsc need them first. */
   readonly typegen: string;
 }
 
@@ -20,8 +17,6 @@ export const STACKS = {
     flags: {
       tailwind: [
         "--yes",
-        "--no-install",
-        "--no-git-init",
         "--package-manager",
         "pnpm",
         "--agent-skills",
@@ -29,6 +24,8 @@ export const STACKS = {
         "--no-color",
       ],
     },
+    skipInstall: "--no-install",
+    skipGit: "--no-git-init",
     signature: "react-router.config.ts",
     srcRoot: "app",
     globalCss: "app/app.css",
@@ -36,9 +33,8 @@ export const STACKS = {
   },
   next: {
     cli: "create-next-app",
-    // --yes fills every option not given from preferences saved under HOME,
-    // so each one is spelled out. --no-linter and --no-react-compiler are
-    // missing from --help but read from argv.
+    // --no-linter and --no-react-compiler are missing from --help but read
+    // from argv.
     flags: {
       tailwind: [
         "--yes",
@@ -52,12 +48,12 @@ export const STACKS = {
         "--import-alias",
         "@/*",
         "--agents-md",
-        "--skip-install",
-        "--disable-git",
         "--use-pnpm",
         "--no-agent-feedback",
       ],
     },
+    skipInstall: "--skip-install",
+    skipGit: "--disable-git",
     signature: "next.config.ts",
     srcRoot: "src",
     globalCss: "src/app/globals.css",

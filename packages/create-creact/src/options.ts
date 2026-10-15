@@ -45,7 +45,6 @@ export const EXTRAS = {
 } as const satisfies Record<string, Feature>;
 
 export type StylingId = Built<typeof STYLINGS>;
-/** `never` until the first extra is built, so no planned extra reaches the layer. */
 export type ExtraId = Built<typeof EXTRAS>;
 
 export interface Choices {
@@ -59,7 +58,6 @@ export const DEFAULTS = {
   styling: "tailwind",
 } as const satisfies Omit<Choices, "extras">;
 
-/** What the caller asked for. An undefined choice comes from the project on disk, or from DEFAULTS under --yes. */
 export interface Request {
   readonly dir: string;
   readonly stack: StackId | undefined;
@@ -75,7 +73,6 @@ export type Parsed =
   | { readonly kind: "help"; readonly text: string }
   | { readonly kind: "usage"; readonly message: string };
 
-/** Bad input, a planned feature, or a directory the command won't touch. Exits 2. */
 export class UsageError extends Error {
   override readonly name = "UsageError";
 }
@@ -193,8 +190,6 @@ export function parseRequest(argv: readonly string[], cwd: string): Parsed {
   };
 }
 
-// A project's recorded choices win over flags, so a rerun needs none. A flag
-// that contradicts the record is an error rather than a silent switch.
 export function resolveChoices(
   request: Request,
   recorded: Choices | undefined

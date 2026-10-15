@@ -27,11 +27,9 @@ export type JsonObject = Readonly<Record<string, Json>>;
 // oxlint-disable-next-line typescript/no-redundant-type-constituents -- ExtraId is never until the first extra is built
 export type OverlayId = "base" | StylingId | ExtraId;
 
-/** What an overlay changes besides whole files, which live in layer/<id>/ as <project path>.layer. */
 interface Overlay {
   readonly packageJson?: JsonObject;
   readonly tsconfig?: JsonObject;
-  /** Names only: `pnpm add -D` picks the latest version at creation and Renovate bumps it after. */
   readonly devDependencies: readonly string[];
 }
 
@@ -86,22 +84,25 @@ export const OVERLAYS: Readonly<Record<OverlayId, Overlay>> = {
 
 export type Op =
   | { readonly kind: "file"; readonly path: string; readonly content: string }
-  /** A deep merge where the patch wins and arrays are replaced. Never hash-tracked, so it applies on every run. */
   | {
       readonly kind: "json";
       readonly path: "package.json" | "tsconfig.json";
       readonly patch: JsonObject;
     }
-  /** Added by name when missing from both dependency maps, so a version the project chose stays. */
   | { readonly kind: "devDeps"; readonly names: readonly string[] };
 
-/** .creact/state.json. Written after every op, so its presence means the layer was applied in full. */
 export interface State extends Choices {
   readonly schema: 1;
   readonly creact: string;
-  /** sha256 of each layer file as last written. */
-  readonly files: Readonly<Record<string, string>>;
+  readonly hashes: Readonly<Record<string, string>>;
 }
+
+export type Prior =
+  | { readonly kind: "upstream-only" }
+  | {
+      readonly kind: "recorded";
+      readonly hashes: Readonly<Record<string, string>>;
+    };
 
 export const STATE_FILE = ".creact/state.json";
 
@@ -109,13 +110,10 @@ type Outcome = "written" | "unchanged" | "kept";
 
 export interface ApplyReport {
   readonly files: Readonly<Record<string, Outcome>>;
-  /** What the next state records. A kept file keeps its old hash, so it updates again once reverted. */
   readonly hashes: Readonly<Record<string, string>>;
   readonly missingDevDeps: readonly string[];
 }
 
-// Keyed by project path. A later overlay wins a path it shares with an
-// earlier one.
 export async function loadLayer(
   layerDir: string,
   ids: readonly OverlayId[]
@@ -171,8 +169,6 @@ export function plan(
   ];
 }
 
-// Fills {{name}} from the stack row, the one place a layer file adapts to
-// upstream's layout.
 export function render(
   file: string,
   content: string,
@@ -198,7 +194,7 @@ export function merge(doc: JsonObject, patch: JsonObject): JsonObject {
 export async function apply(
   dir: string,
   ops: readonly Op[],
-  prior: State | undefined
+  prior: Prior
 ): Promise<ApplyReport> {
   const files: Record<string, Outcome> = {};
   const hashes: Record<string, string> = {};
@@ -230,23 +226,20 @@ export async function apply(
   return { files, hashes, missingDevDeps };
 }
 
-// Write when the file is missing, when it still matches the hash recorded at
-// the last write, or when nothing was recorded at all (a fresh base in
-// staging, where only upstream wrote). Anything else is the project's edit.
 async function applyFile(
   dir: string,
   file: string,
   content: string,
-  prior: State | undefined
+  prior: Prior
 ): Promise<{ readonly outcome: Outcome; readonly hash: string | undefined }> {
   const target = path.join(dir, file);
   const current = await readText(target);
-  const recorded = prior?.files[file];
+  const recorded = prior.kind === "recorded" ? prior.hashes[file] : undefined;
   if (current === content)
     return { outcome: "unchanged", hash: sha256(content) };
   if (
     current === undefined ||
-    prior === undefined ||
+    prior.kind === "upstream-only" ||
     sha256(current) === recorded
   ) {
     await writeAtomic(target, content);
@@ -267,7 +260,7 @@ export async function readState(dir: string): Promise<State | undefined> {
   const file = path.join(dir, STATE_FILE);
   if (!existsSync(file)) return undefined;
   const raw = await readJson(file);
-  const { schema, creact, stack, styling, extras, files } = raw;
+  const { schema, creact, stack, styling, extras, hashes } = raw;
   const valid =
     schema === 1 &&
     typeof creact === "string" &&
@@ -277,8 +270,8 @@ export async function readState(dir: string): Promise<State | undefined> {
     isBuilt(STYLINGS, styling) &&
     Array.isArray(extras) &&
     extras.every((id) => typeof id === "string" && isBuilt(EXTRAS, id)) &&
-    isObject(files) &&
-    Object.values(files).every((hash) => typeof hash === "string");
+    isObject(hashes) &&
+    Object.values(hashes).every((hash) => typeof hash === "string");
   if (!valid) {
     throw new UsageError(`${file} isn't a create-creact state file`);
   }
@@ -317,8 +310,6 @@ async function readJson(file: string): Promise<JsonObject> {
   return parsed;
 }
 
-// A crash mid-write would leave a file whose hash matches nothing, which the
-// next run would keep as an edit. A rename is all or nothing.
 async function writeAtomic(file: string, content: string): Promise<void> {
   await mkdir(path.dirname(file), { recursive: true });
   const temp = `${file}.creact-tmp`;

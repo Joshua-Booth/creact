@@ -23,8 +23,8 @@ import {
   type OverlayId,
   OVERLAYS,
   plan,
+  type Prior,
   readState,
-  type State,
   STATE_FILE,
 } from "../src/layer.ts";
 import {
@@ -44,8 +44,6 @@ const LAYER = path.join(import.meta.dirname, "../layer");
 const STACK_IDS = Object.keys(STACKS) as StackId[];
 const IDS: readonly OverlayId[] = ["base", "tailwind"];
 
-// What the upstream CLIs wrote on 15 Oct 2026. Named <stack>.json rather than
-// package.json so Renovate leaves them alone.
 function fixture(stack: StackId): {
   readonly "package.json": JsonObject;
   readonly "tsconfig.json": JsonObject;
@@ -83,15 +81,10 @@ function upstreamBase(stack: StackId, extra: JsonObject = {}): string {
   return dir;
 }
 
-function stateFrom(hashes: Readonly<Record<string, string>>): State {
-  return {
-    schema: 1,
-    creact: "0.0.0",
-    stack: "next",
-    styling: "tailwind",
-    extras: [],
-    files: hashes,
-  };
+const UPSTREAM_ONLY: Prior = { kind: "upstream-only" };
+
+function recorded(hashes: Readonly<Record<string, string>>): Prior {
+  return { kind: "recorded", hashes };
 }
 
 function cli(argv: readonly string[]) {
@@ -365,7 +358,7 @@ describe("apply", () => {
       dependencies: { husky: "^1.0.0" },
       devDependencies: { vitest: "^99.0.0" },
     });
-    const report = await apply(dir, await ops("react-router"), undefined);
+    const report = await apply(dir, await ops("react-router"), UPSTREAM_ONLY);
     t.assert.strictEqual(report.missingDevDeps.includes("husky"), false);
     t.assert.strictEqual(report.missingDevDeps.includes("vitest"), false);
     t.assert.strictEqual(report.missingDevDeps.includes("oxlint"), true);
@@ -378,8 +371,8 @@ describe("apply", () => {
   it("writes nothing on a second run", async (t: TestContext) => {
     const dir = upstreamBase("next");
     const all = await ops("next");
-    const first = await apply(dir, all, undefined);
-    const second = await apply(dir, all, stateFrom(first.hashes));
+    const first = await apply(dir, all, UPSTREAM_ONLY);
+    const second = await apply(dir, all, recorded(first.hashes));
     t.assert.deepStrictEqual(
       Object.entries(second.files).filter(
         ([, outcome]) => outcome !== "unchanged"
@@ -390,7 +383,7 @@ describe("apply", () => {
 
   it("updates a file the project left alone and keeps one it edited when the layer changes", async (t: TestContext) => {
     const dir = upstreamBase("next");
-    const first = await apply(dir, await ops("next"), undefined);
+    const first = await apply(dir, await ops("next"), UPSTREAM_ONLY);
     writeFileSync(
       path.join(dir, "commitlint.config.ts"),
       "export default {};\n"
@@ -399,7 +392,7 @@ describe("apply", () => {
     const newer = (await ops("next")).map((op): Op =>
       op.kind === "file" ? { ...op, content: `${op.content}// newer\n` } : op
     );
-    const second = await apply(dir, newer, stateFrom(first.hashes));
+    const second = await apply(dir, newer, recorded(first.hashes));
     t.assert.strictEqual(second.files["vitest.config.ts"], "written");
     t.assert.strictEqual(second.files["commitlint.config.ts"], "kept");
     t.assert.strictEqual(
@@ -415,12 +408,12 @@ describe("apply", () => {
   it("overwrites upstream's file at a layer path in a fresh base but keeps an unrecorded one on a rerun", async (t: TestContext) => {
     const fresh = upstreamBase("next");
     writeFileSync(path.join(fresh, ".oxfmtrc.json"), "{}\n");
-    const created = await apply(fresh, await ops("next"), undefined);
+    const created = await apply(fresh, await ops("next"), UPSTREAM_ONLY);
     t.assert.strictEqual(created.files[".oxfmtrc.json"], "written");
 
     const rerun = upstreamBase("next");
     writeFileSync(path.join(rerun, ".oxfmtrc.json"), "{}\n");
-    const converged = await apply(rerun, await ops("next"), stateFrom({}));
+    const converged = await apply(rerun, await ops("next"), recorded({}));
     t.assert.strictEqual(converged.files[".oxfmtrc.json"], "kept");
   });
 });
@@ -431,7 +424,14 @@ describe("readState", () => {
     mkdirSync(path.join(dir, ".creact"));
     writeFileSync(
       path.join(dir, STATE_FILE),
-      JSON.stringify({ ...stateFrom({}), stack: "vue" })
+      JSON.stringify({
+        schema: 1,
+        creact: "0.0.0",
+        stack: "vue",
+        styling: "tailwind",
+        extras: [],
+        hashes: {},
+      })
     );
     await t.assert.rejects(readState(dir), UsageError);
   });
