@@ -1992,16 +1992,28 @@
       "name": "theme",
       "type": "registry:theme",
       "title": "Theme",
-      "description": "creact design tokens: neutral oklch palette, chart and sidebar colors, radius, light and dark modes.",
+      "description": "creact theme: neutral oklch colors for light and dark mode, chart and sidebar colors, the radius scale, the Inter font, animation utilities and base styles.",
       "dependencies": [
         "@fontsource-variable/inter@^5.3.0",
         "tw-animate-css@^1.4.0"
       ],
+      "devDependencies": [
+        "shadcn@^4.21.1"
+      ],
       "cssVars": {
         "theme": {
-          "font-sans": "'Inter Variable', sans-serif"
+          "font-sans": "\"Inter Variable\", sans-serif",
+          "font-heading": "var(--font-sans)",
+          "radius-sm": "calc(var(--radius) - 4px)",
+          "radius-md": "calc(var(--radius) - 2px)",
+          "radius-lg": "var(--radius)",
+          "radius-xl": "calc(var(--radius) + 4px)",
+          "radius-2xl": "calc(var(--radius) + 8px)",
+          "radius-3xl": "calc(var(--radius) + 12px)",
+          "radius-4xl": "calc(var(--radius) + 16px)"
         },
         "light": {
+          "background": "oklch(1 0 0)",
           "foreground": "oklch(0.145 0 0)",
           "card": "oklch(1 0 0)",
           "card-foreground": "oklch(0.145 0 0)",
@@ -2035,6 +2047,7 @@
           "sidebar-ring": "oklch(0.708 0 0)"
         },
         "dark": {
+          "background": "oklch(0.145 0 0)",
           "foreground": "oklch(0.985 0 0)",
           "card": "oklch(0.205 0 0)",
           "card-foreground": "oklch(0.985 0 0)",
@@ -2067,7 +2080,22 @@
           "sidebar-ring": "oklch(0.556 0 0)"
         }
       },
-      "docs": "Import the font and animations in your global stylesheet: @import \"@fontsource-variable/inter\"; @import \"tw-animate-css\";"
+      "css": {
+        "@import \"@fontsource-variable/inter\"": {},
+        "@import \"tw-animate-css\"": {},
+        "@import \"shadcn/tailwind.css\"": {},
+        "@layer base": {
+          "*": {
+            "@apply border-border outline-ring/50": {}
+          },
+          "body": {
+            "@apply bg-background text-foreground font-sans": {}
+          },
+          "html": {
+            "@apply font-sans": {}
+          }
+        }
+      }
     },
     {
       "name": "toast",

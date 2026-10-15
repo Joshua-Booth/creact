@@ -22,6 +22,7 @@ import { parseArgs } from "node:util";
 const ROOT = path.resolve(import.meta.dirname, "..");
 const UI_DIR = path.join(ROOT, "src/shared/ui");
 const LIB_DIR = path.join(ROOT, "src/shared/lib");
+const GLOBALS_CSS = path.join(ROOT, "src/app/styles/globals.css");
 const OUT_FILE = path.join(ROOT, "registry.json");
 const GITHUB_PREFIX = "Joshua-Booth/creact";
 
@@ -74,6 +75,7 @@ interface RegistryItem {
   registryDependencies?: string[];
   files?: RegistryFile[];
   cssVars?: Record<string, Record<string, string>>;
+  css?: Record<string, object>;
   docs?: string;
 }
 
@@ -455,42 +457,87 @@ function buildInfraItem(spec: InfraSpec): RegistryItem {
   };
 }
 
-// Parses a `selector { --name: value; ... }` block into a variable map.
-function parseCssVars(css: string, selector: string): Record<string, string> {
+function cssBlock(css: string, prelude: string): string {
+  const start = css.indexOf(`${prelude} {`);
+  if (start === -1) throw new Error(`globals.css has no "${prelude}" block`);
+  const open = start + prelude.length + 1;
+  let depth = 0;
+  for (let index = open; index < css.length; index++) {
+    if (css[index] === "{") depth++;
+    if (css[index] === "}" && --depth === 0) {
+      return css.slice(open + 1, index);
+    }
+  }
+  throw new Error(`globals.css has no balanced "${prelude}" block`);
+}
+
+function cssDeclarations(block: string): string[] {
+  return block
+    .split(";")
+    .map((declaration) => declaration.trim())
+    .filter((declaration) => declaration !== "");
+}
+
+function cssVars(block: string): Record<string, string> {
   const vars: Record<string, string> = {};
-  const start = css.indexOf(`${selector} {`);
-  if (start === -1) return vars;
-  const end = css.indexOf("}", start);
-  for (const declaration of css.slice(start, end).split(";")) {
-    const line = declaration.trim();
-    const colon = line.indexOf(":");
-    if (!line.startsWith("--") || colon === -1) continue;
-    vars[line.slice(2, colon).trim()] = line.slice(colon + 1).trim();
+  for (const declaration of cssDeclarations(block)) {
+    if (!declaration.startsWith("--")) continue;
+    const colon = declaration.indexOf(":");
+    vars[declaration.slice(2, colon).trim()] = declaration
+      .slice(colon + 1)
+      .trim();
   }
   return vars;
 }
 
 function buildThemeItem(): RegistryItem {
-  const globalsCss = readFileSync(
-    path.join(ROOT, "src/app/styles/globals.css"),
-    "utf8"
+  const globalsCss = readFileSync(GLOBALS_CSS, "utf8");
+  const packageImports = [...globalsCss.matchAll(/^@import "([^"]+)";/gm)]
+    .map(([, specifier]) => specifier)
+    .filter((specifier) => specifier !== "tailwindcss")
+    .filter((specifier) => !specifier.startsWith("."));
+  // shadcn writes the `--color-X: var(--X)` mappings itself from cssVars.
+  const theme = Object.fromEntries(
+    Object.entries(cssVars(cssBlock(globalsCss, "@theme inline"))).filter(
+      ([name, value]) =>
+        !(name.startsWith("color-") && value === `var(--${name.slice(6)})`)
+    )
+  );
+  const baseRules = Object.fromEntries(
+    cssBlock(globalsCss, "@layer base")
+      .split("}")
+      .filter((rule) => rule.includes("{"))
+      .map((rule) => {
+        const [selector, body] = rule.split("{");
+        return [
+          selector.trim(),
+          Object.fromEntries(
+            cssDeclarations(body).map((declaration) => [declaration, {}])
+          ),
+        ];
+      })
   );
   return {
     name: "theme",
     type: "registry:theme",
     title: "Theme",
     description:
-      "creact design tokens: neutral oklch palette, chart and sidebar colors, radius, light and dark modes.",
-    dependencies: [
-      `@fontsource-variable/inter@${packageVersions["@fontsource-variable/inter"] ?? "latest"}`,
-      `tw-animate-css@${packageVersions["tw-animate-css"] ?? "latest"}`,
-    ],
+      "creact theme: neutral oklch colors for light and dark mode, chart and sidebar colors, the radius scale, the Inter font, animation utilities and base styles.",
+    ...dependencyFields("theme", {
+      npm: new Set(packageImports.map(packageRoot)),
+      items: new Set(),
+    }),
     cssVars: {
-      theme: { "font-sans": "'Inter Variable', sans-serif" },
-      light: parseCssVars(globalsCss, ":root"),
-      dark: parseCssVars(globalsCss, ".dark"),
+      theme,
+      light: cssVars(cssBlock(globalsCss, ":root")),
+      dark: cssVars(cssBlock(globalsCss, ".dark")),
     },
-    docs: 'Import the font and animations in your global stylesheet: @import "@fontsource-variable/inter"; @import "tw-animate-css";',
+    css: {
+      ...Object.fromEntries(
+        packageImports.map((specifier) => [`@import "${specifier}"`, {}])
+      ),
+      "@layer base": baseRules,
+    },
   };
 }
 
