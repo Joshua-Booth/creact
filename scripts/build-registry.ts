@@ -226,6 +226,12 @@ function resolveAlias(specifier: string): string {
   return specifier;
 }
 
+function barrelReexportsOthers(itemDir: string): boolean {
+  const ownFile = `./${path.basename(itemDir)}`;
+  const barrel = readFileSync(path.join(itemDir, "index.ts"), "utf8");
+  return parseImports(barrel).some((specifier) => specifier !== ownFile);
+}
+
 function recordImport(
   specifier: string,
   fileDir: string,
@@ -242,6 +248,16 @@ function recordImport(
   const absolute = specifier.startsWith(".")
     ? path.resolve(fileDir, specifier)
     : resolveAlias(specifier);
+  if (
+    specifier.startsWith("@/") &&
+    path.dirname(absolute) === UI_DIR &&
+    barrelReexportsOthers(absolute)
+  ) {
+    const name = path.basename(absolute);
+    warnings.push(
+      `${path.relative(ROOT, fileDir)}: "${specifier}" barrel re-exports more than ./${name}, so consumers' copies would import "${specifier}/${name}" and miss those exports. Import the specific file instead.`
+    );
+  }
   const within = (dir: string) =>
     absolute === dir || absolute.startsWith(dir + path.sep);
   if (ownDirs.some(within)) return;
@@ -568,14 +584,17 @@ function main(): void {
     console.log(`Wrote registry.json (${items.length} items).`);
     return;
   }
-  if (readFileSync(OUT_FILE, "utf8") === output) {
-    console.log(`registry.json is up to date (${items.length} items).`);
-  } else {
+  if (readFileSync(OUT_FILE, "utf8") !== output) {
     console.error(
       "registry.json is out of date. Run `mise run registry:build`."
     );
     process.exit(1);
   }
+  if (warnings.length > 0) {
+    console.error(`Fix the ${warnings.length} registry warning(s) above.`);
+    process.exit(1);
+  }
+  console.log(`registry.json is up to date (${items.length} items).`);
 }
 
 main();
