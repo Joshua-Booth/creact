@@ -59,14 +59,14 @@ The plan was to ship the layer as packages so Renovate could update existing pro
 
 | Layer piece | Could a package carry it? |
 | --- | --- |
-| `.oxfmtrc.json` | No. oxfmt 0.71 has no `extends`. |
+| `.oxfmtrc.json` | Only as JavaScript. `.oxfmtrc.json` has no `extends`, but oxfmt 0.71 and 0.73 read `oxfmt.config.ts`, which can import a package's default export and spread it. |
 | `.husky/*` | No. Git runs files in the repo. |
 | `vitest.config.ts` | No. The project edits it. |
 | oxlint rules | Only as JavaScript. Node 24 refuses to type-strip `.ts` files under `node_modules`. |
 | tsconfig strictness, commitlint | Yes. Both resolve `extends` from `node_modules`. |
 | Tool binaries and lint plugins | They stay project devDependencies either way, and Renovate bumps them per project. |
 
-A JavaScript-only config package would carry three of the six pieces and leave two update paths. One update path, rerunning the command, covers all six. Renovate keeps the job it already does, bumping each project's own dependency ranges, as the layer never pins a version.
+A JavaScript-only config package would carry four of the six pieces and leave two update paths, as the husky hooks and the vitest config have to be files in the project. One update path, rerunning the command, covers all six. Renovate keeps the job it already does, bumping each project's own dependency ranges, as the layer never pins a version.
 
 The package route stays open. `pnpm add github:Joshua-Booth/creact#path:packages/<name>` installs a package from a subdirectory of this repo without a publish, checked against the vite monorepo. The first real package is runtime code shared by Vitest, Storybook and Playwright, such as MSW handlers. Config stays copied.
 
