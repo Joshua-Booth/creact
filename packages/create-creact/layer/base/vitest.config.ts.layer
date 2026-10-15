@@ -1,0 +1,11 @@
+import { defineConfig } from "vitest/config";
+
+export default defineConfig({
+  resolve: { tsconfigPaths: true },
+  test: {
+    include: ["{{srcRoot}}/**/*.test.{ts,tsx}"],
+    passWithNoTests: true,
+    clearMocks: true,
+    restoreMocks: true,
+  },
+});

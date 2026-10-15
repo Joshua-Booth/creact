@@ -36,7 +36,9 @@ async function exitCode(
 ): Promise<number | null> {
   const child = spawn(command, args, { cwd, stdio });
   return new Promise((resolve, reject) => {
-    child.on("error", reject);
+    child.on("error", (error) => {
+      reject(new CommandFailed(`${command} couldn't start: ${error.message}`));
+    });
     child.on("close", resolve);
   });
 }

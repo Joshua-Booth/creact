@@ -101,16 +101,21 @@ type Lookup<R> =
   | { readonly kind: "planned"; readonly flag: string }
   | { readonly kind: "unknown" };
 
+export function isBuilt<R extends Readonly<Record<string, Feature>>>(
+  registry: R,
+  key: string
+): key is Built<R> {
+  return Object.hasOwn(registry, key) && registry[key]?.status === "built";
+}
+
 function lookup<R extends Readonly<Record<string, Feature>>>(
   registry: R,
   key: string,
   flag: string
 ): Lookup<R> {
+  if (isBuilt(registry, key)) return { kind: "built", id: key };
   const feature = Object.hasOwn(registry, key) ? registry[key] : undefined;
   if (feature === undefined) return { kind: "unknown" };
-  if (feature.status === "built") {
-    return { kind: "built", id: key as Built<R> };
-  }
   return {
     kind: "planned",
     flag: feature.note === undefined ? flag : `${flag} (${feature.note})`,

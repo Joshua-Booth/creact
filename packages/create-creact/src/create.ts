@@ -3,47 +3,92 @@ import { existsSync } from "node:fs";
 import { mkdir, readdir, rename, rm } from "node:fs/promises";
 import path from "node:path";
 
+import pkg from "../package.json" with { type: "json" };
+import {
+  apply,
+  type ApplyReport,
+  loadLayer,
+  type Op,
+  type OverlayId,
+  plan,
+  readState,
+  type State,
+  STATE_FILE,
+  writeState,
+} from "./layer.ts";
 import {
   type Choices,
   type Request,
   resolveChoices,
   UsageError,
 } from "./options.ts";
-import { CommandFailed, run } from "./shell.ts";
+import { CommandFailed, run, succeeds } from "./shell.ts";
 import { STACKS } from "./stacks.ts";
 
 export interface Report {
   readonly dir: string;
   readonly choices: Choices;
-  readonly base: "created";
+  readonly base: "created" | "kept";
+  readonly layer: ApplyReport;
+  readonly git: "initialised" | "existing" | "skipped";
+  readonly install: "done" | "skipped";
 }
 
-interface Target {
-  readonly kind: "fresh";
-  readonly exists: boolean;
-}
+type Target =
+  | { readonly kind: "fresh"; readonly exists: boolean }
+  | { readonly kind: "project"; readonly state: State };
 
-export async function create(request: Request): Promise<Report> {
+// Every step converges, so running again on the same directory finishes an
+// interrupted run, and on a finished project takes the current layer.
+export async function create(
+  request: Request,
+  layerDir: string
+): Promise<Report> {
   const target = await inspect(request.dir);
-  const choices = resolveChoices(request, undefined);
+  const prior = target.kind === "project" ? target.state : undefined;
+  const choices = resolveChoices(request, prior);
+  const ids: readonly OverlayId[] = [
+    "base",
+    choices.styling,
+    ...choices.extras,
+  ];
+  const ops = plan(await loadLayer(layerDir, ids), ids, STACKS[choices.stack]);
 
-  const staging = path.join(
-    path.dirname(request.dir),
-    `.${path.basename(request.dir)}.creact-staging`
-  );
-  await rm(staging, { recursive: true, force: true });
-  const base = await obtainBase(staging, choices, path.basename(request.dir));
-  await place(base, request.dir, target.exists);
-  await rm(staging, { recursive: true, force: true });
+  let layer: ApplyReport;
+  if (target.kind === "fresh") {
+    const staging = path.join(
+      path.dirname(request.dir),
+      `.${path.basename(request.dir)}.creact-staging`
+    );
+    await rm(staging, { recursive: true, force: true });
+    const base = await obtainBase(staging, choices, path.basename(request.dir));
+    layer = await applyLayer(base, ops, undefined, choices);
+    await place(base, request.dir, target.exists);
+    await rm(staging, { recursive: true, force: true });
+  } else {
+    layer = await applyLayer(request.dir, ops, prior, choices);
+  }
 
-  return { dir: request.dir, choices, base: "created" };
+  const git = request.git ? await initGit(request.dir) : "skipped";
+  if (request.install) await install(request.dir, layer.missingDevDeps);
+
+  return {
+    dir: request.dir,
+    choices,
+    base: target.kind === "fresh" ? "created" : "kept",
+    layer,
+    git,
+    install: request.install ? "done" : "skipped",
+  };
 }
 
 async function inspect(dir: string): Promise<Target> {
   if (!existsSync(dir)) return { kind: "fresh", exists: false };
+  const state = await readState(dir);
+  if (state !== undefined) return { kind: "project", state };
   if ((await readdir(dir)).length === 0) return { kind: "fresh", exists: true };
   throw new UsageError(
-    `${dir} isn't empty and wasn't made by create-creact. Pick a new directory.`
+    `${dir} isn't empty and has no ${STATE_FILE}, so create-creact didn't make it. Pick a new directory.`
   );
 }
 
@@ -81,6 +126,22 @@ async function obtainBase(
   return base;
 }
 
+async function applyLayer(
+  dir: string,
+  ops: readonly Op[],
+  prior: State | undefined,
+  choices: Choices
+): Promise<ApplyReport> {
+  const layer = await apply(dir, ops, prior);
+  await writeState(dir, {
+    schema: 1,
+    creact: pkg.version,
+    ...choices,
+    files: layer.hashes,
+  });
+  return layer;
+}
+
 // A missing target takes one atomic rename. An existing empty one may be the
 // caller's cwd, so it keeps its inode and receives the entries instead.
 async function place(
@@ -95,4 +156,27 @@ async function place(
   for (const entry of await readdir(base)) {
     await rename(path.join(base, entry), path.join(target, entry));
   }
+}
+
+// Before install, because husky's prepare script needs .git to set the hooks.
+async function initGit(dir: string): Promise<Report["git"]> {
+  if (await succeeds("git", ["rev-parse", "--is-inside-work-tree"], dir)) {
+    return "existing";
+  }
+  await run("git", ["init", "--quiet"], dir);
+  return "initialised";
+}
+
+// pnpm add skips the project's own prepare script, which installs the git
+// hooks. lint --fix and format then bring upstream's files to the layer's
+// rules, in that order so the fixes come out formatted.
+async function install(dir: string, missing: readonly string[]): Promise<void> {
+  await run(
+    "pnpm",
+    missing.length > 0 ? ["add", "--save-dev", ...missing] : ["install"],
+    dir
+  );
+  await run("pnpm", ["run", "prepare"], dir);
+  await run("pnpm", ["run", "lint", "--fix"], dir);
+  await run("pnpm", ["run", "format"], dir);
 }

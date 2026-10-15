@@ -1,0 +1,65 @@
+{
+  "$schema": "./node_modules/oxfmt/configuration_schema.json",
+  "arrowParens": "always",
+  "bracketSameLine": false,
+  "bracketSpacing": true,
+  "embeddedLanguageFormatting": "auto",
+  "htmlWhitespaceSensitivity": "css",
+  "jsxSingleQuote": false,
+  "printWidth": 80,
+  "proseWrap": "preserve",
+  "quoteProps": "as-needed",
+  "semi": true,
+  "singleQuote": false,
+  "tabWidth": 2,
+  "trailingComma": "es5",
+  "useTabs": false,
+  "sortPackageJson": false,
+  "sortTailwindcss": {
+    "functions": ["cn", "cva"]
+  },
+  "sortImports": {
+    "newlinesBetween": false,
+    "customGroups": [
+      {
+        "groupName": "internal-types",
+        "elementNamePattern": ["@/**", "~/**"],
+        "modifiers": ["type"]
+      },
+      {
+        "groupName": "scoped-types",
+        "elementNamePattern": ["@*/**"],
+        "modifiers": ["type"]
+      },
+      {
+        "groupName": "react",
+        "elementNamePattern": ["react", "react-dom", "react-dom/**"],
+        "modifiers": ["value"]
+      }
+    ],
+    "groups": [
+      ["scoped-types", "type-builtin", "value-builtin"],
+      {
+        "newlinesBetween": true
+      },
+      "react",
+      {
+        "newlinesBetween": true
+      },
+      "type-external",
+      "value-external",
+      {
+        "newlinesBetween": true
+      },
+      "internal-types",
+      "value-internal",
+      {
+        "newlinesBetween": true
+      },
+      ["type-parent", "type-sibling", "type-index"],
+      ["value-parent", "value-sibling", "value-index"],
+      "unknown"
+    ]
+  },
+  "ignorePatterns": ["**/*.md", "**/*.toml", "pnpm-lock.yaml"]
+}
