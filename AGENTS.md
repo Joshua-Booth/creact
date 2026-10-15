@@ -24,7 +24,7 @@ A React Router v8 web app template with Vite, TypeScript, Tailwind CSS v4 and sh
 - Component tests are `.test()` blocks on Storybook stories, which Vitest runs in Chromium. Run them with `mise run test:storybook`. `.claude/rules/storybook-stories.md` has the rule for story `render` functions.
 - E2E tests are Playwright specs in `tests/e2e`. They mock the API with MSW handlers from `tests/e2e/mocks`. Run them with `mise run test:e2e`.
 - `mise run coverage` runs the unit and Storybook tests with coverage, as CI does.
-- While `mise run storybook` runs, the Storybook MCP server in `.mcp.json` serves component docs and story previews.
+- While `mise run storybook` runs, the Storybook MCP server in `.mcp.json` serves component docs and story previews, and runs story tests.
 
 ## Lint and format
 
