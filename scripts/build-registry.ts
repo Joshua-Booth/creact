@@ -2,31 +2,35 @@
  * Generates registry.json from the FSD tree so creact works as a shadcn
  * GitHub registry (`shadcn add Joshua-Booth/creact/<item>`).
  *
- * - Each `src/shared/ui/<name>` directory becomes a `registry:ui` item; a
- *   matching `src/shared/lib/<name>` directory is folded into the same item
- *   so consumers get the component and its lib in one add.
- * - Remaining `src/shared/lib` slices become standalone `registry:lib` items.
+ * - Each `src/shared/ui/<name>` directory becomes a `registry:ui` item,
+ *   without its stories, MDX docs and demos.
+ * - A `src/shared/lib/<name>` slice becomes a `registry:lib` item when a
+ *   shipped item imports it, directly or through another lib item.
  * - Hand-curated infra items (theme, storybook-setup, linting, and friends)
  *   distribute creact's tooling beyond components.
  * - npm dependencies and registryDependencies are derived from imports, with
  *   versions taken from package.json.
  *
- * Usage: node scripts/build-registry.ts [--check] [--local]
- *   --check  exit 1 if registry.json is out of date (CI guard)
- *   --local  emit relative ./<item>.json registry deps for local testing
+ * Usage: node scripts/build-registry.ts [--check] [--ref <ref>]
+ *   --check      exit 1 if registry.json is out of date (CI guard)
+ *   --ref <ref>  pin registry dependencies to a git ref, e.g. a branch
  */
 import { readdirSync, readFileSync, statSync, writeFileSync } from "node:fs";
 import path from "node:path";
+import { parseArgs } from "node:util";
 
 const ROOT = path.resolve(import.meta.dirname, "..");
 const UI_DIR = path.join(ROOT, "src/shared/ui");
 const LIB_DIR = path.join(ROOT, "src/shared/lib");
-const API_DIR = path.join(ROOT, "src/shared/api");
 const OUT_FILE = path.join(ROOT, "registry.json");
 const GITHUB_PREFIX = "Joshua-Booth/creact";
 
-const CHECK = process.argv.includes("--check");
-const LOCAL = process.argv.includes("--local");
+const { values: args } = parseArgs({
+  options: {
+    check: { type: "boolean", default: false },
+    ref: { type: "string" },
+  },
+});
 
 /**
  * Source directories that ship with the creact base rather than as registry
@@ -40,10 +44,18 @@ const BASE_INFRA_DIRS = [
   "src/features",
   "src/pages",
   "src/widgets",
+  "src/shared/api",
   "src/shared/config",
   "src/shared/i18n",
   "src/storybook",
 ].map((dir) => path.join(ROOT, dir));
+
+type SliceType = "registry:ui" | "registry:lib";
+
+const SLICES: Record<SliceType, { dir: string; alias: string }> = {
+  "registry:ui": { dir: UI_DIR, alias: "@ui" },
+  "registry:lib": { dir: LIB_DIR, alias: "@lib" },
+};
 
 interface RegistryFile {
   path: string;
@@ -58,21 +70,11 @@ interface RegistryItem {
   description: string;
   dependencies?: string[];
   devDependencies?: string[];
+  /** Item names while building; GitHub addresses in the output. */
   registryDependencies?: string[];
   files?: RegistryFile[];
   cssVars?: Record<string, Record<string, string>>;
   docs?: string;
-}
-
-/** How imports are classified for the item being built. */
-interface ImportContext {
-  /** Resolved paths inside these directories are internal to the item. */
-  ownDirs: string[];
-  /**
-   * Components treat storybook packages as ambient (consumers without
-   * Storybook exclude stories instead); infra items depend on them.
-   */
-  storybookIsDependency: boolean;
 }
 
 interface ImportTargets {
@@ -107,6 +109,10 @@ function listDirs(dir: string): string[] {
     .sort(byName);
 }
 
+const isShipped = (file: string) =>
+  !/\.stories\.tsx$|\.mdx$/.test(file) &&
+  !file.split(path.sep).includes("demo");
+
 function titleCase(name: string): string {
   return name
     .split("-")
@@ -121,7 +127,8 @@ function packageRoot(specifier: string): string {
 }
 
 function registryRef(name: string): string {
-  return LOCAL ? `./${name}.json` : `${GITHUB_PREFIX}/${name}`;
+  const ref = args.ref === undefined ? "" : `#${args.ref}`;
+  return `${GITHUB_PREFIX}/${name}${ref}`;
 }
 
 // Strips comment lines so example imports in comments are not picked up.
@@ -159,65 +166,42 @@ function extractDescription(source: string): string | undefined {
   return undefined;
 }
 
-// Parses a `selector { --name: value; ... }` block into a variable map.
-function parseCssVars(css: string, selector: string): Record<string, string> {
-  const vars: Record<string, string> = {};
-  const start = css.indexOf(`${selector} {`);
-  if (start === -1) return vars;
-  const end = css.indexOf("}", start);
-  for (const declaration of css.slice(start, end).split(";")) {
-    const line = declaration.trim();
-    const colon = line.indexOf(":");
-    if (!line.startsWith("--") || colon === -1) continue;
-    vars[line.slice(2, colon).trim()] = line.slice(colon + 1).trim();
-  }
-  return vars;
-}
-
-const uiNames = new Set(listDirs(UI_DIR));
-const libDirNames = new Set(listDirs(LIB_DIR));
-const mergedLibNames = new Set(
-  [...libDirNames].filter((name) => uiNames.has(name))
-);
-
 /**
  * Maps an absolute source path to the registry item that owns it.
  * @param absolute - Absolute path of the imported module
- * @returns Owning item name, or undefined for paths outside ui/lib/api
+ * @returns Owning item name, or undefined for paths outside ui and lib slices
  */
 function itemForPath(absolute: string): string | undefined {
-  const relativeToUi = path.relative(UI_DIR, absolute);
-  if (!relativeToUi.startsWith("..")) return relativeToUi.split(path.sep)[0];
-  if (!path.relative(API_DIR, absolute).startsWith("..")) return "api";
-  const relativeToLib = path.relative(LIB_DIR, absolute);
-  if (relativeToLib.startsWith("..")) return undefined;
-  const head = relativeToLib.split(path.sep)[0];
-  return head.replace(/^utils(\.test)?\.ts$/, "utils");
+  for (const { dir } of Object.values(SLICES)) {
+    const relative = path.relative(dir, absolute);
+    if (relative.startsWith("..")) continue;
+    const head = relative.split(path.sep)[0];
+    const stats = statSync(path.join(dir, head), { throwIfNoEntry: false });
+    return stats?.isDirectory() === true ? head : undefined;
+  }
+  return undefined;
 }
 
 /**
- * Records the npm package or registry item an import specifier depends on,
- * per the item's context. Imports of the creact base and of the item's own
- * files are ignored; anything internal that maps to no item is reported.
+ * Records the npm package or registry item an import specifier depends on.
+ * Imports of the creact base and of the item's own files are ignored;
+ * anything internal that maps to no item is reported.
  * @param specifier - Raw import specifier as written in the source file
  * @param fileDir - Absolute directory of the importing file
- * @param context - Ownership and storybook classification for the item
+ * @param ownDirs - Directories whose files belong to the item itself
  * @param targets - Accumulator the resolved dependency is added to
  */
 function resolveImport(
   specifier: string,
   fileDir: string,
-  context: ImportContext,
+  ownDirs: string[],
   targets: ImportTargets
 ): void {
   if (specifier.startsWith("node:")) return;
   const isInternal = specifier.startsWith("@/") || specifier.startsWith(".");
   if (!isInternal) {
     const root = packageRoot(specifier);
-    const ambient = context.storybookIsDependency
-      ? ["react", "react-dom"]
-      : ["react", "react-dom", "storybook"];
-    if (!ambient.includes(root)) targets.npm.add(root);
+    if (root !== "react" && root !== "react-dom") targets.npm.add(root);
     return;
   }
   const absolute = specifier.startsWith("@/")
@@ -225,7 +209,7 @@ function resolveImport(
     : path.resolve(fileDir, specifier);
   const within = (dir: string) =>
     absolute === dir || absolute.startsWith(dir + path.sep);
-  if (context.ownDirs.some(within)) return;
+  if (ownDirs.some(within)) return;
   if (BASE_INFRA_DIRS.some(within)) return;
   const item = itemForPath(absolute);
   if (item === undefined) {
@@ -237,16 +221,13 @@ function resolveImport(
   targets.items.add(item);
 }
 
-// Collects the imports of every .ts/.tsx/.mdx file into npm and item deps.
-function collectImports(
-  filePaths: string[],
-  context: ImportContext
-): ImportTargets {
+// Collects the imports of every .ts/.tsx file into npm and item deps.
+function collectImports(filePaths: string[], ownDirs: string[]): ImportTargets {
   const targets: ImportTargets = { npm: new Set(), items: new Set() };
   for (const filePath of filePaths) {
-    if (!/\.(tsx?|mdx)$/.test(filePath)) continue;
+    if (!/\.tsx?$/.test(filePath)) continue;
     for (const specifier of parseImports(readFileSync(filePath, "utf8"))) {
-      resolveImport(specifier, path.dirname(filePath), context, targets);
+      resolveImport(specifier, path.dirname(filePath), ownDirs, targets);
     }
   }
   return targets;
@@ -281,7 +262,7 @@ function dependencyFields(
   const devDependencies = npm
     .filter((pkg) => !(pkg in packageJson.dependencies))
     .map(withVersion);
-  const registryDependencies = [...targets.items].sort(byName).map(registryRef);
+  const registryDependencies = [...targets.items].sort(byName);
   return {
     ...(dependencies.length > 0 && { dependencies }),
     ...(devDependencies.length > 0 && { devDependencies }),
@@ -289,61 +270,79 @@ function dependencyFields(
   };
 }
 
-interface ComponentSource {
-  dir: string;
-  targetPrefix: string;
-  fileType: string;
-}
-
 /**
- * Builds one component item from its ui directory and optional lib pair.
- * @param name - Item name, matching its source directory
- * @param type - Registry item type, e.g. registry:ui
- * @param sources - Source directories with their target prefix and file type
+ * Builds the item for one `src/shared/ui` or `src/shared/lib` slice.
+ * @param type - Which slice segment the item comes from
+ * @param name - Slice directory name, used as the item name
  * @returns The assembled registry item
  */
-function buildComponentItem(
-  name: string,
-  type: string,
-  sources: ComponentSource[]
-): RegistryItem {
-  const files: RegistryFile[] = sources.flatMap(
-    ({ dir, targetPrefix, fileType }) =>
-      listFiles(dir).map((file) => ({
-        path: path.relative(ROOT, path.join(dir, file)),
-        type: fileType,
-        target: `${targetPrefix}/${file}`,
-      }))
-  );
-  const context: ImportContext = {
-    ownDirs: sources.map((source) => source.dir),
-    storybookIsDependency: false,
-  };
+function buildSliceItem(type: SliceType, name: string): RegistryItem {
+  const { dir: segmentDir, alias } = SLICES[type];
+  const dir = path.join(segmentDir, name);
+  const shipped = listFiles(dir).filter(isShipped);
   const targets = collectImports(
-    files.map((file) => path.join(ROOT, file.path)),
-    context
+    shipped.map((file) => path.join(dir, file)),
+    [dir]
   );
   const mainFiles = new Set([`${name}.tsx`, `${name}.ts`, "index.ts"]);
-  const description = sources
-    .flatMap(({ dir }) =>
-      listFiles(dir)
-        .filter((file) => mainFiles.has(file))
-        .map((file) => path.join(dir, file))
+  const description = shipped
+    .filter((file) => mainFiles.has(file))
+    .map((file) =>
+      extractDescription(readFileSync(path.join(dir, file), "utf8"))
     )
-    .map((filePath) => extractDescription(readFileSync(filePath, "utf8")))
     .find((text) => text !== undefined);
-  const hasStories = files.some((file) => file.path.includes(".stories."));
   return {
     name,
     type,
     title: titleCase(name),
     description: description ?? `${titleCase(name)} for creact projects.`,
     ...dependencyFields(name, targets),
-    files,
-    ...(hasStories && {
-      docs: `Stories require the creact Storybook setup (add ${registryRef("storybook-setup")}). Without it, exclude **/*.stories.tsx from typechecking.`,
-    }),
+    files: shipped.map((file) => ({
+      path: path.relative(ROOT, path.join(dir, file)),
+      type,
+      target: `${alias}/${name}/${file}`,
+    })),
   };
+}
+
+function buildComponentItems(): RegistryItem[] {
+  return listDirs(UI_DIR)
+    .filter((name) =>
+      listFiles(path.join(UI_DIR, name)).some(
+        (file) => isShipped(file) && file !== "index.ts"
+      )
+    )
+    .map((name) => buildSliceItem("registry:ui", name));
+}
+
+/**
+ * Builds the lib items the given items import, closed over the imports of
+ * the lib items themselves.
+ * @param consumers - Items whose registry dependencies seed the closure
+ * @returns One item per reachable lib slice
+ */
+function buildLibItems(consumers: RegistryItem[]): RegistryItem[] {
+  const libNames = new Set(listDirs(LIB_DIR));
+  const built = new Map<string, RegistryItem>();
+  const pending = consumers.flatMap((item) => item.registryDependencies ?? []);
+  for (const name of pending) {
+    if (!libNames.has(name) || built.has(name)) continue;
+    const item = buildSliceItem("registry:lib", name);
+    built.set(name, item);
+    pending.push(...(item.registryDependencies ?? []));
+  }
+  return [...built.values()];
+}
+
+function assertNoSliceNameCollisions(): void {
+  const uiNames = new Set(listDirs(UI_DIR));
+  for (const name of listDirs(LIB_DIR)) {
+    if (uiNames.has(name)) {
+      throw new Error(
+        `src/shared/lib/${name} shares its name with src/shared/ui/${name}. shadcn resolves @/shared/lib/${name} to ui/${name}/${name}.tsx once both are installed, so rename the lib slice.`
+      );
+    }
+  }
 }
 
 interface InfraSpec {
@@ -371,16 +370,11 @@ function buildInfraItem(spec: InfraSpec): RegistryItem {
       ? listFiles(absolute).map((file) => path.join(absolute, file))
       : [absolute];
   });
-  const context: ImportContext = {
-    ownDirs: spec.paths.map((relative) => {
-      const absolute = path.join(ROOT, relative);
-      return statSync(absolute).isDirectory()
-        ? absolute
-        : path.dirname(absolute);
-    }),
-    storybookIsDependency: true,
-  };
-  const targets = collectImports(filePaths, context);
+  const ownDirs = spec.paths.map((relative) => {
+    const absolute = path.join(ROOT, relative);
+    return statSync(absolute).isDirectory() ? absolute : path.dirname(absolute);
+  });
+  const targets = collectImports(filePaths, ownDirs);
   for (const pkg of spec.extraPackages ?? []) targets.npm.add(pkg);
   return {
     name: spec.name,
@@ -397,46 +391,19 @@ function buildInfraItem(spec: InfraSpec): RegistryItem {
   };
 }
 
-function buildComponentItems(): RegistryItem[] {
-  const items: RegistryItem[] = [];
-  for (const name of [...uiNames].sort(byName)) {
-    const sources: ComponentSource[] = [
-      {
-        dir: path.join(UI_DIR, name),
-        targetPrefix: `@ui/${name}`,
-        fileType: "registry:ui",
-      },
-    ];
-    if (mergedLibNames.has(name)) {
-      sources.push({
-        dir: path.join(LIB_DIR, name),
-        targetPrefix: `@lib/${name}`,
-        fileType: "registry:lib",
-      });
-    }
-    items.push(buildComponentItem(name, "registry:ui", sources));
+// Parses a `selector { --name: value; ... }` block into a variable map.
+function parseCssVars(css: string, selector: string): Record<string, string> {
+  const vars: Record<string, string> = {};
+  const start = css.indexOf(`${selector} {`);
+  if (start === -1) return vars;
+  const end = css.indexOf("}", start);
+  for (const declaration of css.slice(start, end).split(";")) {
+    const line = declaration.trim();
+    const colon = line.indexOf(":");
+    if (!line.startsWith("--") || colon === -1) continue;
+    vars[line.slice(2, colon).trim()] = line.slice(colon + 1).trim();
   }
-  for (const name of [...libDirNames].sort(byName)) {
-    if (mergedLibNames.has(name)) continue;
-    const dir = path.join(LIB_DIR, name);
-    if (listFiles(dir).length === 0) continue;
-    items.push(
-      buildComponentItem(name, "registry:lib", [
-        { dir, targetPrefix: `@lib/${name}`, fileType: "registry:lib" },
-      ])
-    );
-  }
-  // The API client is its own FSD segment, outside ui/ and lib/.
-  items.push(
-    buildComponentItem("api", "registry:lib", [
-      {
-        dir: API_DIR,
-        targetPrefix: "~/src/shared/api",
-        fileType: "registry:lib",
-      },
-    ])
-  );
-  return items;
+  return vars;
 }
 
 function buildThemeItem(): RegistryItem {
@@ -471,7 +438,7 @@ function buildInfraItems(): RegistryItem[] {
       type: "registry:item",
       title: "Storybook Setup",
       description:
-        "creact Storybook 10 infrastructure: preview with i18n and theme decorators, browser-mode vitest wiring, and MSW addon setup. Required for the stories shipped with UI items.",
+        "creact Storybook 10 infrastructure: preview with i18n and theme decorators, browser-mode vitest wiring, and MSW addon setup.",
       paths: [".storybook", "config/vite-aliases.ts"],
       docs: "Expects the creact layout (src/app/styles/globals.css, @/* path alias). Run storybook with: storybook dev --config-dir .storybook",
     }),
@@ -512,38 +479,45 @@ function buildInfraItems(): RegistryItem[] {
   ];
 }
 
-function verifyRegistryRefs(items: RegistryItem[]): void {
+function verifyRegistryDependencies(items: RegistryItem[]): void {
   const itemNames = new Set(items.map((item) => item.name));
   for (const item of items) {
-    for (const ref of item.registryDependencies ?? []) {
-      const target = ref
-        .split("/")
-        .pop()
-        ?.replace(/\.json$/, "");
-      if (target !== undefined && !itemNames.has(target)) {
-        warnings.push(`${item.name}: registry dependency "${ref}" has no item`);
+    for (const dependency of item.registryDependencies ?? []) {
+      if (!itemNames.has(dependency)) {
+        warnings.push(
+          `${item.name}: registry dependency "${dependency}" has no item`
+        );
       }
     }
   }
 }
 
 function main(): void {
-  const items = [...buildComponentItems(), ...buildInfraItems()].sort((a, b) =>
-    a.name.localeCompare(b.name)
+  assertNoSliceNameCollisions();
+  const shipped = [...buildComponentItems(), ...buildInfraItems()];
+  const items = [...shipped, ...buildLibItems(shipped)].sort((a, b) =>
+    byName(a.name, b.name)
   );
-  verifyRegistryRefs(items);
+  verifyRegistryDependencies(items);
 
   const registry = {
     $schema: "https://ui.shadcn.com/schema/registry.json",
     name: "creact",
     homepage: "https://github.com/Joshua-Booth/creact",
-    items,
+    items: items.map((item) =>
+      item.registryDependencies === undefined
+        ? item
+        : {
+            ...item,
+            registryDependencies: item.registryDependencies.map(registryRef),
+          }
+    ),
   };
   const output = `${JSON.stringify(registry, null, 2)}\n`;
 
   for (const warning of warnings) console.warn(`WARN ${warning}`);
 
-  if (!CHECK) {
+  if (!args.check) {
     writeFileSync(OUT_FILE, output);
     console.log(`Wrote registry.json (${items.length} items).`);
     return;
