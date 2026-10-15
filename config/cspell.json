@@ -131,6 +131,8 @@
     "proptypes",
     "tsgolint",
     "stylex",
-    "stylexjs"
+    "stylexjs",
+    "bunfig",
+    "turbopack"
   ]
 }
