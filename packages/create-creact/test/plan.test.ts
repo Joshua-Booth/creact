@@ -8,11 +8,12 @@ import {
   mkdtempSync,
   readdirSync,
   readFileSync,
+  rmSync,
   writeFileSync,
 } from "node:fs";
 import { tmpdir } from "node:os";
 import path from "node:path";
-import { describe, it, type TestContext } from "node:test";
+import { after, describe, it, type TestContext } from "node:test";
 
 import {
   apply,
@@ -68,7 +69,7 @@ function patch(all: readonly Op[], file: string): JsonObject {
 }
 
 function upstreamBase(stack: StackId, extra: JsonObject = {}): string {
-  const dir = mkdtempSync(path.join(tmpdir(), "creact-plan-"));
+  const dir = tempDir();
   const files = fixture(stack);
   writeFileSync(
     path.join(dir, "package.json"),
@@ -78,6 +79,18 @@ function upstreamBase(stack: StackId, extra: JsonObject = {}): string {
     path.join(dir, "tsconfig.json"),
     JSON.stringify(files["tsconfig.json"])
   );
+  return dir;
+}
+
+const TEMP_DIRS: string[] = [];
+
+after(() => {
+  for (const dir of TEMP_DIRS) rmSync(dir, { recursive: true, force: true });
+});
+
+function tempDir(): string {
+  const dir = mkdtempSync(path.join(tmpdir(), "creact-plan-"));
+  TEMP_DIRS.push(dir);
   return dir;
 }
 
@@ -420,7 +433,7 @@ describe("apply", () => {
 
 describe("readState", () => {
   it("refuses a state file naming a stack outside the table", async (t: TestContext) => {
-    const dir = mkdtempSync(path.join(tmpdir(), "creact-state-"));
+    const dir = tempDir();
     mkdirSync(path.join(dir, ".creact"));
     writeFileSync(
       path.join(dir, STATE_FILE),
