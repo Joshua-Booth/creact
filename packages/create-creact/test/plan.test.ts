@@ -41,9 +41,16 @@ import {
   STYLINGS,
   UsageError,
 } from "../src/options.ts";
+import { withoutGitContext } from "../src/shell.ts";
 import { type StackId, STACKS } from "../src/stacks.ts";
 
 const CWD = "/work";
+const IDENTITY = [
+  "-c",
+  "user.name=create-creact test",
+  "-c",
+  "user.email=test@example.invalid",
+];
 const MAIN = path.join(import.meta.dirname, "../src/main.ts");
 const LAYER = path.join(import.meta.dirname, "../layer");
 const STACK_IDS = Object.keys(STACKS) as StackId[];
@@ -213,8 +220,16 @@ function tempDir(): string {
   return dir;
 }
 
+function git(dir: string, args: readonly string[]) {
+  return spawnSync("git", args, {
+    cwd: dir,
+    env: withoutGitContext(),
+    encoding: "utf8",
+  });
+}
+
 function gitInit(dir: string): void {
-  spawnSync("git", ["init", "--quiet"], { cwd: dir });
+  git(dir, ["init", "--quiet"]);
 }
 
 function recordState(dir: string, stack: string): void {
@@ -239,7 +254,10 @@ function recorded(hashes: Readonly<Record<string, string>>): Prior {
 }
 
 function cli(argv: readonly string[]) {
-  return spawnSync(process.execPath, [MAIN, ...argv], { encoding: "utf8" });
+  return spawnSync(process.execPath, [MAIN, ...argv], {
+    env: withoutGitContext(),
+    encoding: "utf8",
+  });
 }
 
 function parse(argv: readonly string[]): Parsed {
@@ -428,6 +446,42 @@ describe("main", () => {
     const result = cli(["app", "--bogus"]);
     t.assert.strictEqual(result.status, 2);
     t.assert.match(result.stderr, /'-- "--bogus"'?\. Run with --help/);
+  });
+});
+
+describe("a GIT_DIR inherited from a git hook of another repository", () => {
+  it("never reaches that repository, and the project still gets its own", (t: TestContext) => {
+    const main = tempDir();
+    gitInit(main);
+    git(main, [
+      ...IDENTITY,
+      "commit",
+      "--quiet",
+      "--allow-empty",
+      "--message",
+      "init",
+    ]);
+    git(main, ["worktree", "add", "--quiet", "wt"]);
+    const hookEnv = {
+      ...process.env,
+      GIT_DIR: path.join(main, ".git", "worktrees", "wt"),
+      GIT_INDEX_FILE: path.join(main, ".git", "worktrees", "wt", "index"),
+    };
+    const dir = upstreamBase("next");
+    recordState(dir, "next");
+
+    const result = spawnSync(process.execPath, [MAIN, dir, "--no-install"], {
+      env: hookEnv,
+      encoding: "utf8",
+    });
+    t.assert.strictEqual(result.status, 0, result.stderr);
+    t.assert.match(result.stdout, /git {6}initialised\n/);
+    t.assert.ok(existsSync(path.join(dir, ".git")));
+    t.assert.strictEqual(
+      git(main, ["config", "core.bare"]).stdout.trim(),
+      "false"
+    );
+    t.assert.strictEqual(git(main, ["config", "core.hooksPath"]).status, 1);
   });
 });
 

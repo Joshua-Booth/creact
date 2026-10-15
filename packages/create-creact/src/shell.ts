@@ -10,6 +10,18 @@ export class CommandFailed extends Error {
 
 const NO_PROMPTS_OUTPUT_TO_STDERR: StdioOptions = ["ignore", 2, 2];
 
+// Git exports GIT_DIR, GIT_INDEX_FILE and friends to its hooks. A child that
+// inherits them acts on the caller's repository instead of the project's,
+// and `git init` under a linked worktree's GIT_DIR rewrites that repository's
+// shared config as bare.
+export function withoutGitContext(
+  env: NodeJS.ProcessEnv = process.env
+): NodeJS.ProcessEnv {
+  return Object.fromEntries(
+    Object.entries(env).filter(([name]) => !name.startsWith("GIT_"))
+  );
+}
+
 export async function run(
   command: string,
   args: readonly string[],
@@ -38,6 +50,7 @@ export async function output(
 ): Promise<string | undefined> {
   const child = spawn(command, args, {
     cwd,
+    env: withoutGitContext(),
     stdio: ["ignore", "pipe", "ignore"],
   });
   let stdout = "";
@@ -54,7 +67,10 @@ async function exitCode(
   cwd: string,
   stdio: StdioOptions
 ): Promise<number | null> {
-  return closed(spawn(command, args, { cwd, stdio }), command);
+  return closed(
+    spawn(command, args, { cwd, env: withoutGitContext(), stdio }),
+    command
+  );
 }
 
 async function closed(
