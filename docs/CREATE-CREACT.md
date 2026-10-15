@@ -1,6 +1,6 @@
 # create-creact
 
-`create-creact` sets up a new React project the way creact is set up. It takes a blank project from the framework's own create CLI, then adds the creact layer on top, so the project builds, lints, formats, typechecks and tests from the first commit. This is the spike from JB-91. It runs from a checkout and is not on npm.
+`create-creact` sets up a new React project the way creact is set up. It takes a blank project from the framework's own create CLI, then adds the creact layer on top, so the project builds, lints, formats and typechecks from the first commit, with vitest wired for the first test. This is the spike from JB-91. It runs from a checkout and is not on npm.
 
 ## Run it
 
@@ -27,7 +27,7 @@ Exit codes: 0 done, 1 a command failed and is echoed, 2 bad usage or a flag that
 Run the command again on the same directory to finish an interrupted run or take a newer layer. Files you edited stay as you left them and are listed as kept.
 
 Note: only pnpm is supported. The hooks and scripts call `pnpm exec`.
-Note: upstream is `@latest`, resolved through pnpm's dlx cache, so the framework version can lag a new release by up to the cache age.
+Note: upstream is `@latest` through `pnpm dlx`, which can lag a new release. On the day of the spike it served create-next-app 16.4.0 with 16.4.1 tagged latest, and `--config.dlx-cache-max-age=0` did not change that.
 Note: a fresh project has no test files, and `pnpm test` passes on `passWithNoTests`. The scaffold test adds one to prove the alias and the include glob work.
 
 ## What it does
