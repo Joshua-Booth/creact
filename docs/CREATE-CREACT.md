@@ -6,6 +6,7 @@
 
 ```sh
 node packages/create-creact/src/main.ts ../my-app --stack next
+node packages/create-creact/src/main.ts ../my-app --stack next --styling stylex
 node packages/create-creact/src/main.ts ../my-app --stack react-router --no-install --no-git
 node packages/create-creact/src/main.ts ../my-app --yes
 ```
@@ -18,8 +19,8 @@ Every prompt has a flag, so an agent never waits on a question.
 | --- | --- | --- |
 | `<dir>` | a path outside any git repository that is missing, empty, or a project this command made | required |
 | `--stack` | `react-router`, `next` | required, or `react-router` with `--yes` |
-| `--styling` | `tailwind`, `stylex` (not built, JB-89) | `tailwind` |
-| `--storybook`, `--msw`, `--playwright`, `--i18n`, `--posthog`, `--sentry` | extras, not built yet | off |
+| `--styling` | `tailwind`, `stylex` | `tailwind` |
+| `--shadcn`, `--storybook`, `--msw`, `--playwright`, `--i18n`, `--posthog`, `--sentry` | extras, not built yet | off |
 | `--no-install` | skip `pnpm install` and the lint and format pass | installs |
 | `--no-git` | skip `git init` | inits |
 | `--yes`, `-y` | take the default for every choice not given | |
@@ -30,28 +31,56 @@ Run the command again on the same directory to finish an interrupted run or take
 
 Note: only pnpm is supported. The hooks and scripts call `pnpm exec`.
 Note: upstream is `@latest` through `pnpm dlx`, which can lag a new release. On the day of the spike it served create-next-app 16.4.0 with 16.4.1 tagged latest, and `--config.dlx-cache-max-age=0` did not change that.
-Note: a fresh project has no test files, and `pnpm test` passes on `passWithNoTests`. The scaffold test adds one to prove the alias and the include glob work.
+Note: a fresh project has one test, `tokens.test.ts`, described under Styling paths. The scaffold test adds another to prove the alias and the include glob work.
 
 ## What it does
 
 1. Runs the framework's create CLI into a staging directory next to the target, with every option passed explicitly and `HOME` pointed at an empty directory, so saved preferences cannot change the output. In a clean `HOME`, `create-next-app --yes` adds ESLint, so the Next row passes `--no-linter` and `--no-react-compiler`, which the CLI reads from argv although its `--help` does not list them.
-2. Copies the layer in and patches upstream's `package.json` and `tsconfig.json`. The layer is the oxlint config with a Tailwind slot, `.oxfmtrc.json`, a vitest config, husky `commit-msg` and `pre-commit` hooks, commitlint, lint-staged, the `lint`, `format`, `format:check`, `typecheck`, `test` and `prepare` scripts, strict tsconfig flags, and the dev dependencies by name.
+2. Removes the upstream files and packages the styling replaces, then copies the layer in and patches upstream's `package.json` and `tsconfig.json`. The layer is the oxlint config with a styling slot, `.oxfmtrc.json`, a vitest config, husky `commit-msg` and `pre-commit` hooks, commitlint, lint-staged, the design tokens, the styling's own files, the `lint`, `format`, `format:check`, `typecheck`, `test` and `prepare` scripts, strict tsconfig flags, and the packages by name.
 3. Writes `.creact/state.json` with the choices and a hash of every file it copied, then moves the staging directory into place.
-4. Runs `git init`, `pnpm add -D` for the tools, `pnpm run prepare` to install the hooks, then `pnpm run lint --fix` and `pnpm run format` so upstream's own files pass the checks.
+4. Runs `git init`, `pnpm add` for runtime packages such as `@stylexjs/stylex`, `pnpm add -D` for the tools, `pnpm run prepare` to install the hooks, then `pnpm run lint --fix` and `pnpm run format` so upstream's own files pass the checks.
 
-On a rerun, a copied file is rewritten only when it is missing or unchanged since the recorded hash. `package.json` and `tsconfig.json` are merged every time, as the merge is idempotent and `pnpm add` rewrites `package.json` anyway.
+On a rerun, a copied file is rewritten only when it is missing or unchanged since the recorded hash. `package.json` and `tsconfig.json` are merged every time, as the merge is idempotent and `pnpm add` rewrites `package.json` anyway. A rerun never removes anything, so a package or file you put back stays.
+
+The layer lives in `packages/create-creact/layer/<overlay>/<scope>/`. The overlay is `base`, a styling or an extra, and the scope is `all` or a stack id, so a styling can carry files for one stack only. `OVERLAYS` in `src/layer.ts` lists each scope's packages and what it removes from upstream.
+
+## Styling paths
+
+`--styling` picks Tailwind, the default, or StyleX. Both read the same design tokens.
+
+The tokens live in one file, `<src>/styles/tokens.css`, as custom properties on `:root` with a dark block. It is the shape a Figma variables export to CSS produces, so you can replace the file with the export. Each styling binds the names in a file next to it and holds no values of its own.
+
+- Tailwind binds them in `tokens.tailwind.css` with `@theme inline reference`, so `bg-page` or `p-gutter` reads `var(--color-page)` or `var(--spacing-gutter)`. The global stylesheet imports both files after `tailwindcss`, and upstream's components are left as they are.
+- StyleX binds them in `tokens.stylex.ts` as `stylex.defineConsts` of `var(--name)` strings, so `colors.accent` compiles to `var(--color-accent)`. The global stylesheet declares `@layer reset` first and imports `tokens.css`, so StyleX's own layers win over the reset.
+
+`tokens.test.ts` fails when a binding names a token that `tokens.css` lacks, so a rename in Figma shows up as a failing test instead of a silent `var()` with no value. Adding a token needs a new line in the binding before a component can use it.
+
+StyleX on each stack:
+
+- React Router runs `@stylexjs/unplugin` in `vite.config.ts`, with the `~/*` alias. The overlay removes upstream's Tailwind packages and logos, and replaces the files that use Tailwind classes. `root.tsx` links `/virtual:stylex.css` in dev only, as the plugin adds that link through `index.html`, which React Router's server rendering never reads. The build appends the StyleX rules to the root stylesheet.
+- Next runs `@stylexjs/babel-plugin` from `babel.config.js` and `@stylexjs/postcss-plugin` from `postcss.config.js`, which writes the rules where `globals.css` has `@stylex;`. create-next-app gets `--no-tailwind`, and the overlay replaces its `page.tsx` and removes `page.module.css`.
+- `oxlint.styling.ts` loads `@stylexjs/eslint-plugin` with seven of its rules as errors, as the Tailwind slot does with `eslint-plugin-better-tailwindcss`.
+
+What works on one path only:
+
+- The shadcn registry from JB-90 is Tailwind only, as its components are Tailwind classes. `--help` marks the planned `--shadcn` extra as Tailwind only, and the command refuses an extra like it on a StyleX project, new or recorded.
+- `sortTailwindcss` in `.oxfmtrc.json` stays on both paths. It only sorts class strings, and a StyleX project has none.
+
+Note: Vitest doesn't run the StyleX compiler, so a test that renders a StyleX component throws `Unexpected 'stylex.defineConsts' call at runtime`. `tokens.test.ts` reads the files as text for that reason.
+Note: Storybook isn't in the CLI yet. When the Storybook extra lands, a StyleX project needs `@stylexjs/unplugin` in Storybook's Vite config with `useCSSLayers: { before: ["reset"] }`, the PostCSS plugin set to skip `*.stories.tsx`, and `babel.config.js` returning `{}` for the `@stylexjs/unplugin` caller.
 
 ## Test it
 
 ```sh
 mise run test:cli                        # offline plan tests, every PR
-CREACT_SCAFFOLD=1 mise run test:scaffold # scaffolds both stacks, needs the network
-CREACT_SCAFFOLD=next mise run test:scaffold
+CREACT_SCAFFOLD=1 mise run test:scaffold # every stack and styling, needs the network
+CREACT_SCAFFOLD=next mise run test:scaffold # both stylings of one stack
+CREACT_SCAFFOLD=next:stylex mise run test:scaffold
 ```
 
-The scaffold test creates each stack with saved create-next-app preferences planted under a seeded `HOME`, commits through the real hooks, rejects a bad commit message, runs build, typecheck, lint, format:check and test, checks the tree is clean, reruns the command and checks it writes nothing, commits a test that imports through the stack's own alias, and checks that a changed layer reaches an unedited file and leaves an edited one alone.
+The scaffold test creates each stack with saved create-next-app preferences planted under a seeded `HOME`, commits through the real hooks, rejects a bad commit message, runs build, typecheck, lint, format:check and test, checks the tree is clean, reruns the command and checks it writes nothing, commits a test that imports through the stack's own alias, and checks that a changed layer reaches an unedited file and leaves an edited one alone. It also checks the built CSS carries the values from `tokens.css` and the styling's own output, and that lint fails on a planted styling mistake.
 
-It runs in `.github/workflows/create-creact.yml` on pull requests that touch `packages/create-creact/`, weekly, and on dispatch.
+It runs in `.github/workflows/create-creact.yml`, one job per stack and styling, on pull requests that touch `packages/create-creact/`, weekly, and on dispatch.
 
 ## Packages or copied files
 
@@ -90,7 +119,7 @@ Note: `create-creact` is free on npm. `creact` is taken.
 ## What to build next
 
 - The agent setup. When the CLI carries `AGENTS.md` and `.claude/`, strip the block between `<!-- git-workflow:start -->` and `<!-- git-workflow:end -->`, which only holds in this repo, and run the skills restore after copying so the `.claude/skills` symlinks resolve. Decide how creact's `AGENTS.md` sits next to Next's.
-- `--styling stylex` (JB-89). A `layer/stylex/` directory with its own `oxlint.styling.ts`, and one status flip in `src/options.ts`.
+- Vitest with the StyleX compiler, so a StyleX project can test its components. React Router can reuse the Vite plugin, and Next would need `@stylexjs/unplugin` for Vitest alone.
 - The extras, one overlay directory each. PostHog and Sentry may not need flags, as their own skills do the setup.
 - Root creact consumes the layer, so the oxlint rules exist once instead of twice. The root config could also allow node:test's `describe` and `it` under `no-floating-promises`, and add a `packages/create-creact/**` override for `detect-non-literal-fs-filename`, which would remove the file-level disables in the CLI.
 - Publishing. A `.ts` bin cannot run from `node_modules`, so `pnpm create creact` needs a `tsc` emit in `prepack`, or JavaScript source. The package version is `0.0.0` until then.

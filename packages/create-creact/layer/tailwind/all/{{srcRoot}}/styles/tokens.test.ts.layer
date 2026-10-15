@@ -1,0 +1,20 @@
+import { readFileSync } from "node:fs";
+import path from "node:path";
+
+import { describe, expect, it } from "vitest";
+
+describe("tokens", () => {
+  it("binds only tokens that tokens.css defines", () => {
+    const here = import.meta.dirname;
+    const tokens = readFileSync(path.join(here, "tokens.css"), "utf8");
+    const binding = readFileSync(
+      path.join(here, "tokens.tailwind.css"),
+      "utf8"
+    );
+    const bound = binding.match(/(?<=var\()--[\w-]+/g) ?? [];
+    expect(bound).not.toHaveLength(0);
+    expect(bound.filter((name) => !tokens.includes(`${name}:`))).toStrictEqual(
+      []
+    );
+  });
+});

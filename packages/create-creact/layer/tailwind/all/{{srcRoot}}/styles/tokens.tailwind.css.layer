@@ -1,0 +1,7 @@
+@theme inline reference {
+  --color-page: var(--color-page);
+  --color-ink: var(--color-ink);
+  --color-accent: var(--color-accent);
+  --spacing-gutter: var(--spacing-gutter);
+  --radius-card: var(--radius-card);
+}

@@ -1,0 +1,48 @@
+import * as stylex from "@stylexjs/stylex";
+
+import { colors, radii, spacing } from "@/styles/tokens.stylex";
+
+const styles = stylex.create({
+  page: {
+    display: "flex",
+    flexGrow: 1,
+    alignItems: "center",
+    justifyContent: "center",
+    padding: spacing.gutter,
+  },
+  card: {
+    display: "flex",
+    flexDirection: "column",
+    gap: spacing.gutter,
+    maxWidth: "40rem",
+    padding: spacing.gutter,
+    borderWidth: 1,
+    borderStyle: "solid",
+    borderColor: colors.accent,
+    borderRadius: radii.card,
+  },
+  title: { fontSize: "2rem", lineHeight: 1.25, color: colors.ink },
+  code: { fontFamily: "var(--font-geist-mono)" },
+  link: { color: colors.accent, textDecoration: "underline" },
+});
+
+export default function Home() {
+  return (
+    <main {...stylex.props(styles.page)}>
+      <div {...stylex.props(styles.card)}>
+        <h1 {...stylex.props(styles.title)}>
+          To get started, edit the{" "}
+          <code {...stylex.props(styles.code)}>page.tsx</code> file.
+        </h1>
+        <a
+          {...stylex.props(styles.link)}
+          href="https://nextjs.org/docs"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          Documentation
+        </a>
+      </div>
+    </main>
+  );
+}

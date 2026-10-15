@@ -1,0 +1,15 @@
+import * as stylex from "@stylexjs/stylex";
+
+export const colors = stylex.defineConsts({
+  page: "var(--color-page)",
+  ink: "var(--color-ink)",
+  accent: "var(--color-accent)",
+});
+
+export const spacing = stylex.defineConsts({
+  gutter: "var(--spacing-gutter)",
+});
+
+export const radii = stylex.defineConsts({
+  card: "var(--radius-card)",
+});

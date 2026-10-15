@@ -261,7 +261,7 @@ dir = "packages/create-creact"
 run = "node --test test/plan.test.ts"
 
 [tasks."test:scaffold"]
-description = "Scaffold create-creact projects (CREACT_SCAFFOLD=1 or a stack list)"
+description = "Scaffold create-creact projects (CREACT_SCAFFOLD=1, stacks or stack:styling pairs)"
 dir = "packages/create-creact"
 run = "node --test test/scaffold.test.ts"
 

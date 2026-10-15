@@ -47,14 +47,17 @@ function format(report: Report): string {
   const named = (outcome: string) =>
     outcomes.filter(([, value]) => value === outcome).map(([file]) => file);
   const kept = named("kept");
+  const { pruned, missing } = report.layer;
+  const without = pruned.length > 0 ? `, without ${pruned.join(", ")}` : "";
   const base =
     report.base === "created"
-      ? `created with ${STACKS[stack].cli}@latest`
+      ? `created with ${STACKS[stack].cli}@latest${without}`
       : "kept";
+  const toAdd = missing.dependencies.length + missing.devDependencies.length;
   const install =
     report.install === "done"
       ? "done, then lint --fix and format"
-      : `skipped, ${report.layer.missingDevDeps.length} dev dependencies to add. Run again without --no-install to finish.`;
+      : `skipped, ${toAdd} packages to add. Run again without --no-install to finish.`;
   return [
     `create-creact: ${stack} + ${styling} in ${report.dir}`,
     `  base     ${base}`,

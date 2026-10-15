@@ -4,6 +4,7 @@
 import { spawnSync, type SpawnSyncReturns } from "node:child_process";
 import {
   cpSync,
+  existsSync,
   mkdirSync,
   mkdtempSync,
   readdirSync,
@@ -16,6 +17,8 @@ import path from "node:path";
 import { after, before, describe, it, type TestContext } from "node:test";
 
 import { create } from "../src/create.ts";
+import { OVERLAYS } from "../src/layer.ts";
+import { isBuilt, type StylingId, STYLINGS } from "../src/options.ts";
 import { type StackId, STACKS } from "../src/stacks.ts";
 
 const MAIN = path.join(import.meta.dirname, "../src/main.ts");
@@ -27,7 +30,16 @@ const IDENTITY = [
   "user.email=test@example.invalid",
 ];
 const CHECKS = ["build", "typecheck", "lint", "format:check", "test"];
+const STACK_IDS = Object.keys(STACKS) as StackId[];
+const STYLING_IDS = Object.keys(STYLINGS).filter((id): id is StylingId =>
+  isBuilt(STYLINGS, id)
+);
+
 const SCAFFOLD = new Set(process.env.CREACT_SCAFFOLD?.split(","));
+
+function selected(stack: StackId, styling: StylingId): boolean {
+  return ["1", stack, `${stack}:${styling}`].some((key) => SCAFFOLD.has(key));
+}
 
 // creact's mise.toml sets NODE_ENV=development, and next build can't
 // prerender under it. A generated project starts from a clean NODE_ENV.
@@ -47,6 +59,54 @@ function sh(
 function porcelain(dir: string): string {
   return sh(dir, "git", ["status", "--porcelain"]).stdout;
 }
+
+const CSS_OUTPUT: Readonly<Record<StackId, string>> = {
+  "react-router": "build/client/assets",
+  next: ".next/static",
+};
+
+function builtCss(dir: string): string {
+  return readdirSync(dir, { recursive: true, encoding: "utf8" })
+    .filter((file) => file.endsWith(".css"))
+    .map((file) => readFileSync(path.join(dir, file), "utf8"))
+    .join("\n");
+}
+
+interface Proof {
+  readonly cssHas: readonly RegExp[];
+  readonly cssLacks: readonly RegExp[];
+  readonly badComponent: string;
+  readonly lintRule: string;
+}
+
+const PROOF = {
+  tailwind: {
+    cssHas: [],
+    cssLacks: [/--color-page:\s*var\(--color-page\)/],
+    badComponent: [
+      "export function Planted() {",
+      '  return <p className="p-2 p-4" />;',
+      "}",
+      "",
+    ].join("\n"),
+    lintRule: "better-tailwindcss(no-conflicting-classes)",
+  },
+  stylex: {
+    cssHas: [/@layer priority1/, /\{\s*color: ?var\(--color-accent\)/],
+    cssLacks: [],
+    badComponent: [
+      'import * as stylex from "@stylexjs/stylex";',
+      "",
+      'const styles = stylex.create({ bad: { margin: "1px 2px" } });',
+      "",
+      "export function Planted() {",
+      "  return <p {...stylex.props(styles.bad)} />;",
+      "}",
+      "",
+    ].join("\n"),
+    lintRule: "@stylexjs(valid-shorthands)",
+  },
+} satisfies Record<StylingId, Proof>;
 
 const SAVED_NEXT_PREFERENCES = {
   macos: "Library/Preferences/create-next-app-nodejs",
@@ -71,14 +131,16 @@ function withSavedNextPreferences(parent: string): NodeJS.ProcessEnv {
   };
 }
 
-for (const id of Object.keys(STACKS) as StackId[]) {
+for (const [id, styling] of STACK_IDS.flatMap((stackId) =>
+  STYLING_IDS.map((stylingId) => [stackId, stylingId] as const)
+)) {
   const stack = STACKS[id];
+  const proof = PROOF[styling];
+  const prune = OVERLAYS[styling][id]?.prune;
 
   describe(
-    `scaffold ${id}`,
-    {
-      skip: !SCAFFOLD.has("1") && !SCAFFOLD.has(id) && "set CREACT_SCAFFOLD=1",
-    },
+    `scaffold ${id} + ${styling}`,
+    { skip: !selected(id, styling) && "set CREACT_SCAFFOLD=1" },
     () => {
       let parent = "";
       let dir = "";
@@ -98,7 +160,7 @@ for (const id of Object.keys(STACKS) as StackId[]) {
         const result = sh(
           parent,
           process.execPath,
-          [MAIN, "app", "--stack", id],
+          [MAIN, "app", "--stack", id, "--styling", styling],
           env
         );
         t.assert.strictEqual(result.status, 0, result.stderr);
@@ -116,6 +178,23 @@ for (const id of Object.keys(STACKS) as StackId[]) {
         );
         const signature = readFileSync(path.join(dir, stack.signature), "utf8");
         t.assert.doesNotMatch(signature, /reactCompiler/);
+
+        const manifest = JSON.parse(pkg) as Record<string, object | undefined>;
+        const names = new Set(
+          ["dependencies", "devDependencies"].flatMap((key) =>
+            Object.keys(manifest[key] ?? {})
+          )
+        );
+        t.assert.deepStrictEqual(
+          (prune?.dependencies ?? []).filter((name) => names.has(name)),
+          []
+        );
+        t.assert.deepStrictEqual(
+          (prune?.files ?? []).filter((file) =>
+            existsSync(path.join(dir, file))
+          ),
+          []
+        );
       });
 
       it("installs the git hooks and commits through them", (t: TestContext) => {
@@ -162,6 +241,21 @@ for (const id of Object.keys(STACKS) as StackId[]) {
             `${check}:\n${result.stdout}${result.stderr}`
           );
         }
+      });
+
+      it("builds CSS that carries the values from the project's tokens.css", (t: TestContext) => {
+        const tokens = readFileSync(
+          path.join(dir, stack.srcRoot, "styles", "tokens.css"),
+          "utf8"
+        );
+        const accent = tokens
+          .split("--color-accent:")[1]
+          ?.split(";")[0]
+          ?.trim();
+        const css = builtCss(path.join(dir, CSS_OUTPUT[id]));
+        t.assert.ok(accent !== undefined && css.includes(accent), accent);
+        for (const mark of proof.cssHas) t.assert.match(css, mark);
+        for (const mark of proof.cssLacks) t.assert.doesNotMatch(css, mark);
       });
 
       it("leaves no tracked file changed and no new file after its own tools ran", (t: TestContext) => {
@@ -221,14 +315,14 @@ for (const id of Object.keys(STACKS) as StackId[]) {
 
         const result = sh(dir, "pnpm", ["run", "test"]);
         t.assert.strictEqual(result.status, 0, result.stdout + result.stderr);
-        t.assert.match(result.stdout, /1 passed/);
+        t.assert.match(result.stdout, /2 passed/);
       });
 
       it("updates an unedited layer file and keeps an edited one", async (t: TestContext) => {
         const layer = path.join(parent, "layer");
         cpSync(LAYER, layer, { recursive: true });
         for (const file of ["vitest.config.ts", "commitlint.config.ts"]) {
-          const source = path.join(layer, "base", `${file}.layer`);
+          const source = path.join(layer, "base", "all", `${file}.layer`);
           writeFileSync(
             source,
             `${readFileSync(source, "utf8")}// newer layer\n`
@@ -262,6 +356,20 @@ for (const id of Object.keys(STACKS) as StackId[]) {
           /\/\/ newer layer\n$/
         );
         t.assert.match(readFileSync(edited, "utf8"), /\/\/ project rule\n$/);
+      });
+
+      it("fails lint on a planted styling mistake and passes once it's gone", (t: TestContext) => {
+        const planted = path.join(dir, stack.srcRoot, "planted.tsx");
+        writeFileSync(planted, proof.badComponent);
+        const failed = sh(dir, "pnpm", ["run", "lint"]);
+        rmSync(planted);
+        t.assert.notStrictEqual(failed.status, 0);
+        t.assert.ok(
+          (failed.stdout + failed.stderr).includes(proof.lintRule),
+          failed.stdout + failed.stderr
+        );
+        const passed = sh(dir, "pnpm", ["run", "lint"]);
+        t.assert.strictEqual(passed.status, 0, passed.stdout + passed.stderr);
       });
     }
   );

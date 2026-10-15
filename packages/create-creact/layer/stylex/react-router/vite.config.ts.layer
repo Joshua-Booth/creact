@@ -1,0 +1,21 @@
+import path from "node:path";
+
+import { reactRouter } from "@react-router/dev/vite";
+import stylex from "@stylexjs/unplugin";
+import { defineConfig } from "vite";
+
+const rootDir = import.meta.dirname;
+
+export default defineConfig({
+  plugins: [
+    stylex.vite({
+      useCSSLayers: { before: ["reset"] },
+      aliases: { "~/*": [path.join(rootDir, "app", "*")] },
+      unstable_moduleResolution: { type: "commonJS", rootDir },
+    }),
+    reactRouter(),
+  ],
+  resolve: {
+    tsconfigPaths: true,
+  },
+});
