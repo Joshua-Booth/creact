@@ -1,23 +1,8 @@
-/**
- * Generates registry.json from the FSD tree so creact works as a shadcn
- * GitHub registry (`shadcn add Joshua-Booth/creact/<item>`).
- *
- * - Each `src/shared/ui/<name>` directory becomes a `registry:ui` item,
- *   without its stories, MDX docs and demos.
- * - A `src/shared/lib/<name>` slice becomes a `registry:lib` item when a
- *   shipped item imports it, directly or through another lib item.
- * - Hand-curated infra items (theme, storybook-setup, linting, and friends)
- *   distribute creact's tooling beyond components.
- * - npm dependencies and registryDependencies are derived from imports, with
- *   versions taken from package.json.
- *
- * Usage: node scripts/build-registry.ts [--check] [--ref <ref>]
- *   --check      exit 1 if registry.json is out of date (CI guard)
- *   --ref <ref>  pin registry dependencies to a git ref, e.g. a branch
- */
 import { readdirSync, readFileSync, statSync, writeFileSync } from "node:fs";
 import path from "node:path";
 import { parseArgs } from "node:util";
+
+import { aliases } from "../config/vite-aliases.ts";
 
 const ROOT = path.resolve(import.meta.dirname, "..");
 const UI_DIR = path.join(ROOT, "src/shared/ui");
@@ -33,13 +18,7 @@ const { values: args } = parseArgs({
   },
 });
 
-/**
- * Source directories that ship with the creact base rather than as registry
- * items. Imports into these are ignored: every creact-derived consumer
- * already has them. `src/storybook` is where the `@/storybook` alias lands
- * when resolved naively; the real files live in `.storybook`.
- */
-const BASE_INFRA_DIRS = [
+const PREINSTALLED_DIRS = [
   "src/app",
   "src/entities",
   "src/features",
@@ -48,7 +27,6 @@ const BASE_INFRA_DIRS = [
   "src/shared/api",
   "src/shared/config",
   "src/shared/i18n",
-  "src/storybook",
 ].map((dir) => path.join(ROOT, dir));
 
 type SliceType = "registry:ui" | "registry:lib";
@@ -71,7 +49,6 @@ interface RegistryItem {
   description: string;
   dependencies?: string[];
   devDependencies?: string[];
-  /** Item names while building; GitHub addresses in the output. */
   registryDependencies?: string[];
   files?: RegistryFile[];
   cssVars?: Record<string, Record<string, string>>;
@@ -133,7 +110,10 @@ function registryRef(name: string): string {
   return `${GITHUB_PREFIX}/${name}${ref}`;
 }
 
-// Strips comment lines so example imports in comments are not picked up.
+function itemName(address: string): string {
+  return address.slice(GITHUB_PREFIX.length + 1).split("#")[0];
+}
+
 function stripComments(source: string): string {
   const codeLines: string[] = [];
   let inBlockComment = false;
@@ -161,9 +141,7 @@ interface DocSymbol {
 }
 
 interface DocComment {
-  /** First paragraph of the JSDoc, joined into one line. */
-  text: string;
-  /** The declaration the JSDoc is attached to, if any. */
+  summary: string;
   symbol?: DocSymbol;
 }
 
@@ -179,7 +157,7 @@ function docComments(source: string): DocComment[] {
       source.slice(match.index + match[0].length).trimStart()
     );
     return {
-      text: paragraph.join(" "),
+      summary: paragraph.join(" "),
       ...(declaration !== null && {
         symbol: {
           keyword: declaration[1] as DocSymbol["keyword"],
@@ -190,17 +168,11 @@ function docComments(source: string): DocComment[] {
   });
 }
 
-/**
- * Picks an item's description from the JSDoc in its source files, main file
- * first: the doc of the symbol named after the item (`InputOTP`), else of
- * the first PascalCase function or const, else of the item's hook
- * (`useDevice`), else the main file's first JSDoc.
- * @param name - Item name
- * @param dir - Item source directory
- * @param files - Shipped files, relative to dir
- * @returns The description, or undefined when no JSDoc qualifies
- */
-function describe(
+function backedItemName(libName: string): string {
+  return libName.replace(/-core$/, "");
+}
+
+function describeFromJsdoc(
   name: string,
   dir: string,
   files: string[]
@@ -216,14 +188,13 @@ function describe(
     .map((file) => ({
       isMain: mainFiles.includes(file),
       comments: docComments(readFileSync(path.join(dir, file), "utf8")).filter(
-        (comment) => comment.text !== ""
+        (comment) => comment.summary !== ""
       ),
     }));
   const comments = commentsByFile.flatMap((file) => file.comments);
   const find = (matches: (symbol: DocSymbol) => boolean) =>
     comments.find(({ symbol }) => symbol !== undefined && matches(symbol));
-  // A -core lib slice is named after the ui item it backs: useDataTable.
-  const symbolName = name.replace(/-core$/, "").replaceAll("-", "");
+  const symbolName = backedItemName(name).replaceAll("-", "");
   return (
     find((symbol) => symbol.name.toLowerCase() === symbolName) ??
     find(
@@ -232,14 +203,9 @@ function describe(
     ) ??
     find((symbol) => symbol.name.toLowerCase() === `use${symbolName}`) ??
     commentsByFile.find((file) => file.isMain)?.comments[0]
-  )?.text;
+  )?.summary;
 }
 
-/**
- * Maps an absolute source path to the registry item that owns it.
- * @param absolute - Absolute path of the imported module
- * @returns Owning item name, or undefined for paths outside ui and lib slices
- */
 function itemForPath(absolute: string): string | undefined {
   for (const { dir } of Object.values(SLICES)) {
     const relative = path.relative(dir, absolute);
@@ -251,16 +217,16 @@ function itemForPath(absolute: string): string | undefined {
   return undefined;
 }
 
-/**
- * Records the npm package or registry item an import specifier depends on.
- * Imports of the creact base and of the item's own files are ignored;
- * anything internal that maps to no item is reported.
- * @param specifier - Raw import specifier as written in the source file
- * @param fileDir - Absolute directory of the importing file
- * @param ownDirs - Directories whose files belong to the item itself
- * @param targets - Accumulator the resolved dependency is added to
- */
-function resolveImport(
+function resolveAlias(specifier: string): string {
+  for (const { find, replacement } of aliases) {
+    if (specifier.startsWith(`${find}/`)) {
+      return replacement + specifier.slice(find.length);
+    }
+  }
+  return specifier;
+}
+
+function recordImport(
   specifier: string,
   fileDir: string,
   ownDirs: string[],
@@ -273,13 +239,13 @@ function resolveImport(
     if (root !== "react" && root !== "react-dom") targets.npm.add(root);
     return;
   }
-  const absolute = specifier.startsWith("@/")
-    ? path.join(ROOT, "src", specifier.slice(2))
-    : path.resolve(fileDir, specifier);
+  const absolute = specifier.startsWith(".")
+    ? path.resolve(fileDir, specifier)
+    : resolveAlias(specifier);
   const within = (dir: string) =>
     absolute === dir || absolute.startsWith(dir + path.sep);
   if (ownDirs.some(within)) return;
-  if (BASE_INFRA_DIRS.some(within)) return;
+  if (PREINSTALLED_DIRS.some(within)) return;
   const item = itemForPath(absolute);
   if (item === undefined) {
     warnings.push(
@@ -290,25 +256,17 @@ function resolveImport(
   targets.items.add(item);
 }
 
-// Collects the imports of every .ts/.tsx file into npm and item deps.
 function collectImports(filePaths: string[], ownDirs: string[]): ImportTargets {
   const targets: ImportTargets = { npm: new Set(), items: new Set() };
   for (const filePath of filePaths) {
     if (!/\.tsx?$/.test(filePath)) continue;
     for (const specifier of parseImports(readFileSync(filePath, "utf8"))) {
-      resolveImport(specifier, path.dirname(filePath), ownDirs, targets);
+      recordImport(specifier, path.dirname(filePath), ownDirs, targets);
     }
   }
   return targets;
 }
 
-/**
- * Converts collected imports into the item's dependency fields, versioned
- * from package.json and split by where each package is declared there.
- * @param itemName - Item name, used to attribute warnings
- * @param targets - Collected npm packages and registry item names
- * @returns Dependency fields, each present only when non-empty
- */
 function dependencyFields(
   itemName: string,
   targets: ImportTargets
@@ -331,7 +289,7 @@ function dependencyFields(
   const devDependencies = npm
     .filter((pkg) => !(pkg in packageJson.dependencies))
     .map(withVersion);
-  const registryDependencies = [...targets.items].sort(byName);
+  const registryDependencies = [...targets.items].sort(byName).map(registryRef);
   return {
     ...(dependencies.length > 0 && { dependencies }),
     ...(devDependencies.length > 0 && { devDependencies }),
@@ -339,12 +297,6 @@ function dependencyFields(
   };
 }
 
-/**
- * Builds the item for one `src/shared/ui` or `src/shared/lib` slice.
- * @param type - Which slice segment the item comes from
- * @param name - Slice directory name, used as the item name
- * @returns The assembled registry item
- */
 function buildSliceItem(type: SliceType, name: string): RegistryItem {
   const { dir: segmentDir, alias } = SLICES[type];
   const dir = path.join(segmentDir, name);
@@ -353,7 +305,7 @@ function buildSliceItem(type: SliceType, name: string): RegistryItem {
     shipped.map((file) => path.join(dir, file)),
     [dir]
   );
-  const description = describe(name, dir, shipped);
+  const description = describeFromJsdoc(name, dir, shipped);
   if (description === undefined) {
     warnings.push(`${name}: no JSDoc to describe the item`);
   }
@@ -381,21 +333,19 @@ function buildComponentItems(): RegistryItem[] {
     .map((name) => buildSliceItem("registry:ui", name));
 }
 
-/**
- * Builds the lib items the given items import, closed over the imports of
- * the lib items themselves.
- * @param consumers - Items whose registry dependencies seed the closure
- * @returns One item per reachable lib slice
- */
+function dependencyNames(item: RegistryItem): string[] {
+  return (item.registryDependencies ?? []).map(itemName);
+}
+
 function buildLibItems(consumers: RegistryItem[]): RegistryItem[] {
   const libNames = new Set(listDirs(LIB_DIR));
   const built = new Map<string, RegistryItem>();
-  const pending = consumers.flatMap((item) => item.registryDependencies ?? []);
+  const pending = consumers.flatMap(dependencyNames);
   for (const name of pending) {
     if (!libNames.has(name) || built.has(name)) continue;
     const item = buildSliceItem("registry:lib", name);
     built.set(name, item);
-    pending.push(...(item.registryDependencies ?? []));
+    pending.push(...dependencyNames(item));
   }
   return [...built.values()];
 }
@@ -416,19 +366,11 @@ interface InfraSpec {
   type: string;
   title: string;
   description: string;
-  /** Repo-relative files or directories to include; targets mirror paths. */
   paths: string[];
-  /** Packages referenced by name strings rather than imports. */
-  extraPackages?: string[];
-  /** Post-install note printed by the CLI. */
+  packagesReferencedByName?: string[];
   docs?: string;
 }
 
-/**
- * Builds one hand-curated infra item from explicit files and directories.
- * @param spec - Item metadata plus the source paths to include
- * @returns The assembled registry item
- */
 function buildInfraItem(spec: InfraSpec): RegistryItem {
   const filePaths = spec.paths.flatMap((relative) => {
     const absolute = path.join(ROOT, relative);
@@ -441,7 +383,7 @@ function buildInfraItem(spec: InfraSpec): RegistryItem {
     return statSync(absolute).isDirectory() ? absolute : path.dirname(absolute);
   });
   const targets = collectImports(filePaths, ownDirs);
-  for (const pkg of spec.extraPackages ?? []) targets.npm.add(pkg);
+  for (const pkg of spec.packagesReferencedByName ?? []) targets.npm.add(pkg);
   return {
     name: spec.name,
     type: spec.type,
@@ -560,7 +502,7 @@ function buildInfraItems(): RegistryItem[] {
       description:
         "creact Oxlint and Oxfmt config: type-aware TypeScript, React, a11y, sonarjs, unicorn, JSDoc and Tailwind class checks, plus import sorting.",
       paths: ["oxlint.config.ts", ".oxfmtrc.json"],
-      extraPackages: ["oxfmt", "oxlint-tsgolint"],
+      packagesReferencedByName: ["oxfmt", "oxlint-tsgolint"],
       docs: "Run with: oxlint --max-warnings 0 && oxfmt --check",
     }),
     buildInfraItem({
@@ -570,7 +512,7 @@ function buildInfraItems(): RegistryItem[] {
       description:
         "creact commitlint config: FSD-aware scopes, imperative mood, and atomic-commit rules.",
       paths: ["config/commitlint.config.ts", "config/commitlint-ci.config.ts"],
-      extraPackages: [
+      packagesReferencedByName: [
         "@commitlint/cli",
         "@commitlint/config-conventional",
         "commitlint-plugin-selective-scope",
@@ -593,7 +535,7 @@ function buildInfraItems(): RegistryItem[] {
 function verifyRegistryDependencies(items: RegistryItem[]): void {
   const itemNames = new Set(items.map((item) => item.name));
   for (const item of items) {
-    for (const dependency of item.registryDependencies ?? []) {
+    for (const dependency of dependencyNames(item)) {
       if (!itemNames.has(dependency)) {
         warnings.push(
           `${item.name}: registry dependency "${dependency}" has no item`
@@ -615,14 +557,7 @@ function main(): void {
     $schema: "https://ui.shadcn.com/schema/registry.json",
     name: "creact",
     homepage: "https://github.com/Joshua-Booth/creact",
-    items: items.map((item) =>
-      item.registryDependencies === undefined
-        ? item
-        : {
-            ...item,
-            registryDependencies: item.registryDependencies.map(registryRef),
-          }
-    ),
+    items,
   };
   const output = `${JSON.stringify(registry, null, 2)}\n`;
 
