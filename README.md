@@ -7,7 +7,7 @@
   </a>
 
   <h2 style="padding-top:0;margin-top:20px">creact</h2>
-  <h4 style="padding-top:20px">A React web app template with Vite, React Router v8, and TypeScript.</h4>
+  <h4 style="padding-top:20px">A React app template with Vite, React Router v8 and TypeScript, set up for coding agents.</h4>
 
   <br />
 
@@ -26,492 +26,90 @@
       alt="GitHub release"
       src="https://img.shields.io/github/v/release/Joshua-Booth/creact?label=version&style=for-the-badge"
     />
-    <img
-      alt="Dependencies"
-      src="https://img.shields.io/librariesio/github/Joshua-Booth/creact?style=for-the-badge"
-    />
-    <img
-      alt="GitHub last commit"
-      src="https://img.shields.io/github/last-commit/Joshua-Booth/creact?label=Last%20Update&style=for-the-badge"
-    />
   </p>
-
-  <br />
 
 <sub>Developed by <a href="https://joshuabooth.nz">Joshua Booth</a></sub>
 
-  <br />
-
-  <hr />
-  <p>
-    <a href="#about">About</a> |
-    <a href="#features">Features</a> |
-    <a href="#requirements">Requirements</a> |
-    <a href="#installation">Installation</a> |
-    <a href="#setup">Setup</a> |
-    <a href="#usage">Usage</a> |
-    <a href="#deployment">Deployment</a> |
-    <a href="#license">License</a>
-  </p>
-  <hr />
 </div>
 
 ## About
 
-<p style="padding-bottom: 20px">
-creact is a React project template for quickly setting up new web applications. Built with:
+creact is a starting point for React web apps. Testing, linting, Storybook and a coding agent setup are already done, so a new project starts from something that works.
 
-- **React 19** with concurrent features and automatic batching
-- **React Router v8** for file-based routing and data loading
-- **Vite** for fast development and optimized production builds
-- **TypeScript** for type safety
-- **Zustand** for lightweight state management
-- **Tailwind CSS v4** for utility-first styling
+There are three ways to use it:
 
-The template is modular - remove or customize any parts that don't fit your needs.
+- **Start a new project** with `create-creact`. It sets up React Router or Next, on Tailwind or StyleX, with creact's tooling. See [create-creact](./docs/CREATE-CREACT.md).
+- **Clone the template** to get the whole app, with its layout, examples and components.
+- **Add pieces to a creact-style project** from the [registry](./docs/REGISTRY.md), like a component or the theme.
 
-**Rendering Mode:** This template uses Server-Side Rendering (SSR) with React Router v8. SSR is required for proper Tailwind CSS v4 critical CSS injection and hydration. If you need SPA-only mode, consider using Tailwind CSS v3 instead.
+## What's inside
 
-Take a look at the <a href="#features">features</a> to see what's included. If there's something you think should be added, feel free to create a [feature request](https://github.com/Joshua-Booth/creact/issues/new).
+- React 19, React Router v8, Vite and TypeScript
+- Tailwind CSS v4, [shadcn/ui] on Base UI, and Lucide icons
+- Zustand for state, SWR and ky for data, and React Hook Form with Zod for forms
+- Vitest, Playwright, MSW, Storybook and Stryker for testing
+- Oxlint, Oxfmt, stylelint, knip, cspell and Steiger for code quality
+- Husky, commitlint and semantic-release for commits and releases
+- Sentry, PostHog and react-i18next, ready to configure
+- [mise] for tool versions and tasks, and Renovate for dependency updates
 
-For more information about this project check out the [wiki].
+The code follows [Feature-Sliced Design][fsd]. Remove anything you don't need.
 
-</p>
+Note: the app renders on the server, as Tailwind CSS v4 needs it to inject critical CSS. For a single-page app, use Tailwind CSS v3.
 
-[wiki]: https://github.com/Joshua-Booth/creact/wiki/Home/
-
-## Features
-
-- :scissors: **Customisable** - Only use the parts you need for your project
-- :zap: **Build tooling** - Fast development with [Vite] and [React Router v8]
-- :file_folder: **Data management** - State management with [Zustand], data fetching with [SWR], and API requests with [ky]
-- :iphone: **Responsive design** - Utility-first styling with [Tailwind CSS v4]
-- :arrow_right_hook: **Git hooks** - Automated code quality checks with [Husky]
-- :bookmark: **Versioning** - Automated SemVer versioning, changelogs, and releases with [semantic-release]
-- :arrows_counterclockwise: **Dependency updates** - Automated dependency updates with [Renovate]
-- :shirt: **Linting** - [Oxlint], [Oxfmt], [stylelint], [commitlint], [knip] for unused code detection, and [cspell] for spell checking
-- :building_construction: **Architecture** - [Feature-Sliced Design][fsd] with [Steiger] for architecture linting and [Plop] for scaffolding
-- :white_check_mark: **Testing** - Unit and integration tests with [Vitest], E2E tests with [Playwright], API mocking with [MSW], mutation testing with [Stryker]
-- :chart_with_upwards_trend: **Coverage reports** - Test coverage tracking
-- :wrench: **Task runner** - Development workflows with [mise]
-- :package: **Third party integrations** - [Sentry] and [PostHog] ready to configure
-- :art: **UI components** - [shadcn/ui] components, [Lucide React] icons, and [React Hook Form] for forms
-- :books: **Component docs** - Interactive component library with [Storybook]
-- :globe_with_meridians: **Internationalization** - Multi-language support with [react-i18next]
-- :shield: **Validation** - Type-safe schema validation with [Zod]
-
-[vite]: https://vite.dev/
-[react router v8]: https://reactrouter.com/
-[zustand]: https://github.com/pmndrs/zustand
-[swr]: https://swr.vercel.app/
-[ky]: https://github.com/sindresorhus/ky
-[tailwind css v4]: https://tailwindcss.com/
-[husky]: https://github.com/typicode/husky
-[semantic-release]: https://github.com/semantic-release/semantic-release
-[renovate]: https://github.com/renovatebot/renovate
-[oxlint]: https://oxc.rs/docs/guide/usage/linter
-[oxfmt]: https://oxc.rs/docs/guide/usage/formatter
-[stylelint]: https://stylelint.io/
-[commitlint]: https://commitlint.js.org/#/
-[knip]: https://knip.dev/
-[cspell]: https://cspell.org/
-[fsd]: https://feature-sliced.design/
-[steiger]: https://github.com/feature-sliced/steiger
-[plop]: https://plopjs.com/
-[vitest]: https://vitest.dev/
-[playwright]: https://playwright.dev/
-[msw]: https://mswjs.io/
-[stryker]: https://stryker-mutator.io/
-[mise]: https://mise.jdx.dev/
-[sentry]: https://sentry.io/
-[posthog]: https://posthog.com/
-[lucide react]: https://lucide.dev/
-[react hook form]: https://react-hook-form.com/
 [shadcn/ui]: https://ui.shadcn.com/
-[storybook]: https://storybook.js.org/
-[react-i18next]: https://react.i18next.com/
-[zod]: https://zod.dev/
+[mise]: https://mise.jdx.dev/
+[fsd]: https://feature-sliced.design/
 
-## Requirements
+## Quick start
 
-This project requires the following:
-
-- [Git](https://git-scm.com/downloads)
-- [mise](https://mise.jdx.dev/) for task running and version management
-- [Node.js 24.18.0+](https://nodejs.org/en/download/) (auto-installed by mise)
-- [pnpm 12.0.0+](https://pnpm.io/installation) (auto-installed by mise)
-
-### Installing mise
+You need Git and [mise]. mise installs the right Node and pnpm versions for you.
 
 ```sh
-# Install mise
-curl https://mise.run | sh
-```
-
-For more installation options, visit the [mise installation guide](https://mise.jdx.dev/getting-started.html#installing-mise-cli).
-
-Once mise is installed, it will automatically install and use the correct Node.js and pnpm versions when you enter the project directory.
-
-### Other useful global dependencies
-
-- [git-cz](https://www.npmjs.com/package/git-cz) for conventional commits
-
-## Installation
-
-```sh
-# Clone the repository
 git clone https://github.com/Joshua-Booth/creact.git
-
-# Change into the 'creact' directory
 cd creact
-
-# Install all the project's dependencies
+mise install
 pnpm install
+npx skills experimental_install
+mise run dev
 ```
 
-**Note:** If you're using mise, the correct Node.js and pnpm versions will be automatically installed and activated when you enter the project directory.
+The app runs at `http://localhost:8080`. To change the ports or set environment variables, see [Configuration](./docs/CONFIGURATION.md).
 
-## Setup
+## Coding agents
 
-Environment variables are managed through [mise] for development:
+An agent can work in creact straight away.
 
-- **Development**: Variables are set automatically via `mise.toml`'s `[env]` section
-- **Production**: Set variables in your deployment platform (Vercel, Netlify, etc.)
+- `AGENTS.md` has the repo's rules: commands, layout, tests and commits. `CLAUDE.md` imports it.
+- `.claude/rules` holds the rule for Storybook stories, and `.claude/workflows` has an `upgrade-deps` workflow.
+- `skills-lock.json` pins the shared agent skills. `npx skills experimental_install` puts them in `.agents/skills`, and `.claude/skills` links to them.
+- `.mcp.json` connects the shadcn and Storybook MCP servers, so an agent can browse components and run stories.
 
-For local customization (e.g., custom ports for git worktrees), create a `mise.local.toml` file (gitignored) to override default values.
+Note: the Storybook MCP server only works while `mise run storybook` is running.
 
-### Port Configuration
+Note: the skill links need symlinks. On Windows, turn on `core.symlinks` in git before you clone.
 
-By default, the application uses:
+## Tasks
 
-- Frontend dev server: `http://localhost:8080`
-- Backend API server: `http://localhost:8000`
+Every task is in `mise.toml`, and most have a short alias.
 
-These are configured via `mise.toml` vars and can be customized in `mise.local.toml`.
+| Task                 | Does                             |
+| -------------------- | -------------------------------- |
+| `mise run dev`       | Start the dev server             |
+| `mise run build`     | Build for production             |
+| `mise run test`      | Run the unit and component tests |
+| `mise run test:e2e`  | Run the Playwright tests         |
+| `mise run storybook` | Start Storybook                  |
+| `mise run fix`       | Fix lint and formatting          |
+| `mise run check`     | Run everything CI runs           |
+| `mise run generate`  | Scaffold a slice or a component  |
 
-### Environment Variables
-
-All environment variables are validated at startup using [t3-env] with Zod schemas (see `src/shared/config/env.ts`). Missing or invalid required variables will cause a clear error on boot. In development, port-related variables are auto-derived from `mise.toml`. For production, set these in your deployment platform:
-
-| Variable name       | Dev      | Prod     | Description                                            |
-| ------------------- | -------- | -------- | ------------------------------------------------------ |
-| `SESSION_SECRET`    | Auto     | Required | Secret for signing session cookies (server-only)       |
-| `SENTRY_DSN`        | Optional | Optional | [Sentry DSN] for server-side error tracking            |
-| `VITE_PORT`         | Auto     | N/A      | Frontend dev server port (default: `8080`)             |
-| `VITE_API_PORT`     | Auto     | N/A      | Backend API server port (default: `8000`)              |
-| `VITE_API_ROOT_URL` | Auto     | Required | API URL (e.g. `https://api.example.com/`)              |
-| `VITE_PUBLIC_URL`   | Auto     | Required | App public URL (e.g. `https://example.com/public`)     |
-| `VITE_SENTRY_DSN`   | Optional | Optional | [Sentry DSN] for client-side error tracking            |
-| `SENTRY_ORG`        | N/A      | Optional | Sentry organization slug (for sourcemap uploads)       |
-| `SENTRY_PROJECT`    | N/A      | Optional | Sentry project slug (for sourcemap uploads)            |
-| `SENTRY_AUTH_TOKEN` | N/A      | Optional | [Sentry auth token] for sourcemap uploads              |
-| `VITE_POSTHOG_KEY`  | Optional | Optional | [PostHog project API key] for analytics                |
-| `VITE_POSTHOG_HOST` | Optional | Optional | PostHog API host (default: `https://us.i.posthog.com`) |
-
-To skip validation (e.g. in Storybook or test runners), set `SKIP_ENV_VALIDATION=1`.
-
-### Git Worktree Setup
-
-To run multiple branches simultaneously on different ports, create a `mise.local.toml` file in each worktree. The URL variables are computed automatically from the port values:
-
-```toml
-# Branch 1 (main) - uses defaults from mise.toml (port 8080, api_port 8000)
-
-# Branch 2 (feature-a) - mise.local.toml
-[vars]
-port = "8081"
-api_port = "8001"
-
-# Branch 3 (feature-b) - mise.local.toml
-[vars]
-port = "8082"
-api_port = "8002"
-```
-
-This automatically sets `VITE_PORT`, `VITE_API_PORT`, `VITE_API_ROOT_URL`, and `VITE_PUBLIC_URL` based on the port values.
-
-[t3-env]: https://env.t3.gg/
-[sentry dsn]: https://docs.sentry.io/product/sentry-basics/dsn-explainer/
-[sentry auth token]: https://docs.sentry.io/api/auth/#auth-tokens
-[posthog project api key]: https://posthog.com/docs/getting-started/send-events#how-to-find-your-project-api-key
-
-## Code Generation
-
-The project uses [Plop] for scaffolding FSD slices and UI components. Run the interactive generator with:
-
-```sh
-mise run generate       # Interactive prompt (alias: mise run g)
-```
-
-### Generators
-
-#### FSD Slice
-
-Scaffold a new feature, entity, widget, or page with selectable segments:
-
-```sh
-mise run g -- slice
-```
-
-Prompts for layer, name (kebab-case), and segments (ui, api, model, lib, config). Generates the root barrel, UI component + story, and segment placeholder files.
-
-Example output for `mise run g -- slice` with layer `features`, name `auth`, segments `ui, api, model`:
-
-```
-src/features/auth/
-  index.ts                    # Root barrel (always generated)
-  ui/auth.tsx                 # Component
-  ui/auth.stories.tsx         # CSF Factories story
-  api/auth.ts                 # Segment placeholder
-  model/auth.ts               # Segment placeholder
-```
-
-#### Custom UI Component
-
-Scaffold a custom (non-shadcn) UI component:
-
-```sh
-mise run g -- ui
-```
-
-Generates `src/shared/ui/{name}/{name}.tsx`, `{name}.stories.tsx`, and `index.ts` barrel.
-
-[plop]: https://plopjs.com/
-
-## Registry
-
-creact is also a [shadcn registry], so a project with the creact layout can pull components, the theme and tooling config back from it.
-
-### Add items to a project
-
-The project needs Tailwind CSS v4, the `@/*` path alias pointing at `src/*`, and these aliases in its `components.json`:
-
-```json
-"aliases": {
-  "components": "@/shared/ui",
-  "ui": "@/shared/ui",
-  "lib": "@/shared/lib",
-  "utils": "@/shared/lib/utils",
-  "hooks": "@/shared/lib/hooks"
-}
-```
-
-Then add items by name:
-
-```sh
-pnpm dlx shadcn@latest add Joshua-Booth/creact/theme Joshua-Booth/creact/data-table
-```
-
-The items are:
-
-- one per component in `src/shared/ui`, with its unit tests, so items with tests add vitest to `devDependencies`. Stories and demos stay in creact, as they need its Storybook setup.
-- the `src/shared/lib` slices those components import, such as `device` and `data-table-core`. shadcn adds these for you.
-- `theme`, the colour tokens, radius, font and base styles from `src/app/styles/globals.css`.
-- `storybook-setup`, `linting`, `commit-conventions` and `fsd-scaffolding`, creact's tooling config.
-
-`registry.json` lists every item and what it depends on.
-
-**Note:** shadcn rewrites barrel imports in the files it adds, so `@/shared/ui/button` becomes `@/shared/ui/button/button`. Both point at the same component, and Steiger only checks imports from layers above `shared`, so leave them.
-
-**Note:** some components expect the creact app shell. Components such as `data-table`, `dialog` and `pagination` translate their labels with react-i18next, using the keys in `src/shared/i18n`. Without those translations loaded, the labels show their keys. `toast` and `mode-toggle` read the theme from `remix-themes`, so they throw outside its `ThemeProvider`.
-
-**Note:** pnpm stops an install with `ERR_PNPM_IGNORED_BUILDS` when a new dependency has a build script you haven't allowed. `storybook-setup` hits this, as Storybook depends on esbuild. Add the package to `allowBuilds` in `pnpm-workspace.yaml`, then run `shadcn add` again:
-
-```yaml
-allowBuilds:
-  esbuild: true
-```
-
-### Update the registry
-
-`scripts/build-registry.ts` generates `registry.json` from `src/shared`, `globals.css` and the tooling config. Run it after changing any of them:
-
-```sh
-mise run registry:build
-```
-
-CI runs `mise run registry:check`. It fails if `registry.json` is out of date or the generator prints a warning. It also type-checks `src/shared` without ts-reset, as projects that add the items don't load it.
-
-### Try a branch before merging
-
-Registry items point at each other on the default branch. To try a branch, build the registry for it, push, and add items at that ref:
-
-```sh
-node scripts/build-registry.ts --ref my-branch
-git commit -am "chore(config): point the registry at my-branch" && git push
-pnpm dlx shadcn@latest add Joshua-Booth/creact/data-table#my-branch
-```
-
-Run `mise run registry:build` and commit again before merging, as the CI check fails on a registry that points at a branch.
-
-[shadcn registry]: https://ui.shadcn.com/docs/registry
-
-## AI Assistant Integration
-
-This template includes configuration for the [shadcn MCP server](https://ui.shadcn.com/docs/cli#mcp-server) and the [Storybook MCP server](https://storybook.js.org/docs/mcp), enabling AI assistants to browse and install shadcn/ui components and interact with Storybook stories.
-
-### Supported AI Tools
-
-The `.mcp.json` configuration works with:
-
-- **Claude Code** - Anthropic's CLI tool
-- **Cursor** - AI-first code editor
-- **VS Code Copilot** - GitHub Copilot in VS Code
-
-### Example Prompts
-
-Once connected, you can use natural language to work with components:
-
-- "Show me available shadcn form components"
-- "Add a dialog component to my project"
-- "What input components are available?"
-- "Install the accordion and tabs components"
-
-### Manual Setup (if needed)
-
-If the MCP server isn't automatically detected, you can start it manually:
-
-```sh
-pnpm dlx shadcn@latest mcp
-```
-
-## Usage
-
-The project uses [mise] for task management. All tasks are defined in `mise.toml` with descriptions and aliases for easy use.
-
-### Development
-
-```sh
-mise run dev          # Start Vite dev server (alias: mise run d)
-```
-
-Visit the site at `http://localhost:8080` (or the port configured in `mise.local.toml`).
-
-### Production
-
-```sh
-mise run build        # Build static files for production (alias: mise run b)
-mise run preview      # Preview production build locally (alias: mise run p)
-```
-
-### Testing
-
-```sh
-mise run test         # Run unit/integration tests with Vitest (alias: mise run t)
-mise run test:all     # Run all tests in single-run mode (alias: mise run ta)
-mise run test:ui      # Open Vitest UI (alias: mise run tui)
-mise run test:e2e     # Run end-to-end tests with Playwright (alias: mise run te)
-mise run coverage     # Generate test coverage report (alias: mise run tc)
-mise run mutation     # Run mutation testing with Stryker, report-only (alias: mise run mt)
-```
-
-### API Mocking
-
-E2E tests use a reusable mock system built on `@msw/playwright` for API mocking. Mocks are defined in `tests/e2e/mocks/`.
-
-**Define handlers** in `tests/e2e/mocks/handlers.ts`:
-
-```ts
-import { http, HttpResponse } from "msw/http";
-
-export const handlers = [
-  http.post("**/auth/login/", () => {
-    return HttpResponse.json({ key: "mock-token" }, { status: 200 });
-  }),
-];
-
-export const errorResponses = {
-  login: {
-    invalidCredentials: () =>
-      http.post("**/auth/login/", () => {
-        return HttpResponse.json(
-          { non_field_errors: ["Unable to log in with provided credentials."] },
-          { status: 401 }
-        );
-      }),
-  },
-};
-```
-
-**Use in tests** with the `network` fixture:
-
-```ts
-import { errorResponses } from "./mocks";
-import { expect, test } from "./playwright.setup";
-
-test("user can login", async ({ network: _network, page }) => {
-  // Default handlers are applied automatically
-  await page.goto("/login");
-  // ...
-});
-
-test("shows error for invalid credentials", async ({ network, page }) => {
-  // Override default handler for this test
-  await network.use(errorResponses.login.invalidCredentials());
-  await page.goto("/login");
-  // ...
-});
-```
-
-### Code Quality
-
-```sh
-mise run fix          # Auto-fix all code quality issues (alias: mise run x)
-mise run lint         # Run Oxlint (alias: mise run l)
-mise run stylelint    # Run stylelint (alias: mise run sl)
-mise run typecheck    # Run TypeScript type checking (alias: mise run tt)
-mise run format       # Format code with Oxfmt (alias: mise run f)
-mise run knip         # Find unused code, exports, and dependencies (alias: mise run k)
-mise run spell        # Check spelling with cspell (alias: mise run sp)
-mise run steiger      # Run FSD architecture linter
-```
-
-Oxlint runs type-aware rules through `oxlint-tsgolint`, and ESLint plugins with no native port (SonarJS, ESLint React, better-tailwindcss, etc.) through its alpha [JS plugin layer](https://oxc.rs/docs/guide/usage/linter/js-plugins). Rules that couldn't be carried over from ESLint: `@typescript-eslint/naming-convention`, the type-aware SonarJS rules (Oxlint gives JS plugins no type info; most duplicate TypeScript strict mode, but `no-ignored-return`, `index-of-compare-to-positive-number`, `no-in-misuse` and `no-incompatible-assertion-types` have no replacement), most of `eslint-plugin-n` (tsc and knip cover missing and extraneous imports), and `unicorn/consistent-destructuring` and `unicorn/prefer-switch`.
-
-Oxfmt has no equivalent of `prettier-plugin-classnames`, so long Tailwind class strings stay on one line. If you wrap a class string by hand, `mise run format` may need a second run before `format:check` passes.
-
-### Other Tasks
-
-```sh
-mise tasks ls            # List all available tasks
-mise run generate        # Scaffold FSD slices and components (alias: mise run g)
-mise run clean           # Clean build artifacts
-mise run build:analyze   # Analyze bundle size (alias: mise run ba)
-mise run release         # Create a new release
-mise run steiger:fix     # Run Steiger with auto-fix (alias: mise run sf)
-mise run storybook       # Start Storybook dev server (alias: mise run sb)
-mise run storybook:build # Build Storybook static site (alias: mise run sbb)
-mise run coverage:all    # Run all tests with coverage and merge (alias: mise run tca)
-mise run coverage:e2e    # Run E2E tests with coverage (alias: mise run tec)
-mise run coverage:merge  # Merge coverage reports (alias: mise run tcm)
-mise run coverage:serve  # Serve coverage report (alias: mise run tcs)
-mise run depcruise       # Check for circular dependencies (alias: mise run dc)
-mise run test:e2e:ui     # Run E2E tests in UI mode (alias: mise run teu)
-mise run test:storybook  # Run Storybook component tests (alias: mise run tsb)
-mise run knip:fix        # Auto-remove unused exports (alias: mise run kf)
-mise run typegen         # Generate React Router route types
-```
-
-For more details on available tasks, run `mise tasks ls` or check `mise.toml`. Most tasks have aliases (e.g., `mise run b` for build, `mise run t` for test).
+Run `mise tasks ls` for the rest. [Development](./docs/DEVELOPMENT.md) covers the generators, API mocks and lint setup.
 
 ## Deployment
 
-This project is configured for easy deployment to [Netlify](https://www.netlify.com/) (free tier available).
-
-**Quick Start:**
-
-1. Push code to GitHub
-2. Connect to Netlify
-3. Configure environment variables (see [Environment Variables](#environment-variables))
-4. Deploy - done!
-
-### Resources
-
-- [Deployment Guide](./docs/DEPLOYMENT.md) - Detailed deployment instructions
-- [Netlify Docs](https://docs.netlify.com)
+creact deploys to Netlify. Connect the repo, set the [production environment variables](./docs/CONFIGURATION.md#environment-variables), then deploy. [Deployment](./docs/DEPLOYMENT.md) has the details.
 
 ## License
 
-This project is licensed under the [0BSD License](./LICENSE).
-
-Copyright &copy; 2026 Joshua Booth
+[0BSD](./LICENSE). Copyright &copy; 2026 Joshua Booth.
