@@ -129,6 +129,7 @@
     "sqft",
     "nonoctal",
     "proptypes",
-    "tsgolint"
+    "tsgolint",
+    "stylex"
   ]
 }

@@ -1,0 +1,12 @@
+import type { UserConfig } from "@commitlint/types";
+
+const ERROR = 2;
+
+export default {
+  extends: ["@commitlint/config-conventional"],
+  rules: {
+    "header-max-length": [ERROR, "always", 72],
+    "body-max-line-length": [ERROR, "always", 72],
+    "footer-max-line-length": [ERROR, "always", 72],
+  },
+} satisfies UserConfig;

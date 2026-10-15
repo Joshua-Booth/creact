@@ -1,0 +1,60 @@
+{
+  "package.json": {
+    "name": "next-app",
+    "version": "0.1.0",
+    "private": true,
+    "scripts": {
+      "dev": "next dev",
+      "build": "next build",
+      "start": "next start"
+    },
+    "dependencies": {
+      "next": "16.4.0",
+      "react": "19.3.0",
+      "react-dom": "19.3.0"
+    },
+    "devDependencies": {
+      "@tailwindcss/turbopack": "^4",
+      "@types/node": "^20",
+      "@types/react": "^19",
+      "@types/react-dom": "^19",
+      "tailwindcss": "^4",
+      "typescript": "^5"
+    },
+    "packageManager": "pnpm@12.0.0"
+  },
+  "tsconfig.json": {
+    "compilerOptions": {
+      "target": "ES2017",
+      "lib": ["dom", "dom.iterable", "esnext"],
+      "allowJs": true,
+      "skipLibCheck": true,
+      "strict": true,
+      "noEmit": true,
+      "esModuleInterop": true,
+      "module": "esnext",
+      "moduleResolution": "bundler",
+      "resolveJsonModule": true,
+      "isolatedModules": true,
+      "jsx": "react-jsx",
+      "incremental": true,
+      "plugins": [
+        {
+          "name": "next"
+        }
+      ],
+      "paths": {
+        "@/*": ["./src/*"]
+      }
+    },
+    "include": [
+      "next-env.d.ts",
+      "**/*.ts",
+      "**/*.tsx",
+      ".next/types/**/*.ts",
+      ".next/dev/types/**/*.ts",
+      "**/*.mts"
+    ],
+    "exclude": ["node_modules"]
+  }
+}

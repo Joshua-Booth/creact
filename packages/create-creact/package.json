@@ -1,0 +1,17 @@
+{
+  "name": "create-creact",
+  "version": "0.0.0",
+  "private": true,
+  "description": "Set up a React project with creact's lint, format, tsconfig, git hooks and tests",
+  "type": "module",
+  "bin": {
+    "create-creact": "./src/main.ts"
+  },
+  "scripts": {
+    "test": "node --test test/plan.test.ts",
+    "test:scaffold": "node --test test/scaffold.test.ts"
+  },
+  "engines": {
+    "node": ">=24.18.0"
+  }
+}
