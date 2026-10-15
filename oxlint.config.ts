@@ -536,7 +536,7 @@ export default defineConfig({
     },
 
     {
-      files: ["src/shared/ui/data-grid/**", "src/shared/lib/data-grid/**"],
+      files: ["src/shared/ui/data-grid/**", "src/shared/lib/data-grid-core/**"],
       rules: {
         "@eslint-react/static-components": "off",
         "@eslint-react/purity": "off",

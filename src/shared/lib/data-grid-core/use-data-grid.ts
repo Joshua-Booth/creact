@@ -367,7 +367,7 @@ export function useDataGrid<TData extends RowData>({
         if (c.id) return c.id;
         return "accessorKey" in c ? (c.accessorKey as string) : undefined;
       })
-      .filter(Boolean);
+      .filter((id): id is string => Boolean(id));
   }, [columns]);
   /* istanbul ignore end @preserve */
 
@@ -2312,7 +2312,7 @@ export function useDataGrid<TData extends RowData>({
           if (c.id) return c.id;
           return "accessorKey" in c ? (c.accessorKey as string) : undefined;
         })
-        .filter(Boolean)
+        .filter((id): id is string => Boolean(id))
         .find((c) => !NON_NAVIGABLE_COLUMN_IDS.has(c));
 
       const targetColumnId = columnId ?? navigableId;

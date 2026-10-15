@@ -6,8 +6,8 @@ import type { ComponentProps } from "react";
 import { flexRender } from "@tanstack/react-table";
 import { cn } from "cn";
 
-import type { DataTableInstance } from "@/shared/lib/data-table";
-import { getCommonPinningStyles } from "@/shared/lib/data-table";
+import type { DataTableInstance } from "@/shared/lib/data-table-core";
+import { getCommonPinningStyles } from "@/shared/lib/data-table-core";
 import {
   Table,
   TableBody,

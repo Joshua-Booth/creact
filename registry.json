@@ -1,0 +1,2200 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry.json",
+  "name": "creact",
+  "homepage": "https://github.com/Joshua-Booth/creact",
+  "items": [
+    {
+      "name": "accordion",
+      "type": "registry:ui",
+      "title": "Accordion",
+      "description": "Vertically stacked set of collapsible content sections. Wraps `@base-ui/react/collapsible` with project styling.",
+      "dependencies": [
+        "@base-ui/react@^1.8.0",
+        "cn@^0.4.0",
+        "lucide-react@^1.49.0"
+      ],
+      "files": [
+        {
+          "path": "src/shared/ui/accordion/accordion.tsx",
+          "type": "registry:ui",
+          "target": "@ui/accordion/accordion.tsx"
+        },
+        {
+          "path": "src/shared/ui/accordion/index.ts",
+          "type": "registry:ui",
+          "target": "@ui/accordion/index.ts"
+        }
+      ]
+    },
+    {
+      "name": "alert",
+      "type": "registry:ui",
+      "title": "Alert",
+      "description": "Callout component for displaying important messages to users. Supports icon placement and an optional action slot.",
+      "dependencies": [
+        "class-variance-authority@^0.7.1",
+        "cn@^0.4.0"
+      ],
+      "files": [
+        {
+          "path": "src/shared/ui/alert/alert.tsx",
+          "type": "registry:ui",
+          "target": "@ui/alert/alert.tsx"
+        },
+        {
+          "path": "src/shared/ui/alert/index.ts",
+          "type": "registry:ui",
+          "target": "@ui/alert/index.ts"
+        }
+      ]
+    },
+    {
+      "name": "alert-dialog",
+      "type": "registry:ui",
+      "title": "Alert Dialog",
+      "description": "Focus-trapped confirmation dialog that requires explicit user action before proceeding. Wraps `@base-ui/react/alert-dialog`.",
+      "dependencies": [
+        "@base-ui/react@^1.8.0",
+        "cn@^0.4.0"
+      ],
+      "registryDependencies": [
+        "Joshua-Booth/creact/button"
+      ],
+      "files": [
+        {
+          "path": "src/shared/ui/alert-dialog/alert-dialog.tsx",
+          "type": "registry:ui",
+          "target": "@ui/alert-dialog/alert-dialog.tsx"
+        },
+        {
+          "path": "src/shared/ui/alert-dialog/index.ts",
+          "type": "registry:ui",
+          "target": "@ui/alert-dialog/index.ts"
+        }
+      ]
+    },
+    {
+      "name": "aspect-ratio",
+      "type": "registry:ui",
+      "title": "Aspect Ratio",
+      "description": "Constrains child content to a specified aspect ratio.",
+      "dependencies": [
+        "cn@^0.4.0"
+      ],
+      "files": [
+        {
+          "path": "src/shared/ui/aspect-ratio/aspect-ratio.tsx",
+          "type": "registry:ui",
+          "target": "@ui/aspect-ratio/aspect-ratio.tsx"
+        },
+        {
+          "path": "src/shared/ui/aspect-ratio/index.ts",
+          "type": "registry:ui",
+          "target": "@ui/aspect-ratio/index.ts"
+        }
+      ]
+    },
+    {
+      "name": "attachment",
+      "type": "registry:ui",
+      "title": "Attachment",
+      "description": "File attachment card with upload lifecycle states.",
+      "dependencies": [
+        "@base-ui/react@^1.8.0",
+        "class-variance-authority@^0.7.1",
+        "cn@^0.4.0"
+      ],
+      "registryDependencies": [
+        "Joshua-Booth/creact/button"
+      ],
+      "files": [
+        {
+          "path": "src/shared/ui/attachment/attachment.tsx",
+          "type": "registry:ui",
+          "target": "@ui/attachment/attachment.tsx"
+        },
+        {
+          "path": "src/shared/ui/attachment/index.ts",
+          "type": "registry:ui",
+          "target": "@ui/attachment/index.ts"
+        }
+      ]
+    },
+    {
+      "name": "avatar",
+      "type": "registry:ui",
+      "title": "Avatar",
+      "description": "Circular user avatar displaying an image with fallback initials.",
+      "dependencies": [
+        "@base-ui/react@^1.8.0",
+        "cn@^0.4.0"
+      ],
+      "files": [
+        {
+          "path": "src/shared/ui/avatar/avatar.tsx",
+          "type": "registry:ui",
+          "target": "@ui/avatar/avatar.tsx"
+        },
+        {
+          "path": "src/shared/ui/avatar/index.ts",
+          "type": "registry:ui",
+          "target": "@ui/avatar/index.ts"
+        }
+      ]
+    },
+    {
+      "name": "badge",
+      "type": "registry:ui",
+      "title": "Badge",
+      "description": "Inline status label rendered as a small pill. Supports polymorphic rendering via Base UI's `useRender`.",
+      "dependencies": [
+        "@base-ui/react@^1.8.0",
+        "class-variance-authority@^0.7.1",
+        "cn@^0.4.0"
+      ],
+      "files": [
+        {
+          "path": "src/shared/ui/badge/badge.tsx",
+          "type": "registry:ui",
+          "target": "@ui/badge/badge.tsx"
+        },
+        {
+          "path": "src/shared/ui/badge/index.ts",
+          "type": "registry:ui",
+          "target": "@ui/badge/index.ts"
+        }
+      ]
+    },
+    {
+      "name": "breadcrumb",
+      "type": "registry:ui",
+      "title": "Breadcrumb",
+      "description": "Navigation trail showing the current page location within a hierarchy.",
+      "dependencies": [
+        "@base-ui/react@^1.8.0",
+        "cn@^0.4.0",
+        "lucide-react@^1.49.0",
+        "react-i18next@^17.0.15"
+      ],
+      "files": [
+        {
+          "path": "src/shared/ui/breadcrumb/breadcrumb.tsx",
+          "type": "registry:ui",
+          "target": "@ui/breadcrumb/breadcrumb.tsx"
+        },
+        {
+          "path": "src/shared/ui/breadcrumb/index.ts",
+          "type": "registry:ui",
+          "target": "@ui/breadcrumb/index.ts"
+        }
+      ]
+    },
+    {
+      "name": "bubble",
+      "type": "registry:ui",
+      "title": "Bubble",
+      "description": "Chat message bubble with color variants for sent, received, and status styles.",
+      "dependencies": [
+        "@base-ui/react@^1.8.0",
+        "class-variance-authority@^0.7.1",
+        "cn@^0.4.0"
+      ],
+      "files": [
+        {
+          "path": "src/shared/ui/bubble/bubble.tsx",
+          "type": "registry:ui",
+          "target": "@ui/bubble/bubble.tsx"
+        },
+        {
+          "path": "src/shared/ui/bubble/index.ts",
+          "type": "registry:ui",
+          "target": "@ui/bubble/index.ts"
+        }
+      ]
+    },
+    {
+      "name": "button",
+      "type": "registry:ui",
+      "title": "Button",
+      "description": "Clickable element that triggers an action or submits a form. Wraps `@base-ui/react/button` with project design tokens and CVA variants.",
+      "dependencies": [
+        "@base-ui/react@^1.8.0",
+        "class-variance-authority@^0.7.1",
+        "cn@^0.4.0"
+      ],
+      "files": [
+        {
+          "path": "src/shared/ui/button/button.tsx",
+          "type": "registry:ui",
+          "target": "@ui/button/button.tsx"
+        },
+        {
+          "path": "src/shared/ui/button/index.ts",
+          "type": "registry:ui",
+          "target": "@ui/button/index.ts"
+        }
+      ]
+    },
+    {
+      "name": "button-group",
+      "type": "registry:ui",
+      "title": "Button Group",
+      "description": "Grouped set of buttons sharing a common border and border-radius. Supports horizontal and vertical orientation.",
+      "dependencies": [
+        "@base-ui/react@^1.8.0",
+        "class-variance-authority@^0.7.1",
+        "cn@^0.4.0"
+      ],
+      "registryDependencies": [
+        "Joshua-Booth/creact/separator"
+      ],
+      "files": [
+        {
+          "path": "src/shared/ui/button-group/button-group.tsx",
+          "type": "registry:ui",
+          "target": "@ui/button-group/button-group.tsx"
+        },
+        {
+          "path": "src/shared/ui/button-group/index.ts",
+          "type": "registry:ui",
+          "target": "@ui/button-group/index.ts"
+        }
+      ]
+    },
+    {
+      "name": "calendar",
+      "type": "registry:ui",
+      "title": "Calendar",
+      "description": "Date picker calendar grid powered by react-day-picker with project styling.",
+      "dependencies": [
+        "cn@^0.4.0",
+        "lucide-react@^1.49.0",
+        "react-day-picker@^10.0.2"
+      ],
+      "registryDependencies": [
+        "Joshua-Booth/creact/button"
+      ],
+      "files": [
+        {
+          "path": "src/shared/ui/calendar/calendar.tsx",
+          "type": "registry:ui",
+          "target": "@ui/calendar/calendar.tsx"
+        },
+        {
+          "path": "src/shared/ui/calendar/index.ts",
+          "type": "registry:ui",
+          "target": "@ui/calendar/index.ts"
+        }
+      ]
+    },
+    {
+      "name": "card",
+      "type": "registry:ui",
+      "title": "Card",
+      "description": "Styled container for grouping related content with consistent padding and borders.",
+      "dependencies": [
+        "cn@^0.4.0"
+      ],
+      "files": [
+        {
+          "path": "src/shared/ui/card/card.tsx",
+          "type": "registry:ui",
+          "target": "@ui/card/card.tsx"
+        },
+        {
+          "path": "src/shared/ui/card/index.ts",
+          "type": "registry:ui",
+          "target": "@ui/card/index.ts"
+        }
+      ]
+    },
+    {
+      "name": "carousel",
+      "type": "registry:ui",
+      "title": "Carousel",
+      "description": "Embla-powered slideshow component with keyboard navigation and scroll snapping. Supports horizontal and vertical orientations.",
+      "dependencies": [
+        "cn@^0.4.0",
+        "embla-carousel-react@^8.6.0",
+        "lucide-react@^1.49.0",
+        "react-i18next@^17.0.15"
+      ],
+      "registryDependencies": [
+        "Joshua-Booth/creact/button"
+      ],
+      "files": [
+        {
+          "path": "src/shared/ui/carousel/carousel.tsx",
+          "type": "registry:ui",
+          "target": "@ui/carousel/carousel.tsx"
+        },
+        {
+          "path": "src/shared/ui/carousel/index.ts",
+          "type": "registry:ui",
+          "target": "@ui/carousel/index.ts"
+        }
+      ]
+    },
+    {
+      "name": "chart",
+      "type": "registry:ui",
+      "title": "Chart",
+      "description": "Responsive chart wrapper that provides theme-aware CSS color variables and chart configuration context.",
+      "dependencies": [
+        "cn@^0.4.0",
+        "recharts@^3.10.1"
+      ],
+      "files": [
+        {
+          "path": "src/shared/ui/chart/chart.tsx",
+          "type": "registry:ui",
+          "target": "@ui/chart/chart.tsx"
+        },
+        {
+          "path": "src/shared/ui/chart/index.ts",
+          "type": "registry:ui",
+          "target": "@ui/chart/index.ts"
+        }
+      ]
+    },
+    {
+      "name": "checkbox",
+      "type": "registry:ui",
+      "title": "Checkbox",
+      "description": "Toggle control for boolean options. Wraps `@base-ui/react/checkbox` with project styling.",
+      "dependencies": [
+        "@base-ui/react@^1.8.0",
+        "cn@^0.4.0",
+        "lucide-react@^1.49.0"
+      ],
+      "files": [
+        {
+          "path": "src/shared/ui/checkbox/checkbox.tsx",
+          "type": "registry:ui",
+          "target": "@ui/checkbox/checkbox.tsx"
+        },
+        {
+          "path": "src/shared/ui/checkbox/index.ts",
+          "type": "registry:ui",
+          "target": "@ui/checkbox/index.ts"
+        }
+      ]
+    },
+    {
+      "name": "collapsible",
+      "type": "registry:ui",
+      "title": "Collapsible",
+      "description": "Expandable/collapsible content section. Wraps `@base-ui/react/collapsible` with animation.",
+      "dependencies": [
+        "@base-ui/react@^1.8.0"
+      ],
+      "files": [
+        {
+          "path": "src/shared/ui/collapsible/collapsible.tsx",
+          "type": "registry:ui",
+          "target": "@ui/collapsible/collapsible.tsx"
+        },
+        {
+          "path": "src/shared/ui/collapsible/index.ts",
+          "type": "registry:ui",
+          "target": "@ui/collapsible/index.ts"
+        }
+      ]
+    },
+    {
+      "name": "combobox",
+      "type": "registry:ui",
+      "title": "Combobox",
+      "description": "Autocomplete select component combining a text input with a filterable dropdown list. Wraps `@base-ui/react` combobox primitives.",
+      "dependencies": [
+        "@base-ui/react@^1.8.0",
+        "cn@^0.4.0",
+        "lucide-react@^1.49.0",
+        "react-i18next@^17.0.15"
+      ],
+      "registryDependencies": [
+        "Joshua-Booth/creact/button",
+        "Joshua-Booth/creact/input-group"
+      ],
+      "files": [
+        {
+          "path": "src/shared/ui/combobox/combobox.tsx",
+          "type": "registry:ui",
+          "target": "@ui/combobox/combobox.tsx"
+        },
+        {
+          "path": "src/shared/ui/combobox/index.ts",
+          "type": "registry:ui",
+          "target": "@ui/combobox/index.ts"
+        }
+      ]
+    },
+    {
+      "name": "command",
+      "type": "registry:ui",
+      "title": "Command",
+      "description": "Searchable command palette for finding and executing actions. Built on cmdk.",
+      "dependencies": [
+        "cmdk@^1.1.1",
+        "cn@^0.4.0",
+        "lucide-react@^1.49.0",
+        "react-i18next@^17.0.15"
+      ],
+      "registryDependencies": [
+        "Joshua-Booth/creact/dialog",
+        "Joshua-Booth/creact/input-group"
+      ],
+      "files": [
+        {
+          "path": "src/shared/ui/command/command.tsx",
+          "type": "registry:ui",
+          "target": "@ui/command/command.tsx"
+        },
+        {
+          "path": "src/shared/ui/command/index.ts",
+          "type": "registry:ui",
+          "target": "@ui/command/index.ts"
+        }
+      ]
+    },
+    {
+      "name": "commit-conventions",
+      "type": "registry:item",
+      "title": "Commit Conventions",
+      "description": "creact commitlint config: FSD-aware scopes, imperative mood, and atomic-commit rules.",
+      "devDependencies": [
+        "@commitlint/cli@^21.2.3",
+        "@commitlint/config-conventional@^21.2.3",
+        "@commitlint/types@^21.2.3",
+        "commitlint-plugin-function-rules@^5.0.1",
+        "commitlint-plugin-selective-scope@^1.0.3"
+      ],
+      "files": [
+        {
+          "path": "config/commitlint.config.ts",
+          "type": "registry:file",
+          "target": "~/config/commitlint.config.ts"
+        },
+        {
+          "path": "config/commitlint-ci.config.ts",
+          "type": "registry:file",
+          "target": "~/config/commitlint-ci.config.ts"
+        }
+      ],
+      "docs": "Wire into husky: commitlint --config config/commitlint.config.ts --edit $1"
+    },
+    {
+      "name": "context-menu",
+      "type": "registry:ui",
+      "title": "Context Menu",
+      "description": "Right-click context menu for presenting contextual actions. Wraps `@base-ui/react/context-menu` with keyboard navigation.",
+      "dependencies": [
+        "@base-ui/react@^1.8.0",
+        "cn@^0.4.0",
+        "lucide-react@^1.49.0"
+      ],
+      "files": [
+        {
+          "path": "src/shared/ui/context-menu/context-menu.tsx",
+          "type": "registry:ui",
+          "target": "@ui/context-menu/context-menu.tsx"
+        },
+        {
+          "path": "src/shared/ui/context-menu/index.ts",
+          "type": "registry:ui",
+          "target": "@ui/context-menu/index.ts"
+        }
+      ]
+    },
+    {
+      "name": "data-grid",
+      "type": "registry:ui",
+      "title": "Data Grid",
+      "description": "Virtualized editable data grid with keyboard navigation, cell selection, search, and context menu. Powered by TanStack Table and TanStack Virtual.",
+      "dependencies": [
+        "@tanstack/react-table@^9.2.4",
+        "@tanstack/react-virtual@^3.14.13",
+        "cn@^0.4.0",
+        "lucide-react@^1.49.0",
+        "react-i18next@^17.0.15",
+        "sonner@^2.0.8"
+      ],
+      "registryDependencies": [
+        "Joshua-Booth/creact/badge",
+        "Joshua-Booth/creact/button",
+        "Joshua-Booth/creact/calendar",
+        "Joshua-Booth/creact/checkbox",
+        "Joshua-Booth/creact/command",
+        "Joshua-Booth/creact/data-grid-core",
+        "Joshua-Booth/creact/data-table-core",
+        "Joshua-Booth/creact/dialog",
+        "Joshua-Booth/creact/dropdown-menu",
+        "Joshua-Booth/creact/input",
+        "Joshua-Booth/creact/kbd",
+        "Joshua-Booth/creact/popover",
+        "Joshua-Booth/creact/select",
+        "Joshua-Booth/creact/separator",
+        "Joshua-Booth/creact/skeleton",
+        "Joshua-Booth/creact/textarea",
+        "Joshua-Booth/creact/tooltip"
+      ],
+      "files": [
+        {
+          "path": "src/shared/ui/data-grid/data-grid-cell-variants.tsx",
+          "type": "registry:ui",
+          "target": "@ui/data-grid/data-grid-cell-variants.tsx"
+        },
+        {
+          "path": "src/shared/ui/data-grid/data-grid-cell-wrapper.tsx",
+          "type": "registry:ui",
+          "target": "@ui/data-grid/data-grid-cell-wrapper.tsx"
+        },
+        {
+          "path": "src/shared/ui/data-grid/data-grid-cell.tsx",
+          "type": "registry:ui",
+          "target": "@ui/data-grid/data-grid-cell.tsx"
+        },
+        {
+          "path": "src/shared/ui/data-grid/data-grid-column-header.tsx",
+          "type": "registry:ui",
+          "target": "@ui/data-grid/data-grid-column-header.tsx"
+        },
+        {
+          "path": "src/shared/ui/data-grid/data-grid-context-menu.tsx",
+          "type": "registry:ui",
+          "target": "@ui/data-grid/data-grid-context-menu.tsx"
+        },
+        {
+          "path": "src/shared/ui/data-grid/data-grid-keyboard-shortcuts.tsx",
+          "type": "registry:ui",
+          "target": "@ui/data-grid/data-grid-keyboard-shortcuts.tsx"
+        },
+        {
+          "path": "src/shared/ui/data-grid/data-grid-paste-dialog.tsx",
+          "type": "registry:ui",
+          "target": "@ui/data-grid/data-grid-paste-dialog.tsx"
+        },
+        {
+          "path": "src/shared/ui/data-grid/data-grid-row.tsx",
+          "type": "registry:ui",
+          "target": "@ui/data-grid/data-grid-row.tsx"
+        },
+        {
+          "path": "src/shared/ui/data-grid/data-grid-search.tsx",
+          "type": "registry:ui",
+          "target": "@ui/data-grid/data-grid-search.tsx"
+        },
+        {
+          "path": "src/shared/ui/data-grid/data-grid.tsx",
+          "type": "registry:ui",
+          "target": "@ui/data-grid/data-grid.tsx"
+        },
+        {
+          "path": "src/shared/ui/data-grid/index.ts",
+          "type": "registry:ui",
+          "target": "@ui/data-grid/index.ts"
+        }
+      ]
+    },
+    {
+      "name": "data-grid-core",
+      "type": "registry:lib",
+      "title": "Data Grid Core",
+      "description": "Data grid hook providing virtualized, editable table functionality.",
+      "dependencies": [
+        "@tanstack/react-table@^9.2.4",
+        "@tanstack/react-virtual@^3.14.13",
+        "lucide-react@^1.49.0",
+        "sonner@^2.0.8"
+      ],
+      "devDependencies": [
+        "vitest@^5.0.3"
+      ],
+      "registryDependencies": [
+        "Joshua-Booth/creact/direction"
+      ],
+      "files": [
+        {
+          "path": "src/shared/lib/data-grid-core/compose-refs.ts",
+          "type": "registry:lib",
+          "target": "@lib/data-grid-core/compose-refs.ts"
+        },
+        {
+          "path": "src/shared/lib/data-grid-core/data-grid.test.ts",
+          "type": "registry:lib",
+          "target": "@lib/data-grid-core/data-grid.test.ts"
+        },
+        {
+          "path": "src/shared/lib/data-grid-core/data-grid.ts",
+          "type": "registry:lib",
+          "target": "@lib/data-grid-core/data-grid.ts"
+        },
+        {
+          "path": "src/shared/lib/data-grid-core/features.ts",
+          "type": "registry:lib",
+          "target": "@lib/data-grid-core/features.ts"
+        },
+        {
+          "path": "src/shared/lib/data-grid-core/index.ts",
+          "type": "registry:lib",
+          "target": "@lib/data-grid-core/index.ts"
+        },
+        {
+          "path": "src/shared/lib/data-grid-core/types.ts",
+          "type": "registry:lib",
+          "target": "@lib/data-grid-core/types.ts"
+        },
+        {
+          "path": "src/shared/lib/data-grid-core/use-as-ref.ts",
+          "type": "registry:lib",
+          "target": "@lib/data-grid-core/use-as-ref.ts"
+        },
+        {
+          "path": "src/shared/lib/data-grid-core/use-badge-overflow.ts",
+          "type": "registry:lib",
+          "target": "@lib/data-grid-core/use-badge-overflow.ts"
+        },
+        {
+          "path": "src/shared/lib/data-grid-core/use-data-grid.ts",
+          "type": "registry:lib",
+          "target": "@lib/data-grid-core/use-data-grid.ts"
+        },
+        {
+          "path": "src/shared/lib/data-grid-core/use-isomorphic-layout-effect.ts",
+          "type": "registry:lib",
+          "target": "@lib/data-grid-core/use-isomorphic-layout-effect.ts"
+        },
+        {
+          "path": "src/shared/lib/data-grid-core/use-lazy-ref.ts",
+          "type": "registry:lib",
+          "target": "@lib/data-grid-core/use-lazy-ref.ts"
+        }
+      ]
+    },
+    {
+      "name": "data-table",
+      "type": "registry:ui",
+      "title": "Data Table",
+      "description": "Feature-rich data table powered by TanStack Table with sorting, filtering, pagination, and row selection.",
+      "dependencies": [
+        "@tanstack/react-table@^9.2.4",
+        "cn@^0.4.0",
+        "lucide-react@^1.49.0",
+        "react-day-picker@^10.0.2",
+        "react-i18next@^17.0.15"
+      ],
+      "registryDependencies": [
+        "Joshua-Booth/creact/badge",
+        "Joshua-Booth/creact/button",
+        "Joshua-Booth/creact/button-group",
+        "Joshua-Booth/creact/calendar",
+        "Joshua-Booth/creact/command",
+        "Joshua-Booth/creact/data-table-core",
+        "Joshua-Booth/creact/dropdown-menu",
+        "Joshua-Booth/creact/input",
+        "Joshua-Booth/creact/label",
+        "Joshua-Booth/creact/popover",
+        "Joshua-Booth/creact/select",
+        "Joshua-Booth/creact/separator",
+        "Joshua-Booth/creact/slider",
+        "Joshua-Booth/creact/table"
+      ],
+      "files": [
+        {
+          "path": "src/shared/ui/data-table/data-table-column-header.tsx",
+          "type": "registry:ui",
+          "target": "@ui/data-table/data-table-column-header.tsx"
+        },
+        {
+          "path": "src/shared/ui/data-table/data-table-date-filter.tsx",
+          "type": "registry:ui",
+          "target": "@ui/data-table/data-table-date-filter.tsx"
+        },
+        {
+          "path": "src/shared/ui/data-table/data-table-faceted-filter.tsx",
+          "type": "registry:ui",
+          "target": "@ui/data-table/data-table-faceted-filter.tsx"
+        },
+        {
+          "path": "src/shared/ui/data-table/data-table-pagination.tsx",
+          "type": "registry:ui",
+          "target": "@ui/data-table/data-table-pagination.tsx"
+        },
+        {
+          "path": "src/shared/ui/data-table/data-table-slider-filter.tsx",
+          "type": "registry:ui",
+          "target": "@ui/data-table/data-table-slider-filter.tsx"
+        },
+        {
+          "path": "src/shared/ui/data-table/data-table-toolbar.tsx",
+          "type": "registry:ui",
+          "target": "@ui/data-table/data-table-toolbar.tsx"
+        },
+        {
+          "path": "src/shared/ui/data-table/data-table-view-options.tsx",
+          "type": "registry:ui",
+          "target": "@ui/data-table/data-table-view-options.tsx"
+        },
+        {
+          "path": "src/shared/ui/data-table/data-table.tsx",
+          "type": "registry:ui",
+          "target": "@ui/data-table/data-table.tsx"
+        },
+        {
+          "path": "src/shared/ui/data-table/index.ts",
+          "type": "registry:ui",
+          "target": "@ui/data-table/index.ts"
+        }
+      ]
+    },
+    {
+      "name": "data-table-core",
+      "type": "registry:lib",
+      "title": "Data Table Core",
+      "description": "Manage data-table state synchronized with URL query parameters.",
+      "dependencies": [
+        "@tanstack/react-table@^9.2.4",
+        "nuqs@^2.10.1",
+        "zod@^4.6.5"
+      ],
+      "devDependencies": [
+        "@fast-check/vitest@^0.5.0",
+        "vitest@^5.0.3"
+      ],
+      "files": [
+        {
+          "path": "src/shared/lib/data-table-core/config.ts",
+          "type": "registry:lib",
+          "target": "@lib/data-table-core/config.ts"
+        },
+        {
+          "path": "src/shared/lib/data-table-core/data-table.test.ts",
+          "type": "registry:lib",
+          "target": "@lib/data-table-core/data-table.test.ts"
+        },
+        {
+          "path": "src/shared/lib/data-table-core/data-table.ts",
+          "type": "registry:lib",
+          "target": "@lib/data-table-core/data-table.ts"
+        },
+        {
+          "path": "src/shared/lib/data-table-core/date-filter-utils.test.ts",
+          "type": "registry:lib",
+          "target": "@lib/data-table-core/date-filter-utils.test.ts"
+        },
+        {
+          "path": "src/shared/lib/data-table-core/date-filter-utils.ts",
+          "type": "registry:lib",
+          "target": "@lib/data-table-core/date-filter-utils.ts"
+        },
+        {
+          "path": "src/shared/lib/data-table-core/features.ts",
+          "type": "registry:lib",
+          "target": "@lib/data-table-core/features.ts"
+        },
+        {
+          "path": "src/shared/lib/data-table-core/format.test.ts",
+          "type": "registry:lib",
+          "target": "@lib/data-table-core/format.test.ts"
+        },
+        {
+          "path": "src/shared/lib/data-table-core/format.ts",
+          "type": "registry:lib",
+          "target": "@lib/data-table-core/format.ts"
+        },
+        {
+          "path": "src/shared/lib/data-table-core/index.ts",
+          "type": "registry:lib",
+          "target": "@lib/data-table-core/index.ts"
+        },
+        {
+          "path": "src/shared/lib/data-table-core/parsers.test.ts",
+          "type": "registry:lib",
+          "target": "@lib/data-table-core/parsers.test.ts"
+        },
+        {
+          "path": "src/shared/lib/data-table-core/parsers.ts",
+          "type": "registry:lib",
+          "target": "@lib/data-table-core/parsers.ts"
+        },
+        {
+          "path": "src/shared/lib/data-table-core/slider-filter-utils.test.ts",
+          "type": "registry:lib",
+          "target": "@lib/data-table-core/slider-filter-utils.test.ts"
+        },
+        {
+          "path": "src/shared/lib/data-table-core/slider-filter-utils.ts",
+          "type": "registry:lib",
+          "target": "@lib/data-table-core/slider-filter-utils.ts"
+        },
+        {
+          "path": "src/shared/lib/data-table-core/types.ts",
+          "type": "registry:lib",
+          "target": "@lib/data-table-core/types.ts"
+        },
+        {
+          "path": "src/shared/lib/data-table-core/use-callback-ref.ts",
+          "type": "registry:lib",
+          "target": "@lib/data-table-core/use-callback-ref.ts"
+        },
+        {
+          "path": "src/shared/lib/data-table-core/use-data-table.test.ts",
+          "type": "registry:lib",
+          "target": "@lib/data-table-core/use-data-table.test.ts"
+        },
+        {
+          "path": "src/shared/lib/data-table-core/use-data-table.ts",
+          "type": "registry:lib",
+          "target": "@lib/data-table-core/use-data-table.ts"
+        },
+        {
+          "path": "src/shared/lib/data-table-core/use-debounced-callback.ts",
+          "type": "registry:lib",
+          "target": "@lib/data-table-core/use-debounced-callback.ts"
+        }
+      ]
+    },
+    {
+      "name": "device",
+      "type": "registry:lib",
+      "title": "Device",
+      "description": "React hook that returns reactive device state based on viewport width. Automatically updates when the viewport crosses breakpoint boundaries.",
+      "files": [
+        {
+          "path": "src/shared/lib/device/breakpoints.ts",
+          "type": "registry:lib",
+          "target": "@lib/device/breakpoints.ts"
+        },
+        {
+          "path": "src/shared/lib/device/hooks.ts",
+          "type": "registry:lib",
+          "target": "@lib/device/hooks.ts"
+        },
+        {
+          "path": "src/shared/lib/device/index.ts",
+          "type": "registry:lib",
+          "target": "@lib/device/index.ts"
+        }
+      ]
+    },
+    {
+      "name": "dialog",
+      "type": "registry:ui",
+      "title": "Dialog",
+      "description": "Focus-trapped modal window overlaid on the primary content. Wraps `@base-ui/react/dialog` with project styling and animation presets.",
+      "dependencies": [
+        "@base-ui/react@^1.8.0",
+        "cn@^0.4.0",
+        "lucide-react@^1.49.0",
+        "react-i18next@^17.0.15"
+      ],
+      "registryDependencies": [
+        "Joshua-Booth/creact/button"
+      ],
+      "files": [
+        {
+          "path": "src/shared/ui/dialog/dialog.tsx",
+          "type": "registry:ui",
+          "target": "@ui/dialog/dialog.tsx"
+        },
+        {
+          "path": "src/shared/ui/dialog/index.ts",
+          "type": "registry:ui",
+          "target": "@ui/dialog/index.ts"
+        }
+      ]
+    },
+    {
+      "name": "direction",
+      "type": "registry:ui",
+      "title": "Direction",
+      "description": "Context provider for text direction (LTR/RTL) with locale-aware detection.",
+      "dependencies": [
+        "@base-ui/react@^1.8.0"
+      ],
+      "files": [
+        {
+          "path": "src/shared/ui/direction/direction.tsx",
+          "type": "registry:ui",
+          "target": "@ui/direction/direction.tsx"
+        },
+        {
+          "path": "src/shared/ui/direction/index.ts",
+          "type": "registry:ui",
+          "target": "@ui/direction/index.ts"
+        }
+      ]
+    },
+    {
+      "name": "drawer",
+      "type": "registry:ui",
+      "title": "Drawer",
+      "description": "Touch-friendly bottom sheet overlay powered by Vaul. Supports swipe-to-dismiss and directional rendering.",
+      "dependencies": [
+        "cn@^0.4.0",
+        "vaul@^1.1.2"
+      ],
+      "files": [
+        {
+          "path": "src/shared/ui/drawer/drawer.tsx",
+          "type": "registry:ui",
+          "target": "@ui/drawer/drawer.tsx"
+        },
+        {
+          "path": "src/shared/ui/drawer/index.ts",
+          "type": "registry:ui",
+          "target": "@ui/drawer/index.ts"
+        }
+      ]
+    },
+    {
+      "name": "dropdown-menu",
+      "type": "registry:ui",
+      "title": "Dropdown Menu",
+      "description": "Context-triggered menu for presenting a list of actions. Wraps `@base-ui/react/menu` with project styling and animation.",
+      "dependencies": [
+        "@base-ui/react@^1.8.0",
+        "cn@^0.4.0",
+        "lucide-react@^1.49.0"
+      ],
+      "files": [
+        {
+          "path": "src/shared/ui/dropdown-menu/dropdown-menu.tsx",
+          "type": "registry:ui",
+          "target": "@ui/dropdown-menu/dropdown-menu.tsx"
+        },
+        {
+          "path": "src/shared/ui/dropdown-menu/index.ts",
+          "type": "registry:ui",
+          "target": "@ui/dropdown-menu/index.ts"
+        }
+      ]
+    },
+    {
+      "name": "empty",
+      "type": "registry:ui",
+      "title": "Empty",
+      "description": "Empty state placeholder displayed when a section has no content. Centers its children with a dashed border and balanced text.",
+      "dependencies": [
+        "@base-ui/react@^1.8.0",
+        "class-variance-authority@^0.7.1",
+        "cn@^0.4.0"
+      ],
+      "files": [
+        {
+          "path": "src/shared/ui/empty/empty.tsx",
+          "type": "registry:ui",
+          "target": "@ui/empty/empty.tsx"
+        },
+        {
+          "path": "src/shared/ui/empty/index.ts",
+          "type": "registry:ui",
+          "target": "@ui/empty/index.ts"
+        }
+      ]
+    },
+    {
+      "name": "error-boundary",
+      "type": "registry:ui",
+      "title": "Error Boundary",
+      "description": "Catches JavaScript errors in the child component tree, reports them to Sentry, and displays a fallback UI.",
+      "dependencies": [
+        "@sentry/react@^11.2.0",
+        "lucide-react@^1.49.0",
+        "react-i18next@^17.0.15",
+        "react-router@^8.4.0"
+      ],
+      "registryDependencies": [
+        "Joshua-Booth/creact/button",
+        "Joshua-Booth/creact/empty"
+      ],
+      "files": [
+        {
+          "path": "src/shared/ui/error-boundary/error-boundary.tsx",
+          "type": "registry:ui",
+          "target": "@ui/error-boundary/error-boundary.tsx"
+        },
+        {
+          "path": "src/shared/ui/error-boundary/index.ts",
+          "type": "registry:ui",
+          "target": "@ui/error-boundary/index.ts"
+        },
+        {
+          "path": "src/shared/ui/error-boundary/route-error-fallback.tsx",
+          "type": "registry:ui",
+          "target": "@ui/error-boundary/route-error-fallback.tsx"
+        }
+      ]
+    },
+    {
+      "name": "field",
+      "type": "registry:ui",
+      "title": "Field",
+      "description": "Form field container that provides validation context and accessible label association. Wraps `@base-ui/react/field` with orientation variants.",
+      "dependencies": [
+        "@base-ui/react@^1.8.0",
+        "class-variance-authority@^0.7.1",
+        "cn@^0.4.0"
+      ],
+      "registryDependencies": [
+        "Joshua-Booth/creact/label",
+        "Joshua-Booth/creact/separator"
+      ],
+      "files": [
+        {
+          "path": "src/shared/ui/field/field.tsx",
+          "type": "registry:ui",
+          "target": "@ui/field/field.tsx"
+        },
+        {
+          "path": "src/shared/ui/field/index.ts",
+          "type": "registry:ui",
+          "target": "@ui/field/index.ts"
+        }
+      ]
+    },
+    {
+      "name": "fsd-scaffolding",
+      "type": "registry:item",
+      "title": "FSD Scaffolding",
+      "description": "Plop generators for Feature-Sliced Design: scaffold slices and UI components with stories in the creact layout.",
+      "devDependencies": [
+        "plop@^4.0.5"
+      ],
+      "files": [
+        {
+          "path": "config/plopfile.ts",
+          "type": "registry:file",
+          "target": "~/config/plopfile.ts"
+        },
+        {
+          "path": "config/plop-templates/slice/index.ts.hbs",
+          "type": "registry:file",
+          "target": "~/config/plop-templates/slice/index.ts.hbs"
+        },
+        {
+          "path": "config/plop-templates/slice/lib-test.ts.hbs",
+          "type": "registry:file",
+          "target": "~/config/plop-templates/slice/lib-test.ts.hbs"
+        },
+        {
+          "path": "config/plop-templates/slice/segment-file.ts.hbs",
+          "type": "registry:file",
+          "target": "~/config/plop-templates/slice/segment-file.ts.hbs"
+        },
+        {
+          "path": "config/plop-templates/slice/ui-component.tsx.hbs",
+          "type": "registry:file",
+          "target": "~/config/plop-templates/slice/ui-component.tsx.hbs"
+        },
+        {
+          "path": "config/plop-templates/slice/ui-stories.tsx.hbs",
+          "type": "registry:file",
+          "target": "~/config/plop-templates/slice/ui-stories.tsx.hbs"
+        },
+        {
+          "path": "config/plop-templates/ui-component/component.tsx.hbs",
+          "type": "registry:file",
+          "target": "~/config/plop-templates/ui-component/component.tsx.hbs"
+        },
+        {
+          "path": "config/plop-templates/ui-component/index.ts.hbs",
+          "type": "registry:file",
+          "target": "~/config/plop-templates/ui-component/index.ts.hbs"
+        },
+        {
+          "path": "config/plop-templates/ui-component/stories.tsx.hbs",
+          "type": "registry:file",
+          "target": "~/config/plop-templates/ui-component/stories.tsx.hbs"
+        }
+      ],
+      "docs": "Run with: plop --plopfile config/plopfile.ts --dest ."
+    },
+    {
+      "name": "hover-card",
+      "type": "registry:ui",
+      "title": "Hover Card",
+      "description": "Popup card that appears on hover for previewing linked content. Wraps `@base-ui/react/preview-card`.",
+      "dependencies": [
+        "@base-ui/react@^1.8.0",
+        "cn@^0.4.0"
+      ],
+      "files": [
+        {
+          "path": "src/shared/ui/hover-card/hover-card.tsx",
+          "type": "registry:ui",
+          "target": "@ui/hover-card/hover-card.tsx"
+        },
+        {
+          "path": "src/shared/ui/hover-card/index.ts",
+          "type": "registry:ui",
+          "target": "@ui/hover-card/index.ts"
+        }
+      ]
+    },
+    {
+      "name": "input",
+      "type": "registry:ui",
+      "title": "Input",
+      "description": "Text input field with project styling and validation states. Wraps `@base-ui/react/input` with consistent borders, focus rings, and file input support.",
+      "dependencies": [
+        "@base-ui/react@^1.8.0",
+        "cn@^0.4.0"
+      ],
+      "files": [
+        {
+          "path": "src/shared/ui/input/index.ts",
+          "type": "registry:ui",
+          "target": "@ui/input/index.ts"
+        },
+        {
+          "path": "src/shared/ui/input/input.tsx",
+          "type": "registry:ui",
+          "target": "@ui/input/input.tsx"
+        }
+      ]
+    },
+    {
+      "name": "input-group",
+      "type": "registry:ui",
+      "title": "Input Group",
+      "description": "Container that visually groups an input with addon elements like icons and buttons.",
+      "dependencies": [
+        "class-variance-authority@^0.7.1",
+        "cn@^0.4.0"
+      ],
+      "registryDependencies": [
+        "Joshua-Booth/creact/button",
+        "Joshua-Booth/creact/input",
+        "Joshua-Booth/creact/textarea"
+      ],
+      "files": [
+        {
+          "path": "src/shared/ui/input-group/index.ts",
+          "type": "registry:ui",
+          "target": "@ui/input-group/index.ts"
+        },
+        {
+          "path": "src/shared/ui/input-group/input-group.tsx",
+          "type": "registry:ui",
+          "target": "@ui/input-group/input-group.tsx"
+        }
+      ]
+    },
+    {
+      "name": "input-otp",
+      "type": "registry:ui",
+      "title": "Input Otp",
+      "description": "One-time password input with individual character slots. Built on input-otp.",
+      "dependencies": [
+        "cn@^0.4.0",
+        "input-otp@^1.5.0",
+        "lucide-react@^1.49.0"
+      ],
+      "files": [
+        {
+          "path": "src/shared/ui/input-otp/index.ts",
+          "type": "registry:ui",
+          "target": "@ui/input-otp/index.ts"
+        },
+        {
+          "path": "src/shared/ui/input-otp/input-otp.tsx",
+          "type": "registry:ui",
+          "target": "@ui/input-otp/input-otp.tsx"
+        }
+      ]
+    },
+    {
+      "name": "item",
+      "type": "registry:ui",
+      "title": "Item",
+      "description": "Generic list item with icon, text, and description layout. Supports polymorphic rendering via `render`.",
+      "dependencies": [
+        "@base-ui/react@^1.8.0",
+        "class-variance-authority@^0.7.1",
+        "cn@^0.4.0"
+      ],
+      "registryDependencies": [
+        "Joshua-Booth/creact/separator"
+      ],
+      "files": [
+        {
+          "path": "src/shared/ui/item/index.ts",
+          "type": "registry:ui",
+          "target": "@ui/item/index.ts"
+        },
+        {
+          "path": "src/shared/ui/item/item.tsx",
+          "type": "registry:ui",
+          "target": "@ui/item/item.tsx"
+        }
+      ]
+    },
+    {
+      "name": "json-ld",
+      "type": "registry:ui",
+      "title": "Json Ld",
+      "description": "Injects a JSON-LD structured data script tag into the page for SEO.",
+      "files": [
+        {
+          "path": "src/shared/ui/json-ld/index.ts",
+          "type": "registry:ui",
+          "target": "@ui/json-ld/index.ts"
+        },
+        {
+          "path": "src/shared/ui/json-ld/json-ld.tsx",
+          "type": "registry:ui",
+          "target": "@ui/json-ld/json-ld.tsx"
+        }
+      ]
+    },
+    {
+      "name": "kbd",
+      "type": "registry:ui",
+      "title": "Kbd",
+      "description": "Inline keyboard shortcut badge for displaying key combinations.",
+      "dependencies": [
+        "cn@^0.4.0"
+      ],
+      "files": [
+        {
+          "path": "src/shared/ui/kbd/index.ts",
+          "type": "registry:ui",
+          "target": "@ui/kbd/index.ts"
+        },
+        {
+          "path": "src/shared/ui/kbd/kbd.tsx",
+          "type": "registry:ui",
+          "target": "@ui/kbd/kbd.tsx"
+        }
+      ]
+    },
+    {
+      "name": "label",
+      "type": "registry:ui",
+      "title": "Label",
+      "description": "Accessible form label that dims automatically when its associated control is disabled.",
+      "dependencies": [
+        "cn@^0.4.0"
+      ],
+      "files": [
+        {
+          "path": "src/shared/ui/label/index.ts",
+          "type": "registry:ui",
+          "target": "@ui/label/index.ts"
+        },
+        {
+          "path": "src/shared/ui/label/label.tsx",
+          "type": "registry:ui",
+          "target": "@ui/label/label.tsx"
+        }
+      ]
+    },
+    {
+      "name": "linting",
+      "type": "registry:item",
+      "title": "Linting",
+      "description": "creact Oxlint and Oxfmt config: type-aware TypeScript, React, a11y, sonarjs, unicorn, JSDoc and Tailwind class checks, plus import sorting.",
+      "devDependencies": [
+        "@eslint-react/eslint-plugin@^5.23.3",
+        "eslint-plugin-better-tailwindcss@^4.7.0",
+        "eslint-plugin-jsdoc@^65.0.1",
+        "eslint-plugin-react-you-might-not-need-an-effect@^1.0.2",
+        "eslint-plugin-sonarjs@^4.2.2",
+        "eslint-plugin-storybook@^10.6.1",
+        "eslint-plugin-zod@^5.0.0",
+        "oxfmt@^0.71.0",
+        "oxlint@^1.86.0",
+        "oxlint-tsgolint@^7.0.2003"
+      ],
+      "files": [
+        {
+          "path": "oxlint.config.ts",
+          "type": "registry:file",
+          "target": "~/oxlint.config.ts"
+        },
+        {
+          "path": ".oxfmtrc.json",
+          "type": "registry:file",
+          "target": "~/.oxfmtrc.json"
+        }
+      ],
+      "docs": "Run with: oxlint --max-warnings 0 && oxfmt --check"
+    },
+    {
+      "name": "marker",
+      "type": "registry:ui",
+      "title": "Marker",
+      "description": "Inline status line for conversations, such as date separators or system events; renders as any element via `render`.",
+      "dependencies": [
+        "@base-ui/react@^1.8.0",
+        "class-variance-authority@^0.7.1",
+        "cn@^0.4.0"
+      ],
+      "files": [
+        {
+          "path": "src/shared/ui/marker/index.ts",
+          "type": "registry:ui",
+          "target": "@ui/marker/index.ts"
+        },
+        {
+          "path": "src/shared/ui/marker/marker.tsx",
+          "type": "registry:ui",
+          "target": "@ui/marker/marker.tsx"
+        }
+      ]
+    },
+    {
+      "name": "menubar",
+      "type": "registry:ui",
+      "title": "Menubar",
+      "description": "Horizontal menu bar that groups multiple dropdown menus into a single accessible control. Wraps `@base-ui/react/menubar` with dropdown menu composition.",
+      "dependencies": [
+        "@base-ui/react@^1.8.0",
+        "cn@^0.4.0",
+        "lucide-react@^1.49.0"
+      ],
+      "registryDependencies": [
+        "Joshua-Booth/creact/dropdown-menu"
+      ],
+      "files": [
+        {
+          "path": "src/shared/ui/menubar/index.ts",
+          "type": "registry:ui",
+          "target": "@ui/menubar/index.ts"
+        },
+        {
+          "path": "src/shared/ui/menubar/menubar.tsx",
+          "type": "registry:ui",
+          "target": "@ui/menubar/menubar.tsx"
+        }
+      ]
+    },
+    {
+      "name": "message",
+      "type": "registry:ui",
+      "title": "Message",
+      "description": "Single chat message row, aligned to the start (received) or end (sent).",
+      "dependencies": [
+        "cn@^0.4.0"
+      ],
+      "files": [
+        {
+          "path": "src/shared/ui/message/index.ts",
+          "type": "registry:ui",
+          "target": "@ui/message/index.ts"
+        },
+        {
+          "path": "src/shared/ui/message/message.tsx",
+          "type": "registry:ui",
+          "target": "@ui/message/message.tsx"
+        }
+      ]
+    },
+    {
+      "name": "message-scroller",
+      "type": "registry:ui",
+      "title": "Message Scroller",
+      "description": "Conversation scroll container with anchored turns and auto-scroll for streamed replies.",
+      "dependencies": [
+        "@shadcn/react@^0.3.1",
+        "cn@^0.4.0",
+        "lucide-react@^1.49.0"
+      ],
+      "registryDependencies": [
+        "Joshua-Booth/creact/button"
+      ],
+      "files": [
+        {
+          "path": "src/shared/ui/message-scroller/index.ts",
+          "type": "registry:ui",
+          "target": "@ui/message-scroller/index.ts"
+        },
+        {
+          "path": "src/shared/ui/message-scroller/message-scroller.tsx",
+          "type": "registry:ui",
+          "target": "@ui/message-scroller/message-scroller.tsx"
+        }
+      ]
+    },
+    {
+      "name": "mode-toggle",
+      "type": "registry:ui",
+      "title": "Mode Toggle",
+      "description": "Dropdown button that switches between light, dark, and system color themes.",
+      "dependencies": [
+        "lucide-react@^1.49.0",
+        "react-i18next@^17.0.15",
+        "remix-themes@^2.0.4"
+      ],
+      "registryDependencies": [
+        "Joshua-Booth/creact/button",
+        "Joshua-Booth/creact/dropdown-menu"
+      ],
+      "files": [
+        {
+          "path": "src/shared/ui/mode-toggle/index.ts",
+          "type": "registry:ui",
+          "target": "@ui/mode-toggle/index.ts"
+        },
+        {
+          "path": "src/shared/ui/mode-toggle/mode-toggle.tsx",
+          "type": "registry:ui",
+          "target": "@ui/mode-toggle/mode-toggle.tsx"
+        }
+      ]
+    },
+    {
+      "name": "native-select",
+      "type": "registry:ui",
+      "title": "Native Select",
+      "description": "Browser-native select element with project styling.",
+      "dependencies": [
+        "cn@^0.4.0",
+        "lucide-react@^1.49.0"
+      ],
+      "files": [
+        {
+          "path": "src/shared/ui/native-select/index.ts",
+          "type": "registry:ui",
+          "target": "@ui/native-select/index.ts"
+        },
+        {
+          "path": "src/shared/ui/native-select/native-select.tsx",
+          "type": "registry:ui",
+          "target": "@ui/native-select/native-select.tsx"
+        }
+      ]
+    },
+    {
+      "name": "navigation-menu",
+      "type": "registry:ui",
+      "title": "Navigation Menu",
+      "description": "Horizontal navigation bar with animated dropdown content panels. Wraps `@base-ui/react/navigation-menu` with smooth transitions.",
+      "dependencies": [
+        "@base-ui/react@^1.8.0",
+        "class-variance-authority@^0.7.1",
+        "cn@^0.4.0",
+        "lucide-react@^1.49.0"
+      ],
+      "files": [
+        {
+          "path": "src/shared/ui/navigation-menu/index.ts",
+          "type": "registry:ui",
+          "target": "@ui/navigation-menu/index.ts"
+        },
+        {
+          "path": "src/shared/ui/navigation-menu/navigation-menu.tsx",
+          "type": "registry:ui",
+          "target": "@ui/navigation-menu/navigation-menu.tsx"
+        }
+      ]
+    },
+    {
+      "name": "pagination",
+      "type": "registry:ui",
+      "title": "Pagination",
+      "description": "Page navigation control with previous/next buttons and numbered page links.",
+      "dependencies": [
+        "cn@^0.4.0",
+        "lucide-react@^1.49.0",
+        "react-i18next@^17.0.15"
+      ],
+      "registryDependencies": [
+        "Joshua-Booth/creact/button"
+      ],
+      "files": [
+        {
+          "path": "src/shared/ui/pagination/index.ts",
+          "type": "registry:ui",
+          "target": "@ui/pagination/index.ts"
+        },
+        {
+          "path": "src/shared/ui/pagination/pagination.tsx",
+          "type": "registry:ui",
+          "target": "@ui/pagination/pagination.tsx"
+        }
+      ]
+    },
+    {
+      "name": "popover",
+      "type": "registry:ui",
+      "title": "Popover",
+      "description": "Floating popup anchored to a trigger element for rich content display. Wraps `@base-ui/react/popover`.",
+      "dependencies": [
+        "@base-ui/react@^1.8.0",
+        "cn@^0.4.0"
+      ],
+      "files": [
+        {
+          "path": "src/shared/ui/popover/index.ts",
+          "type": "registry:ui",
+          "target": "@ui/popover/index.ts"
+        },
+        {
+          "path": "src/shared/ui/popover/popover.tsx",
+          "type": "registry:ui",
+          "target": "@ui/popover/popover.tsx"
+        }
+      ]
+    },
+    {
+      "name": "progress",
+      "type": "registry:ui",
+      "title": "Progress",
+      "description": "Horizontal progress bar indicating completion percentage. Wraps Base UI Progress.",
+      "dependencies": [
+        "@base-ui/react@^1.8.0",
+        "cn@^0.4.0"
+      ],
+      "files": [
+        {
+          "path": "src/shared/ui/progress/index.ts",
+          "type": "registry:ui",
+          "target": "@ui/progress/index.ts"
+        },
+        {
+          "path": "src/shared/ui/progress/progress.tsx",
+          "type": "registry:ui",
+          "target": "@ui/progress/progress.tsx"
+        }
+      ]
+    },
+    {
+      "name": "radio-group",
+      "type": "registry:ui",
+      "title": "Radio Group",
+      "description": "Group of mutually exclusive radio options. Wraps `@base-ui/react/radio-group`.",
+      "dependencies": [
+        "@base-ui/react@^1.8.0",
+        "cn@^0.4.0"
+      ],
+      "files": [
+        {
+          "path": "src/shared/ui/radio-group/index.ts",
+          "type": "registry:ui",
+          "target": "@ui/radio-group/index.ts"
+        },
+        {
+          "path": "src/shared/ui/radio-group/radio-group.tsx",
+          "type": "registry:ui",
+          "target": "@ui/radio-group/radio-group.tsx"
+        }
+      ]
+    },
+    {
+      "name": "resizable",
+      "type": "registry:ui",
+      "title": "Resizable",
+      "description": "Resizable panel layout powered by react-resizable-panels. Arranges child panels in a split-view with draggable dividers.",
+      "dependencies": [
+        "cn@^0.4.0",
+        "react-resizable-panels@^4.14.1"
+      ],
+      "files": [
+        {
+          "path": "src/shared/ui/resizable/index.ts",
+          "type": "registry:ui",
+          "target": "@ui/resizable/index.ts"
+        },
+        {
+          "path": "src/shared/ui/resizable/resizable.tsx",
+          "type": "registry:ui",
+          "target": "@ui/resizable/resizable.tsx"
+        }
+      ]
+    },
+    {
+      "name": "scroll-area",
+      "type": "registry:ui",
+      "title": "Scroll Area",
+      "description": "Custom scrollbar container powered by Base UI. Wraps content in a viewport with styled overlay scrollbars.",
+      "dependencies": [
+        "@base-ui/react@^1.8.0",
+        "cn@^0.4.0"
+      ],
+      "files": [
+        {
+          "path": "src/shared/ui/scroll-area/index.ts",
+          "type": "registry:ui",
+          "target": "@ui/scroll-area/index.ts"
+        },
+        {
+          "path": "src/shared/ui/scroll-area/scroll-area.tsx",
+          "type": "registry:ui",
+          "target": "@ui/scroll-area/scroll-area.tsx"
+        }
+      ]
+    },
+    {
+      "name": "select",
+      "type": "registry:ui",
+      "title": "Select",
+      "description": "Single-value selection dropdown. Wraps `@base-ui/react/select` with project styling.",
+      "dependencies": [
+        "@base-ui/react@^1.8.0",
+        "cn@^0.4.0",
+        "lucide-react@^1.49.0"
+      ],
+      "files": [
+        {
+          "path": "src/shared/ui/select/index.ts",
+          "type": "registry:ui",
+          "target": "@ui/select/index.ts"
+        },
+        {
+          "path": "src/shared/ui/select/select.tsx",
+          "type": "registry:ui",
+          "target": "@ui/select/select.tsx"
+        }
+      ]
+    },
+    {
+      "name": "separator",
+      "type": "registry:ui",
+      "title": "Separator",
+      "description": "Visual divider rendered as a horizontal or vertical line. Defaults to horizontal orientation.",
+      "dependencies": [
+        "@base-ui/react@^1.8.0",
+        "cn@^0.4.0"
+      ],
+      "files": [
+        {
+          "path": "src/shared/ui/separator/index.ts",
+          "type": "registry:ui",
+          "target": "@ui/separator/index.ts"
+        },
+        {
+          "path": "src/shared/ui/separator/separator.tsx",
+          "type": "registry:ui",
+          "target": "@ui/separator/separator.tsx"
+        }
+      ]
+    },
+    {
+      "name": "sheet",
+      "type": "registry:ui",
+      "title": "Sheet",
+      "description": "Side panel overlay that slides in from a screen edge. Wraps `@base-ui/react/dialog` with directional slide animations.",
+      "dependencies": [
+        "@base-ui/react@^1.8.0",
+        "cn@^0.4.0",
+        "lucide-react@^1.49.0",
+        "react-i18next@^17.0.15"
+      ],
+      "registryDependencies": [
+        "Joshua-Booth/creact/button"
+      ],
+      "files": [
+        {
+          "path": "src/shared/ui/sheet/index.ts",
+          "type": "registry:ui",
+          "target": "@ui/sheet/index.ts"
+        },
+        {
+          "path": "src/shared/ui/sheet/sheet.tsx",
+          "type": "registry:ui",
+          "target": "@ui/sheet/sheet.tsx"
+        }
+      ]
+    },
+    {
+      "name": "sidebar",
+      "type": "registry:ui",
+      "title": "Sidebar",
+      "description": "Collapsible side navigation panel with desktop and mobile layouts. Supports `left`/`right` sides, `sidebar`/`floating`/`inset` variants, and `offcanvas`/`icon`/`none` collapsible modes.",
+      "dependencies": [
+        "@base-ui/react@^1.8.0",
+        "class-variance-authority@^0.7.1",
+        "cn@^0.4.0",
+        "lucide-react@^1.49.0",
+        "react-i18next@^17.0.15"
+      ],
+      "registryDependencies": [
+        "Joshua-Booth/creact/button",
+        "Joshua-Booth/creact/device",
+        "Joshua-Booth/creact/input",
+        "Joshua-Booth/creact/separator",
+        "Joshua-Booth/creact/sheet",
+        "Joshua-Booth/creact/skeleton",
+        "Joshua-Booth/creact/tooltip"
+      ],
+      "files": [
+        {
+          "path": "src/shared/ui/sidebar/index.ts",
+          "type": "registry:ui",
+          "target": "@ui/sidebar/index.ts"
+        },
+        {
+          "path": "src/shared/ui/sidebar/sidebar.tsx",
+          "type": "registry:ui",
+          "target": "@ui/sidebar/sidebar.tsx"
+        }
+      ]
+    },
+    {
+      "name": "skeleton",
+      "type": "registry:ui",
+      "title": "Skeleton",
+      "description": "Animated placeholder that indicates content is loading. Renders a pulsing rounded rectangle.",
+      "dependencies": [
+        "cn@^0.4.0"
+      ],
+      "files": [
+        {
+          "path": "src/shared/ui/skeleton/index.ts",
+          "type": "registry:ui",
+          "target": "@ui/skeleton/index.ts"
+        },
+        {
+          "path": "src/shared/ui/skeleton/skeleton.tsx",
+          "type": "registry:ui",
+          "target": "@ui/skeleton/skeleton.tsx"
+        }
+      ]
+    },
+    {
+      "name": "slider",
+      "type": "registry:ui",
+      "title": "Slider",
+      "description": "Range slider input for selecting numeric values. Supports single or multi-thumb configurations with a visible track indicator.",
+      "dependencies": [
+        "@base-ui/react@^1.8.0",
+        "cn@^0.4.0"
+      ],
+      "files": [
+        {
+          "path": "src/shared/ui/slider/index.ts",
+          "type": "registry:ui",
+          "target": "@ui/slider/index.ts"
+        },
+        {
+          "path": "src/shared/ui/slider/slider.tsx",
+          "type": "registry:ui",
+          "target": "@ui/slider/slider.tsx"
+        }
+      ]
+    },
+    {
+      "name": "spinner",
+      "type": "registry:ui",
+      "title": "Spinner",
+      "description": "Animated loading spinner icon with an accessible translated label.",
+      "dependencies": [
+        "cn@^0.4.0",
+        "i18next@^26.4.2",
+        "lucide-react@^1.49.0"
+      ],
+      "files": [
+        {
+          "path": "src/shared/ui/spinner/index.ts",
+          "type": "registry:ui",
+          "target": "@ui/spinner/index.ts"
+        },
+        {
+          "path": "src/shared/ui/spinner/spinner.tsx",
+          "type": "registry:ui",
+          "target": "@ui/spinner/spinner.tsx"
+        }
+      ]
+    },
+    {
+      "name": "storybook-setup",
+      "type": "registry:item",
+      "title": "Storybook Setup",
+      "description": "creact Storybook 10 infrastructure: preview with i18n and theme decorators, browser-mode vitest wiring, and MSW addon setup.",
+      "dependencies": [
+        "i18next@^26.4.2",
+        "react-i18next@^17.0.15",
+        "remix-themes@^2.0.4",
+        "swr@^2.5.1"
+      ],
+      "devDependencies": [
+        "@storybook/addon-a11y@^10.6.1",
+        "@storybook/addon-docs@^10.6.1",
+        "@storybook/addon-vitest@^10.6.1",
+        "@storybook/react-vite@^10.6.1",
+        "@tailwindcss/vite@^4.3.3",
+        "@vitest/browser-playwright@5.0.3",
+        "msw@^3.0.1",
+        "msw-storybook-addon@^3.0.3",
+        "remark-gfm@^4.0.1",
+        "storybook-addon-remix-react-router@^7.0.0",
+        "vite@^8.3.2",
+        "vite-plugin-svgr@^5.2.0",
+        "vitest@^5.0.3"
+      ],
+      "registryDependencies": [
+        "Joshua-Booth/creact/direction"
+      ],
+      "files": [
+        {
+          "path": ".storybook/decorators/with-auth.tsx",
+          "type": "registry:file",
+          "target": "~/.storybook/decorators/with-auth.tsx"
+        },
+        {
+          "path": ".storybook/decorators/with-direction.tsx",
+          "type": "registry:file",
+          "target": "~/.storybook/decorators/with-direction.tsx"
+        },
+        {
+          "path": ".storybook/decorators/with-i18n.tsx",
+          "type": "registry:file",
+          "target": "~/.storybook/decorators/with-i18n.tsx"
+        },
+        {
+          "path": ".storybook/decorators/with-swr.tsx",
+          "type": "registry:file",
+          "target": "~/.storybook/decorators/with-swr.tsx"
+        },
+        {
+          "path": ".storybook/decorators/with-theme.tsx",
+          "type": "registry:file",
+          "target": "~/.storybook/decorators/with-theme.tsx"
+        },
+        {
+          "path": ".storybook/main.ts",
+          "type": "registry:file",
+          "target": "~/.storybook/main.ts"
+        },
+        {
+          "path": ".storybook/preview.tsx",
+          "type": "registry:file",
+          "target": "~/.storybook/preview.tsx"
+        },
+        {
+          "path": ".storybook/storybook-dark.css",
+          "type": "registry:file",
+          "target": "~/.storybook/storybook-dark.css"
+        },
+        {
+          "path": ".storybook/tsconfig.json",
+          "type": "registry:file",
+          "target": "~/.storybook/tsconfig.json"
+        },
+        {
+          "path": ".storybook/vite.config.ts",
+          "type": "registry:file",
+          "target": "~/.storybook/vite.config.ts"
+        },
+        {
+          "path": ".storybook/vitest.config.ts",
+          "type": "registry:file",
+          "target": "~/.storybook/vitest.config.ts"
+        },
+        {
+          "path": ".storybook/vitest.setup.ts",
+          "type": "registry:file",
+          "target": "~/.storybook/vitest.setup.ts"
+        },
+        {
+          "path": ".storybook/vitest.shims.d.ts",
+          "type": "registry:file",
+          "target": "~/.storybook/vitest.shims.d.ts"
+        },
+        {
+          "path": "config/vite-aliases.ts",
+          "type": "registry:file",
+          "target": "~/config/vite-aliases.ts"
+        }
+      ],
+      "docs": "Expects the creact layout (src/app/styles/globals.css, @/* path alias). Run storybook with: storybook dev --config-dir .storybook"
+    },
+    {
+      "name": "switch",
+      "type": "registry:ui",
+      "title": "Switch",
+      "description": "Toggle switch input with a sliding thumb indicator. Wraps `@base-ui/react/switch`.",
+      "dependencies": [
+        "@base-ui/react@^1.8.0",
+        "cn@^0.4.0"
+      ],
+      "files": [
+        {
+          "path": "src/shared/ui/switch/index.ts",
+          "type": "registry:ui",
+          "target": "@ui/switch/index.ts"
+        },
+        {
+          "path": "src/shared/ui/switch/switch.tsx",
+          "type": "registry:ui",
+          "target": "@ui/switch/switch.tsx"
+        }
+      ]
+    },
+    {
+      "name": "table",
+      "type": "registry:ui",
+      "title": "Table",
+      "description": "Responsive data table wrapped in a horizontally scrollable container.",
+      "dependencies": [
+        "cn@^0.4.0"
+      ],
+      "files": [
+        {
+          "path": "src/shared/ui/table/index.ts",
+          "type": "registry:ui",
+          "target": "@ui/table/index.ts"
+        },
+        {
+          "path": "src/shared/ui/table/table.tsx",
+          "type": "registry:ui",
+          "target": "@ui/table/table.tsx"
+        }
+      ]
+    },
+    {
+      "name": "tabs",
+      "type": "registry:ui",
+      "title": "Tabs",
+      "description": "Tabbed interface for switching between content panels. Supports horizontal and vertical orientations.",
+      "dependencies": [
+        "@base-ui/react@^1.8.0",
+        "class-variance-authority@^0.7.1",
+        "cn@^0.4.0"
+      ],
+      "files": [
+        {
+          "path": "src/shared/ui/tabs/index.ts",
+          "type": "registry:ui",
+          "target": "@ui/tabs/index.ts"
+        },
+        {
+          "path": "src/shared/ui/tabs/tabs.tsx",
+          "type": "registry:ui",
+          "target": "@ui/tabs/tabs.tsx"
+        }
+      ]
+    },
+    {
+      "name": "textarea",
+      "type": "registry:ui",
+      "title": "Textarea",
+      "description": "Multi-line text input with automatic field sizing. Styled with focus, error, and disabled states.",
+      "dependencies": [
+        "cn@^0.4.0"
+      ],
+      "files": [
+        {
+          "path": "src/shared/ui/textarea/index.ts",
+          "type": "registry:ui",
+          "target": "@ui/textarea/index.ts"
+        },
+        {
+          "path": "src/shared/ui/textarea/textarea.tsx",
+          "type": "registry:ui",
+          "target": "@ui/textarea/textarea.tsx"
+        }
+      ]
+    },
+    {
+      "name": "theme",
+      "type": "registry:theme",
+      "title": "Theme",
+      "description": "creact theme: neutral oklch colors for light and dark mode, chart and sidebar colors, the radius scale, the Inter font, animation utilities and base styles.",
+      "dependencies": [
+        "@fontsource-variable/inter@^5.3.0",
+        "tw-animate-css@^1.4.0"
+      ],
+      "devDependencies": [
+        "shadcn@^4.21.1"
+      ],
+      "cssVars": {
+        "theme": {
+          "font-sans": "\"Inter Variable\", sans-serif",
+          "font-heading": "var(--font-sans)",
+          "radius-sm": "calc(var(--radius) - 4px)",
+          "radius-md": "calc(var(--radius) - 2px)",
+          "radius-lg": "var(--radius)",
+          "radius-xl": "calc(var(--radius) + 4px)",
+          "radius-2xl": "calc(var(--radius) + 8px)",
+          "radius-3xl": "calc(var(--radius) + 12px)",
+          "radius-4xl": "calc(var(--radius) + 16px)"
+        },
+        "light": {
+          "background": "oklch(1 0 0)",
+          "foreground": "oklch(0.145 0 0)",
+          "card": "oklch(1 0 0)",
+          "card-foreground": "oklch(0.145 0 0)",
+          "popover": "oklch(1 0 0)",
+          "popover-foreground": "oklch(0.145 0 0)",
+          "primary": "oklch(0.205 0 0)",
+          "primary-foreground": "oklch(0.985 0 0)",
+          "secondary": "oklch(0.97 0 0)",
+          "secondary-foreground": "oklch(0.205 0 0)",
+          "muted": "oklch(0.97 0 0)",
+          "muted-foreground": "oklch(0.44 0 0)",
+          "accent": "oklch(0.97 0 0)",
+          "accent-foreground": "oklch(0.205 0 0)",
+          "destructive": "oklch(0.45 0.22 27)",
+          "border": "oklch(0.922 0 0)",
+          "input": "oklch(0.922 0 0)",
+          "ring": "oklch(0.708 0 0)",
+          "chart-1": "oklch(0.646 0.222 41.116)",
+          "chart-2": "oklch(0.6 0.118 184.704)",
+          "chart-3": "oklch(0.398 0.07 227.392)",
+          "chart-4": "oklch(0.828 0.189 84.429)",
+          "chart-5": "oklch(0.769 0.188 70.08)",
+          "radius": "0.625rem",
+          "sidebar": "oklch(0.985 0 0)",
+          "sidebar-foreground": "oklch(0.145 0 0)",
+          "sidebar-primary": "oklch(0.205 0 0)",
+          "sidebar-primary-foreground": "oklch(0.985 0 0)",
+          "sidebar-accent": "oklch(0.97 0 0)",
+          "sidebar-accent-foreground": "oklch(0.205 0 0)",
+          "sidebar-border": "oklch(0.922 0 0)",
+          "sidebar-ring": "oklch(0.708 0 0)"
+        },
+        "dark": {
+          "background": "oklch(0.145 0 0)",
+          "foreground": "oklch(0.985 0 0)",
+          "card": "oklch(0.205 0 0)",
+          "card-foreground": "oklch(0.985 0 0)",
+          "popover": "oklch(0.205 0 0)",
+          "popover-foreground": "oklch(0.985 0 0)",
+          "primary": "oklch(0.922 0 0)",
+          "primary-foreground": "oklch(0.205 0 0)",
+          "secondary": "oklch(0.269 0 0)",
+          "secondary-foreground": "oklch(0.985 0 0)",
+          "muted": "oklch(0.269 0 0)",
+          "muted-foreground": "oklch(0.708 0 0)",
+          "accent": "oklch(0.269 0 0)",
+          "accent-foreground": "oklch(0.985 0 0)",
+          "destructive": "oklch(0.704 0.191 22.216)",
+          "border": "oklch(1 0 0 / 10%)",
+          "input": "oklch(1 0 0 / 15%)",
+          "ring": "oklch(0.556 0 0)",
+          "chart-1": "oklch(0.488 0.243 264.376)",
+          "chart-2": "oklch(0.696 0.17 162.48)",
+          "chart-3": "oklch(0.769 0.188 70.08)",
+          "chart-4": "oklch(0.627 0.265 303.9)",
+          "chart-5": "oklch(0.645 0.246 16.439)",
+          "sidebar": "oklch(0.205 0 0)",
+          "sidebar-foreground": "oklch(0.985 0 0)",
+          "sidebar-primary": "oklch(0.488 0.243 264.376)",
+          "sidebar-primary-foreground": "oklch(0.985 0 0)",
+          "sidebar-accent": "oklch(0.269 0 0)",
+          "sidebar-accent-foreground": "oklch(0.985 0 0)",
+          "sidebar-border": "oklch(1 0 0 / 10%)",
+          "sidebar-ring": "oklch(0.556 0 0)"
+        }
+      },
+      "css": {
+        "@import \"@fontsource-variable/inter\"": {},
+        "@import \"tw-animate-css\"": {},
+        "@import \"shadcn/tailwind.css\"": {},
+        "@layer base": {
+          "*": {
+            "@apply border-border outline-ring/50": {}
+          },
+          "body": {
+            "@apply bg-background text-foreground font-sans": {}
+          },
+          "html": {
+            "@apply font-sans": {}
+          }
+        }
+      }
+    },
+    {
+      "name": "toast",
+      "type": "registry:ui",
+      "title": "Toast",
+      "description": "Themed toast notification renderer powered by Sonner. Syncs with the app's light/dark theme and provides custom status icons.",
+      "dependencies": [
+        "lucide-react@^1.49.0",
+        "remix-themes@^2.0.4",
+        "sonner@^2.0.8"
+      ],
+      "files": [
+        {
+          "path": "src/shared/ui/toast/index.ts",
+          "type": "registry:ui",
+          "target": "@ui/toast/index.ts"
+        },
+        {
+          "path": "src/shared/ui/toast/toast-provider.tsx",
+          "type": "registry:ui",
+          "target": "@ui/toast/toast-provider.tsx"
+        },
+        {
+          "path": "src/shared/ui/toast/toast.tsx",
+          "type": "registry:ui",
+          "target": "@ui/toast/toast.tsx"
+        }
+      ]
+    },
+    {
+      "name": "toggle",
+      "type": "registry:ui",
+      "title": "Toggle",
+      "description": "Toggleable button that maintains a pressed/unpressed state. Wraps Base UI Toggle.",
+      "dependencies": [
+        "@base-ui/react@^1.8.0",
+        "class-variance-authority@^0.7.1",
+        "cn@^0.4.0"
+      ],
+      "files": [
+        {
+          "path": "src/shared/ui/toggle/index.ts",
+          "type": "registry:ui",
+          "target": "@ui/toggle/index.ts"
+        },
+        {
+          "path": "src/shared/ui/toggle/toggle.tsx",
+          "type": "registry:ui",
+          "target": "@ui/toggle/toggle.tsx"
+        }
+      ]
+    },
+    {
+      "name": "toggle-group",
+      "type": "registry:ui",
+      "title": "Toggle Group",
+      "description": "Container for a group of related toggle buttons. Propagates shared variant, size, spacing, and orientation to child items via context.",
+      "dependencies": [
+        "@base-ui/react@^1.8.0",
+        "class-variance-authority@^0.7.1",
+        "cn@^0.4.0"
+      ],
+      "registryDependencies": [
+        "Joshua-Booth/creact/toggle"
+      ],
+      "files": [
+        {
+          "path": "src/shared/ui/toggle-group/index.ts",
+          "type": "registry:ui",
+          "target": "@ui/toggle-group/index.ts"
+        },
+        {
+          "path": "src/shared/ui/toggle-group/toggle-group.tsx",
+          "type": "registry:ui",
+          "target": "@ui/toggle-group/toggle-group.tsx"
+        }
+      ]
+    },
+    {
+      "name": "tooltip",
+      "type": "registry:ui",
+      "title": "Tooltip",
+      "description": "Hover-triggered informational popup. Wraps `@base-ui/react/tooltip`.",
+      "dependencies": [
+        "@base-ui/react@^1.8.0",
+        "cn@^0.4.0"
+      ],
+      "files": [
+        {
+          "path": "src/shared/ui/tooltip/index.ts",
+          "type": "registry:ui",
+          "target": "@ui/tooltip/index.ts"
+        },
+        {
+          "path": "src/shared/ui/tooltip/tooltip.tsx",
+          "type": "registry:ui",
+          "target": "@ui/tooltip/tooltip.tsx"
+        }
+      ]
+    }
+  ]
+}

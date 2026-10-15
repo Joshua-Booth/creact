@@ -6,7 +6,7 @@ import { useTranslation } from "react-i18next";
 import { cn } from "cn";
 import { Check, Settings2 } from "lucide-react";
 
-import type { DataTableInstance } from "@/shared/lib/data-table";
+import type { DataTableInstance } from "@/shared/lib/data-table-core";
 import { Button } from "@/shared/ui/button";
 import {
   Command,

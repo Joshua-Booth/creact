@@ -121,6 +121,8 @@ jobs:
       - uses: ./.github/actions/setup
       - name: Run Steiger
         run: mise run steiger
+      - name: Check registry.json is in sync
+        run: mise run registry:check
 
   css-lint:
     name: CSS Lint

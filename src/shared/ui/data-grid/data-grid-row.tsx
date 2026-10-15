@@ -17,15 +17,15 @@ import type {
   DataGridTableMeta,
   Direction,
   RowHeightValue,
-} from "@/shared/lib/data-grid";
+} from "@/shared/lib/data-grid-core";
 import {
   flexRender,
   getCellKey,
   getColumnBorderVisibility,
   getColumnPinningStyle,
   getRowHeightValue,
-} from "@/shared/lib/data-grid";
-import { useComposedRefs } from "@/shared/lib/data-grid/compose-refs";
+} from "@/shared/lib/data-grid-core";
+import { useComposedRefs } from "@/shared/lib/data-grid-core/compose-refs";
 
 import { DataGridCell } from "./data-grid-cell";
 

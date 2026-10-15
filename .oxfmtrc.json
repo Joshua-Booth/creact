@@ -156,6 +156,7 @@
     "**/*.hbs",
     ".vscode/",
     "pnpm-lock.yaml",
+    "registry.json",
     ".claude/"
   ]
 }

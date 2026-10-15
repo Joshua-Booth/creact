@@ -6,12 +6,12 @@ import { useTranslation } from "react-i18next";
 import { cn } from "cn";
 import { PlusCircle, XCircle } from "lucide-react";
 
-import type { DataTableColumn } from "@/shared/lib/data-table";
+import type { DataTableColumn } from "@/shared/lib/data-table-core";
 import {
   formatValue,
   getIsValidRange,
   parseValuesAsNumbers,
-} from "@/shared/lib/data-table/slider-filter-utils";
+} from "@/shared/lib/data-table-core/slider-filter-utils";
 import { Button } from "@/shared/ui/button";
 import { ButtonGroup } from "@/shared/ui/button-group";
 import { Input } from "@/shared/ui/input";

@@ -7,7 +7,7 @@ export default {
       comment:
         "Circular dependencies can lead to hard-to-debug issues and should be avoided.",
       from: {
-        pathNot: ["shared/lib/data-table/(parsers|types)\\.ts$"],
+        pathNot: ["shared/lib/data-table-core/(parsers|types)\\.ts$"],
       },
       to: {
         circular: true,

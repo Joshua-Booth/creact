@@ -10,7 +10,7 @@ import { X } from "lucide-react";
 import type {
   DataTableColumn,
   DataTableInstance,
-} from "@/shared/lib/data-table";
+} from "@/shared/lib/data-table-core";
 import { Button } from "@/shared/ui/button";
 import { Input } from "@/shared/ui/input";
 

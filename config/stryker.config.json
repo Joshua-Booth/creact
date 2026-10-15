@@ -20,7 +20,7 @@
     "!src/shared/assets/**",
     "!src/shared/lib/analytics/**",
     "!src/shared/lib/feature-flags/**",
-    "!src/shared/lib/data-table/config.ts",
+    "!src/shared/lib/data-table-core/config.ts",
     "!src/shared/ui/**",
     "!src/shared/config/env.ts",
     "!src/shared/lib/device/**",

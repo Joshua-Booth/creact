@@ -1,4 +1,4 @@
-import type { FileCellData } from "@/shared/lib/data-grid";
+import type { FileCellData } from "@/shared/lib/data-grid-core";
 
 /** Simulate a file upload by mapping `File` objects to `FileCellData` entries. */
 export function mockFilesUpload(params: {

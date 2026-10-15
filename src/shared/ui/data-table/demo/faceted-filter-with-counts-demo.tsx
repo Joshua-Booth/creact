@@ -2,8 +2,8 @@ import { useMemo } from "react";
 
 import { CheckCircle2, CircleDashed, Text, XCircle } from "lucide-react";
 
-import type { DataTableColumnDef } from "@/shared/lib/data-table";
-import { useDataTable } from "@/shared/lib/data-table";
+import type { DataTableColumnDef } from "@/shared/lib/data-table-core";
+import { useDataTable } from "@/shared/lib/data-table-core";
 
 import type { Project } from "./data-table-demo";
 import { DataTable } from "../data-table";

@@ -11,7 +11,7 @@ import {
   X,
 } from "lucide-react";
 
-import type { DataTableColumn } from "@/shared/lib/data-table";
+import type { DataTableColumn } from "@/shared/lib/data-table-core";
 import {
   DropdownMenu,
   DropdownMenuCheckboxItem,

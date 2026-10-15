@@ -3,9 +3,9 @@ import { useTranslation } from "react-i18next";
 
 import { ChevronDown, ChevronUp, X } from "lucide-react";
 
-import type { SearchState } from "@/shared/lib/data-grid";
-import { useAsRef } from "@/shared/lib/data-grid";
-import { useDebouncedCallback } from "@/shared/lib/data-table/use-debounced-callback";
+import type { SearchState } from "@/shared/lib/data-grid-core";
+import { useAsRef } from "@/shared/lib/data-grid-core";
+import { useDebouncedCallback } from "@/shared/lib/data-table-core/use-debounced-callback";
 import { Button } from "@/shared/ui/button";
 import { Input } from "@/shared/ui/input";
 
