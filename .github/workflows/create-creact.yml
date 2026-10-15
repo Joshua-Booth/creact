@@ -1,0 +1,46 @@
+name: create-creact
+
+on:
+  pull_request:
+    branches:
+      - master
+    paths:
+      - "packages/create-creact/**"
+      - ".github/workflows/create-creact.yml"
+  workflow_dispatch:
+  schedule:
+    # Weekly, because upstream's create CLIs change without a commit here.
+    - cron: "0 18 * * 0"
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  plan:
+    name: Plan tests
+    if: github.event_name != 'schedule'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+      - uses: ./.github/actions/setup
+      - name: Run the offline plan tests
+        run: mise run test:cli
+
+  # No HUSKY: 0 here, unlike ci.yml: the test checks the generated project's
+  # own git hooks.
+  scaffold:
+    name: Scaffold ${{ matrix.stack }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    strategy:
+      fail-fast: false
+      matrix:
+        stack: [react-router, next]
+    steps:
+      - uses: actions/checkout@v6
+      - uses: ./.github/actions/setup
+      - name: Scaffold, build, lint and test a project
+        run: mise run test:scaffold
+        env:
+          CREACT_SCAFFOLD: ${{ matrix.stack }}
