@@ -131,7 +131,7 @@ export function parseRequest(argv: readonly string[], cwd: string): Parsed {
     });
   } catch (error) {
     const reason = error instanceof Error ? error.message : String(error);
-    return usage(`${reason} Run with --help to see the flags.`);
+    return usage(`${reason}. Run with --help to see the flags.`);
   }
   const { values, positionals } = parsed;
   if (values.help) return { kind: "help", text: helpText() };
