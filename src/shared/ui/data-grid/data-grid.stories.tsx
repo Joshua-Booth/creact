@@ -1831,10 +1831,13 @@ LargeDataset.test(
       // Alt+ArrowUp for page up
       await userEvent.keyboard("{Alt>}{ArrowUp}{/Alt}");
 
-      const focused = canvasElement.querySelector(
-        '[data-slot="grid-cell-wrapper"][data-focused]'
-      );
-      await expect(focused).not.toBeNull();
+      // Paging scrolls the virtual rows, so the focused cell can render a frame later
+      await waitFor(async () => {
+        const focused = canvasElement.querySelector(
+          '[data-slot="grid-cell-wrapper"][data-focused]'
+        );
+        await expect(focused).not.toBeNull();
+      });
     });
   }
 );
