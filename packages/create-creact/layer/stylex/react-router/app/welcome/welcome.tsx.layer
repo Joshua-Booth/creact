@@ -1,0 +1,52 @@
+import * as stylex from "@stylexjs/stylex";
+
+import { colors, radii, spacing } from "~/styles/tokens.stylex";
+
+const resources = [
+  { href: "https://reactrouter.com/docs", text: "React Router Docs" },
+  { href: "https://rmx.as/discord", text: "Join Discord" },
+];
+
+const styles = stylex.create({
+  main: {
+    display: "flex",
+    minHeight: "100vh",
+    alignItems: "center",
+    justifyContent: "center",
+    padding: spacing.gutter,
+  },
+  card: {
+    padding: spacing.gutter,
+    borderWidth: 1,
+    borderStyle: "solid",
+    borderColor: colors.accent,
+    borderRadius: radii.card,
+  },
+  lead: { margin: 0, color: colors.ink },
+  list: { margin: 0, padding: 0, listStyleType: "none" },
+  link: { color: colors.accent },
+});
+
+export function Welcome() {
+  return (
+    <main {...stylex.props(styles.main)}>
+      <nav {...stylex.props(styles.card)}>
+        <p {...stylex.props(styles.lead)}>What&apos;s next?</p>
+        <ul {...stylex.props(styles.list)}>
+          {resources.map(({ href, text }) => (
+            <li key={href}>
+              <a
+                {...stylex.props(styles.link)}
+                href={href}
+                target="_blank"
+                rel="noreferrer"
+              >
+                {text}
+              </a>
+            </li>
+          ))}
+        </ul>
+      </nav>
+    </main>
+  );
+}

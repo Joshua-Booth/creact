@@ -130,6 +130,7 @@
     "nonoctal",
     "proptypes",
     "tsgolint",
-    "stylex"
+    "stylex",
+    "stylexjs"
   ]
 }

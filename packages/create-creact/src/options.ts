@@ -16,11 +16,7 @@ type Built<R> = {
 
 export const STYLINGS = {
   tailwind: { status: "built", summary: "Tailwind CSS" },
-  stylex: {
-    status: "planned",
-    summary: "StyleX",
-    note: "StyleX lands with JB-89",
-  },
+  stylex: { status: "built", summary: "StyleX" },
 } as const satisfies Record<string, Feature>;
 
 export const EXTRAS = {

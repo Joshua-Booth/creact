@@ -103,6 +103,27 @@ export const OVERLAYS: Readonly<Record<OverlayId, Overlay>> = {
     },
   },
   tailwind: { all: { devDependencies: ["eslint-plugin-better-tailwindcss"] } },
+  stylex: {
+    all: {
+      dependencies: ["@stylexjs/stylex"],
+      devDependencies: ["@stylexjs/eslint-plugin"],
+    },
+    "react-router": {
+      devDependencies: ["@stylexjs/unplugin"],
+      prune: {
+        files: ["app/welcome/logo-dark.svg", "app/welcome/logo-light.svg"],
+        dependencies: ["tailwindcss", "@tailwindcss/vite"],
+      },
+    },
+    next: {
+      devDependencies: [
+        "@stylexjs/babel-plugin",
+        "@stylexjs/postcss-plugin",
+        "postcss",
+      ],
+      prune: { files: ["src/app/page.module.css"] },
+    },
+  },
 };
 
 export type Op =
