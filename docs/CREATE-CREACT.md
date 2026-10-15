@@ -26,7 +26,7 @@ Every prompt has a flag, so an agent never waits on a question.
 
 Exit codes: 0 done, 1 a command failed and is echoed, 2 bad usage or a flag that is not built yet.
 
-Run the command again on the same directory to finish an interrupted run or take a newer layer. Files you edited stay as you left them and are listed as kept.
+Run the command again on the same directory to finish an interrupted run or take a newer layer. Layer files you edited stay as you left them and are listed as kept. `package.json` and `tsconfig.json` are merged again on every run, so the scripts and compiler options creact sets go back to creact's values.
 
 Note: only pnpm is supported. The hooks and scripts call `pnpm exec`.
 Note: upstream is `@latest` through `pnpm dlx`, which can lag a new release. On the day of the spike it served create-next-app 16.4.0 with 16.4.1 tagged latest, and `--config.dlx-cache-max-age=0` did not change that.
