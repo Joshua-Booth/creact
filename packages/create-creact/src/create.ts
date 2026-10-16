@@ -8,6 +8,7 @@ import {
   type Addition,
   apply,
   type ApplyReport,
+  JSON_FILES,
   loadLayer,
   type Op,
   type OverlayId,
@@ -148,14 +149,7 @@ export async function obtainBase(
     ],
     staging
   );
-  const base = path.join(staging, name);
-  const { signature } = STACKS[choices.stack];
-  if (!existsSync(path.join(base, signature))) {
-    throw new CommandFailed(
-      `${BTS} finished without writing ${signature}, so its output changed shape`
-    );
-  }
-  return base;
+  return path.join(staging, name);
 }
 
 async function applyLayer(
@@ -164,6 +158,18 @@ async function applyLayer(
   prior: Prior,
   project: { readonly name: ProjectName; readonly choices: Choices }
 ): Promise<ApplyReport> {
+  const missing = [STACKS[project.choices.stack].signature, ...JSON_FILES]
+    .filter((file) => !existsSync(path.join(dir, file)))
+    .join(", ");
+  if (missing !== "") {
+    throw prior.kind === "upstream-only"
+      ? new CommandFailed(
+          `${BTS} finished without writing ${missing}, so its output changed shape`
+        )
+      : new UsageError(
+          `${dir} is missing ${missing}, which the layer builds on, so create-creact can't update it`
+        );
+  }
   const layer = await apply(dir, ops, prior);
   await writeState(dir, {
     schema: 2,

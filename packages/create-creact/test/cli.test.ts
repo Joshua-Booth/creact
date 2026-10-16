@@ -3,7 +3,13 @@
  * path is a temp dir the test made, and git comes from PATH here as it
  * does in the CLI. */
 import { spawnSync } from "node:child_process";
-import { existsSync, mkdirSync, readdirSync, readFileSync } from "node:fs";
+import {
+  existsSync,
+  mkdirSync,
+  readdirSync,
+  readFileSync,
+  renameSync,
+} from "node:fs";
 import { tmpdir } from "node:os";
 import path from "node:path";
 import { describe, it, type TestContext } from "node:test";
@@ -82,6 +88,19 @@ describe("a rerun", () => {
       readFileSync(path.join(dir, STATE_FILE), "utf8")
     ) as { creact: unknown };
     t.assert.strictEqual(state.creact, pkg.version);
+  });
+
+  it("refuses a project whose apps/web moved, and writes nothing", (t: TestContext) => {
+    const dir = upstreamBase("react-router");
+    renameSync(path.join(dir, "apps/web"), path.join(dir, "apps/site"));
+    recordState(dir, "react-router");
+    const result = cli([dir, "--no-install", "--no-git"]);
+    t.assert.strictEqual(result.status, 2, result.stderr);
+    t.assert.match(
+      result.stderr,
+      /^create-creact: \S+ is missing apps\/web\/react-router\.config\.ts, apps\/web\/package\.json, apps\/web\/tsconfig\.json, /
+    );
+    t.assert.strictEqual(existsSync(path.join(dir, "apps/web")), false);
   });
 });
 

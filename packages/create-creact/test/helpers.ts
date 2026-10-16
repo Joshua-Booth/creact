@@ -10,7 +10,6 @@ import { tmpdir } from "node:os";
 import path from "node:path";
 import { after } from "node:test";
 
-import type { StackId } from "../src/stacks.ts";
 import {
   JSON_FILES,
   type JsonFile,
@@ -23,6 +22,7 @@ import {
   STATE_FILE,
 } from "../src/layer.ts";
 import { projectName, type StylingId } from "../src/options.ts";
+import { type StackId, STACKS } from "../src/stacks.ts";
 
 export const LAYER = path.join(import.meta.dirname, "../layer");
 
@@ -72,6 +72,7 @@ export function upstreamBase(
       JSON.stringify(merge(files[file], extra[file] ?? {}))
     );
   }
+  writeFileSync(path.join(dir, STACKS[stack].signature), "");
   return dir;
 }
 
