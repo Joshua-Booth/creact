@@ -3,14 +3,20 @@ import i18next from "i18next";
 import { HTTPError } from "ky";
 import { beforeAll, describe, expect, it, vi } from "vitest";
 
+import type * as SharedApi from "@/shared/api";
 import { resources } from "@/shared/i18n";
 
 import { parseSignupError, signupApi } from "./signup";
 
-vi.mock("@/shared/api", () => {
+const { jsonMock, postMock } = vi.hoisted(() => {
   const jsonMock = vi.fn();
   const postMock = vi.fn(() => ({ json: jsonMock }));
-  return { api: { post: postMock }, jsonMockFn: jsonMock };
+  return { jsonMock, postMock };
+});
+
+vi.mock("@/shared/api", async (importOriginal) => {
+  const actual = await importOriginal<typeof SharedApi>();
+  return { ...actual, api: { post: postMock } };
 });
 
 function createHTTPError(body: unknown): HTTPError {
@@ -114,16 +120,11 @@ describe("parseSignupError", () => {
 
 describe("signupApi", () => {
   it("should call correct endpoint with signup data", async () => {
-    const { api, jsonMockFn } = await vi.importMock<{
-      api: { post: ReturnType<typeof vi.fn> };
-      jsonMockFn: ReturnType<typeof vi.fn>;
-    }>("@/shared/api");
-
-    jsonMockFn.mockResolvedValue({ key: "xyz789" });
+    jsonMock.mockResolvedValue({ key: "xyz789" });
 
     const result = await signupApi({ email: "a@b.com", password: "pass123" });
 
-    expect(api.post).toHaveBeenCalledWith("auth/signup/", {
+    expect(postMock).toHaveBeenCalledWith("auth/signup/", {
       json: { email: "a@b.com", password: "pass123" },
     });
     expect(result).toEqual({ key: "xyz789" });
