@@ -33,7 +33,7 @@ The items are:
 
 Note: shadcn rewrites barrel imports in the files it adds, so `@/shared/ui/button` becomes `@/shared/ui/button/button`. Both point at the same component, and Steiger only checks imports from layers above `shared`, so leave them.
 
-Note: some components expect the creact app shell. Components such as `data-table`, `dialog` and `pagination` translate their labels with react-i18next, using the keys in `src/shared/i18n`. Without those translations loaded, the labels show their keys. `toast` and `mode-toggle` read the theme from `remix-themes`, so they throw outside its `ThemeProvider`.
+Note: some components expect the creact app shell. Components such as `data-table`, `dialog` and `pagination` translate their labels with react-i18next, using the keys in `src/shared/i18n`. Without those translations loaded, the labels show their keys. `toast` and `mode-toggle` read the theme from `remix-themes`, so they throw outside its `ThemeProvider`. `data-table` keeps its state in the URL with nuqs, so the page goes blank outside a `NuqsAdapter`.
 
 Note: pnpm stops an install with `ERR_PNPM_IGNORED_BUILDS` when a new dependency has a build script you haven't allowed. `storybook-setup` hits this, as Storybook depends on esbuild. Add the package to `allowBuilds` in `pnpm-workspace.yaml`, then run `shadcn add` again:
 
