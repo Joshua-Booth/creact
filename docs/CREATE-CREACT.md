@@ -33,7 +33,7 @@ Run the command again on the same directory to finish an interrupted run or take
 
 Note: the directory's name becomes the package scope, as in `@my-app/ui`, so it needs lowercase letters, digits, `.`, `_` or `-`, starting with a letter or digit. Better-T-Stack accepts names npm can't scope, so the command checks and exits 2 before writing anything.
 Note: only pnpm is supported. The hooks and scripts call `pnpm exec`.
-Note: a fresh project has one test, `tokens.test.ts`, described under Styling paths. The scaffold test adds another to prove the alias and the include glob work.
+Note: a fresh project has one test file, `tokens.test.ts`, described under Styling paths. The scaffold test adds two more: one proves the alias and the include glob, and one renders a component styled on the path.
 
 ## What it does
 
@@ -41,7 +41,7 @@ Note: a fresh project has one test, `tokens.test.ts`, described under Styling pa
 2. Checks that Better-T-Stack wrote the stack's own config, such as `apps/web/next.config.ts`, and the five JSON files the layer patches: the root `package.json` and `tsconfig.json`, `packages/config/tsconfig.base.json`, and `apps/web/package.json` and `apps/web/tsconfig.json`. If one is missing, its output changed shape, and the command exits 1.
 3. Removes the Better-T-Stack files and packages the layer replaces, then copies the layer in and patches the five JSON files.
 4. Writes `.creact/state.json` with the project name, the choices and a hash of every file it copied, then moves the staging directory into place.
-5. Runs `git init`, then `pnpm add --workspace-root` for the root tools and `pnpm add` in `apps/web` for the app's packages, such as `@stylexjs/stylex`. Then `pnpm run prepare` installs the hooks, and `pnpm run lint --fix` and `pnpm run format` bring Better-T-Stack's own files in line. The lint pass runs a second time when the first fails, as oxlint applies one fix per overlapping range in a pass and the shadcn components need two. Last, if a skill `skills-lock.json` lists is missing from `.agents/skills`, `skills@1.7.2` runs `experimental_install` through `pnpm dlx`, which restores them all there, where the `.claude/skills` links point. With every skill present, a rerun leaves them alone, so it needs no network for them and the restore never rewrites the project's lock. `npx skills update` takes newer versions. The project is complete without the skills, so a restore that fails, as with no git or no network, exits 0, reports the skills as not restored and prints the command that finishes them. A rerun does the same.
+5. Runs `git init`, then `pnpm add --workspace-root` for the root tools and `pnpm add` in `apps/web` for the app's packages, such as `@stylexjs/stylex`. Then `pnpm run prepare` installs the hooks, and `pnpm run lint --fix` and `pnpm run format` bring Better-T-Stack's own files in line. The lint pass runs a second time when the first fails, as oxlint applies one fix per overlapping range in a pass and the shadcn components need two. Last, if a skill `skills-lock.json` lists is missing from `.agents/skills`, `skills@1.7.2` runs `experimental_install` through `pnpm dlx`, which restores them all there, where the `.claude/skills` links point. With every skill present, a rerun leaves them alone, so it needs no network for them and the restore never rewrites the project's lock. `npx skills update` takes newer versions. The project is complete without the skills, so a restore that fails, as with no git or no network, exits 0, reports the skills as not restored and prints the command that finishes them. With git missing from `PATH`, the report says so, as the restore clones with it. A rerun does the same.
 
 On a rerun, a copied file is rewritten only when it is missing or unchanged since the recorded hash. The JSON files are merged every time, as the merge is idempotent and `pnpm add` rewrites `package.json` anyway. Better-T-Stack never runs again. A rerun never removes anything, so a package or file you put back stays. A rerun on a project missing one of the files step 2 checks, as when `apps/web` was renamed, exits 2, names them and writes nothing.
 
@@ -49,10 +49,10 @@ On a rerun, a copied file is rewritten only when it is missing or unchanged sinc
 
 Everything that runs once per repository sits at the root:
 
-- `oxlint.config.ts` and its styling slot `oxlint.styling.ts`, `.oxfmtrc.json`, `vitest.config.ts`, `commitlint.config.ts`, `.lintstagedrc.json` and the husky `commit-msg` and `pre-commit` hooks.
-- Every tool as a root devDependency, including the styling's lint plugin.
+- `oxlint.config.ts` and its styling slot `oxlint.styling.ts`, `.oxfmtrc.json`, `vitest.config.ts` and its slot `vitest.styling.ts`, `commitlint.config.ts`, `.lintstagedrc.json` and the husky `commit-msg` and `pre-commit` hooks.
+- Every tool as a root devDependency, including the styling's lint plugin and, on StyleX, the compiler Vitest runs.
 - The `lint`, `format`, `format:check`, `typecheck`, `test` and `prepare` scripts.
-- The agent setup: `AGENTS.md`, `CLAUDE.md` importing it, `skills-lock.json` and the `.claude/skills` links. The root `.gitignore` gets the block creact's own has, which keeps `.claude/settings.json`, `rules`, `skills` and `workflows` tracked under a global ignore of `.claude` and the restored `.agents/skills` out of git. The block goes back whole on a rerun when any of it is missing.
+- The agent setup: `AGENTS.md`, `CLAUDE.md` importing it, `skills-lock.json` and the `.claude/skills` links. The root `.gitignore` gets the block creact's own has, which keeps `.claude/settings.json`, `rules`, `skills` and `workflows` tracked under a global ignore of `.claude` and the restored `.agents/skills` out of git. On a rerun with any of it missing, the block goes back whole where its first line was, so a rule you add after it still wins.
 
 Everything that belongs to the app sits in `apps/web`: the tokens, the styling's bindings and build plugins, `@stylexjs/stylex`, and the `typegen` and `check-types` scripts.
 
@@ -66,7 +66,7 @@ The root scripts:
 | `format`, `format:check` | `oxfmt`, `oxfmt --check` |
 | `prepare` | `husky \|\| true` |
 
-oxlint runs once from the root. Its type-aware rules read each file's nearest tsconfig, so `apps/web`, `packages/ui` and the root config files each lint with their own compiler options. Vitest runs once from the root, with `include` over `{apps,packages}/*/src/**/*.test.{ts,tsx}`, and `resolve.tsconfigPaths` reads `@/*` from `apps/web/tsconfig.json`. `typecheck` runs each package's `check-types` through `pnpm -r`, then `tsc` at the root for creact's own config files.
+oxlint runs once from the root. Its type-aware rules read each file's nearest tsconfig, so `apps/web`, `packages/ui` and the root config files each lint with their own compiler options. Vitest runs once from the root, with `include` over `{apps,packages}/*/src/**/*.test.{ts,tsx}`, and `resolve.tsconfigPaths` reads `@/*` from `apps/web/tsconfig.json`. `vitest.styling.ts` holds the styling's Vite plugins: the StyleX compiler on that path, and none on Tailwind. `typecheck` runs each package's `check-types` through `pnpm -r`, then `tsc` at the root for creact's own config files.
 
 Better-T-Stack's own root scripts, `dev`, `build`, `check-types`, `dev:web`, `env:generate` and `postinstall`, stay as it wrote them. With `--monorepo turborepo` or `nx`, those go through `turbo run` or `nx run-many`, and creact's scripts never do.
 
@@ -91,7 +91,7 @@ The tokens live in one file, `apps/web/src/styles/tokens.css`, as custom propert
 - Tailwind binds them in `tokens.tailwind.css` with `@theme inline reference`, so `bg-page` or `p-gutter` reads `var(--color-page)` or `var(--spacing-gutter)`. `apps/web/src/index.css` imports `@<name>/ui/globals.css` first, then both token files.
 - StyleX binds them in `tokens.stylex.ts` as `stylex.defineConsts` of `var(--name)` strings, so `colors.accent` compiles to `var(--color-accent)`. `apps/web/src/index.css` declares `@layer reset` first and imports `tokens.css`, so StyleX's own layers win over the reset.
 
-`tokens.test.ts` fails when a binding names a token that `tokens.css` lacks, so a rename in Figma shows up as a failing test instead of a silent `var()` with no value. Adding a token needs a new line in the binding before a component can use it.
+`tokens.test.ts` reads the first block in `tokens.css`, the light `:root`, as the full set of tokens. It fails when a binding names a token outside that set, or when a later block, such as the dark one, defines a name outside it, so a rename in Figma shows up as a failing test instead of a silent `var()` with no value, whether the rename reached both blocks, one of them, or added a prefix. Adding a token needs a new line in the binding before a component can use it.
 
 ### Tailwind
 
@@ -126,11 +126,14 @@ Note: on StyleX, the README Better-T-Stack writes still describes Tailwind and `
 
 What works on one path only:
 
-- The shadcn registry from JB-90 is Tailwind only, as its components are Tailwind classes. Better-T-Stack's `packages/ui` is now its home: the planned `--shadcn` extra adds creact's registry to `packages/ui/components.json`. `--help` marks the extra as Tailwind only, and the command refuses an extra like it on a StyleX project, new or recorded.
+- The shadcn registry from JB-90 is Tailwind only, as its components are Tailwind classes. Its home in a generated project is `apps/web`, with `aliases.ui` in `apps/web/components.json` pointed at `@/components/ui`, as `docs/REGISTRY.md` describes; in `packages/ui`, shadcn rewrites creact's `@/shared/*` imports to a scope that resolves nowhere. The planned `--shadcn` extra does that setup. The Tailwind `oxlint.styling.ts` already carries the allowances creact's own config gives `src/shared`, so added items lint clean from the root. `--help` marks the extra as Tailwind only, and the command refuses an extra like it on a StyleX project, new or recorded, which a unit test covers until the extra exists to reach it from the CLI.
 - `sortTailwindcss` in `.oxfmtrc.json` stays on both paths. It only sorts class strings, and a StyleX project has none.
 
-Note: Vitest doesn't run the StyleX compiler, so a test that renders a StyleX component throws `Unexpected 'stylex.defineConsts' call at runtime`. `tokens.test.ts` reads the files as text for that reason.
-Note: Storybook isn't in the CLI yet. When the Storybook extra lands, a StyleX project needs `@stylexjs/unplugin` in Storybook's Vite config with `useCSSLayers: { before: ["reset"] }`, the PostCSS plugin set to skip `*.stories.tsx`, and `babel.config.js` returning `{}` for the `@stylexjs/unplugin` caller.
+`vitest.styling.ts` runs `@stylexjs/unplugin` with its `configureServer` hook removed, so a test renders a StyleX component through the real compiler. The hook starts a timer for the plugin's HMR channel and clears it only when the HTTP server closes, which Vitest's server never does, so with it the run would wait 10 s after the tests. `@stylexjs/unplugin` is a root devDependency on both stacks for that, and an `apps/web` one on React Router for Vite.
+
+Note: on a React Router StyleX project made before the root had `@stylexjs/unplugin`, the rerun's `pnpm add --workspace-root` leaves `node_modules/@stylexjs/unplugin` as a dangling link on pnpm 12.0.0, as the root resolves the package without its `unplugin` peer while `apps/web` already has it with. `pnpm dedupe` repairs the link. A fresh project adds the root package first and never hits it.
+
+Note: Storybook isn't in the CLI yet, so this waits with it. When the Storybook extra lands, a StyleX project needs `@stylexjs/unplugin` in Storybook's Vite config with `useCSSLayers: { before: ["reset"] }`, the PostCSS plugin set to skip `*.stories.tsx`, and `babel.config.js` returning `{}` for the `@stylexjs/unplugin` caller.
 
 ## Better-T-Stack's other files
 
@@ -165,7 +168,7 @@ CREACT_SCAFFOLD=next:stylex:nx mise run test:scaffold
 
 `1`, a stack, or `<stack>:<styling>` picks cells on plain pnpm workspaces. `<stack>:<styling>:<monorepo>` picks that one cell.
 
-The scaffold test creates each project with an empty `HOME` and checks Better-T-Stack wrote nothing there. It checks the prune left none of the removed files or packages, and that `turbo.json` or `nx.json` exists only for its tool. Then it commits through the real hooks, rejects a bad commit message, runs build, typecheck, lint, format:check and test from the root, and checks the tree is clean. It reruns the command and checks it writes nothing, commits a test under `apps/web/src` that imports through `@/*`, and checks that a changed layer reaches an unedited file and leaves an edited one alone. It also checks the built CSS carries the values from `tokens.css` and the styling's own output, and that root lint fails on a planted styling mistake. It checks `AGENTS.md` and `CLAUDE.md` are in place and that every skill `skills-lock.json` lists resolves through `.claude/skills` after the restore.
+The scaffold test creates each project with an empty `HOME` and checks Better-T-Stack wrote nothing there. It checks the prune left none of the removed files or packages, and that `turbo.json` or `nx.json` exists only for its tool. Then it commits through the real hooks, rejects a bad commit message, runs build, typecheck, lint, format:check and test from the root, and checks the tree is clean. It reruns the command and checks it writes nothing, commits a test under `apps/web/src` that imports through `@/*` and one that renders a component styled on the path, plants three renames in `tokens.css` (light block only, dark block only, a prefix in both) and checks `tokens.test.ts` fails on each naming the token, and checks that a changed layer reaches an unedited file and leaves an edited one alone. It also checks the built CSS carries the values from `tokens.css` and the styling's own output, and that root lint fails on a planted styling mistake. It checks `AGENTS.md` and `CLAUDE.md` are in place and that every skill `skills-lock.json` lists resolves through `.claude/skills` after the restore.
 
 It runs in `.github/workflows/create-creact.yml`, one job per stack and styling on pnpm, on pull requests that touch `packages/create-creact/`, weekly, and on dispatch. The Turborepo and Nx cells run by hand when the pin or the root scripts change.
 
@@ -237,7 +240,6 @@ Note: `create-creact` is free on npm. `creact` is taken.
 
 ## What to build next
 
-- Vitest with the StyleX compiler, so a StyleX project can test its components. React Router can reuse the Vite plugin, and Next would need `@stylexjs/unplugin` for Vitest alone.
 - The extras, one overlay directory each, with their own `AGENTS.md` section and skills. The Storybook extra carries creact's `.claude/rules/storybook-stories.md`, and the Playwright extra the `playwright-cli` skill. PostHog and Sentry may not need flags, as their own skills do the setup.
 - More Better-T-Stack frontends, as under Add a Better-T-Stack frontend.
 - Root creact consumes the layer, so the oxlint rules exist once instead of twice. The root config could also allow node:test's `describe` and `it` under `no-floating-promises`, and add a `packages/create-creact/**` override for `detect-non-literal-fs-filename`, which would remove the file-level disables in the CLI.

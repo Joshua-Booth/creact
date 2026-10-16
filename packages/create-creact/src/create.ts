@@ -303,8 +303,12 @@ async function restoreSkills(dir: string): Promise<Skills> {
   try {
     await run(command, args, dir);
   } catch (error) {
-    if (error instanceof CommandFailed) return { failed: error.message };
-    throw error;
+    if (!(error instanceof CommandFailed)) throw error;
+    return {
+      failed: (await succeeds("git", ["--version"], dir))
+        ? `${error.message}. Its output is above`
+        : "git isn't on PATH, and the restore clones the skills with it",
+    };
   }
   return "restored";
 }

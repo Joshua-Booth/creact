@@ -70,9 +70,14 @@ function selected(
 
 // creact's mise.toml sets NODE_ENV=development, and next build can't
 // prerender under it. A generated project starts from a clean NODE_ENV.
-const PROJECT_ENV = Object.fromEntries(
-  Object.entries(withoutGitContext()).filter(([name]) => name !== "NODE_ENV")
-);
+// NO_COLOR keeps the tools' output plain where CI forces colour, so the
+// assertions below read it as is.
+const PROJECT_ENV = {
+  ...Object.fromEntries(
+    Object.entries(withoutGitContext()).filter(([name]) => name !== "NODE_ENV")
+  ),
+  NO_COLOR: "1",
+};
 
 function sh(
   cwd: string,
@@ -115,6 +120,7 @@ function builtCss(dir: string): string {
 interface Proof {
   readonly cssHas: readonly RegExp[];
   readonly cssLacks: readonly RegExp[];
+  readonly component: string;
   readonly badComponent: string;
   readonly lintRule: string;
 }
@@ -123,6 +129,12 @@ const PROOF = {
   tailwind: {
     cssHas: [],
     cssLacks: [/--color-page:\s*var\(--color-page\)/],
+    component: [
+      "export function Card({ children }: { children: React.ReactNode }) {",
+      '  return <div className="p-gutter text-ink">{children}</div>;',
+      "}",
+      "",
+    ].join("\n"),
     badComponent: [
       "export function Planted() {",
       '  return <p className="p-2 p-4" />;',
@@ -134,6 +146,20 @@ const PROOF = {
   stylex: {
     cssHas: [/@layer priority1/, /\{\s*color: ?var\(--color-accent\)/],
     cssLacks: [],
+    component: [
+      'import * as stylex from "@stylexjs/stylex";',
+      "",
+      'import { colors, spacing } from "@/styles/tokens.stylex";',
+      "",
+      "const styles = stylex.create({",
+      "  card: { padding: spacing.gutter, color: colors.ink },",
+      "});",
+      "",
+      "export function Card({ children }: { children: React.ReactNode }) {",
+      "  return <div {...stylex.props(styles.card)}>{children}</div>;",
+      "}",
+      "",
+    ].join("\n"),
     badComponent: [
       'import * as stylex from "@stylexjs/stylex";',
       "",
@@ -147,6 +173,51 @@ const PROOF = {
     lintRule: "@stylexjs(valid-shorthands)",
   },
 } satisfies Record<StylingId, Proof>;
+
+const CARD_TEST = [
+  'import { renderToStaticMarkup } from "react-dom/server";',
+  'import { describe, expect, it } from "vitest";',
+  "",
+  'import { Card } from "@/probe/card";',
+  "",
+  'describe("Card", () => {',
+  '  it("renders with the class its styling gave it", () => {',
+  "    expect(renderToStaticMarkup(<Card>hi</Card>)).toMatch(",
+  '      /^<div class="[^"]+">hi<\\/div>$/',
+  "    );",
+  "  });",
+  "});",
+  "",
+].join("\n");
+
+function renameLast(css: string, from: string, to: string): string {
+  const at = css.lastIndexOf(from);
+  return `${css.slice(0, at)}${to}${css.slice(at + from.length)}`;
+}
+
+interface Drift {
+  readonly name: string;
+  readonly drift: (css: string) => string;
+  readonly leftover: string;
+}
+
+const DRIFTS: readonly Drift[] = [
+  {
+    name: "a token renamed in the light block only",
+    drift: (css) => css.replace("--color-ink:", "--ink:"),
+    leftover: "--color-ink",
+  },
+  {
+    name: "a token renamed in the dark block only",
+    drift: (css) => renameLast(css, "--color-ink:", "--ink:"),
+    leftover: "--ink",
+  },
+  {
+    name: "a token renamed with a prefix in both blocks",
+    drift: (css) => css.replaceAll("--color-ink:", "--x-color-ink:"),
+    leftover: "--color-ink",
+  },
+];
 
 const TOOL_CONFIG: Readonly<Record<MonorepoId, string | undefined>> = {
   pnpm: undefined,
@@ -353,7 +424,7 @@ for (const [id, styling, monorepo] of STACK_IDS.flatMap((stackId) =>
         t.assert.strictEqual(porcelain(dir), "");
       });
 
-      it("formats a staged file on commit and resolves the app's alias in a test", (t: TestContext) => {
+      it("formats a staged file on commit, resolves the app's alias in a test and renders a styled component", (t: TestContext) => {
         const tsconfig = readJson(path.join(dir, "apps/web/tsconfig.json"));
         const { paths } = tsconfig.compilerOptions as {
           paths: Record<string, string[]>;
@@ -381,6 +452,8 @@ for (const [id, styling, monorepo] of STACK_IDS.flatMap((stackId) =>
             "",
           ].join("\n")
         );
+        writeFileSync(path.join(probe, "card.tsx"), proof.component);
+        writeFileSync(path.join(probe, "card.test.tsx"), CARD_TEST);
         sh(dir, "git", ["add", "--all"]);
         const commit = sh(dir, "git", [
           ...IDENTITY,
@@ -397,7 +470,27 @@ for (const [id, styling, monorepo] of STACK_IDS.flatMap((stackId) =>
 
         const result = sh(dir, "pnpm", ["run", "test"]);
         t.assert.strictEqual(result.status, 0, result.stdout + result.stderr);
-        t.assert.match(result.stdout, /2 passed/);
+        t.assert.match(result.stdout, /Tests {2}4 passed/);
+        t.assert.doesNotMatch(result.stdout + result.stderr, /close timed out/);
+      });
+
+      it("fails the token test on a token that drifts in one mode block or by a prefix, naming it, and passes once it's back", (t: TestContext) => {
+        const file = path.join(dir, SRC, "styles", "tokens.css");
+        const tokens = readFileSync(file, "utf8");
+        for (const { name, drift, leftover } of DRIFTS) {
+          writeFileSync(file, drift(tokens));
+          const failed = sh(dir, "pnpm", ["run", "test"]);
+          t.assert.notStrictEqual(failed.status, 0, name);
+          t.assert.ok(
+            (failed.stdout + failed.stderr).includes(
+              `[ '${leftover}' ] to strictly equal []`
+            ),
+            `${name}:\n${failed.stdout}${failed.stderr}`
+          );
+        }
+        writeFileSync(file, tokens);
+        const passed = sh(dir, "pnpm", ["run", "test"]);
+        t.assert.strictEqual(passed.status, 0, passed.stdout + passed.stderr);
       });
 
       it("updates an unedited layer file and keeps an edited one", async (t: TestContext) => {

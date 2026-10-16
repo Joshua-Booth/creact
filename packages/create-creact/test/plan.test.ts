@@ -1,6 +1,7 @@
 /* oxlint-disable typescript/no-floating-promises, security/detect-non-literal-fs-filename --
  * node:test's describe and it return promises the runner awaits, and every
  * path is a temp dir the test made or the package's own layer. */
+import { spawnSync } from "node:child_process";
 import {
   existsSync,
   lstatSync,
@@ -73,6 +74,7 @@ const SHARED_FILES = [
   "oxlint.styling.ts",
   "skills-lock.json",
   "vitest.config.ts",
+  "vitest.styling.ts",
   "apps/web/src/index.css",
   "apps/web/src/styles/tokens.css",
   "apps/web/src/styles/tokens.test.ts",
@@ -694,6 +696,21 @@ describe("apply", () => {
     );
   });
 
+  it("puts a block missing a middle line back whole in its place, so a rule added after it still wins", async (t: TestContext) => {
+    const dir = upstreamBase("next");
+    const file = path.join(dir, ".gitignore");
+    const all = await ops("next");
+    const block = ignoreLines(all);
+    const partial = block.toSpliced(2, 1).join("\n");
+    writeFileSync(file, `node_modules\n\n${partial}\n/.claude/workflows/\n`);
+    const report = await apply(dir, all, recorded({}));
+    t.assert.strictEqual(report.files[".gitignore"], "written");
+    t.assert.strictEqual(
+      readFileSync(file, "utf8"),
+      `node_modules\n\n${block.join("\n")}\n/.claude/workflows/\n`
+    );
+  });
+
   it("seeds skills-lock.json once, then leaves the project's version alone without recording a hash", async (t: TestContext) => {
     const dir = upstreamBase("next");
     const all = await ops("next");
@@ -779,6 +796,7 @@ describe("apply", () => {
     t.assert.strictEqual(root.devDependencies.includes("vitest"), false);
     t.assert.ok(root.devDependencies.includes("oxlint"));
     t.assert.ok(root.devDependencies.includes("@stylexjs/eslint-plugin"));
+    t.assert.ok(root.devDependencies.includes("@stylexjs/unplugin"));
     t.assert.deepStrictEqual(app, {
       manifest: "apps/web/package.json",
       dependencies: ["@stylexjs/stylex"],
@@ -985,5 +1003,27 @@ describe("readState", () => {
     recordState(dir, "next");
     const state = await readState(dir);
     t.assert.deepStrictEqual([state?.name, state?.monorepo], ["app", "pnpm"]);
+  });
+});
+
+describe("the layer files", () => {
+  it("are formatted as the project's oxfmt writes them, so a rerun finds them unchanged", async (t: TestContext) => {
+    for (const { stack, styling } of CELLS) {
+      const dir = tempDir();
+      for (const op of fileOps(await ops(stack, styling))) {
+        mkdirSync(path.dirname(path.join(dir, op.path)), { recursive: true });
+        writeFileSync(path.join(dir, op.path), op.content);
+      }
+      const result = spawnSync(
+        path.join(REPO, "node_modules/.bin/oxfmt"),
+        ["--check"],
+        { cwd: dir, encoding: "utf8" }
+      );
+      t.assert.strictEqual(
+        result.status,
+        0,
+        `${stack} + ${styling}:\n${result.stdout}${result.stderr}`
+      );
+    }
   });
 });

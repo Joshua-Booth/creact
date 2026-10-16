@@ -1,0 +1,18 @@
+import path from "node:path";
+
+import type { Plugin, ViteUserConfig } from "vitest/config";
+import stylex from "@stylexjs/unplugin";
+
+const rootDir = path.join(import.meta.dirname, "apps", "web");
+
+// Tests need the compiler only. The plugin's configureServer starts a timer
+// for its HMR channel and clears it when the HTTP server closes, which
+// Vitest's server never does, so the run would hang for 10 s after the tests.
+const compiler = stylex.vite({
+  aliases: { "@/*": [path.join(rootDir, "src", "*")] },
+  unstable_moduleResolution: { type: "commonJS", rootDir },
+}) as Plugin;
+
+export const styling = {
+  plugins: [{ ...compiler, configureServer: undefined }],
+} satisfies Pick<ViteUserConfig, "plugins">;

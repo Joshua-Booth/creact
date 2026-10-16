@@ -1,6 +1,9 @@
 import { defineConfig } from "vitest/config";
 
+import { styling } from "./vitest.styling.ts";
+
 export default defineConfig({
+  plugins: styling.plugins,
   resolve: { tsconfigPaths: true },
   test: {
     include: ["{apps,packages}/*/src/**/*.test.{ts,tsx}"],

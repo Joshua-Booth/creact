@@ -3,15 +3,30 @@ import path from "node:path";
 
 import { describe, expect, it } from "vitest";
 
+const here = import.meta.dirname;
+
+function declared(block: string): string[] {
+  return block.match(/--[a-z][\w-]*(?=:)/g) ?? [];
+}
+
 describe("tokens", () => {
+  const css = readFileSync(path.join(here, "tokens.css"), "utf8");
+  const [light = "", ...modes] = css.match(/\{[^{}]*\}/g) ?? [];
+  const defined = new Set(declared(light));
+
+  it("defines every token in the first block, and a later block only overrides them", () => {
+    expect(defined.size).toBeGreaterThan(0);
+    for (const mode of modes) {
+      expect(declared(mode).filter((name) => !defined.has(name))).toStrictEqual(
+        []
+      );
+    }
+  });
+
   it("binds only tokens that tokens.css defines", () => {
-    const here = import.meta.dirname;
-    const tokens = readFileSync(path.join(here, "tokens.css"), "utf8");
     const binding = readFileSync(path.join(here, "tokens.stylex.ts"), "utf8");
     const bound = binding.match(/(?<=var\()--[\w-]+/g) ?? [];
     expect(bound).not.toHaveLength(0);
-    expect(bound.filter((name) => !tokens.includes(`${name}:`))).toStrictEqual(
-      []
-    );
+    expect(bound.filter((name) => !defined.has(name))).toStrictEqual([]);
   });
 });
