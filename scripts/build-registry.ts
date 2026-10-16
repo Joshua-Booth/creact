@@ -31,15 +31,15 @@ const PREINSTALLED_DIRS = [
 
 type SliceType = "registry:ui" | "registry:lib";
 
-const SLICES: Record<SliceType, { dir: string; alias: string }> = {
-  "registry:ui": { dir: UI_DIR, alias: "@ui" },
-  "registry:lib": { dir: LIB_DIR, alias: "@lib" },
+const SLICES: Record<SliceType, string> = {
+  "registry:ui": UI_DIR,
+  "registry:lib": LIB_DIR,
 };
 
 interface RegistryFile {
   path: string;
-  type: string;
-  target: string;
+  type: "registry:file";
+  target: `~/${string}`;
 }
 
 interface RegistryItem {
@@ -60,6 +60,30 @@ interface ImportTargets {
   npm: Set<string>;
   items: Set<string>;
 }
+
+interface HostRequirement {
+  name: `needs-${string}`;
+  packages: readonly [string, ...string[]];
+  docs: string;
+}
+
+const HOST_REQUIREMENTS: readonly HostRequirement[] = [
+  {
+    name: "needs-i18next",
+    packages: ["i18next", "react-i18next"],
+    docs: "creact components read their labels from i18next. creact apps already load them. Elsewhere, add Joshua-Booth/creact/i18n and call initI18n() from @/shared/i18n once before rendering. Without it, labels show their keys.",
+  },
+  {
+    name: "needs-nuqs-adapter",
+    packages: ["nuqs"],
+    docs: "data-table keeps its state in the URL with nuqs, so the page goes blank outside a NuqsAdapter. creact apps have one. Elsewhere, wrap the root in NuqsAdapter from nuqs/adapters/react-router/v8, nuqs/adapters/react or nuqs/adapters/next/app.",
+  },
+  {
+    name: "needs-remix-themes",
+    packages: ["remix-themes"],
+    docs: "Items that use remix-themes, like mode-toggle, throw outside its ThemeProvider and save the theme through an action route, as in creact's src/app. Elsewhere, use the project's own mode toggle.",
+  },
+];
 
 const packageJson = JSON.parse(
   readFileSync(path.join(ROOT, "package.json"), "utf8")
@@ -207,7 +231,7 @@ function describeFromJsdoc(
 }
 
 function itemForPath(absolute: string): string | undefined {
-  for (const { dir } of Object.values(SLICES)) {
+  for (const dir of Object.values(SLICES)) {
     const relative = path.relative(dir, absolute);
     if (relative.startsWith("..")) continue;
     const head = relative.split(path.sep)[0];
@@ -283,6 +307,21 @@ function collectImports(filePaths: string[], ownDirs: string[]): ImportTargets {
   return targets;
 }
 
+function withVersion(itemName: string, pkg: string): string {
+  const version = packageVersions[pkg];
+  if (version === undefined) {
+    warnings.push(`${itemName}: npm dependency "${pkg}" not in package.json`);
+    return pkg;
+  }
+  return `${pkg}@${version}`;
+}
+
+function hostRequirementsFor(npm: ReadonlySet<string>): string[] {
+  return HOST_REQUIREMENTS.filter((requirement) =>
+    requirement.packages.some((pkg) => npm.has(pkg))
+  ).map((requirement) => requirement.name);
+}
+
 function dependencyFields(
   itemName: string,
   targets: ImportTargets
@@ -290,22 +329,19 @@ function dependencyFields(
   RegistryItem,
   "dependencies" | "devDependencies" | "registryDependencies"
 > {
-  const withVersion = (pkg: string) => {
-    const version = packageVersions[pkg];
-    if (version === undefined) {
-      warnings.push(`${itemName}: npm dependency "${pkg}" not in package.json`);
-      return pkg;
-    }
-    return `${pkg}@${version}`;
-  };
   const npm = [...targets.npm].sort(byName);
   const dependencies = npm
     .filter((pkg) => pkg in packageJson.dependencies)
-    .map(withVersion);
+    .map((pkg) => withVersion(itemName, pkg));
   const devDependencies = npm
     .filter((pkg) => !(pkg in packageJson.dependencies))
-    .map(withVersion);
-  const registryDependencies = [...targets.items].sort(byName).map(registryRef);
+    .map((pkg) => withVersion(itemName, pkg));
+  const registryDependencies = [
+    ...targets.items,
+    ...hostRequirementsFor(targets.npm),
+  ]
+    .sort(byName)
+    .map(registryRef);
   return {
     ...(dependencies.length > 0 && { dependencies }),
     ...(devDependencies.length > 0 && { devDependencies }),
@@ -313,9 +349,13 @@ function dependencyFields(
   };
 }
 
+function shippedFile(absolute: string): RegistryFile {
+  const relative = path.relative(ROOT, absolute);
+  return { path: relative, type: "registry:file", target: `~/${relative}` };
+}
+
 function buildSliceItem(type: SliceType, name: string): RegistryItem {
-  const { dir: segmentDir, alias } = SLICES[type];
-  const dir = path.join(segmentDir, name);
+  const dir = path.join(SLICES[type], name);
   const shipped = listFiles(dir).filter(isShipped);
   const targets = collectImports(
     shipped.map((file) => path.join(dir, file)),
@@ -331,11 +371,7 @@ function buildSliceItem(type: SliceType, name: string): RegistryItem {
     title: titleCase(name),
     description: description ?? `${titleCase(name)} for creact projects.`,
     ...dependencyFields(name, targets),
-    files: shipped.map((file) => ({
-      path: path.relative(ROOT, path.join(dir, file)),
-      type,
-      target: `${alias}/${name}/${file}`,
-    })),
+    files: shipped.map((file) => shippedFile(path.join(dir, file))),
   };
 }
 
@@ -406,11 +442,7 @@ function buildInfraItem(spec: InfraSpec): RegistryItem {
     title: spec.title,
     description: spec.description,
     ...dependencyFields(spec.name, targets),
-    files: filePaths.map((filePath) => ({
-      path: path.relative(ROOT, filePath),
-      type: "registry:file",
-      target: `~/${path.relative(ROOT, filePath)}`,
-    })),
+    files: filePaths.map(shippedFile),
     ...(spec.docs !== undefined && { docs: spec.docs }),
   };
 }
@@ -499,9 +531,30 @@ function buildThemeItem(): RegistryItem {
   };
 }
 
+function buildHostRequirementItem(requirement: HostRequirement): RegistryItem {
+  return {
+    name: requirement.name,
+    type: "registry:item",
+    title: titleCase(requirement.name),
+    description: `Host app setup for items that use ${requirement.packages.join(" and ")}.`,
+    dependencies: requirement.packages.map((pkg) =>
+      withVersion(requirement.name, pkg)
+    ),
+    docs: requirement.docs,
+  };
+}
+
 function buildInfraItems(): RegistryItem[] {
   return [
     buildThemeItem(),
+    buildInfraItem({
+      name: "i18n",
+      type: "registry:item",
+      title: "I18n",
+      description:
+        "creact's English strings for i18next, in the common, components and validation namespaces, and initI18n() to load them. creact apps have these already.",
+      paths: ["src/shared/i18n"],
+    }),
     buildInfraItem({
       name: "storybook-setup",
       type: "registry:item",
@@ -561,13 +614,27 @@ function verifyRegistryDependencies(items: RegistryItem[]): void {
   }
 }
 
+function verifyHostRequirementsUsed(items: RegistryItem[]): void {
+  const used = new Set(items.flatMap(dependencyNames));
+  for (const { name } of HOST_REQUIREMENTS) {
+    if (!used.has(name)) {
+      warnings.push(
+        `${name}: no item imports its packages, so remove it from HOST_REQUIREMENTS`
+      );
+    }
+  }
+}
+
 function main(): void {
   assertNoSliceNameCollisions();
   const shipped = [...buildComponentItems(), ...buildInfraItems()];
-  const items = [...shipped, ...buildLibItems(shipped)].sort((a, b) =>
-    byName(a.name, b.name)
-  );
+  const items = [
+    ...shipped,
+    ...buildLibItems(shipped),
+    ...HOST_REQUIREMENTS.map(buildHostRequirementItem),
+  ].sort((a, b) => byName(a.name, b.name));
   verifyRegistryDependencies(items);
+  verifyHostRequirementsUsed(items);
 
   const registry = {
     $schema: "https://ui.shadcn.com/schema/registry.json",

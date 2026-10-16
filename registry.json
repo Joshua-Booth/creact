@@ -16,13 +16,13 @@
       "files": [
         {
           "path": "src/shared/ui/accordion/accordion.tsx",
-          "type": "registry:ui",
-          "target": "@ui/accordion/accordion.tsx"
+          "type": "registry:file",
+          "target": "~/src/shared/ui/accordion/accordion.tsx"
         },
         {
           "path": "src/shared/ui/accordion/index.ts",
-          "type": "registry:ui",
-          "target": "@ui/accordion/index.ts"
+          "type": "registry:file",
+          "target": "~/src/shared/ui/accordion/index.ts"
         }
       ]
     },
@@ -38,13 +38,13 @@
       "files": [
         {
           "path": "src/shared/ui/alert/alert.tsx",
-          "type": "registry:ui",
-          "target": "@ui/alert/alert.tsx"
+          "type": "registry:file",
+          "target": "~/src/shared/ui/alert/alert.tsx"
         },
         {
           "path": "src/shared/ui/alert/index.ts",
-          "type": "registry:ui",
-          "target": "@ui/alert/index.ts"
+          "type": "registry:file",
+          "target": "~/src/shared/ui/alert/index.ts"
         }
       ]
     },
@@ -63,13 +63,13 @@
       "files": [
         {
           "path": "src/shared/ui/alert-dialog/alert-dialog.tsx",
-          "type": "registry:ui",
-          "target": "@ui/alert-dialog/alert-dialog.tsx"
+          "type": "registry:file",
+          "target": "~/src/shared/ui/alert-dialog/alert-dialog.tsx"
         },
         {
           "path": "src/shared/ui/alert-dialog/index.ts",
-          "type": "registry:ui",
-          "target": "@ui/alert-dialog/index.ts"
+          "type": "registry:file",
+          "target": "~/src/shared/ui/alert-dialog/index.ts"
         }
       ]
     },
@@ -84,13 +84,13 @@
       "files": [
         {
           "path": "src/shared/ui/aspect-ratio/aspect-ratio.tsx",
-          "type": "registry:ui",
-          "target": "@ui/aspect-ratio/aspect-ratio.tsx"
+          "type": "registry:file",
+          "target": "~/src/shared/ui/aspect-ratio/aspect-ratio.tsx"
         },
         {
           "path": "src/shared/ui/aspect-ratio/index.ts",
-          "type": "registry:ui",
-          "target": "@ui/aspect-ratio/index.ts"
+          "type": "registry:file",
+          "target": "~/src/shared/ui/aspect-ratio/index.ts"
         }
       ]
     },
@@ -110,13 +110,13 @@
       "files": [
         {
           "path": "src/shared/ui/attachment/attachment.tsx",
-          "type": "registry:ui",
-          "target": "@ui/attachment/attachment.tsx"
+          "type": "registry:file",
+          "target": "~/src/shared/ui/attachment/attachment.tsx"
         },
         {
           "path": "src/shared/ui/attachment/index.ts",
-          "type": "registry:ui",
-          "target": "@ui/attachment/index.ts"
+          "type": "registry:file",
+          "target": "~/src/shared/ui/attachment/index.ts"
         }
       ]
     },
@@ -132,13 +132,13 @@
       "files": [
         {
           "path": "src/shared/ui/avatar/avatar.tsx",
-          "type": "registry:ui",
-          "target": "@ui/avatar/avatar.tsx"
+          "type": "registry:file",
+          "target": "~/src/shared/ui/avatar/avatar.tsx"
         },
         {
           "path": "src/shared/ui/avatar/index.ts",
-          "type": "registry:ui",
-          "target": "@ui/avatar/index.ts"
+          "type": "registry:file",
+          "target": "~/src/shared/ui/avatar/index.ts"
         }
       ]
     },
@@ -155,13 +155,13 @@
       "files": [
         {
           "path": "src/shared/ui/badge/badge.tsx",
-          "type": "registry:ui",
-          "target": "@ui/badge/badge.tsx"
+          "type": "registry:file",
+          "target": "~/src/shared/ui/badge/badge.tsx"
         },
         {
           "path": "src/shared/ui/badge/index.ts",
-          "type": "registry:ui",
-          "target": "@ui/badge/index.ts"
+          "type": "registry:file",
+          "target": "~/src/shared/ui/badge/index.ts"
         }
       ]
     },
@@ -176,16 +176,19 @@
         "lucide-react@^1.49.0",
         "react-i18next@^17.0.15"
       ],
+      "registryDependencies": [
+        "Joshua-Booth/creact/needs-i18next"
+      ],
       "files": [
         {
           "path": "src/shared/ui/breadcrumb/breadcrumb.tsx",
-          "type": "registry:ui",
-          "target": "@ui/breadcrumb/breadcrumb.tsx"
+          "type": "registry:file",
+          "target": "~/src/shared/ui/breadcrumb/breadcrumb.tsx"
         },
         {
           "path": "src/shared/ui/breadcrumb/index.ts",
-          "type": "registry:ui",
-          "target": "@ui/breadcrumb/index.ts"
+          "type": "registry:file",
+          "target": "~/src/shared/ui/breadcrumb/index.ts"
         }
       ]
     },
@@ -202,13 +205,13 @@
       "files": [
         {
           "path": "src/shared/ui/bubble/bubble.tsx",
-          "type": "registry:ui",
-          "target": "@ui/bubble/bubble.tsx"
+          "type": "registry:file",
+          "target": "~/src/shared/ui/bubble/bubble.tsx"
         },
         {
           "path": "src/shared/ui/bubble/index.ts",
-          "type": "registry:ui",
-          "target": "@ui/bubble/index.ts"
+          "type": "registry:file",
+          "target": "~/src/shared/ui/bubble/index.ts"
         }
       ]
     },
@@ -225,13 +228,13 @@
       "files": [
         {
           "path": "src/shared/ui/button/button.tsx",
-          "type": "registry:ui",
-          "target": "@ui/button/button.tsx"
+          "type": "registry:file",
+          "target": "~/src/shared/ui/button/button.tsx"
         },
         {
           "path": "src/shared/ui/button/index.ts",
-          "type": "registry:ui",
-          "target": "@ui/button/index.ts"
+          "type": "registry:file",
+          "target": "~/src/shared/ui/button/index.ts"
         }
       ]
     },
@@ -251,13 +254,13 @@
       "files": [
         {
           "path": "src/shared/ui/button-group/button-group.tsx",
-          "type": "registry:ui",
-          "target": "@ui/button-group/button-group.tsx"
+          "type": "registry:file",
+          "target": "~/src/shared/ui/button-group/button-group.tsx"
         },
         {
           "path": "src/shared/ui/button-group/index.ts",
-          "type": "registry:ui",
-          "target": "@ui/button-group/index.ts"
+          "type": "registry:file",
+          "target": "~/src/shared/ui/button-group/index.ts"
         }
       ]
     },
@@ -277,13 +280,13 @@
       "files": [
         {
           "path": "src/shared/ui/calendar/calendar.tsx",
-          "type": "registry:ui",
-          "target": "@ui/calendar/calendar.tsx"
+          "type": "registry:file",
+          "target": "~/src/shared/ui/calendar/calendar.tsx"
         },
         {
           "path": "src/shared/ui/calendar/index.ts",
-          "type": "registry:ui",
-          "target": "@ui/calendar/index.ts"
+          "type": "registry:file",
+          "target": "~/src/shared/ui/calendar/index.ts"
         }
       ]
     },
@@ -298,13 +301,13 @@
       "files": [
         {
           "path": "src/shared/ui/card/card.tsx",
-          "type": "registry:ui",
-          "target": "@ui/card/card.tsx"
+          "type": "registry:file",
+          "target": "~/src/shared/ui/card/card.tsx"
         },
         {
           "path": "src/shared/ui/card/index.ts",
-          "type": "registry:ui",
-          "target": "@ui/card/index.ts"
+          "type": "registry:file",
+          "target": "~/src/shared/ui/card/index.ts"
         }
       ]
     },
@@ -320,18 +323,19 @@
         "react-i18next@^17.0.15"
       ],
       "registryDependencies": [
-        "Joshua-Booth/creact/button"
+        "Joshua-Booth/creact/button",
+        "Joshua-Booth/creact/needs-i18next"
       ],
       "files": [
         {
           "path": "src/shared/ui/carousel/carousel.tsx",
-          "type": "registry:ui",
-          "target": "@ui/carousel/carousel.tsx"
+          "type": "registry:file",
+          "target": "~/src/shared/ui/carousel/carousel.tsx"
         },
         {
           "path": "src/shared/ui/carousel/index.ts",
-          "type": "registry:ui",
-          "target": "@ui/carousel/index.ts"
+          "type": "registry:file",
+          "target": "~/src/shared/ui/carousel/index.ts"
         }
       ]
     },
@@ -347,13 +351,13 @@
       "files": [
         {
           "path": "src/shared/ui/chart/chart.tsx",
-          "type": "registry:ui",
-          "target": "@ui/chart/chart.tsx"
+          "type": "registry:file",
+          "target": "~/src/shared/ui/chart/chart.tsx"
         },
         {
           "path": "src/shared/ui/chart/index.ts",
-          "type": "registry:ui",
-          "target": "@ui/chart/index.ts"
+          "type": "registry:file",
+          "target": "~/src/shared/ui/chart/index.ts"
         }
       ]
     },
@@ -370,13 +374,13 @@
       "files": [
         {
           "path": "src/shared/ui/checkbox/checkbox.tsx",
-          "type": "registry:ui",
-          "target": "@ui/checkbox/checkbox.tsx"
+          "type": "registry:file",
+          "target": "~/src/shared/ui/checkbox/checkbox.tsx"
         },
         {
           "path": "src/shared/ui/checkbox/index.ts",
-          "type": "registry:ui",
-          "target": "@ui/checkbox/index.ts"
+          "type": "registry:file",
+          "target": "~/src/shared/ui/checkbox/index.ts"
         }
       ]
     },
@@ -391,13 +395,13 @@
       "files": [
         {
           "path": "src/shared/ui/collapsible/collapsible.tsx",
-          "type": "registry:ui",
-          "target": "@ui/collapsible/collapsible.tsx"
+          "type": "registry:file",
+          "target": "~/src/shared/ui/collapsible/collapsible.tsx"
         },
         {
           "path": "src/shared/ui/collapsible/index.ts",
-          "type": "registry:ui",
-          "target": "@ui/collapsible/index.ts"
+          "type": "registry:file",
+          "target": "~/src/shared/ui/collapsible/index.ts"
         }
       ]
     },
@@ -414,18 +418,19 @@
       ],
       "registryDependencies": [
         "Joshua-Booth/creact/button",
-        "Joshua-Booth/creact/input-group"
+        "Joshua-Booth/creact/input-group",
+        "Joshua-Booth/creact/needs-i18next"
       ],
       "files": [
         {
           "path": "src/shared/ui/combobox/combobox.tsx",
-          "type": "registry:ui",
-          "target": "@ui/combobox/combobox.tsx"
+          "type": "registry:file",
+          "target": "~/src/shared/ui/combobox/combobox.tsx"
         },
         {
           "path": "src/shared/ui/combobox/index.ts",
-          "type": "registry:ui",
-          "target": "@ui/combobox/index.ts"
+          "type": "registry:file",
+          "target": "~/src/shared/ui/combobox/index.ts"
         }
       ]
     },
@@ -442,18 +447,19 @@
       ],
       "registryDependencies": [
         "Joshua-Booth/creact/dialog",
-        "Joshua-Booth/creact/input-group"
+        "Joshua-Booth/creact/input-group",
+        "Joshua-Booth/creact/needs-i18next"
       ],
       "files": [
         {
           "path": "src/shared/ui/command/command.tsx",
-          "type": "registry:ui",
-          "target": "@ui/command/command.tsx"
+          "type": "registry:file",
+          "target": "~/src/shared/ui/command/command.tsx"
         },
         {
           "path": "src/shared/ui/command/index.ts",
-          "type": "registry:ui",
-          "target": "@ui/command/index.ts"
+          "type": "registry:file",
+          "target": "~/src/shared/ui/command/index.ts"
         }
       ]
     },
@@ -496,13 +502,13 @@
       "files": [
         {
           "path": "src/shared/ui/context-menu/context-menu.tsx",
-          "type": "registry:ui",
-          "target": "@ui/context-menu/context-menu.tsx"
+          "type": "registry:file",
+          "target": "~/src/shared/ui/context-menu/context-menu.tsx"
         },
         {
           "path": "src/shared/ui/context-menu/index.ts",
-          "type": "registry:ui",
-          "target": "@ui/context-menu/index.ts"
+          "type": "registry:file",
+          "target": "~/src/shared/ui/context-menu/index.ts"
         }
       ]
     },
@@ -531,6 +537,7 @@
         "Joshua-Booth/creact/dropdown-menu",
         "Joshua-Booth/creact/input",
         "Joshua-Booth/creact/kbd",
+        "Joshua-Booth/creact/needs-i18next",
         "Joshua-Booth/creact/popover",
         "Joshua-Booth/creact/select",
         "Joshua-Booth/creact/separator",
@@ -541,58 +548,58 @@
       "files": [
         {
           "path": "src/shared/ui/data-grid/data-grid-cell-variants.tsx",
-          "type": "registry:ui",
-          "target": "@ui/data-grid/data-grid-cell-variants.tsx"
+          "type": "registry:file",
+          "target": "~/src/shared/ui/data-grid/data-grid-cell-variants.tsx"
         },
         {
           "path": "src/shared/ui/data-grid/data-grid-cell-wrapper.tsx",
-          "type": "registry:ui",
-          "target": "@ui/data-grid/data-grid-cell-wrapper.tsx"
+          "type": "registry:file",
+          "target": "~/src/shared/ui/data-grid/data-grid-cell-wrapper.tsx"
         },
         {
           "path": "src/shared/ui/data-grid/data-grid-cell.tsx",
-          "type": "registry:ui",
-          "target": "@ui/data-grid/data-grid-cell.tsx"
+          "type": "registry:file",
+          "target": "~/src/shared/ui/data-grid/data-grid-cell.tsx"
         },
         {
           "path": "src/shared/ui/data-grid/data-grid-column-header.tsx",
-          "type": "registry:ui",
-          "target": "@ui/data-grid/data-grid-column-header.tsx"
+          "type": "registry:file",
+          "target": "~/src/shared/ui/data-grid/data-grid-column-header.tsx"
         },
         {
           "path": "src/shared/ui/data-grid/data-grid-context-menu.tsx",
-          "type": "registry:ui",
-          "target": "@ui/data-grid/data-grid-context-menu.tsx"
+          "type": "registry:file",
+          "target": "~/src/shared/ui/data-grid/data-grid-context-menu.tsx"
         },
         {
           "path": "src/shared/ui/data-grid/data-grid-keyboard-shortcuts.tsx",
-          "type": "registry:ui",
-          "target": "@ui/data-grid/data-grid-keyboard-shortcuts.tsx"
+          "type": "registry:file",
+          "target": "~/src/shared/ui/data-grid/data-grid-keyboard-shortcuts.tsx"
         },
         {
           "path": "src/shared/ui/data-grid/data-grid-paste-dialog.tsx",
-          "type": "registry:ui",
-          "target": "@ui/data-grid/data-grid-paste-dialog.tsx"
+          "type": "registry:file",
+          "target": "~/src/shared/ui/data-grid/data-grid-paste-dialog.tsx"
         },
         {
           "path": "src/shared/ui/data-grid/data-grid-row.tsx",
-          "type": "registry:ui",
-          "target": "@ui/data-grid/data-grid-row.tsx"
+          "type": "registry:file",
+          "target": "~/src/shared/ui/data-grid/data-grid-row.tsx"
         },
         {
           "path": "src/shared/ui/data-grid/data-grid-search.tsx",
-          "type": "registry:ui",
-          "target": "@ui/data-grid/data-grid-search.tsx"
+          "type": "registry:file",
+          "target": "~/src/shared/ui/data-grid/data-grid-search.tsx"
         },
         {
           "path": "src/shared/ui/data-grid/data-grid.tsx",
-          "type": "registry:ui",
-          "target": "@ui/data-grid/data-grid.tsx"
+          "type": "registry:file",
+          "target": "~/src/shared/ui/data-grid/data-grid.tsx"
         },
         {
           "path": "src/shared/ui/data-grid/index.ts",
-          "type": "registry:ui",
-          "target": "@ui/data-grid/index.ts"
+          "type": "registry:file",
+          "target": "~/src/shared/ui/data-grid/index.ts"
         }
       ]
     },
@@ -616,58 +623,58 @@
       "files": [
         {
           "path": "src/shared/lib/data-grid-core/compose-refs.ts",
-          "type": "registry:lib",
-          "target": "@lib/data-grid-core/compose-refs.ts"
+          "type": "registry:file",
+          "target": "~/src/shared/lib/data-grid-core/compose-refs.ts"
         },
         {
           "path": "src/shared/lib/data-grid-core/data-grid.test.ts",
-          "type": "registry:lib",
-          "target": "@lib/data-grid-core/data-grid.test.ts"
+          "type": "registry:file",
+          "target": "~/src/shared/lib/data-grid-core/data-grid.test.ts"
         },
         {
           "path": "src/shared/lib/data-grid-core/data-grid.ts",
-          "type": "registry:lib",
-          "target": "@lib/data-grid-core/data-grid.ts"
+          "type": "registry:file",
+          "target": "~/src/shared/lib/data-grid-core/data-grid.ts"
         },
         {
           "path": "src/shared/lib/data-grid-core/features.ts",
-          "type": "registry:lib",
-          "target": "@lib/data-grid-core/features.ts"
+          "type": "registry:file",
+          "target": "~/src/shared/lib/data-grid-core/features.ts"
         },
         {
           "path": "src/shared/lib/data-grid-core/index.ts",
-          "type": "registry:lib",
-          "target": "@lib/data-grid-core/index.ts"
+          "type": "registry:file",
+          "target": "~/src/shared/lib/data-grid-core/index.ts"
         },
         {
           "path": "src/shared/lib/data-grid-core/types.ts",
-          "type": "registry:lib",
-          "target": "@lib/data-grid-core/types.ts"
+          "type": "registry:file",
+          "target": "~/src/shared/lib/data-grid-core/types.ts"
         },
         {
           "path": "src/shared/lib/data-grid-core/use-as-ref.ts",
-          "type": "registry:lib",
-          "target": "@lib/data-grid-core/use-as-ref.ts"
+          "type": "registry:file",
+          "target": "~/src/shared/lib/data-grid-core/use-as-ref.ts"
         },
         {
           "path": "src/shared/lib/data-grid-core/use-badge-overflow.ts",
-          "type": "registry:lib",
-          "target": "@lib/data-grid-core/use-badge-overflow.ts"
+          "type": "registry:file",
+          "target": "~/src/shared/lib/data-grid-core/use-badge-overflow.ts"
         },
         {
           "path": "src/shared/lib/data-grid-core/use-data-grid.ts",
-          "type": "registry:lib",
-          "target": "@lib/data-grid-core/use-data-grid.ts"
+          "type": "registry:file",
+          "target": "~/src/shared/lib/data-grid-core/use-data-grid.ts"
         },
         {
           "path": "src/shared/lib/data-grid-core/use-isomorphic-layout-effect.ts",
-          "type": "registry:lib",
-          "target": "@lib/data-grid-core/use-isomorphic-layout-effect.ts"
+          "type": "registry:file",
+          "target": "~/src/shared/lib/data-grid-core/use-isomorphic-layout-effect.ts"
         },
         {
           "path": "src/shared/lib/data-grid-core/use-lazy-ref.ts",
-          "type": "registry:lib",
-          "target": "@lib/data-grid-core/use-lazy-ref.ts"
+          "type": "registry:file",
+          "target": "~/src/shared/lib/data-grid-core/use-lazy-ref.ts"
         }
       ]
     },
@@ -693,6 +700,7 @@
         "Joshua-Booth/creact/dropdown-menu",
         "Joshua-Booth/creact/input",
         "Joshua-Booth/creact/label",
+        "Joshua-Booth/creact/needs-i18next",
         "Joshua-Booth/creact/popover",
         "Joshua-Booth/creact/select",
         "Joshua-Booth/creact/separator",
@@ -702,48 +710,48 @@
       "files": [
         {
           "path": "src/shared/ui/data-table/data-table-column-header.tsx",
-          "type": "registry:ui",
-          "target": "@ui/data-table/data-table-column-header.tsx"
+          "type": "registry:file",
+          "target": "~/src/shared/ui/data-table/data-table-column-header.tsx"
         },
         {
           "path": "src/shared/ui/data-table/data-table-date-filter.tsx",
-          "type": "registry:ui",
-          "target": "@ui/data-table/data-table-date-filter.tsx"
+          "type": "registry:file",
+          "target": "~/src/shared/ui/data-table/data-table-date-filter.tsx"
         },
         {
           "path": "src/shared/ui/data-table/data-table-faceted-filter.tsx",
-          "type": "registry:ui",
-          "target": "@ui/data-table/data-table-faceted-filter.tsx"
+          "type": "registry:file",
+          "target": "~/src/shared/ui/data-table/data-table-faceted-filter.tsx"
         },
         {
           "path": "src/shared/ui/data-table/data-table-pagination.tsx",
-          "type": "registry:ui",
-          "target": "@ui/data-table/data-table-pagination.tsx"
+          "type": "registry:file",
+          "target": "~/src/shared/ui/data-table/data-table-pagination.tsx"
         },
         {
           "path": "src/shared/ui/data-table/data-table-slider-filter.tsx",
-          "type": "registry:ui",
-          "target": "@ui/data-table/data-table-slider-filter.tsx"
+          "type": "registry:file",
+          "target": "~/src/shared/ui/data-table/data-table-slider-filter.tsx"
         },
         {
           "path": "src/shared/ui/data-table/data-table-toolbar.tsx",
-          "type": "registry:ui",
-          "target": "@ui/data-table/data-table-toolbar.tsx"
+          "type": "registry:file",
+          "target": "~/src/shared/ui/data-table/data-table-toolbar.tsx"
         },
         {
           "path": "src/shared/ui/data-table/data-table-view-options.tsx",
-          "type": "registry:ui",
-          "target": "@ui/data-table/data-table-view-options.tsx"
+          "type": "registry:file",
+          "target": "~/src/shared/ui/data-table/data-table-view-options.tsx"
         },
         {
           "path": "src/shared/ui/data-table/data-table.tsx",
-          "type": "registry:ui",
-          "target": "@ui/data-table/data-table.tsx"
+          "type": "registry:file",
+          "target": "~/src/shared/ui/data-table/data-table.tsx"
         },
         {
           "path": "src/shared/ui/data-table/index.ts",
-          "type": "registry:ui",
-          "target": "@ui/data-table/index.ts"
+          "type": "registry:file",
+          "target": "~/src/shared/ui/data-table/index.ts"
         }
       ]
     },
@@ -761,96 +769,99 @@
         "@fast-check/vitest@^0.5.0",
         "vitest@^5.0.3"
       ],
+      "registryDependencies": [
+        "Joshua-Booth/creact/needs-nuqs-adapter"
+      ],
       "files": [
         {
           "path": "src/shared/lib/data-table-core/config.ts",
-          "type": "registry:lib",
-          "target": "@lib/data-table-core/config.ts"
+          "type": "registry:file",
+          "target": "~/src/shared/lib/data-table-core/config.ts"
         },
         {
           "path": "src/shared/lib/data-table-core/data-table.test.ts",
-          "type": "registry:lib",
-          "target": "@lib/data-table-core/data-table.test.ts"
+          "type": "registry:file",
+          "target": "~/src/shared/lib/data-table-core/data-table.test.ts"
         },
         {
           "path": "src/shared/lib/data-table-core/data-table.ts",
-          "type": "registry:lib",
-          "target": "@lib/data-table-core/data-table.ts"
+          "type": "registry:file",
+          "target": "~/src/shared/lib/data-table-core/data-table.ts"
         },
         {
           "path": "src/shared/lib/data-table-core/date-filter-utils.test.ts",
-          "type": "registry:lib",
-          "target": "@lib/data-table-core/date-filter-utils.test.ts"
+          "type": "registry:file",
+          "target": "~/src/shared/lib/data-table-core/date-filter-utils.test.ts"
         },
         {
           "path": "src/shared/lib/data-table-core/date-filter-utils.ts",
-          "type": "registry:lib",
-          "target": "@lib/data-table-core/date-filter-utils.ts"
+          "type": "registry:file",
+          "target": "~/src/shared/lib/data-table-core/date-filter-utils.ts"
         },
         {
           "path": "src/shared/lib/data-table-core/features.ts",
-          "type": "registry:lib",
-          "target": "@lib/data-table-core/features.ts"
+          "type": "registry:file",
+          "target": "~/src/shared/lib/data-table-core/features.ts"
         },
         {
           "path": "src/shared/lib/data-table-core/format.test.ts",
-          "type": "registry:lib",
-          "target": "@lib/data-table-core/format.test.ts"
+          "type": "registry:file",
+          "target": "~/src/shared/lib/data-table-core/format.test.ts"
         },
         {
           "path": "src/shared/lib/data-table-core/format.ts",
-          "type": "registry:lib",
-          "target": "@lib/data-table-core/format.ts"
+          "type": "registry:file",
+          "target": "~/src/shared/lib/data-table-core/format.ts"
         },
         {
           "path": "src/shared/lib/data-table-core/index.ts",
-          "type": "registry:lib",
-          "target": "@lib/data-table-core/index.ts"
+          "type": "registry:file",
+          "target": "~/src/shared/lib/data-table-core/index.ts"
         },
         {
           "path": "src/shared/lib/data-table-core/parsers.test.ts",
-          "type": "registry:lib",
-          "target": "@lib/data-table-core/parsers.test.ts"
+          "type": "registry:file",
+          "target": "~/src/shared/lib/data-table-core/parsers.test.ts"
         },
         {
           "path": "src/shared/lib/data-table-core/parsers.ts",
-          "type": "registry:lib",
-          "target": "@lib/data-table-core/parsers.ts"
+          "type": "registry:file",
+          "target": "~/src/shared/lib/data-table-core/parsers.ts"
         },
         {
           "path": "src/shared/lib/data-table-core/slider-filter-utils.test.ts",
-          "type": "registry:lib",
-          "target": "@lib/data-table-core/slider-filter-utils.test.ts"
+          "type": "registry:file",
+          "target": "~/src/shared/lib/data-table-core/slider-filter-utils.test.ts"
         },
         {
           "path": "src/shared/lib/data-table-core/slider-filter-utils.ts",
-          "type": "registry:lib",
-          "target": "@lib/data-table-core/slider-filter-utils.ts"
+          "type": "registry:file",
+          "target": "~/src/shared/lib/data-table-core/slider-filter-utils.ts"
         },
         {
           "path": "src/shared/lib/data-table-core/types.ts",
-          "type": "registry:lib",
-          "target": "@lib/data-table-core/types.ts"
+          "type": "registry:file",
+          "target": "~/src/shared/lib/data-table-core/types.ts"
         },
         {
           "path": "src/shared/lib/data-table-core/use-callback-ref.ts",
-          "type": "registry:lib",
-          "target": "@lib/data-table-core/use-callback-ref.ts"
+          "type": "registry:file",
+          "target": "~/src/shared/lib/data-table-core/use-callback-ref.ts"
         },
         {
           "path": "src/shared/lib/data-table-core/use-data-table.test.ts",
-          "type": "registry:lib",
-          "target": "@lib/data-table-core/use-data-table.test.ts"
+          "type": "registry:file",
+          "target": "~/src/shared/lib/data-table-core/use-data-table.test.ts"
         },
         {
           "path": "src/shared/lib/data-table-core/use-data-table.ts",
-          "type": "registry:lib",
-          "target": "@lib/data-table-core/use-data-table.ts"
+          "type": "registry:file",
+          "target": "~/src/shared/lib/data-table-core/use-data-table.ts"
         },
         {
           "path": "src/shared/lib/data-table-core/use-debounced-callback.ts",
-          "type": "registry:lib",
-          "target": "@lib/data-table-core/use-debounced-callback.ts"
+          "type": "registry:file",
+          "target": "~/src/shared/lib/data-table-core/use-debounced-callback.ts"
         }
       ]
     },
@@ -862,18 +873,18 @@
       "files": [
         {
           "path": "src/shared/lib/device/breakpoints.ts",
-          "type": "registry:lib",
-          "target": "@lib/device/breakpoints.ts"
+          "type": "registry:file",
+          "target": "~/src/shared/lib/device/breakpoints.ts"
         },
         {
           "path": "src/shared/lib/device/hooks.ts",
-          "type": "registry:lib",
-          "target": "@lib/device/hooks.ts"
+          "type": "registry:file",
+          "target": "~/src/shared/lib/device/hooks.ts"
         },
         {
           "path": "src/shared/lib/device/index.ts",
-          "type": "registry:lib",
-          "target": "@lib/device/index.ts"
+          "type": "registry:file",
+          "target": "~/src/shared/lib/device/index.ts"
         }
       ]
     },
@@ -889,18 +900,19 @@
         "react-i18next@^17.0.15"
       ],
       "registryDependencies": [
-        "Joshua-Booth/creact/button"
+        "Joshua-Booth/creact/button",
+        "Joshua-Booth/creact/needs-i18next"
       ],
       "files": [
         {
           "path": "src/shared/ui/dialog/dialog.tsx",
-          "type": "registry:ui",
-          "target": "@ui/dialog/dialog.tsx"
+          "type": "registry:file",
+          "target": "~/src/shared/ui/dialog/dialog.tsx"
         },
         {
           "path": "src/shared/ui/dialog/index.ts",
-          "type": "registry:ui",
-          "target": "@ui/dialog/index.ts"
+          "type": "registry:file",
+          "target": "~/src/shared/ui/dialog/index.ts"
         }
       ]
     },
@@ -915,13 +927,13 @@
       "files": [
         {
           "path": "src/shared/ui/direction/direction.tsx",
-          "type": "registry:ui",
-          "target": "@ui/direction/direction.tsx"
+          "type": "registry:file",
+          "target": "~/src/shared/ui/direction/direction.tsx"
         },
         {
           "path": "src/shared/ui/direction/index.ts",
-          "type": "registry:ui",
-          "target": "@ui/direction/index.ts"
+          "type": "registry:file",
+          "target": "~/src/shared/ui/direction/index.ts"
         }
       ]
     },
@@ -937,13 +949,13 @@
       "files": [
         {
           "path": "src/shared/ui/drawer/drawer.tsx",
-          "type": "registry:ui",
-          "target": "@ui/drawer/drawer.tsx"
+          "type": "registry:file",
+          "target": "~/src/shared/ui/drawer/drawer.tsx"
         },
         {
           "path": "src/shared/ui/drawer/index.ts",
-          "type": "registry:ui",
-          "target": "@ui/drawer/index.ts"
+          "type": "registry:file",
+          "target": "~/src/shared/ui/drawer/index.ts"
         }
       ]
     },
@@ -960,13 +972,13 @@
       "files": [
         {
           "path": "src/shared/ui/dropdown-menu/dropdown-menu.tsx",
-          "type": "registry:ui",
-          "target": "@ui/dropdown-menu/dropdown-menu.tsx"
+          "type": "registry:file",
+          "target": "~/src/shared/ui/dropdown-menu/dropdown-menu.tsx"
         },
         {
           "path": "src/shared/ui/dropdown-menu/index.ts",
-          "type": "registry:ui",
-          "target": "@ui/dropdown-menu/index.ts"
+          "type": "registry:file",
+          "target": "~/src/shared/ui/dropdown-menu/index.ts"
         }
       ]
     },
@@ -983,13 +995,13 @@
       "files": [
         {
           "path": "src/shared/ui/empty/empty.tsx",
-          "type": "registry:ui",
-          "target": "@ui/empty/empty.tsx"
+          "type": "registry:file",
+          "target": "~/src/shared/ui/empty/empty.tsx"
         },
         {
           "path": "src/shared/ui/empty/index.ts",
-          "type": "registry:ui",
-          "target": "@ui/empty/index.ts"
+          "type": "registry:file",
+          "target": "~/src/shared/ui/empty/index.ts"
         }
       ]
     },
@@ -1006,23 +1018,24 @@
       ],
       "registryDependencies": [
         "Joshua-Booth/creact/button",
-        "Joshua-Booth/creact/empty"
+        "Joshua-Booth/creact/empty",
+        "Joshua-Booth/creact/needs-i18next"
       ],
       "files": [
         {
           "path": "src/shared/ui/error-boundary/error-boundary.tsx",
-          "type": "registry:ui",
-          "target": "@ui/error-boundary/error-boundary.tsx"
+          "type": "registry:file",
+          "target": "~/src/shared/ui/error-boundary/error-boundary.tsx"
         },
         {
           "path": "src/shared/ui/error-boundary/index.ts",
-          "type": "registry:ui",
-          "target": "@ui/error-boundary/index.ts"
+          "type": "registry:file",
+          "target": "~/src/shared/ui/error-boundary/index.ts"
         },
         {
           "path": "src/shared/ui/error-boundary/route-error-fallback.tsx",
-          "type": "registry:ui",
-          "target": "@ui/error-boundary/route-error-fallback.tsx"
+          "type": "registry:file",
+          "target": "~/src/shared/ui/error-boundary/route-error-fallback.tsx"
         }
       ]
     },
@@ -1043,13 +1056,13 @@
       "files": [
         {
           "path": "src/shared/ui/field/field.tsx",
-          "type": "registry:ui",
-          "target": "@ui/field/field.tsx"
+          "type": "registry:file",
+          "target": "~/src/shared/ui/field/field.tsx"
         },
         {
           "path": "src/shared/ui/field/index.ts",
-          "type": "registry:ui",
-          "target": "@ui/field/index.ts"
+          "type": "registry:file",
+          "target": "~/src/shared/ui/field/index.ts"
         }
       ]
     },
@@ -1122,13 +1135,73 @@
       "files": [
         {
           "path": "src/shared/ui/hover-card/hover-card.tsx",
-          "type": "registry:ui",
-          "target": "@ui/hover-card/hover-card.tsx"
+          "type": "registry:file",
+          "target": "~/src/shared/ui/hover-card/hover-card.tsx"
         },
         {
           "path": "src/shared/ui/hover-card/index.ts",
-          "type": "registry:ui",
-          "target": "@ui/hover-card/index.ts"
+          "type": "registry:file",
+          "target": "~/src/shared/ui/hover-card/index.ts"
+        }
+      ]
+    },
+    {
+      "name": "i18n",
+      "type": "registry:item",
+      "title": "I18n",
+      "description": "creact's English strings for i18next, in the common, components and validation namespaces, and initI18n() to load them. creact apps have these already.",
+      "dependencies": [
+        "i18next@^26.4.2",
+        "react-i18next@^17.0.15"
+      ],
+      "registryDependencies": [
+        "Joshua-Booth/creact/needs-i18next"
+      ],
+      "files": [
+        {
+          "path": "src/shared/i18n/config.ts",
+          "type": "registry:file",
+          "target": "~/src/shared/i18n/config.ts"
+        },
+        {
+          "path": "src/shared/i18n/index.ts",
+          "type": "registry:file",
+          "target": "~/src/shared/i18n/index.ts"
+        },
+        {
+          "path": "src/shared/i18n/init.ts",
+          "type": "registry:file",
+          "target": "~/src/shared/i18n/init.ts"
+        },
+        {
+          "path": "src/shared/i18n/locales/en/common.ts",
+          "type": "registry:file",
+          "target": "~/src/shared/i18n/locales/en/common.ts"
+        },
+        {
+          "path": "src/shared/i18n/locales/en/components.ts",
+          "type": "registry:file",
+          "target": "~/src/shared/i18n/locales/en/components.ts"
+        },
+        {
+          "path": "src/shared/i18n/locales/en/index.ts",
+          "type": "registry:file",
+          "target": "~/src/shared/i18n/locales/en/index.ts"
+        },
+        {
+          "path": "src/shared/i18n/locales/en/validation.ts",
+          "type": "registry:file",
+          "target": "~/src/shared/i18n/locales/en/validation.ts"
+        },
+        {
+          "path": "src/shared/i18n/locales/index.ts",
+          "type": "registry:file",
+          "target": "~/src/shared/i18n/locales/index.ts"
+        },
+        {
+          "path": "src/shared/i18n/types.ts",
+          "type": "registry:file",
+          "target": "~/src/shared/i18n/types.ts"
         }
       ]
     },
@@ -1144,13 +1217,13 @@
       "files": [
         {
           "path": "src/shared/ui/input/index.ts",
-          "type": "registry:ui",
-          "target": "@ui/input/index.ts"
+          "type": "registry:file",
+          "target": "~/src/shared/ui/input/index.ts"
         },
         {
           "path": "src/shared/ui/input/input.tsx",
-          "type": "registry:ui",
-          "target": "@ui/input/input.tsx"
+          "type": "registry:file",
+          "target": "~/src/shared/ui/input/input.tsx"
         }
       ]
     },
@@ -1171,13 +1244,13 @@
       "files": [
         {
           "path": "src/shared/ui/input-group/index.ts",
-          "type": "registry:ui",
-          "target": "@ui/input-group/index.ts"
+          "type": "registry:file",
+          "target": "~/src/shared/ui/input-group/index.ts"
         },
         {
           "path": "src/shared/ui/input-group/input-group.tsx",
-          "type": "registry:ui",
-          "target": "@ui/input-group/input-group.tsx"
+          "type": "registry:file",
+          "target": "~/src/shared/ui/input-group/input-group.tsx"
         }
       ]
     },
@@ -1194,13 +1267,13 @@
       "files": [
         {
           "path": "src/shared/ui/input-otp/index.ts",
-          "type": "registry:ui",
-          "target": "@ui/input-otp/index.ts"
+          "type": "registry:file",
+          "target": "~/src/shared/ui/input-otp/index.ts"
         },
         {
           "path": "src/shared/ui/input-otp/input-otp.tsx",
-          "type": "registry:ui",
-          "target": "@ui/input-otp/input-otp.tsx"
+          "type": "registry:file",
+          "target": "~/src/shared/ui/input-otp/input-otp.tsx"
         }
       ]
     },
@@ -1220,13 +1293,13 @@
       "files": [
         {
           "path": "src/shared/ui/item/index.ts",
-          "type": "registry:ui",
-          "target": "@ui/item/index.ts"
+          "type": "registry:file",
+          "target": "~/src/shared/ui/item/index.ts"
         },
         {
           "path": "src/shared/ui/item/item.tsx",
-          "type": "registry:ui",
-          "target": "@ui/item/item.tsx"
+          "type": "registry:file",
+          "target": "~/src/shared/ui/item/item.tsx"
         }
       ]
     },
@@ -1238,13 +1311,13 @@
       "files": [
         {
           "path": "src/shared/ui/json-ld/index.ts",
-          "type": "registry:ui",
-          "target": "@ui/json-ld/index.ts"
+          "type": "registry:file",
+          "target": "~/src/shared/ui/json-ld/index.ts"
         },
         {
           "path": "src/shared/ui/json-ld/json-ld.tsx",
-          "type": "registry:ui",
-          "target": "@ui/json-ld/json-ld.tsx"
+          "type": "registry:file",
+          "target": "~/src/shared/ui/json-ld/json-ld.tsx"
         }
       ]
     },
@@ -1259,13 +1332,13 @@
       "files": [
         {
           "path": "src/shared/ui/kbd/index.ts",
-          "type": "registry:ui",
-          "target": "@ui/kbd/index.ts"
+          "type": "registry:file",
+          "target": "~/src/shared/ui/kbd/index.ts"
         },
         {
           "path": "src/shared/ui/kbd/kbd.tsx",
-          "type": "registry:ui",
-          "target": "@ui/kbd/kbd.tsx"
+          "type": "registry:file",
+          "target": "~/src/shared/ui/kbd/kbd.tsx"
         }
       ]
     },
@@ -1280,13 +1353,13 @@
       "files": [
         {
           "path": "src/shared/ui/label/index.ts",
-          "type": "registry:ui",
-          "target": "@ui/label/index.ts"
+          "type": "registry:file",
+          "target": "~/src/shared/ui/label/index.ts"
         },
         {
           "path": "src/shared/ui/label/label.tsx",
-          "type": "registry:ui",
-          "target": "@ui/label/label.tsx"
+          "type": "registry:file",
+          "target": "~/src/shared/ui/label/label.tsx"
         }
       ]
     },
@@ -1334,13 +1407,13 @@
       "files": [
         {
           "path": "src/shared/ui/marker/index.ts",
-          "type": "registry:ui",
-          "target": "@ui/marker/index.ts"
+          "type": "registry:file",
+          "target": "~/src/shared/ui/marker/index.ts"
         },
         {
           "path": "src/shared/ui/marker/marker.tsx",
-          "type": "registry:ui",
-          "target": "@ui/marker/marker.tsx"
+          "type": "registry:file",
+          "target": "~/src/shared/ui/marker/marker.tsx"
         }
       ]
     },
@@ -1360,13 +1433,13 @@
       "files": [
         {
           "path": "src/shared/ui/menubar/index.ts",
-          "type": "registry:ui",
-          "target": "@ui/menubar/index.ts"
+          "type": "registry:file",
+          "target": "~/src/shared/ui/menubar/index.ts"
         },
         {
           "path": "src/shared/ui/menubar/menubar.tsx",
-          "type": "registry:ui",
-          "target": "@ui/menubar/menubar.tsx"
+          "type": "registry:file",
+          "target": "~/src/shared/ui/menubar/menubar.tsx"
         }
       ]
     },
@@ -1381,13 +1454,13 @@
       "files": [
         {
           "path": "src/shared/ui/message/index.ts",
-          "type": "registry:ui",
-          "target": "@ui/message/index.ts"
+          "type": "registry:file",
+          "target": "~/src/shared/ui/message/index.ts"
         },
         {
           "path": "src/shared/ui/message/message.tsx",
-          "type": "registry:ui",
-          "target": "@ui/message/message.tsx"
+          "type": "registry:file",
+          "target": "~/src/shared/ui/message/message.tsx"
         }
       ]
     },
@@ -1407,13 +1480,13 @@
       "files": [
         {
           "path": "src/shared/ui/message-scroller/index.ts",
-          "type": "registry:ui",
-          "target": "@ui/message-scroller/index.ts"
+          "type": "registry:file",
+          "target": "~/src/shared/ui/message-scroller/index.ts"
         },
         {
           "path": "src/shared/ui/message-scroller/message-scroller.tsx",
-          "type": "registry:ui",
-          "target": "@ui/message-scroller/message-scroller.tsx"
+          "type": "registry:file",
+          "target": "~/src/shared/ui/message-scroller/message-scroller.tsx"
         }
       ]
     },
@@ -1429,18 +1502,20 @@
       ],
       "registryDependencies": [
         "Joshua-Booth/creact/button",
-        "Joshua-Booth/creact/dropdown-menu"
+        "Joshua-Booth/creact/dropdown-menu",
+        "Joshua-Booth/creact/needs-i18next",
+        "Joshua-Booth/creact/needs-remix-themes"
       ],
       "files": [
         {
           "path": "src/shared/ui/mode-toggle/index.ts",
-          "type": "registry:ui",
-          "target": "@ui/mode-toggle/index.ts"
+          "type": "registry:file",
+          "target": "~/src/shared/ui/mode-toggle/index.ts"
         },
         {
           "path": "src/shared/ui/mode-toggle/mode-toggle.tsx",
-          "type": "registry:ui",
-          "target": "@ui/mode-toggle/mode-toggle.tsx"
+          "type": "registry:file",
+          "target": "~/src/shared/ui/mode-toggle/mode-toggle.tsx"
         }
       ]
     },
@@ -1456,13 +1531,13 @@
       "files": [
         {
           "path": "src/shared/ui/native-select/index.ts",
-          "type": "registry:ui",
-          "target": "@ui/native-select/index.ts"
+          "type": "registry:file",
+          "target": "~/src/shared/ui/native-select/index.ts"
         },
         {
           "path": "src/shared/ui/native-select/native-select.tsx",
-          "type": "registry:ui",
-          "target": "@ui/native-select/native-select.tsx"
+          "type": "registry:file",
+          "target": "~/src/shared/ui/native-select/native-select.tsx"
         }
       ]
     },
@@ -1480,15 +1555,46 @@
       "files": [
         {
           "path": "src/shared/ui/navigation-menu/index.ts",
-          "type": "registry:ui",
-          "target": "@ui/navigation-menu/index.ts"
+          "type": "registry:file",
+          "target": "~/src/shared/ui/navigation-menu/index.ts"
         },
         {
           "path": "src/shared/ui/navigation-menu/navigation-menu.tsx",
-          "type": "registry:ui",
-          "target": "@ui/navigation-menu/navigation-menu.tsx"
+          "type": "registry:file",
+          "target": "~/src/shared/ui/navigation-menu/navigation-menu.tsx"
         }
       ]
+    },
+    {
+      "name": "needs-i18next",
+      "type": "registry:item",
+      "title": "Needs I18next",
+      "description": "Host app setup for items that use i18next and react-i18next.",
+      "dependencies": [
+        "i18next@^26.4.2",
+        "react-i18next@^17.0.15"
+      ],
+      "docs": "creact components read their labels from i18next. creact apps already load them. Elsewhere, add Joshua-Booth/creact/i18n and call initI18n() from @/shared/i18n once before rendering. Without it, labels show their keys."
+    },
+    {
+      "name": "needs-nuqs-adapter",
+      "type": "registry:item",
+      "title": "Needs Nuqs Adapter",
+      "description": "Host app setup for items that use nuqs.",
+      "dependencies": [
+        "nuqs@^2.10.1"
+      ],
+      "docs": "data-table keeps its state in the URL with nuqs, so the page goes blank outside a NuqsAdapter. creact apps have one. Elsewhere, wrap the root in NuqsAdapter from nuqs/adapters/react-router/v8, nuqs/adapters/react or nuqs/adapters/next/app."
+    },
+    {
+      "name": "needs-remix-themes",
+      "type": "registry:item",
+      "title": "Needs Remix Themes",
+      "description": "Host app setup for items that use remix-themes.",
+      "dependencies": [
+        "remix-themes@^2.0.4"
+      ],
+      "docs": "Items that use remix-themes, like mode-toggle, throw outside its ThemeProvider and save the theme through an action route, as in creact's src/app. Elsewhere, use the project's own mode toggle."
     },
     {
       "name": "pagination",
@@ -1501,18 +1607,19 @@
         "react-i18next@^17.0.15"
       ],
       "registryDependencies": [
-        "Joshua-Booth/creact/button"
+        "Joshua-Booth/creact/button",
+        "Joshua-Booth/creact/needs-i18next"
       ],
       "files": [
         {
           "path": "src/shared/ui/pagination/index.ts",
-          "type": "registry:ui",
-          "target": "@ui/pagination/index.ts"
+          "type": "registry:file",
+          "target": "~/src/shared/ui/pagination/index.ts"
         },
         {
           "path": "src/shared/ui/pagination/pagination.tsx",
-          "type": "registry:ui",
-          "target": "@ui/pagination/pagination.tsx"
+          "type": "registry:file",
+          "target": "~/src/shared/ui/pagination/pagination.tsx"
         }
       ]
     },
@@ -1528,13 +1635,13 @@
       "files": [
         {
           "path": "src/shared/ui/popover/index.ts",
-          "type": "registry:ui",
-          "target": "@ui/popover/index.ts"
+          "type": "registry:file",
+          "target": "~/src/shared/ui/popover/index.ts"
         },
         {
           "path": "src/shared/ui/popover/popover.tsx",
-          "type": "registry:ui",
-          "target": "@ui/popover/popover.tsx"
+          "type": "registry:file",
+          "target": "~/src/shared/ui/popover/popover.tsx"
         }
       ]
     },
@@ -1550,13 +1657,13 @@
       "files": [
         {
           "path": "src/shared/ui/progress/index.ts",
-          "type": "registry:ui",
-          "target": "@ui/progress/index.ts"
+          "type": "registry:file",
+          "target": "~/src/shared/ui/progress/index.ts"
         },
         {
           "path": "src/shared/ui/progress/progress.tsx",
-          "type": "registry:ui",
-          "target": "@ui/progress/progress.tsx"
+          "type": "registry:file",
+          "target": "~/src/shared/ui/progress/progress.tsx"
         }
       ]
     },
@@ -1572,13 +1679,13 @@
       "files": [
         {
           "path": "src/shared/ui/radio-group/index.ts",
-          "type": "registry:ui",
-          "target": "@ui/radio-group/index.ts"
+          "type": "registry:file",
+          "target": "~/src/shared/ui/radio-group/index.ts"
         },
         {
           "path": "src/shared/ui/radio-group/radio-group.tsx",
-          "type": "registry:ui",
-          "target": "@ui/radio-group/radio-group.tsx"
+          "type": "registry:file",
+          "target": "~/src/shared/ui/radio-group/radio-group.tsx"
         }
       ]
     },
@@ -1594,13 +1701,13 @@
       "files": [
         {
           "path": "src/shared/ui/resizable/index.ts",
-          "type": "registry:ui",
-          "target": "@ui/resizable/index.ts"
+          "type": "registry:file",
+          "target": "~/src/shared/ui/resizable/index.ts"
         },
         {
           "path": "src/shared/ui/resizable/resizable.tsx",
-          "type": "registry:ui",
-          "target": "@ui/resizable/resizable.tsx"
+          "type": "registry:file",
+          "target": "~/src/shared/ui/resizable/resizable.tsx"
         }
       ]
     },
@@ -1616,13 +1723,13 @@
       "files": [
         {
           "path": "src/shared/ui/scroll-area/index.ts",
-          "type": "registry:ui",
-          "target": "@ui/scroll-area/index.ts"
+          "type": "registry:file",
+          "target": "~/src/shared/ui/scroll-area/index.ts"
         },
         {
           "path": "src/shared/ui/scroll-area/scroll-area.tsx",
-          "type": "registry:ui",
-          "target": "@ui/scroll-area/scroll-area.tsx"
+          "type": "registry:file",
+          "target": "~/src/shared/ui/scroll-area/scroll-area.tsx"
         }
       ]
     },
@@ -1639,13 +1746,13 @@
       "files": [
         {
           "path": "src/shared/ui/select/index.ts",
-          "type": "registry:ui",
-          "target": "@ui/select/index.ts"
+          "type": "registry:file",
+          "target": "~/src/shared/ui/select/index.ts"
         },
         {
           "path": "src/shared/ui/select/select.tsx",
-          "type": "registry:ui",
-          "target": "@ui/select/select.tsx"
+          "type": "registry:file",
+          "target": "~/src/shared/ui/select/select.tsx"
         }
       ]
     },
@@ -1661,13 +1768,13 @@
       "files": [
         {
           "path": "src/shared/ui/separator/index.ts",
-          "type": "registry:ui",
-          "target": "@ui/separator/index.ts"
+          "type": "registry:file",
+          "target": "~/src/shared/ui/separator/index.ts"
         },
         {
           "path": "src/shared/ui/separator/separator.tsx",
-          "type": "registry:ui",
-          "target": "@ui/separator/separator.tsx"
+          "type": "registry:file",
+          "target": "~/src/shared/ui/separator/separator.tsx"
         }
       ]
     },
@@ -1683,18 +1790,19 @@
         "react-i18next@^17.0.15"
       ],
       "registryDependencies": [
-        "Joshua-Booth/creact/button"
+        "Joshua-Booth/creact/button",
+        "Joshua-Booth/creact/needs-i18next"
       ],
       "files": [
         {
           "path": "src/shared/ui/sheet/index.ts",
-          "type": "registry:ui",
-          "target": "@ui/sheet/index.ts"
+          "type": "registry:file",
+          "target": "~/src/shared/ui/sheet/index.ts"
         },
         {
           "path": "src/shared/ui/sheet/sheet.tsx",
-          "type": "registry:ui",
-          "target": "@ui/sheet/sheet.tsx"
+          "type": "registry:file",
+          "target": "~/src/shared/ui/sheet/sheet.tsx"
         }
       ]
     },
@@ -1714,6 +1822,7 @@
         "Joshua-Booth/creact/button",
         "Joshua-Booth/creact/device",
         "Joshua-Booth/creact/input",
+        "Joshua-Booth/creact/needs-i18next",
         "Joshua-Booth/creact/separator",
         "Joshua-Booth/creact/sheet",
         "Joshua-Booth/creact/skeleton",
@@ -1722,13 +1831,13 @@
       "files": [
         {
           "path": "src/shared/ui/sidebar/index.ts",
-          "type": "registry:ui",
-          "target": "@ui/sidebar/index.ts"
+          "type": "registry:file",
+          "target": "~/src/shared/ui/sidebar/index.ts"
         },
         {
           "path": "src/shared/ui/sidebar/sidebar.tsx",
-          "type": "registry:ui",
-          "target": "@ui/sidebar/sidebar.tsx"
+          "type": "registry:file",
+          "target": "~/src/shared/ui/sidebar/sidebar.tsx"
         }
       ]
     },
@@ -1743,13 +1852,13 @@
       "files": [
         {
           "path": "src/shared/ui/skeleton/index.ts",
-          "type": "registry:ui",
-          "target": "@ui/skeleton/index.ts"
+          "type": "registry:file",
+          "target": "~/src/shared/ui/skeleton/index.ts"
         },
         {
           "path": "src/shared/ui/skeleton/skeleton.tsx",
-          "type": "registry:ui",
-          "target": "@ui/skeleton/skeleton.tsx"
+          "type": "registry:file",
+          "target": "~/src/shared/ui/skeleton/skeleton.tsx"
         }
       ]
     },
@@ -1765,13 +1874,13 @@
       "files": [
         {
           "path": "src/shared/ui/slider/index.ts",
-          "type": "registry:ui",
-          "target": "@ui/slider/index.ts"
+          "type": "registry:file",
+          "target": "~/src/shared/ui/slider/index.ts"
         },
         {
           "path": "src/shared/ui/slider/slider.tsx",
-          "type": "registry:ui",
-          "target": "@ui/slider/slider.tsx"
+          "type": "registry:file",
+          "target": "~/src/shared/ui/slider/slider.tsx"
         }
       ]
     },
@@ -1785,16 +1894,19 @@
         "i18next@^26.4.2",
         "lucide-react@^1.49.0"
       ],
+      "registryDependencies": [
+        "Joshua-Booth/creact/needs-i18next"
+      ],
       "files": [
         {
           "path": "src/shared/ui/spinner/index.ts",
-          "type": "registry:ui",
-          "target": "@ui/spinner/index.ts"
+          "type": "registry:file",
+          "target": "~/src/shared/ui/spinner/index.ts"
         },
         {
           "path": "src/shared/ui/spinner/spinner.tsx",
-          "type": "registry:ui",
-          "target": "@ui/spinner/spinner.tsx"
+          "type": "registry:file",
+          "target": "~/src/shared/ui/spinner/spinner.tsx"
         }
       ]
     },
@@ -1804,7 +1916,6 @@
       "title": "Storybook Setup",
       "description": "creact Storybook 10 infrastructure: preview with i18n and theme decorators, browser-mode vitest wiring, and MSW addon setup.",
       "dependencies": [
-        "i18next@^26.4.2",
         "react-i18next@^17.0.15",
         "remix-themes@^2.0.4",
         "swr@^2.5.1"
@@ -1825,7 +1936,9 @@
         "vitest@^5.0.3"
       ],
       "registryDependencies": [
-        "Joshua-Booth/creact/direction"
+        "Joshua-Booth/creact/direction",
+        "Joshua-Booth/creact/needs-i18next",
+        "Joshua-Booth/creact/needs-remix-themes"
       ],
       "files": [
         {
@@ -1913,13 +2026,13 @@
       "files": [
         {
           "path": "src/shared/ui/switch/index.ts",
-          "type": "registry:ui",
-          "target": "@ui/switch/index.ts"
+          "type": "registry:file",
+          "target": "~/src/shared/ui/switch/index.ts"
         },
         {
           "path": "src/shared/ui/switch/switch.tsx",
-          "type": "registry:ui",
-          "target": "@ui/switch/switch.tsx"
+          "type": "registry:file",
+          "target": "~/src/shared/ui/switch/switch.tsx"
         }
       ]
     },
@@ -1934,13 +2047,13 @@
       "files": [
         {
           "path": "src/shared/ui/table/index.ts",
-          "type": "registry:ui",
-          "target": "@ui/table/index.ts"
+          "type": "registry:file",
+          "target": "~/src/shared/ui/table/index.ts"
         },
         {
           "path": "src/shared/ui/table/table.tsx",
-          "type": "registry:ui",
-          "target": "@ui/table/table.tsx"
+          "type": "registry:file",
+          "target": "~/src/shared/ui/table/table.tsx"
         }
       ]
     },
@@ -1957,13 +2070,13 @@
       "files": [
         {
           "path": "src/shared/ui/tabs/index.ts",
-          "type": "registry:ui",
-          "target": "@ui/tabs/index.ts"
+          "type": "registry:file",
+          "target": "~/src/shared/ui/tabs/index.ts"
         },
         {
           "path": "src/shared/ui/tabs/tabs.tsx",
-          "type": "registry:ui",
-          "target": "@ui/tabs/tabs.tsx"
+          "type": "registry:file",
+          "target": "~/src/shared/ui/tabs/tabs.tsx"
         }
       ]
     },
@@ -1978,13 +2091,13 @@
       "files": [
         {
           "path": "src/shared/ui/textarea/index.ts",
-          "type": "registry:ui",
-          "target": "@ui/textarea/index.ts"
+          "type": "registry:file",
+          "target": "~/src/shared/ui/textarea/index.ts"
         },
         {
           "path": "src/shared/ui/textarea/textarea.tsx",
-          "type": "registry:ui",
-          "target": "@ui/textarea/textarea.tsx"
+          "type": "registry:file",
+          "target": "~/src/shared/ui/textarea/textarea.tsx"
         }
       ]
     },
@@ -2101,27 +2214,26 @@
       "name": "toast",
       "type": "registry:ui",
       "title": "Toast",
-      "description": "Themed toast notification renderer powered by Sonner. Syncs with the app's light/dark theme and provides custom status icons.",
+      "description": "Themed toast notification renderer powered by Sonner. Follows the `.dark` class on the document root and provides custom status icons.",
       "dependencies": [
         "lucide-react@^1.49.0",
-        "remix-themes@^2.0.4",
         "sonner@^2.0.8"
       ],
       "files": [
         {
           "path": "src/shared/ui/toast/index.ts",
-          "type": "registry:ui",
-          "target": "@ui/toast/index.ts"
+          "type": "registry:file",
+          "target": "~/src/shared/ui/toast/index.ts"
         },
         {
           "path": "src/shared/ui/toast/toast-provider.tsx",
-          "type": "registry:ui",
-          "target": "@ui/toast/toast-provider.tsx"
+          "type": "registry:file",
+          "target": "~/src/shared/ui/toast/toast-provider.tsx"
         },
         {
           "path": "src/shared/ui/toast/toast.tsx",
-          "type": "registry:ui",
-          "target": "@ui/toast/toast.tsx"
+          "type": "registry:file",
+          "target": "~/src/shared/ui/toast/toast.tsx"
         }
       ]
     },
@@ -2138,13 +2250,13 @@
       "files": [
         {
           "path": "src/shared/ui/toggle/index.ts",
-          "type": "registry:ui",
-          "target": "@ui/toggle/index.ts"
+          "type": "registry:file",
+          "target": "~/src/shared/ui/toggle/index.ts"
         },
         {
           "path": "src/shared/ui/toggle/toggle.tsx",
-          "type": "registry:ui",
-          "target": "@ui/toggle/toggle.tsx"
+          "type": "registry:file",
+          "target": "~/src/shared/ui/toggle/toggle.tsx"
         }
       ]
     },
@@ -2164,13 +2276,13 @@
       "files": [
         {
           "path": "src/shared/ui/toggle-group/index.ts",
-          "type": "registry:ui",
-          "target": "@ui/toggle-group/index.ts"
+          "type": "registry:file",
+          "target": "~/src/shared/ui/toggle-group/index.ts"
         },
         {
           "path": "src/shared/ui/toggle-group/toggle-group.tsx",
-          "type": "registry:ui",
-          "target": "@ui/toggle-group/toggle-group.tsx"
+          "type": "registry:file",
+          "target": "~/src/shared/ui/toggle-group/toggle-group.tsx"
         }
       ]
     },
@@ -2186,13 +2298,13 @@
       "files": [
         {
           "path": "src/shared/ui/tooltip/index.ts",
-          "type": "registry:ui",
-          "target": "@ui/tooltip/index.ts"
+          "type": "registry:file",
+          "target": "~/src/shared/ui/tooltip/index.ts"
         },
         {
           "path": "src/shared/ui/tooltip/tooltip.tsx",
-          "type": "registry:ui",
-          "target": "@ui/tooltip/tooltip.tsx"
+          "type": "registry:file",
+          "target": "~/src/shared/ui/tooltip/tooltip.tsx"
         }
       ]
     }
