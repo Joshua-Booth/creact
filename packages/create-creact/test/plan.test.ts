@@ -1,6 +1,7 @@
 /* oxlint-disable typescript/no-floating-promises, security/detect-non-literal-fs-filename --
  * node:test's describe and it return promises the runner awaits, and every
  * path is a temp dir the test made or the package's own layer. */
+import { spawnSync } from "node:child_process";
 import {
   existsSync,
   lstatSync,
@@ -1002,5 +1003,27 @@ describe("readState", () => {
     recordState(dir, "next");
     const state = await readState(dir);
     t.assert.deepStrictEqual([state?.name, state?.monorepo], ["app", "pnpm"]);
+  });
+});
+
+describe("the layer files", () => {
+  it("are formatted as the project's oxfmt writes them, so a rerun finds them unchanged", async (t: TestContext) => {
+    for (const { stack, styling } of CELLS) {
+      const dir = tempDir();
+      for (const op of fileOps(await ops(stack, styling))) {
+        mkdirSync(path.dirname(path.join(dir, op.path)), { recursive: true });
+        writeFileSync(path.join(dir, op.path), op.content);
+      }
+      const result = spawnSync(
+        path.join(REPO, "node_modules/.bin/oxfmt"),
+        ["--check"],
+        { cwd: dir, encoding: "utf8" }
+      );
+      t.assert.strictEqual(
+        result.status,
+        0,
+        `${stack} + ${styling}:\n${result.stdout}${result.stderr}`
+      );
+    }
   });
 });
