@@ -38,11 +38,12 @@ Note: a fresh project has one test, `tokens.test.ts`, described under Styling pa
 ## What it does
 
 1. Runs `create-better-t-stack@3.46.1` into a staging directory next to the target, with every option passed as a flag. Better-T-Stack keeps a history of every project it makes under `HOME` (`XDG_DATA_HOME` on Linux), so both point at an empty directory and the history goes when the staging directory does.
-2. Removes the Better-T-Stack files and packages the layer replaces, then copies the layer in and patches five JSON files: the root `package.json` and `tsconfig.json`, `packages/config/tsconfig.base.json`, and `apps/web/package.json` and `apps/web/tsconfig.json`.
-3. Writes `.creact/state.json` with the project name, the choices and a hash of every file it copied, then moves the staging directory into place.
-4. Runs `git init`, then `pnpm add --workspace-root` for the root tools and `pnpm add` in `apps/web` for the app's packages, such as `@stylexjs/stylex`. Then `pnpm run prepare` installs the hooks, and `pnpm run lint --fix` and `pnpm run format` bring Better-T-Stack's own files in line. The lint pass runs a second time when the first fails, as oxlint applies one fix per overlapping range in a pass and the shadcn components need two.
+2. Checks that Better-T-Stack wrote the stack's own config, such as `apps/web/next.config.ts`, and the five JSON files the layer patches: the root `package.json` and `tsconfig.json`, `packages/config/tsconfig.base.json`, and `apps/web/package.json` and `apps/web/tsconfig.json`. If one is missing, its output changed shape, and the command exits 1.
+3. Removes the Better-T-Stack files and packages the layer replaces, then copies the layer in and patches the five JSON files.
+4. Writes `.creact/state.json` with the project name, the choices and a hash of every file it copied, then moves the staging directory into place.
+5. Runs `git init`, then `pnpm add --workspace-root` for the root tools and `pnpm add` in `apps/web` for the app's packages, such as `@stylexjs/stylex`. Then `pnpm run prepare` installs the hooks, and `pnpm run lint --fix` and `pnpm run format` bring Better-T-Stack's own files in line. The lint pass runs a second time when the first fails, as oxlint applies one fix per overlapping range in a pass and the shadcn components need two.
 
-On a rerun, a copied file is rewritten only when it is missing or unchanged since the recorded hash. The JSON files are merged every time, as the merge is idempotent and `pnpm add` rewrites `package.json` anyway. Better-T-Stack never runs again. A rerun never removes anything, so a package or file you put back stays.
+On a rerun, a copied file is rewritten only when it is missing or unchanged since the recorded hash. The JSON files are merged every time, as the merge is idempotent and `pnpm add` rewrites `package.json` anyway. Better-T-Stack never runs again. A rerun never removes anything, so a package or file you put back stays. A rerun on a project missing one of the files step 2 checks, as when `apps/web` was renamed, exits 2, names them and writes nothing.
 
 ## Where the layer lives
 
@@ -132,20 +133,20 @@ Note: Better-T-Stack's README still says Bun's env loading is turned off in `bun
 
 ## The Better-T-Stack pin
 
-`BTS` in `src/stacks.ts` pins `create-better-t-stack@3.46.1`. The StyleX path replaces Better-T-Stack's files by name and the overrides list its lint findings, so a new release can change what the layer has to do. With a pin, the scaffold matrix tests what people get. Package versions inside the project still float on Better-T-Stack's caret ranges, so React Router `^8.3.1` resolves 8.4.0.
+`BTS` in `src/stacks.ts` pins `create-better-t-stack@3.46.1`. The StyleX path replaces Better-T-Stack's files by name and the overrides list its lint findings, so a new release can change what the layer has to do. With a pin, the scaffold matrix tests what people get. Package versions inside the project still float on Better-T-Stack's caret ranges.
 
-A Renovate custom manager in `renovate.json` reads the pin and opens a bump PR, which runs the scaffold matrix, as the workflow triggers on `packages/create-creact/**`. Renovate leaves that PR for review, so the plan test fixtures can be refreshed from the new version first:
+A Renovate custom manager in `renovate.json` reads the pin and opens a bump PR of its own, which runs the scaffold matrix, as the workflow triggers on `packages/create-creact/**`. Each plan test fixture records the version it came from, so the plan tests fail on that PR until the fixtures are captured again. Renovate leaves the PR for review:
 
 ```sh
 node packages/create-creact/test/capture-fixtures.ts
 ```
 
-It runs the pinned Better-T-Stack once per stack, with a project named `app`, and writes the five JSON files to `test/fixtures/<stack>.json`.
+It runs the pinned Better-T-Stack once per stack, with a project named `app`, and writes the version and the five JSON files to `test/fixtures/<stack>.json`.
 
 ## Test it
 
 ```sh
-mise run test:cli                                  # offline plan tests, every PR
+mise run test:cli                                  # offline tests, every PR
 CREACT_SCAFFOLD=1 mise run test:scaffold           # every stack and styling on pnpm, needs the network
 CREACT_SCAFFOLD=next mise run test:scaffold        # both stylings of one stack
 CREACT_SCAFFOLD=next:stylex mise run test:scaffold
@@ -158,8 +159,6 @@ CREACT_SCAFFOLD=next:stylex:nx mise run test:scaffold
 The scaffold test creates each project with an empty `HOME` and checks Better-T-Stack wrote nothing there. It checks the prune left none of the removed files or packages, and that `turbo.json` or `nx.json` exists only for its tool. Then it commits through the real hooks, rejects a bad commit message, runs build, typecheck, lint, format:check and test from the root, and checks the tree is clean. It reruns the command and checks it writes nothing, commits a test under `apps/web/src` that imports through `@/*`, and checks that a changed layer reaches an unedited file and leaves an edited one alone. It also checks the built CSS carries the values from `tokens.css` and the styling's own output, and that root lint fails on a planted styling mistake.
 
 It runs in `.github/workflows/create-creact.yml`, one job per stack and styling on pnpm, on pull requests that touch `packages/create-creact/`, weekly, and on dispatch. The Turborepo and Nx cells run by hand when the pin or the root scripts change.
-
-The last run by hand, on 16 October 2026: `react-router:tailwind:turborepo` passed all 10 checks in 77 seconds, and `next:stylex:nx` passed all 10 in 56 seconds.
 
 ## Add a Better-T-Stack frontend
 
@@ -221,6 +220,8 @@ The package route stays open. `pnpm add github:Joshua-Booth/creact#path:packages
 - It names the workspace packages `@<name>/ui` and `@<name>/config` and accepts names npm can't scope.
 - `apps/web/tsconfig.json` doesn't extend the base tsconfig.
 - It writes `packageManager: pnpm@12.12.1` to the root `package.json`.
+- It writes React Router `^8.3.1`, which resolves 8.4.0.
+- The Turborepo and Nx cells, run by hand: `react-router:tailwind:turborepo` passed all 10 checks in 77 seconds, and `next:stylex:nx` passed all 10 in 56 seconds.
 
 Note: `create-creact` is free on npm. `creact` is taken.
 
