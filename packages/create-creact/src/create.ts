@@ -33,6 +33,12 @@ import {
 import { CommandFailed, run, succeeds } from "./shell.ts";
 import { BTS, btsArgs, STACKS } from "./stacks.ts";
 
+export type Skills =
+  | "restored"
+  | "present"
+  | "skipped"
+  | { readonly failed: string };
+
 export interface Report {
   readonly dir: string;
   readonly choices: Choices;
@@ -40,8 +46,16 @@ export interface Report {
   readonly layer: ApplyReport;
   readonly git: "initialised" | "existing" | "skipped";
   readonly install: "done" | "skipped";
-  readonly skills: "restored" | "present" | "skipped";
+  readonly skills: Skills;
 }
+
+export const RESTORE = [
+  "pnpm",
+  `--package=${SKILLS_CLI}`,
+  "dlx",
+  "skills",
+  "experimental_install",
+] as const;
 
 type Target =
   | { readonly kind: "fresh"; readonly exists: boolean }
@@ -95,7 +109,7 @@ export async function create(
   }
 
   const git = request.git ? await initGit(request.dir) : "skipped";
-  let skills: Report["skills"] = "skipped";
+  let skills: Skills = "skipped";
   if (request.install) {
     await install(request.dir, layer.missing);
     await fixThenFormat(request.dir);
@@ -114,11 +128,16 @@ export async function create(
 }
 
 async function inspect(dir: string): Promise<Target> {
-  const exists = existsSync(dir);
-  if (exists && !(await stat(dir)).isDirectory()) {
-    throw new UsageError(`${dir} is a file. Give a directory for the project.`);
+  const nearest = nearestExisting(dir);
+  if (!(await stat(nearest)).isDirectory()) {
+    throw new UsageError(
+      nearest === dir
+        ? `${dir} is a file. Give a directory for the project.`
+        : `${dir} would sit under the file ${nearest}. Give a directory for the project.`
+    );
   }
-  const repo = await outerRepo(dir);
+  const exists = nearest === dir;
+  const repo = await outerRepo(dir, nearest);
   if (repo !== undefined) {
     throw new UsageError(
       `${dir} is inside the git repository at ${repo}, so the project would get no repository of its own. Pick a directory outside it.`
@@ -133,11 +152,18 @@ async function inspect(dir: string): Promise<Target> {
   );
 }
 
-// A walk for a .git entry, so --no-git needs no git on PATH. It starts from
-// the real path, as a symlink into a repository would otherwise pass.
-async function outerRepo(dir: string): Promise<string | undefined> {
+function nearestExisting(dir: string): string {
   let nearest = dir;
   while (!existsSync(nearest)) nearest = path.dirname(nearest);
+  return nearest;
+}
+
+// A walk for a .git entry, so --no-git needs no git on PATH. It starts from
+// the real path, as a symlink into a repository would otherwise pass.
+async function outerRepo(
+  dir: string,
+  nearest: string
+): Promise<string | undefined> {
   const real = await realpath(nearest);
   for (
     let probe = nearest === dir ? path.dirname(real) : real;
@@ -268,15 +294,17 @@ async function fixThenFormat(dir: string): Promise<void> {
 
 // Only when a locked skill is missing, so a rerun neither clones nor lets the
 // restore rewrite the project's lock.
-async function restoreSkills(dir: string): Promise<Report["skills"]> {
+async function restoreSkills(dir: string): Promise<Skills> {
   const ids = await lockedSkills(dir);
   if ([...ids].every((id) => existsSync(path.join(dir, SKILLS_DIR, id)))) {
     return "present";
   }
-  await run(
-    "pnpm",
-    [`--package=${SKILLS_CLI}`, "dlx", "skills", "experimental_install"],
-    dir
-  );
+  const [command, ...args] = RESTORE;
+  try {
+    await run(command, args, dir);
+  } catch (error) {
+    if (error instanceof CommandFailed) return { failed: error.message };
+    throw error;
+  }
   return "restored";
 }

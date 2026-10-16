@@ -1,14 +1,14 @@
 #!/usr/bin/env node
 import { fileURLToPath } from "node:url";
 
-import { create, type Report } from "./create.ts";
+import { create, type Report, RESTORE, type Skills } from "./create.ts";
 import { parseRequest, UsageError } from "./options.ts";
 import { CommandFailed } from "./shell.ts";
 import { BTS } from "./stacks.ts";
 
 const EXIT = { commandFailed: 1, usage: 2 } as const;
 const LAYER_DIR = fileURLToPath(new URL("../layer", import.meta.url));
-const SKILLS_LINE: Readonly<Record<Report["skills"], string>> = {
+const SKILLS_LINE: Readonly<Record<Extract<Skills, string>, string>> = {
   restored: "restored into .agents/skills",
   present: "present in .agents/skills",
   skipped: "skipped",
@@ -71,10 +71,20 @@ function format(report: Report): string {
     ...kept.map((file) => `           kept ${file}, which the project changed`),
     `  git      ${report.git}`,
     `  install  ${install}`,
-    `  skills   ${SKILLS_LINE[report.skills]}`,
+    ...skillsLines(report),
     `next: cd ${shellQuoted(report.dir)} && pnpm dev`,
     "",
   ].join("\n");
+}
+
+function skillsLines(report: Report): string[] {
+  if (typeof report.skills === "string") {
+    return [`  skills   ${SKILLS_LINE[report.skills]}`];
+  }
+  return [
+    `  skills   not restored, as ${report.skills.failed}`,
+    `           finish with cd ${shellQuoted(report.dir)} && ${RESTORE.join(" ")}`,
+  ];
 }
 
 function shellQuoted(value: string): string {

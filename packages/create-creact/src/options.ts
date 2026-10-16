@@ -302,7 +302,7 @@ function helpText(): string {
     `  --styling <id>    ${choicesLine(STYLINGS)} (default ${DEFAULTS.styling})`,
     `  --monorepo <id>   ${choicesLine(MONOREPOS)} (default ${DEFAULTS.monorepo})`,
     ...extras,
-    "  --no-install      skip pnpm install and the format and lint pass",
+    "  --no-install      skip pnpm install, the lint and format pass and the skills restore",
     "  --no-git          skip git init",
     "  -y, --yes         take the default for every choice not given",
     "  -h, --help        show this help",
