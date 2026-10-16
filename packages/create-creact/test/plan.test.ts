@@ -163,7 +163,7 @@ describe("the fixtures", () => {
 });
 
 describe("plan", () => {
-  it("fills every {{name}} in layer paths, contents and prune entries", async (t: TestContext) => {
+  it("fills every {{name}} in layer paths, contents and prune entries, and JSON patches have none", async (t: TestContext) => {
     for (const { stack, styling } of CELLS) {
       const all = await ops(stack, styling);
       for (const op of fileOps(all)) {
@@ -171,6 +171,11 @@ describe("plan", () => {
         t.assert.doesNotMatch(op.content, /\{\{/, op.path);
       }
       t.assert.doesNotMatch(JSON.stringify(pruneOp(all)), /\{\{/);
+      t.assert.doesNotMatch(
+        JSON.stringify(all.filter((op) => op.kind === "json")),
+        /\{\{/,
+        "JSON patches aren't rendered"
+      );
     }
     const stylex = JSON.stringify(pruneOp(await ops("next", "stylex")));
     t.assert.match(stylex, /"@app\/ui":null/);

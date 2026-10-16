@@ -9,12 +9,10 @@ import { DEFAULTS, projectName } from "../src/options.ts";
 import { BTS, type StackId, STACKS } from "../src/stacks.ts";
 
 const asked = process.argv.slice(2);
-const stacks = (asked.length > 0 ? asked : Object.keys(STACKS)).filter(
-  (id): id is StackId => {
-    if (!Object.hasOwn(STACKS, id)) throw new Error(`${id} isn't in STACKS`);
-    return true;
-  }
-);
+for (const id of asked) {
+  if (!Object.hasOwn(STACKS, id)) throw new Error(`${id} isn't in STACKS`);
+}
+const stacks = (asked.length > 0 ? asked : Object.keys(STACKS)) as StackId[];
 
 for (const stack of stacks) {
   const staging = mkdtempSync(path.join(tmpdir(), "creact-fixture-"));

@@ -66,8 +66,6 @@ export interface Addition extends Packages {
   readonly manifest: Manifest;
 }
 
-// null removes the key and an object descends into it, so a prune can never
-// set a value.
 export interface Removal {
   readonly [key: string]: Removal | null;
 }
@@ -320,7 +318,7 @@ export function plan(
 
   const paths = parts
     .flatMap((part) => part.prune?.paths ?? [])
-    .map((entry) => render("prune", entry, vars));
+    .map((entry) => render(entry, entry, vars));
   const removals = parts.flatMap((part) =>
     JSON_FILES.flatMap((file) => {
       const removal = part.prune?.json?.[file];
@@ -384,7 +382,7 @@ function renderKeys(
 ): Removal {
   return Object.fromEntries(
     Object.entries(removal).map(([key, value]) => [
-      render("prune", key, vars),
+      render(key, key, vars),
       value === null ? null : renderKeys(value, vars),
     ])
   );
@@ -472,10 +470,7 @@ export async function apply(
 
 async function applyPrune(
   dir: string,
-  prune: {
-    readonly paths: readonly string[];
-    readonly json: readonly JsonRemoval[];
-  }
+  prune: Extract<Op, { kind: "prune" }>
 ): Promise<readonly string[]> {
   const paths = prune.paths.filter((entry) =>
     existsSync(path.join(dir, entry))

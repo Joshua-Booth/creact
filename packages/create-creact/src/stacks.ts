@@ -13,7 +13,6 @@ export const STACKS = {
 
 export type StackId = keyof typeof STACKS;
 
-// vite-plus is left out, as it takes over the lint, format and hook scripts.
 export const MONOREPOS = {
   pnpm: { status: "built", summary: "pnpm workspaces", addon: "none" },
   turborepo: { status: "built", summary: "Turborepo", addon: "turborepo" },
