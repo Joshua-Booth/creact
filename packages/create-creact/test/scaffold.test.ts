@@ -190,6 +190,35 @@ const CARD_TEST = [
   "",
 ].join("\n");
 
+function renameLast(css: string, from: string, to: string): string {
+  const at = css.lastIndexOf(from);
+  return `${css.slice(0, at)}${to}${css.slice(at + from.length)}`;
+}
+
+interface Drift {
+  readonly name: string;
+  readonly drift: (css: string) => string;
+  readonly leftover: string;
+}
+
+const DRIFTS: readonly Drift[] = [
+  {
+    name: "a token renamed in the light block only",
+    drift: (css) => css.replace("--color-ink:", "--ink:"),
+    leftover: "--color-ink",
+  },
+  {
+    name: "a token renamed in the dark block only",
+    drift: (css) => renameLast(css, "--color-ink:", "--ink:"),
+    leftover: "--ink",
+  },
+  {
+    name: "a token renamed with a prefix in both blocks",
+    drift: (css) => css.replaceAll("--color-ink:", "--x-color-ink:"),
+    leftover: "--color-ink",
+  },
+];
+
 const TOOL_CONFIG: Readonly<Record<MonorepoId, string | undefined>> = {
   pnpm: undefined,
   turborepo: "turbo.json",
@@ -443,6 +472,25 @@ for (const [id, styling, monorepo] of STACK_IDS.flatMap((stackId) =>
         t.assert.strictEqual(result.status, 0, result.stdout + result.stderr);
         t.assert.match(result.stdout, /Tests {2}4 passed/);
         t.assert.doesNotMatch(result.stdout + result.stderr, /close timed out/);
+      });
+
+      it("fails the token test on a token that drifts in one mode block or by a prefix, naming it, and passes once it's back", (t: TestContext) => {
+        const file = path.join(dir, SRC, "styles", "tokens.css");
+        const tokens = readFileSync(file, "utf8");
+        for (const { name, drift, leftover } of DRIFTS) {
+          writeFileSync(file, drift(tokens));
+          const failed = sh(dir, "pnpm", ["run", "test"]);
+          t.assert.notStrictEqual(failed.status, 0, name);
+          t.assert.ok(
+            (failed.stdout + failed.stderr).includes(
+              `[ '${leftover}' ] to strictly equal []`
+            ),
+            `${name}:\n${failed.stdout}${failed.stderr}`
+          );
+        }
+        writeFileSync(file, tokens);
+        const passed = sh(dir, "pnpm", ["run", "test"]);
+        t.assert.strictEqual(passed.status, 0, passed.stdout + passed.stderr);
       });
 
       it("updates an unedited layer file and keeps an edited one", async (t: TestContext) => {
