@@ -9,7 +9,7 @@ import { DEFAULT_LANGUAGE } from "./types";
 /**
  * Loads creact's strings into the global i18next instance, once. Call it
  * before the first render in projects without creact's app layer, which sets
- * up its own instances in `src/app`.
+ * up i18next itself in `src/app`.
  * @returns The initialised i18next instance
  */
 export function initI18n() {

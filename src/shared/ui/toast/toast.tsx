@@ -12,8 +12,6 @@ import {
 } from "lucide-react";
 import { Toaster as Sonner } from "sonner";
 
-// The theme's dark tokens key off `.dark` on <html>, so the toaster follows
-// that class rather than one theme library's provider.
 function subscribeToRootClass(onChange: () => void) {
   const observer = new MutationObserver(onChange);
   observer.observe(document.documentElement, {
