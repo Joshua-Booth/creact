@@ -66,7 +66,12 @@ function format(report: Report): string {
     ...kept.map((file) => `           kept ${file}, which the project changed`),
     `  git      ${report.git}`,
     `  install  ${install}`,
-    `next: cd ${report.dir} && pnpm dev`,
+    `next: cd ${shellQuoted(report.dir)} && pnpm dev`,
     "",
   ].join("\n");
+}
+
+function shellQuoted(value: string): string {
+  const closed = value.replaceAll("'", String.raw`'\''`);
+  return `'${closed}'`;
 }

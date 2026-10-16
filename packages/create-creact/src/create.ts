@@ -1,6 +1,6 @@
 /* oxlint-disable security/detect-non-literal-fs-filename -- every path is the directory the caller named, an ancestor of it, its sibling staging dir, or inside one of them */
 import { existsSync } from "node:fs";
-import { mkdir, readdir, realpath, rename, rm } from "node:fs/promises";
+import { mkdir, readdir, rename, rm, stat } from "node:fs/promises";
 import path from "node:path";
 
 import pkg from "../package.json" with { type: "json" };
@@ -27,7 +27,7 @@ import {
   resolveChoices,
   UsageError,
 } from "./options.ts";
-import { CommandFailed, output, run, succeeds } from "./shell.ts";
+import { CommandFailed, run, succeeds } from "./shell.ts";
 import { BTS, btsArgs, STACKS } from "./stacks.ts";
 
 export interface Report {
@@ -68,15 +68,18 @@ export async function create(
       `.${name}.creact-staging`
     );
     await rm(staging, { recursive: true, force: true });
-    const base = await obtainBase(staging, choices, name);
-    layer = await applyLayer(
-      base,
-      ops,
-      { kind: "upstream-only" },
-      { name, choices }
-    );
-    await place(base, request.dir, target.exists);
-    await rm(staging, { recursive: true, force: true });
+    try {
+      const base = await obtainBase(staging, choices, name);
+      layer = await applyLayer(
+        base,
+        ops,
+        { kind: "upstream-only" },
+        { name, choices }
+      );
+      await place(base, request.dir, target.exists);
+    } finally {
+      await rm(staging, { recursive: true, force: true });
+    }
   } else {
     layer = await applyLayer(
       request.dir,
@@ -103,13 +106,17 @@ export async function create(
 }
 
 async function inspect(dir: string): Promise<Target> {
-  const repo = await outerRepo(dir);
+  const exists = existsSync(dir);
+  if (exists && !(await stat(dir)).isDirectory()) {
+    throw new UsageError(`${dir} is a file. Give a directory for the project.`);
+  }
+  const repo = outerRepo(dir);
   if (repo !== undefined) {
     throw new UsageError(
       `${dir} is inside the git repository at ${repo}, so the project would get no repository of its own. Pick a directory outside it.`
     );
   }
-  if (!existsSync(dir)) return { kind: "fresh", exists: false };
+  if (!exists) return { kind: "fresh", exists: false };
   const state = await readState(dir);
   if (state !== undefined) return { kind: "project", state };
   if ((await readdir(dir)).length === 0) return { kind: "fresh", exists: true };
@@ -118,12 +125,17 @@ async function inspect(dir: string): Promise<Target> {
   );
 }
 
-async function outerRepo(dir: string): Promise<string | undefined> {
-  let probe = dir;
-  while (!existsSync(probe)) probe = path.dirname(probe);
-  const top = await output("git", ["rev-parse", "--show-toplevel"], probe);
-  const own = existsSync(dir) ? await realpath(dir) : undefined;
-  return top === undefined || top === own ? undefined : top;
+// A walk instead of `git rev-parse`, so --no-git needs no git on PATH. A
+// linked work tree marks itself with a .git file, which existsSync finds too.
+function outerRepo(dir: string): string | undefined {
+  for (
+    let probe = path.dirname(dir);
+    probe !== path.dirname(probe);
+    probe = path.dirname(probe)
+  ) {
+    if (existsSync(path.join(probe, ".git"))) return probe;
+  }
+  return undefined;
 }
 
 // Better-T-Stack keeps a history of every project it makes in its data

@@ -60,24 +60,6 @@ export async function succeeds(
   return (await exitCode(command, args, cwd, "ignore")) === 0;
 }
 
-export async function output(
-  command: string,
-  args: readonly string[],
-  cwd: string
-): Promise<string | undefined> {
-  const child = spawn(command, args, {
-    cwd,
-    env: withoutGitContext(),
-    stdio: ["ignore", "pipe", "ignore"],
-  });
-  let stdout = "";
-  child.stdout.setEncoding("utf8");
-  child.stdout.on("data", (chunk: string) => {
-    stdout += chunk;
-  });
-  return (await closed(child, command)) === 0 ? stdout.trim() : undefined;
-}
-
 async function exitCode(
   command: string,
   args: readonly string[],

@@ -147,7 +147,7 @@ export function parseRequest(argv: readonly string[], cwd: string): Parsed {
 
   const [dir, ...rest] = positionals;
   if (dir === undefined || rest.length > 0) {
-    return usage("give one project directory, as in: create-creact my-app");
+    return usage("give one project directory, as in: create-creact ../my-app");
   }
 
   if (values.stack !== undefined && !Object.hasOwn(STACKS, values.stack)) {
