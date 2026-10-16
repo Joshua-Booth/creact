@@ -41,7 +41,7 @@ pnpm dlx shadcn@latest add Joshua-Booth/creact/theme Joshua-Booth/creact/i18n Jo
 
 ## Wire the app
 
-creact apps do this already. Elsewhere, `shadcn add` prints a note for each of these when an item needs it.
+creact apps do this already. Elsewhere, do it in the file that renders the root: `apps/web/src/root.tsx` in a create-creact app, `src/main.tsx` in a Vite app. `shadcn add` also prints a note for each of these when an item needs it.
 
 - **Labels.** Components translate their labels with react-i18next. Add the `i18n` item, then call `initI18n()` once before the first render, or labels show their keys, like `dataTable.view`:
 
@@ -60,7 +60,7 @@ creact apps do this already. Elsewhere, `shadcn add` prints a note for each of t
   | Next.js app router | `nuqs/adapters/next/app` |
 
 - **Toasts.** Mount `Toaster` from `@/shared/ui/toast` once. It follows the `dark` class on `<html>`, which next-themes, the Vite template's theme provider and creact all set. A create-creact app already mounts a Sonner `Toaster` in `root.tsx`, so replace it rather than mount both.
-- **Theme toggle.** `mode-toggle` reads and sets the theme with remix-themes. It throws outside remix-themes' `ThemeProvider` and saves the choice through a server action, as in `src/app/routes/action.set-theme.ts`. Outside creact, use the project's own toggle.
+- **Theme toggle.** `mode-toggle` only works in creact apps. It reads and sets the theme with remix-themes, so it throws outside remix-themes' `ThemeProvider` and saves the choice through a server action, as in `src/app/routes/action.set-theme.ts`. Elsewhere, use the project's own toggle.
 
 ## The items
 
@@ -74,6 +74,8 @@ creact apps do this already. Elsewhere, `shadcn add` prints a note for each of t
 `registry.json` lists every item and what it depends on.
 
 Note: shadcn rewrites barrel imports in the files it adds, so `@/shared/ui/button` becomes `@/shared/ui/button/button`. Both point at the same component, and Steiger only checks imports from layers above `shared`, so leave them.
+
+Note: shadcn asks before `theme` replaces the project's CSS variables, and before it overwrites an existing file that differs. `--yes` answers the theme question only. With no terminal to answer, shadcn stops at the first question and still exits 0.
 
 Note: shadcn copies the files as they are in creact, without its usual transforms, so licence notices and `cn-*` marker classes stay. A project that lints them needs creact's allowances for `src/shared/ui`: no `jsdoc-js/require-param` or `jsdoc-js/require-returns`, and `better-tailwindcss/no-unknown-classes` ignoring `^cn-` and `^toaster$`.
 
