@@ -10,7 +10,7 @@ export interface Feature {
   readonly onlyWith?: readonly (keyof typeof STYLINGS)[];
 }
 
-type Built<R> = {
+export type Built<R> = {
   [K in keyof R]: R[K] extends { readonly status: "built" } ? K : never;
 }[keyof R] &
   string;

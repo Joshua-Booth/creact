@@ -1,4 +1,4 @@
-import type { Feature, ProjectName } from "./options.ts";
+import type { Built, Feature, ProjectName } from "./options.ts";
 
 export const BTS = "create-better-t-stack@3.46.1";
 
@@ -20,7 +20,7 @@ export const MONOREPOS = {
   nx: { status: "built", summary: "Nx", addon: "nx" },
 } as const satisfies Record<string, Feature & { readonly addon: string }>;
 
-export type MonorepoId = keyof typeof MONOREPOS;
+export type MonorepoId = Built<typeof MONOREPOS>;
 
 const NONE = [
   "backend",

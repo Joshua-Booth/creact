@@ -546,7 +546,7 @@ export async function readState(dir: string): Promise<State | undefined> {
     typeof styling === "string" &&
     isBuilt(STYLINGS, styling) &&
     typeof monorepo === "string" &&
-    Object.hasOwn(MONOREPOS, monorepo) &&
+    isBuilt(MONOREPOS, monorepo) &&
     Array.isArray(extras) &&
     extras.every((id) => typeof id === "string" && isBuilt(EXTRAS, id)) &&
     isObject(hashes) &&
