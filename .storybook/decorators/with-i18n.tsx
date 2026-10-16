@@ -1,16 +1,10 @@
 import type { Decorator } from "@storybook/react-vite";
 
-import { I18nextProvider, initReactI18next } from "react-i18next";
+import { I18nextProvider } from "react-i18next";
 
-import i18n from "i18next";
+import { initI18n } from "@/shared/i18n";
 
-import { I18N_CONFIG, resources } from "@/shared/i18n";
-
-void i18n.use(initReactI18next).init({
-  lng: "en",
-  resources,
-  ...I18N_CONFIG,
-});
+const i18n = initI18n();
 
 export const withI18n: Decorator = (Story) => (
   <I18nextProvider i18n={i18n}>

@@ -1804,7 +1804,6 @@
       "title": "Storybook Setup",
       "description": "creact Storybook 10 infrastructure: preview with i18n and theme decorators, browser-mode vitest wiring, and MSW addon setup.",
       "dependencies": [
-        "i18next@^26.4.2",
         "react-i18next@^17.0.15",
         "remix-themes@^2.0.4",
         "swr@^2.5.1"
