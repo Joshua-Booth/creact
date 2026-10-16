@@ -57,7 +57,12 @@ export async function succeeds(
   args: readonly string[],
   cwd: string
 ): Promise<boolean> {
-  return (await exitCode(command, args, cwd, "ignore")) === 0;
+  try {
+    return (await exitCode(command, args, cwd, "ignore")) === 0;
+  } catch (error) {
+    if (error instanceof CommandFailed) return false;
+    throw error;
+  }
 }
 
 async function exitCode(

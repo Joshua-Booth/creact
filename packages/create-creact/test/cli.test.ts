@@ -67,7 +67,10 @@ function onlyOnPath(
   return { ...withoutGitContext(), PATH: bin };
 }
 
-function pnpmFake(restore: string): NodeJS.ProcessEnv {
+function pnpmFake(
+  restore: string,
+  commands: Readonly<Record<string, string>> = {}
+): NodeJS.ProcessEnv {
   return onlyOnPath({
     pnpm: [
       'case "$*" in',
@@ -75,8 +78,14 @@ function pnpmFake(restore: string): NodeJS.ProcessEnv {
       "esac",
       "",
     ].join("\n"),
+    ...commands,
   });
 }
+
+const REAL_GIT = spawnSync("sh", ["-c", "command -v git"], {
+  encoding: "utf8",
+}).stdout.trim();
+const GIT_SHIM = { git: `exec ${REAL_GIT} "$@"` };
 
 function locked(dir: string): string[] {
   const lock = JSON.parse(
@@ -241,7 +250,7 @@ describe("the skills restore", () => {
     t.assert.strictEqual(result.status, 0, result.stderr);
     t.assert.ok(
       result.stdout.includes(
-        `  skills   not restored, as ${RESTORE} exited with 127\n`
+        "  skills   not restored, as git isn't on PATH, and the restore clones the skills with it\n"
       ),
       result.stdout
     );
@@ -257,11 +266,11 @@ describe("the skills restore", () => {
   it("prints the command that finishes it after a failed restore, and a rerun then finds the skills present", (t: TestContext) => {
     const dir = upstreamBase("next");
     recordState(dir, "next");
-    const failed = cli([dir, "--no-git"], pnpmFake("exit 1"));
+    const failed = cli([dir, "--no-git"], pnpmFake("exit 1", GIT_SHIM));
     t.assert.strictEqual(failed.status, 0, failed.stderr);
     t.assert.ok(
       failed.stdout.includes(
-        `  skills   not restored, as ${RESTORE} exited with 1\n`
+        `  skills   not restored, as ${RESTORE} exited with 1. Its output is above\n`
       ),
       failed.stdout
     );
