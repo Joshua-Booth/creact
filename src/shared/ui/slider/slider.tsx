@@ -16,10 +16,10 @@ function Slider({
   ...props
 }: SliderPrimitive.Root.Props) {
   const _values = React.useMemo(() => {
-    if (Array.isArray(value)) {
+    if (typeof value === "object") {
       return value;
     }
-    if (Array.isArray(defaultValue)) {
+    if (typeof defaultValue === "object") {
       return defaultValue;
     }
     return [min, max];

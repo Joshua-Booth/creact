@@ -1,5 +1,5 @@
 {
   "extends": "./tsconfig.json",
-  "include": ["../src/shared/ui", "../src/shared/lib"],
+  "include": ["../src/shared/ui", "../src/shared/lib", "../src/shared/i18n"],
   "exclude": ["../src/**/*.stories.tsx", "../src/**/demo"]
 }
