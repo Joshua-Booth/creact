@@ -268,14 +268,8 @@ run = "node --test test/scaffold.test.ts"
 [tasks."test:all"]
 description = "Run all tests (unit, storybook, e2e)"
 alias = "ta"
-# Sequential, not parallel `depends`: both builds write incompatible output to
-# the same dist/, so running them concurrently races on dist/.vite/manifest.json.
-run = [
-    "react-router build",
-    "vitest run",
-    "E2E=true react-router build",
-    "playwright test --config {{vars.playwright_config}}",
-]
+depends = ["build", "build:e2e"]
+run = ["vitest run", "playwright test --config {{vars.playwright_config}}"]
 
 [tasks.mutation]
 description = "Run mutation testing with Stryker (report-only)"
