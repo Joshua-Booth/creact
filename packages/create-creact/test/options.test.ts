@@ -142,11 +142,15 @@ describe("resolveChoices", () => {
     extras: [],
   } as const;
 
-  it("takes the recorded choices on a rerun with no flags", (t: TestContext) => {
-    t.assert.deepStrictEqual(
-      resolveChoices(request(["app"]), RECORDED),
-      RECORDED
-    );
+  it("takes only the recorded choices on a rerun with no flags", (t: TestContext) => {
+    const state = {
+      ...RECORDED,
+      schema: 2,
+      creact: "0.0.0",
+      name: "app",
+      hashes: {},
+    };
+    t.assert.deepStrictEqual(resolveChoices(request(["app"]), state), RECORDED);
   });
 
   it("refuses a --stack or --monorepo that contradicts the recorded project", (t: TestContext) => {

@@ -3,11 +3,13 @@
  * path is a temp dir the test made, and git comes from PATH here as it
  * does in the CLI. */
 import { spawnSync } from "node:child_process";
-import { existsSync, mkdirSync, readdirSync } from "node:fs";
+import { existsSync, mkdirSync, readdirSync, readFileSync } from "node:fs";
 import { tmpdir } from "node:os";
 import path from "node:path";
 import { describe, it, type TestContext } from "node:test";
 
+import pkg from "../package.json" with { type: "json" };
+import { STATE_FILE } from "../src/layer.ts";
 import { withoutGitContext } from "../src/shell.ts";
 import { recordState, tempDir, upstreamBase } from "./helpers.ts";
 
@@ -67,6 +69,19 @@ describe("main", () => {
     const result = cli(["app", "--bogus"]);
     t.assert.strictEqual(result.status, 2);
     t.assert.match(result.stderr, /'-- "--bogus"'?\. Run with --help/);
+  });
+});
+
+describe("a rerun", () => {
+  it("records the create-creact version that ran it", (t: TestContext) => {
+    const dir = upstreamBase("next");
+    recordState(dir, "next", { creact: "0.0.0-older" });
+    const result = cli([dir, "--no-install", "--no-git"]);
+    t.assert.strictEqual(result.status, 0, result.stderr);
+    const state = JSON.parse(
+      readFileSync(path.join(dir, STATE_FILE), "utf8")
+    ) as { creact: unknown };
+    t.assert.strictEqual(state.creact, pkg.version);
   });
 });
 

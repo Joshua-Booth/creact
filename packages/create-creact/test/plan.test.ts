@@ -624,7 +624,7 @@ describe("readState", () => {
 
   it("refuses a state file from the single-package spike and says why", async (t: TestContext) => {
     const dir = tempDir();
-    recordState(dir, "next", 1);
+    recordState(dir, "next", { schema: 1 });
     await t.assert.rejects(readState(dir), {
       name: "UsageError",
       message: /made single-package projects/,

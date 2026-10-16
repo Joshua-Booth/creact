@@ -75,12 +75,16 @@ export function upstreamBase(
   return dir;
 }
 
-export function recordState(dir: string, stack: string, schema = 2): void {
+export function recordState(
+  dir: string,
+  stack: string,
+  fields: JsonObject = {}
+): void {
   mkdirSync(path.join(dir, ".creact"));
   writeFileSync(
     path.join(dir, STATE_FILE),
     JSON.stringify({
-      schema,
+      schema: 2,
       creact: "0.0.0",
       name: "app",
       stack,
@@ -88,6 +92,7 @@ export function recordState(dir: string, stack: string, schema = 2): void {
       monorepo: "pnpm",
       extras: [],
       hashes: {},
+      ...fields,
     })
   );
 }

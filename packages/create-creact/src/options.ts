@@ -233,7 +233,9 @@ function choose(request: Request, recorded: Choices | undefined): Choices {
       }
     }
     return {
-      ...recorded,
+      stack: recorded.stack,
+      styling: recorded.styling,
+      monorepo: recorded.monorepo,
       extras: [...new Set([...recorded.extras, ...request.extras])],
     };
   }
