@@ -8,7 +8,7 @@
     "create-creact": "./src/main.ts"
   },
   "scripts": {
-    "test": "node --test test/plan.test.ts",
+    "test": "node --test test/options.test.ts test/cli.test.ts test/plan.test.ts",
     "test:scaffold": "node --test test/scaffold.test.ts"
   },
   "engines": {

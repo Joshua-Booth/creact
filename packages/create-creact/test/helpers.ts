@@ -1,0 +1,93 @@
+/* oxlint-disable security/detect-non-literal-fs-filename -- every path is a temp dir a test made or the package's own fixtures */
+import {
+  mkdirSync,
+  mkdtempSync,
+  readFileSync,
+  rmSync,
+  writeFileSync,
+} from "node:fs";
+import { tmpdir } from "node:os";
+import path from "node:path";
+import { after } from "node:test";
+
+import type { StackId } from "../src/stacks.ts";
+import {
+  JSON_FILES,
+  type JsonFile,
+  type JsonObject,
+  loadLayer,
+  merge,
+  type Op,
+  type OverlayId,
+  plan,
+  STATE_FILE,
+} from "../src/layer.ts";
+import { projectName, type StylingId } from "../src/options.ts";
+
+export const LAYER = path.join(import.meta.dirname, "../layer");
+
+const NAME = projectName("/work/app");
+
+const TEMP_DIRS: string[] = [];
+
+after(() => {
+  for (const dir of TEMP_DIRS) rmSync(dir, { recursive: true, force: true });
+});
+
+export function tempDir(): string {
+  const dir = mkdtempSync(path.join(tmpdir(), "creact-plan-"));
+  TEMP_DIRS.push(dir);
+  return dir;
+}
+
+export function fixture(
+  stack: StackId
+): Readonly<Record<JsonFile, JsonObject>> {
+  return JSON.parse(
+    readFileSync(
+      path.join(import.meta.dirname, "fixtures", `${stack}.json`),
+      "utf8"
+    )
+  ) as Record<JsonFile, JsonObject>;
+}
+
+export async function ops(
+  stack: StackId,
+  styling: StylingId = "tailwind"
+): Promise<readonly Op[]> {
+  const ids: readonly OverlayId[] = ["base", styling];
+  return plan(await loadLayer(LAYER, ids, stack), ids, { stack, name: NAME });
+}
+
+export function upstreamBase(
+  stack: StackId,
+  extra: Readonly<Partial<Record<JsonFile, JsonObject>>> = {},
+  dir = tempDir()
+): string {
+  const files = fixture(stack);
+  for (const file of JSON_FILES) {
+    mkdirSync(path.dirname(path.join(dir, file)), { recursive: true });
+    writeFileSync(
+      path.join(dir, file),
+      JSON.stringify(merge(files[file], extra[file] ?? {}))
+    );
+  }
+  return dir;
+}
+
+export function recordState(dir: string, stack: string, schema = 2): void {
+  mkdirSync(path.join(dir, ".creact"));
+  writeFileSync(
+    path.join(dir, STATE_FILE),
+    JSON.stringify({
+      schema,
+      creact: "0.0.0",
+      name: "app",
+      stack,
+      styling: "tailwind",
+      monorepo: "pnpm",
+      extras: [],
+      hashes: {},
+    })
+  );
+}
