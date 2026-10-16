@@ -52,7 +52,7 @@ Everything that runs once per repository sits at the root:
 - `oxlint.config.ts` and its styling slot `oxlint.styling.ts`, `.oxfmtrc.json`, `vitest.config.ts` and its slot `vitest.styling.ts`, `commitlint.config.ts`, `.lintstagedrc.json` and the husky `commit-msg` and `pre-commit` hooks.
 - Every tool as a root devDependency, including the styling's lint plugin and, on StyleX, the compiler Vitest runs.
 - The `lint`, `format`, `format:check`, `typecheck`, `test` and `prepare` scripts.
-- The agent setup: `AGENTS.md`, `CLAUDE.md` importing it, `skills-lock.json` and the `.claude/skills` links. The root `.gitignore` gets the block creact's own has, which keeps `.claude/settings.json`, `rules`, `skills` and `workflows` tracked under a global ignore of `.claude` and the restored `.agents/skills` out of git. The block goes back whole on a rerun when any of it is missing.
+- The agent setup: `AGENTS.md`, `CLAUDE.md` importing it, `skills-lock.json` and the `.claude/skills` links. The root `.gitignore` gets the block creact's own has, which keeps `.claude/settings.json`, `rules`, `skills` and `workflows` tracked under a global ignore of `.claude` and the restored `.agents/skills` out of git. On a rerun with any of it missing, the block goes back whole where its first line was, so a rule you add after it still wins.
 
 Everything that belongs to the app sits in `apps/web`: the tokens, the styling's bindings and build plugins, `@stylexjs/stylex`, and the `typegen` and `check-types` scripts.
 

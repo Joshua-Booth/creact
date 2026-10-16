@@ -724,8 +724,7 @@ async function applyIgnore(
   const file = path.join(dir, GITIGNORE);
   const current = (await readText(file)) ?? "";
   if (containsBlock(current.split("\n"), block)) return "unchanged";
-  const head = current === "" ? "" : `${current.trimEnd()}\n\n`;
-  await writeAtomic(file, `${head}${block.join("\n")}\n`);
+  await writeAtomic(file, withBlock(current, block));
   return "written";
 }
 
@@ -736,6 +735,18 @@ function containsBlock(
   return lines.some((_, at) =>
     block.every((line, i) => lines[at + i] === line)
   );
+}
+
+function withBlock(current: string, block: readonly string[]): string {
+  const lines = current.split("\n");
+  const own = new Set(block);
+  const first = lines.findIndex((line) => own.has(line));
+  if (first === -1) {
+    const head = current === "" ? "" : `${current.trimEnd()}\n\n`;
+    return `${head}${block.join("\n")}\n`;
+  }
+  const rest = lines.slice(first).filter((line) => !own.has(line));
+  return [...lines.slice(0, first), ...block, ...rest].join("\n");
 }
 
 async function applyJson(file: string, patch: JsonObject): Promise<Outcome> {

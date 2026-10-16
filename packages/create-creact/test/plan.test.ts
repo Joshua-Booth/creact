@@ -695,6 +695,21 @@ describe("apply", () => {
     );
   });
 
+  it("puts a block missing a middle line back whole in its place, so a rule added after it still wins", async (t: TestContext) => {
+    const dir = upstreamBase("next");
+    const file = path.join(dir, ".gitignore");
+    const all = await ops("next");
+    const block = ignoreLines(all);
+    const partial = block.toSpliced(2, 1).join("\n");
+    writeFileSync(file, `node_modules\n\n${partial}\n/.claude/workflows/\n`);
+    const report = await apply(dir, all, recorded({}));
+    t.assert.strictEqual(report.files[".gitignore"], "written");
+    t.assert.strictEqual(
+      readFileSync(file, "utf8"),
+      `node_modules\n\n${block.join("\n")}\n/.claude/workflows/\n`
+    );
+  });
+
   it("seeds skills-lock.json once, then leaves the project's version alone without recording a hash", async (t: TestContext) => {
     const dir = upstreamBase("next");
     const all = await ops("next");
