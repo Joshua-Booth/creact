@@ -8,6 +8,11 @@ import { BTS } from "./stacks.ts";
 
 const EXIT = { commandFailed: 1, usage: 2 } as const;
 const LAYER_DIR = fileURLToPath(new URL("../layer", import.meta.url));
+const SKILLS_LINE: Readonly<Record<Report["skills"], string>> = {
+  restored: "restored into .agents/skills",
+  present: "present in .agents/skills",
+  skipped: "skipped",
+};
 
 const parsed = parseRequest(process.argv.slice(2), process.cwd());
 
@@ -66,6 +71,7 @@ function format(report: Report): string {
     ...kept.map((file) => `           kept ${file}, which the project changed`),
     `  git      ${report.git}`,
     `  install  ${install}`,
+    `  skills   ${SKILLS_LINE[report.skills]}`,
     `next: cd ${shellQuoted(report.dir)} && pnpm dev`,
     "",
   ].join("\n");

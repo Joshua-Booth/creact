@@ -8,13 +8,18 @@ import {
   type Addition,
   apply,
   type ApplyReport,
+  isObject,
   JSON_FILES,
   loadLayer,
   type Op,
   type OverlayId,
   plan,
   type Prior,
+  readJson,
   readState,
+  SKILLS_CLI,
+  SKILLS_DIR,
+  SKILLS_LOCK,
   type State,
   STATE_FILE,
   writeState,
@@ -37,6 +42,7 @@ export interface Report {
   readonly layer: ApplyReport;
   readonly git: "initialised" | "existing" | "skipped";
   readonly install: "done" | "skipped";
+  readonly skills: "restored" | "present" | "skipped";
 }
 
 type Target =
@@ -58,6 +64,7 @@ export async function create(
   ];
   const ops = plan(await loadLayer(layerDir, ids, choices.stack), ids, {
     stack: choices.stack,
+    monorepo: choices.monorepo,
     name,
   });
 
@@ -90,9 +97,11 @@ export async function create(
   }
 
   const git = request.git ? await initGit(request.dir) : "skipped";
+  let skills: Report["skills"] = "skipped";
   if (request.install) {
     await install(request.dir, layer.missing);
     await fixThenFormat(request.dir);
+    skills = await restoreSkills(request.dir);
   }
 
   return {
@@ -102,6 +111,7 @@ export async function create(
     layer,
     git,
     install: request.install ? "done" : "skipped",
+    skills,
   };
 }
 
@@ -125,8 +135,6 @@ async function inspect(dir: string): Promise<Target> {
   );
 }
 
-// A walk instead of `git rev-parse`, so --no-git needs no git on PATH. A
-// linked work tree marks itself with a .git file, which existsSync finds too.
 function outerRepo(dir: string): string | undefined {
   for (
     let probe = path.dirname(dir);
@@ -253,4 +261,20 @@ async function fixThenFormat(dir: string): Promise<void> {
     await run("pnpm", ["run", "lint", "--fix"], dir);
   }
   await run("pnpm", ["run", "format"], dir);
+}
+
+// Only when a locked skill is missing, so a rerun neither clones nor lets the
+// restore rewrite the project's lock.
+async function restoreSkills(dir: string): Promise<Report["skills"]> {
+  const lock = await readJson(path.join(dir, SKILLS_LOCK));
+  const ids = Object.keys(isObject(lock.skills) ? lock.skills : {});
+  if (ids.every((id) => existsSync(path.join(dir, SKILLS_DIR, id)))) {
+    return "present";
+  }
+  await run(
+    "pnpm",
+    [`--package=${SKILLS_CLI}`, "dlx", "skills", "experimental_install"],
+    dir
+  );
+  return "restored";
 }

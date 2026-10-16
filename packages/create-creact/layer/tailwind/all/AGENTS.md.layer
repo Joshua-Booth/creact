@@ -1,0 +1,4 @@
+## Styling
+
+- Tailwind CSS v4. `apps/web/src/styles/tokens.tailwind.css` binds the tokens with `@theme inline reference`, so `bg-page` reads `var(--color-page)` and `p-gutter` reads `var(--spacing-gutter)`. `apps/web/src/index.css` imports the UI package's `globals.css` first, then both token files.
+- `packages/ui` holds the shadcn/ui components on Base UI, imported as `@{{name}}/ui/components/<name>`. Add one with the shadcn CLI from `packages/ui` rather than writing it by hand. The components keep shadcn's shape, so `oxlint.styling.ts` turns a few rules off for them.

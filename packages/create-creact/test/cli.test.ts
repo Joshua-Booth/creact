@@ -47,8 +47,6 @@ function cli(argv: readonly string[], env = withoutGitContext()) {
   });
 }
 
-// A PATH with only this directory on it, so a child finds the commands it
-// holds and nothing else.
 function onlyOnPath(
   commands: Readonly<Record<string, string>> = {}
 ): NodeJS.ProcessEnv {
@@ -104,6 +102,7 @@ describe("main", () => {
     recordState(dir, "next");
     const result = cli([dir, "--no-install", "--no-git"]);
     t.assert.strictEqual(result.status, 0, result.stderr);
+    t.assert.match(result.stdout, /skills {3}skipped\n/);
     t.assert.ok(
       result.stdout.endsWith(`next: cd '${dir}' && pnpm dev\n`),
       result.stdout

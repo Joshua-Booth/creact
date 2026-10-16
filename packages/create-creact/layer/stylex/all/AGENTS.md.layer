@@ -1,0 +1,4 @@
+## Styling
+
+- StyleX. `apps/web/src/styles/tokens.stylex.ts` binds the tokens with `stylex.defineConsts`, so `colors.accent` compiles to `var(--color-accent)`. Style a component with `stylex.create` and spread `stylex.props(...)` onto the element. There is no Tailwind and no `className` string to write.
+- Vitest doesn't run the StyleX compiler yet, so a test can't render a StyleX component. `tokens.test.ts` reads the token files as text for that reason.

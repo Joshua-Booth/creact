@@ -213,6 +213,7 @@ for (const [id, styling, monorepo] of STACK_IDS.flatMap((stackId) =>
         );
         t.assert.strictEqual(result.status, 0, result.stderr);
         t.assert.match(result.stdout, / 0 unchanged, 0 kept\n/);
+        t.assert.match(result.stdout, /skills {3}restored into/);
         t.assert.deepStrictEqual(
           readdirSync(parent).filter((entry) => entry.includes("staging")),
           []
@@ -228,6 +229,7 @@ for (const [id, styling, monorepo] of STACK_IDS.flatMap((stackId) =>
         const ids: readonly OverlayId[] = ["base", styling];
         const prune = plan(await loadLayer(LAYER, ids, id), ids, {
           stack: id,
+          monorepo,
           name: projectName(dir),
         }).find((op) => op.kind === "prune");
         t.assert.ok(prune?.kind === "prune");
@@ -248,6 +250,33 @@ for (const [id, styling, monorepo] of STACK_IDS.flatMap((stackId) =>
             (file) => file !== undefined && existsSync(path.join(dir, file))
           ),
           config === undefined ? [] : [config]
+        );
+      });
+
+      it("is set up for coding agents, with every locked skill restored where Claude Code looks", (t: TestContext) => {
+        const lock = readJson(path.join(dir, "skills-lock.json")) as {
+          skills: JsonObject;
+        };
+        const ids = Object.keys(lock.skills);
+        t.assert.ok(ids.length > 0);
+        t.assert.strictEqual(ids.includes("shadcn"), styling === "tailwind");
+        for (const skill of ids) {
+          t.assert.ok(
+            existsSync(path.join(dir, ".claude/skills", skill, "SKILL.md")),
+            skill
+          );
+        }
+        t.assert.strictEqual(
+          readFileSync(path.join(dir, "CLAUDE.md"), "utf8"),
+          "@AGENTS.md\n"
+        );
+        t.assert.match(
+          readFileSync(path.join(dir, "AGENTS.md"), "utf8"),
+          /^# app\n/
+        );
+        t.assert.strictEqual(
+          existsSync(path.join(dir, "apps/web/CLAUDE.md")),
+          id === "next"
         );
       });
 
@@ -320,6 +349,7 @@ for (const [id, styling, monorepo] of STACK_IDS.flatMap((stackId) =>
         const result = sh(parent, process.execPath, [MAIN, "app"], env);
         t.assert.strictEqual(result.status, 0, result.stderr);
         t.assert.match(result.stdout, / 0 written, \d+ unchanged, 0 kept/);
+        t.assert.match(result.stdout, /skills {3}present in/);
         t.assert.strictEqual(porcelain(dir), "");
       });
 

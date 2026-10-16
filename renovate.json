@@ -179,6 +179,13 @@
         "\"(?<depName>create-better-t-stack)@(?<currentValue>[^\"]+)\""
       ],
       "datasourceTemplate": "npm"
+    },
+    {
+      "customType": "regex",
+      "description": "Bump the skills CLI create-creact restores agent skills with",
+      "managerFilePatterns": ["/^packages/create-creact/src/layer\\.ts$/"],
+      "matchStrings": ["\"(?<depName>skills)@(?<currentValue>[^\"]+)\""],
+      "datasourceTemplate": "npm"
     }
   ],
 
