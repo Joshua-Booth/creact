@@ -6,7 +6,7 @@ A React monorepo from create-creact. Better-T-Stack laid it out, and creact's la
 
 - Run scripts from the root with `pnpm <script>`. The `dev`, `build` and `check-types` scripts are Better-T-Stack's and run every workspace package through {{monorepo}}. creact's `lint`, `format`, `format:check`, `typecheck` and `test` run once from the root.
 - In a fresh clone, run `pnpm install`. It also installs the git hooks and writes `apps/web/src/env.ts` from `apps/web/.env.schema`.
-- Only pnpm is supported, as the hooks and scripts call `pnpm exec`.
+- Only pnpm is supported, as the hooks and scripts call pnpm.
 
 ## Code layout
 
@@ -25,7 +25,7 @@ A React monorepo from create-creact. Better-T-Stack laid it out, and creact's la
 
 ## Commits
 
-- Commits use Conventional Commits with a lowercase imperative subject, checked by commitlint. Check a message before you commit with `printf '%s\n' "$msg" | pnpm exec commitlint`.
+- Commits follow Conventional Commits. The commit-msg hook runs commitlint with `@commitlint/config-conventional` and a 72-character limit on the header and on each body line. Check a message first with `printf '%s\n' "$msg" | pnpm exec commitlint`.
 
 ## Agent skills
 

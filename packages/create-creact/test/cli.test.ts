@@ -9,6 +9,7 @@ import {
   readdirSync,
   readFileSync,
   renameSync,
+  symlinkSync,
   writeFileSync,
 } from "node:fs";
 import { tmpdir } from "node:os";
@@ -95,16 +96,17 @@ describe("main", () => {
     t.assert.deepStrictEqual(readdirSync(parent), []);
   });
 
-  it("quotes the project path in the hint that ends the report", (t: TestContext) => {
-    const dir = path.join(tempDir(), "with space", "app");
+  it("quotes the project path in the hint that ends the report, escaping a quote", (t: TestContext) => {
+    const dir = path.join(tempDir(), "it's a space", "app");
     mkdirSync(dir, { recursive: true });
     upstreamBase("next", {}, dir);
     recordState(dir, "next");
     const result = cli([dir, "--no-install", "--no-git"]);
     t.assert.strictEqual(result.status, 0, result.stderr);
     t.assert.match(result.stdout, /skills {3}skipped\n/);
+    const quoted = dir.replace("it's", String.raw`it'\''s`);
     t.assert.ok(
-      result.stdout.endsWith(`next: cd '${dir}' && pnpm dev\n`),
+      result.stdout.endsWith(`next: cd '${quoted}' && pnpm dev\n`),
       result.stdout
     );
   });
@@ -272,6 +274,28 @@ describe("a directory inside another git work tree", () => {
     t.assert.strictEqual(result.status, 2, result.stderr);
     t.assert.match(result.stderr, REFUSAL);
     t.assert.deepStrictEqual(readdirSync(dir).toSorted(), before);
+  });
+
+  it("is refused through a symlink into the repository, missing or recorded", (t: TestContext) => {
+    const repo = tempDir();
+    gitInit(repo);
+    const sub = path.join(repo, "sub");
+    mkdirSync(sub);
+    const link = path.join(tempDir(), "link");
+    symlinkSync(sub, link);
+    const missing = cli([path.join(link, "app"), ...FLAGS]);
+    t.assert.strictEqual(missing.status, 2, missing.stderr);
+    t.assert.match(missing.stderr, REFUSAL);
+    t.assert.deepStrictEqual(readdirSync(sub), []);
+
+    const app = path.join(sub, "app");
+    mkdirSync(app);
+    upstreamBase("next", {}, app);
+    recordState(app, "next");
+    const recorded = cli([path.join(link, "app"), "--no-install", "--no-git"]);
+    t.assert.strictEqual(recorded.status, 2, recorded.stderr);
+    t.assert.match(recorded.stderr, REFUSAL);
+    t.assert.strictEqual(existsSync(path.join(app, ".git")), false);
   });
 
   it("is a rerun like any other when the project is its own repository", (t: TestContext) => {

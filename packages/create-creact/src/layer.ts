@@ -317,7 +317,12 @@ export type Op =
       readonly content: string;
       readonly seed?: true;
     }
-  | { readonly kind: "link"; readonly path: string; readonly target: string }
+  | {
+      readonly kind: "link";
+      readonly skill: SkillId;
+      readonly path: string;
+      readonly target: string;
+    }
   | {
       readonly kind: "json";
       readonly path: JsonFile;
@@ -386,8 +391,9 @@ export async function loadLayer(
       const content = await readFile(source, "utf8");
       const earlier = files.get(file);
       if (earlier === undefined) files.set(file, content);
-      else if (file.endsWith(".md")) files.set(file, `${earlier}\n${content}`);
-      else throw new Error(`${source} is already in an earlier overlay`);
+      else if (file.endsWith(".md")) {
+        files.set(file, `${earlier.trimEnd()}\n\n${content}`);
+      } else throw new Error(`${source} is already in an earlier overlay`);
     }
   }
   return files;
@@ -436,6 +442,7 @@ export function plan(
       : [];
   const linkOps = skills.map((id) => ({
     kind: "link" as const,
+    skill: id,
     path: `${CLAUDE_SKILLS}/${id}`,
     target: `../../${SKILLS_DIR}/${id}`,
   }));
@@ -552,6 +559,7 @@ export async function apply(
   const hashes: Record<string, string> = {};
   let pruned: readonly string[] = [];
   const missing: Addition[] = [];
+  let locked: ReadonlySet<string> | undefined;
 
   for (const op of ops) {
     switch (op.kind) {
@@ -568,7 +576,10 @@ export async function apply(
         break;
       }
       case "link": {
-        files[op.path] = await applyLink(dir, op.path, op.target, prior);
+        locked ??= await lockedSkills(dir);
+        if (locked.has(op.skill)) {
+          files[op.path] = await applyLink(dir, op.path, op.target, prior);
+        }
         break;
       }
       case "json": {
@@ -643,6 +654,13 @@ async function applyFile(
     return { outcome: "written", hash: sha256(content) };
   }
   return { outcome: "kept", hash: recorded };
+}
+
+// The project's lock decides which links exist, so a skill it removed stays
+// removed on a rerun.
+export async function lockedSkills(dir: string): Promise<ReadonlySet<string>> {
+  const lock = await readJson(path.join(dir, SKILLS_LOCK));
+  return new Set(Object.keys(isObject(lock.skills) ? lock.skills : {}));
 }
 
 // Written once. After that the file belongs to the tool that maintains it,

@@ -1,6 +1,6 @@
 /* oxlint-disable security/detect-non-literal-fs-filename -- every path is the directory the caller named, an ancestor of it, its sibling staging dir, or inside one of them */
 import { existsSync } from "node:fs";
-import { mkdir, readdir, rename, rm, stat } from "node:fs/promises";
+import { mkdir, readdir, realpath, rename, rm, stat } from "node:fs/promises";
 import path from "node:path";
 
 import pkg from "../package.json" with { type: "json" };
@@ -8,18 +8,16 @@ import {
   type Addition,
   apply,
   type ApplyReport,
-  isObject,
   JSON_FILES,
   loadLayer,
+  lockedSkills,
   type Op,
   type OverlayId,
   plan,
   type Prior,
-  readJson,
   readState,
   SKILLS_CLI,
   SKILLS_DIR,
-  SKILLS_LOCK,
   type State,
   STATE_FILE,
   writeState,
@@ -120,7 +118,7 @@ async function inspect(dir: string): Promise<Target> {
   if (exists && !(await stat(dir)).isDirectory()) {
     throw new UsageError(`${dir} is a file. Give a directory for the project.`);
   }
-  const repo = outerRepo(dir);
+  const repo = await outerRepo(dir);
   if (repo !== undefined) {
     throw new UsageError(
       `${dir} is inside the git repository at ${repo}, so the project would get no repository of its own. Pick a directory outside it.`
@@ -135,9 +133,14 @@ async function inspect(dir: string): Promise<Target> {
   );
 }
 
-function outerRepo(dir: string): string | undefined {
+// A walk for a .git entry, so --no-git needs no git on PATH. It starts from
+// the real path, as a symlink into a repository would otherwise pass.
+async function outerRepo(dir: string): Promise<string | undefined> {
+  let nearest = dir;
+  while (!existsSync(nearest)) nearest = path.dirname(nearest);
+  const real = await realpath(nearest);
   for (
-    let probe = path.dirname(dir);
+    let probe = nearest === dir ? path.dirname(real) : real;
     probe !== path.dirname(probe);
     probe = path.dirname(probe)
   ) {
@@ -266,9 +269,8 @@ async function fixThenFormat(dir: string): Promise<void> {
 // Only when a locked skill is missing, so a rerun neither clones nor lets the
 // restore rewrite the project's lock.
 async function restoreSkills(dir: string): Promise<Report["skills"]> {
-  const lock = await readJson(path.join(dir, SKILLS_LOCK));
-  const ids = Object.keys(isObject(lock.skills) ? lock.skills : {});
-  if (ids.every((id) => existsSync(path.join(dir, SKILLS_DIR, id)))) {
+  const ids = await lockedSkills(dir);
+  if ([...ids].every((id) => existsSync(path.join(dir, SKILLS_DIR, id)))) {
     return "present";
   }
   await run(

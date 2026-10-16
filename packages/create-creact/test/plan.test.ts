@@ -47,6 +47,7 @@ import {
   upstreamBase,
 } from "./helpers.ts";
 
+const REPO = path.join(import.meta.dirname, "../../..");
 const STACK_IDS = Object.keys(STACKS) as StackId[];
 const STYLING_IDS = Object.keys(STYLINGS).filter((id): id is StylingId =>
   isBuilt(STYLINGS, id)
@@ -262,28 +263,50 @@ describe("plan", () => {
     );
   });
 
-  it("carries no git-workflow block from creact's own AGENTS.md", async (t: TestContext) => {
+  it("carries no rule of the git-workflow block from creact's own AGENTS.md", async (t: TestContext) => {
+    const own = readFileSync(path.join(REPO, "AGENTS.md"), "utf8");
+    const block = own
+      .split("<!-- git-workflow:start -->")[1]
+      ?.split("<!-- git-workflow:end -->")[0];
+    const rules = (block ?? "")
+      .split("\n")
+      .map((line) => line.trim())
+      .filter((line) => line.startsWith("- "));
+    t.assert.ok(rules.length > 5);
     for (const { stack, styling } of CELLS) {
       for (const op of fileOps(await ops(stack, styling))) {
         t.assert.doesNotMatch(op.content, /git-workflow:(start|end)/, op.path);
+        for (const rule of rules) {
+          t.assert.ok(!op.content.includes(rule), `${op.path}: ${rule}`);
+        }
       }
     }
   });
 
-  it("lists the skills creact's own lock has, with the same entries", (t: TestContext) => {
+  it("plans a lock whose entries equal creact's own, for every skill the table has", async (t: TestContext) => {
     const own = JSON.parse(
-      readFileSync(
-        path.join(import.meta.dirname, "../../../skills-lock.json"),
-        "utf8"
-      )
-    ) as { skills: Record<string, JsonObject> };
-    for (const [id, skill] of Object.entries(CREACT_LOCK)) {
-      t.assert.deepStrictEqual(
-        { ...skill, sourceType: "github" },
-        own.skills[id],
-        id
-      );
+      readFileSync(path.join(REPO, "skills-lock.json"), "utf8")
+    ) as { version: number; skills: Record<string, JsonObject> };
+    for (const { stack, styling } of CELLS) {
+      const lock = JSON.parse(
+        planned(await ops(stack, styling), SKILLS_LOCK)
+      ) as {
+        version: number;
+        skills: Record<string, JsonObject>;
+      };
+      t.assert.strictEqual(lock.version, own.version);
+      for (const [id, entry] of Object.entries(lock.skills)) {
+        t.assert.deepStrictEqual(
+          entry,
+          own.skills[id],
+          `${stack} + ${styling} ${id}`
+        );
+      }
     }
+    t.assert.deepStrictEqual(
+      Object.keys(CREACT_LOCK).filter((id) => !Object.hasOwn(own.skills, id)),
+      []
+    );
   });
 
   it("locks the shadcn skill on Tailwind only, with a Claude Code link for every locked skill", async (t: TestContext) => {
@@ -551,7 +574,7 @@ describe("loadLayer", () => {
   it("joins Markdown that two overlays write and refuses any other clash", async (t: TestContext) => {
     const layer = tempDir();
     for (const [id, text] of [
-      ["base", "one\n"],
+      ["base", "one"],
       ["tailwind", "two\n"],
     ] as const) {
       mkdirSync(path.join(layer, id, "all"), { recursive: true });
@@ -609,6 +632,35 @@ describe("apply", () => {
     rmSync(lock);
     const third = await apply(dir, all, recorded(first.hashes));
     t.assert.strictEqual(third.files[SKILLS_LOCK], "written");
+  });
+
+  it("stops linking a skill the project removed from its lock", async (t: TestContext) => {
+    const dir = upstreamBase("next");
+    const all = await ops("next");
+    const first = await apply(dir, all, UPSTREAM_ONLY);
+    const lock = path.join(dir, SKILLS_LOCK);
+    const seeded = JSON.parse(readFileSync(lock, "utf8")) as {
+      skills: JsonObject;
+    };
+    writeFileSync(
+      lock,
+      JSON.stringify({
+        ...seeded,
+        skills: Object.fromEntries(
+          Object.entries(seeded.skills).filter(([id]) => id !== "tdd")
+        ),
+      })
+    );
+    const link = path.join(dir, CLAUDE_SKILLS, "tdd");
+    rmSync(link);
+
+    const second = await apply(dir, all, recorded(first.hashes));
+    t.assert.strictEqual(second.files[`${CLAUDE_SKILLS}/tdd`], undefined);
+    t.assert.strictEqual(lstatSync(link, { throwIfNoEntry: false }), undefined);
+    t.assert.strictEqual(
+      second.files[`${CLAUDE_SKILLS}/find-skills`],
+      "unchanged"
+    );
   });
 
   it("links .claude/skills at the restore dir, leaves a matching link alone and keeps what replaced one", async (t: TestContext) => {
