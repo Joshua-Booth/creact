@@ -84,6 +84,7 @@ export default defineConfig({
   webServer: {
     command: `vite preview --config config/vite.config.ts --port ${port}`,
     cwd: "..",
+    env: { E2E: "true" },
     port,
     reuseExistingServer: true,
   },

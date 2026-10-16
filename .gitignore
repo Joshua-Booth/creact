@@ -4,6 +4,7 @@ node_modules
 
 # Build
 dist
+dist-e2e
 dist-ssr
 .react-router
 .netlify

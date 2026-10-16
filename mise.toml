@@ -54,7 +54,7 @@ run = "vite-bundle-analyzer"
 [tasks.clean]
 description = "Remove build artifacts and cache"
 confirm = "This will delete dist, coverage, test results, and build caches. Continue?"
-run = "rm -rf dist .vite coverage playwright-report test-results"
+run = "rm -rf dist dist-e2e .vite coverage playwright-report test-results"
 
 [tasks.coverage]
 description = "Run unit and Storybook tests with coverage"
