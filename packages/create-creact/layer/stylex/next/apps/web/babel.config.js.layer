@@ -3,6 +3,9 @@ import path from "node:path";
 
 export default {
   presets: ["next/babel"],
+  // Next's babel loader (next/dist/build/babel/loader/get-config.js) puts
+  // babel-plugin-react-compiler ahead of these while next.config.ts sets
+  // reactCompiler, so it isn't listed here.
   plugins: [
     [
       "@stylexjs/babel-plugin",

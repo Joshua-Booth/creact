@@ -1,6 +1,6 @@
 @layer reset;
 
-@import "../styles/tokens.css";
+@import "./styles/tokens.css";
 
 @layer reset {
   html {

@@ -8,9 +8,9 @@ import {
   ScrollRestoration,
 } from "react-router";
 
-import { spacing } from "~/styles/tokens.stylex";
+import { spacing } from "@/styles/tokens.stylex";
 
-import "./app.css";
+import "./index.css";
 import type { Route } from "./+types/root";
 
 export const links: Route.LinksFunction = () => [
@@ -70,11 +70,12 @@ export function ErrorBoundary({ error }: Route.ErrorBoundaryProps) {
 
   if (isRouteErrorResponse(error)) {
     message = error.status === 404 ? "404" : "Error";
-    details =
-      error.status === 404
-        ? "The requested page could not be found."
-        : error.statusText || details;
-  } else if (import.meta.env.DEV && error && error instanceof Error) {
+    if (error.status === 404) {
+      details = "The requested page could not be found.";
+    } else if (error.statusText !== "") {
+      details = error.statusText;
+    }
+  } else if (import.meta.env.DEV && error instanceof Error) {
     details = error.message;
     stack = error.stack;
   }
@@ -83,7 +84,7 @@ export function ErrorBoundary({ error }: Route.ErrorBoundaryProps) {
     <main {...stylex.props(styles.main)}>
       <h1>{message}</h1>
       <p>{details}</p>
-      {stack && (
+      {stack !== undefined && (
         <pre {...stylex.props(styles.stack)}>
           <code>{stack}</code>
         </pre>

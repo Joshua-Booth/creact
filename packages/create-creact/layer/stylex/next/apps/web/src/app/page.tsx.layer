@@ -22,7 +22,7 @@ const styles = stylex.create({
     borderRadius: radii.card,
   },
   title: { fontSize: "2rem", lineHeight: 1.25, color: colors.ink },
-  code: { fontFamily: "var(--font-geist-mono)" },
+  code: { fontFamily: "ui-monospace, monospace" },
   link: { color: colors.accent, textDecoration: "underline" },
 });
 

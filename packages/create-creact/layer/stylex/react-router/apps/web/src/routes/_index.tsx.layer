@@ -1,6 +1,6 @@
 import * as stylex from "@stylexjs/stylex";
 
-import { colors, radii, spacing } from "~/styles/tokens.stylex";
+import { colors, radii, spacing } from "@/styles/tokens.stylex";
 
 const resources = [
   { href: "https://reactrouter.com/docs", text: "React Router Docs" },
@@ -27,7 +27,11 @@ const styles = stylex.create({
   link: { color: colors.accent },
 });
 
-export function Welcome() {
+export function meta() {
+  return [{ title: "{{name}}" }];
+}
+
+export default function Home() {
   return (
     <main {...stylex.props(styles.main)}>
       <nav {...stylex.props(styles.card)}>

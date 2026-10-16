@@ -1,7 +1,7 @@
 import path from "node:path";
 import { parseArgs } from "node:util";
 
-import { type StackId, STACKS } from "./stacks.ts";
+import { type MonorepoId, MONOREPOS, type StackId, STACKS } from "./stacks.ts";
 
 export interface Feature {
   readonly status: "built" | "planned";
@@ -10,7 +10,7 @@ export interface Feature {
   readonly onlyWith?: readonly (keyof typeof STYLINGS)[];
 }
 
-type Built<R> = {
+export type Built<R> = {
   [K in keyof R]: R[K] extends { readonly status: "built" } ? K : never;
 }[keyof R] &
   string;
@@ -52,18 +52,24 @@ export type ExtraId = Built<typeof EXTRAS>;
 export interface Choices {
   readonly stack: StackId;
   readonly styling: StylingId;
+  readonly monorepo: MonorepoId;
   readonly extras: readonly ExtraId[];
 }
 
 export const DEFAULTS = {
   stack: "react-router",
   styling: "tailwind",
+  monorepo: "pnpm",
 } as const satisfies Omit<Choices, "extras">;
+
+declare const projectNameBrand: unique symbol;
+export type ProjectName = string & { readonly [projectNameBrand]: true };
 
 export interface Request {
   readonly dir: string;
   readonly stack: StackId | undefined;
   readonly styling: StylingId | undefined;
+  readonly monorepo: MonorepoId | undefined;
   readonly extras: readonly ExtraId[];
   readonly yes: boolean;
   readonly install: boolean;
@@ -86,6 +92,7 @@ const EXTRA_NAMES = Object.keys(EXTRAS) as ExtraName[];
 const OPTIONS = {
   stack: { type: "string" },
   styling: { type: "string" },
+  monorepo: { type: "string" },
   install: { type: "boolean", default: true },
   git: { type: "boolean", default: true },
   yes: { type: "boolean", short: "y", default: false },
@@ -148,29 +155,31 @@ export function parseRequest(argv: readonly string[], cwd: string): Parsed {
   }
   const stack = values.stack as StackId | undefined;
 
-  const planned: string[] = [];
-  let styling: StylingId | undefined;
-  if (values.styling !== undefined) {
-    const found = lookup(
-      STYLINGS,
-      values.styling,
-      `--styling ${values.styling}`
+  const styling =
+    values.styling === undefined
+      ? undefined
+      : lookup(STYLINGS, values.styling, `--styling ${values.styling}`);
+  if (styling?.kind === "unknown") {
+    return usage(
+      `--styling must be one of ${Object.keys(STYLINGS).join(", ")}`
     );
-    if (found.kind === "unknown") {
-      return usage(
-        `--styling must be one of ${Object.keys(STYLINGS).join(", ")}`
-      );
-    }
-    if (found.kind === "planned") planned.push(found.flag);
-    else styling = found.id;
+  }
+  const monorepo =
+    values.monorepo === undefined
+      ? undefined
+      : lookup(MONOREPOS, values.monorepo, `--monorepo ${values.monorepo}`);
+  if (monorepo?.kind === "unknown") {
+    return usage(
+      `--monorepo must be one of ${Object.keys(MONOREPOS).join(", ")}`
+    );
   }
 
-  const extras: ExtraId[] = [];
-  for (const name of EXTRA_NAMES.filter((extra) => values[extra])) {
-    const found = lookup(EXTRAS, name, `--${name}`);
-    if (found.kind === "planned") planned.push(found.flag);
-    if (found.kind === "built") extras.push(found.id);
-  }
+  const extras = EXTRA_NAMES.filter((extra) => values[extra]).map((name) =>
+    lookup(EXTRAS, name, `--${name}`)
+  );
+  const planned = [styling, monorepo, ...extras].flatMap((found) =>
+    found?.kind === "planned" ? [found.flag] : []
+  );
 
   if (planned.length > 0) {
     return usage(
@@ -183,8 +192,11 @@ export function parseRequest(argv: readonly string[], cwd: string): Parsed {
     request: {
       dir: path.resolve(cwd, dir),
       stack,
-      styling,
-      extras,
+      styling: styling?.kind === "built" ? styling.id : undefined,
+      monorepo: monorepo?.kind === "built" ? monorepo.id : undefined,
+      extras: extras.flatMap((found) =>
+        found.kind === "built" ? [found.id] : []
+      ),
       yes: values.yes,
       install: values.install,
       git: values.git,
@@ -212,7 +224,7 @@ export function resolveChoices(
 
 function choose(request: Request, recorded: Choices | undefined): Choices {
   if (recorded !== undefined) {
-    for (const key of ["stack", "styling"] as const) {
+    for (const key of ["stack", "styling", "monorepo"] as const) {
       const asked = request[key];
       if (asked !== undefined && asked !== recorded[key]) {
         throw new UsageError(
@@ -221,7 +233,9 @@ function choose(request: Request, recorded: Choices | undefined): Choices {
       }
     }
     return {
-      ...recorded,
+      stack: recorded.stack,
+      styling: recorded.styling,
+      monorepo: recorded.monorepo,
       extras: [...new Set([...recorded.extras, ...request.extras])],
     };
   }
@@ -235,8 +249,23 @@ function choose(request: Request, recorded: Choices | undefined): Choices {
   return {
     stack,
     styling: request.styling ?? DEFAULTS.styling,
+    monorepo: request.monorepo ?? DEFAULTS.monorepo,
     extras: request.extras,
   };
+}
+
+export function isProjectName(name: string): name is ProjectName {
+  return /^[a-z0-9][a-z0-9._-]*$/.test(name);
+}
+
+export function projectName(dir: string): ProjectName {
+  const name = path.basename(dir);
+  if (!isProjectName(name)) {
+    throw new UsageError(
+      `${name} would become the package scope @${name}, so it needs lowercase letters, digits, ".", "_" or "-", starting with a letter or digit. Pick another directory name.`
+    );
+  }
+  return name;
 }
 
 function usage(message: string): Parsed {
@@ -266,11 +295,12 @@ function helpText(): string {
   return [
     "Usage: create-creact <dir> [flags]",
     "",
-    "Creates a React project with the framework's own create CLI, then adds",
-    "creact's lint, format, tsconfig, git hooks and test setup.",
+    "Creates a React monorepo with Better-T-Stack, then adds creact's lint,",
+    "format, tsconfig, git hooks and test setup.",
     "",
     `  --stack <id>      ${Object.keys(STACKS).join(", ")} (--yes picks ${DEFAULTS.stack})`,
     `  --styling <id>    ${choicesLine(STYLINGS)} (default ${DEFAULTS.styling})`,
+    `  --monorepo <id>   ${choicesLine(MONOREPOS)} (default ${DEFAULTS.monorepo})`,
     ...extras,
     "  --no-install      skip pnpm install and the format and lint pass",
     "  --no-git          skip git init",
@@ -278,12 +308,13 @@ function helpText(): string {
     "  -h, --help        show this help",
     "",
     "The directory must sit outside any git repository, as the project gets",
-    "its own.",
+    "its own. Its name becomes the package scope, as in @my-app/ui, so it",
+    'needs lowercase letters, digits, ".", "_" or "-".',
     "",
     "Run it again on the same directory to finish an interrupted run or take a",
-    "newer layer. Layer files you edited are kept and reported. package.json",
-    "and tsconfig.json are merged again, so the scripts and compiler options",
-    "creact sets go back to creact's values.",
+    "newer layer. Layer files you edited are kept and reported. The",
+    "package.json and tsconfig files creact patches are merged again, so the",
+    "scripts and compiler options creact sets go back to creact's values.",
     "",
     "Exit codes: 0 done, 1 a command failed, 2 bad usage or a planned feature.",
     "",

@@ -4,7 +4,7 @@ import { fileURLToPath } from "node:url";
 import { create, type Report } from "./create.ts";
 import { parseRequest, UsageError } from "./options.ts";
 import { CommandFailed } from "./shell.ts";
-import { STACKS } from "./stacks.ts";
+import { BTS } from "./stacks.ts";
 
 const EXIT = { commandFailed: 1, usage: 2 } as const;
 const LAYER_DIR = fileURLToPath(new URL("../layer", import.meta.url));
@@ -42,7 +42,7 @@ function fail(code: number, message: string): void {
 }
 
 function format(report: Report): string {
-  const { stack, styling } = report.choices;
+  const { stack, styling, monorepo } = report.choices;
   const outcomes = Object.entries(report.layer.files);
   const named = (outcome: string) =>
     outcomes.filter(([, value]) => value === outcome).map(([file]) => file);
@@ -50,16 +50,17 @@ function format(report: Report): string {
   const { pruned, missing } = report.layer;
   const without = pruned.length > 0 ? `, without ${pruned.join(", ")}` : "";
   const base =
-    report.base === "created"
-      ? `created with ${STACKS[stack].cli}@latest${without}`
-      : "kept";
-  const toAdd = missing.dependencies.length + missing.devDependencies.length;
+    report.base === "created" ? `created with ${BTS}${without}` : "kept";
+  const toAdd = missing.flatMap((addition) => [
+    ...addition.dependencies,
+    ...addition.devDependencies,
+  ]).length;
   const install =
     report.install === "done"
       ? "done, then lint --fix and format"
       : `skipped, ${toAdd} packages to add. Run again without --no-install to finish.`;
   return [
-    `create-creact: ${stack} + ${styling} in ${report.dir}`,
+    `create-creact: ${stack} + ${styling} on ${monorepo} in ${report.dir}`,
     `  base     ${base}`,
     `  layer    ${named("written").length} written, ${named("unchanged").length} unchanged, ${kept.length} kept`,
     ...kept.map((file) => `           kept ${file}, which the project changed`),

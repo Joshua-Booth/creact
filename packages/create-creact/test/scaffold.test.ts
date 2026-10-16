@@ -17,9 +17,27 @@ import path from "node:path";
 import { after, before, describe, it, type TestContext } from "node:test";
 
 import { create } from "../src/create.ts";
-import { OVERLAYS } from "../src/layer.ts";
-import { isBuilt, type StylingId, STYLINGS } from "../src/options.ts";
-import { type StackId, STACKS } from "../src/stacks.ts";
+import {
+  isObject,
+  type JsonObject,
+  loadLayer,
+  type OverlayId,
+  plan,
+  type Removal,
+} from "../src/layer.ts";
+import {
+  isBuilt,
+  projectName,
+  type StylingId,
+  STYLINGS,
+} from "../src/options.ts";
+import { withoutGitContext } from "../src/shell.ts";
+import {
+  type MonorepoId,
+  MONOREPOS,
+  type StackId,
+  STACKS,
+} from "../src/stacks.ts";
 
 const MAIN = path.join(import.meta.dirname, "../src/main.ts");
 const LAYER = path.join(import.meta.dirname, "../layer");
@@ -29,22 +47,31 @@ const IDENTITY = [
   "-c",
   "user.email=test@example.invalid",
 ];
+const SRC = "apps/web/src";
 const CHECKS = ["build", "typecheck", "lint", "format:check", "test"];
 const STACK_IDS = Object.keys(STACKS) as StackId[];
 const STYLING_IDS = Object.keys(STYLINGS).filter((id): id is StylingId =>
   isBuilt(STYLINGS, id)
 );
+const MONOREPO_IDS = Object.keys(MONOREPOS) as MonorepoId[];
 
 const SCAFFOLD = new Set(process.env.CREACT_SCAFFOLD?.split(","));
 
-function selected(stack: StackId, styling: StylingId): boolean {
-  return ["1", stack, `${stack}:${styling}`].some((key) => SCAFFOLD.has(key));
+function selected(
+  stack: StackId,
+  styling: StylingId,
+  monorepo: MonorepoId
+): boolean {
+  const keys = monorepo === "pnpm" ? ["1", stack, `${stack}:${styling}`] : [];
+  return [...keys, `${stack}:${styling}:${monorepo}`].some((key) =>
+    SCAFFOLD.has(key)
+  );
 }
 
 // creact's mise.toml sets NODE_ENV=development, and next build can't
 // prerender under it. A generated project starts from a clean NODE_ENV.
 const PROJECT_ENV = Object.fromEntries(
-  Object.entries(process.env).filter(([name]) => name !== "NODE_ENV")
+  Object.entries(withoutGitContext()).filter(([name]) => name !== "NODE_ENV")
 );
 
 function sh(
@@ -60,9 +87,22 @@ function porcelain(dir: string): string {
   return sh(dir, "git", ["status", "--porcelain"]).stdout;
 }
 
+function readJson(file: string): JsonObject {
+  return JSON.parse(readFileSync(file, "utf8")) as JsonObject;
+}
+
+function leftOver(doc: JsonObject, removal: Removal): string[] {
+  return Object.entries(removal).flatMap(([key, rule]) => {
+    const value = doc[key];
+    if (value === undefined) return [];
+    if (rule === null) return [key];
+    return isObject(value) ? leftOver(value, rule) : [];
+  });
+}
+
 const CSS_OUTPUT: Readonly<Record<StackId, string>> = {
-  "react-router": "build/client/assets",
-  next: ".next/static",
+  "react-router": "apps/web/build/client/assets",
+  next: "apps/web/.next/static",
 };
 
 function builtCss(dir: string): string {
@@ -108,39 +148,38 @@ const PROOF = {
   },
 } satisfies Record<StylingId, Proof>;
 
-const SAVED_NEXT_PREFERENCES = {
-  macos: "Library/Preferences/create-next-app-nodejs",
-  linux: ".config/create-next-app-nodejs",
+const TOOL_CONFIG: Readonly<Record<MonorepoId, string | undefined>> = {
+  pnpm: undefined,
+  turborepo: "turbo.json",
+  nx: "nx.json",
 };
 
-function withSavedNextPreferences(parent: string): NodeJS.ProcessEnv {
+function withEmptyHome(parent: string): NodeJS.ProcessEnv {
   const home = path.join(parent, "home");
-  const preferences = JSON.stringify({
-    preferences: { linter: "eslint", eslint: true, reactCompiler: true },
-  });
-  for (const dir of Object.values(SAVED_NEXT_PREFERENCES)) {
-    mkdirSync(path.join(home, dir), { recursive: true });
-    writeFileSync(path.join(home, dir, "config.json"), preferences);
-  }
+  mkdirSync(home);
   const store = sh(parent, "pnpm", ["store", "path"]).stdout.trim();
   return {
     ...PROJECT_ENV,
     HOME: home,
-    XDG_CONFIG_HOME: path.join(home, ".config"),
+    XDG_DATA_HOME: path.join(home, ".local", "share"),
     pnpm_config_store_dir: path.dirname(store),
   };
 }
 
-for (const [id, styling] of STACK_IDS.flatMap((stackId) =>
-  STYLING_IDS.map((stylingId) => [stackId, stylingId] as const)
+for (const [id, styling, monorepo] of STACK_IDS.flatMap((stackId) =>
+  STYLING_IDS.flatMap((stylingId) =>
+    MONOREPO_IDS.map((tool) => [stackId, stylingId, tool] as const)
+  )
 )) {
-  const stack = STACKS[id];
   const proof = PROOF[styling];
-  const prune = OVERLAYS[styling][id]?.prune;
 
   describe(
-    `scaffold ${id} + ${styling}`,
-    { skip: !selected(id, styling) && "set CREACT_SCAFFOLD=1" },
+    `scaffold ${id} + ${styling} on ${monorepo}`,
+    {
+      skip:
+        !selected(id, styling, monorepo) &&
+        "set CREACT_SCAFFOLD=1, <stack>, <stack>:<styling> or <stack>:<styling>:<monorepo>",
+    },
     () => {
       let parent = "";
       let dir = "";
@@ -149,18 +188,27 @@ for (const [id, styling] of STACK_IDS.flatMap((stackId) =>
       before(() => {
         parent = mkdtempSync(path.join(tmpdir(), "create-creact-"));
         dir = path.join(parent, "app");
-        env = withSavedNextPreferences(parent);
+        env = withEmptyHome(parent);
       });
 
       after(() => {
         rmSync(parent, { recursive: true, force: true });
       });
 
-      it("creates the project without saved create-next-app preferences leaking in", (t: TestContext) => {
+      it("creates the project without Better-T-Stack writing to the caller's home", async (t: TestContext) => {
         const result = sh(
           parent,
           process.execPath,
-          [MAIN, "app", "--stack", id, "--styling", styling],
+          [
+            MAIN,
+            "app",
+            "--stack",
+            id,
+            "--styling",
+            styling,
+            "--monorepo",
+            monorepo,
+          ],
           env
         );
         t.assert.strictEqual(result.status, 0, result.stderr);
@@ -169,31 +217,37 @@ for (const [id, styling] of STACK_IDS.flatMap((stackId) =>
           readdirSync(parent).filter((entry) => entry.includes("staging")),
           []
         );
-
-        const pkg = readFileSync(path.join(dir, "package.json"), "utf8");
-        t.assert.doesNotMatch(pkg, /"eslint(-config-next)?":/);
         t.assert.deepStrictEqual(
-          readdirSync(dir).filter((entry) => entry.includes("eslint")),
+          readdirSync(path.join(parent, "home"), {
+            recursive: true,
+            encoding: "utf8",
+          }).filter((entry) => path.basename(entry) === "better-t-stack"),
           []
         );
-        const signature = readFileSync(path.join(dir, stack.signature), "utf8");
-        t.assert.doesNotMatch(signature, /reactCompiler/);
 
-        const manifest = JSON.parse(pkg) as Record<string, object | undefined>;
-        const names = new Set(
-          ["dependencies", "devDependencies"].flatMap((key) =>
-            Object.keys(manifest[key] ?? {})
-          )
-        );
+        const ids: readonly OverlayId[] = ["base", styling];
+        const prune = plan(await loadLayer(LAYER, ids, id), ids, {
+          stack: id,
+          name: projectName(dir),
+        }).find((op) => op.kind === "prune");
+        t.assert.ok(prune?.kind === "prune");
         t.assert.deepStrictEqual(
-          (prune?.dependencies ?? []).filter((name) => names.has(name)),
+          prune.paths.filter((entry) => existsSync(path.join(dir, entry))),
           []
         );
         t.assert.deepStrictEqual(
-          (prune?.files ?? []).filter((file) =>
-            existsSync(path.join(dir, file))
+          prune.json.flatMap(({ file, removal }) =>
+            leftOver(readJson(path.join(dir, file)), removal)
           ),
           []
+        );
+
+        const config = TOOL_CONFIG[monorepo];
+        t.assert.deepStrictEqual(
+          Object.values(TOOL_CONFIG).filter(
+            (file) => file !== undefined && existsSync(path.join(dir, file))
+          ),
+          config === undefined ? [] : [config]
         );
       });
 
@@ -232,7 +286,7 @@ for (const [id, styling] of STACK_IDS.flatMap((stackId) =>
         );
       });
 
-      it("builds, typechecks, lints, checks formatting and tests", (t: TestContext) => {
+      it("builds, typechecks, lints, checks formatting and tests from the root", (t: TestContext) => {
         for (const check of CHECKS) {
           const result = sh(dir, "pnpm", ["run", check]);
           t.assert.strictEqual(
@@ -245,7 +299,7 @@ for (const [id, styling] of STACK_IDS.flatMap((stackId) =>
 
       it("builds CSS that carries the values from the project's tokens.css", (t: TestContext) => {
         const tokens = readFileSync(
-          path.join(dir, stack.srcRoot, "styles", "tokens.css"),
+          path.join(dir, SRC, "styles", "tokens.css"),
           "utf8"
         );
         const accent = tokens
@@ -269,16 +323,14 @@ for (const [id, styling] of STACK_IDS.flatMap((stackId) =>
         t.assert.strictEqual(porcelain(dir), "");
       });
 
-      it("formats a staged file on commit and resolves the stack's alias in a test", (t: TestContext) => {
-        const tsconfig = JSON.parse(
-          readFileSync(path.join(dir, "tsconfig.json"), "utf8")
-        ) as { compilerOptions: { paths: Record<string, string[]> } };
-        const [alias, targets] =
-          Object.entries(tsconfig.compilerOptions.paths)[0] ?? [];
-        t.assert.deepStrictEqual(targets, [`./${stack.srcRoot}/*`]);
-        const prefix = alias?.replace("*", "") ?? "";
+      it("formats a staged file on commit and resolves the app's alias in a test", (t: TestContext) => {
+        const tsconfig = readJson(path.join(dir, "apps/web/tsconfig.json"));
+        const { paths } = tsconfig.compilerOptions as {
+          paths: Record<string, string[]>;
+        };
+        t.assert.deepStrictEqual(paths["@/*"], ["./src/*"]);
 
-        const probe = path.join(dir, stack.srcRoot, "probe");
+        const probe = path.join(dir, SRC, "probe");
         mkdirSync(probe);
         writeFileSync(
           path.join(probe, "add.ts"),
@@ -289,7 +341,7 @@ for (const [id, styling] of STACK_IDS.flatMap((stackId) =>
           [
             'import { describe, expect, it } from "vitest";',
             "",
-            `import { add } from "${prefix}probe/add";`,
+            'import { add } from "@/probe/add";',
             "",
             'describe("add", () => {',
             '  it("adds two numbers", () => {',
@@ -309,7 +361,7 @@ for (const [id, styling] of STACK_IDS.flatMap((stackId) =>
         t.assert.strictEqual(commit.status, 0, commit.stdout + commit.stderr);
         const committed = sh(dir, "git", [
           "show",
-          `HEAD:${stack.srcRoot}/probe/add.ts`,
+          `HEAD:${SRC}/probe/add.ts`,
         ]).stdout;
         t.assert.match(committed, /return a \+ b;/);
 
@@ -339,6 +391,7 @@ for (const [id, styling] of STACK_IDS.flatMap((stackId) =>
             dir,
             stack: undefined,
             styling: undefined,
+            monorepo: undefined,
             extras: [],
             yes: false,
             install: false,
@@ -358,8 +411,8 @@ for (const [id, styling] of STACK_IDS.flatMap((stackId) =>
         t.assert.match(readFileSync(edited, "utf8"), /\/\/ project rule\n$/);
       });
 
-      it("fails lint on a planted styling mistake and passes once it's gone", (t: TestContext) => {
-        const planted = path.join(dir, stack.srcRoot, "planted.tsx");
+      it("fails lint from the root on a planted styling mistake and passes once it's gone", (t: TestContext) => {
+        const planted = path.join(dir, SRC, "planted.tsx");
         writeFileSync(planted, proof.badComponent);
         const failed = sh(dir, "pnpm", ["run", "lint"]);
         rmSync(planted);

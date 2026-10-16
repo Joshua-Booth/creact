@@ -38,7 +38,7 @@ creact is a starting point for React web apps. Testing, linting, Storybook and a
 
 There are three ways to use it:
 
-- **Start a new project** with `create-creact`. It sets up React Router or Next, on Tailwind or StyleX, with creact's tooling. See [create-creact](./docs/CREATE-CREACT.md).
+- **Start a new project** with `create-creact`. It sets up a Better-T-Stack monorepo with React Router or Next, on Tailwind or StyleX, with creact's tooling. See [create-creact](./docs/CREATE-CREACT.md).
 - **Clone the template** to get the whole app, with its layout, examples and components.
 - **Add pieces to a creact-style project** from the [registry](./docs/REGISTRY.md), like a component or the theme.
 

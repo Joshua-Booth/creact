@@ -7,9 +7,6 @@ import { defineConfig } from "oxlint";
 import { styling } from "./oxlint.styling.ts";
 
 type Rules = NonNullable<Parameters<typeof defineConfig>[0]["rules"]>;
-type Override = NonNullable<
-  Parameters<typeof defineConfig>[0]["overrides"]
->[number];
 
 const errors = (names: string[]): Rules =>
   Object.fromEntries(names.map((name) => [name, "error"]));
@@ -23,14 +20,6 @@ const alias = (rules: object, from: string, to: string): Rules =>
   );
 
 const sonarjsRecommended = sonarjs.configs?.recommended as { rules: Rules };
-
-const createReactRouterTemplateAsWritten: Override = {
-  files: ["app/root.tsx", "app/routes/home.tsx"],
-  rules: {
-    "no-empty-pattern": "off",
-    "typescript/strict-boolean-expressions": "off",
-  },
-};
 
 export default defineConfig({
   categories: { correctness: "off" },
@@ -545,7 +534,10 @@ export default defineConfig({
       },
     },
 
-    createReactRouterTemplateAsWritten,
+    {
+      files: ["apps/*/src/routes/**"],
+      rules: { "check-file/filename-naming-convention": "off" },
+    },
 
     {
       files: ["**/*.server.ts", "**/server/**/*.ts"],

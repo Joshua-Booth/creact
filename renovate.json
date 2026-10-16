@@ -161,6 +161,24 @@
       "matchPackageNames": ["node", "pnpm", "@types/node"],
       "groupName": "runtime toolchain",
       "automerge": false
+    },
+    {
+      "description": "Require review for the Better-T-Stack pin",
+      "matchPackageNames": ["create-better-t-stack"],
+      "groupName": "better-t-stack",
+      "automerge": false
+    }
+  ],
+
+  "customManagers": [
+    {
+      "customType": "regex",
+      "description": "Bump the Better-T-Stack version create-creact builds on",
+      "managerFilePatterns": ["/^packages/create-creact/src/stacks\\.ts$/"],
+      "matchStrings": [
+        "\"(?<depName>create-better-t-stack)@(?<currentValue>[^\"]+)\""
+      ],
+      "datasourceTemplate": "npm"
     }
   ],
 
