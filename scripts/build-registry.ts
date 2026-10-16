@@ -81,7 +81,7 @@ const HOST_REQUIREMENTS: readonly HostRequirement[] = [
   {
     name: "needs-remix-themes",
     packages: ["remix-themes"],
-    docs: "mode-toggle reads and sets the theme with remix-themes, so it throws outside its ThemeProvider and needs a theme action route, as in creact's src/app. In other projects, use the project's own mode toggle.",
+    docs: "Items that use remix-themes, like mode-toggle, throw outside its ThemeProvider and save the theme through an action route, as in creact's src/app. Elsewhere, use the project's own mode toggle.",
   },
 ];
 
