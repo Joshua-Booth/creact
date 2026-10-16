@@ -29,7 +29,7 @@ import {
   STYLINGS,
   UsageError,
 } from "../src/options.ts";
-import { type StackId, STACKS } from "../src/stacks.ts";
+import { BTS, type StackId, STACKS } from "../src/stacks.ts";
 import {
   fixture,
   LAYER,
@@ -153,6 +153,14 @@ const UPSTREAM_ONLY: Prior = { kind: "upstream-only" };
 function recorded(hashes: Readonly<Record<string, string>>): Prior {
   return { kind: "recorded", hashes };
 }
+
+describe("the fixtures", () => {
+  it("come from the pinned Better-T-Stack, so a bump reruns capture-fixtures.ts", (t: TestContext) => {
+    for (const stack of STACK_IDS) {
+      t.assert.strictEqual(fixture(stack).bts, BTS, stack);
+    }
+  });
+});
 
 describe("plan", () => {
   it("fills every {{name}} in layer paths, contents and prune entries", async (t: TestContext) => {

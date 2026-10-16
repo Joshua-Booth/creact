@@ -6,7 +6,7 @@ import path from "node:path";
 import { obtainBase } from "../src/create.ts";
 import { JSON_FILES } from "../src/layer.ts";
 import { DEFAULTS, projectName } from "../src/options.ts";
-import { type StackId, STACKS } from "../src/stacks.ts";
+import { BTS, type StackId, STACKS } from "../src/stacks.ts";
 
 const asked = process.argv.slice(2);
 const stacks = (asked.length > 0 ? asked : Object.keys(STACKS)).filter(
@@ -24,12 +24,15 @@ for (const stack of stacks) {
       { ...DEFAULTS, stack, extras: [] },
       projectName("app")
     );
-    const fixture = Object.fromEntries(
-      JSON_FILES.map((file) => [
-        file,
-        JSON.parse(readFileSync(path.join(base, file), "utf8")) as unknown,
-      ])
-    );
+    const fixture = {
+      bts: BTS,
+      ...Object.fromEntries(
+        JSON_FILES.map((file) => [
+          file,
+          JSON.parse(readFileSync(path.join(base, file), "utf8")) as unknown,
+        ])
+      ),
+    };
     writeFileSync(
       path.join(import.meta.dirname, "fixtures", `${stack}.json`),
       `${JSON.stringify(fixture, null, 2)}\n`

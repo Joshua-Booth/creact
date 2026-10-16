@@ -163,8 +163,9 @@
       "automerge": false
     },
     {
-      "description": "Require review for the Better-T-Stack pin, as its fixtures need refreshing by hand",
+      "description": "Require review for the Better-T-Stack pin",
       "matchPackageNames": ["create-better-t-stack"],
+      "groupName": "better-t-stack",
       "automerge": false
     }
   ],

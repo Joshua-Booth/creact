@@ -40,15 +40,17 @@ export function tempDir(): string {
   return dir;
 }
 
-export function fixture(
-  stack: StackId
-): Readonly<Record<JsonFile, JsonObject>> {
+type Fixture = Readonly<Record<JsonFile, JsonObject>> & {
+  readonly bts: string;
+};
+
+export function fixture(stack: StackId): Fixture {
   return JSON.parse(
     readFileSync(
       path.join(import.meta.dirname, "fixtures", `${stack}.json`),
       "utf8"
     )
-  ) as Record<JsonFile, JsonObject>;
+  ) as Fixture;
 }
 
 export async function ops(
