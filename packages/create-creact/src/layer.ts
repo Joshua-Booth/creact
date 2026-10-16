@@ -265,7 +265,9 @@ export const OVERLAYS: Readonly<Record<OverlayId, Overlay>> = {
   stylex: {
     all: {
       packages: {
-        "package.json": { devDependencies: ["@stylexjs/eslint-plugin"] },
+        "package.json": {
+          devDependencies: ["@stylexjs/eslint-plugin", "@stylexjs/unplugin"],
+        },
         "apps/web/package.json": { dependencies: ["@stylexjs/stylex"] },
       },
       prune: {

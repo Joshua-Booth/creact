@@ -73,6 +73,7 @@ const SHARED_FILES = [
   "oxlint.styling.ts",
   "skills-lock.json",
   "vitest.config.ts",
+  "vitest.styling.ts",
   "apps/web/src/index.css",
   "apps/web/src/styles/tokens.css",
   "apps/web/src/styles/tokens.test.ts",
@@ -779,6 +780,7 @@ describe("apply", () => {
     t.assert.strictEqual(root.devDependencies.includes("vitest"), false);
     t.assert.ok(root.devDependencies.includes("oxlint"));
     t.assert.ok(root.devDependencies.includes("@stylexjs/eslint-plugin"));
+    t.assert.ok(root.devDependencies.includes("@stylexjs/unplugin"));
     t.assert.deepStrictEqual(app, {
       manifest: "apps/web/package.json",
       dependencies: ["@stylexjs/stylex"],

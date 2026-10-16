@@ -70,9 +70,14 @@ function selected(
 
 // creact's mise.toml sets NODE_ENV=development, and next build can't
 // prerender under it. A generated project starts from a clean NODE_ENV.
-const PROJECT_ENV = Object.fromEntries(
-  Object.entries(withoutGitContext()).filter(([name]) => name !== "NODE_ENV")
-);
+// NO_COLOR keeps the tools' output plain where CI forces colour, so the
+// assertions below read it as is.
+const PROJECT_ENV = {
+  ...Object.fromEntries(
+    Object.entries(withoutGitContext()).filter(([name]) => name !== "NODE_ENV")
+  ),
+  NO_COLOR: "1",
+};
 
 function sh(
   cwd: string,
@@ -115,6 +120,7 @@ function builtCss(dir: string): string {
 interface Proof {
   readonly cssHas: readonly RegExp[];
   readonly cssLacks: readonly RegExp[];
+  readonly component: string;
   readonly badComponent: string;
   readonly lintRule: string;
 }
@@ -123,6 +129,12 @@ const PROOF = {
   tailwind: {
     cssHas: [],
     cssLacks: [/--color-page:\s*var\(--color-page\)/],
+    component: [
+      "export function Card({ children }: { children: React.ReactNode }) {",
+      '  return <div className="p-gutter text-ink">{children}</div>;',
+      "}",
+      "",
+    ].join("\n"),
     badComponent: [
       "export function Planted() {",
       '  return <p className="p-2 p-4" />;',
@@ -134,6 +146,20 @@ const PROOF = {
   stylex: {
     cssHas: [/@layer priority1/, /\{\s*color: ?var\(--color-accent\)/],
     cssLacks: [],
+    component: [
+      'import * as stylex from "@stylexjs/stylex";',
+      "",
+      'import { colors, spacing } from "@/styles/tokens.stylex";',
+      "",
+      "const styles = stylex.create({",
+      "  card: { padding: spacing.gutter, color: colors.ink },",
+      "});",
+      "",
+      "export function Card({ children }: { children: React.ReactNode }) {",
+      "  return <div {...stylex.props(styles.card)}>{children}</div>;",
+      "}",
+      "",
+    ].join("\n"),
     badComponent: [
       'import * as stylex from "@stylexjs/stylex";',
       "",
@@ -147,6 +173,22 @@ const PROOF = {
     lintRule: "@stylexjs(valid-shorthands)",
   },
 } satisfies Record<StylingId, Proof>;
+
+const CARD_TEST = [
+  'import { renderToStaticMarkup } from "react-dom/server";',
+  'import { describe, expect, it } from "vitest";',
+  "",
+  'import { Card } from "@/probe/card";',
+  "",
+  'describe("Card", () => {',
+  '  it("renders with the class its styling gave it", () => {',
+  "    expect(renderToStaticMarkup(<Card>hi</Card>)).toMatch(",
+  '      /^<div class="[^"]+">hi<\\/div>$/',
+  "    );",
+  "  });",
+  "});",
+  "",
+].join("\n");
 
 const TOOL_CONFIG: Readonly<Record<MonorepoId, string | undefined>> = {
   pnpm: undefined,
@@ -353,7 +395,7 @@ for (const [id, styling, monorepo] of STACK_IDS.flatMap((stackId) =>
         t.assert.strictEqual(porcelain(dir), "");
       });
 
-      it("formats a staged file on commit and resolves the app's alias in a test", (t: TestContext) => {
+      it("formats a staged file on commit, resolves the app's alias in a test and renders a styled component", (t: TestContext) => {
         const tsconfig = readJson(path.join(dir, "apps/web/tsconfig.json"));
         const { paths } = tsconfig.compilerOptions as {
           paths: Record<string, string[]>;
@@ -381,6 +423,8 @@ for (const [id, styling, monorepo] of STACK_IDS.flatMap((stackId) =>
             "",
           ].join("\n")
         );
+        writeFileSync(path.join(probe, "card.tsx"), proof.component);
+        writeFileSync(path.join(probe, "card.test.tsx"), CARD_TEST);
         sh(dir, "git", ["add", "--all"]);
         const commit = sh(dir, "git", [
           ...IDENTITY,
@@ -397,7 +441,8 @@ for (const [id, styling, monorepo] of STACK_IDS.flatMap((stackId) =>
 
         const result = sh(dir, "pnpm", ["run", "test"]);
         t.assert.strictEqual(result.status, 0, result.stdout + result.stderr);
-        t.assert.match(result.stdout, /2 passed/);
+        t.assert.match(result.stdout, /Tests {2}4 passed/);
+        t.assert.doesNotMatch(result.stdout + result.stderr, /close timed out/);
       });
 
       it("updates an unedited layer file and keeps an edited one", async (t: TestContext) => {
