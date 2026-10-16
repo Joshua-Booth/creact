@@ -219,9 +219,9 @@ The package route stays open. `pnpm add github:Joshua-Booth/creact#path:packages
 - It always writes a monorepo: `apps/web` for the frontend, `packages/ui` with shadcn on Base UI and Tailwind, `packages/config` with a base tsconfig, varlock, `bunfig.toml` and `bts.jsonc`. No flag skips `packages/ui`, Tailwind, varlock or `bunfig.toml`.
 - It names the workspace packages `@<name>/ui` and `@<name>/config` and accepts names npm can't scope.
 - `apps/web/tsconfig.json` doesn't extend the base tsconfig.
-- It writes `packageManager: pnpm@12.12.1` to the root `package.json`.
+- It writes `packageManager` to the root `package.json` with the pnpm version that ran it.
 - It writes React Router `^8.3.1`, which resolves 8.4.0.
-- The Turborepo and Nx cells, run by hand: `react-router:tailwind:turborepo` passed all 10 checks in 77 seconds, and `next:stylex:nx` passed all 10 in 56 seconds.
+- The Turborepo and Nx cells, run by hand: `react-router:tailwind:turborepo` passed all 10 checks in 73 seconds, and `next:stylex:nx` passed all 10 in 54 seconds.
 
 Note: `create-creact` is free on npm. `creact` is taken.
 
