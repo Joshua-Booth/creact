@@ -221,7 +221,7 @@ The package route stays open. `pnpm add github:Joshua-Booth/creact#path:packages
 - `apps/web/tsconfig.json` doesn't extend the base tsconfig.
 - It writes `packageManager` to the root `package.json` with the pnpm version that ran it.
 - It writes React Router `^8.3.1`, which resolves 8.4.0.
-- The Turborepo and Nx cells, run by hand: `react-router:tailwind:turborepo` passed all 10 checks in 73 seconds, and `next:stylex:nx` passed all 10 in 54 seconds.
+- The Turborepo and Nx cells, run by hand: `react-router:tailwind:turborepo` passed all 10 checks in 80 seconds, and `next:stylex:nx` passed all 10 in 52 seconds.
 
 Note: `create-creact` is free on npm. `creact` is taken.
 

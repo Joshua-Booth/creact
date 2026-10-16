@@ -22,7 +22,7 @@
       "typescript": "catalog:",
       "varlock": "catalog:"
     },
-    "packageManager": "pnpm@12.12.1"
+    "packageManager": "pnpm@12.0.0"
   },
   "tsconfig.json": {
     "extends": "@app/config/tsconfig.base.json"
