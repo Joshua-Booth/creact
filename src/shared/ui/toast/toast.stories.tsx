@@ -1,7 +1,6 @@
 import { useState } from "react";
 
 import preview from "@/storybook/preview";
-import { Theme, ThemeProvider } from "remix-themes";
 import { action } from "storybook/actions";
 import { expect, userEvent, waitFor, within } from "storybook/test";
 
@@ -23,16 +22,6 @@ const meta = preview.meta({
   beforeEach: () => {
     toast.dismiss();
   },
-  decorators: [
-    (Story) => (
-      <ThemeProvider
-        specifiedTheme={Theme.LIGHT}
-        themeAction="/action/set-theme"
-      >
-        <Story />
-      </ThemeProvider>
-    ),
-  ],
   parameters: {
     docs: {
       description: {
@@ -270,6 +259,34 @@ Default.test(
       await waitFor(() =>
         expect(canvasBody.queryByRole("listitem")).not.toBeInTheDocument()
       );
+    });
+  }
+);
+
+Default.test(
+  "when the root element has the dark class, should render a dark toaster",
+  async ({ canvasElement, step }) => {
+    const { body, documentElement } = canvasElement.ownerDocument;
+    const toaster = () => body.querySelector("[data-sonner-toaster]");
+
+    await step("show a toast", async () => {
+      await userEvent.click(
+        await within(body).findByRole("button", { name: /show/i })
+      );
+      await waitFor(() =>
+        expect(toaster()).toHaveAttribute("data-sonner-theme", "light")
+      );
+    });
+
+    await step("add the dark class to the root", async () => {
+      documentElement.classList.add("dark");
+      try {
+        await waitFor(() =>
+          expect(toaster()).toHaveAttribute("data-sonner-theme", "dark")
+        );
+      } finally {
+        documentElement.classList.remove("dark");
+      }
     });
   }
 );

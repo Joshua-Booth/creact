@@ -1,5 +1,7 @@
 "use client";
 
+import { useSyncExternalStore } from "react";
+
 import type { ToasterProps } from "sonner";
 import {
   CircleCheckIcon,
@@ -8,18 +10,34 @@ import {
   OctagonXIcon,
   TriangleAlertIcon,
 } from "lucide-react";
-import { useTheme } from "remix-themes";
 import { Toaster as Sonner } from "sonner";
 
-/** Themed toast notification renderer powered by Sonner. Syncs with the app's light/dark theme and provides custom status icons. */
+// The theme's dark tokens key off `.dark` on <html>, so the toaster follows
+// that class rather than one theme library's provider.
+function subscribeToRootClass(onChange: () => void) {
+  const observer = new MutationObserver(onChange);
+  observer.observe(document.documentElement, {
+    attributes: true,
+    attributeFilter: ["class"],
+  });
+  return () => observer.disconnect();
+}
+
+const rootTheme = () =>
+  document.documentElement.classList.contains("dark") ? "dark" : "light";
+
+/** Themed toast notification renderer powered by Sonner. Follows the `.dark` class on the document root and provides custom status icons. */
 function Toaster({ ...props }: ToasterProps) {
-  const [theme] = useTheme();
+  const theme = useSyncExternalStore(
+    subscribeToRootClass,
+    rootTheme,
+    /* istanbul ignore next -- SSR-only snapshot, never called in browser tests */
+    () => "system" as const
+  );
 
   return (
     <Sonner
-      /* istanbul ignore start @preserve -- null coalescing branch: theme is always set in stories */
-      theme={theme ?? "system"}
-      /* istanbul ignore end @preserve */
+      theme={theme}
       className="toaster group"
       icons={{
         success: <CircleCheckIcon className="size-4" />,

@@ -2101,10 +2101,9 @@
       "name": "toast",
       "type": "registry:ui",
       "title": "Toast",
-      "description": "Themed toast notification renderer powered by Sonner. Syncs with the app's light/dark theme and provides custom status icons.",
+      "description": "Themed toast notification renderer powered by Sonner. Follows the `.dark` class on the document root and provides custom status icons.",
       "dependencies": [
         "lucide-react@^1.49.0",
-        "remix-themes@^2.0.4",
         "sonner@^2.0.8"
       ],
       "files": [

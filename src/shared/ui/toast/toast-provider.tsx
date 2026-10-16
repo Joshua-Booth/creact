@@ -5,7 +5,7 @@ interface ToastProviderProps {
 }
 
 /* istanbul ignore start @preserve -- Thin provider wrapper, mounted once at root */
-/** Provider that enables toast notifications app-wide. Mount once at the root of your application inside `ThemeProvider`. */
+/** Provider that enables toast notifications app-wide. Mount once at the root of your application. */
 function ToastProvider({ children }: ToastProviderProps) {
   return (
     <>
