@@ -9,6 +9,7 @@ import {
   readdirSync,
   readFileSync,
   renameSync,
+  writeFileSync,
 } from "node:fs";
 import { tmpdir } from "node:os";
 import path from "node:path";
@@ -137,6 +138,25 @@ describe("a GIT_DIR inherited from a git hook of another repository", () => {
       "false"
     );
     t.assert.strictEqual(git(main, ["config", "core.hooksPath"]).status, 1);
+  });
+});
+
+describe("the caller's own git settings", () => {
+  it("reach the project's git init", (t: TestContext) => {
+    const config = path.join(tempDir(), "gitconfig");
+    writeFileSync(config, "[init]\n\tdefaultBranch = trunk\n");
+    const dir = upstreamBase("next");
+    recordState(dir, "next");
+
+    const result = spawnSync(process.execPath, [MAIN, dir, "--no-install"], {
+      env: { ...withoutGitContext(), GIT_CONFIG_GLOBAL: config },
+      encoding: "utf8",
+    });
+    t.assert.strictEqual(result.status, 0, result.stderr);
+    t.assert.strictEqual(
+      git(dir, ["symbolic-ref", "HEAD"]).stdout.trim(),
+      "refs/heads/trunk"
+    );
   });
 });
 

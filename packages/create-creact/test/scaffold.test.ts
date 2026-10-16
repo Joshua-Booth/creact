@@ -31,6 +31,7 @@ import {
   type StylingId,
   STYLINGS,
 } from "../src/options.ts";
+import { withoutGitContext } from "../src/shell.ts";
 import {
   type MonorepoId,
   MONOREPOS,
@@ -70,7 +71,7 @@ function selected(
 // creact's mise.toml sets NODE_ENV=development, and next build can't
 // prerender under it. A generated project starts from a clean NODE_ENV.
 const PROJECT_ENV = Object.fromEntries(
-  Object.entries(process.env).filter(([name]) => name !== "NODE_ENV")
+  Object.entries(withoutGitContext()).filter(([name]) => name !== "NODE_ENV")
 );
 
 function sh(
