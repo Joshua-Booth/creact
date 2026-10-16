@@ -22,6 +22,26 @@ const betterTStackTemplateAsWritten: Override = {
   },
 };
 
+const registryItemsAsWritten: Override = {
+  files: ["apps/web/src/shared/ui/**/*.{ts,tsx}"],
+  rules: {
+    "jsdoc-js/require-param": "off",
+    "jsdoc-js/require-param-description": "off",
+    "jsdoc-js/require-returns": "off",
+    "jsdoc-js/require-returns-description": "off",
+  },
+};
+
+const registryMarkerClasses: Override = {
+  files: ["apps/web/src/shared/**"],
+  rules: {
+    "better-tailwindcss/no-unknown-classes": [
+      "warn",
+      { ignore: ["^cn-", "^toaster$"] },
+    ],
+  },
+};
+
 export const styling = {
   settings: {
     "better-tailwindcss": { cwd: "apps/web", entryPoint: "src/index.css" },
@@ -44,5 +64,7 @@ export const styling = {
     },
     shadcnComponentsAsWritten,
     betterTStackTemplateAsWritten,
+    registryItemsAsWritten,
+    registryMarkerClasses,
   ],
 } satisfies Pick<Config, "settings" | "overrides">;

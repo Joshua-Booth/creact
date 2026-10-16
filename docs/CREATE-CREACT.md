@@ -126,7 +126,7 @@ Note: on StyleX, the README Better-T-Stack writes still describes Tailwind and `
 
 What works on one path only:
 
-- The shadcn registry from JB-90 is Tailwind only, as its components are Tailwind classes. Better-T-Stack's `packages/ui` is now its home: the planned `--shadcn` extra adds creact's registry to `packages/ui/components.json`. `--help` marks the extra as Tailwind only, and the command refuses an extra like it on a StyleX project, new or recorded.
+- The shadcn registry from JB-90 is Tailwind only, as its components are Tailwind classes. Its home in a generated project is `apps/web`, with `aliases.ui` in `apps/web/components.json` pointed at `@/components/ui`, as `docs/REGISTRY.md` describes; in `packages/ui`, shadcn rewrites creact's `@/shared/*` imports to a scope that resolves nowhere. The planned `--shadcn` extra does that setup. The Tailwind `oxlint.styling.ts` already carries the allowances creact's own config gives `src/shared`, so added items lint clean from the root. `--help` marks the extra as Tailwind only, and the command refuses an extra like it on a StyleX project, new or recorded, which a unit test covers until the extra exists to reach it from the CLI.
 - `sortTailwindcss` in `.oxfmtrc.json` stays on both paths. It only sorts class strings, and a StyleX project has none.
 
 `vitest.styling.ts` runs `@stylexjs/unplugin` with its `configureServer` hook removed, so a test renders a StyleX component through the real compiler. The hook starts a timer for the plugin's HMR channel and clears it only when the HTTP server closes, which Vitest's server never does, so with it the run would wait 10 s after the tests. `@stylexjs/unplugin` is a root devDependency on both stacks for that, and an `apps/web` one on React Router for Vite.
