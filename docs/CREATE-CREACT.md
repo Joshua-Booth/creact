@@ -169,16 +169,13 @@ Better-T-Stack has more frontends, such as `tanstack-router`, `tanstack-start` a
  export const STACKS = {
    "react-router": { ... },
    next: { ... },
-+  "tanstack-router": {
-+    signature: "apps/web/src/routes/__root.tsx",
-+    typegen: "tsr generate",
-+  },
++  "tanstack-router": { signature: "apps/web/src/routes/__root.tsx" },
  } as const satisfies Record<string, Stack>;
 ```
 
 Then:
 
-- Add `OVERLAYS.base["tanstack-router"] = { packages: { "apps/web/package.json": { devDependencies: ["@tanstack/router-cli"] } } }` for the CLI behind `tsr generate`.
+- Add `OVERLAYS.base["tanstack-router"]` with the app's `typegen` script and the CLI behind it: `{ json: { "apps/web/package.json": { scripts: { typegen: "tsr generate" } } }, packages: { "apps/web/package.json": { devDependencies: ["@tanstack/router-cli"] } } }`. The plan test fails for a stack with no `typegen` script, as root lint would skip it.
 - Add the StyleX files under `layer/stylex/tanstack-router/apps/web/`: `vite.config.ts`, `src/index.css`, `src/main.tsx`, `src/routes/__root.tsx` and `src/routes/index.tsx`. `main.tsx` is there because it imports `./components/loader`, which the StyleX prune removes. The prune already removes `@tailwindcss/vite` from either dependency map.
 - The Tailwind path needs no files, as Better-T-Stack writes the same one-line `src/index.css`. If its `__root.tsx` breaks a rule, add it to `betterTStackTemplateAsWritten`.
 - Run `node packages/create-creact/test/capture-fixtures.ts tanstack-router`, then add the stack's rows to `FILES` in the plan test and `CSS_OUTPUT` in the scaffold test (`apps/web/dist/assets`). Both are `Record<StackId, …>`, so the compiler points at them.

@@ -152,6 +152,18 @@ export const OVERLAYS: Readonly<Record<OverlayId, Overlay>> = {
       },
       prune: { paths: ["bunfig.toml", "apps/web/bunfig.toml"] },
     },
+    "react-router": {
+      json: {
+        "apps/web/package.json": {
+          scripts: { typegen: "react-router typegen" },
+        },
+      },
+    },
+    next: {
+      json: {
+        "apps/web/package.json": { scripts: { typegen: "next typegen" } },
+      },
+    },
   },
   tailwind: {
     all: {
@@ -326,13 +338,8 @@ export function plan(
     }))
     .toSorted((a, b) => a.path.localeCompare(b.path));
 
-  const seed: Partial<Record<JsonFile, JsonObject>> = {
-    "apps/web/package.json": {
-      scripts: { typegen: STACKS[project.stack].typegen },
-    },
-  };
   const jsonOps = JSON_FILES.flatMap((file) => {
-    let patch = seed[file] ?? {};
+    let patch: JsonObject = {};
     for (const part of parts) patch = merge(patch, part.json?.[file] ?? {});
     return Object.keys(patch).length > 0
       ? [{ kind: "json" as const, path: file, patch }]

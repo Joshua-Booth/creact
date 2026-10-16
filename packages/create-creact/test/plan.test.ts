@@ -285,6 +285,17 @@ describe("plan", () => {
     }
   });
 
+  it("gives the app a typegen script on every stack, as root lint skips an app without one", async (t: TestContext) => {
+    for (const { stack, styling } of CELLS) {
+      const app = patch(await ops(stack, styling), "apps/web/package.json");
+      const { typegen } = app.scripts as JsonObject;
+      t.assert.ok(
+        typeof typegen === "string" && typegen !== "",
+        `${stack} + ${styling}`
+      );
+    }
+  });
+
   it("has an overlay entry for every layer directory and a lint slot for every built styling", (t: TestContext) => {
     t.assert.deepStrictEqual(
       readdirSync(LAYER).toSorted(),
