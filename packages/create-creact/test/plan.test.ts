@@ -32,6 +32,7 @@ import {
   SKILLS_LOCK,
 } from "../src/layer.ts";
 import {
+  EXTRAS,
   isBuilt,
   type StylingId,
   STYLINGS,
@@ -56,8 +57,11 @@ const CELLS = STACK_IDS.flatMap((stack) =>
   STYLING_IDS.map((styling) => ({ stack, styling }))
 );
 
+const OMITTED_UNTIL_EXTRA: Readonly<Record<string, string>> = {
+  "playwright-cli": "playwright",
+};
+
 const SHARED_FILES = [
-  ".agents/.gitignore",
   ".husky/commit-msg",
   ".husky/pre-commit",
   ".lintstagedrc.json",
@@ -112,6 +116,10 @@ function fileOps(all: readonly Op[]) {
 
 function linkOps(all: readonly Op[]) {
   return all.flatMap((op) => (op.kind === "link" ? [op] : []));
+}
+
+function ignoreLines(all: readonly Op[]): string[] {
+  return all.flatMap((op) => (op.kind === "gitignore" ? op.lines : []));
 }
 
 function planned(all: readonly Op[], file: string): string {
@@ -307,6 +315,49 @@ describe("plan", () => {
       Object.keys(CREACT_LOCK).filter((id) => !Object.hasOwn(own.skills, id)),
       []
     );
+    t.assert.deepStrictEqual(
+      Object.keys(own.skills).filter((id) => !Object.hasOwn(CREACT_LOCK, id)),
+      Object.keys(OMITTED_UNTIL_EXTRA)
+    );
+    for (const [id, extra] of Object.entries(OMITTED_UNTIL_EXTRA)) {
+      t.assert.ok(Object.hasOwn(EXTRAS, extra), `${id} waits for ${extra}`);
+    }
+  });
+
+  it("imports AGENTS.md from CLAUDE.md at the root, and in the app on Next", async (t: TestContext) => {
+    for (const { stack, styling } of CELLS) {
+      const all = await ops(stack, styling);
+      const cell = `${stack} + ${styling}`;
+      t.assert.strictEqual(planned(all, "CLAUDE.md"), "@AGENTS.md\n", cell);
+      const app = fileOps(all).find((op) => op.path === "apps/web/CLAUDE.md");
+      t.assert.strictEqual(
+        app?.content,
+        stack === "next" ? "@AGENTS.md\n" : undefined,
+        cell
+      );
+    }
+  });
+
+  it("plans the .claude allowlist and the restore dir for the root .gitignore, with lines creact's own has", async (t: TestContext) => {
+    const own = readFileSync(path.join(REPO, ".gitignore"), "utf8").split("\n");
+    for (const { stack, styling } of CELLS) {
+      const lines = ignoreLines(await ops(stack, styling));
+      for (const line of lines) {
+        t.assert.ok(own.includes(line), `${stack} + ${styling}: ${line}`);
+      }
+      for (const line of [
+        "!/.claude/",
+        `!/${CLAUDE_SKILLS}/`,
+        `/${SKILLS_DIR}/`,
+      ]) {
+        t.assert.ok(lines.includes(line), `${stack} + ${styling}: ${line}`);
+      }
+      t.assert.ok(
+        lines.indexOf("!/.claude/") < lines.indexOf("/.claude/*") &&
+          lines.indexOf("/.claude/*") < lines.indexOf(`!/${CLAUDE_SKILLS}/`),
+        lines.join("\n")
+      );
+    }
   });
 
   it("locks the shadcn skill on Tailwind only, with a Claude Code link for every locked skill", async (t: TestContext) => {
@@ -604,12 +655,43 @@ describe("apply", () => {
         [
           ...JSON_FILES,
           STACKS[stack].signature,
+          ".gitignore",
           ...FILES[stack][styling],
           ...linkOps(all).map((op) => op.path),
         ].toSorted(),
         `${stack} + ${styling}`
       );
     }
+  });
+
+  it("appends the ignore block to Better-T-Stack's .gitignore once, and puts it back when gone", async (t: TestContext) => {
+    const dir = upstreamBase("next");
+    const file = path.join(dir, ".gitignore");
+    writeFileSync(file, "node_modules\n");
+    const all = await ops("next");
+    const block = ignoreLines(all).join("\n");
+    const first = await apply(dir, all, UPSTREAM_ONLY);
+    t.assert.strictEqual(first.files[".gitignore"], "written");
+    t.assert.strictEqual(first.hashes[".gitignore"], undefined);
+    t.assert.strictEqual(
+      readFileSync(file, "utf8"),
+      `node_modules\n\n${block}\n`
+    );
+
+    const second = await apply(dir, all, recorded(first.hashes));
+    t.assert.strictEqual(second.files[".gitignore"], "unchanged");
+    t.assert.strictEqual(
+      readFileSync(file, "utf8"),
+      `node_modules\n\n${block}\n`
+    );
+
+    writeFileSync(file, "node_modules\n/.claude/\n");
+    const third = await apply(dir, all, recorded(first.hashes));
+    t.assert.strictEqual(third.files[".gitignore"], "written");
+    t.assert.strictEqual(
+      readFileSync(file, "utf8"),
+      `node_modules\n/.claude/\n\n${block}\n`
+    );
   });
 
   it("seeds skills-lock.json once, then leaves the project's version alone without recording a hash", async (t: TestContext) => {

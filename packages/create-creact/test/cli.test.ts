@@ -5,6 +5,7 @@
 import { spawnSync } from "node:child_process";
 import {
   existsSync,
+  lstatSync,
   mkdirSync,
   readdirSync,
   readFileSync,
@@ -17,7 +18,13 @@ import path from "node:path";
 import { describe, it, type TestContext } from "node:test";
 
 import pkg from "../package.json" with { type: "json" };
-import { STATE_FILE } from "../src/layer.ts";
+import {
+  CLAUDE_SKILLS,
+  SKILLS_CLI,
+  SKILLS_DIR,
+  SKILLS_LOCK,
+  STATE_FILE,
+} from "../src/layer.ts";
 import { withoutGitContext } from "../src/shell.ts";
 import { recordState, tempDir, upstreamBase } from "./helpers.ts";
 
@@ -60,6 +67,24 @@ function onlyOnPath(
   return { ...withoutGitContext(), PATH: bin };
 }
 
+function pnpmFake(restore: string): NodeJS.ProcessEnv {
+  return onlyOnPath({
+    pnpm: [
+      'case "$*" in',
+      `  *experimental_install*) ${restore} ;;`,
+      "esac",
+      "",
+    ].join("\n"),
+  });
+}
+
+function locked(dir: string): string[] {
+  const lock = JSON.parse(
+    readFileSync(path.join(dir, SKILLS_LOCK), "utf8")
+  ) as { skills: Record<string, unknown> };
+  return Object.keys(lock.skills);
+}
+
 describe("main", () => {
   it("exits 2 with a message when the target is a file", (t: TestContext) => {
     const file = path.join(tempDir(), "app");
@@ -69,6 +94,27 @@ describe("main", () => {
     t.assert.strictEqual(
       result.stderr,
       `create-creact: ${file} is a file. Give a directory for the project.\n`
+    );
+  });
+
+  it("exits 2 with a message when the target's parent is a file", (t: TestContext) => {
+    const file = path.join(tempDir(), "somefile");
+    writeFileSync(file, "");
+    const dir = path.join(file, "app");
+    const result = cli([dir, "--stack", "next"]);
+    t.assert.strictEqual(result.status, 2, result.stderr);
+    t.assert.strictEqual(
+      result.stderr,
+      `create-creact: ${dir} would sit under the file ${file}. Give a directory for the project.\n`
+    );
+  });
+
+  it("says --no-install skips the skills restore too", (t: TestContext) => {
+    const result = cli(["--help"]);
+    t.assert.strictEqual(result.status, 0);
+    t.assert.match(
+      result.stdout,
+      /--no-install {6}skip pnpm install, .*the skills restore\n/
     );
   });
 
@@ -179,6 +225,99 @@ describe("--no-git", () => {
     const inits = cli([dir, "--no-install"], env);
     t.assert.strictEqual(inits.status, 1);
     t.assert.match(inits.stderr, /^create-creact: git couldn't start: /);
+  });
+});
+
+describe("the skills restore", () => {
+  const RESTORE = `pnpm --package=${SKILLS_CLI} dlx skills experimental_install`;
+
+  it("leaves the project complete and exits 0 when the restore can't find git", (t: TestContext) => {
+    const dir = upstreamBase("next");
+    recordState(dir, "next");
+    const result = cli(
+      [dir, "--no-git"],
+      pnpmFake("exec git clone https://example.invalid/skills")
+    );
+    t.assert.strictEqual(result.status, 0, result.stderr);
+    t.assert.ok(
+      result.stdout.includes(
+        `  skills   not restored, as ${RESTORE} exited with 127\n`
+      ),
+      result.stdout
+    );
+    t.assert.match(result.stdout, /^next: cd /m);
+    for (const id of locked(dir)) {
+      t.assert.ok(
+        lstatSync(path.join(dir, CLAUDE_SKILLS, id)).isSymbolicLink(),
+        id
+      );
+    }
+  });
+
+  it("prints the command that finishes it after a failed restore, and a rerun then finds the skills present", (t: TestContext) => {
+    const dir = upstreamBase("next");
+    recordState(dir, "next");
+    const failed = cli([dir, "--no-git"], pnpmFake("exit 1"));
+    t.assert.strictEqual(failed.status, 0, failed.stderr);
+    t.assert.ok(
+      failed.stdout.includes(
+        `  skills   not restored, as ${RESTORE} exited with 1\n`
+      ),
+      failed.stdout
+    );
+    const command = /^ {11}finish with (.*)$/m.exec(failed.stdout)?.[1];
+    t.assert.ok(command !== undefined, failed.stdout);
+
+    const ids = locked(dir);
+    const dirs = ids.map((id) => `${SKILLS_DIR}/${id}`).join(" ");
+    const env = pnpmFake(`/bin/mkdir -p ${dirs}`);
+    const finished = spawnSync("/bin/sh", ["-c", command], {
+      env,
+      encoding: "utf8",
+    });
+    t.assert.strictEqual(finished.status, 0, finished.stderr);
+    for (const id of ids) {
+      t.assert.ok(existsSync(path.join(dir, CLAUDE_SKILLS, id)), id);
+    }
+
+    const rerun = cli([dir, "--no-git"], env);
+    t.assert.strictEqual(rerun.status, 0, rerun.stderr);
+    t.assert.match(rerun.stdout, /skills {3}present in/);
+  });
+});
+
+describe("the root .gitignore", () => {
+  it("keeps the shared .claude files tracked under a global .claude ignore, and the restored skills out", (t: TestContext) => {
+    const dir = upstreamBase("next");
+    writeFileSync(path.join(dir, ".gitignore"), "node_modules\n");
+    recordState(dir, "next");
+    const first = cli([dir, "--no-install"]);
+    t.assert.strictEqual(first.status, 0, first.stderr);
+    mkdirSync(path.join(dir, SKILLS_DIR, "tdd"), { recursive: true });
+    writeFileSync(path.join(dir, SKILLS_DIR, "tdd", "SKILL.md"), "");
+    writeFileSync(path.join(dir, ".claude", "settings.local.json"), "{}");
+    const excludes = path.join(tempDir(), "ignore");
+    writeFileSync(excludes, ".claude\n.claude/*\n!.claude/settings.json\n");
+
+    const staged = git(dir, [
+      "-c",
+      `core.excludesFile=${excludes}`,
+      "add",
+      "-A",
+      "--dry-run",
+    ]).stdout;
+    for (const id of locked(dir)) {
+      t.assert.ok(staged.includes(`add '${CLAUDE_SKILLS}/${id}'\n`), staged);
+    }
+    t.assert.ok(staged.includes("add '.gitignore'\n"), staged);
+    t.assert.ok(!staged.includes(SKILLS_DIR), staged);
+    t.assert.ok(!staged.includes("settings.local.json"), staged);
+
+    const second = cli([dir, "--no-install", "--no-git"]);
+    t.assert.strictEqual(second.status, 0, second.stderr);
+    t.assert.match(second.stdout, /layer {4}0 written/);
+    const ignore = readFileSync(path.join(dir, ".gitignore"), "utf8");
+    t.assert.strictEqual(ignore.split("!/.claude/skills/").length, 2, ignore);
   });
 });
 
