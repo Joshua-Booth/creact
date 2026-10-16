@@ -58,7 +58,7 @@
         "cn@^0.4.0"
       ],
       "registryDependencies": [
-        "Joshua-Booth/creact/button"
+        "Joshua-Booth/creact/button#jb-100-registry-plain-projects"
       ],
       "files": [
         {
@@ -105,7 +105,7 @@
         "cn@^0.4.0"
       ],
       "registryDependencies": [
-        "Joshua-Booth/creact/button"
+        "Joshua-Booth/creact/button#jb-100-registry-plain-projects"
       ],
       "files": [
         {
@@ -177,7 +177,7 @@
         "react-i18next@^17.0.15"
       ],
       "registryDependencies": [
-        "Joshua-Booth/creact/needs-i18next"
+        "Joshua-Booth/creact/needs-i18next#jb-100-registry-plain-projects"
       ],
       "files": [
         {
@@ -249,7 +249,7 @@
         "cn@^0.4.0"
       ],
       "registryDependencies": [
-        "Joshua-Booth/creact/separator"
+        "Joshua-Booth/creact/separator#jb-100-registry-plain-projects"
       ],
       "files": [
         {
@@ -275,7 +275,7 @@
         "react-day-picker@^10.0.2"
       ],
       "registryDependencies": [
-        "Joshua-Booth/creact/button"
+        "Joshua-Booth/creact/button#jb-100-registry-plain-projects"
       ],
       "files": [
         {
@@ -323,8 +323,8 @@
         "react-i18next@^17.0.15"
       ],
       "registryDependencies": [
-        "Joshua-Booth/creact/button",
-        "Joshua-Booth/creact/needs-i18next"
+        "Joshua-Booth/creact/button#jb-100-registry-plain-projects",
+        "Joshua-Booth/creact/needs-i18next#jb-100-registry-plain-projects"
       ],
       "files": [
         {
@@ -417,9 +417,9 @@
         "react-i18next@^17.0.15"
       ],
       "registryDependencies": [
-        "Joshua-Booth/creact/button",
-        "Joshua-Booth/creact/input-group",
-        "Joshua-Booth/creact/needs-i18next"
+        "Joshua-Booth/creact/button#jb-100-registry-plain-projects",
+        "Joshua-Booth/creact/input-group#jb-100-registry-plain-projects",
+        "Joshua-Booth/creact/needs-i18next#jb-100-registry-plain-projects"
       ],
       "files": [
         {
@@ -446,9 +446,9 @@
         "react-i18next@^17.0.15"
       ],
       "registryDependencies": [
-        "Joshua-Booth/creact/dialog",
-        "Joshua-Booth/creact/input-group",
-        "Joshua-Booth/creact/needs-i18next"
+        "Joshua-Booth/creact/dialog#jb-100-registry-plain-projects",
+        "Joshua-Booth/creact/input-group#jb-100-registry-plain-projects",
+        "Joshua-Booth/creact/needs-i18next#jb-100-registry-plain-projects"
       ],
       "files": [
         {
@@ -526,24 +526,24 @@
         "sonner@^2.0.8"
       ],
       "registryDependencies": [
-        "Joshua-Booth/creact/badge",
-        "Joshua-Booth/creact/button",
-        "Joshua-Booth/creact/calendar",
-        "Joshua-Booth/creact/checkbox",
-        "Joshua-Booth/creact/command",
-        "Joshua-Booth/creact/data-grid-core",
-        "Joshua-Booth/creact/data-table-core",
-        "Joshua-Booth/creact/dialog",
-        "Joshua-Booth/creact/dropdown-menu",
-        "Joshua-Booth/creact/input",
-        "Joshua-Booth/creact/kbd",
-        "Joshua-Booth/creact/needs-i18next",
-        "Joshua-Booth/creact/popover",
-        "Joshua-Booth/creact/select",
-        "Joshua-Booth/creact/separator",
-        "Joshua-Booth/creact/skeleton",
-        "Joshua-Booth/creact/textarea",
-        "Joshua-Booth/creact/tooltip"
+        "Joshua-Booth/creact/badge#jb-100-registry-plain-projects",
+        "Joshua-Booth/creact/button#jb-100-registry-plain-projects",
+        "Joshua-Booth/creact/calendar#jb-100-registry-plain-projects",
+        "Joshua-Booth/creact/checkbox#jb-100-registry-plain-projects",
+        "Joshua-Booth/creact/command#jb-100-registry-plain-projects",
+        "Joshua-Booth/creact/data-grid-core#jb-100-registry-plain-projects",
+        "Joshua-Booth/creact/data-table-core#jb-100-registry-plain-projects",
+        "Joshua-Booth/creact/dialog#jb-100-registry-plain-projects",
+        "Joshua-Booth/creact/dropdown-menu#jb-100-registry-plain-projects",
+        "Joshua-Booth/creact/input#jb-100-registry-plain-projects",
+        "Joshua-Booth/creact/kbd#jb-100-registry-plain-projects",
+        "Joshua-Booth/creact/needs-i18next#jb-100-registry-plain-projects",
+        "Joshua-Booth/creact/popover#jb-100-registry-plain-projects",
+        "Joshua-Booth/creact/select#jb-100-registry-plain-projects",
+        "Joshua-Booth/creact/separator#jb-100-registry-plain-projects",
+        "Joshua-Booth/creact/skeleton#jb-100-registry-plain-projects",
+        "Joshua-Booth/creact/textarea#jb-100-registry-plain-projects",
+        "Joshua-Booth/creact/tooltip#jb-100-registry-plain-projects"
       ],
       "files": [
         {
@@ -618,7 +618,7 @@
         "vitest@^5.0.3"
       ],
       "registryDependencies": [
-        "Joshua-Booth/creact/direction"
+        "Joshua-Booth/creact/direction#jb-100-registry-plain-projects"
       ],
       "files": [
         {
@@ -691,21 +691,21 @@
         "react-i18next@^17.0.15"
       ],
       "registryDependencies": [
-        "Joshua-Booth/creact/badge",
-        "Joshua-Booth/creact/button",
-        "Joshua-Booth/creact/button-group",
-        "Joshua-Booth/creact/calendar",
-        "Joshua-Booth/creact/command",
-        "Joshua-Booth/creact/data-table-core",
-        "Joshua-Booth/creact/dropdown-menu",
-        "Joshua-Booth/creact/input",
-        "Joshua-Booth/creact/label",
-        "Joshua-Booth/creact/needs-i18next",
-        "Joshua-Booth/creact/popover",
-        "Joshua-Booth/creact/select",
-        "Joshua-Booth/creact/separator",
-        "Joshua-Booth/creact/slider",
-        "Joshua-Booth/creact/table"
+        "Joshua-Booth/creact/badge#jb-100-registry-plain-projects",
+        "Joshua-Booth/creact/button#jb-100-registry-plain-projects",
+        "Joshua-Booth/creact/button-group#jb-100-registry-plain-projects",
+        "Joshua-Booth/creact/calendar#jb-100-registry-plain-projects",
+        "Joshua-Booth/creact/command#jb-100-registry-plain-projects",
+        "Joshua-Booth/creact/data-table-core#jb-100-registry-plain-projects",
+        "Joshua-Booth/creact/dropdown-menu#jb-100-registry-plain-projects",
+        "Joshua-Booth/creact/input#jb-100-registry-plain-projects",
+        "Joshua-Booth/creact/label#jb-100-registry-plain-projects",
+        "Joshua-Booth/creact/needs-i18next#jb-100-registry-plain-projects",
+        "Joshua-Booth/creact/popover#jb-100-registry-plain-projects",
+        "Joshua-Booth/creact/select#jb-100-registry-plain-projects",
+        "Joshua-Booth/creact/separator#jb-100-registry-plain-projects",
+        "Joshua-Booth/creact/slider#jb-100-registry-plain-projects",
+        "Joshua-Booth/creact/table#jb-100-registry-plain-projects"
       ],
       "files": [
         {
@@ -770,7 +770,7 @@
         "vitest@^5.0.3"
       ],
       "registryDependencies": [
-        "Joshua-Booth/creact/needs-nuqs-adapter"
+        "Joshua-Booth/creact/needs-nuqs-adapter#jb-100-registry-plain-projects"
       ],
       "files": [
         {
@@ -900,8 +900,8 @@
         "react-i18next@^17.0.15"
       ],
       "registryDependencies": [
-        "Joshua-Booth/creact/button",
-        "Joshua-Booth/creact/needs-i18next"
+        "Joshua-Booth/creact/button#jb-100-registry-plain-projects",
+        "Joshua-Booth/creact/needs-i18next#jb-100-registry-plain-projects"
       ],
       "files": [
         {
@@ -1017,9 +1017,9 @@
         "react-router@^8.4.0"
       ],
       "registryDependencies": [
-        "Joshua-Booth/creact/button",
-        "Joshua-Booth/creact/empty",
-        "Joshua-Booth/creact/needs-i18next"
+        "Joshua-Booth/creact/button#jb-100-registry-plain-projects",
+        "Joshua-Booth/creact/empty#jb-100-registry-plain-projects",
+        "Joshua-Booth/creact/needs-i18next#jb-100-registry-plain-projects"
       ],
       "files": [
         {
@@ -1050,8 +1050,8 @@
         "cn@^0.4.0"
       ],
       "registryDependencies": [
-        "Joshua-Booth/creact/label",
-        "Joshua-Booth/creact/separator"
+        "Joshua-Booth/creact/label#jb-100-registry-plain-projects",
+        "Joshua-Booth/creact/separator#jb-100-registry-plain-projects"
       ],
       "files": [
         {
@@ -1155,7 +1155,7 @@
         "react-i18next@^17.0.15"
       ],
       "registryDependencies": [
-        "Joshua-Booth/creact/needs-i18next"
+        "Joshua-Booth/creact/needs-i18next#jb-100-registry-plain-projects"
       ],
       "files": [
         {
@@ -1237,9 +1237,9 @@
         "cn@^0.4.0"
       ],
       "registryDependencies": [
-        "Joshua-Booth/creact/button",
-        "Joshua-Booth/creact/input",
-        "Joshua-Booth/creact/textarea"
+        "Joshua-Booth/creact/button#jb-100-registry-plain-projects",
+        "Joshua-Booth/creact/input#jb-100-registry-plain-projects",
+        "Joshua-Booth/creact/textarea#jb-100-registry-plain-projects"
       ],
       "files": [
         {
@@ -1288,7 +1288,7 @@
         "cn@^0.4.0"
       ],
       "registryDependencies": [
-        "Joshua-Booth/creact/separator"
+        "Joshua-Booth/creact/separator#jb-100-registry-plain-projects"
       ],
       "files": [
         {
@@ -1428,7 +1428,7 @@
         "lucide-react@^1.49.0"
       ],
       "registryDependencies": [
-        "Joshua-Booth/creact/dropdown-menu"
+        "Joshua-Booth/creact/dropdown-menu#jb-100-registry-plain-projects"
       ],
       "files": [
         {
@@ -1475,7 +1475,7 @@
         "lucide-react@^1.49.0"
       ],
       "registryDependencies": [
-        "Joshua-Booth/creact/button"
+        "Joshua-Booth/creact/button#jb-100-registry-plain-projects"
       ],
       "files": [
         {
@@ -1501,10 +1501,10 @@
         "remix-themes@^2.0.4"
       ],
       "registryDependencies": [
-        "Joshua-Booth/creact/button",
-        "Joshua-Booth/creact/dropdown-menu",
-        "Joshua-Booth/creact/needs-i18next",
-        "Joshua-Booth/creact/needs-remix-themes"
+        "Joshua-Booth/creact/button#jb-100-registry-plain-projects",
+        "Joshua-Booth/creact/dropdown-menu#jb-100-registry-plain-projects",
+        "Joshua-Booth/creact/needs-i18next#jb-100-registry-plain-projects",
+        "Joshua-Booth/creact/needs-remix-themes#jb-100-registry-plain-projects"
       ],
       "files": [
         {
@@ -1607,8 +1607,8 @@
         "react-i18next@^17.0.15"
       ],
       "registryDependencies": [
-        "Joshua-Booth/creact/button",
-        "Joshua-Booth/creact/needs-i18next"
+        "Joshua-Booth/creact/button#jb-100-registry-plain-projects",
+        "Joshua-Booth/creact/needs-i18next#jb-100-registry-plain-projects"
       ],
       "files": [
         {
@@ -1790,8 +1790,8 @@
         "react-i18next@^17.0.15"
       ],
       "registryDependencies": [
-        "Joshua-Booth/creact/button",
-        "Joshua-Booth/creact/needs-i18next"
+        "Joshua-Booth/creact/button#jb-100-registry-plain-projects",
+        "Joshua-Booth/creact/needs-i18next#jb-100-registry-plain-projects"
       ],
       "files": [
         {
@@ -1819,14 +1819,14 @@
         "react-i18next@^17.0.15"
       ],
       "registryDependencies": [
-        "Joshua-Booth/creact/button",
-        "Joshua-Booth/creact/device",
-        "Joshua-Booth/creact/input",
-        "Joshua-Booth/creact/needs-i18next",
-        "Joshua-Booth/creact/separator",
-        "Joshua-Booth/creact/sheet",
-        "Joshua-Booth/creact/skeleton",
-        "Joshua-Booth/creact/tooltip"
+        "Joshua-Booth/creact/button#jb-100-registry-plain-projects",
+        "Joshua-Booth/creact/device#jb-100-registry-plain-projects",
+        "Joshua-Booth/creact/input#jb-100-registry-plain-projects",
+        "Joshua-Booth/creact/needs-i18next#jb-100-registry-plain-projects",
+        "Joshua-Booth/creact/separator#jb-100-registry-plain-projects",
+        "Joshua-Booth/creact/sheet#jb-100-registry-plain-projects",
+        "Joshua-Booth/creact/skeleton#jb-100-registry-plain-projects",
+        "Joshua-Booth/creact/tooltip#jb-100-registry-plain-projects"
       ],
       "files": [
         {
@@ -1895,7 +1895,7 @@
         "lucide-react@^1.49.0"
       ],
       "registryDependencies": [
-        "Joshua-Booth/creact/needs-i18next"
+        "Joshua-Booth/creact/needs-i18next#jb-100-registry-plain-projects"
       ],
       "files": [
         {
@@ -1936,9 +1936,9 @@
         "vitest@^5.0.3"
       ],
       "registryDependencies": [
-        "Joshua-Booth/creact/direction",
-        "Joshua-Booth/creact/needs-i18next",
-        "Joshua-Booth/creact/needs-remix-themes"
+        "Joshua-Booth/creact/direction#jb-100-registry-plain-projects",
+        "Joshua-Booth/creact/needs-i18next#jb-100-registry-plain-projects",
+        "Joshua-Booth/creact/needs-remix-themes#jb-100-registry-plain-projects"
       ],
       "files": [
         {
@@ -2271,7 +2271,7 @@
         "cn@^0.4.0"
       ],
       "registryDependencies": [
-        "Joshua-Booth/creact/toggle"
+        "Joshua-Booth/creact/toggle#jb-100-registry-plain-projects"
       ],
       "files": [
         {
