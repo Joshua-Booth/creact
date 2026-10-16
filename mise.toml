@@ -54,7 +54,7 @@ run = "vite-bundle-analyzer"
 [tasks.clean]
 description = "Remove build artifacts and cache"
 confirm = "This will delete dist, coverage, test results, and build caches. Continue?"
-run = "rm -rf dist .vite coverage playwright-report test-results"
+run = "rm -rf dist dist-e2e .vite coverage playwright-report test-results"
 
 [tasks.coverage]
 description = "Run unit and Storybook tests with coverage"
@@ -268,14 +268,8 @@ run = "node --test test/scaffold.test.ts"
 [tasks."test:all"]
 description = "Run all tests (unit, storybook, e2e)"
 alias = "ta"
-# Sequential, not parallel `depends`: both builds write incompatible output to
-# the same dist/, so running them concurrently races on dist/.vite/manifest.json.
-run = [
-    "react-router build",
-    "vitest run",
-    "E2E=true react-router build",
-    "playwright test --config {{vars.playwright_config}}",
-]
+depends = ["build", "build:e2e"]
+run = ["vitest run", "playwright test --config {{vars.playwright_config}}"]
 
 [tasks.mutation]
 description = "Run mutation testing with Stryker (report-only)"

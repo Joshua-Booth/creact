@@ -34,6 +34,7 @@
     "**/*.svg",
     "**/node_modules/**",
     "**/dist/**",
+    "**/dist-e2e/**",
     "**/build/**",
     "**/.react-router/**",
     "**/coverage/**",
