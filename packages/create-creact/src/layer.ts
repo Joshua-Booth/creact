@@ -82,6 +82,7 @@ interface Part {
   readonly json?: Readonly<Partial<Record<JsonFile, JsonObject>>>;
   readonly packages?: Readonly<Partial<Record<Manifest, Partial<Packages>>>>;
   readonly skills?: readonly SkillId[];
+  readonly gitignore?: readonly string[];
   readonly prune?: Prune;
 }
 
@@ -148,6 +149,16 @@ export const SKILLS_CLI = "skills@1.7.2";
 export const SKILLS_LOCK = "skills-lock.json";
 export const SKILLS_DIR = ".agents/skills";
 export const CLAUDE_SKILLS = ".claude/skills";
+const GITIGNORE = ".gitignore";
+const AGENT_GITIGNORE = [
+  "!/.claude/",
+  "/.claude/*",
+  "!/.claude/settings.json",
+  "!/.claude/rules/",
+  `!/${CLAUDE_SKILLS}/`,
+  "!/.claude/workflows/",
+  `/${SKILLS_DIR}/`,
+];
 
 export type Overlay = Readonly<Partial<Record<Scope, Part>>>;
 
@@ -225,6 +236,7 @@ export const OVERLAYS: Readonly<Record<OverlayId, Overlay>> = {
         "vercel-composition-patterns",
         "vercel-react-best-practices",
       ],
+      gitignore: AGENT_GITIGNORE,
       prune: { paths: ["bunfig.toml", "apps/web/bunfig.toml"] },
     },
     "react-router": {
@@ -323,6 +335,7 @@ export type Op =
       readonly path: string;
       readonly target: string;
     }
+  | { readonly kind: "gitignore"; readonly lines: readonly string[] }
   | {
       readonly kind: "json";
       readonly path: JsonFile;
@@ -446,6 +459,9 @@ export function plan(
     path: `${CLAUDE_SKILLS}/${id}`,
     target: `../../${SKILLS_DIR}/${id}`,
   }));
+  const ignored = parts.flatMap((part) => part.gitignore ?? []);
+  const ignoreOps =
+    ignored.length > 0 ? [{ kind: "gitignore" as const, lines: ignored }] : [];
 
   const paths = parts
     .flatMap((part) => part.prune?.paths ?? [])
@@ -492,6 +508,7 @@ export function plan(
       : []),
     ...fileOps,
     ...linkOps,
+    ...ignoreOps,
     ...jsonOps,
     ...depsOps,
   ];
@@ -580,6 +597,10 @@ export async function apply(
         if (locked.has(op.skill)) {
           files[op.path] = await applyLink(dir, op.path, op.target, prior);
         }
+        break;
+      }
+      case "gitignore": {
+        files[GITIGNORE] = await applyIgnore(dir, op.lines);
         break;
       }
       case "json": {
@@ -692,6 +713,27 @@ async function applyLink(
   await mkdir(path.dirname(link), { recursive: true });
   await symlink(target, link);
   return "written";
+}
+
+async function applyIgnore(
+  dir: string,
+  block: readonly string[]
+): Promise<Outcome> {
+  const file = path.join(dir, GITIGNORE);
+  const current = (await readText(file)) ?? "";
+  if (containsBlock(current.split("\n"), block)) return "unchanged";
+  const head = current === "" ? "" : `${current.trimEnd()}\n\n`;
+  await writeAtomic(file, `${head}${block.join("\n")}\n`);
+  return "written";
+}
+
+function containsBlock(
+  lines: readonly string[],
+  block: readonly string[]
+): boolean {
+  return lines.some((_, at) =>
+    block.every((line, i) => lines[at + i] === line)
+  );
 }
 
 async function applyJson(file: string, patch: JsonObject): Promise<Outcome> {
