@@ -1,0 +1,32 @@
+# {{name}}
+
+A React monorepo from create-creact. Better-T-Stack laid it out, and creact's layer adds the lint, format, tsconfig, git hooks and test setup. `apps/web` is the app, and `packages/config` holds the base tsconfig.
+
+## Run things
+
+- Run scripts from the root with `pnpm <script>`. The `dev`, `build` and `check-types` scripts are Better-T-Stack's and run every workspace package through {{monorepo}}. creact's `lint`, `format`, `format:check`, `typecheck` and `test` run once from the root.
+- In a fresh clone, run `pnpm install`. It also installs the git hooks and writes `apps/web/src/env.ts` from `apps/web/.env.schema`.
+- Only pnpm is supported, as the hooks and scripts call pnpm.
+
+## Code layout
+
+- Import from `apps/web/src` with the `@/` alias, not a relative path that climbs out of a directory.
+- The design tokens live in `apps/web/src/styles/tokens.css` as custom properties on `:root` with a dark block, in the shape a Figma variables export produces. The styling binds the names in a file next to it. Add a token to `tokens.css` and its binding before a component uses it. `tokens.test.ts` fails when a binding names a token `tokens.css` lacks.
+
+## Tests
+
+- Tests are Vitest files named `*.test.ts` or `*.test.tsx` next to the code they test, under `apps/*/src` or `packages/*/src`. Run them with `pnpm test`.
+
+## Lint and format
+
+- `pnpm lint` runs oxlint with type-aware rules from the root, and `pnpm lint --fix` applies its fixes. `pnpm format` runs oxfmt, and `pnpm format:check` checks without writing.
+- `pnpm typecheck` runs each package's `check-types`, then `tsc` at the root for the config files.
+- The pre-commit hook runs lint-staged on the staged files, and the commit-msg hook runs commitlint.
+
+## Commits
+
+- Commits follow Conventional Commits. The commit-msg hook runs commitlint with `@commitlint/config-conventional` and a 72-character limit on the header and on each body line. Check a message first with `printf '%s\n' "$msg" | pnpm exec commitlint`.
+
+## Agent skills
+
+- `skills-lock.json` lists the third-party agent skills this repo uses. Restore them with `npx skills experimental_install`, which puts them in `.agents/skills`. The links in `.claude/skills` point there for Claude Code.

@@ -1,6 +1,6 @@
 /* oxlint-disable security/detect-non-literal-fs-filename -- every path is the directory the caller named, an ancestor of it, its sibling staging dir, or inside one of them */
 import { existsSync } from "node:fs";
-import { mkdir, readdir, realpath, rename, rm } from "node:fs/promises";
+import { mkdir, readdir, realpath, rename, rm, stat } from "node:fs/promises";
 import path from "node:path";
 
 import pkg from "../package.json" with { type: "json" };
@@ -10,11 +10,14 @@ import {
   type ApplyReport,
   JSON_FILES,
   loadLayer,
+  lockedSkills,
   type Op,
   type OverlayId,
   plan,
   type Prior,
   readState,
+  SKILLS_CLI,
+  SKILLS_DIR,
   type State,
   STATE_FILE,
   writeState,
@@ -27,8 +30,14 @@ import {
   resolveChoices,
   UsageError,
 } from "./options.ts";
-import { CommandFailed, output, run, succeeds } from "./shell.ts";
+import { CommandFailed, run, succeeds } from "./shell.ts";
 import { BTS, btsArgs, STACKS } from "./stacks.ts";
+
+export type Skills =
+  | "restored"
+  | "present"
+  | "skipped"
+  | { readonly failed: string };
 
 export interface Report {
   readonly dir: string;
@@ -37,7 +46,16 @@ export interface Report {
   readonly layer: ApplyReport;
   readonly git: "initialised" | "existing" | "skipped";
   readonly install: "done" | "skipped";
+  readonly skills: Skills;
 }
+
+export const RESTORE = [
+  "pnpm",
+  `--package=${SKILLS_CLI}`,
+  "dlx",
+  "skills",
+  "experimental_install",
+] as const;
 
 type Target =
   | { readonly kind: "fresh"; readonly exists: boolean }
@@ -58,6 +76,7 @@ export async function create(
   ];
   const ops = plan(await loadLayer(layerDir, ids, choices.stack), ids, {
     stack: choices.stack,
+    monorepo: choices.monorepo,
     name,
   });
 
@@ -68,15 +87,18 @@ export async function create(
       `.${name}.creact-staging`
     );
     await rm(staging, { recursive: true, force: true });
-    const base = await obtainBase(staging, choices, name);
-    layer = await applyLayer(
-      base,
-      ops,
-      { kind: "upstream-only" },
-      { name, choices }
-    );
-    await place(base, request.dir, target.exists);
-    await rm(staging, { recursive: true, force: true });
+    try {
+      const base = await obtainBase(staging, choices, name);
+      layer = await applyLayer(
+        base,
+        ops,
+        { kind: "upstream-only" },
+        { name, choices }
+      );
+      await place(base, request.dir, target.exists);
+    } finally {
+      await rm(staging, { recursive: true, force: true });
+    }
   } else {
     layer = await applyLayer(
       request.dir,
@@ -87,9 +109,11 @@ export async function create(
   }
 
   const git = request.git ? await initGit(request.dir) : "skipped";
+  let skills: Skills = "skipped";
   if (request.install) {
     await install(request.dir, layer.missing);
     await fixThenFormat(request.dir);
+    skills = await restoreSkills(request.dir);
   }
 
   return {
@@ -99,17 +123,27 @@ export async function create(
     layer,
     git,
     install: request.install ? "done" : "skipped",
+    skills,
   };
 }
 
 async function inspect(dir: string): Promise<Target> {
-  const repo = await outerRepo(dir);
+  const nearest = nearestExisting(dir);
+  if (!(await stat(nearest)).isDirectory()) {
+    throw new UsageError(
+      nearest === dir
+        ? `${dir} is a file. Give a directory for the project.`
+        : `${dir} would sit under the file ${nearest}. Give a directory for the project.`
+    );
+  }
+  const exists = nearest === dir;
+  const repo = await outerRepo(dir, nearest);
   if (repo !== undefined) {
     throw new UsageError(
       `${dir} is inside the git repository at ${repo}, so the project would get no repository of its own. Pick a directory outside it.`
     );
   }
-  if (!existsSync(dir)) return { kind: "fresh", exists: false };
+  if (!exists) return { kind: "fresh", exists: false };
   const state = await readState(dir);
   if (state !== undefined) return { kind: "project", state };
   if ((await readdir(dir)).length === 0) return { kind: "fresh", exists: true };
@@ -118,12 +152,27 @@ async function inspect(dir: string): Promise<Target> {
   );
 }
 
-async function outerRepo(dir: string): Promise<string | undefined> {
-  let probe = dir;
-  while (!existsSync(probe)) probe = path.dirname(probe);
-  const top = await output("git", ["rev-parse", "--show-toplevel"], probe);
-  const own = existsSync(dir) ? await realpath(dir) : undefined;
-  return top === undefined || top === own ? undefined : top;
+function nearestExisting(dir: string): string {
+  let nearest = dir;
+  while (!existsSync(nearest)) nearest = path.dirname(nearest);
+  return nearest;
+}
+
+// A walk for a .git entry, so --no-git needs no git on PATH. It starts from
+// the real path, as a symlink into a repository would otherwise pass.
+async function outerRepo(
+  dir: string,
+  nearest: string
+): Promise<string | undefined> {
+  const real = await realpath(nearest);
+  for (
+    let probe = nearest === dir ? path.dirname(real) : real;
+    probe !== path.dirname(probe);
+    probe = path.dirname(probe)
+  ) {
+    if (existsSync(path.join(probe, ".git"))) return probe;
+  }
+  return undefined;
 }
 
 // Better-T-Stack keeps a history of every project it makes in its data
@@ -241,4 +290,21 @@ async function fixThenFormat(dir: string): Promise<void> {
     await run("pnpm", ["run", "lint", "--fix"], dir);
   }
   await run("pnpm", ["run", "format"], dir);
+}
+
+// Only when a locked skill is missing, so a rerun neither clones nor lets the
+// restore rewrite the project's lock.
+async function restoreSkills(dir: string): Promise<Skills> {
+  const ids = await lockedSkills(dir);
+  if ([...ids].every((id) => existsSync(path.join(dir, SKILLS_DIR, id)))) {
+    return "present";
+  }
+  const [command, ...args] = RESTORE;
+  try {
+    await run(command, args, dir);
+  } catch (error) {
+    if (error instanceof CommandFailed) return { failed: error.message };
+    throw error;
+  }
+  return "restored";
 }

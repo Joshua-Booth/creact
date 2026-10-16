@@ -1,6 +1,6 @@
 # create-creact
 
-`create-creact` sets up a new React monorepo the way creact is set up. It takes a blank monorepo from Better-T-Stack, then adds the creact layer on top, so the project builds, typechecks, lints, formats and tests from its root from the first commit. It runs from a checkout and is not on npm.
+`create-creact` sets up a new React monorepo the way creact is set up. It takes a blank monorepo from Better-T-Stack, then adds the creact layer on top, so the project builds, typechecks, lints, formats and tests from its root from the first commit, and is set up for coding agents on first open. It runs from a checkout and is not on npm.
 
 ## Run it
 
@@ -23,7 +23,7 @@ Every prompt has a flag, so an agent never waits on a question.
 | `--styling` | `tailwind`, `stylex` | `tailwind` |
 | `--monorepo` | `pnpm`, `turborepo`, `nx` | `pnpm` |
 | `--shadcn`, `--storybook`, `--msw`, `--playwright`, `--i18n`, `--posthog`, `--sentry` | extras, not built yet | off |
-| `--no-install` | skip `pnpm install` and the lint and format pass | installs |
+| `--no-install` | skip `pnpm install`, the lint and format pass and the skills restore | installs |
 | `--no-git` | skip `git init` | inits |
 | `--yes`, `-y` | take the default for every choice not given | |
 
@@ -41,7 +41,7 @@ Note: a fresh project has one test, `tokens.test.ts`, described under Styling pa
 2. Checks that Better-T-Stack wrote the stack's own config, such as `apps/web/next.config.ts`, and the five JSON files the layer patches: the root `package.json` and `tsconfig.json`, `packages/config/tsconfig.base.json`, and `apps/web/package.json` and `apps/web/tsconfig.json`. If one is missing, its output changed shape, and the command exits 1.
 3. Removes the Better-T-Stack files and packages the layer replaces, then copies the layer in and patches the five JSON files.
 4. Writes `.creact/state.json` with the project name, the choices and a hash of every file it copied, then moves the staging directory into place.
-5. Runs `git init`, then `pnpm add --workspace-root` for the root tools and `pnpm add` in `apps/web` for the app's packages, such as `@stylexjs/stylex`. Then `pnpm run prepare` installs the hooks, and `pnpm run lint --fix` and `pnpm run format` bring Better-T-Stack's own files in line. The lint pass runs a second time when the first fails, as oxlint applies one fix per overlapping range in a pass and the shadcn components need two.
+5. Runs `git init`, then `pnpm add --workspace-root` for the root tools and `pnpm add` in `apps/web` for the app's packages, such as `@stylexjs/stylex`. Then `pnpm run prepare` installs the hooks, and `pnpm run lint --fix` and `pnpm run format` bring Better-T-Stack's own files in line. The lint pass runs a second time when the first fails, as oxlint applies one fix per overlapping range in a pass and the shadcn components need two. Last, if a skill `skills-lock.json` lists is missing from `.agents/skills`, `skills@1.7.2` runs `experimental_install` through `pnpm dlx`, which restores them all there, where the `.claude/skills` links point. With every skill present, a rerun leaves them alone, so it needs no network for them and the restore never rewrites the project's lock. `npx skills update` takes newer versions. The project is complete without the skills, so a restore that fails, as with no git or no network, exits 0, reports the skills as not restored and prints the command that finishes them. A rerun does the same.
 
 On a rerun, a copied file is rewritten only when it is missing or unchanged since the recorded hash. The JSON files are merged every time, as the merge is idempotent and `pnpm add` rewrites `package.json` anyway. Better-T-Stack never runs again. A rerun never removes anything, so a package or file you put back stays. A rerun on a project missing one of the files step 2 checks, as when `apps/web` was renamed, exits 2, names them and writes nothing.
 
@@ -52,6 +52,7 @@ Everything that runs once per repository sits at the root:
 - `oxlint.config.ts` and its styling slot `oxlint.styling.ts`, `.oxfmtrc.json`, `vitest.config.ts`, `commitlint.config.ts`, `.lintstagedrc.json` and the husky `commit-msg` and `pre-commit` hooks.
 - Every tool as a root devDependency, including the styling's lint plugin.
 - The `lint`, `format`, `format:check`, `typecheck`, `test` and `prepare` scripts.
+- The agent setup: `AGENTS.md`, `CLAUDE.md` importing it, `skills-lock.json` and the `.claude/skills` links. The root `.gitignore` gets the block creact's own has, which keeps `.claude/settings.json`, `rules`, `skills` and `workflows` tracked under a global ignore of `.claude` and the restored `.agents/skills` out of git. The block goes back whole on a rerun when any of it is missing.
 
 Everything that belongs to the app sits in `apps/web`: the tokens, the styling's bindings and build plugins, `@stylexjs/stylex`, and the `typegen` and `check-types` scripts.
 
@@ -71,7 +72,15 @@ Better-T-Stack's own root scripts, `dev`, `build`, `check-types`, `dev:web`, `en
 
 creact's strict compiler options go in `packages/config/tsconfig.base.json`, which `packages/ui` and the root extend, and in `apps/web/tsconfig.json`, which extends nothing. The root tsconfig gets `include: ["*.ts"]`, `noEmit` and `allowImportingTsExtensions`, so it covers creact's root config files and nothing else.
 
-The layer files live in `packages/create-creact/layer/<overlay>/<scope>/`, at the path they take in the monorepo. The overlay is `base`, a styling or an extra, and the scope is `all` or a stack id, so a styling can carry files for one stack only. `OVERLAYS` in `src/layer.ts` lists each scope's JSON patches, packages per manifest, and what it removes from Better-T-Stack's output. `{{name}}` in a layer path, file or removed key becomes the project name.
+The layer files live in `packages/create-creact/layer/<overlay>/<scope>/`, at the path they take in the monorepo. The overlay is `base`, a styling or an extra, and the scope is `all` or a stack id, so a styling can carry files for one stack only. `OVERLAYS` in `src/layer.ts` lists each scope's JSON patches, packages per manifest, and what it removes from Better-T-Stack's output. `{{name}}` in a layer path, file or removed key becomes the project name, and `{{monorepo}}` becomes the monorepo tool's name.
+
+## The agent setup
+
+`AGENTS.md` is written for the generated monorepo, not copied from creact's. It is composed from sections: `base/all` holds how to run, lay out, test, lint and commit, `base/<stack>` adds the stack's section, and each styling adds a `## Styling` section. When two overlays carry the same Markdown file, `loadLayer` joins them in overlay order with a blank line between. Any other clash throws, as it did before. A future extra adds its own section the same way, so the Storybook rule in `.claude/rules` lands with the Storybook extra and not before. The block between `<!-- git-workflow:start -->` and `<!-- git-workflow:end -->` in creact's own `AGENTS.md` only holds in creact's repositories, and a plan test fails if it reaches any layer file.
+
+The skills come from `CREACT_LOCK` in `src/layer.ts`, which holds the entries creact's own `skills-lock.json` has for them, and each overlay lists the ids it wants: the base takes the skills that apply to any React app, and Tailwind adds `shadcn`, as `packages/ui` is shadcn. The plan writes `skills-lock.json` from that list and a `.claude/skills/<id>` link to `../../.agents/skills/<id>` for each skill the project's lock still lists, as the restore fills `.agents/skills` and makes no links of its own. A plan test checks the table against creact's lock, so `skills update` in creact shows up as a failing test until the table follows. `AGENTS.md` is a layer file like any other, so a project that edits it keeps its version on a rerun. `skills-lock.json` is seeded once and then belongs to the skills CLI, which rewrites each `computedHash` by how it fetched the skill (a clone hashes the vercel-labs skills differently from the GitHub fetch), so the layer records no hash for it and a rerun writes it only when it is missing.
+
+Next writes its own `apps/web/AGENTS.md`, and `next dev` writes it back when it is missing, so creact's `AGENTS.md` stays at the root and never merges with it. The layer adds `apps/web/CLAUDE.md` importing Next's file, so Claude Code reads it when it works in the app.
 
 ## Styling paths
 
@@ -156,7 +165,7 @@ CREACT_SCAFFOLD=next:stylex:nx mise run test:scaffold
 
 `1`, a stack, or `<stack>:<styling>` picks cells on plain pnpm workspaces. `<stack>:<styling>:<monorepo>` picks that one cell.
 
-The scaffold test creates each project with an empty `HOME` and checks Better-T-Stack wrote nothing there. It checks the prune left none of the removed files or packages, and that `turbo.json` or `nx.json` exists only for its tool. Then it commits through the real hooks, rejects a bad commit message, runs build, typecheck, lint, format:check and test from the root, and checks the tree is clean. It reruns the command and checks it writes nothing, commits a test under `apps/web/src` that imports through `@/*`, and checks that a changed layer reaches an unedited file and leaves an edited one alone. It also checks the built CSS carries the values from `tokens.css` and the styling's own output, and that root lint fails on a planted styling mistake.
+The scaffold test creates each project with an empty `HOME` and checks Better-T-Stack wrote nothing there. It checks the prune left none of the removed files or packages, and that `turbo.json` or `nx.json` exists only for its tool. Then it commits through the real hooks, rejects a bad commit message, runs build, typecheck, lint, format:check and test from the root, and checks the tree is clean. It reruns the command and checks it writes nothing, commits a test under `apps/web/src` that imports through `@/*`, and checks that a changed layer reaches an unedited file and leaves an edited one alone. It also checks the built CSS carries the values from `tokens.css` and the styling's own output, and that root lint fails on a planted styling mistake. It checks `AGENTS.md` and `CLAUDE.md` are in place and that every skill `skills-lock.json` lists resolves through `.claude/skills` after the restore.
 
 It runs in `.github/workflows/create-creact.yml`, one job per stack and styling on pnpm, on pull requests that touch `packages/create-creact/`, weekly, and on dispatch. The Turborepo and Nx cells run by hand when the pin or the root scripts change.
 
@@ -212,7 +221,8 @@ The package route stays open. `pnpm add github:Joshua-Booth/creact#path:packages
 - State is schema 2, with the name and the monorepo tool. A schema 1 state comes from the single-package spike, and the command refuses it with a message saying so. Nothing was published, so there is nothing to migrate.
 - The CLI lives in `packages/create-creact` with no dependencies and outside the pnpm workspace, so the lockfile, knip and the CI install do not change. It calls Better-T-Stack's CLI rather than its programmatic `create()`, which would be the first dependency. It joins the workspace when it gains a dependency or a publish build.
 - Layer files are stored as `<path>.layer`, so the repo's own lint, format, typecheck and spell tools ignore them. The scaffold test is where they are checked, in a real project.
-- Next's own `apps/web/AGENTS.md` is kept as written.
+- Next's own `apps/web/AGENTS.md` is kept as written, with creact's at the root and `apps/web/CLAUDE.md` importing Next's, as under The agent setup.
+- TypeScript stays at Better-T-Stack's `^6.0.3`. With the catalog at `^7.0.2`, build, typecheck, format:check and test pass on both stacks, but lint fails: oxlint can't load `oxlint.config.ts`, as `ts-api-utils@2.5.0`, which `@eslint-react/eslint-plugin@5.27.1` pulls in through `@typescript-eslint/typescript-estree`, reads a TypeScript enum TypeScript 7 removed. The layer can bump it once that plugin runs on TypeScript 7, which Renovate will show in creact first.
 
 ## Better-T-Stack 3.46.1, as of 16 October 2026
 
@@ -227,9 +237,8 @@ Note: `create-creact` is free on npm. `creact` is taken.
 
 ## What to build next
 
-- The agent setup. When the CLI carries `AGENTS.md` and `.claude/`, strip the block between `<!-- git-workflow:start -->` and `<!-- git-workflow:end -->`, which only holds in this repo, and run the skills restore after copying so the `.claude/skills` symlinks resolve. Decide how creact's `AGENTS.md` sits next to Next's.
 - Vitest with the StyleX compiler, so a StyleX project can test its components. React Router can reuse the Vite plugin, and Next would need `@stylexjs/unplugin` for Vitest alone.
-- The extras, one overlay directory each. PostHog and Sentry may not need flags, as their own skills do the setup.
+- The extras, one overlay directory each, with their own `AGENTS.md` section and skills. The Storybook extra carries creact's `.claude/rules/storybook-stories.md`, and the Playwright extra the `playwright-cli` skill. PostHog and Sentry may not need flags, as their own skills do the setup.
 - More Better-T-Stack frontends, as under Add a Better-T-Stack frontend.
 - Root creact consumes the layer, so the oxlint rules exist once instead of twice. The root config could also allow node:test's `describe` and `it` under `no-floating-promises`, and add a `packages/create-creact/**` override for `detect-non-literal-fs-filename`, which would remove the file-level disables in the CLI.
 - Publishing. A `.ts` bin cannot run from `node_modules`, so `pnpm create creact` needs a `tsc` emit in `prepack`, or JavaScript source. The package version is `0.0.0` until then.

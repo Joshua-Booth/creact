@@ -3,9 +3,12 @@
  * path is a temp dir the test made or the package's own layer. */
 import {
   existsSync,
+  lstatSync,
   mkdirSync,
   readdirSync,
   readFileSync,
+  readlinkSync,
+  rmSync,
   writeFileSync,
 } from "node:fs";
 import path from "node:path";
@@ -13,17 +16,23 @@ import { describe, it, type TestContext } from "node:test";
 
 import {
   apply,
+  CLAUDE_SKILLS,
+  CREACT_LOCK,
   JSON_FILES,
   type JsonFile,
   type JsonObject,
+  loadLayer,
   type Manifest,
   merge,
   type Op,
   OVERLAYS,
   type Prior,
   readState,
+  SKILLS_DIR,
+  SKILLS_LOCK,
 } from "../src/layer.ts";
 import {
+  EXTRAS,
   isBuilt,
   type StylingId,
   STYLINGS,
@@ -39,6 +48,7 @@ import {
   upstreamBase,
 } from "./helpers.ts";
 
+const REPO = path.join(import.meta.dirname, "../../..");
 const STACK_IDS = Object.keys(STACKS) as StackId[];
 const STYLING_IDS = Object.keys(STYLINGS).filter((id): id is StylingId =>
   isBuilt(STYLINGS, id)
@@ -47,14 +57,21 @@ const CELLS = STACK_IDS.flatMap((stack) =>
   STYLING_IDS.map((styling) => ({ stack, styling }))
 );
 
+const OMITTED_UNTIL_EXTRA: Readonly<Record<string, string>> = {
+  "playwright-cli": "playwright",
+};
+
 const SHARED_FILES = [
   ".husky/commit-msg",
   ".husky/pre-commit",
   ".lintstagedrc.json",
   ".oxfmtrc.json",
+  "AGENTS.md",
+  "CLAUDE.md",
   "commitlint.config.ts",
   "oxlint.config.ts",
   "oxlint.styling.ts",
+  "skills-lock.json",
   "vitest.config.ts",
   "apps/web/src/index.css",
   "apps/web/src/styles/tokens.css",
@@ -81,9 +98,10 @@ const FILES: Readonly<
     ],
   },
   next: {
-    tailwind: TAILWIND_FILES,
+    tailwind: [...TAILWIND_FILES, "apps/web/CLAUDE.md"],
     stylex: [
       ...STYLEX_FILES,
+      "apps/web/CLAUDE.md",
       "apps/web/babel.config.js",
       "apps/web/postcss.config.js",
       "apps/web/src/app/layout.tsx",
@@ -94,6 +112,35 @@ const FILES: Readonly<
 
 function fileOps(all: readonly Op[]) {
   return all.flatMap((op) => (op.kind === "file" ? [op] : []));
+}
+
+function linkOps(all: readonly Op[]) {
+  return all.flatMap((op) => (op.kind === "link" ? [op] : []));
+}
+
+function ignoreLines(all: readonly Op[]): string[] {
+  return all.flatMap((op) => (op.kind === "gitignore" ? op.lines : []));
+}
+
+function planned(all: readonly Op[], file: string): string {
+  return fileOps(all).find((op) => op.path === file)?.content ?? "";
+}
+
+function lockedSkills(all: readonly Op[]): string[] {
+  const lock = JSON.parse(planned(all, SKILLS_LOCK)) as { skills: JsonObject };
+  return Object.keys(lock.skills);
+}
+
+function entries(dir: string): string[] {
+  return readdirSync(dir, { recursive: true, withFileTypes: true })
+    .filter((entry) => entry.isFile() || entry.isSymbolicLink())
+    .map((entry) =>
+      path
+        .relative(dir, path.join(entry.parentPath, entry.name))
+        .split(path.sep)
+        .join("/")
+    )
+    .toSorted();
 }
 
 function pruneOp(all: readonly Op[]) {
@@ -189,6 +236,142 @@ describe("plan", () => {
           .map((op) => op.path)
           .toSorted(),
         FILES[stack][styling].toSorted(),
+        `${stack} + ${styling}`
+      );
+    }
+  });
+
+  it("composes AGENTS.md from the base, the stack and the styling, naming the monorepo tool", async (t: TestContext) => {
+    for (const { stack, styling } of CELLS) {
+      const agents = planned(await ops(stack, styling), "AGENTS.md");
+      t.assert.match(agents, /^# app\n/);
+      t.assert.deepStrictEqual(
+        [...agents.matchAll(/^## (.+)$/gm)].map((match) => match[1]),
+        [
+          "Run things",
+          "Code layout",
+          "Tests",
+          "Lint and format",
+          "Commits",
+          "Agent skills",
+          stack === "next" ? "Next" : "React Router",
+          "Styling",
+        ],
+        `${stack} + ${styling}`
+      );
+      t.assert.ok(
+        agents.includes(styling === "tailwind" ? "Tailwind CSS" : "StyleX")
+      );
+      t.assert.ok(agents.includes("through pnpm workspaces"));
+    }
+    t.assert.ok(
+      planned(await ops("next", "tailwind", "turborepo"), "AGENTS.md").includes(
+        "through Turborepo"
+      )
+    );
+  });
+
+  it("carries no rule of the git-workflow block from creact's own AGENTS.md", async (t: TestContext) => {
+    const own = readFileSync(path.join(REPO, "AGENTS.md"), "utf8");
+    const block = own
+      .split("<!-- git-workflow:start -->")[1]
+      ?.split("<!-- git-workflow:end -->")[0];
+    const rules = (block ?? "")
+      .split("\n")
+      .map((line) => line.trim())
+      .filter((line) => line.startsWith("- "));
+    t.assert.ok(rules.length > 5);
+    for (const { stack, styling } of CELLS) {
+      for (const op of fileOps(await ops(stack, styling))) {
+        t.assert.doesNotMatch(op.content, /git-workflow:(start|end)/, op.path);
+        for (const rule of rules) {
+          t.assert.ok(!op.content.includes(rule), `${op.path}: ${rule}`);
+        }
+      }
+    }
+  });
+
+  it("plans a lock whose entries equal creact's own, for every skill the table has", async (t: TestContext) => {
+    const own = JSON.parse(
+      readFileSync(path.join(REPO, "skills-lock.json"), "utf8")
+    ) as { version: number; skills: Record<string, JsonObject> };
+    for (const { stack, styling } of CELLS) {
+      const lock = JSON.parse(
+        planned(await ops(stack, styling), SKILLS_LOCK)
+      ) as {
+        version: number;
+        skills: Record<string, JsonObject>;
+      };
+      t.assert.strictEqual(lock.version, own.version);
+      for (const [id, entry] of Object.entries(lock.skills)) {
+        t.assert.deepStrictEqual(
+          entry,
+          own.skills[id],
+          `${stack} + ${styling} ${id}`
+        );
+      }
+    }
+    t.assert.deepStrictEqual(
+      Object.keys(CREACT_LOCK).filter((id) => !Object.hasOwn(own.skills, id)),
+      []
+    );
+    t.assert.deepStrictEqual(
+      Object.keys(own.skills).filter((id) => !Object.hasOwn(CREACT_LOCK, id)),
+      Object.keys(OMITTED_UNTIL_EXTRA)
+    );
+    for (const [id, extra] of Object.entries(OMITTED_UNTIL_EXTRA)) {
+      t.assert.ok(Object.hasOwn(EXTRAS, extra), `${id} waits for ${extra}`);
+    }
+  });
+
+  it("imports AGENTS.md from CLAUDE.md at the root, and in the app on Next", async (t: TestContext) => {
+    for (const { stack, styling } of CELLS) {
+      const all = await ops(stack, styling);
+      const cell = `${stack} + ${styling}`;
+      t.assert.strictEqual(planned(all, "CLAUDE.md"), "@AGENTS.md\n", cell);
+      const app = fileOps(all).find((op) => op.path === "apps/web/CLAUDE.md");
+      t.assert.strictEqual(
+        app?.content,
+        stack === "next" ? "@AGENTS.md\n" : undefined,
+        cell
+      );
+    }
+  });
+
+  it("plans the .claude allowlist and the restore dir for the root .gitignore, with lines creact's own has", async (t: TestContext) => {
+    const own = readFileSync(path.join(REPO, ".gitignore"), "utf8").split("\n");
+    for (const { stack, styling } of CELLS) {
+      const lines = ignoreLines(await ops(stack, styling));
+      for (const line of lines) {
+        t.assert.ok(own.includes(line), `${stack} + ${styling}: ${line}`);
+      }
+      for (const line of [
+        "!/.claude/",
+        `!/${CLAUDE_SKILLS}/`,
+        `/${SKILLS_DIR}/`,
+      ]) {
+        t.assert.ok(lines.includes(line), `${stack} + ${styling}: ${line}`);
+      }
+      t.assert.ok(
+        lines.indexOf("!/.claude/") < lines.indexOf("/.claude/*") &&
+          lines.indexOf("/.claude/*") < lines.indexOf(`!/${CLAUDE_SKILLS}/`),
+        lines.join("\n")
+      );
+    }
+  });
+
+  it("locks the shadcn skill on Tailwind only, with a Claude Code link for every locked skill", async (t: TestContext) => {
+    for (const { stack, styling } of CELLS) {
+      const all = await ops(stack, styling);
+      const ids = lockedSkills(all);
+      t.assert.ok(ids.includes("vercel-react-best-practices"));
+      t.assert.strictEqual(ids.includes("shadcn"), styling === "tailwind");
+      t.assert.deepStrictEqual(
+        linkOps(all).map((op) => [op.path, op.target]),
+        ids.map((id) => [
+          `${CLAUDE_SKILLS}/${id}`,
+          `../../${SKILLS_DIR}/${id}`,
+        ]),
         `${stack} + ${styling}`
       );
     }
@@ -438,7 +621,149 @@ describe("merge", () => {
   });
 });
 
+describe("loadLayer", () => {
+  it("joins Markdown that two overlays write and refuses any other clash", async (t: TestContext) => {
+    const layer = tempDir();
+    for (const [id, text] of [
+      ["base", "one"],
+      ["tailwind", "two\n"],
+    ] as const) {
+      mkdirSync(path.join(layer, id, "all"), { recursive: true });
+      writeFileSync(path.join(layer, id, "all", "NOTES.md.layer"), text);
+    }
+    const files = await loadLayer(layer, ["base", "tailwind"], "next");
+    t.assert.strictEqual(files.get("NOTES.md"), "one\n\ntwo\n");
+
+    for (const id of ["base", "tailwind"]) {
+      writeFileSync(path.join(layer, id, "all", "x.ts.layer"), "");
+    }
+    await t.assert.rejects(
+      loadLayer(layer, ["base", "tailwind"], "next"),
+      /x\.ts\.layer is already in an earlier overlay/
+    );
+  });
+});
+
 describe("apply", () => {
+  it("writes exactly the planned files and links on a fresh base, and nothing else", async (t: TestContext) => {
+    for (const { stack, styling } of CELLS) {
+      const dir = upstreamBase(stack);
+      const all = await ops(stack, styling);
+      await apply(dir, all, UPSTREAM_ONLY);
+      t.assert.deepStrictEqual(
+        entries(dir),
+        [
+          ...JSON_FILES,
+          STACKS[stack].signature,
+          ".gitignore",
+          ...FILES[stack][styling],
+          ...linkOps(all).map((op) => op.path),
+        ].toSorted(),
+        `${stack} + ${styling}`
+      );
+    }
+  });
+
+  it("appends the ignore block to Better-T-Stack's .gitignore once, and puts it back when gone", async (t: TestContext) => {
+    const dir = upstreamBase("next");
+    const file = path.join(dir, ".gitignore");
+    writeFileSync(file, "node_modules\n");
+    const all = await ops("next");
+    const block = ignoreLines(all).join("\n");
+    const first = await apply(dir, all, UPSTREAM_ONLY);
+    t.assert.strictEqual(first.files[".gitignore"], "written");
+    t.assert.strictEqual(first.hashes[".gitignore"], undefined);
+    t.assert.strictEqual(
+      readFileSync(file, "utf8"),
+      `node_modules\n\n${block}\n`
+    );
+
+    const second = await apply(dir, all, recorded(first.hashes));
+    t.assert.strictEqual(second.files[".gitignore"], "unchanged");
+    t.assert.strictEqual(
+      readFileSync(file, "utf8"),
+      `node_modules\n\n${block}\n`
+    );
+
+    writeFileSync(file, "node_modules\n/.claude/\n");
+    const third = await apply(dir, all, recorded(first.hashes));
+    t.assert.strictEqual(third.files[".gitignore"], "written");
+    t.assert.strictEqual(
+      readFileSync(file, "utf8"),
+      `node_modules\n/.claude/\n\n${block}\n`
+    );
+  });
+
+  it("seeds skills-lock.json once, then leaves the project's version alone without recording a hash", async (t: TestContext) => {
+    const dir = upstreamBase("next");
+    const all = await ops("next");
+    const lock = path.join(dir, SKILLS_LOCK);
+    const first = await apply(dir, all, UPSTREAM_ONLY);
+    t.assert.strictEqual(first.files[SKILLS_LOCK], "written");
+    t.assert.strictEqual(first.hashes[SKILLS_LOCK], undefined);
+    const seeded = JSON.parse(readFileSync(lock, "utf8")) as {
+      skills: JsonObject;
+    };
+    t.assert.deepStrictEqual(Object.keys(seeded.skills), lockedSkills(all));
+
+    writeFileSync(lock, "{}\n");
+    const second = await apply(dir, all, recorded(first.hashes));
+    t.assert.strictEqual(second.files[SKILLS_LOCK], "unchanged");
+    t.assert.strictEqual(readFileSync(lock, "utf8"), "{}\n");
+
+    rmSync(lock);
+    const third = await apply(dir, all, recorded(first.hashes));
+    t.assert.strictEqual(third.files[SKILLS_LOCK], "written");
+  });
+
+  it("stops linking a skill the project removed from its lock", async (t: TestContext) => {
+    const dir = upstreamBase("next");
+    const all = await ops("next");
+    const first = await apply(dir, all, UPSTREAM_ONLY);
+    const lock = path.join(dir, SKILLS_LOCK);
+    const seeded = JSON.parse(readFileSync(lock, "utf8")) as {
+      skills: JsonObject;
+    };
+    writeFileSync(
+      lock,
+      JSON.stringify({
+        ...seeded,
+        skills: Object.fromEntries(
+          Object.entries(seeded.skills).filter(([id]) => id !== "tdd")
+        ),
+      })
+    );
+    const link = path.join(dir, CLAUDE_SKILLS, "tdd");
+    rmSync(link);
+
+    const second = await apply(dir, all, recorded(first.hashes));
+    t.assert.strictEqual(second.files[`${CLAUDE_SKILLS}/tdd`], undefined);
+    t.assert.strictEqual(lstatSync(link, { throwIfNoEntry: false }), undefined);
+    t.assert.strictEqual(
+      second.files[`${CLAUDE_SKILLS}/find-skills`],
+      "unchanged"
+    );
+  });
+
+  it("links .claude/skills at the restore dir, leaves a matching link alone and keeps what replaced one", async (t: TestContext) => {
+    const dir = upstreamBase("next");
+    const all = await ops("next");
+    const file = `${CLAUDE_SKILLS}/tdd`;
+    const link = path.join(dir, file);
+    const first = await apply(dir, all, UPSTREAM_ONLY);
+    t.assert.strictEqual(first.files[file], "written");
+    t.assert.strictEqual(readlinkSync(link), `../../${SKILLS_DIR}/tdd`);
+
+    const second = await apply(dir, all, recorded(first.hashes));
+    t.assert.strictEqual(second.files[file], "unchanged");
+
+    rmSync(link);
+    mkdirSync(link);
+    const third = await apply(dir, all, recorded(first.hashes));
+    t.assert.strictEqual(third.files[file], "kept");
+    t.assert.ok(lstatSync(link).isDirectory());
+  });
+
   it("adds only packages missing from both dependency maps of their own manifest", async (t: TestContext) => {
     const dir = upstreamBase("next", {
       "package.json": {

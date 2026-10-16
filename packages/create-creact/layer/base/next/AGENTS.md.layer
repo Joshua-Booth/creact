@@ -1,0 +1,4 @@
+## Next
+
+- The app is Next with the App Router in `apps/web/src/app`. `next typegen` writes the route types, and `lint` and `check-types` run it first.
+- `apps/web/AGENTS.md` is Next's own guidance for the app, and `next dev` writes it back when it's missing. `apps/web/CLAUDE.md` imports it for Claude Code.

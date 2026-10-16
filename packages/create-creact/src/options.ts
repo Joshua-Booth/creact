@@ -147,7 +147,7 @@ export function parseRequest(argv: readonly string[], cwd: string): Parsed {
 
   const [dir, ...rest] = positionals;
   if (dir === undefined || rest.length > 0) {
-    return usage("give one project directory, as in: create-creact my-app");
+    return usage("give one project directory, as in: create-creact ../my-app");
   }
 
   if (values.stack !== undefined && !Object.hasOwn(STACKS, values.stack)) {
@@ -302,7 +302,7 @@ function helpText(): string {
     `  --styling <id>    ${choicesLine(STYLINGS)} (default ${DEFAULTS.styling})`,
     `  --monorepo <id>   ${choicesLine(MONOREPOS)} (default ${DEFAULTS.monorepo})`,
     ...extras,
-    "  --no-install      skip pnpm install and the format and lint pass",
+    "  --no-install      skip pnpm install, the lint and format pass and the skills restore",
     "  --no-git          skip git init",
     "  -y, --yes         take the default for every choice not given",
     "  -h, --help        show this help",

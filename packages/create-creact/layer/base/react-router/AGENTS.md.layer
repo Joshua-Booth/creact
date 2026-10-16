@@ -1,0 +1,3 @@
+## React Router
+
+- The app is React Router v8 in framework mode, built with Vite. A route is a file under `apps/web/src/routes`, named by the flat-routes convention that `apps/web/src/routes.ts` sets with `flatRoutes()`, and `apps/web/src/root.tsx` is the document. `react-router typegen` writes the route types, and `lint` and `check-types` run it first.
