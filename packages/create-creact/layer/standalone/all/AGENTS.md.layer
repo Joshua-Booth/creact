@@ -1,0 +1,9 @@
+## Tests
+
+- Tests are Vitest files named `*.test.ts` or `*.test.tsx` next to the code they test, under `apps/*/src` or `packages/*/src`. Run them with `pnpm test`.
+
+## Lint and format
+
+- `pnpm lint` runs oxlint with type-aware rules from the root, and `pnpm lint --fix` applies its fixes. `pnpm format` runs oxfmt, and `pnpm format:check` checks without writing.
+- `pnpm typecheck` runs each package's `check-types`, then `tsc` at the root for the config files.
+- The pre-commit hook runs lint-staged on the staged files, and the commit-msg hook runs commitlint.

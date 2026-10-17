@@ -30,7 +30,7 @@ jobs:
         run: mise run test:cli
 
   scaffold:
-    name: Scaffold ${{ matrix.stack }} + ${{ matrix.styling }}
+    name: Scaffold ${{ matrix.stack }} + ${{ matrix.styling }} with ${{ matrix.toolchain }}
     runs-on: ubuntu-latest
     timeout-minutes: 20
     strategy:
@@ -38,10 +38,11 @@ jobs:
       matrix:
         stack: [react-router, next]
         styling: [tailwind, stylex]
+        toolchain: [standalone, vite-plus]
     steps:
       - uses: actions/checkout@v6
       - uses: ./.github/actions/setup
       - name: Scaffold, build, lint and test a project
         run: mise run test:scaffold
         env:
-          CREACT_SCAFFOLD: ${{ matrix.stack }}:${{ matrix.styling }}
+          CREACT_SCAFFOLD: ${{ matrix.toolchain }}:${{ matrix.stack }}:${{ matrix.styling }}

@@ -59,6 +59,21 @@ describe("parseRequest", () => {
     );
   });
 
+  it("takes --toolchain vite-plus and leaves it unset when not given", (t: TestContext) => {
+    t.assert.strictEqual(
+      request(["app", "--toolchain", "vite-plus"]).toolchain,
+      "vite-plus"
+    );
+    t.assert.strictEqual(request(["app"]).toolchain, undefined);
+  });
+
+  it("rejects a toolchain outside the table and lists the real ones", (t: TestContext) => {
+    t.assert.strictEqual(
+      usage(["app", "--toolchain", "biome"]),
+      "--toolchain must be one of standalone, vite-plus"
+    );
+  });
+
   it("rejects a planned extra rather than silently skipping it", (t: TestContext) => {
     t.assert.match(usage(["app", "--stack", "next", "--i18n"]), /--i18n/);
   });
@@ -100,6 +115,7 @@ describe("parseRequest", () => {
       "next",
       "stylex",
       "turborepo",
+      "vite-plus",
       "--storybook",
     ]) {
       t.assert.ok(text.includes(word), word);
@@ -130,6 +146,7 @@ describe("resolveChoices", () => {
         stack: DEFAULTS.stack,
         styling: DEFAULTS.styling,
         monorepo: "pnpm",
+        toolchain: "standalone",
         extras: [],
       }
     );
@@ -139,6 +156,7 @@ describe("resolveChoices", () => {
     stack: "next",
     styling: "tailwind",
     monorepo: "turborepo",
+    toolchain: "vite-plus",
     extras: [],
   } as const;
 
@@ -153,7 +171,7 @@ describe("resolveChoices", () => {
     t.assert.deepStrictEqual(resolveChoices(request(["app"]), state), RECORDED);
   });
 
-  it("refuses a --stack or --monorepo that contradicts the recorded project", (t: TestContext) => {
+  it("refuses a --stack, --monorepo or --toolchain that contradicts the recorded project", (t: TestContext) => {
     const dir = path.resolve(CWD, "app");
     t.assert.throws(
       () =>
@@ -168,6 +186,14 @@ describe("resolveChoices", () => {
       {
         name: "UsageError",
         message: `${dir} is recorded as monorepo turborepo, so --monorepo pnpm can't apply`,
+      }
+    );
+    t.assert.throws(
+      () =>
+        resolveChoices(request(["app", "--toolchain", "standalone"]), RECORDED),
+      {
+        name: "UsageError",
+        message: `${dir} is recorded as toolchain vite-plus, so --toolchain standalone can't apply`,
       }
     );
   });
@@ -275,6 +301,7 @@ describe("an extra that needs one styling", () => {
       stack: "next",
       styling: "stylex",
       monorepo: "pnpm",
+      toolchain: "standalone",
       extras: [],
     } as const;
     t.assert.throws(

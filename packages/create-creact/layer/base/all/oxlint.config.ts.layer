@@ -1,12 +1,12 @@
+import type { OxlintConfig } from "{{oxlint}}";
 import eslintReact from "@eslint-react/eslint-plugin";
 import jsdoc from "eslint-plugin-jsdoc";
 import reactYouMightNotNeedAnEffect from "eslint-plugin-react-you-might-not-need-an-effect";
 import sonarjs from "eslint-plugin-sonarjs";
-import { defineConfig } from "oxlint";
 
 import { styling } from "./oxlint.styling.ts";
 
-type Rules = NonNullable<Parameters<typeof defineConfig>[0]["rules"]>;
+type Rules = NonNullable<OxlintConfig["rules"]>;
 
 const errors = (names: string[]): Rules =>
   Object.fromEntries(names.map((name) => [name, "error"]));
@@ -21,7 +21,7 @@ const alias = (rules: object, from: string, to: string): Rules =>
 
 const sonarjsRecommended = sonarjs.configs?.recommended as { rules: Rules };
 
-export default defineConfig({
+export default {
   categories: { correctness: "off" },
   options: {
     typeAware: true,
@@ -553,4 +553,4 @@ export default defineConfig({
     ".agents/**",
     ".claude/**",
   ],
-});
+} satisfies OxlintConfig;

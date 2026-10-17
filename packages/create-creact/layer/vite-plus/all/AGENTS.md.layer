@@ -1,0 +1,11 @@
+## Tests
+
+- Tests are Vitest files named `*.test.ts` or `*.test.tsx` next to the code they test, under `apps/*/src` or `packages/*/src`. Import the test API from `vite-plus/test`, as Vite+ ships its own Vitest. Run them with `pnpm test`, which runs `vp test`.
+
+## Lint and format
+
+- Vite+ runs the lint, format, test and hook tools from the root `vite.config.ts`. Its `lint` block is `oxlint.config.ts` and its `fmt` block is `.oxfmtrc.json`, so change the rules in those files. Vite+ ignores nested lint and format configs, so a rule for one package goes in an override in `oxlint.config.ts`.
+- `pnpm lint` runs `vp lint` with type-aware rules from the root, and `pnpm lint --fix` applies its fixes. `pnpm format` runs `vp fmt`, and `pnpm format:check` checks without writing.
+- `pnpm typecheck` runs each package's `check-types`, then `tsc` at the root for the config files.
+- The hooks live in `.vite-hooks`, and `pnpm install` installs them through `vp config`. The pre-commit hook runs `vp staged` with the `staged` block in `vite.config.ts`, and the commit-msg hook runs commitlint.
+- Run the app with `pnpm dev`, which runs the framework's own CLI rather than `vp dev`.

@@ -1,0 +1,25 @@
+import type { OxfmtConfig } from "vite-plus/fmt";
+import { defineConfig } from "vite-plus";
+
+import oxfmtrc from "./.oxfmtrc.json" with { type: "json" };
+import lint from "./oxlint.config.ts";
+import { styling } from "./vitest.styling.ts";
+
+export default defineConfig({
+  lint,
+  // A JSON import widens each option to string, so it needs the cast.
+  fmt: oxfmtrc as OxfmtConfig,
+  staged: {
+    "*.{ts,tsx}": ["vp lint --fix", "vp fmt --no-error-on-unmatched-pattern"],
+    "*.{js,mjs,cjs,json,css,yml,yaml}":
+      "vp fmt --no-error-on-unmatched-pattern",
+  },
+  plugins: styling.plugins,
+  resolve: { tsconfigPaths: true },
+  test: {
+    include: ["{apps,packages}/*/src/**/*.test.{ts,tsx}"],
+    passWithNoTests: true,
+    clearMocks: true,
+    restoreMocks: true,
+  },
+});

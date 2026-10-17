@@ -71,12 +71,14 @@ export async function create(
   const name = recorded?.name ?? projectName(request.dir);
   const ids: readonly OverlayId[] = [
     "base",
+    choices.toolchain,
     choices.styling,
     ...choices.extras,
   ];
   const ops = plan(await loadLayer(layerDir, ids, choices.stack), ids, {
     stack: choices.stack,
     monorepo: choices.monorepo,
+    toolchain: choices.toolchain,
     name,
   });
 

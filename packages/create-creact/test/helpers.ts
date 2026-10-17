@@ -21,7 +21,11 @@ import {
   plan,
   STATE_FILE,
 } from "../src/layer.ts";
-import { projectName, type StylingId } from "../src/options.ts";
+import {
+  projectName,
+  type StylingId,
+  type ToolchainId,
+} from "../src/options.ts";
 import { type MonorepoId, type StackId, STACKS } from "../src/stacks.ts";
 
 export const LAYER = path.join(import.meta.dirname, "../layer");
@@ -56,12 +60,14 @@ export function fixture(stack: StackId): Fixture {
 export async function ops(
   stack: StackId,
   styling: StylingId = "tailwind",
-  monorepo: MonorepoId = "pnpm"
+  monorepo: MonorepoId = "pnpm",
+  toolchain: ToolchainId = "standalone"
 ): Promise<readonly Op[]> {
-  const ids: readonly OverlayId[] = ["base", styling];
+  const ids: readonly OverlayId[] = ["base", toolchain, styling];
   return plan(await loadLayer(LAYER, ids, stack), ids, {
     stack,
     monorepo,
+    toolchain,
     name: NAME,
   });
 }
@@ -98,6 +104,7 @@ export function recordState(
       stack,
       styling: "tailwind",
       monorepo: "pnpm",
+      toolchain: "vite-plus",
       extras: [],
       hashes: {},
       ...fields,
