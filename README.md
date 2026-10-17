@@ -1,27 +1,15 @@
 <div align="center" style="text-align:center">
-  <a href="https://creact.netlify.app/">
-    <img
-      alt="creact Logo"
-      src="./src/shared/assets/images/README.svg"
-    />
-  </a>
+  <img
+    alt="creact Logo"
+    src="./src/shared/assets/images/README.svg"
+  />
 
   <h2 style="padding-top:0;margin-top:20px">creact</h2>
   <h4 style="padding-top:20px">A React app template with Vite, React Router v8 and TypeScript, set up for coding agents.</h4>
 
   <br />
 
-[**Visit demo**](https://creact.netlify.app/)
-
-  <br />
-
   <p>
-    <a href="https://app.netlify.com/sites/creact/deploys">
-      <img
-        alt="Netlify Build Status"
-        src="https://img.shields.io/netlify/4b639571-edc3-4fd5-ab63-61f0959fd921?label=build&style=for-the-badge"
-      />
-    </a>
     <img
       alt="GitHub release"
       src="https://img.shields.io/github/v/release/Joshua-Booth/creact?label=version&style=for-the-badge"
