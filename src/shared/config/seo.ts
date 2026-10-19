@@ -8,7 +8,7 @@ import { env } from "./env";
  */
 export function getSiteUrl(): string {
   /* istanbul ignore start @preserve -- Fallback only used when env var is missing */
-  return env.VITE_PUBLIC_URL ?? "https://creact.netlify.app";
+  return env.VITE_PUBLIC_URL ?? `http://localhost:${env.VITE_PORT}`;
   /* istanbul ignore end @preserve */
 }
 
