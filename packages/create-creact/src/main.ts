@@ -47,7 +47,7 @@ function fail(code: number, message: string): void {
 }
 
 function format(report: Report): string {
-  const { stack, styling, monorepo } = report.choices;
+  const { stack, styling, monorepo, toolchain } = report.choices;
   const outcomes = Object.entries(report.layer.files);
   const named = (outcome: string) =>
     outcomes.filter(([, value]) => value === outcome).map(([file]) => file);
@@ -65,7 +65,7 @@ function format(report: Report): string {
       ? "done, then lint --fix and format"
       : `skipped, ${toAdd} packages to add. Run again without --no-install to finish.`;
   return [
-    `create-creact: ${stack} + ${styling} on ${monorepo} in ${report.dir}`,
+    `create-creact: ${stack} + ${styling} on ${monorepo} with ${toolchain} in ${report.dir}`,
     `  base     ${base}`,
     `  layer    ${named("written").length} written, ${named("unchanged").length} unchanged, ${kept.length} kept`,
     ...kept.map((file) => `           kept ${file}, which the project changed`),

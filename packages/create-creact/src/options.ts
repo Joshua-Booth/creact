@@ -20,6 +20,30 @@ export const STYLINGS = {
   stylex: { status: "built", summary: "StyleX" },
 } as const satisfies Record<string, Feature>;
 
+export const TOOLCHAINS = {
+  standalone: {
+    status: "built",
+    summary: "Oxlint, Oxfmt, Vitest and husky, each set up on its own",
+    imports: {
+      oxlint: "oxlint",
+      vitest: "vitest",
+      vitestConfig: "vitest/config",
+    },
+  },
+  "vite-plus": {
+    status: "built",
+    summary: "Vite+, whose vp runs lint, format, tests and the git hooks",
+    imports: {
+      oxlint: "vite-plus/lint",
+      vitest: "vite-plus/test",
+      vitestConfig: "vite-plus",
+    },
+  },
+} as const satisfies Record<
+  string,
+  Feature & { readonly imports: Readonly<Record<string, string>> }
+>;
+
 export const EXTRAS = {
   shadcn: {
     status: "planned",
@@ -47,12 +71,14 @@ export const EXTRAS = {
 } as const satisfies Record<string, Feature>;
 
 export type StylingId = Built<typeof STYLINGS>;
+export type ToolchainId = Built<typeof TOOLCHAINS>;
 export type ExtraId = Built<typeof EXTRAS>;
 
 export interface Choices {
   readonly stack: StackId;
   readonly styling: StylingId;
   readonly monorepo: MonorepoId;
+  readonly toolchain: ToolchainId;
   readonly extras: readonly ExtraId[];
 }
 
@@ -60,6 +86,7 @@ export const DEFAULTS = {
   stack: "react-router",
   styling: "tailwind",
   monorepo: "pnpm",
+  toolchain: "standalone",
 } as const satisfies Omit<Choices, "extras">;
 
 declare const projectNameBrand: unique symbol;
@@ -70,6 +97,7 @@ export interface Request {
   readonly stack: StackId | undefined;
   readonly styling: StylingId | undefined;
   readonly monorepo: MonorepoId | undefined;
+  readonly toolchain: ToolchainId | undefined;
   readonly extras: readonly ExtraId[];
   readonly yes: boolean;
   readonly install: boolean;
@@ -93,6 +121,7 @@ const OPTIONS = {
   stack: { type: "string" },
   styling: { type: "string" },
   monorepo: { type: "string" },
+  toolchain: { type: "string" },
   install: { type: "boolean", default: true },
   git: { type: "boolean", default: true },
   yes: { type: "boolean", short: "y", default: false },
@@ -174,10 +203,20 @@ export function parseRequest(argv: readonly string[], cwd: string): Parsed {
     );
   }
 
+  const toolchain =
+    values.toolchain === undefined
+      ? undefined
+      : lookup(TOOLCHAINS, values.toolchain, `--toolchain ${values.toolchain}`);
+  if (toolchain?.kind === "unknown") {
+    return usage(
+      `--toolchain must be one of ${Object.keys(TOOLCHAINS).join(", ")}`
+    );
+  }
+
   const extras = EXTRA_NAMES.filter((extra) => values[extra]).map((name) =>
     lookup(EXTRAS, name, `--${name}`)
   );
-  const planned = [styling, monorepo, ...extras].flatMap((found) =>
+  const planned = [styling, monorepo, toolchain, ...extras].flatMap((found) =>
     found?.kind === "planned" ? [found.flag] : []
   );
 
@@ -194,6 +233,7 @@ export function parseRequest(argv: readonly string[], cwd: string): Parsed {
       stack,
       styling: styling?.kind === "built" ? styling.id : undefined,
       monorepo: monorepo?.kind === "built" ? monorepo.id : undefined,
+      toolchain: toolchain?.kind === "built" ? toolchain.id : undefined,
       extras: extras.flatMap((found) =>
         found.kind === "built" ? [found.id] : []
       ),
@@ -224,7 +264,7 @@ export function resolveChoices(
 
 function choose(request: Request, recorded: Choices | undefined): Choices {
   if (recorded !== undefined) {
-    for (const key of ["stack", "styling", "monorepo"] as const) {
+    for (const key of ["stack", "styling", "monorepo", "toolchain"] as const) {
       const asked = request[key];
       if (asked !== undefined && asked !== recorded[key]) {
         throw new UsageError(
@@ -236,6 +276,7 @@ function choose(request: Request, recorded: Choices | undefined): Choices {
       stack: recorded.stack,
       styling: recorded.styling,
       monorepo: recorded.monorepo,
+      toolchain: recorded.toolchain,
       extras: [...new Set([...recorded.extras, ...request.extras])],
     };
   }
@@ -250,6 +291,7 @@ function choose(request: Request, recorded: Choices | undefined): Choices {
     stack,
     styling: request.styling ?? DEFAULTS.styling,
     monorepo: request.monorepo ?? DEFAULTS.monorepo,
+    toolchain: request.toolchain ?? DEFAULTS.toolchain,
     extras: request.extras,
   };
 }
@@ -301,6 +343,7 @@ function helpText(): string {
     `  --stack <id>      ${Object.keys(STACKS).join(", ")} (--yes picks ${DEFAULTS.stack})`,
     `  --styling <id>    ${choicesLine(STYLINGS)} (default ${DEFAULTS.styling})`,
     `  --monorepo <id>   ${choicesLine(MONOREPOS)} (default ${DEFAULTS.monorepo})`,
+    `  --toolchain <id>  ${choicesLine(TOOLCHAINS)} (default ${DEFAULTS.toolchain})`,
     ...extras,
     "  --no-install      skip pnpm install, the lint and format pass and the skills restore",
     "  --no-git          skip git init",
@@ -310,6 +353,11 @@ function helpText(): string {
     "The directory must sit outside any git repository, as the project gets",
     "its own. Its name becomes the package scope, as in @my-app/ui, so it",
     'needs lowercase letters, digits, ".", "_" or "-".',
+    "",
+    "The toolchain picks what runs that setup. standalone installs Oxlint,",
+    "Oxfmt, Vitest, husky and lint-staged, each with its own config. vite-plus",
+    "installs Vite+, and vp runs them from the root vite.config.ts and",
+    ".vite-hooks. Both get the same lint rules, format options and hooks.",
     "",
     "Run it again on the same directory to finish an interrupted run or take a",
     "newer layer. Layer files you edited are kept and reported. The",

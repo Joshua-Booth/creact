@@ -31,12 +31,15 @@ import {
   readState,
   SKILLS_DIR,
   SKILLS_LOCK,
+  STATE_FILE,
 } from "../src/layer.ts";
 import {
   EXTRAS,
   isBuilt,
   type StylingId,
   STYLINGS,
+  type ToolchainId,
+  TOOLCHAINS,
   UsageError,
 } from "../src/options.ts";
 import { BTS, type StackId, STACKS } from "../src/stacks.ts";
@@ -54,8 +57,13 @@ const STACK_IDS = Object.keys(STACKS) as StackId[];
 const STYLING_IDS = Object.keys(STYLINGS).filter((id): id is StylingId =>
   isBuilt(STYLINGS, id)
 );
+const TOOLCHAIN_IDS = Object.keys(TOOLCHAINS).filter((id): id is ToolchainId =>
+  isBuilt(TOOLCHAINS, id)
+);
 const CELLS = STACK_IDS.flatMap((stack) =>
-  STYLING_IDS.map((styling) => ({ stack, styling }))
+  STYLING_IDS.flatMap((styling) =>
+    TOOLCHAIN_IDS.map((toolchain) => ({ stack, styling, toolchain }))
+  )
 );
 
 const OMITTED_UNTIL_EXTRA: Readonly<Record<string, string>> = {
@@ -63,9 +71,6 @@ const OMITTED_UNTIL_EXTRA: Readonly<Record<string, string>> = {
 };
 
 const SHARED_FILES = [
-  ".husky/commit-msg",
-  ".husky/pre-commit",
-  ".lintstagedrc.json",
   ".oxfmtrc.json",
   "AGENTS.md",
   "CLAUDE.md",
@@ -73,7 +78,6 @@ const SHARED_FILES = [
   "oxlint.config.ts",
   "oxlint.styling.ts",
   "skills-lock.json",
-  "vitest.config.ts",
   "vitest.styling.ts",
   "apps/web/src/index.css",
   "apps/web/src/styles/tokens.css",
@@ -111,6 +115,28 @@ const FILES: Readonly<
     ],
   },
 };
+
+const TOOLCHAIN_FILES: Readonly<Record<ToolchainId, readonly string[]>> = {
+  standalone: [
+    ".husky/commit-msg",
+    ".husky/pre-commit",
+    ".lintstagedrc.json",
+    "vitest.config.ts",
+  ],
+  "vite-plus": [
+    ".vite-hooks/commit-msg",
+    ".vite-hooks/pre-commit",
+    "vite.config.ts",
+  ],
+};
+
+function files(
+  stack: StackId,
+  styling: StylingId,
+  toolchain: ToolchainId
+): readonly string[] {
+  return [...FILES[stack][styling], ...TOOLCHAIN_FILES[toolchain]];
+}
 
 function fileOps(all: readonly Op[]) {
   return all.flatMap((op) => (op.kind === "file" ? [op] : []));
@@ -213,8 +239,8 @@ describe("the fixtures", () => {
 
 describe("plan", () => {
   it("fills every {{name}} in layer paths, contents and prune entries, and JSON patches have none", async (t: TestContext) => {
-    for (const { stack, styling } of CELLS) {
-      const all = await ops(stack, styling);
+    for (const { stack, styling, toolchain } of CELLS) {
+      const all = await ops(stack, styling, "pnpm", toolchain);
       for (const op of fileOps(all)) {
         t.assert.doesNotMatch(op.path, /\{\{/);
         t.assert.doesNotMatch(op.content, /\{\{/, op.path);
@@ -232,34 +258,37 @@ describe("plan", () => {
   });
 
   it("plans exactly the files each stack and styling needs", async (t: TestContext) => {
-    for (const { stack, styling } of CELLS) {
+    for (const { stack, styling, toolchain } of CELLS) {
       t.assert.deepStrictEqual(
-        fileOps(await ops(stack, styling))
+        fileOps(await ops(stack, styling, "pnpm", toolchain))
           .map((op) => op.path)
           .toSorted(),
-        FILES[stack][styling].toSorted(),
-        `${stack} + ${styling}`
+        files(stack, styling, toolchain).toSorted(),
+        `${stack} + ${styling} + ${toolchain}`
       );
     }
   });
 
   it("composes AGENTS.md from the base, the stack and the styling, naming the monorepo tool", async (t: TestContext) => {
-    for (const { stack, styling } of CELLS) {
-      const agents = planned(await ops(stack, styling), "AGENTS.md");
+    for (const { stack, styling, toolchain } of CELLS) {
+      const agents = planned(
+        await ops(stack, styling, "pnpm", toolchain),
+        "AGENTS.md"
+      );
       t.assert.match(agents, /^# app\n/);
       t.assert.deepStrictEqual(
         [...agents.matchAll(/^## (.+)$/gm)].map((match) => match[1]),
         [
           "Run things",
           "Code layout",
-          "Tests",
-          "Lint and format",
           "Commits",
           "Agent skills",
           stack === "next" ? "Next" : "React Router",
+          "Tests",
+          "Lint and format",
           "Styling",
         ],
-        `${stack} + ${styling}`
+        `${stack} + ${styling} + ${toolchain}`
       );
       t.assert.ok(
         agents.includes(styling === "tailwind" ? "Tailwind CSS" : "StyleX")
@@ -283,8 +312,8 @@ describe("plan", () => {
       .map((line) => line.trim())
       .filter((line) => line.startsWith("- "));
     t.assert.ok(rules.length > 5);
-    for (const { stack, styling } of CELLS) {
-      for (const op of fileOps(await ops(stack, styling))) {
+    for (const { stack, styling, toolchain } of CELLS) {
+      for (const op of fileOps(await ops(stack, styling, "pnpm", toolchain))) {
         t.assert.doesNotMatch(op.content, /git-workflow:(start|end)/, op.path);
         for (const rule of rules) {
           t.assert.ok(!op.content.includes(rule), `${op.path}: ${rule}`);
@@ -297,9 +326,9 @@ describe("plan", () => {
     const own = JSON.parse(
       readFileSync(path.join(REPO, "skills-lock.json"), "utf8")
     ) as { version: number; skills: Record<string, JsonObject> };
-    for (const { stack, styling } of CELLS) {
+    for (const { stack, styling, toolchain } of CELLS) {
       const lock = JSON.parse(
-        planned(await ops(stack, styling), SKILLS_LOCK)
+        planned(await ops(stack, styling, "pnpm", toolchain), SKILLS_LOCK)
       ) as {
         version: number;
         skills: Record<string, JsonObject>;
@@ -309,7 +338,7 @@ describe("plan", () => {
         t.assert.deepStrictEqual(
           entry,
           own.skills[id],
-          `${stack} + ${styling} ${id}`
+          `${stack} + ${styling} + ${toolchain} ${id}`
         );
       }
     }
@@ -327,9 +356,9 @@ describe("plan", () => {
   });
 
   it("imports AGENTS.md from CLAUDE.md at the root, and in the app on Next", async (t: TestContext) => {
-    for (const { stack, styling } of CELLS) {
-      const all = await ops(stack, styling);
-      const cell = `${stack} + ${styling}`;
+    for (const { stack, styling, toolchain } of CELLS) {
+      const all = await ops(stack, styling, "pnpm", toolchain);
+      const cell = `${stack} + ${styling} + ${toolchain}`;
       t.assert.strictEqual(planned(all, "CLAUDE.md"), "@AGENTS.md\n", cell);
       const app = fileOps(all).find((op) => op.path === "apps/web/CLAUDE.md");
       t.assert.strictEqual(
@@ -342,17 +371,23 @@ describe("plan", () => {
 
   it("plans the .claude allowlist and the restore dir for the root .gitignore, with lines creact's own has", async (t: TestContext) => {
     const own = readFileSync(path.join(REPO, ".gitignore"), "utf8").split("\n");
-    for (const { stack, styling } of CELLS) {
-      const lines = ignoreLines(await ops(stack, styling));
+    for (const { stack, styling, toolchain } of CELLS) {
+      const lines = ignoreLines(await ops(stack, styling, "pnpm", toolchain));
       for (const line of lines) {
-        t.assert.ok(own.includes(line), `${stack} + ${styling}: ${line}`);
+        t.assert.ok(
+          own.includes(line),
+          `${stack} + ${styling} + ${toolchain}: ${line}`
+        );
       }
       for (const line of [
         "!/.claude/",
         `!/${CLAUDE_SKILLS}/`,
         `/${SKILLS_DIR}/`,
       ]) {
-        t.assert.ok(lines.includes(line), `${stack} + ${styling}: ${line}`);
+        t.assert.ok(
+          lines.includes(line),
+          `${stack} + ${styling} + ${toolchain}: ${line}`
+        );
       }
       t.assert.ok(
         lines.indexOf("!/.claude/") < lines.indexOf("/.claude/*") &&
@@ -363,8 +398,8 @@ describe("plan", () => {
   });
 
   it("locks the shadcn skill on Tailwind only, with a Claude Code link for every locked skill", async (t: TestContext) => {
-    for (const { stack, styling } of CELLS) {
-      const all = await ops(stack, styling);
+    for (const { stack, styling, toolchain } of CELLS) {
+      const all = await ops(stack, styling, "pnpm", toolchain);
       const ids = lockedSkills(all);
       t.assert.ok(ids.includes("vercel-react-best-practices"));
       t.assert.strictEqual(ids.includes("shadcn"), styling === "tailwind");
@@ -374,21 +409,25 @@ describe("plan", () => {
           `${CLAUDE_SKILLS}/${id}`,
           `../../${SKILLS_DIR}/${id}`,
         ]),
-        `${stack} + ${styling}`
+        `${stack} + ${styling} + ${toolchain}`
       );
     }
   });
 
   it("never prunes a path the layer writes", async (t: TestContext) => {
-    for (const { stack, styling } of CELLS) {
-      const all = await ops(stack, styling);
+    for (const { stack, styling, toolchain } of CELLS) {
+      const all = await ops(stack, styling, "pnpm", toolchain);
       const pruned = pruneOp(all)?.paths ?? [];
       const clashes = fileOps(all).filter((op) =>
         pruned.some(
           (entry) => op.path === entry || op.path.startsWith(`${entry}/`)
         )
       );
-      t.assert.deepStrictEqual(clashes, [], `${stack} + ${styling}`);
+      t.assert.deepStrictEqual(
+        clashes,
+        [],
+        `${stack} + ${styling} + ${toolchain}`
+      );
     }
   });
 
@@ -444,9 +483,9 @@ describe("plan", () => {
   });
 
   it("declares every package a planned file uses where that file resolves it", async (t: TestContext) => {
-    for (const { stack, styling } of CELLS) {
+    for (const { stack, styling, toolchain } of CELLS) {
       const dir = upstreamBase(stack);
-      const all = await ops(stack, styling);
+      const all = await ops(stack, styling, "pnpm", toolchain);
       const report = await apply(dir, all, UPSTREAM_ONLY);
       const declared = (manifest: Manifest) =>
         new Set([
@@ -465,7 +504,7 @@ describe("plan", () => {
           inApp: op.path.startsWith("apps/web/"),
         }))
       );
-      t.assert.ok(used.length > 10, `${stack} + ${styling}`);
+      t.assert.ok(used.length > 10, `${stack} + ${styling} + ${toolchain}`);
       t.assert.deepStrictEqual(
         [
           ...new Set(
@@ -478,18 +517,21 @@ describe("plan", () => {
           ),
         ],
         [],
-        `${stack} + ${styling}`
+        `${stack} + ${styling} + ${toolchain}`
       );
     }
   });
 
   it("gives the app a typegen script on every stack, as root lint skips an app without one", async (t: TestContext) => {
-    for (const { stack, styling } of CELLS) {
-      const app = patch(await ops(stack, styling), "apps/web/package.json");
+    for (const { stack, styling, toolchain } of CELLS) {
+      const app = patch(
+        await ops(stack, styling, "pnpm", toolchain),
+        "apps/web/package.json"
+      );
       const { typegen } = app.scripts as JsonObject;
       t.assert.ok(
         typeof typegen === "string" && typegen !== "",
-        `${stack} + ${styling}`
+        `${stack} + ${styling} + ${toolchain}`
       );
     }
   });
@@ -648,9 +690,9 @@ describe("loadLayer", () => {
 
 describe("apply", () => {
   it("writes exactly the planned files and links on a fresh base, and nothing else", async (t: TestContext) => {
-    for (const { stack, styling } of CELLS) {
+    for (const { stack, styling, toolchain } of CELLS) {
       const dir = upstreamBase(stack);
-      const all = await ops(stack, styling);
+      const all = await ops(stack, styling, "pnpm", toolchain);
       await apply(dir, all, UPSTREAM_ONLY);
       t.assert.deepStrictEqual(
         entries(dir),
@@ -658,10 +700,10 @@ describe("apply", () => {
           ...JSON_FILES,
           STACKS[stack].signature,
           ".gitignore",
-          ...FILES[stack][styling],
+          ...files(stack, styling, toolchain),
           ...linkOps(all).map((op) => op.path),
         ].toSorted(),
-        `${stack} + ${styling}`
+        `${stack} + ${styling} + ${toolchain}`
       );
     }
   });
@@ -808,9 +850,9 @@ describe("apply", () => {
   });
 
   it("writes nothing on a second run", async (t: TestContext) => {
-    for (const { stack, styling } of CELLS) {
+    for (const { stack, styling, toolchain } of CELLS) {
       const dir = upstreamBase(stack);
-      const all = await ops(stack, styling);
+      const all = await ops(stack, styling, "pnpm", toolchain);
       const first = await apply(dir, all, UPSTREAM_ONLY);
       const second = await apply(dir, all, recorded(first.hashes));
       t.assert.deepStrictEqual(
@@ -818,7 +860,7 @@ describe("apply", () => {
           ([, outcome]) => outcome !== "unchanged"
         ),
         [],
-        `${stack} + ${styling}`
+        `${stack} + ${styling} + ${toolchain}`
       );
     }
   });
@@ -1002,15 +1044,34 @@ describe("readState", () => {
     const dir = tempDir();
     recordState(dir, "next");
     const state = await readState(dir);
-    t.assert.deepStrictEqual([state?.name, state?.monorepo], ["app", "pnpm"]);
+    t.assert.deepStrictEqual(
+      [state?.name, state?.monorepo, state?.toolchain],
+      ["app", "pnpm", "vite-plus"]
+    );
+  });
+
+  it("reads a project recorded before the toolchain choice as standalone", async (t: TestContext) => {
+    const dir = tempDir();
+    recordState(dir, "next");
+    const file = path.join(dir, STATE_FILE);
+    const recordedState = JSON.parse(readFileSync(file, "utf8")) as JsonObject;
+    const older = Object.entries(recordedState).filter(
+      ([key]) => key !== "toolchain"
+    );
+    writeFileSync(file, JSON.stringify(Object.fromEntries(older)));
+    t.assert.strictEqual((await readState(dir))?.toolchain, "standalone");
+
+    const unknown = tempDir();
+    recordState(unknown, "next", { toolchain: null });
+    await t.assert.rejects(readState(unknown), UsageError);
   });
 });
 
 describe("the layer files", () => {
   it("are formatted as the project's oxfmt writes them, so a rerun finds them unchanged", async (t: TestContext) => {
-    for (const { stack, styling } of CELLS) {
+    for (const { stack, styling, toolchain } of CELLS) {
       const dir = tempDir();
-      for (const op of fileOps(await ops(stack, styling))) {
+      for (const op of fileOps(await ops(stack, styling, "pnpm", toolchain))) {
         mkdirSync(path.dirname(path.join(dir, op.path)), { recursive: true });
         writeFileSync(path.join(dir, op.path), op.content);
       }
@@ -1022,7 +1083,7 @@ describe("the layer files", () => {
       t.assert.strictEqual(
         result.status,
         0,
-        `${stack} + ${styling}:\n${result.stdout}${result.stderr}`
+        `${stack} + ${styling} + ${toolchain}:\n${result.stdout}${result.stderr}`
       );
     }
   });

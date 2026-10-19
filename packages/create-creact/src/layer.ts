@@ -23,6 +23,8 @@ import {
   type ProjectName,
   type StylingId,
   STYLINGS,
+  type ToolchainId,
+  TOOLCHAINS,
   UsageError,
 } from "./options.ts";
 import { type MonorepoId, MONOREPOS, type StackId, STACKS } from "./stacks.ts";
@@ -37,7 +39,7 @@ export type Json =
 export type JsonObject = Readonly<Record<string, Json>>;
 
 // oxlint-disable-next-line typescript/no-redundant-type-constituents -- ExtraId is never until the first extra is built
-export type OverlayId = "base" | StylingId | ExtraId;
+export type OverlayId = "base" | ToolchainId | StylingId | ExtraId;
 
 export type Scope = "all" | StackId;
 
@@ -182,14 +184,7 @@ export const OVERLAYS: Readonly<Record<OverlayId, Overlay>> = {
       json: {
         "package.json": {
           type: "module",
-          scripts: {
-            lint: "pnpm -r --if-present typegen && oxlint --max-warnings 0",
-            format: "oxfmt",
-            "format:check": "oxfmt --check",
-            typecheck: "pnpm -r --if-present check-types && tsc",
-            test: "vitest run",
-            prepare: "husky || true",
-          },
+          scripts: { typecheck: "pnpm -r --if-present check-types && tsc" },
         },
         "tsconfig.json": {
           include: ["*.ts"],
@@ -218,12 +213,6 @@ export const OVERLAYS: Readonly<Record<OverlayId, Overlay>> = {
             "eslint-plugin-react-you-might-not-need-an-effect",
             "eslint-plugin-security",
             "eslint-plugin-sonarjs",
-            "husky",
-            "lint-staged",
-            "oxfmt",
-            "oxlint",
-            "oxlint-tsgolint",
-            "vitest",
           ],
         },
       },
@@ -250,6 +239,49 @@ export const OVERLAYS: Readonly<Record<OverlayId, Overlay>> = {
       json: {
         "apps/web/package.json": { scripts: { typegen: "next typegen" } },
       },
+    },
+  },
+  standalone: {
+    all: {
+      json: {
+        "package.json": {
+          scripts: {
+            lint: "pnpm -r --if-present typegen && oxlint --max-warnings 0",
+            format: "oxfmt",
+            "format:check": "oxfmt --check",
+            test: "vitest run",
+            prepare: "husky || true",
+          },
+        },
+      },
+      packages: {
+        "package.json": {
+          devDependencies: [
+            "husky",
+            "lint-staged",
+            "oxfmt",
+            "oxlint",
+            "oxlint-tsgolint",
+            "vitest",
+          ],
+        },
+      },
+    },
+  },
+  "vite-plus": {
+    all: {
+      json: {
+        "package.json": {
+          scripts: {
+            lint: "pnpm -r --if-present typegen && vp lint --max-warnings 0",
+            format: "vp fmt",
+            "format:check": "vp fmt --check",
+            test: "vp test",
+            prepare: "vp config --no-agent || true",
+          },
+        },
+      },
+      packages: { "package.json": { devDependencies: ["vite-plus"] } },
     },
   },
   tailwind: {
@@ -348,6 +380,7 @@ export type Op =
 export interface Project {
   readonly stack: StackId;
   readonly monorepo: MonorepoId;
+  readonly toolchain: ToolchainId;
   readonly name: ProjectName;
 }
 
@@ -422,6 +455,7 @@ export function plan(
   const vars = {
     name: project.name,
     monorepo: MONOREPOS[project.monorepo].summary,
+    ...TOOLCHAINS[project.toolchain].imports,
   };
   const parts = ids.flatMap((id) =>
     scopes(project.stack).flatMap((scope) => OVERLAYS[id][scope] ?? [])
@@ -762,6 +796,10 @@ export async function readState(dir: string): Promise<State | undefined> {
   const raw = await readJson(file);
   const { schema, creact, name, stack, styling, monorepo, extras, hashes } =
     raw;
+  // Projects made before Vite+ was a choice have no toolchain recorded.
+  const toolchain = Object.hasOwn(raw, "toolchain")
+    ? raw.toolchain
+    : "standalone";
   if (schema === 1) {
     throw new UsageError(
       `${file} comes from the first create-creact, which made single-package projects. This one makes monorepos and can't update it.`
@@ -778,6 +816,8 @@ export async function readState(dir: string): Promise<State | undefined> {
     isBuilt(STYLINGS, styling) &&
     typeof monorepo === "string" &&
     isBuilt(MONOREPOS, monorepo) &&
+    typeof toolchain === "string" &&
+    isBuilt(TOOLCHAINS, toolchain) &&
     Array.isArray(extras) &&
     extras.every((id) => typeof id === "string" && isBuilt(EXTRAS, id)) &&
     isObject(hashes) &&
@@ -785,7 +825,7 @@ export async function readState(dir: string): Promise<State | undefined> {
   if (!valid) {
     throw new UsageError(`${file} isn't a create-creact state file`);
   }
-  return raw as unknown as State;
+  return { ...raw, toolchain } as unknown as State;
 }
 
 export async function writeState(dir: string, state: State): Promise<void> {

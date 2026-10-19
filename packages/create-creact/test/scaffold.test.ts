@@ -30,6 +30,8 @@ import {
   projectName,
   type StylingId,
   STYLINGS,
+  type ToolchainId,
+  TOOLCHAINS,
 } from "../src/options.ts";
 import { withoutGitContext } from "../src/shell.ts";
 import {
@@ -54,17 +56,24 @@ const STYLING_IDS = Object.keys(STYLINGS).filter((id): id is StylingId =>
   isBuilt(STYLINGS, id)
 );
 const MONOREPO_IDS = Object.keys(MONOREPOS) as MonorepoId[];
+const TOOLCHAIN_IDS = Object.keys(TOOLCHAINS).filter((id): id is ToolchainId =>
+  isBuilt(TOOLCHAINS, id)
+);
 
 const SCAFFOLD = new Set(process.env.CREACT_SCAFFOLD?.split(","));
 
+// A key without a toolchain prefix means standalone.
 function selected(
   stack: StackId,
   styling: StylingId,
-  monorepo: MonorepoId
+  monorepo: MonorepoId,
+  toolchain: ToolchainId
 ): boolean {
   const keys = monorepo === "pnpm" ? ["1", stack, `${stack}:${styling}`] : [];
-  return [...keys, `${stack}:${styling}:${monorepo}`].some((key) =>
-    SCAFFOLD.has(key)
+  return [...keys, `${stack}:${styling}:${monorepo}`].some(
+    (key) =>
+      SCAFFOLD.has(`${toolchain}:${key}`) ||
+      (toolchain === "standalone" && SCAFFOLD.has(key))
   );
 }
 
@@ -174,21 +183,22 @@ const PROOF = {
   },
 } satisfies Record<StylingId, Proof>;
 
-const CARD_TEST = [
-  'import { renderToStaticMarkup } from "react-dom/server";',
-  'import { describe, expect, it } from "vitest";',
-  "",
-  'import { Card } from "@/probe/card";',
-  "",
-  'describe("Card", () => {',
-  '  it("renders with the class its styling gave it", () => {',
-  "    expect(renderToStaticMarkup(<Card>hi</Card>)).toMatch(",
-  '      /^<div class="[^"]+">hi<\\/div>$/',
-  "    );",
-  "  });",
-  "});",
-  "",
-].join("\n");
+const cardTest = (vitest: string): string =>
+  [
+    'import { renderToStaticMarkup } from "react-dom/server";',
+    `import { describe, expect, it } from "${vitest}";`,
+    "",
+    'import { Card } from "@/probe/card";',
+    "",
+    'describe("Card", () => {',
+    '  it("renders with the class its styling gave it", () => {',
+    "    expect(renderToStaticMarkup(<Card>hi</Card>)).toMatch(",
+    '      /^<div class="[^"]+">hi<\\/div>$/',
+    "    );",
+    "  });",
+    "});",
+    "",
+  ].join("\n");
 
 function renameLast(css: string, from: string, to: string): string {
   const at = css.lastIndexOf(from);
@@ -219,6 +229,16 @@ const DRIFTS: readonly Drift[] = [
   },
 ];
 
+const HOOKS_PATH: Readonly<Record<ToolchainId, string>> = {
+  standalone: ".husky/_",
+  "vite-plus": ".vite-hooks/_",
+};
+
+const TEST_CONFIG: Readonly<Record<ToolchainId, string>> = {
+  standalone: "vitest.config.ts",
+  "vite-plus": "vite.config.ts",
+};
+
 const TOOL_CONFIG: Readonly<Record<MonorepoId, string | undefined>> = {
   pnpm: undefined,
   turborepo: "turbo.json",
@@ -237,19 +257,22 @@ function withEmptyHome(parent: string): NodeJS.ProcessEnv {
   };
 }
 
-for (const [id, styling, monorepo] of STACK_IDS.flatMap((stackId) =>
+for (const [id, styling, monorepo, toolchain] of STACK_IDS.flatMap((stackId) =>
   STYLING_IDS.flatMap((stylingId) =>
-    MONOREPO_IDS.map((tool) => [stackId, stylingId, tool] as const)
+    MONOREPO_IDS.flatMap((tool) =>
+      TOOLCHAIN_IDS.map((chain) => [stackId, stylingId, tool, chain] as const)
+    )
   )
 )) {
   const proof = PROOF[styling];
+  const { vitest } = TOOLCHAINS[toolchain].imports;
 
   describe(
-    `scaffold ${id} + ${styling} on ${monorepo}`,
+    `scaffold ${id} + ${styling} on ${monorepo} with ${toolchain}`,
     {
       skip:
-        !selected(id, styling, monorepo) &&
-        "set CREACT_SCAFFOLD=1, <stack>, <stack>:<styling> or <stack>:<styling>:<monorepo>",
+        !selected(id, styling, monorepo, toolchain) &&
+        "set CREACT_SCAFFOLD=1, <stack>, <stack>:<styling> or <stack>:<styling>:<monorepo>, prefixed with <toolchain>: for a toolchain other than standalone",
     },
     () => {
       let parent = "";
@@ -279,6 +302,8 @@ for (const [id, styling, monorepo] of STACK_IDS.flatMap((stackId) =>
             styling,
             "--monorepo",
             monorepo,
+            "--toolchain",
+            toolchain,
           ],
           env
         );
@@ -297,10 +322,11 @@ for (const [id, styling, monorepo] of STACK_IDS.flatMap((stackId) =>
           []
         );
 
-        const ids: readonly OverlayId[] = ["base", styling];
+        const ids: readonly OverlayId[] = ["base", toolchain, styling];
         const prune = plan(await loadLayer(LAYER, ids, id), ids, {
           stack: id,
           monorepo,
+          toolchain,
           name: projectName(dir),
         }).find((op) => op.kind === "prune");
         t.assert.ok(prune?.kind === "prune");
@@ -354,7 +380,7 @@ for (const [id, styling, monorepo] of STACK_IDS.flatMap((stackId) =>
       it("installs the git hooks and commits through them", (t: TestContext) => {
         t.assert.strictEqual(
           sh(dir, "git", ["config", "core.hooksPath"]).stdout.trim(),
-          ".husky/_"
+          HOOKS_PATH[toolchain]
         );
         sh(dir, "git", ["add", "--all"]);
         const result = sh(dir, "git", [
@@ -440,7 +466,7 @@ for (const [id, styling, monorepo] of STACK_IDS.flatMap((stackId) =>
         writeFileSync(
           path.join(probe, "add.test.ts"),
           [
-            'import { describe, expect, it } from "vitest";',
+            `import { describe, expect, it } from "${vitest}";`,
             "",
             'import { add } from "@/probe/add";',
             "",
@@ -453,7 +479,7 @@ for (const [id, styling, monorepo] of STACK_IDS.flatMap((stackId) =>
           ].join("\n")
         );
         writeFileSync(path.join(probe, "card.tsx"), proof.component);
-        writeFileSync(path.join(probe, "card.test.tsx"), CARD_TEST);
+        writeFileSync(path.join(probe, "card.test.tsx"), cardTest(vitest));
         sh(dir, "git", ["add", "--all"]);
         const commit = sh(dir, "git", [
           ...IDENTITY,
@@ -496,8 +522,11 @@ for (const [id, styling, monorepo] of STACK_IDS.flatMap((stackId) =>
       it("updates an unedited layer file and keeps an edited one", async (t: TestContext) => {
         const layer = path.join(parent, "layer");
         cpSync(LAYER, layer, { recursive: true });
-        for (const file of ["vitest.config.ts", "commitlint.config.ts"]) {
-          const source = path.join(layer, "base", "all", `${file}.layer`);
+        for (const [overlay, file] of [
+          [toolchain, TEST_CONFIG[toolchain]],
+          ["base", "commitlint.config.ts"],
+        ] as const) {
+          const source = path.join(layer, overlay, "all", `${file}.layer`);
           writeFileSync(
             source,
             `${readFileSync(source, "utf8")}// newer layer\n`
@@ -515,6 +544,7 @@ for (const [id, styling, monorepo] of STACK_IDS.flatMap((stackId) =>
             stack: undefined,
             styling: undefined,
             monorepo: undefined,
+            toolchain: undefined,
             extras: [],
             yes: false,
             install: false,
@@ -522,13 +552,16 @@ for (const [id, styling, monorepo] of STACK_IDS.flatMap((stackId) =>
           },
           layer
         );
-        t.assert.strictEqual(report.layer.files["vitest.config.ts"], "written");
+        t.assert.strictEqual(
+          report.layer.files[TEST_CONFIG[toolchain]],
+          "written"
+        );
         t.assert.strictEqual(
           report.layer.files["commitlint.config.ts"],
           "kept"
         );
         t.assert.match(
-          readFileSync(path.join(dir, "vitest.config.ts"), "utf8"),
+          readFileSync(path.join(dir, TEST_CONFIG[toolchain]), "utf8"),
           /\/\/ newer layer\n$/
         );
         t.assert.match(readFileSync(edited, "utf8"), /\/\/ project rule\n$/);

@@ -8,6 +8,7 @@
 node packages/create-creact/src/main.ts ../my-app --stack next
 node packages/create-creact/src/main.ts ../my-app --stack next --styling stylex
 node packages/create-creact/src/main.ts ../my-app --stack react-router --monorepo turborepo
+node packages/create-creact/src/main.ts ../my-app --stack react-router --toolchain vite-plus
 node packages/create-creact/src/main.ts ../my-app --stack react-router --no-install --no-git
 node packages/create-creact/src/main.ts ../my-app --yes
 ```
@@ -22,6 +23,7 @@ Every prompt has a flag, so an agent never waits on a question.
 | `--stack` | `react-router`, `next` | required, or `react-router` with `--yes` |
 | `--styling` | `tailwind`, `stylex` | `tailwind` |
 | `--monorepo` | `pnpm`, `turborepo`, `nx` | `pnpm` |
+| `--toolchain` | `standalone`, `vite-plus` | `standalone` |
 | `--shadcn`, `--storybook`, `--msw`, `--playwright`, `--i18n`, `--posthog`, `--sentry` | extras, not built yet | off |
 | `--no-install` | skip `pnpm install`, the lint and format pass and the skills restore | installs |
 | `--no-git` | skip `git init` | inits |
@@ -49,22 +51,22 @@ On a rerun, a copied file is rewritten only when it is missing or unchanged sinc
 
 Everything that runs once per repository sits at the root:
 
-- `oxlint.config.ts` and its styling slot `oxlint.styling.ts`, `.oxfmtrc.json`, `vitest.config.ts` and its slot `vitest.styling.ts`, `commitlint.config.ts`, `.lintstagedrc.json` and the husky `commit-msg` and `pre-commit` hooks.
+- `oxlint.config.ts` and its styling slot `oxlint.styling.ts`, `.oxfmtrc.json`, `vitest.styling.ts` and `commitlint.config.ts`, then the toolchain's files: on standalone, `vitest.config.ts`, `.lintstagedrc.json` and the husky `commit-msg` and `pre-commit` hooks, and on Vite+, `vite.config.ts` and the same two hooks in `.vite-hooks`.
 - Every tool as a root devDependency, including the styling's lint plugin and, on StyleX, the compiler Vitest runs.
 - The `lint`, `format`, `format:check`, `typecheck`, `test` and `prepare` scripts.
 - The agent setup: `AGENTS.md`, `CLAUDE.md` importing it, `skills-lock.json` and the `.claude/skills` links. The root `.gitignore` gets the block creact's own has, which keeps `.claude/settings.json`, `rules`, `skills` and `workflows` tracked under a global ignore of `.claude` and the restored `.agents/skills` out of git. On a rerun with any of it missing, the block goes back whole where its first line was, so a rule you add after it still wins.
 
 Everything that belongs to the app sits in `apps/web`: the tokens, the styling's bindings and build plugins, `@stylexjs/stylex`, and the `typegen` and `check-types` scripts.
 
-The root scripts:
+The root scripts, with the toolchain changing all but `typecheck`:
 
-| Script | Runs |
-| --- | --- |
-| `lint` | `pnpm -r --if-present typegen && oxlint --max-warnings 0` |
-| `typecheck` | `pnpm -r --if-present check-types && tsc` |
-| `test` | `vitest run` |
-| `format`, `format:check` | `oxfmt`, `oxfmt --check` |
-| `prepare` | `husky \|\| true` |
+| Script | Standalone runs | Vite+ runs |
+| --- | --- | --- |
+| `lint` | `pnpm -r --if-present typegen && oxlint --max-warnings 0` | `pnpm -r --if-present typegen && vp lint --max-warnings 0` |
+| `typecheck` | `pnpm -r --if-present check-types && tsc` | the same |
+| `test` | `vitest run` | `vp test` |
+| `format`, `format:check` | `oxfmt`, `oxfmt --check` | `vp fmt`, `vp fmt --check` |
+| `prepare` | `husky \|\| true` | `vp config --no-agent \|\| true` |
 
 oxlint runs once from the root. Its type-aware rules read each file's nearest tsconfig, so `apps/web`, `packages/ui` and the root config files each lint with their own compiler options. Vitest runs once from the root, with `include` over `{apps,packages}/*/src/**/*.test.{ts,tsx}`, and `resolve.tsconfigPaths` reads `@/*` from `apps/web/tsconfig.json`. `vitest.styling.ts` holds the styling's Vite plugins: the StyleX compiler on that path, and none on Tailwind. `typecheck` runs each package's `check-types` through `pnpm -r`, then `tsc` at the root for creact's own config files.
 
@@ -72,11 +74,31 @@ Better-T-Stack's own root scripts, `dev`, `build`, `check-types`, `dev:web`, `en
 
 creact's strict compiler options go in `packages/config/tsconfig.base.json`, which `packages/ui` and the root extend, and in `apps/web/tsconfig.json`, which extends nothing. The root tsconfig gets `include: ["*.ts"]`, `noEmit` and `allowImportingTsExtensions`, so it covers creact's root config files and nothing else.
 
-The layer files live in `packages/create-creact/layer/<overlay>/<scope>/`, at the path they take in the monorepo. The overlay is `base`, a styling or an extra, and the scope is `all` or a stack id, so a styling can carry files for one stack only. `OVERLAYS` in `src/layer.ts` lists each scope's JSON patches, packages per manifest, and what it removes from Better-T-Stack's output. `{{name}}` in a layer path, file or removed key becomes the project name, and `{{monorepo}}` becomes the monorepo tool's name.
+The layer files live in `packages/create-creact/layer/<overlay>/<scope>/`, at the path they take in the monorepo. The overlay is `base`, a toolchain, a styling or an extra, and the scope is `all` or a stack id, so a styling can carry files for one stack only. `OVERLAYS` in `src/layer.ts` lists each scope's JSON patches, packages per manifest, and what it removes from Better-T-Stack's output. `{{name}}` in a layer path, file or removed key becomes the project name, and `{{monorepo}}` becomes the monorepo tool's name. `{{oxlint}}`, `{{vitest}}` and `{{vitestConfig}}` become the module a file imports the tool's API or types from, which is the tool's own package on standalone and a `vite-plus` subpath on Vite+, so one file serves both toolchains.
+
+## Toolchains
+
+`--toolchain` picks what runs the lint, format, test and hook setup. Both toolchains get the same rules and options, as they read the same `oxlint.config.ts` and `.oxfmtrc.json`.
+
+- `standalone`, the default, installs Oxlint, Oxfmt, Vitest, husky and lint-staged as root devDependencies, and each reads its own config file. It is the setup creact itself has.
+- `vite-plus` installs `vite-plus` alone. Its `vp` runs Oxlint, Oxfmt, Vitest and lint-staged from the root `vite.config.ts`, and installs the hooks from `.vite-hooks`.
+
+On Vite+ the layer owns the scripts and configs as it does on standalone, and writes them in Vite+'s shape itself. `vp migrate` is not run. On a creact project, it writes a `lint` block of its own to `vite.config.ts`, which replaces `oxlint.config.ts`, so every creact rule and ignore pattern is lost and lint fails on the restored skills. It also leaves the oxlint imports in the config files without the `oxlint` package, so `typecheck` fails, and it leaves the husky hooks alone with a warning.
+
+The Vite+ `vite.config.ts`:
+
+- `lint` is the default export of `oxlint.config.ts`. That file imports only the `OxlintConfig` type, from `oxlint` or `vite-plus/lint`, and `satisfies` it, as `vite-plus/lint` exports types and no `defineConfig`.
+- `fmt` is `.oxfmtrc.json`, imported as JSON. A JSON import widens each option to `string`, so it is cast to `OxfmtConfig`. Without a `fmt` block, `vp fmt` ignores `.oxfmtrc.json` and formats with its defaults.
+- `staged` holds the lint-staged rules with `vp lint` and `vp fmt` in place of `oxlint` and `oxfmt`. `.vite-hooks/pre-commit` runs `vp staged`, and `.vite-hooks/commit-msg` runs commitlint as the husky one does.
+- `plugins`, `resolve` and `test` are what `vitest.config.ts` holds on standalone, as Vite+ reads the test config from `vite.config.ts`.
+
+`prepare` runs `vp config --no-agent`, as without the flag it adds Vite+'s own block to `AGENTS.md`, and the rerun would then keep the edited file instead of updating it. The Vite+ section of `AGENTS.md` carries what that block says: import the test API from `vite-plus/test`, and run the app through its scripts.
+
+The apps keep Better-T-Stack's `dev` and `build` scripts, which run the framework's own CLI, and `apps/web/vite.config.ts` still imports from `vite`. `vp migrate` also points the `vite` package at Vite+'s build of it through a catalog entry and an override. The layer leaves that out, as Next has no Vite config and React Router runs Vite through its own CLI.
 
 ## The agent setup
 
-`AGENTS.md` is written for the generated monorepo, not copied from creact's. It is composed from sections: `base/all` holds how to run, lay out, test, lint and commit, `base/<stack>` adds the stack's section, and each styling adds a `## Styling` section. When two overlays carry the same Markdown file, `loadLayer` joins them in overlay order with a blank line between. Any other clash throws, as it did before. A future extra adds its own section the same way, so the Storybook rule in `.claude/rules` lands with the Storybook extra and not before. The block between `<!-- git-workflow:start -->` and `<!-- git-workflow:end -->` in creact's own `AGENTS.md` only holds in creact's repositories, and a plan test fails if it reaches any layer file.
+`AGENTS.md` is written for the generated monorepo, not copied from creact's. It is composed from sections: `base/all` holds how to run, lay out and commit, `base/<stack>` adds the stack's section, each toolchain adds how to test, lint and format, and each styling adds a `## Styling` section. When two overlays carry the same Markdown file, `loadLayer` joins them in overlay order with a blank line between. Any other clash throws, as it did before. A future extra adds its own section the same way, so the Storybook rule in `.claude/rules` lands with the Storybook extra and not before. The block between `<!-- git-workflow:start -->` and `<!-- git-workflow:end -->` in creact's own `AGENTS.md` only holds in creact's repositories, and a plan test fails if it reaches any layer file.
 
 The skills come from `CREACT_LOCK` in `src/layer.ts`, which holds the entries creact's own `skills-lock.json` has for them, and each overlay lists the ids it wants: the base takes the skills that apply to any React app, and Tailwind adds `shadcn`, as `packages/ui` is shadcn. The plan writes `skills-lock.json` from that list and a `.claude/skills/<id>` link to `../../.agents/skills/<id>` for each skill the project's lock still lists, as the restore fills `.agents/skills` and makes no links of its own. A plan test checks the table against creact's lock, so `skills update` in creact shows up as a failing test until the table follows. `AGENTS.md` is a layer file like any other, so a project that edits it keeps its version on a rerun. `skills-lock.json` is seeded once and then belongs to the skills CLI, which rewrites each `computedHash` by how it fetched the skill (a clone hashes the vercel-labs skills differently from the GitHub fetch), so the layer records no hash for it and a rerun writes it only when it is missing.
 
@@ -164,13 +186,14 @@ CREACT_SCAFFOLD=next mise run test:scaffold        # both stylings of one stack
 CREACT_SCAFFOLD=next:stylex mise run test:scaffold
 CREACT_SCAFFOLD=react-router:tailwind:turborepo mise run test:scaffold
 CREACT_SCAFFOLD=next:stylex:nx mise run test:scaffold
+CREACT_SCAFFOLD=vite-plus:next:stylex mise run test:scaffold
 ```
 
-`1`, a stack, or `<stack>:<styling>` picks cells on plain pnpm workspaces. `<stack>:<styling>:<monorepo>` picks that one cell.
+`1`, a stack, or `<stack>:<styling>` picks cells on plain pnpm workspaces. `<stack>:<styling>:<monorepo>` picks that one cell. Those keys pick the standalone toolchain. Prefix one with `vite-plus:` for the same cells on Vite+, or with `standalone:` to say so.
 
-The scaffold test creates each project with an empty `HOME` and checks Better-T-Stack wrote nothing there. It checks the prune left none of the removed files or packages, and that `turbo.json` or `nx.json` exists only for its tool. Then it commits through the real hooks, rejects a bad commit message, runs build, typecheck, lint, format:check and test from the root, and checks the tree is clean. It reruns the command and checks it writes nothing, commits a test under `apps/web/src` that imports through `@/*` and one that renders a component styled on the path, plants three renames in `tokens.css` (light block only, dark block only, a prefix in both) and checks `tokens.test.ts` fails on each naming the token, and checks that a changed layer reaches an unedited file and leaves an edited one alone. It also checks the built CSS carries the values from `tokens.css` and the styling's own output, and that root lint fails on a planted styling mistake. It checks `AGENTS.md` and `CLAUDE.md` are in place and that every skill `skills-lock.json` lists resolves through `.claude/skills` after the restore.
+The scaffold test creates each project with an empty `HOME` and checks Better-T-Stack wrote nothing there. It checks the prune left none of the removed files or packages, and that `turbo.json` or `nx.json` exists only for its tool. Then it checks `core.hooksPath` points at the toolchain's hooks, commits through them, rejects a bad commit message, runs build, typecheck, lint, format:check and test from the root, and checks the tree is clean. It reruns the command and checks it writes nothing, commits a test under `apps/web/src` that imports through `@/*` and one that renders a component styled on the path, plants three renames in `tokens.css` (light block only, dark block only, a prefix in both) and checks `tokens.test.ts` fails on each naming the token, and checks that a changed layer reaches an unedited file and leaves an edited one alone. It also checks the built CSS carries the values from `tokens.css` and the styling's own output, and that root lint fails on a planted styling mistake. It checks `AGENTS.md` and `CLAUDE.md` are in place and that every skill `skills-lock.json` lists resolves through `.claude/skills` after the restore.
 
-It runs in `.github/workflows/create-creact.yml`, one job per stack and styling on pnpm, on pull requests that touch `packages/create-creact/`, weekly, and on dispatch. The Turborepo and Nx cells run by hand when the pin or the root scripts change.
+It runs in `.github/workflows/create-creact.yml`, one job per stack, styling and toolchain on pnpm, on pull requests that touch `packages/create-creact/`, weekly, and on dispatch. The Turborepo and Nx cells run by hand when the pin or the root scripts change.
 
 ## Add a Better-T-Stack frontend
 
@@ -218,7 +241,8 @@ The package route stays open. `pnpm add github:Joshua-Booth/creact#path:packages
   - `create-json` with `"addons": []` still records `turborepo` and writes `turbo.json`, so the flag call is the route to plain pnpm workspaces.
   - The monorepo is wanted. Its UI package passes every check with two named overrides, varlock passes as it is, and the StyleX path removes what it can't use.
   - React Router is not a minor behind in practice. Better-T-Stack writes `^8.3.1`, which resolves 8.4.0.
-- Plain pnpm workspaces are the default, with Turborepo and Nx as `--monorepo` choices. They only change Better-T-Stack's root `dev`, `build`, `check-types` and `dev:web` scripts and add one config file. Vite+ is left out, as it rewrites the lint, format and hook scripts the layer owns.
+- Plain pnpm workspaces are the default, with Turborepo and Nx as `--monorepo` choices. They only change Better-T-Stack's root `dev`, `build`, `check-types` and `dev:web` scripts and add one config file.
+- Vite+ is a `--toolchain` choice, not a `--monorepo` one, as it replaces the lint, format, test and hook tools rather than Better-T-Stack's root scripts, and it runs with any monorepo tool. The layer keeps owning those scripts and configs on Vite+ and writes them in its shape, as under Toolchains. Standalone stays the default, as it is creact's own setup.
 - The layer runs from the root, and creact's own scripts never go through turbo or nx.
 - The project name comes from the directory and is recorded in state, so a renamed directory keeps its package scope.
 - State is schema 2, with the name and the monorepo tool. A schema 1 state comes from the single-package spike, and the command refuses it with a message saying so. Nothing was published, so there is nothing to migrate.
