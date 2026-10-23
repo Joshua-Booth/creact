@@ -26,6 +26,19 @@ overrides:
   # valibot: forces transitive eslint-plugin-better-tailwindcss off the
   # vulnerable 1.2.0 onto patched >=1.4.2.
   valibot: ">=1.4.2"
+  # dompurify: forces transitive posthog-js onto patched >=3.4.17
+  # (GHSA-mrv2-3pqr-j5jr and related IN_PLACE hook advisories).
+  dompurify: ">=3.4.17"
+  # launch-editor: forces transitive @tanstack/devtools-vite (via
+  # react-router-devtools) onto patched >=2.14.2.
+  launch-editor: ">=2.14.2"
+  # ip-address: forces transitive socks (via shadcn) onto patched >=10.7.4.
+  ip-address: ">=10.7.4"
+  # postcss-selector-parser: forces transitive stylelint deps onto patched
+  # >=7.1.6.
+  postcss-selector-parser: ">=7.1.6"
+  # smol-toml: forces transitive knip onto patched >=1.9.0.
+  smol-toml: ">=1.9.0"
 
 auditConfig:
   ignoreGhsas:
