@@ -5,7 +5,7 @@
   />
 
   <h2 style="padding-top:0;margin-top:20px">creact</h2>
-  <h4 style="padding-top:20px">A React app template with Vite, React Router v8 and TypeScript, set up for coding agents.</h4>
+  <h4 style="padding-top:20px">A React app template, starter CLI and component registry, set up for coding agents.</h4>
 
   <br />
 
