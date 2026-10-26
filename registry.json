@@ -763,7 +763,7 @@
       "dependencies": [
         "@tanstack/react-table@^9.2.4",
         "nuqs@^2.10.1",
-        "zod@^4.6.5"
+        "zod@^4.6.7"
       ],
       "devDependencies": [
         "@fast-check/vitest@^0.5.0",
