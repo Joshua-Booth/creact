@@ -1,8 +1,7 @@
-import type { defineConfig } from "oxlint";
+import type { OxlintConfig } from "{{oxlint}}";
 import betterTailwindcss from "eslint-plugin-better-tailwindcss";
 
-type Config = NonNullable<Parameters<typeof defineConfig>[0]>;
-type Override = NonNullable<Config["overrides"]>[number];
+type Override = NonNullable<OxlintConfig["overrides"]>[number];
 
 const shadcnComponentsAsWritten: Override = {
   files: ["packages/ui/src/components/**"],
@@ -67,4 +66,4 @@ export const styling = {
     registryItemsAsWritten,
     registryMarkerClasses,
   ],
-} satisfies Pick<Config, "settings" | "overrides">;
+} satisfies Pick<OxlintConfig, "settings" | "overrides">;

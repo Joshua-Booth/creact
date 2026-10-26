@@ -261,7 +261,7 @@ dir = "packages/create-creact"
 run = "node --test test/options.test.ts test/cli.test.ts test/plan.test.ts"
 
 [tasks."test:scaffold"]
-description = "Scaffold create-creact projects (CREACT_SCAFFOLD=1, stack, stack:styling or stack:styling:monorepo)"
+description = "Scaffold create-creact projects (CREACT_SCAFFOLD=1, stack, stack:styling or stack:styling:monorepo, prefixed with vite-plus: for Vite+)"
 dir = "packages/create-creact"
 run = "node --test test/scaffold.test.ts"
 

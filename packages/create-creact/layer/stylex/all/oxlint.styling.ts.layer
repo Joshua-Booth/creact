@@ -1,6 +1,4 @@
-import type { defineConfig } from "oxlint";
-
-type Config = NonNullable<Parameters<typeof defineConfig>[0]>;
+import type { OxlintConfig } from "{{oxlint}}";
 
 export const styling = {
   settings: {},
@@ -19,4 +17,4 @@ export const styling = {
       },
     },
   ],
-} satisfies Pick<Config, "settings" | "overrides">;
+} satisfies Pick<OxlintConfig, "settings" | "overrides">;
