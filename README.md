@@ -43,7 +43,7 @@ There are three ways to use it:
 
 The code follows [Feature-Sliced Design][fsd]. Remove anything you don't need.
 
-Note: the app renders on the server, as Tailwind CSS v4 needs it to inject critical CSS. For a single-page app, use Tailwind CSS v3.
+The app renders on the server, using React Router's server-side rendering.
 
 [shadcn/ui]: https://ui.shadcn.com/
 [mise]: https://mise.jdx.dev/
