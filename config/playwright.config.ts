@@ -39,6 +39,7 @@ const coverageReporter = collectCoverage
         {
           name: "E2E Coverage",
           outputFile: path.join(rootDir, "coverage/e2e/index.html"),
+          // Configure monocart-reporter to receive coverage from addCoverageReport
           coverage: {
             entryFilter: (entry: { url: string }) =>
               entry.url.includes("/assets/"),

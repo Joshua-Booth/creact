@@ -78,6 +78,7 @@ test.describe("Login", () => {
 
     await submitButton.click();
 
+    // Client-side validation should display an error and prevent navigation
     const validationError = page.getByRole("alert").first();
     await expect(validationError).toBeVisible();
     await expect(page).toHaveURL(/\/login/);

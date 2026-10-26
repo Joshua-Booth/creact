@@ -92,6 +92,7 @@ function CarouselWithThumbnails(args: React.ComponentProps<typeof Carousel>) {
     () => 0
   );
 
+  // Sync thumbnail carousel with main carousel selection
   React.useEffect(() => {
     thumbApi?.scrollTo(current);
   }, [current, thumbApi]);

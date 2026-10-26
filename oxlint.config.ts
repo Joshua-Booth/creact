@@ -1,3 +1,5 @@
+// Lives at the repo root: ignorePatterns only match files inside the config
+// file's directory, so a config in config/ couldn't ignore src/, public/, etc.
 import eslintReact from "@eslint-react/eslint-plugin";
 import betterTailwindcss from "eslint-plugin-better-tailwindcss";
 import jsdoc from "eslint-plugin-jsdoc";
@@ -71,6 +73,7 @@ export default defineConfig({
 
   settings: {
     ...eslintReact.configs["strict-typescript"].settings,
+    // Plugin settings aren't supported inside overrides, so they live here.
     "better-tailwindcss": { entryPoint: "src/app/styles/globals.css" },
   },
 

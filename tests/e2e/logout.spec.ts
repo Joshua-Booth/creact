@@ -35,6 +35,7 @@ test.describe("Logout", () => {
 
     await page.goto("/logout");
 
+    // Despite the API error, the user should see the signed-out page
     await expect(
       page.getByRole("heading", { name: /signed out/i })
     ).toBeVisible();
@@ -53,6 +54,7 @@ test.describe("Logout", () => {
   }) => {
     await page.goto("/logout");
 
+    // Should redirect to /login since there's no auth token
     await page.waitForURL(/\/login/);
   });
 });

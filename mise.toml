@@ -17,6 +17,7 @@ VITE_API_ROOT_URL = "http://localhost:{{vars.api_port}}"
 VITE_PUBLIC_URL = "http://localhost:{{vars.port}}/public"
 
 [vars]
+# Port configuration (override in mise.local.toml for worktrees)
 port = "8080"
 api_port = "8000"
 
