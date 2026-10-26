@@ -92,11 +92,7 @@ Every task is in `mise.toml`, and most have a short alias.
 | `mise run check`     | Run everything CI runs           |
 | `mise run generate`  | Scaffold a slice or a component  |
 
-Run `mise tasks ls` for the rest. [Development](./docs/DEVELOPMENT.md) covers the generators, API mocks and lint setup.
-
-## Deployment
-
-creact deploys to Netlify. Connect the repo, set the [production environment variables](./docs/CONFIGURATION.md#environment-variables), then deploy. [Deployment](./docs/DEPLOYMENT.md) has the details.
+Run `mise tasks ls` for the rest. [Development](./docs/DEVELOPMENT.md) covers the generators, API mocks and lint setup, and [Deployment](./docs/DEPLOYMENT.md) covers shipping to Netlify.
 
 ## License
 
