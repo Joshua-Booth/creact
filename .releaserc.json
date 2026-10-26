@@ -46,19 +46,23 @@
             { "type": "perf", "section": "Performance Improvements" },
             { "type": "revert", "section": "Reverts" },
             { "type": "refactor", "section": "Code Refactoring" },
-            { "type": "docs", "section": "Documentation", "hidden": false },
-            { "type": "style", "section": "Styles", "hidden": true },
+            {
+              "type": "docs",
+              "section": "Documentation",
+              "effect": "changelog"
+            },
+            { "type": "style", "section": "Styles", "effect": "hidden" },
             {
               "type": "chore",
               "section": "Miscellaneous Chores",
-              "hidden": true
+              "effect": "hidden"
             },
-            { "type": "test", "section": "Tests", "hidden": true },
-            { "type": "build", "section": "Build System", "hidden": true },
+            { "type": "test", "section": "Tests", "effect": "hidden" },
+            { "type": "build", "section": "Build System", "effect": "hidden" },
             {
               "type": "ci",
               "section": "Continuous Integration",
-              "hidden": true
+              "effect": "hidden"
             }
           ]
         }

@@ -39,6 +39,10 @@ overrides:
   postcss-selector-parser: ">=7.1.6"
   # smol-toml: forces transitive knip onto patched >=1.9.0.
   smol-toml: ">=1.9.0"
+  # conventional-changelog-writer: conventional-changelog-conventionalcommits@10
+  # renders with functions and refuses writer@8, which
+  # @semantic-release/release-notes-generator@14 still pins.
+  "@semantic-release/release-notes-generator>conventional-changelog-writer": "^9.3.0"
 
 auditConfig:
   ignoreGhsas:
