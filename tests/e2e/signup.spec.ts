@@ -42,7 +42,6 @@ test.describe("Signup", () => {
     await page.getByLabel("Confirm Password").fill("Password123");
     await submitButton.click();
 
-    // Should show error message and stay on signup page
     const error = page.getByRole("alert");
     await expect(error).toBeVisible();
     await expect(error).toContainText("A user with this email already exists");
@@ -60,10 +59,8 @@ test.describe("Signup", () => {
     });
     await expect(submitButton).toBeEnabled({ timeout: HYDRATION_TIMEOUT });
 
-    // Click submit without filling any fields
     await submitButton.click();
 
-    // Should show validation errors
     await expect(page.getByRole("alert").first()).toBeVisible();
     await expect(page).toHaveURL(/\/signup/);
   });
@@ -84,7 +81,6 @@ test.describe("Signup", () => {
     await page.getByLabel("Confirm Password").fill("DifferentPassword123");
     await submitButton.click();
 
-    // Should show password mismatch error and stay on signup page
     await expect(page.getByRole("alert")).toContainText(
       "Passwords do not match"
     );

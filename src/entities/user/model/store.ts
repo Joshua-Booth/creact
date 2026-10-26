@@ -43,7 +43,6 @@ export function syncAuthFromStorage(
   }
 }
 
-// Wire cross-tab sync (browser only)
 if (typeof window !== "undefined") {
   window.addEventListener("storage", syncAuthFromStorage);
 

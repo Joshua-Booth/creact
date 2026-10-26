@@ -62,7 +62,6 @@ const config: KnipConfig = {
   // System tools (not npm packages)
   ignoreBinaries: ["mise"],
 
-  // Build tools
   vite: {
     config: [
       "config/vite.config.ts",
@@ -71,7 +70,6 @@ const config: KnipConfig = {
     ],
   },
 
-  // Testing
   vitest: {
     config: ["config/vitest.config.ts"],
     entry: ["tests/setup.ts", "src/**/*.test.{ts,tsx}"],
@@ -82,7 +80,6 @@ const config: KnipConfig = {
     entry: ["tests/e2e/**/*.spec.ts"],
   },
 
-  // Linting & formatting
   oxlint: {
     config: ["oxlint.config.ts"],
   },
@@ -91,12 +88,10 @@ const config: KnipConfig = {
     config: ["config/.stylelintrc.json"],
   },
 
-  // Spell checking
   cspell: {
     config: ["config/cspell.json"],
   },
 
-  // Git hooks & commits
   commitlint: {
     config: ["config/commitlint.config.ts"],
   },
@@ -105,22 +100,18 @@ const config: KnipConfig = {
     config: ["config/.lintstagedrc"],
   },
 
-  // Release
   "semantic-release": {
     config: [".releaserc.json"],
   },
 
-  // TypeScript
   typescript: {
     config: ["config/tsconfig.json"],
   },
 
-  // Scaffolding
   plop: {
     config: ["config/plopfile.ts"],
   },
 
-  // Storybook
   storybook: {
     config: [".storybook/main.ts"],
     entry: [".storybook/preview.tsx", "src/**/*.stories.tsx"],

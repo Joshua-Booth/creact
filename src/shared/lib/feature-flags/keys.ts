@@ -7,6 +7,4 @@
  *   | "pricing-experiment";
  * ```
  */
-export type FeatureFlagKey =
-  // Add your feature flags here
-  "example-flag";
+export type FeatureFlagKey = "example-flag";

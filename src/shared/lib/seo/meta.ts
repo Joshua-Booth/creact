@@ -95,14 +95,12 @@ export function generateMeta(pageMeta: PageMeta): MetaDescriptor[] {
     { title: fullTitle },
     { name: "description", content: pageMeta.description },
 
-    // Open Graph
     { property: "og:title", content: fullTitle },
     { property: "og:description", content: pageMeta.description },
     { property: "og:type", content: pageMeta.type ?? "website" },
     { property: "og:site_name", content: SITE_NAME },
     { property: "og:image", content: ogImageUrl },
 
-    // Twitter Card
     { name: "twitter:card", content: "summary_large_image" },
     { name: "twitter:site", content: TWITTER_HANDLE },
     { name: "twitter:title", content: fullTitle },
@@ -110,7 +108,6 @@ export function generateMeta(pageMeta: PageMeta): MetaDescriptor[] {
     { name: "twitter:image", content: ogImageUrl },
   ];
 
-  // Add canonical URL if specified
   if (canonicalUrl) {
     meta.push({
       tagName: "link",
@@ -119,7 +116,6 @@ export function generateMeta(pageMeta: PageMeta): MetaDescriptor[] {
     });
   }
 
-  // Add noindex if requested
   if (pageMeta.noIndex) {
     meta.push({ name: "robots", content: "noindex, nofollow" });
   }

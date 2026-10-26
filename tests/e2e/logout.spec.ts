@@ -8,20 +8,16 @@ test.describe("Logout", () => {
   }) => {
     await loginAsUser(page);
 
-    // Navigate to logout
     await page.goto("/logout");
 
-    // Should show the logout confirmation page
     await expect(
       page.getByRole("heading", { name: /signed out/i })
     ).toBeVisible();
     await expect(page.getByText(/safely signed out/i)).toBeVisible();
 
-    // Should have a "Back to login" link
     const backToLogin = page.getByRole("link", { name: /back to login/i });
     await expect(backToLogin).toBeVisible();
 
-    // Clicking "Back to login" should navigate to /login
     await backToLogin.click();
     await page.waitForURL(/\/login/);
   });
@@ -39,7 +35,6 @@ test.describe("Logout", () => {
 
     await page.goto("/logout");
 
-    // Despite the API error, the user should see the signed-out page
     await expect(
       page.getByRole("heading", { name: /signed out/i })
     ).toBeVisible();
@@ -56,10 +51,8 @@ test.describe("Logout", () => {
     network: _network,
     page,
   }) => {
-    // Navigate directly to /logout without being logged in
     await page.goto("/logout");
 
-    // Should redirect to /login since there's no auth token
     await page.waitForURL(/\/login/);
   });
 });

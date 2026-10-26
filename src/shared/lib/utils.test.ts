@@ -8,7 +8,6 @@ describe("cn", () => {
   });
 
   it("should handle conditional classes", () => {
-    // Testing cn's ability to handle falsy/truthy values as passed by callers
     expect(cn("foo", false, "baz")).toBe("foo baz");
     expect(cn("foo", "bar", "baz")).toBe("foo bar baz");
   });

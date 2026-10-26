@@ -166,7 +166,6 @@ Default.test(
           await expect(sortItems.length).toBeGreaterThanOrEqual(2);
         });
 
-        // Close the dropdown
         await userEvent.keyboard("{Escape}");
       }
     );
@@ -184,7 +183,6 @@ Default.test(
         await expect(filterInput).toHaveValue("Design");
       });
 
-      // Clear filter
       await userEvent.clear(filterInput);
       await waitFor(async () => {
         await expect(filterInput).toHaveValue("");
@@ -208,7 +206,6 @@ Default.test(
         await expect(option).not.toBeNull();
       });
 
-      // Click an option to toggle a column off
       const options =
         canvasElement.ownerDocument.querySelectorAll('[role="option"]');
       if (options.length > 0 && options[0]) {
@@ -312,7 +309,6 @@ Default.test(
         await expect(sortAsc).not.toBeNull();
       });
 
-      // Click Sort asc
       const sortItems = canvasElement.ownerDocument.querySelectorAll(
         '[role="menuitemcheckbox"]'
       );
@@ -322,7 +318,6 @@ Default.test(
     });
 
     await step("verify sort was applied", async () => {
-      // After sorting, the header should still be visible
       const titleHeader = canvas.getByRole("button", { name: /title/i });
       await expect(titleHeader).toBeVisible();
     });
@@ -333,11 +328,8 @@ AllFilters.test(
   "should render all filter controls",
   async ({ canvas, canvasElement, step }) => {
     await step("verify filter controls are present", async () => {
-      // Text filter
       await expect(canvas.getByPlaceholderText(/search titles/i)).toBeVisible();
-      // Number filter
       await expect(canvas.getByPlaceholderText(/budget/i)).toBeVisible();
-      // Toolbar should be present
       const toolbar = canvasElement.querySelector(
         '[data-slot="data-table-toolbar"]'
       );
@@ -363,12 +355,10 @@ AllFilters.test(
   "should open and interact with faceted filter (Status)",
   async ({ canvasElement, step }) => {
     await step("click Status filter button to open popover", async () => {
-      // Find faceted filter buttons in the toolbar
       const filterButtons = canvasElement.querySelectorAll(
         '[data-slot="data-table-toolbar"] button.border-dashed'
       );
 
-      // Status filter should be one of the faceted buttons
       let statusButton: HTMLElement | null = null;
       for (const btn of filterButtons) {
         if (btn.textContent.includes("Status")) {
@@ -393,7 +383,6 @@ AllFilters.test(
       );
       await expect(options.length).toBeGreaterThan(0);
 
-      // Click first option to select it
       if (options[0]) {
         await userEvent.click(options[0]);
       }
@@ -475,14 +464,12 @@ AllFilters.test(
       await userEvent.click(dateButton);
 
       await waitFor(async () => {
-        // Calendar should appear
         const calendar = canvasElement.ownerDocument.querySelector("table");
         await expect(calendar).not.toBeNull();
       });
     });
 
     await step("click a date in the calendar", async () => {
-      // Click a day button in the calendar
       const dayButtons = canvasElement.ownerDocument.querySelectorAll(
         'table button[name="day"]'
       );
@@ -547,7 +534,6 @@ AllFilters.test(
     });
 
     await step("verify aggregate badge appears", async () => {
-      // Close popover first
       await userEvent.keyboard("{Escape}");
       // "3 selected" renders on lg+ screens; "3" badge renders on smaller viewports
       await waitFor(
@@ -771,7 +757,6 @@ Pagination.test(
   "should show rows per page selector",
   async ({ canvas, step }) => {
     await step("verify rows per page control is present", async () => {
-      // The rows per page selector should be visible
       await expect(canvas.getByText(/rows per page/i)).toBeVisible();
     });
   }

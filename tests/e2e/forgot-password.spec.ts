@@ -35,10 +35,8 @@ test.describe("Forgot Password", () => {
     });
     await expect(submitButton).toBeEnabled({ timeout: HYDRATION_TIMEOUT });
 
-    // Submit without filling email
     await submitButton.click();
 
-    // Should show validation error and stay on the page
     await expect(page.getByRole("alert").first()).toBeVisible();
     await expect(page).toHaveURL(/\/forgot-password/);
   });
@@ -72,12 +70,10 @@ test.describe("Forgot Password", () => {
     await page.getByLabel("Email").fill("user@mail.com");
     await submitButton.click();
 
-    // Wait for success state
     await expect(
       page.getByRole("heading", { name: /check your email/i })
     ).toBeVisible();
 
-    // Click "Back to login" link on success page
     const backToLogin = page.getByRole("link", { name: /back to login/i });
     await expect(backToLogin).toBeVisible();
     await backToLogin.click();

@@ -33,7 +33,6 @@ test.describe("Login", () => {
     await page.getByLabel("Password").fill("wrong-password");
     await submitButton.click();
 
-    // Should show error message and stay on login page
     const error = page.getByRole("alert");
     await expect(error).toBeVisible();
     await expect(error).toContainText(
@@ -51,10 +50,8 @@ test.describe("Login", () => {
     const submitButton = page.getByRole("button", { name: /sign in/i });
     await expect(submitButton).toBeEnabled({ timeout: HYDRATION_TIMEOUT });
 
-    // Click submit without filling any fields
     await submitButton.click();
 
-    // Should show validation errors
     await expect(page.getByRole("alert").first()).toBeVisible();
     await expect(page).toHaveURL(/\/login/);
   });
@@ -81,7 +78,6 @@ test.describe("Login", () => {
 
     await submitButton.click();
 
-    // Client-side validation should display an error and prevent navigation
     const validationError = page.getByRole("alert").first();
     await expect(validationError).toBeVisible();
     await expect(page).toHaveURL(/\/login/);

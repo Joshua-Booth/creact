@@ -38,7 +38,6 @@ export default mergeConfig(
         provider: playwright({}),
         instances: [{ browser: "chromium" }],
       },
-      // Filter expected error boundary console output from vitest's reporter
       onConsoleLog(log: string) {
         if (isExpectedError(log)) return false;
       },

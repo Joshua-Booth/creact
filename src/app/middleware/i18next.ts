@@ -12,7 +12,6 @@ import {
 
 import "i18next";
 
-// Cookie to store user locale preference
 export const localeCookie = createCookie("lng", {
   path: "/",
   sameSite: "lax",

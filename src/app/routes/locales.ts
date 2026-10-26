@@ -8,21 +8,18 @@ import type { Route } from "./+types/locales";
 export function loader({ params }: Route.LoaderArgs) {
   const { lng, ns } = params;
 
-  // Validate language
   if (!(lng in resources)) {
     return data({ error: "Invalid language" }, { status: 400 });
   }
 
   const namespaces = resources[lng as keyof typeof resources];
 
-  // Validate namespace
   if (!(ns in namespaces)) {
     return data({ error: "Invalid namespace" }, { status: 400 });
   }
 
   const headers = new Headers();
 
-  // Add cache headers in production
   if (env.NODE_ENV === "production") {
     headers.set(
       "Cache-Control",

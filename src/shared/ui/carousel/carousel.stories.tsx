@@ -18,7 +18,6 @@ import {
 function CarouselWithDots(args: React.ComponentProps<typeof Carousel>) {
   const [api, setApi] = React.useState<CarouselApi>();
 
-  // Use useSyncExternalStore for subscribing to carousel API state
   const current = React.useSyncExternalStore(
     React.useCallback(
       (callback) => {
@@ -31,7 +30,6 @@ function CarouselWithDots(args: React.ComponentProps<typeof Carousel>) {
     () => 0
   );
 
-  // Derive count directly from API during render
   const count = api?.scrollSnapList().length ?? 0;
 
   return (
@@ -82,7 +80,6 @@ function CarouselWithThumbnails(args: React.ComponentProps<typeof Carousel>) {
     "https://images.unsplash.com/photo-1579613832125-5d34a13ffe2a?w=800&h=600&fit=crop",
   ];
 
-  // Use useSyncExternalStore for subscribing to carousel API state
   const current = React.useSyncExternalStore(
     React.useCallback(
       (callback) => {
@@ -95,7 +92,6 @@ function CarouselWithThumbnails(args: React.ComponentProps<typeof Carousel>) {
     () => 0
   );
 
-  // Sync thumbnail carousel with main carousel selection
   React.useEffect(() => {
     thumbApi?.scrollTo(current);
   }, [current, thumbApi]);

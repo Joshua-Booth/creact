@@ -31,7 +31,6 @@ Sentry.init({
   replaysOnErrorSampleRate: 1.0,
 });
 
-// Initialize PostHog only if key is available
 if (env.VITE_POSTHOG_KEY) {
   posthog.init(env.VITE_POSTHOG_KEY, {
     api_host: env.VITE_POSTHOG_HOST ?? "https://us.i.posthog.com",
@@ -51,7 +50,6 @@ async function main() {
       ns: ["common", "components", "validation"],
       // Detect language from html tag (set by server)
       detection: { order: ["htmlTag"], caches: [] },
-      // Load translations from API route
       backend: { loadPath: "/api/locales/{{lng}}/{{ns}}" },
       interpolation: {
         escapeValue: false,
