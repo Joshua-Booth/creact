@@ -11,7 +11,7 @@ interface ApiErrorField {
  * The caller picks field order and the empty-body message. Transport cases live here.
  * @param error - Whatever the request threw.
  * @param options - Field order, the empty-body message, and the console prefix.
- * @param options.fields - Body keys to try, in order. `list` reads the first item. `text` reads a string.
+ * @param options.fields - Body keys to try, in order. `list` reads the first item. `text` reads the value. A field whose value isn't a string is skipped.
  * @param options.fallback - Message when the body has none of those fields.
  * @param options.logLabel - Prefix for the non-HTTP console line, such as `[Login]`.
  * @returns The message to show.
@@ -55,7 +55,7 @@ function readBody(
   for (const field of fields) {
     const value = record[field.key];
     const picked = field.shape === "list" ? firstItem(value) : value;
-    if (picked !== undefined && picked !== null) return picked as string;
+    if (typeof picked === "string") return picked;
   }
   return undefined;
 }
