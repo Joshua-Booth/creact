@@ -1,5 +1,5 @@
 {
-  "bts": "create-better-t-stack@3.46.1",
+  "bts": "create-better-t-stack@3.48.0",
   "package.json": {
     "name": "app",
     "private": true,

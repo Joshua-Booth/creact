@@ -1,7 +1,7 @@
 # Builds and previews the production bundle locally. Vercel and Netlify don't
 # use it.
 
-FROM node:24.15.0-alpine
+FROM node:24.22.1-alpine
 
 WORKDIR /app
 

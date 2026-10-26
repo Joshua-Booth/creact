@@ -147,7 +147,7 @@ export const CREACT_LOCK = {
 
 export type SkillId = keyof typeof CREACT_LOCK;
 
-export const SKILLS_CLI = "skills@1.7.2";
+export const SKILLS_CLI = "skills@1.7.4";
 export const SKILLS_LOCK = "skills-lock.json";
 export const SKILLS_DIR = ".agents/skills";
 export const CLAUDE_SKILLS = ".claude/skills";

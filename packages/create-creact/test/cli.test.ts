@@ -146,7 +146,7 @@ describe("main", () => {
     t.assert.strictEqual(result.status, 1, result.stderr);
     t.assert.strictEqual(
       result.stderr,
-      "create-creact: create-better-t-stack@3.46.1 finished without writing apps/web/tsconfig.json, so its output changed shape. Fix it and run the same command again.\n"
+      "create-creact: create-better-t-stack@3.48.0 finished without writing apps/web/tsconfig.json, so its output changed shape. Fix it and run the same command again.\n"
     );
     t.assert.deepStrictEqual(readdirSync(parent), []);
   });
