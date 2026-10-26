@@ -24,7 +24,7 @@ jobs:
     if: github.event_name != 'schedule'
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@v7
       - uses: ./.github/actions/setup
       - name: Run the offline plan tests
         run: mise run test:cli
@@ -40,7 +40,7 @@ jobs:
         styling: [tailwind, stylex]
         toolchain: [standalone, vite-plus]
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@v7
       - uses: ./.github/actions/setup
       - name: Scaffold, build, lint and test a project
         run: mise run test:scaffold

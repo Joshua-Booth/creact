@@ -1,6 +1,6 @@
 import type { Built, Feature, ProjectName } from "./options.ts";
 
-export const BTS = "create-better-t-stack@3.46.1";
+export const BTS = "create-better-t-stack@3.48.0";
 
 export interface Stack {
   readonly signature: string;

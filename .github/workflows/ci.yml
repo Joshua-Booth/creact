@@ -20,7 +20,7 @@ jobs:
     name: Format Check
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@v7
       - uses: ./.github/actions/setup
       - name: Check formatting
         run: mise run format:check
@@ -29,7 +29,7 @@ jobs:
     name: Oxlint
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@v7
       - uses: ./.github/actions/setup
       - name: Run Oxlint
         run: mise run lint:check
@@ -38,7 +38,7 @@ jobs:
     name: Type Check
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@v7
       - uses: ./.github/actions/setup
       - name: Run TypeScript type checking
         run: mise run typecheck
@@ -47,7 +47,7 @@ jobs:
     name: Unit & Storybook Tests
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@v7
       - uses: ./.github/actions/setup
 
       - name: Install Playwright browsers
@@ -68,7 +68,7 @@ jobs:
     name: E2E Tests
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@v7
       - uses: ./.github/actions/setup
 
       - name: Install Playwright browsers
@@ -99,7 +99,7 @@ jobs:
     name: Security Audit
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@v7
       - uses: ./.github/actions/setup
       - name: Run security audit
         run: mise run audit
@@ -108,7 +108,7 @@ jobs:
     name: Dead Code Detection
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@v7
       - uses: ./.github/actions/setup
       - name: Run Knip
         run: mise run knip -- --reporter github-actions
@@ -117,7 +117,7 @@ jobs:
     name: FSD Architecture
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@v7
       - uses: ./.github/actions/setup
       - name: Run Steiger
         run: mise run steiger
@@ -128,7 +128,7 @@ jobs:
     name: CSS Lint
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@v7
       - uses: ./.github/actions/setup
       - name: Run Stylelint
         run: mise run stylelint:check -- --custom-formatter @csstools/stylelint-formatter-github
@@ -137,7 +137,7 @@ jobs:
     name: Spell Check
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@v7
       - uses: ./.github/actions/setup
       - name: Run spell check
         run: mise run spell
@@ -146,7 +146,7 @@ jobs:
     name: Dependency Check
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@v7
       - uses: ./.github/actions/setup
       - name: Check for circular dependencies
         run: mise run depcruise
@@ -155,7 +155,7 @@ jobs:
     name: Build
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@v7
       - uses: ./.github/actions/setup
       - name: Build application
         run: mise run build
@@ -166,12 +166,12 @@ jobs:
     name: Mutation Testing
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@v7
       - uses: ./.github/actions/setup
 
       # Restore Stryker's incremental file so PRs only re-test changed mutants.
       - name: Restore mutation cache
-        uses: actions/cache@v4
+        uses: actions/cache@v6
         with:
           path: coverage/stryker/incremental.json
           key: stryker-incremental-${{ github.sha }}
@@ -195,7 +195,7 @@ jobs:
     needs: [test, test-e2e]
     if: ${{ !cancelled() && (needs.test.result == 'success' || needs.test-e2e.result == 'success') }}
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@v7
       - uses: ./.github/actions/setup
 
       - uses: actions/download-artifact@v8
@@ -228,7 +228,7 @@ jobs:
 #    name: Chromatic Visual Tests
 #    runs-on: ubuntu-latest
 #    steps:
-#      - uses: actions/checkout@v6
+#      - uses: actions/checkout@v7
 #        with:
 #          fetch-depth: 0
 #
