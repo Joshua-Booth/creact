@@ -5,7 +5,7 @@
   />
 
   <h2 style="padding-top:0;margin-top:20px">creact</h2>
-  <h4 style="padding-top:20px">A React app template with Vite, React Router v8 and TypeScript, set up for coding agents.</h4>
+  <h4 style="padding-top:20px">A React app template, starter CLI and component registry, set up for coding agents.</h4>
 
   <br />
 
@@ -43,7 +43,7 @@ There are three ways to use it:
 
 The code follows [Feature-Sliced Design][fsd]. Remove anything you don't need.
 
-Note: the app renders on the server, as Tailwind CSS v4 needs it to inject critical CSS. For a single-page app, use Tailwind CSS v3.
+The app renders on the server, using React Router's server-side rendering.
 
 [shadcn/ui]: https://ui.shadcn.com/
 [mise]: https://mise.jdx.dev/

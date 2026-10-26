@@ -1,7 +1,7 @@
 {
   "name": "creact",
   "version": "2.2.0",
-  "description": "React Frontend Template",
+  "description": "A React app template, starter CLI and component registry, set up for coding agents",
   "repository": "https://github.com/Joshua-Booth/creact",
   "type": "module",
   "author": "Joshua Booth",
