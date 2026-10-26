@@ -50,3 +50,8 @@ auditConfig:
     # (3.0.3 is latest). Dev-only: micromatch in shadcn, stylelint, steiger
     # and semantic-release expands repo-authored globs, not user input.
     - GHSA-vfj7-8cjw-p6xm
+    # zod memory exhaustion on oversized constrained collections. The app's
+    # own zod is patched (>=4.6.6). The 3.x copies under steiger and shadcn
+    # have no patched release, break when forced onto zod 4, and only parse
+    # repo-authored config in dev CLIs.
+    - GHSA-mrhx-c7xc-m3w5
