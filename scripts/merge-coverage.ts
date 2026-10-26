@@ -5,8 +5,6 @@ import { CoverageReport } from "monocart-coverage-reports";
 
 const rootDir = path.resolve(import.meta.dirname, "..");
 
-// --- Istanbul coverage types ---
-
 interface IstanbulLocation {
   start: { line: number; column: number };
   end: { line: number | null; column: number | null };
@@ -38,8 +36,6 @@ interface IstanbulEntry {
   b: Record<string, number[]>;
 }
 
-// --- Location helpers ---
-
 function locKey(loc: { start: { line: number; column: number } }): string {
   return `${String(loc.start.line)}:${String(loc.start.column)}`;
 }
@@ -63,7 +59,6 @@ function containsPoint(
   // Same start → not "inside", handled by exact locKey match
   if (point.line === start.line && point.column === start.column) return false;
   if (end.line == null) return false;
-  // Before range start
   if (point.line < start.line) return false;
   if (point.line === start.line && point.column < start.column) return false;
   // After range end (null end.column = end of line)
@@ -76,8 +71,6 @@ function containsPoint(
     return false;
   return true;
 }
-
-// --- Istanbul ignore range helpers ---
 
 interface IgnoreRange {
   startLine: number;
@@ -115,8 +108,6 @@ function parseIstanbulIgnoreRanges(source: string): IgnoreRange[] {
 
   return ranges;
 }
-
-// --- Merge helpers ---
 
 function buildLocIndex(
   map: Record<string, { loc: IstanbulLocation } | IstanbulLocation>
@@ -184,7 +175,6 @@ function findMatchingBranch(
   result: IstanbulEntry,
   overlayLoc: IstanbulLocation
 ): string | undefined {
-  // Exact start location match
   const exactId = branchByLoc.get(locKey(overlayLoc));
   if (exactId != null) return exactId;
 
@@ -346,8 +336,6 @@ function stripIstanbulIgnoredEntries(
   }
 }
 
-// --- Coverage filters ---
-
 /** Patterns excluded from coverage metrics (aligned with vitest.config.ts) */
 // eslint-disable-next-line security/detect-non-literal-regexp -- Pattern list is static, not user-supplied
 const EXCLUDED = new RegExp(
@@ -385,8 +373,6 @@ const coverageFilterOptions = {
   entryFilter: (entry: { url: string }) => entry.url.includes("/assets/"),
 };
 
-// --- File collection ---
-
 function collectIstanbulFiles(): string[] {
   const files: string[] = [];
 
@@ -407,8 +393,6 @@ function collectIstanbulFiles(): string[] {
 
   return files;
 }
-
-// --- Main ---
 
 async function convertE2eToIstanbul(e2eRawDir: string): Promise<string> {
   const outputDir = path.join(rootDir, "coverage/e2e-istanbul");
@@ -462,7 +446,6 @@ async function main(): Promise<void> {
     process.exit(0);
   }
 
-  // Phase 1: Convert E2E V8 raw data to Istanbul JSON
   const allIstanbulFiles = [...istanbulFiles];
   if (hasE2E) {
     const e2eIstanbulFile = await convertE2eToIstanbul(e2eRawDir);
@@ -474,16 +457,12 @@ async function main(): Promise<void> {
     process.exit(0);
   }
 
-  // Phase 2: Merge all Istanbul coverage with location-based deduplication
   const combined = loadAndMergeIstanbulFiles(allIstanbulFiles);
 
-  // Phase 2.5: Strip entries within istanbul ignore blocks
   stripIstanbulIgnoredEntries(combined);
 
-  // Phase 3: Strip V8 phantom branches on module imports
   stripPhantomImportBranches(combined);
 
-  // Phase 4: Generate merged report
   const report = new CoverageReport({
     name: "Merged Coverage Report",
     outputDir: path.join(rootDir, "coverage/merged"),

@@ -1,3 +1,2 @@
-// Public API for logout page
 export { LogoutPage } from "./ui/logout-page";
 export { logoutAction } from "./model/action";

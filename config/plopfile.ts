@@ -34,15 +34,11 @@ export default function plopfile(plop: NodePlopAPI): void {
   const ext = shadcnConfig.tsx ? "tsx" : "ts";
   plop.setWelcomeMessage("What would you like to generate?");
 
-  // --- Helpers ---
-
   plop.setHelper("eq", function (this: unknown, a, b, options) {
     return a === b
       ? (options as Handlebars.HelperOptions).fn(this)
       : (options as Handlebars.HelperOptions).inverse(this);
   });
-
-  // --- Generators ---
 
   plop.setGenerator("slice", {
     description: "FSD slice (feature, entity, widget, or page)",
@@ -80,7 +76,6 @@ export default function plopfile(plop: NodePlopAPI): void {
 
       const base = `src/${layer}/${name}`;
 
-      // Root barrel is always generated
       actions.push({
         type: "add",
         path: `${base}/index.ts`,

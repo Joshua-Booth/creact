@@ -72,8 +72,6 @@ export function meta() {
 
 export async function loader({ request, context }: Route.LoaderArgs) {
   const { getTheme } = await themeSessionResolver(request);
-  // Context is a RouterContextProvider when middleware is enabled
-  // Type assertion needed due to generated types not reflecting middleware
   const locale = getLocale(context);
   return data(
     { locale, theme: getTheme() },
@@ -107,7 +105,6 @@ function InnerLayout({
         <meta charSet="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
 
-        {/* JSON-LD Structured Data */}
         <JsonLd data={generateOrganizationJsonLd()} />
         <JsonLd data={generateWebSiteJsonLd()} />
 
@@ -121,7 +118,6 @@ function InnerLayout({
         <meta name="application-name" content={SITE_NAME} />
         <meta name="msapplication-starturl" content="/" />
 
-        {/* Site Icons */}
         <link rel="icon" type="image/x-icon" href="/icons/favicon.ico" />
         <link
           rel="shortcut icon"
@@ -242,7 +238,6 @@ export default function Root({ loaderData: { locale } }: Route.ComponentProps) {
   const { i18n } = useTranslation();
   const { pathname } = useLocation();
 
-  // Sync client-side i18n with server-detected locale
   /* istanbul ignore start @preserve -- Locale sync only triggers when server locale differs from client */
   useEffect(() => {
     // eslint-disable-next-line react-you-might-not-need-an-effect/no-event-handler -- Syncing i18n to the server-detected route-loader locale is a legitimate external-system sync

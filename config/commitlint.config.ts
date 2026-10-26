@@ -43,7 +43,6 @@ const TECH_SCOPES = [
 
 const ALL_SCOPES = [...FSD_SCOPES, ...TECH_SCOPES, "release"] as const;
 
-// Severity levels
 const ERROR = 2;
 const WARNING = 1;
 const OFF = 0;
@@ -57,10 +56,6 @@ const config: UserConfig = {
   ],
 
   rules: {
-    // =========================================================================
-    // Type Rules
-    // =========================================================================
-
     /**
      * Allowed commit types:
      * - feat:     New feature
@@ -97,12 +92,8 @@ const config: UserConfig = {
     "type-case": [ERROR, "always", "lower-case"],
     "type-empty": [ERROR, "never"],
 
-    // =========================================================================
-    // Scope Rules
-    // =========================================================================
-
     "scope-case": [ERROR, "always", "kebab-case"],
-    "scope-empty": [OFF], // Allow empty scopes
+    "scope-empty": [OFF],
 
     /**
      * Selective scope validation per commit type
@@ -121,27 +112,19 @@ const config: UserConfig = {
         refactor: [...FSD_SCOPES, "ui", "types"],
         perf: [...FSD_SCOPES, "ui", "types"],
 
-        // Style changes - all scopes
         style: [...ALL_SCOPES],
 
-        // Tests - testing scope + FSD layers
         test: ["tests", ...FSD_SCOPES],
 
-        // Build/CI - technical scopes only
         build: ["config", "deps"],
         ci: ["config"],
 
-        // Maintenance
         chore: ["deps", "config", "release"],
         ops: ["config", "deps"],
 
         // docs and revert intentionally omitted - they can use any scope
       },
     ],
-
-    // =========================================================================
-    // Subject Rules
-    // =========================================================================
 
     "subject-empty": [ERROR, "never"],
     "subject-case": [
@@ -151,30 +134,14 @@ const config: UserConfig = {
     ],
     "subject-full-stop": [ERROR, "never", "."],
 
-    // =========================================================================
-    // Header Rules
-    // =========================================================================
-
     "header-max-length": [ERROR, "always", 72],
     "header-trim": [ERROR, "always"],
-
-    // =========================================================================
-    // Body Rules
-    // =========================================================================
 
     "body-max-line-length": [ERROR, "always", 72],
     "body-leading-blank": [ERROR, "always"],
 
-    // =========================================================================
-    // Footer Rules
-    // =========================================================================
-
     "footer-max-line-length": [ERROR, "always", 72],
     "footer-leading-blank": [ERROR, "always"],
-
-    // =========================================================================
-    // Function Rules (Advanced Validation)
-    // =========================================================================
 
     /**
      * Imperative mood enforcement.
@@ -190,7 +157,6 @@ const config: UserConfig = {
         if (!subject) return [true];
         const firstWord = (subject.split(" ")[0] ?? "").toLowerCase();
 
-        // Only match non-imperative forms (NOT the base imperative form)
         const nonImperative =
           // eslint-disable-next-line sonarjs/regex-complexity -- enumerates all verb conjugation forms
           /^(adds|added|adding|fixes|fixed|fixing|updates|updated|updating|removes|removed|removing|changes|changed|changing|creates|created|creating|implements|implemented|implementing|moves|moved|moving|renames|renamed|renaming|deletes|deleted|deleting|improves|improved|improving|refactors|refactored|refactoring)$/;
@@ -363,12 +329,10 @@ const config: UserConfig = {
       ({ header, body, footer }: Commit): RuleResult => {
         const fullMessage = `${header ?? ""} ${body ?? ""} ${footer ?? ""}`;
 
-        // Only validate if JB- pattern is present
         if (!/jb-/i.test(fullMessage)) {
-          return [true]; // No ticket reference, that's OK
+          return [true];
         }
 
-        // Validate format: JB-<digits>
         if (!/JB-\d+/.test(fullMessage)) {
           return [
             false,

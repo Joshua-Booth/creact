@@ -80,7 +80,6 @@ const meta = preview.meta({
   ],
 });
 
-// Menu items.
 const items = [
   {
     title: "Home",
