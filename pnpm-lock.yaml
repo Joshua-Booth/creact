@@ -475,8 +475,8 @@ importers:
         specifier: ^17.6.0
         version: 17.6.0
       monocart-coverage-reports:
-        specifier: ^3.0.0
-        version: 3.0.0
+        specifier: ^3.2.0
+        version: 3.2.0
       monocart-reporter:
         specifier: ^2.15.1
         version: 2.15.1
@@ -7546,8 +7546,8 @@ packages:
   module-replacements@2.11.0:
     resolution: {integrity: sha512-j5sNQm3VCpQQ7nTqGeOZtoJtV3uKERgCBm9QRhmGRiXiqkf7iRFOkfxdJRZWLkqYY8PNf4cDQF/WfXUYLENrRA==}
 
-  monocart-coverage-reports@3.0.0:
-    resolution: {integrity: sha512-e/1sowGv8sCDD/QV/6SPsaJz5i2VuPaY7hPlzAPiisgYaJHvuKOgDk78ixSFBGMgHjFcw7p/GDL1m1LcvfB3Dw==}
+  monocart-coverage-reports@3.2.0:
+    resolution: {integrity: sha512-hF8GxLozQGJ9P2FDjTrGfo/IAvHSlPdmYiBE3qkfbWUc9Zc+I+mrShta9+cJxmZfC5d6FiaEyrhjzCNrpAflog==}
     engines: {node: '>=22.15.0'}
     hasBin: true
 
@@ -16416,7 +16416,7 @@ snapshots:
 
   module-replacements@2.11.0: {}
 
-  monocart-coverage-reports@3.0.0:
+  monocart-coverage-reports@3.2.0:
     dependencies:
       '@jridgewell/sourcemap-codec': 1.6.0
       acorn: 8.19.0
@@ -16448,7 +16448,7 @@ snapshots:
       koa: 3.2.1
       koa-static-resolver: 1.0.7
       lz-utils: 2.1.1
-      monocart-coverage-reports: 3.0.0
+      monocart-coverage-reports: 3.2.0
       monocart-locator: 1.0.6
     transitivePeerDependencies:
       - bufferutil
