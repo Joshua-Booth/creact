@@ -1376,7 +1376,7 @@
         "eslint-plugin-sonarjs@^4.2.2",
         "eslint-plugin-storybook@^10.6.3",
         "eslint-plugin-zod@^5.2.2",
-        "oxfmt@^0.74.0",
+        "oxfmt@^0.75.0",
         "oxlint@^1.89.0",
         "oxlint-tsgolint@^7.0.2005"
       ],
