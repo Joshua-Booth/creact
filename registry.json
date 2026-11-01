@@ -1014,7 +1014,7 @@
         "@sentry/react@^11.9.0",
         "lucide-react@^1.63.0",
         "react-i18next@^17.1.9",
-        "react-router@^8.5.0"
+        "react-router@^8.5.1"
       ],
       "registryDependencies": [
         "Joshua-Booth/creact/button",
