@@ -234,11 +234,11 @@ importers:
         specifier: ^1.53.0
         version: 1.53.0
       i18next:
-        specifier: ^26.5.10
-        version: 26.5.10(@typescript/typescript6@6.0.2)
+        specifier: ^26.5.11
+        version: 26.5.12(@typescript/typescript6@6.0.2)
       i18next-browser-languagedetector:
-        specifier: ^8.2.2
-        version: 8.2.2
+        specifier: ^8.2.3
+        version: 8.2.4
       i18next-fetch-backend:
         specifier: ^8.0.0
         version: 8.0.0
@@ -273,8 +273,8 @@ importers:
         specifier: ^7.91.0
         version: 7.91.0(@types/react@19.3.0)(react@19.3.1)
       react-i18next:
-        specifier: ^17.1.8
-        version: 17.1.8(@typescript/typescript6@6.0.2)(i18next@26.5.10(@typescript/typescript6@6.0.2))(react-dom@19.3.1(react@19.3.1))(react@19.3.1)
+        specifier: ^17.1.9
+        version: 17.1.9(@typescript/typescript6@6.0.2)(i18next@26.5.12(@typescript/typescript6@6.0.2))(react-dom@19.3.1(react@19.3.1))(react@19.3.1)
       react-resizable-panels:
         specifier: ^4.15.0
         version: 4.15.0(react-dom@19.3.1(react@19.3.1))(react@19.3.1)
@@ -286,7 +286,7 @@ importers:
         version: 3.10.1(@types/react@19.3.0)(react-dom@19.3.1(react@19.3.1))(react-is@17.0.2)(react@19.3.1)(redux@5.0.1)
       remix-i18next:
         specifier: ^8.0.0
-        version: 8.0.0(i18next@26.5.10(@typescript/typescript6@6.0.2))(react-router@8.5.0(@types/react-dom@19.3.0(@types/react@19.3.0))(@types/react@19.3.0)(react-dom@19.3.1(react@19.3.1))(react@19.3.1))
+        version: 8.0.0(i18next@26.5.12(@typescript/typescript6@6.0.2))(react-router@8.5.0(@types/react-dom@19.3.0(@types/react@19.3.0))(@types/react@19.3.0)(react-dom@19.3.1(react@19.3.1))(react@19.3.1))
       remix-themes:
         specifier: ^2.0.4
         version: 2.0.4(react-router@8.5.0(@types/react-dom@19.3.0(@types/react@19.3.0))(@types/react@19.3.0)(react-dom@19.3.1(react@19.3.1))(react@19.3.1))
@@ -6613,15 +6613,15 @@ packages:
     engines: {node: '>=18'}
     hasBin: true
 
-  i18next-browser-languagedetector@8.2.2:
-    resolution: {integrity: sha512-99PKPDVeLj7s4nDJAz+z664/6IWEb2EyssTsknyzc1MY+mmtAXpx3BP862MrKLGRtmSJnlUioPuOE22F+RR+ng==}
+  i18next-browser-languagedetector@8.2.4:
+    resolution: {integrity: sha512-n6zWTCD8plrPN6gotXNXf0qdM2cORZqZ6ypJA4aIXZkEa45Ds2BVlrZfFItD+XQWP3yAgWxV+euldyN+2utk0Q==}
 
   i18next-fetch-backend@8.0.0:
     resolution: {integrity: sha512-M+FOEvd8pPwGoR++gn/4n2kOi6aEIGY5IK+WaFxxkpc/O3zZIpNzlhzJqBRuNg6YI3GGMNx9Mx/vgxtpP5XI+Q==}
     engines: {node: '>=22.0.0'}
 
-  i18next@26.5.10:
-    resolution: {integrity: sha512-YS4EiLQhhk0wGThm4Zy+BL2c9rBNIK+kAbksi4l/B+D6kVRQLIFZgu2b/MU2LibJJHwWNTYoOYR52T+jfV8kPQ==}
+  i18next@26.5.12:
+    resolution: {integrity: sha512-vTt8tc3y5axoU7wwTYg8vjpILLyP33a5GyGJAVI7FDRx1XueYxZVIkcVeStoftrVnAM/o28hKvK0sslucDI9aQ==}
     peerDependencies:
       typescript: ^5 || ^6 || ^7
     peerDependenciesMeta:
@@ -8320,8 +8320,8 @@ packages:
       react: '>=16.8.0'
       react-dom: '>=16.8.0'
 
-  react-i18next@17.1.8:
-    resolution: {integrity: sha512-vGH+Tbhqbv5LdN9KvC9GEmQ6ATxJAjyxPEK0zSCSRlkeDqCPNxVtEOvDNRAz+51HTxc6QPwhnHaFD7ICu6pD1A==}
+  react-i18next@17.1.9:
+    resolution: {integrity: sha512-OgYqIH13XHPlWTaaI795Dz+k2AdKnXcOxNQVnf750T8Ij0TYWp1nYvXRpoJBulPqlyk2OAbn1PM4tFKiIj/byA==}
     peerDependencies:
       i18next: '>= 26.2.0'
       react: '>= 16.8.0'
@@ -15473,13 +15473,13 @@ snapshots:
 
   husky@9.1.7: {}
 
-  i18next-browser-languagedetector@8.2.2:
+  i18next-browser-languagedetector@8.2.4:
     dependencies:
       '@babel/runtime': 7.29.7
 
   i18next-fetch-backend@8.0.0: {}
 
-  i18next@26.5.10(@typescript/typescript6@6.0.2):
+  i18next@26.5.12(@typescript/typescript6@6.0.2):
     optionalDependencies:
       typescript: '@typescript/typescript6@6.0.2'
 
@@ -17251,13 +17251,13 @@ snapshots:
       react: 19.3.1
       react-dom: 19.3.1(react@19.3.1)
 
-  react-i18next@17.1.8(@typescript/typescript6@6.0.2)(i18next@26.5.10(@typescript/typescript6@6.0.2))(react-dom@19.3.1(react@19.3.1))(react@19.3.1):
+  react-i18next@17.1.9(@typescript/typescript6@6.0.2)(i18next@26.5.12(@typescript/typescript6@6.0.2))(react-dom@19.3.1(react@19.3.1))(react@19.3.1):
     dependencies:
       '@babel/runtime': 7.29.7
       html-parse-stringify: 4.0.1
-      i18next: 26.5.10(@typescript/typescript6@6.0.2)
+      i18next: 26.5.12(@typescript/typescript6@6.0.2)
       react: 19.3.1
-      use-sync-external-store: 1.6.0(react@19.3.1)
+      use-sync-external-store: 1.7.0(react@19.3.1)
     optionalDependencies:
       react-dom: 19.3.1(react@19.3.1)
       typescript: '@typescript/typescript6@6.0.2'
@@ -17516,9 +17516,9 @@ snapshots:
       mdast-util-to-markdown: 2.1.2
       unified: 11.0.5
 
-  remix-i18next@8.0.0(i18next@26.5.10(@typescript/typescript6@6.0.2))(react-router@8.5.0(@types/react-dom@19.3.0(@types/react@19.3.0))(@types/react@19.3.0)(react-dom@19.3.1(react@19.3.1))(react@19.3.1)):
+  remix-i18next@8.0.0(i18next@26.5.12(@typescript/typescript6@6.0.2))(react-router@8.5.0(@types/react-dom@19.3.0(@types/react@19.3.0))(@types/react@19.3.0)(react-dom@19.3.1(react@19.3.1))(react@19.3.1)):
     dependencies:
-      i18next: 26.5.10(@typescript/typescript6@6.0.2)
+      i18next: 26.5.12(@typescript/typescript6@6.0.2)
       react-router: 8.5.0(@types/react-dom@19.3.0(@types/react@19.3.0))(@types/react@19.3.0)(react-dom@19.3.1(react@19.3.1))(react@19.3.1)
 
   remix-themes@2.0.4(react-router@8.5.0(@types/react-dom@19.3.0(@types/react@19.3.0))(@types/react@19.3.0)(react-dom@19.3.1(react@19.3.1))(react@19.3.1)):
