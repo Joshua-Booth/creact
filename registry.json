@@ -10,8 +10,8 @@
       "description": "Vertically stacked set of collapsible content sections. Wraps `@base-ui/react/collapsible` with project styling.",
       "dependencies": [
         "@base-ui/react@^1.9.0",
-        "cn@^0.5.0",
-        "lucide-react@^1.61.0"
+        "cn@^0.5.1",
+        "lucide-react@^1.63.0"
       ],
       "files": [
         {
@@ -33,7 +33,7 @@
       "description": "Callout component for displaying important messages to users. Supports icon placement and an optional action slot.",
       "dependencies": [
         "class-variance-authority@^0.7.1",
-        "cn@^0.5.0"
+        "cn@^0.5.1"
       ],
       "files": [
         {
@@ -55,7 +55,7 @@
       "description": "Focus-trapped confirmation dialog that requires explicit user action before proceeding. Wraps `@base-ui/react/alert-dialog`.",
       "dependencies": [
         "@base-ui/react@^1.9.0",
-        "cn@^0.5.0"
+        "cn@^0.5.1"
       ],
       "registryDependencies": [
         "Joshua-Booth/creact/button"
@@ -79,7 +79,7 @@
       "title": "Aspect Ratio",
       "description": "Constrains child content to a specified aspect ratio.",
       "dependencies": [
-        "cn@^0.5.0"
+        "cn@^0.5.1"
       ],
       "files": [
         {
@@ -102,7 +102,7 @@
       "dependencies": [
         "@base-ui/react@^1.9.0",
         "class-variance-authority@^0.7.1",
-        "cn@^0.5.0"
+        "cn@^0.5.1"
       ],
       "registryDependencies": [
         "Joshua-Booth/creact/button"
@@ -127,7 +127,7 @@
       "description": "Circular user avatar displaying an image with fallback initials.",
       "dependencies": [
         "@base-ui/react@^1.9.0",
-        "cn@^0.5.0"
+        "cn@^0.5.1"
       ],
       "files": [
         {
@@ -150,7 +150,7 @@
       "dependencies": [
         "@base-ui/react@^1.9.0",
         "class-variance-authority@^0.7.1",
-        "cn@^0.5.0"
+        "cn@^0.5.1"
       ],
       "files": [
         {
@@ -172,8 +172,8 @@
       "description": "Navigation trail showing the current page location within a hierarchy.",
       "dependencies": [
         "@base-ui/react@^1.9.0",
-        "cn@^0.5.0",
-        "lucide-react@^1.61.0",
+        "cn@^0.5.1",
+        "lucide-react@^1.63.0",
         "react-i18next@^17.1.8"
       ],
       "registryDependencies": [
@@ -200,7 +200,7 @@
       "dependencies": [
         "@base-ui/react@^1.9.0",
         "class-variance-authority@^0.7.1",
-        "cn@^0.5.0"
+        "cn@^0.5.1"
       ],
       "files": [
         {
@@ -223,7 +223,7 @@
       "dependencies": [
         "@base-ui/react@^1.9.0",
         "class-variance-authority@^0.7.1",
-        "cn@^0.5.0"
+        "cn@^0.5.1"
       ],
       "files": [
         {
@@ -246,7 +246,7 @@
       "dependencies": [
         "@base-ui/react@^1.9.0",
         "class-variance-authority@^0.7.1",
-        "cn@^0.5.0"
+        "cn@^0.5.1"
       ],
       "registryDependencies": [
         "Joshua-Booth/creact/separator"
@@ -270,8 +270,8 @@
       "title": "Calendar",
       "description": "Date picker calendar grid powered by react-day-picker with project styling.",
       "dependencies": [
-        "cn@^0.5.0",
-        "lucide-react@^1.61.0",
+        "cn@^0.5.1",
+        "lucide-react@^1.63.0",
         "react-day-picker@^10.0.2"
       ],
       "registryDependencies": [
@@ -296,7 +296,7 @@
       "title": "Card",
       "description": "Styled container for grouping related content with consistent padding and borders.",
       "dependencies": [
-        "cn@^0.5.0"
+        "cn@^0.5.1"
       ],
       "files": [
         {
@@ -317,9 +317,9 @@
       "title": "Carousel",
       "description": "Embla-powered slideshow component with keyboard navigation and scroll snapping. Supports horizontal and vertical orientations.",
       "dependencies": [
-        "cn@^0.5.0",
+        "cn@^0.5.1",
         "embla-carousel-react@^8.6.0",
-        "lucide-react@^1.61.0",
+        "lucide-react@^1.63.0",
         "react-i18next@^17.1.8"
       ],
       "registryDependencies": [
@@ -345,7 +345,7 @@
       "title": "Chart",
       "description": "Responsive chart wrapper that provides theme-aware CSS color variables and chart configuration context.",
       "dependencies": [
-        "cn@^0.5.0",
+        "cn@^0.5.1",
         "recharts@^3.10.1"
       ],
       "files": [
@@ -368,8 +368,8 @@
       "description": "Toggle control for boolean options. Wraps `@base-ui/react/checkbox` with project styling.",
       "dependencies": [
         "@base-ui/react@^1.9.0",
-        "cn@^0.5.0",
-        "lucide-react@^1.61.0"
+        "cn@^0.5.1",
+        "lucide-react@^1.63.0"
       ],
       "files": [
         {
@@ -412,8 +412,8 @@
       "description": "Autocomplete select component combining a text input with a filterable dropdown list. Wraps `@base-ui/react` combobox primitives.",
       "dependencies": [
         "@base-ui/react@^1.9.0",
-        "cn@^0.5.0",
-        "lucide-react@^1.61.0",
+        "cn@^0.5.1",
+        "lucide-react@^1.63.0",
         "react-i18next@^17.1.8"
       ],
       "registryDependencies": [
@@ -441,8 +441,8 @@
       "description": "Searchable command palette for finding and executing actions. Built on cmdk.",
       "dependencies": [
         "cmdk@^1.1.1",
-        "cn@^0.5.0",
-        "lucide-react@^1.61.0",
+        "cn@^0.5.1",
+        "lucide-react@^1.63.0",
         "react-i18next@^17.1.8"
       ],
       "registryDependencies": [
@@ -496,8 +496,8 @@
       "description": "Right-click context menu for presenting contextual actions. Wraps `@base-ui/react/context-menu` with keyboard navigation.",
       "dependencies": [
         "@base-ui/react@^1.9.0",
-        "cn@^0.5.0",
-        "lucide-react@^1.61.0"
+        "cn@^0.5.1",
+        "lucide-react@^1.63.0"
       ],
       "files": [
         {
@@ -520,8 +520,8 @@
       "dependencies": [
         "@tanstack/react-table@^9.3.1",
         "@tanstack/react-virtual@^3.14.23",
-        "cn@^0.5.0",
-        "lucide-react@^1.61.0",
+        "cn@^0.5.1",
+        "lucide-react@^1.63.0",
         "react-i18next@^17.1.8",
         "sonner@^2.0.8"
       ],
@@ -611,7 +611,7 @@
       "dependencies": [
         "@tanstack/react-table@^9.3.1",
         "@tanstack/react-virtual@^3.14.23",
-        "lucide-react@^1.61.0",
+        "lucide-react@^1.63.0",
         "sonner@^2.0.8"
       ],
       "devDependencies": [
@@ -685,8 +685,8 @@
       "description": "Feature-rich data table powered by TanStack Table with sorting, filtering, pagination, and row selection.",
       "dependencies": [
         "@tanstack/react-table@^9.3.1",
-        "cn@^0.5.0",
-        "lucide-react@^1.61.0",
+        "cn@^0.5.1",
+        "lucide-react@^1.63.0",
         "react-day-picker@^10.0.2",
         "react-i18next@^17.1.8"
       ],
@@ -895,8 +895,8 @@
       "description": "Focus-trapped modal window overlaid on the primary content. Wraps `@base-ui/react/dialog` with project styling and animation presets.",
       "dependencies": [
         "@base-ui/react@^1.9.0",
-        "cn@^0.5.0",
-        "lucide-react@^1.61.0",
+        "cn@^0.5.1",
+        "lucide-react@^1.63.0",
         "react-i18next@^17.1.8"
       ],
       "registryDependencies": [
@@ -943,7 +943,7 @@
       "title": "Drawer",
       "description": "Touch-friendly bottom sheet overlay powered by Vaul. Supports swipe-to-dismiss and directional rendering.",
       "dependencies": [
-        "cn@^0.5.0",
+        "cn@^0.5.1",
         "vaul@^1.1.2"
       ],
       "files": [
@@ -966,8 +966,8 @@
       "description": "Context-triggered menu for presenting a list of actions. Wraps `@base-ui/react/menu` with project styling and animation.",
       "dependencies": [
         "@base-ui/react@^1.9.0",
-        "cn@^0.5.0",
-        "lucide-react@^1.61.0"
+        "cn@^0.5.1",
+        "lucide-react@^1.63.0"
       ],
       "files": [
         {
@@ -990,7 +990,7 @@
       "dependencies": [
         "@base-ui/react@^1.9.0",
         "class-variance-authority@^0.7.1",
-        "cn@^0.5.0"
+        "cn@^0.5.1"
       ],
       "files": [
         {
@@ -1012,7 +1012,7 @@
       "description": "Catches JavaScript errors in the child component tree, reports them to Sentry, and displays a fallback UI.",
       "dependencies": [
         "@sentry/react@^11.9.0",
-        "lucide-react@^1.61.0",
+        "lucide-react@^1.63.0",
         "react-i18next@^17.1.8",
         "react-router@^8.5.0"
       ],
@@ -1047,7 +1047,7 @@
       "dependencies": [
         "@base-ui/react@^1.9.0",
         "class-variance-authority@^0.7.1",
-        "cn@^0.5.0"
+        "cn@^0.5.1"
       ],
       "registryDependencies": [
         "Joshua-Booth/creact/label",
@@ -1130,7 +1130,7 @@
       "description": "Popup card that appears on hover for previewing linked content. Wraps `@base-ui/react/preview-card`.",
       "dependencies": [
         "@base-ui/react@^1.9.0",
-        "cn@^0.5.0"
+        "cn@^0.5.1"
       ],
       "files": [
         {
@@ -1212,7 +1212,7 @@
       "description": "Text input field with project styling and validation states. Wraps `@base-ui/react/input` with consistent borders, focus rings, and file input support.",
       "dependencies": [
         "@base-ui/react@^1.9.0",
-        "cn@^0.5.0"
+        "cn@^0.5.1"
       ],
       "files": [
         {
@@ -1234,7 +1234,7 @@
       "description": "Container that visually groups an input with addon elements like icons and buttons.",
       "dependencies": [
         "class-variance-authority@^0.7.1",
-        "cn@^0.5.0"
+        "cn@^0.5.1"
       ],
       "registryDependencies": [
         "Joshua-Booth/creact/button",
@@ -1260,9 +1260,9 @@
       "title": "Input Otp",
       "description": "One-time password input with individual character slots. Built on input-otp.",
       "dependencies": [
-        "cn@^0.5.0",
+        "cn@^0.5.1",
         "input-otp@^1.5.0",
-        "lucide-react@^1.61.0"
+        "lucide-react@^1.63.0"
       ],
       "files": [
         {
@@ -1285,7 +1285,7 @@
       "dependencies": [
         "@base-ui/react@^1.9.0",
         "class-variance-authority@^0.7.1",
-        "cn@^0.5.0"
+        "cn@^0.5.1"
       ],
       "registryDependencies": [
         "Joshua-Booth/creact/separator"
@@ -1327,7 +1327,7 @@
       "title": "Kbd",
       "description": "Inline keyboard shortcut badge for displaying key combinations.",
       "dependencies": [
-        "cn@^0.5.0"
+        "cn@^0.5.1"
       ],
       "files": [
         {
@@ -1348,7 +1348,7 @@
       "title": "Label",
       "description": "Accessible form label that dims automatically when its associated control is disabled.",
       "dependencies": [
-        "cn@^0.5.0"
+        "cn@^0.5.1"
       ],
       "files": [
         {
@@ -1402,7 +1402,7 @@
       "dependencies": [
         "@base-ui/react@^1.9.0",
         "class-variance-authority@^0.7.1",
-        "cn@^0.5.0"
+        "cn@^0.5.1"
       ],
       "files": [
         {
@@ -1424,8 +1424,8 @@
       "description": "Horizontal menu bar that groups multiple dropdown menus into a single accessible control. Wraps `@base-ui/react/menubar` with dropdown menu composition.",
       "dependencies": [
         "@base-ui/react@^1.9.0",
-        "cn@^0.5.0",
-        "lucide-react@^1.61.0"
+        "cn@^0.5.1",
+        "lucide-react@^1.63.0"
       ],
       "registryDependencies": [
         "Joshua-Booth/creact/dropdown-menu"
@@ -1449,7 +1449,7 @@
       "title": "Message",
       "description": "Single chat message row, aligned to the start (received) or end (sent).",
       "dependencies": [
-        "cn@^0.5.0"
+        "cn@^0.5.1"
       ],
       "files": [
         {
@@ -1471,8 +1471,8 @@
       "description": "Conversation scroll container with anchored turns and auto-scroll for streamed replies.",
       "dependencies": [
         "@shadcn/react@^0.3.1",
-        "cn@^0.5.0",
-        "lucide-react@^1.61.0"
+        "cn@^0.5.1",
+        "lucide-react@^1.63.0"
       ],
       "registryDependencies": [
         "Joshua-Booth/creact/button"
@@ -1496,7 +1496,7 @@
       "title": "Mode Toggle",
       "description": "Dropdown button that switches between light, dark, and system color themes.",
       "dependencies": [
-        "lucide-react@^1.61.0",
+        "lucide-react@^1.63.0",
         "react-i18next@^17.1.8",
         "remix-themes@^2.0.4"
       ],
@@ -1525,8 +1525,8 @@
       "title": "Native Select",
       "description": "Browser-native select element with project styling.",
       "dependencies": [
-        "cn@^0.5.0",
-        "lucide-react@^1.61.0"
+        "cn@^0.5.1",
+        "lucide-react@^1.63.0"
       ],
       "files": [
         {
@@ -1549,8 +1549,8 @@
       "dependencies": [
         "@base-ui/react@^1.9.0",
         "class-variance-authority@^0.7.1",
-        "cn@^0.5.0",
-        "lucide-react@^1.61.0"
+        "cn@^0.5.1",
+        "lucide-react@^1.63.0"
       ],
       "files": [
         {
@@ -1602,8 +1602,8 @@
       "title": "Pagination",
       "description": "Page navigation control with previous/next buttons and numbered page links.",
       "dependencies": [
-        "cn@^0.5.0",
-        "lucide-react@^1.61.0",
+        "cn@^0.5.1",
+        "lucide-react@^1.63.0",
         "react-i18next@^17.1.8"
       ],
       "registryDependencies": [
@@ -1630,7 +1630,7 @@
       "description": "Floating popup anchored to a trigger element for rich content display. Wraps `@base-ui/react/popover`.",
       "dependencies": [
         "@base-ui/react@^1.9.0",
-        "cn@^0.5.0"
+        "cn@^0.5.1"
       ],
       "files": [
         {
@@ -1652,7 +1652,7 @@
       "description": "Horizontal progress bar indicating completion percentage. Wraps Base UI Progress.",
       "dependencies": [
         "@base-ui/react@^1.9.0",
-        "cn@^0.5.0"
+        "cn@^0.5.1"
       ],
       "files": [
         {
@@ -1674,7 +1674,7 @@
       "description": "Group of mutually exclusive radio options. Wraps `@base-ui/react/radio-group`.",
       "dependencies": [
         "@base-ui/react@^1.9.0",
-        "cn@^0.5.0"
+        "cn@^0.5.1"
       ],
       "files": [
         {
@@ -1695,8 +1695,8 @@
       "title": "Resizable",
       "description": "Resizable panel layout powered by react-resizable-panels. Arranges child panels in a split-view with draggable dividers.",
       "dependencies": [
-        "cn@^0.5.0",
-        "react-resizable-panels@^4.15.0"
+        "cn@^0.5.1",
+        "react-resizable-panels@^4.15.1"
       ],
       "files": [
         {
@@ -1718,7 +1718,7 @@
       "description": "Custom scrollbar container powered by Base UI. Wraps content in a viewport with styled overlay scrollbars.",
       "dependencies": [
         "@base-ui/react@^1.9.0",
-        "cn@^0.5.0"
+        "cn@^0.5.1"
       ],
       "files": [
         {
@@ -1740,8 +1740,8 @@
       "description": "Single-value selection dropdown. Wraps `@base-ui/react/select` with project styling.",
       "dependencies": [
         "@base-ui/react@^1.9.0",
-        "cn@^0.5.0",
-        "lucide-react@^1.61.0"
+        "cn@^0.5.1",
+        "lucide-react@^1.63.0"
       ],
       "files": [
         {
@@ -1763,7 +1763,7 @@
       "description": "Visual divider rendered as a horizontal or vertical line. Defaults to horizontal orientation.",
       "dependencies": [
         "@base-ui/react@^1.9.0",
-        "cn@^0.5.0"
+        "cn@^0.5.1"
       ],
       "files": [
         {
@@ -1785,8 +1785,8 @@
       "description": "Side panel overlay that slides in from a screen edge. Wraps `@base-ui/react/dialog` with directional slide animations.",
       "dependencies": [
         "@base-ui/react@^1.9.0",
-        "cn@^0.5.0",
-        "lucide-react@^1.61.0",
+        "cn@^0.5.1",
+        "lucide-react@^1.63.0",
         "react-i18next@^17.1.8"
       ],
       "registryDependencies": [
@@ -1814,8 +1814,8 @@
       "dependencies": [
         "@base-ui/react@^1.9.0",
         "class-variance-authority@^0.7.1",
-        "cn@^0.5.0",
-        "lucide-react@^1.61.0",
+        "cn@^0.5.1",
+        "lucide-react@^1.63.0",
         "react-i18next@^17.1.8"
       ],
       "registryDependencies": [
@@ -1847,7 +1847,7 @@
       "title": "Skeleton",
       "description": "Animated placeholder that indicates content is loading. Renders a pulsing rounded rectangle.",
       "dependencies": [
-        "cn@^0.5.0"
+        "cn@^0.5.1"
       ],
       "files": [
         {
@@ -1869,7 +1869,7 @@
       "description": "Range slider input for selecting numeric values. Supports single or multi-thumb configurations with a visible track indicator.",
       "dependencies": [
         "@base-ui/react@^1.9.0",
-        "cn@^0.5.0"
+        "cn@^0.5.1"
       ],
       "files": [
         {
@@ -1890,9 +1890,9 @@
       "title": "Spinner",
       "description": "Animated loading spinner icon with an accessible translated label.",
       "dependencies": [
-        "cn@^0.5.0",
+        "cn@^0.5.1",
         "i18next@^26.5.10",
-        "lucide-react@^1.61.0"
+        "lucide-react@^1.63.0"
       ],
       "registryDependencies": [
         "Joshua-Booth/creact/needs-i18next"
@@ -2021,7 +2021,7 @@
       "description": "Toggle switch input with a sliding thumb indicator. Wraps `@base-ui/react/switch`.",
       "dependencies": [
         "@base-ui/react@^1.9.0",
-        "cn@^0.5.0"
+        "cn@^0.5.1"
       ],
       "files": [
         {
@@ -2042,7 +2042,7 @@
       "title": "Table",
       "description": "Responsive data table wrapped in a horizontally scrollable container.",
       "dependencies": [
-        "cn@^0.5.0"
+        "cn@^0.5.1"
       ],
       "files": [
         {
@@ -2065,7 +2065,7 @@
       "dependencies": [
         "@base-ui/react@^1.9.0",
         "class-variance-authority@^0.7.1",
-        "cn@^0.5.0"
+        "cn@^0.5.1"
       ],
       "files": [
         {
@@ -2086,7 +2086,7 @@
       "title": "Textarea",
       "description": "Multi-line text input with automatic field sizing. Styled with focus, error, and disabled states.",
       "dependencies": [
-        "cn@^0.5.0"
+        "cn@^0.5.1"
       ],
       "files": [
         {
@@ -2111,7 +2111,7 @@
         "tw-animate-css@^1.4.0"
       ],
       "devDependencies": [
-        "shadcn@^4.22.1"
+        "shadcn@^4.23.0"
       ],
       "cssVars": {
         "theme": {
@@ -2216,7 +2216,7 @@
       "title": "Toast",
       "description": "Themed toast notification renderer powered by Sonner. Follows the `.dark` class on the document root and provides custom status icons.",
       "dependencies": [
-        "lucide-react@^1.61.0",
+        "lucide-react@^1.63.0",
         "sonner@^2.0.8"
       ],
       "files": [
@@ -2245,7 +2245,7 @@
       "dependencies": [
         "@base-ui/react@^1.9.0",
         "class-variance-authority@^0.7.1",
-        "cn@^0.5.0"
+        "cn@^0.5.1"
       ],
       "files": [
         {
@@ -2268,7 +2268,7 @@
       "dependencies": [
         "@base-ui/react@^1.9.0",
         "class-variance-authority@^0.7.1",
-        "cn@^0.5.0"
+        "cn@^0.5.1"
       ],
       "registryDependencies": [
         "Joshua-Booth/creact/toggle"
@@ -2293,7 +2293,7 @@
       "description": "Hover-triggered informational popup. Wraps `@base-ui/react/tooltip`.",
       "dependencies": [
         "@base-ui/react@^1.9.0",
-        "cn@^0.5.0"
+        "cn@^0.5.1"
       ],
       "files": [
         {
