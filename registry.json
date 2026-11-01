@@ -1921,10 +1921,10 @@
         "swr@^2.5.1"
       ],
       "devDependencies": [
-        "@storybook/addon-a11y@^10.6.3",
-        "@storybook/addon-docs@^10.6.3",
-        "@storybook/addon-vitest@^10.6.3",
-        "@storybook/react-vite@^10.6.3",
+        "@storybook/addon-a11y@^10.6.5",
+        "@storybook/addon-docs@^10.6.5",
+        "@storybook/addon-vitest@^10.6.5",
+        "@storybook/react-vite@^10.6.5",
         "@tailwindcss/vite@^4.3.3",
         "@vitest/browser-playwright@5.0.5",
         "msw@^3.0.3",
