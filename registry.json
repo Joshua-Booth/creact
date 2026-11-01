@@ -174,7 +174,7 @@
         "@base-ui/react@^1.9.0",
         "cn@^0.5.1",
         "lucide-react@^1.63.0",
-        "react-i18next@^17.1.8"
+        "react-i18next@^17.1.9"
       ],
       "registryDependencies": [
         "Joshua-Booth/creact/needs-i18next"
@@ -320,7 +320,7 @@
         "cn@^0.5.1",
         "embla-carousel-react@^8.6.0",
         "lucide-react@^1.63.0",
-        "react-i18next@^17.1.8"
+        "react-i18next@^17.1.9"
       ],
       "registryDependencies": [
         "Joshua-Booth/creact/button",
@@ -414,7 +414,7 @@
         "@base-ui/react@^1.9.0",
         "cn@^0.5.1",
         "lucide-react@^1.63.0",
-        "react-i18next@^17.1.8"
+        "react-i18next@^17.1.9"
       ],
       "registryDependencies": [
         "Joshua-Booth/creact/button",
@@ -443,7 +443,7 @@
         "cmdk@^1.1.1",
         "cn@^0.5.1",
         "lucide-react@^1.63.0",
-        "react-i18next@^17.1.8"
+        "react-i18next@^17.1.9"
       ],
       "registryDependencies": [
         "Joshua-Booth/creact/dialog",
@@ -522,7 +522,7 @@
         "@tanstack/react-virtual@^3.14.23",
         "cn@^0.5.1",
         "lucide-react@^1.63.0",
-        "react-i18next@^17.1.8",
+        "react-i18next@^17.1.9",
         "sonner@^2.0.8"
       ],
       "registryDependencies": [
@@ -688,7 +688,7 @@
         "cn@^0.5.1",
         "lucide-react@^1.63.0",
         "react-day-picker@^10.0.2",
-        "react-i18next@^17.1.8"
+        "react-i18next@^17.1.9"
       ],
       "registryDependencies": [
         "Joshua-Booth/creact/badge",
@@ -897,7 +897,7 @@
         "@base-ui/react@^1.9.0",
         "cn@^0.5.1",
         "lucide-react@^1.63.0",
-        "react-i18next@^17.1.8"
+        "react-i18next@^17.1.9"
       ],
       "registryDependencies": [
         "Joshua-Booth/creact/button",
@@ -1013,7 +1013,7 @@
       "dependencies": [
         "@sentry/react@^11.9.0",
         "lucide-react@^1.63.0",
-        "react-i18next@^17.1.8",
+        "react-i18next@^17.1.9",
         "react-router@^8.5.0"
       ],
       "registryDependencies": [
@@ -1151,8 +1151,8 @@
       "title": "I18n",
       "description": "creact's English strings for i18next, in the common, components and validation namespaces, and initI18n() to load them. creact apps have these already.",
       "dependencies": [
-        "i18next@^26.5.10",
-        "react-i18next@^17.1.8"
+        "i18next@^26.5.11",
+        "react-i18next@^17.1.9"
       ],
       "registryDependencies": [
         "Joshua-Booth/creact/needs-i18next"
@@ -1497,7 +1497,7 @@
       "description": "Dropdown button that switches between light, dark, and system color themes.",
       "dependencies": [
         "lucide-react@^1.63.0",
-        "react-i18next@^17.1.8",
+        "react-i18next@^17.1.9",
         "remix-themes@^2.0.4"
       ],
       "registryDependencies": [
@@ -1571,8 +1571,8 @@
       "title": "Needs I18next",
       "description": "Host app setup for items that use i18next and react-i18next.",
       "dependencies": [
-        "i18next@^26.5.10",
-        "react-i18next@^17.1.8"
+        "i18next@^26.5.11",
+        "react-i18next@^17.1.9"
       ],
       "docs": "creact components read their labels from i18next. creact apps already load them. Elsewhere, add Joshua-Booth/creact/i18n and call initI18n() from @/shared/i18n once before rendering. Without it, labels show their keys."
     },
@@ -1604,7 +1604,7 @@
       "dependencies": [
         "cn@^0.5.1",
         "lucide-react@^1.63.0",
-        "react-i18next@^17.1.8"
+        "react-i18next@^17.1.9"
       ],
       "registryDependencies": [
         "Joshua-Booth/creact/button",
@@ -1787,7 +1787,7 @@
         "@base-ui/react@^1.9.0",
         "cn@^0.5.1",
         "lucide-react@^1.63.0",
-        "react-i18next@^17.1.8"
+        "react-i18next@^17.1.9"
       ],
       "registryDependencies": [
         "Joshua-Booth/creact/button",
@@ -1816,7 +1816,7 @@
         "class-variance-authority@^0.7.1",
         "cn@^0.5.1",
         "lucide-react@^1.63.0",
-        "react-i18next@^17.1.8"
+        "react-i18next@^17.1.9"
       ],
       "registryDependencies": [
         "Joshua-Booth/creact/button",
@@ -1891,7 +1891,7 @@
       "description": "Animated loading spinner icon with an accessible translated label.",
       "dependencies": [
         "cn@^0.5.1",
-        "i18next@^26.5.10",
+        "i18next@^26.5.11",
         "lucide-react@^1.63.0"
       ],
       "registryDependencies": [
@@ -1916,7 +1916,7 @@
       "title": "Storybook Setup",
       "description": "creact Storybook 10 infrastructure: preview with i18n and theme decorators, browser-mode vitest wiring, and MSW addon setup.",
       "dependencies": [
-        "react-i18next@^17.1.8",
+        "react-i18next@^17.1.9",
         "remix-themes@^2.0.4",
         "swr@^2.5.1"
       ],
