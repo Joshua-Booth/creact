@@ -12,6 +12,6 @@
     "test:scaffold": "node --test test/scaffold.test.ts"
   },
   "engines": {
-    "node": ">=24.22.1"
+    "node": ">=24.22.2"
   }
 }

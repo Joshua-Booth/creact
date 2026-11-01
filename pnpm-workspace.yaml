@@ -22,7 +22,7 @@ overrides:
   # qs: forces transitive qs (express via @modelcontextprotocol/sdk, and
   # typed-rest-client via Stryker) onto patched >=6.16.0 (arrayLimit bypass
   # and isBuffer DoS advisories).
-  qs: ">=6.16.1"
+  qs: ">=6.17.1"
   # valibot: forces transitive eslint-plugin-better-tailwindcss off the
   # vulnerable 1.2.0 onto patched >=1.4.2.
   valibot: ">=1.5.0"
