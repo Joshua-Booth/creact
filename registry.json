@@ -519,7 +519,7 @@
       "description": "Virtualized editable data grid with keyboard navigation, cell selection, search, and context menu. Powered by TanStack Table and TanStack Virtual.",
       "dependencies": [
         "@tanstack/react-table@^9.3.1",
-        "@tanstack/react-virtual@^3.14.22",
+        "@tanstack/react-virtual@^3.14.23",
         "cn@^0.5.0",
         "lucide-react@^1.61.0",
         "react-i18next@^17.1.8",
@@ -610,7 +610,7 @@
       "description": "Data grid hook providing virtualized, editable table functionality.",
       "dependencies": [
         "@tanstack/react-table@^9.3.1",
-        "@tanstack/react-virtual@^3.14.22",
+        "@tanstack/react-virtual@^3.14.23",
         "lucide-react@^1.61.0",
         "sonner@^2.0.8"
       ],
