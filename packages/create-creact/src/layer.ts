@@ -293,6 +293,14 @@ export const OVERLAYS: Readonly<Record<OverlayId, Overlay>> = {
   },
   tailwind: {
     all: {
+      json: {
+        "package.json": {
+          scripts: {
+            "ui:add": "pnpm --dir packages/ui exec shadcn add",
+            "postui:add": "pnpm lint --fix || pnpm lint --fix && pnpm format",
+          },
+        },
+      },
       packages: {
         "package.json": {
           devDependencies: ["eslint-plugin-better-tailwindcss"],

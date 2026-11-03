@@ -88,6 +88,7 @@
     "pipeable",
     "plopfile",
     "posthog",
+    "postui",
     "recents",
     "releaserc",
     "renderable",
