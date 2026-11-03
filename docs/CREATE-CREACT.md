@@ -130,7 +130,7 @@ That list is measured on fresh 3.46.1 output with the overrides off, after the t
 
 Every other rule still runs on that code, `no-conflicting-classes` included. An ignore pattern would also hide the components you add with `shadcn add`. The base config turns off `check-file/filename-naming-convention` under `apps/*/src/routes/**` on both paths, as file-system routers dictate names such as `_index.tsx`.
 
-The Tailwind layer adds a root `ui:add` script, `pnpm --dir packages/ui exec shadcn add`, and a `postui:add` that runs the same two fix passes and then `format`. A component the shadcn CLI writes later needs those passes as much as Better-T-Stack's do. Without them, the warnings sit in the new files until `lint` fails on them, as the pre-commit hook makes one `--fix` pass and doesn't fail on warnings. pnpm runs `postui:add` only when `shadcn add` exits 0, and passes the component names to `ui:add` alone.
+The Tailwind layer adds a root `ui:add` script, `pnpm --dir packages/ui exec shadcn add`, and a `postui:add` that runs the same two fix passes and then `format`. A component the shadcn CLI writes later needs those passes as much as Better-T-Stack's do. Without them, the new files fail `lint`. The passes only clear autofixable rules, so a component like `chart` still exits 1. pnpm runs `postui:add` only when `shadcn add` exits 0, and passes the component names to `ui:add` alone.
 
 ### StyleX
 
