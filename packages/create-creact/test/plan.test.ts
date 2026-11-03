@@ -536,6 +536,33 @@ describe("plan", () => {
     }
   });
 
+  it("gives Tailwind a ui:add script that fixes and formats what shadcn writes", async (t: TestContext) => {
+    for (const { stack, styling, toolchain } of CELLS) {
+      const root = patch(
+        await ops(stack, styling, "pnpm", toolchain),
+        "package.json"
+      );
+      const scripts = root.scripts as JsonObject;
+      const cell = `${stack} + ${styling} + ${toolchain}`;
+
+      if (styling === "tailwind") {
+        t.assert.strictEqual(
+          scripts["ui:add"],
+          "pnpm --dir packages/ui exec shadcn add",
+          cell
+        );
+        t.assert.strictEqual(
+          scripts["postui:add"],
+          "pnpm lint --fix || pnpm lint --fix && pnpm format",
+          cell
+        );
+      } else {
+        t.assert.ok(!Object.hasOwn(scripts, "ui:add"), cell);
+        t.assert.ok(!Object.hasOwn(scripts, "postui:add"), cell);
+      }
+    }
+  });
+
   it("has an overlay entry for every layer directory and a lint slot for every built styling", (t: TestContext) => {
     t.assert.deepStrictEqual(
       readdirSync(LAYER).toSorted(),
