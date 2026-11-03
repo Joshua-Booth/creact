@@ -113,6 +113,12 @@ export const CREACT_LOCK = {
     computedHash:
       "9cdbb4b8f7a3aeaef82e6230c9e823500d4a8a1214c726cf342cf9829d34fc7d",
   },
+  grilling: {
+    source: "mattpocock/skills",
+    skillPath: "skills/productivity/grilling/SKILL.md",
+    computedHash:
+      "e40cc1d348f6d935e28f1e24474302d7368f0a400429271a43b35fe154891dc5",
+  },
   shadcn: {
     source: "shadcn/ui",
     skillPath: "skills/shadcn/SKILL.md",
@@ -220,6 +226,7 @@ export const OVERLAYS: Readonly<Record<OverlayId, Overlay>> = {
         "agent-browser",
         "find-skills",
         "grill-me",
+        "grilling",
         "systematic-debugging",
         "tdd",
         "vercel-composition-patterns",
