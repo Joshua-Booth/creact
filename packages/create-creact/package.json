@@ -22,7 +22,7 @@
   "author": "Joshua Booth",
   "type": "module",
   "bin": {
-    "create-creact": "./dist/main.js"
+    "create-creact": "dist/main.js"
   },
   "files": [
     "dist",

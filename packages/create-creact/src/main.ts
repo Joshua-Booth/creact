@@ -1,5 +1,5 @@
 #!/usr/bin/env node
-import { tmpdir } from "node:os";
+import { tmpdir, userInfo } from "node:os";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 
@@ -52,7 +52,7 @@ switch (parsed.kind) {
 function usage(message: string): void {
   if (wantsJson) {
     process.stdout.write(
-      `${JSON.stringify({ ok: false, kind: "usage", message }, null, 2)}\n`
+      `${JSON.stringify({ ok: false, kind: "usage", message, log: null }, null, 2)}\n`
     );
   } else {
     process.stderr.write(`create-creact: ${message}\n`);
@@ -60,9 +60,11 @@ function usage(message: string): void {
   process.exitCode = EXIT.usage;
 }
 
-// One file per project name, in the OS temp dir, so a rerun replaces it and
-// a failure before the project exists still has somewhere to write.
+// One file per user and project name, in the OS temp dir, so a rerun
+// replaces it, a failure before the project exists still has somewhere to
+// write, and two users sharing /tmp don't collide.
 function logFile(dir: string): string {
   const name = path.basename(dir).replaceAll(/[^\w.-]/g, "_");
-  return path.join(tmpdir(), `create-creact-${name}.log`);
+  const user = process.getuid?.() ?? userInfo().username;
+  return path.join(tmpdir(), `create-creact-${user}-${name}.log`);
 }

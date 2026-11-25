@@ -21,10 +21,13 @@ const TAIL_LINES = 12;
 // Where the commands' own output goes, so the terminal shows only
 // create-creact's steps. A failure shows the last lines of the command that
 // failed, and the file keeps the rest.
-// The file starts empty on a run's first command, so it holds one run.
+// The file starts empty on a run's first command, so it holds one run. A
+// file it can't write, as one another user left in a shared temp dir, turns
+// the log off rather than failing the run.
 export class Log {
   readonly file: string;
   #written = false;
+  #broken = false;
 
   constructor(file: string) {
     this.file = file;
@@ -35,11 +38,17 @@ export class Log {
   }
 
   write(text: string): void {
-    /* oxlint-disable security/detect-non-literal-fs-filename -- a file in the OS temp dir, named by main */
-    if (this.#written) appendFileSync(this.file, text);
-    else writeFileSync(this.file, text);
-    /* oxlint-enable security/detect-non-literal-fs-filename -- the write ends here */
-    this.#written = true;
+    if (this.#broken) return;
+    try {
+      /* oxlint-disable security/detect-non-literal-fs-filename -- a file in the OS temp dir, named by main */
+      if (this.#written) appendFileSync(this.file, text);
+      else writeFileSync(this.file, text);
+      /* oxlint-enable security/detect-non-literal-fs-filename -- the write ends here */
+      this.#written = true;
+    } catch {
+      this.#broken = true;
+      this.#written = false;
+    }
   }
 }
 
