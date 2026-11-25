@@ -258,11 +258,9 @@ function plainLine(step: StepId, report: Partial<Report>): Line {
       const named = (outcome: string) =>
         entries.filter(([, value]) => value === outcome).map(([file]) => file);
       const kept = named("kept");
-      const pruned = report.layer?.pruned ?? [];
-      const removed = pruned.length > 0 ? `, removed ${pruned.join(", ")}` : "";
       return {
         mark: "done",
-        detail: `${named("written").length} written, ${named("unchanged").length} unchanged, ${kept.length} kept${removed}`,
+        detail: `${named("written").length} written, ${named("unchanged").length} unchanged, ${kept.length} kept`,
         more: kept.map((file) => `kept ${file}, which the project changed`),
       };
     }

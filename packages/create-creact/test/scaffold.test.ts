@@ -309,7 +309,7 @@ for (const [id, styling, monorepo, toolchain] of STACK_IDS.flatMap((stackId) =>
         );
         t.assert.strictEqual(result.status, 0, result.stderr);
         t.assert.match(result.stdout, / 0 unchanged, 0 kept\n/);
-        t.assert.match(result.stdout, /skills {3}restored into/);
+        t.assert.match(result.stdout, /^done skills {4}restored into/m);
         t.assert.deepStrictEqual(
           readdirSync(parent).filter((entry) => entry.includes("staging")),
           []
@@ -446,7 +446,7 @@ for (const [id, styling, monorepo, toolchain] of STACK_IDS.flatMap((stackId) =>
         const result = sh(parent, process.execPath, [MAIN, "app"], env);
         t.assert.strictEqual(result.status, 0, result.stderr);
         t.assert.match(result.stdout, / 0 written, \d+ unchanged, 0 kept/);
-        t.assert.match(result.stdout, /skills {3}present in/);
+        t.assert.match(result.stdout, /^skip skills {4}present in/m);
         t.assert.strictEqual(porcelain(dir), "");
       });
 
