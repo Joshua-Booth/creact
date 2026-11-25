@@ -386,7 +386,7 @@ function rich(log: Log, cwd: string): Renderer {
   const row = (mark: string, step: StepId, detail: string, ms?: number) => {
     const time = ms !== undefined && ms >= 500 ? color("dim", seconds(ms)) : "";
     const padded = time === "" ? detail : detail.padEnd(DETAIL_WIDTH);
-    return `  ${mark} ${step.padEnd(LABEL_WIDTH)} ${color("dim", padded)} ${time}`.trimEnd();
+    return `  ${mark} ${step.padEnd(LABEL_WIDTH)} ${color("dim", padded)}  ${time}`.trimEnd();
   };
   const stop = () => {
     if (timer !== undefined) clearInterval(timer);
