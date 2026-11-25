@@ -1,8 +1,16 @@
 # create-creact
 
-`create-creact` sets up a new React monorepo the way creact is set up. It takes a blank monorepo from Better-T-Stack, then adds the creact layer on top, so the project builds, typechecks, lints, formats and tests from its root from the first commit, and is set up for coding agents on first open. It runs from a checkout and is not on npm.
+`create-creact` sets up a new React monorepo the way creact is set up. It takes a blank monorepo from Better-T-Stack, then adds the creact layer on top, so the project builds, typechecks, lints, formats and tests from its root from the first commit, and is set up for coding agents on first open.
 
 ## Run it
+
+From npm, once it's published:
+
+```sh
+pnpm create creact my-app --stack next
+```
+
+From a checkout, run the source directly:
 
 ```sh
 node packages/create-creact/src/main.ts ../my-app --stack next
@@ -31,6 +39,16 @@ Every prompt has a flag, so an agent never waits on a question.
 | `--json` | print one JSON object on stdout instead of the steps | steps |
 
 Exit codes: 0 done, 1 a command failed, 2 bad usage or a flag that is not built yet.
+
+## Publish it
+
+The package on npm holds the CLI built to JavaScript in `dist`, the `layer` folder, the README and the licence, and nothing else from the repo. Node won't strip types from a file under `node_modules`, so the published CLI can't be the `.ts` source.
+
+1. Set `version` in `packages/create-creact/package.json`.
+2. From `packages/create-creact`, run `mise exec -- npm pack --dry-run` and check the list.
+3. Run `mise exec -- npm publish`. Its `prepack` script builds `dist` with `tsconfig.build.json` first, and it runs under `mise exec` so the repo's `tsc` is on the path. npm asks you to log in if you haven't.
+
+`src/version.ts` reads the version from `package.json` at runtime, so the source and the build both report the version they ship with.
 
 ## What it prints
 

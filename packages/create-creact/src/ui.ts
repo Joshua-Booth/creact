@@ -1,7 +1,6 @@
 import path from "node:path";
 import { styleText } from "node:util";
 
-import pkg from "../package.json" with { type: "json" };
 import {
   type Progress,
   type Report,
@@ -12,6 +11,7 @@ import {
 import { type Choices, STYLINGS } from "./options.ts";
 import { CommandFailed, type Log } from "./shell.ts";
 import { BTS, MONOREPOS, STACKS } from "./stacks.ts";
+import { VERSION } from "./version.ts";
 
 // rich: a terminal, with a spinner, marks and colour.
 // plain: piped, CI or an agent's shell, one stable line per finished step.
@@ -321,7 +321,7 @@ function plain(log: Log): Renderer {
         choices.toolchain,
         ...choices.extras,
       ];
-      outLine(`create-creact ${pkg.version}: ${dir} (${ids.join(", ")})`);
+      outLine(`create-creact ${VERSION}: ${dir} (${ids.join(", ")})`);
     },
     start(step) {
       current = step;
@@ -547,7 +547,7 @@ function json(log: Log): Renderer {
     succeeded(final) {
       writeJson({
         ok: true,
-        version: pkg.version,
+        version: VERSION,
         dir: final.dir,
         choices: final.choices,
         steps: stepsJson(final),

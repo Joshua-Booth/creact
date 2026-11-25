@@ -1,13 +1,35 @@
 {
   "name": "create-creact",
-  "version": "0.0.0",
-  "private": true,
+  "version": "0.1.0",
   "description": "Set up a React project with creact's lint, format, tsconfig, git hooks and tests",
+  "keywords": [
+    "create",
+    "react",
+    "react-router",
+    "nextjs",
+    "tailwind",
+    "stylex",
+    "monorepo",
+    "agents"
+  ],
+  "homepage": "https://github.com/Joshua-Booth/creact/blob/master/docs/CREATE-CREACT.md",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Joshua-Booth/creact.git",
+    "directory": "packages/create-creact"
+  },
+  "license": "0BSD",
+  "author": "Joshua Booth",
   "type": "module",
   "bin": {
-    "create-creact": "./src/main.ts"
+    "create-creact": "./dist/main.js"
   },
+  "files": [
+    "dist",
+    "layer"
+  ],
   "scripts": {
+    "prepack": "tsc --project tsconfig.build.json",
     "test": "node --test test/options.test.ts test/cli.test.ts test/plan.test.ts test/ui.test.ts",
     "test:scaffold": "node --test test/scaffold.test.ts"
   },

@@ -3,7 +3,6 @@ import { existsSync } from "node:fs";
 import { mkdir, readdir, realpath, rename, rm, stat } from "node:fs/promises";
 import path from "node:path";
 
-import pkg from "../package.json" with { type: "json" };
 import {
   type Addition,
   apply,
@@ -32,6 +31,7 @@ import {
 } from "./options.ts";
 import { CommandFailed, type Log, run, succeeds } from "./shell.ts";
 import { BTS, btsArgs, STACKS } from "./stacks.ts";
+import { VERSION } from "./version.ts";
 
 export type Skills =
   | "restored"
@@ -295,7 +295,7 @@ async function applyLayer(
   const layer = await apply(dir, ops, prior);
   await writeState(dir, {
     schema: 2,
-    creact: pkg.version,
+    creact: VERSION,
     name: project.name,
     ...project.choices,
     hashes: layer.hashes,
