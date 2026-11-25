@@ -28,8 +28,19 @@ Every prompt has a flag, so an agent never waits on a question.
 | `--no-install` | skip `pnpm install`, the lint and format pass and the skills restore | installs |
 | `--no-git` | skip `git init` | inits |
 | `--yes`, `-y` | take the default for every choice not given | |
+| `--json` | print one JSON object on stdout instead of the steps | steps |
 
-Exit codes: 0 done, 1 a command failed and is echoed, 2 bad usage or a flag that is not built yet.
+Exit codes: 0 done, 1 a command failed, 2 bad usage or a flag that is not built yet.
+
+## What it prints
+
+The run has five steps: `monorepo`, `tooling`, `git`, `install` and `skills`. How they show depends on where stdout goes:
+
+- In a terminal, each step gets a spinner while it runs, then a mark, a short summary and its time, and the run ends with the commands to run next. `NO_COLOR` turns the colour off.
+- Piped, with `CI` set, or with `TERM=dumb`, as in an agent's shell, each finished step is one line on stdout, `done`, `skip`, `warn` or `fail`, then the step and its outcome in fixed words. The last line is `next: cd '<dir>' && pnpm dev`.
+- With `--json`, stdout gets one object when the run ends: `ok`, the choices, each step's outcome and time in `steps`, and `next` as commands to run. A failure gives `ok: false`, its `kind` (`command` or `usage`), the failed `step`, the last lines of the command's output in `tail`, and the log's path. Nothing goes to stderr.
+
+The commands it runs, Better-T-Stack and pnpm among them, write to `create-creact-<dir name>.log` in the OS temp dir rather than the terminal, and each run starts it afresh. When one fails, create-creact prints its last lines and the log's path to stderr, and a usage error prints one line there.
 
 Run the command again on the same directory to finish an interrupted run or take a newer layer. Layer files you edited stay as you left them and are listed as kept. The `package.json` and tsconfig files creact patches are merged again on every run, so the scripts and compiler options creact sets go back to creact's values.
 
@@ -43,7 +54,7 @@ Note: a fresh project has one test file, `tokens.test.ts`, described under Styli
 2. Checks that Better-T-Stack wrote the stack's own config, such as `apps/web/next.config.ts`, and the five JSON files the layer patches: the root `package.json` and `tsconfig.json`, `packages/config/tsconfig.base.json`, and `apps/web/package.json` and `apps/web/tsconfig.json`. If one is missing, its output changed shape, and the command exits 1.
 3. Removes the Better-T-Stack files and packages the layer replaces, then copies the layer in and patches the five JSON files.
 4. Writes `.creact/state.json` with the project name, the choices and a hash of every file it copied, then moves the staging directory into place.
-5. Runs `git init`, then `pnpm add --workspace-root` for the root tools and `pnpm add` in `apps/web` for the app's packages, such as `@stylexjs/stylex`. Then `pnpm run prepare` installs the hooks, and `pnpm run lint --fix` and `pnpm run format` bring Better-T-Stack's own files in line. The lint pass runs a second time when the first fails, as oxlint applies one fix per overlapping range in a pass and the shadcn components need two. Last, if a skill `skills-lock.json` lists is missing from `.agents/skills`, `skills@1.7.4` runs `experimental_install` through `pnpm dlx`, which restores them all there, where the `.claude/skills` links point. With every skill present, a rerun leaves them alone, so it needs no network for them and the restore never rewrites the project's lock. `npx skills update` takes newer versions. The project is complete without the skills, so a restore that fails, as with no git or no network, exits 0, reports the skills as not restored and prints the command that finishes them. With git missing from `PATH`, the report says so, as the restore clones with it. A rerun does the same.
+5. Runs `git init`, then `pnpm add --workspace-root` for the root tools and `pnpm add` in `apps/web` for the app's packages, such as `@stylexjs/stylex`. Then `pnpm run prepare` installs the hooks, and `pnpm run lint --fix` and `pnpm run format` bring Better-T-Stack's own files in line. The lint pass runs a second time when the first fails, as oxlint applies one fix per overlapping range in a pass and the shadcn components need two. Last, if a skill `skills-lock.json` lists is missing from `.agents/skills`, `skills@1.7.4` runs `experimental_install` through `pnpm dlx`, which restores them all there, where the `.claude/skills` links point. With every skill present, a rerun leaves them alone, so it needs no network for them and the restore never rewrites the project's lock. `npx skills update` takes newer versions. The project is complete without the skills, so a restore that fails, as with no git or no network, exits 0, reports the skills as not restored and prints the command that finishes them, with the restore's output in the log. With git missing from `PATH`, the report says so, as the restore clones with it. A rerun does the same.
 
 On a rerun, a copied file is rewritten only when it is missing or unchanged since the recorded hash. The JSON files are merged every time, as the merge is idempotent and `pnpm add` rewrites `package.json` anyway. Better-T-Stack never runs again. A rerun never removes anything, so a package or file you put back stays. A rerun on a project missing one of the files step 2 checks, as when `apps/web` was renamed, exits 2, names them and writes nothing.
 
