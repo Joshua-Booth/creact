@@ -332,8 +332,10 @@ async function initGit(dir: string, log?: Log): Promise<Report["git"]> {
   return "initialised";
 }
 
-// pnpm add skips the project's own prepare script, which installs the git
-// hooks.
+// Better-T-Stack pins the caller's pnpm, and pnpm 10's add installs only the
+// package it adds to, so the install after it fills in the rest of the
+// workspace. pnpm add skips the project's own prepare script, which installs
+// the git hooks.
 async function install(
   dir: string,
   missing: readonly Addition[],
@@ -354,7 +356,7 @@ async function install(
       );
     }
   }
-  if (missing.length === 0) await run("pnpm", ["install"], dir, log);
+  await run("pnpm", ["install"], dir, log);
   await run("pnpm", ["run", "prepare"], dir, log);
 }
 
