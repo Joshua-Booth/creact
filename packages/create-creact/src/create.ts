@@ -3,7 +3,6 @@ import { existsSync } from "node:fs";
 import { mkdir, readdir, realpath, rename, rm, stat } from "node:fs/promises";
 import path from "node:path";
 
-import pkg from "../package.json" with { type: "json" };
 import {
   type Addition,
   apply,
@@ -30,8 +29,9 @@ import {
   resolveChoices,
   UsageError,
 } from "./options.ts";
-import { CommandFailed, run, succeeds } from "./shell.ts";
+import { CommandFailed, type Log, run, succeeds } from "./shell.ts";
 import { BTS, btsArgs, STACKS } from "./stacks.ts";
+import { VERSION } from "./version.ts";
 
 export type Skills =
   | "restored"
@@ -47,7 +47,38 @@ export interface Report {
   readonly git: "initialised" | "existing" | "skipped";
   readonly install: "done" | "skipped";
   readonly skills: Skills;
+  readonly skillCount: number;
+  readonly ms: Readonly<Partial<Record<StepId, number>>>;
 }
+
+export const STEPS = [
+  "monorepo",
+  "tooling",
+  "git",
+  "install",
+  "skills",
+] as const;
+
+export type StepId = (typeof STEPS)[number];
+
+// What create() tells a renderer as it goes. A step that started and never
+// finished is the one that failed.
+export interface Progress {
+  begin(dir: string, choices: Choices): void;
+  start(step: StepId): void;
+  finish(step: StepId, report: Partial<Report>): void;
+}
+
+export interface Hooks {
+  readonly progress?: Progress;
+  readonly log?: Log;
+}
+
+function unheard(): void {
+  // A caller that passes no Progress, such as the scaffold test, hears nothing.
+}
+
+const SILENT: Progress = { begin: unheard, start: unheard, finish: unheard };
 
 export const RESTORE = [
   "pnpm",
@@ -63,7 +94,8 @@ type Target =
 
 export async function create(
   request: Request,
-  layerDir: string
+  layerDir: string,
+  { progress = SILENT, log }: Hooks = {}
 ): Promise<Report> {
   const target = await inspect(request.dir);
   const recorded = target.kind === "project" ? target.state : undefined;
@@ -82,6 +114,22 @@ export async function create(
     name,
   });
 
+  progress.begin(request.dir, choices);
+  const ms: Partial<Record<StepId, number>> = {};
+  let report: Partial<Report> = { dir: request.dir, choices, ms };
+  const step = async <T extends Partial<Report>>(
+    id: StepId,
+    work: () => T | Promise<T>
+  ): Promise<T> => {
+    progress.start(id);
+    const started = performance.now();
+    const result = await work();
+    ms[id] = Math.round(performance.now() - started);
+    report = { ...report, ...result };
+    progress.finish(id, report);
+    return result;
+  };
+
   let layer: ApplyReport;
   if (target.kind === "fresh") {
     const staging = path.join(
@@ -90,33 +138,52 @@ export async function create(
     );
     await rm(staging, { recursive: true, force: true });
     try {
-      const base = await obtainBase(staging, choices, name);
-      layer = await applyLayer(
-        base,
-        ops,
-        { kind: "upstream-only" },
-        { name, choices }
-      );
-      await place(base, request.dir, target.exists);
+      let made = "";
+      await step("monorepo", async () => {
+        made = await obtainBase(staging, choices, name, log);
+        return { base: "created" as const };
+      });
+      ({ layer } = await step("tooling", async () => ({
+        layer: await applyLayer(
+          made,
+          ops,
+          { kind: "upstream-only" },
+          { name, choices }
+        ),
+      })));
+      await place(made, request.dir, target.exists);
     } finally {
       await rm(staging, { recursive: true, force: true });
     }
   } else {
-    layer = await applyLayer(
-      request.dir,
-      ops,
-      { kind: "recorded", hashes: target.state.hashes },
-      { name, choices }
-    );
+    await step("monorepo", () => ({ base: "kept" as const }));
+    ({ layer } = await step("tooling", async () => ({
+      layer: await applyLayer(
+        request.dir,
+        ops,
+        { kind: "recorded", hashes: target.state.hashes },
+        { name, choices }
+      ),
+    })));
   }
 
-  const git = request.git ? await initGit(request.dir) : "skipped";
-  let skills: Skills = "skipped";
-  if (request.install) {
-    await install(request.dir, layer.missing);
-    await fixThenFormat(request.dir);
-    skills = await restoreSkills(request.dir);
-  }
+  const { git } = await step("git", async () => ({
+    git: request.git ? await initGit(request.dir, log) : ("skipped" as const),
+  }));
+  await step("install", async () => {
+    if (request.install) {
+      await install(request.dir, layer.missing, log);
+      await fixThenFormat(request.dir, log);
+    }
+    return {
+      install: request.install ? ("done" as const) : ("skipped" as const),
+    };
+  });
+  const { skills, skillCount } = await step("skills", async () =>
+    request.install
+      ? restoreSkills(request.dir, log)
+      : { skills: "skipped" as const, skillCount: 0 }
+  );
 
   return {
     dir: request.dir,
@@ -126,6 +193,8 @@ export async function create(
     git,
     install: request.install ? "done" : "skipped",
     skills,
+    skillCount,
+    ms,
   };
 }
 
@@ -183,7 +252,8 @@ async function outerRepo(
 export async function obtainBase(
   staging: string,
   choices: Choices,
-  name: ProjectName
+  name: ProjectName,
+  log?: Log
 ): Promise<string> {
   const home = path.join(staging, ".home");
   await mkdir(home, { recursive: true });
@@ -198,7 +268,8 @@ export async function obtainBase(
       "create-better-t-stack",
       ...btsArgs(name, choices.stack, choices.monorepo),
     ],
-    staging
+    staging,
+    log
   );
   return path.join(staging, name);
 }
@@ -224,7 +295,7 @@ async function applyLayer(
   const layer = await apply(dir, ops, prior);
   await writeState(dir, {
     schema: 2,
-    creact: pkg.version,
+    creact: VERSION,
     name: project.name,
     ...project.choices,
     hashes: layer.hashes,
@@ -253,64 +324,76 @@ async function place(
 }
 
 // Before install, because husky's prepare script needs .git to set the hooks.
-async function initGit(dir: string): Promise<Report["git"]> {
+async function initGit(dir: string, log?: Log): Promise<Report["git"]> {
   if (await succeeds("git", ["rev-parse", "--is-inside-work-tree"], dir)) {
     return "existing";
   }
-  await run("git", ["init", "--quiet"], dir);
+  await run("git", ["init", "--quiet"], dir, log);
   return "initialised";
 }
 
-// pnpm add skips the project's own prepare script, which installs the git
-// hooks.
+// Better-T-Stack pins the caller's pnpm, and pnpm 10's add installs only the
+// package it adds to, so the install after it fills in the rest of the
+// workspace. pnpm add skips the project's own prepare script, which installs
+// the git hooks.
 async function install(
   dir: string,
-  missing: readonly Addition[]
+  missing: readonly Addition[],
+  log?: Log
 ): Promise<void> {
   for (const { manifest, dependencies, devDependencies } of missing) {
     const cwd = path.join(dir, path.dirname(manifest));
     const root = manifest === "package.json" ? ["--workspace-root"] : [];
     if (dependencies.length > 0) {
-      await run("pnpm", ["add", ...root, ...dependencies], cwd);
+      await run("pnpm", ["add", ...root, ...dependencies], cwd, log);
     }
     if (devDependencies.length > 0) {
       await run(
         "pnpm",
         ["add", ...root, "--save-dev", ...devDependencies],
-        cwd
+        cwd,
+        log
       );
     }
   }
-  if (missing.length === 0) await run("pnpm", ["install"], dir);
-  await run("pnpm", ["run", "prepare"], dir);
+  await run("pnpm", ["install"], dir, log);
+  await run("pnpm", ["run", "prepare"], dir, log);
 }
 
 // oxlint applies one fix per overlapping range in a pass, so the shadcn code
 // Better-T-Stack writes needs a second pass before lint passes.
-async function fixThenFormat(dir: string): Promise<void> {
+async function fixThenFormat(dir: string, log?: Log): Promise<void> {
   if (!(await succeeds("pnpm", ["run", "lint", "--fix"], dir))) {
-    await run("pnpm", ["run", "lint", "--fix"], dir);
+    await run("pnpm", ["run", "lint", "--fix"], dir, log);
   }
-  await run("pnpm", ["run", "format"], dir);
+  await run("pnpm", ["run", "format"], dir, log);
 }
 
 // Only when a locked skill is missing, so a rerun neither clones nor lets the
 // restore rewrite the project's lock.
-async function restoreSkills(dir: string): Promise<Skills> {
+async function restoreSkills(
+  dir: string,
+  log?: Log
+): Promise<{ readonly skills: Skills; readonly skillCount: number }> {
   const ids = await lockedSkills(dir);
+  const skillCount = ids.size;
   if ([...ids].every((id) => existsSync(path.join(dir, SKILLS_DIR, id)))) {
-    return "present";
+    return { skills: "present", skillCount };
   }
   const [command, ...args] = RESTORE;
   try {
-    await run(command, args, dir);
+    await run(command, args, dir, log);
   } catch (error) {
     if (!(error instanceof CommandFailed)) throw error;
+    const where = log === undefined ? "above" : `in ${log.file}`;
     return {
-      failed: (await succeeds("git", ["--version"], dir))
-        ? `${error.message}. Its output is above`
-        : "git isn't on PATH, and the restore clones the skills with it",
+      skills: {
+        failed: (await succeeds("git", ["--version"], dir))
+          ? `${error.message}. Its output is ${where}`
+          : "git isn't on PATH, and the restore clones the skills with it",
+      },
+      skillCount,
     };
   }
-  return "restored";
+  return { skills: "restored", skillCount };
 }

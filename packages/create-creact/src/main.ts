@@ -1,20 +1,21 @@
 #!/usr/bin/env node
+import { tmpdir } from "node:os";
+import path from "node:path";
 import { fileURLToPath } from "node:url";
 
-import { create, type Report, RESTORE, type Skills } from "./create.ts";
+import { create } from "./create.ts";
 import { parseRequest, UsageError } from "./options.ts";
-import { CommandFailed } from "./shell.ts";
-import { BTS } from "./stacks.ts";
+import { CommandFailed, Log } from "./shell.ts";
+import { pickMode, renderer } from "./ui.ts";
 
 const EXIT = { commandFailed: 1, usage: 2 } as const;
 const LAYER_DIR = fileURLToPath(new URL("../layer", import.meta.url));
-const SKILLS_LINE: Readonly<Record<Extract<Skills, string>, string>> = {
-  restored: "restored into .agents/skills",
-  present: "present in .agents/skills",
-  skipped: "skipped",
-};
 
-const parsed = parseRequest(process.argv.slice(2), process.cwd());
+const argv = process.argv.slice(2);
+const cwd = process.cwd();
+// Read before parsing, so a usage error still answers in JSON.
+const wantsJson = argv.includes("--json");
+const parsed = parseRequest(argv, cwd);
 
 switch (parsed.kind) {
   case "help": {
@@ -22,72 +23,46 @@ switch (parsed.kind) {
     break;
   }
   case "usage": {
-    fail(EXIT.usage, parsed.message);
+    usage(parsed.message);
     break;
   }
   case "run": {
+    const { request } = parsed;
+    const log = new Log(logFile(request.dir));
+    const ui = renderer(
+      pickMode(wantsJson, process.stdout, process.env),
+      log,
+      cwd
+    );
     try {
-      process.stdout.write(format(await create(parsed.request, LAYER_DIR)));
+      ui.succeeded(await create(request, LAYER_DIR, { progress: ui, log }));
     } catch (error) {
-      if (error instanceof UsageError) fail(EXIT.usage, error.message);
-      else if (error instanceof CommandFailed) {
-        fail(
-          EXIT.commandFailed,
-          `${error.message}. Fix it and run the same command again.`
-        );
+      if (error instanceof UsageError) {
+        ui.failed(error, "usage");
+        process.exitCode = EXIT.usage;
+      } else if (error instanceof CommandFailed) {
+        ui.failed(error, "command");
+        process.exitCode = EXIT.commandFailed;
       } else throw error;
     }
     break;
   }
 }
 
-function fail(code: number, message: string): void {
-  process.stderr.write(`create-creact: ${message}\n`);
-  process.exitCode = code;
-}
-
-function format(report: Report): string {
-  const { stack, styling, monorepo, toolchain } = report.choices;
-  const outcomes = Object.entries(report.layer.files);
-  const named = (outcome: string) =>
-    outcomes.filter(([, value]) => value === outcome).map(([file]) => file);
-  const kept = named("kept");
-  const { pruned, missing } = report.layer;
-  const without = pruned.length > 0 ? `, without ${pruned.join(", ")}` : "";
-  const base =
-    report.base === "created" ? `created with ${BTS}${without}` : "kept";
-  const toAdd = missing.flatMap((addition) => [
-    ...addition.dependencies,
-    ...addition.devDependencies,
-  ]).length;
-  const install =
-    report.install === "done"
-      ? "done, then lint --fix and format"
-      : `skipped, ${toAdd} packages to add. Run again without --no-install to finish.`;
-  return [
-    `create-creact: ${stack} + ${styling} on ${monorepo} with ${toolchain} in ${report.dir}`,
-    `  base     ${base}`,
-    `  layer    ${named("written").length} written, ${named("unchanged").length} unchanged, ${kept.length} kept`,
-    ...kept.map((file) => `           kept ${file}, which the project changed`),
-    `  git      ${report.git}`,
-    `  install  ${install}`,
-    ...skillsLines(report),
-    `next: cd ${shellQuoted(report.dir)} && pnpm dev`,
-    "",
-  ].join("\n");
-}
-
-function skillsLines(report: Report): string[] {
-  if (typeof report.skills === "string") {
-    return [`  skills   ${SKILLS_LINE[report.skills]}`];
+function usage(message: string): void {
+  if (wantsJson) {
+    process.stdout.write(
+      `${JSON.stringify({ ok: false, kind: "usage", message }, null, 2)}\n`
+    );
+  } else {
+    process.stderr.write(`create-creact: ${message}\n`);
   }
-  return [
-    `  skills   not restored, as ${report.skills.failed}`,
-    `           finish with cd ${shellQuoted(report.dir)} && ${RESTORE.join(" ")}`,
-  ];
+  process.exitCode = EXIT.usage;
 }
 
-function shellQuoted(value: string): string {
-  const closed = value.replaceAll("'", String.raw`'\''`);
-  return `'${closed}'`;
+// One file per project name, in the OS temp dir, so a rerun replaces it and
+// a failure before the project exists still has somewhere to write.
+function logFile(dir: string): string {
+  const name = path.basename(dir).replaceAll(/[^\w.-]/g, "_");
+  return path.join(tmpdir(), `create-creact-${name}.log`);
 }

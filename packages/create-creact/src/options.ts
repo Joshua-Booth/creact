@@ -125,6 +125,7 @@ const OPTIONS = {
   install: { type: "boolean", default: true },
   git: { type: "boolean", default: true },
   yes: { type: "boolean", short: "y", default: false },
+  json: { type: "boolean", default: false },
   help: { type: "boolean", short: "h", default: false },
   ...(Object.fromEntries(
     EXTRA_NAMES.map((name) => [name, { type: "boolean", default: false }])
@@ -348,6 +349,7 @@ function helpText(): string {
     "  --no-install      skip pnpm install, the lint and format pass and the skills restore",
     "  --no-git          skip git init",
     "  -y, --yes         take the default for every choice not given",
+    "  --json            print one JSON object on stdout instead of the steps",
     "  -h, --help        show this help",
     "",
     "The directory must sit outside any git repository, as the project gets",
@@ -363,6 +365,11 @@ function helpText(): string {
     "newer layer. Layer files you edited are kept and reported. The",
     "package.json and tsconfig files creact patches are merged again, so the",
     "scripts and compiler options creact sets go back to creact's values.",
+    "",
+    "In a terminal it shows each step as it runs. Piped, in CI or in an",
+    "agent's shell, it prints one plain line per finished step. Either way the",
+    "output of the commands it runs goes to a log file, and a failure shows",
+    "that log's last lines and its path.",
     "",
     "Exit codes: 0 done, 1 a command failed, 2 bad usage or a planned feature.",
     "",

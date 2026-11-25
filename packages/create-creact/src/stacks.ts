@@ -3,12 +3,16 @@ import type { Built, Feature, ProjectName } from "./options.ts";
 export const BTS = "create-better-t-stack@3.49.0";
 
 export interface Stack {
+  readonly label: string;
   readonly signature: string;
 }
 
 export const STACKS = {
-  "react-router": { signature: "apps/web/react-router.config.ts" },
-  next: { signature: "apps/web/next.config.ts" },
+  "react-router": {
+    label: "React Router",
+    signature: "apps/web/react-router.config.ts",
+  },
+  next: { label: "Next.js", signature: "apps/web/next.config.ts" },
 } as const satisfies Record<string, Stack>;
 
 export type StackId = keyof typeof STACKS;

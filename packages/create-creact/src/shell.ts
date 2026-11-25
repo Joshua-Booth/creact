@@ -3,9 +3,44 @@ import {
   spawn,
   type StdioOptions,
 } from "node:child_process";
+import { appendFileSync, writeFileSync } from "node:fs";
+import { stripVTControlCharacters } from "node:util";
 
 export class CommandFailed extends Error {
   override readonly name = "CommandFailed";
+  readonly tail: readonly string[];
+
+  constructor(message: string, tail: readonly string[] = []) {
+    super(message);
+    this.tail = tail;
+  }
+}
+
+const TAIL_LINES = 12;
+
+// Where the commands' own output goes, so the terminal shows only
+// create-creact's steps. A failure shows the last lines of the command that
+// failed, and the file keeps the rest.
+// The file starts empty on a run's first command, so it holds one run.
+export class Log {
+  readonly file: string;
+  #written = false;
+
+  constructor(file: string) {
+    this.file = file;
+  }
+
+  get written(): boolean {
+    return this.#written;
+  }
+
+  write(text: string): void {
+    /* oxlint-disable security/detect-non-literal-fs-filename -- a file in the OS temp dir, named by main */
+    if (this.#written) appendFileSync(this.file, text);
+    else writeFileSync(this.file, text);
+    /* oxlint-enable security/detect-non-literal-fs-filename -- the write ends here */
+    this.#written = true;
+  }
 }
 
 const NO_PROMPTS_OUTPUT_TO_STDERR: StdioOptions = ["ignore", 2, 2];
@@ -42,14 +77,51 @@ export function withoutGitContext(): NodeJS.ProcessEnv {
 export async function run(
   command: string,
   args: readonly string[],
-  cwd: string
+  cwd: string,
+  log?: Log
 ): Promise<void> {
-  const code = await exitCode(command, args, cwd, NO_PROMPTS_OUTPUT_TO_STDERR);
+  const line = [command, ...args].join(" ");
+  if (log === undefined) {
+    const code = await exitCode(
+      command,
+      args,
+      cwd,
+      NO_PROMPTS_OUTPUT_TO_STDERR
+    );
+    if (code !== 0) {
+      throw new CommandFailed(`${line} exited with ${code ?? "a signal"}`);
+    }
+    return;
+  }
+  log.write(`\n$ ${line}\n  in ${cwd}\n\n`);
+  const child = spawn(command, args, {
+    cwd,
+    env: withoutGitContext(),
+    stdio: ["ignore", "pipe", "pipe"],
+  });
+  let output = "";
+  const keep = (chunk: Buffer): void => {
+    const text = chunk.toString();
+    log.write(text);
+    output = (output + text).slice(-16_384);
+  };
+  child.stdout.on("data", keep);
+  child.stderr.on("data", keep);
+  const code = await closed(child, command);
   if (code !== 0) {
     throw new CommandFailed(
-      `${[command, ...args].join(" ")} exited with ${code ?? "a signal"}`
+      `${line} exited with ${code ?? "a signal"}`,
+      tailOf(output)
     );
   }
+}
+
+function tailOf(output: string): readonly string[] {
+  return stripVTControlCharacters(output)
+    .split(/\r?\n|\r/)
+    .map((text) => text.trimEnd())
+    .filter((text) => text.trim() !== "")
+    .slice(-TAIL_LINES);
 }
 
 export async function succeeds(

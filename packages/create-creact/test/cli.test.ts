@@ -144,10 +144,13 @@ describe("main", () => {
       env
     );
     t.assert.strictEqual(result.status, 1, result.stderr);
-    t.assert.strictEqual(
-      result.stderr,
-      "create-creact: create-better-t-stack@3.49.0 finished without writing apps/web/tsconfig.json, so its output changed shape. Fix it and run the same command again.\n"
+    t.assert.ok(
+      result.stderr.startsWith(
+        "create-creact: create-better-t-stack@3.49.0 finished without writing apps/web/tsconfig.json, so its output changed shape. Fix it and run the same command again.\n"
+      ),
+      result.stderr
     );
+    t.assert.match(result.stdout, /^fail tooling {3}create-better-t-stack/m);
     t.assert.deepStrictEqual(readdirSync(parent), []);
   });
 
@@ -158,7 +161,7 @@ describe("main", () => {
     recordState(dir, "next");
     const result = cli([dir, "--no-install", "--no-git"]);
     t.assert.strictEqual(result.status, 0, result.stderr);
-    t.assert.match(result.stdout, /skills {3}skipped\n/);
+    t.assert.match(result.stdout, /^skip skills {4}skipped\n/m);
     const quoted = dir.replace("it's", String.raw`it'\''s`);
     t.assert.ok(
       result.stdout.endsWith(`next: cd '${quoted}' && pnpm dev\n`),
@@ -230,7 +233,7 @@ describe("--no-git", () => {
     const env = onlyOnPath();
     const without = cli([dir, "--no-install", "--no-git"], env);
     t.assert.strictEqual(without.status, 0, without.stderr);
-    t.assert.match(without.stdout, /git {6}skipped\n/);
+    t.assert.match(without.stdout, /^skip git {7}skipped\n/m);
     const inits = cli([dir, "--no-install"], env);
     t.assert.strictEqual(inits.status, 1);
     t.assert.match(inits.stderr, /^create-creact: git couldn't start: /);
@@ -250,7 +253,7 @@ describe("the skills restore", () => {
     t.assert.strictEqual(result.status, 0, result.stderr);
     t.assert.ok(
       result.stdout.includes(
-        "  skills   not restored, as git isn't on PATH, and the restore clones the skills with it\n"
+        "warn skills    not restored, as git isn't on PATH, and the restore clones the skills with it\n"
       ),
       result.stdout
     );
@@ -268,13 +271,17 @@ describe("the skills restore", () => {
     recordState(dir, "next");
     const failed = cli([dir, "--no-git"], pnpmFake("exit 1", GIT_SHIM));
     t.assert.strictEqual(failed.status, 0, failed.stderr);
+    const log = path.join(
+      tmpdir(),
+      "create-creact-" + path.basename(dir) + ".log"
+    );
     t.assert.ok(
       failed.stdout.includes(
-        `  skills   not restored, as ${RESTORE} exited with 1. Its output is above\n`
+        `warn skills    not restored, as ${RESTORE} exited with 1. Its output is in ${log}\n`
       ),
       failed.stdout
     );
-    const command = /^ {11}finish with (.*)$/m.exec(failed.stdout)?.[1];
+    const command = /^ {15}finish with (.*)$/m.exec(failed.stdout)?.[1];
     t.assert.ok(command !== undefined, failed.stdout);
 
     const ids = locked(dir);
@@ -291,7 +298,7 @@ describe("the skills restore", () => {
 
     const rerun = cli([dir, "--no-git"], env);
     t.assert.strictEqual(rerun.status, 0, rerun.stderr);
-    t.assert.match(rerun.stdout, /skills {3}present in/);
+    t.assert.match(rerun.stdout, /^skip skills {4}present in/m);
   });
 });
 
@@ -324,7 +331,7 @@ describe("the root .gitignore", () => {
 
     const second = cli([dir, "--no-install", "--no-git"]);
     t.assert.strictEqual(second.status, 0, second.stderr);
-    t.assert.match(second.stdout, /layer {4}0 written/);
+    t.assert.match(second.stdout, /^done tooling {3}0 written/m);
     const ignore = readFileSync(path.join(dir, ".gitignore"), "utf8");
     t.assert.strictEqual(ignore.split("!/.claude/skills/").length, 2, ignore);
   });
@@ -356,7 +363,7 @@ describe("a GIT_DIR inherited from a git hook of another repository", () => {
       encoding: "utf8",
     });
     t.assert.strictEqual(result.status, 0, result.stderr);
-    t.assert.match(result.stdout, /git {6}initialised\n/);
+    t.assert.match(result.stdout, /^done git {7}initialised\n/m);
     t.assert.ok(existsSync(path.join(dir, ".git")));
     t.assert.strictEqual(
       git(main, ["config", "core.bare"]).stdout.trim(),
@@ -452,6 +459,103 @@ describe("a directory inside another git work tree", () => {
     gitInit(dir);
     const result = cli([dir, "--no-install", "--no-git"]);
     t.assert.strictEqual(result.status, 0, result.stderr);
-    t.assert.match(result.stdout, /base {5}kept\n/);
+    t.assert.match(result.stdout, /^skip monorepo {2}kept\n/m);
+  });
+});
+
+describe("the commands' own output", () => {
+  const LINT_FAILS = onlyOnPath({
+    pnpm: [
+      'case "$*" in',
+      '  *"lint --fix"*) echo "lint noise"; echo "react-router: not found" >&2; exit 1 ;;',
+      '  *) echo "install noise" ;;',
+      "esac",
+      "",
+    ].join("\n"),
+  });
+
+  it("goes to a log, and a failure shows its last lines and where the log is", (t: TestContext) => {
+    const dir = upstreamBase("next");
+    recordState(dir, "next");
+    const result = cli([dir, "--no-git"], LINT_FAILS);
+    t.assert.strictEqual(result.status, 1, result.stderr);
+    t.assert.ok(!result.stdout.includes("noise"), result.stdout);
+    t.assert.match(
+      result.stdout,
+      /^fail install {3}pnpm run lint --fix exited with 1\n/m
+    );
+    t.assert.match(
+      result.stderr,
+      /^ {2}lint noise\n {2}react-router: not found\n/m
+    );
+    const log = /^log: (.*)$/m.exec(result.stderr)?.[1];
+    t.assert.ok(log !== undefined, result.stderr);
+    const logged = readFileSync(log, "utf8");
+    t.assert.ok(logged.includes("install noise"), logged);
+    t.assert.ok(logged.includes("$ pnpm run lint --fix"), logged);
+  });
+
+  it("stays out of --json, which reports the failed step as one object", (t: TestContext) => {
+    const dir = upstreamBase("next");
+    recordState(dir, "next");
+    const result = cli([dir, "--no-git", "--json"], LINT_FAILS);
+    t.assert.strictEqual(result.status, 1, result.stderr);
+    t.assert.strictEqual(result.stderr, "");
+    const report = JSON.parse(result.stdout) as Record<string, unknown>;
+    t.assert.deepStrictEqual(
+      {
+        ok: report.ok,
+        kind: report.kind,
+        step: report.step,
+        tail: report.tail,
+        steps: Object.keys(report.steps as object),
+      },
+      {
+        ok: false,
+        kind: "command",
+        step: "install",
+        tail: ["lint noise", "react-router: not found"],
+        steps: ["monorepo", "tooling", "git"],
+      }
+    );
+  });
+});
+
+describe("--json", () => {
+  it("prints one object with every step and the commands to run next", (t: TestContext) => {
+    const dir = upstreamBase("next");
+    recordState(dir, "next");
+    const result = cli([dir, "--no-install", "--no-git", "--json"]);
+    t.assert.strictEqual(result.status, 0, result.stderr);
+    t.assert.strictEqual(result.stderr, "");
+    const report = JSON.parse(result.stdout) as {
+      ok: boolean;
+      dir: string;
+      steps: Record<string, { status: string }>;
+      next: string[];
+    };
+    t.assert.strictEqual(report.ok, true);
+    t.assert.strictEqual(report.dir, dir);
+    t.assert.deepStrictEqual(
+      Object.entries(report.steps).map(([id, step]) => [id, step.status]),
+      [
+        ["monorepo", "kept"],
+        ["tooling", "done"],
+        ["git", "skipped"],
+        ["install", "skipped"],
+        ["skills", "skipped"],
+      ]
+    );
+    t.assert.deepStrictEqual(report.next, [`cd '${dir}'`, "pnpm dev"]);
+  });
+
+  it("answers a usage error in JSON too, and exits 2", (t: TestContext) => {
+    const result = cli(["app", "--bogus", "--json"]);
+    t.assert.strictEqual(result.status, 2);
+    t.assert.strictEqual(result.stderr, "");
+    const report = JSON.parse(result.stdout) as Record<string, unknown>;
+    t.assert.strictEqual(report.ok, false);
+    t.assert.strictEqual(report.kind, "usage");
+    t.assert.match(String(report.message), /--bogus/);
   });
 });
