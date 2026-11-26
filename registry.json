@@ -1927,7 +1927,7 @@
         "@storybook/addon-vitest@^10.6.9",
         "@storybook/react-vite@^10.6.9",
         "@tailwindcss/vite@^4.3.5",
-        "@vitest/browser-playwright@5.0.5",
+        "@vitest/browser-playwright@5.1.2",
         "msw@^3.0.7",
         "msw-storybook-addon@^3.0.3",
         "remark-gfm@^4.0.1",
