@@ -70,9 +70,7 @@ function Carousel({
     /* istanbul ignore start @preserve -- Defensive guard: api is always defined when called from useEffect */
     if (!api) return;
     /* istanbul ignore end @preserve */
-    // eslint-disable-next-line @eslint-react/set-state-in-effect -- Syncing state with external carousel API is intentional
     setCanScrollPrev(api.canScrollPrev());
-    // eslint-disable-next-line @eslint-react/set-state-in-effect -- Syncing state with external carousel API is intentional
     setCanScrollNext(api.canScrollNext());
   }, []);
 
@@ -108,7 +106,7 @@ function Carousel({
 
   React.useEffect(() => {
     if (!api) return;
-    // eslint-disable-next-line react-hooks/set-state-in-effect -- Initial sync of state with external carousel API; subsequent updates flow through api.on() subscriptions
+    // eslint-disable-next-line react-hooks/set-state-in-effect, @eslint-react/set-state-in-effect, react-you-might-not-need-an-effect/no-external-store-subscription -- Initial sync of state with external carousel API; subsequent updates flow through api.on() subscriptions
     onSelect(api);
     api.on("reInit", onSelect);
     api.on("select", onSelect);

@@ -122,6 +122,7 @@ export function useBadgeOverflow<T>({
       }
     }
 
+    // eslint-disable-next-line react-you-might-not-need-an-effect/no-external-store-subscription -- measures a ref'd element, which useSyncExternalStore can't reach before mount
     measureWidth();
 
     const resizeObserver = new ResizeObserver(measureWidth);
