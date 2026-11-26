@@ -1,6 +1,6 @@
 import type { RowData, Table } from "@tanstack/react-table";
 
-import { describe, expect, it, vi } from "vitest";
+import { describe, expect, it } from "vitest";
 
 import type { DataGridColumn, DataGridFeatures } from "./features";
 import {
@@ -368,10 +368,10 @@ describe("flexRender", () => {
   });
 
   it("should call function with props", () => {
-    const fn = vi.fn((props: { name: string }) => `Hi ${props.name}`);
-    const result = flexRender(fn, { name: "World" });
+    const result = flexRender((props: { name: string }) => `Hi ${props.name}`, {
+      name: "World",
+    });
     expect(result).toBe("Hi World");
-    expect(fn).toHaveBeenCalledWith({ name: "World" });
   });
 });
 
