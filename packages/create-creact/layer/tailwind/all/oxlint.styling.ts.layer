@@ -3,6 +3,7 @@ import betterTailwindcss from "eslint-plugin-better-tailwindcss";
 import designSystem from "outtrue/configs/recommended.json" with { type: "json" };
 
 type Override = NonNullable<OxlintConfig["overrides"]>[number];
+type Rules = NonNullable<Override["rules"]>;
 
 const shadcnComponentsAsWritten: Override = {
   files: ["packages/ui/src/components/**"],
@@ -80,7 +81,7 @@ export const styling = {
       files: ["**/*.tsx"],
       jsPlugins: designSystem.jsPlugins,
       rules: {
-        ...designSystem.rules,
+        ...(designSystem.rules as Rules),
         "design-system/known-tokens": [
           "error",
           {
