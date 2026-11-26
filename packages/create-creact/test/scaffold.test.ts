@@ -139,7 +139,7 @@ const PROOF = {
     cssHas: [],
     cssLacks: [/--color-page:\s*var\(--color-page\)/],
     component: [
-      "export function Card({ children }: { children: React.ReactNode }) {",
+      "export function Notice({ children }: { children: React.ReactNode }) {",
       '  return <div className="p-gutter text-ink">{children}</div>;',
       "}",
       "",
@@ -161,11 +161,11 @@ const PROOF = {
       'import { colors, spacing } from "@/styles/tokens.stylex";',
       "",
       "const styles = stylex.create({",
-      "  card: { padding: spacing.gutter, color: colors.ink },",
+      "  notice: { padding: spacing.gutter, color: colors.ink },",
       "});",
       "",
-      "export function Card({ children }: { children: React.ReactNode }) {",
-      "  return <div {...stylex.props(styles.card)}>{children}</div>;",
+      "export function Notice({ children }: { children: React.ReactNode }) {",
+      "  return <div {...stylex.props(styles.notice)}>{children}</div>;",
       "}",
       "",
     ].join("\n"),
@@ -183,16 +183,16 @@ const PROOF = {
   },
 } satisfies Record<StylingId, Proof>;
 
-const cardTest = (vitest: string): string =>
+const noticeTest = (vitest: string): string =>
   [
     'import { renderToStaticMarkup } from "react-dom/server";',
     `import { describe, expect, it } from "${vitest}";`,
     "",
-    'import { Card } from "@/probe/card";',
+    'import { Notice } from "@/probe/notice";',
     "",
-    'describe("Card", () => {',
+    'describe("Notice", () => {',
     '  it("renders with the class its styling gave it", () => {',
-    "    expect(renderToStaticMarkup(<Card>hi</Card>)).toMatch(",
+    "    expect(renderToStaticMarkup(<Notice>hi</Notice>)).toMatch(",
     '      /^<div class="[^"]+">hi<\\/div>$/',
     "    );",
     "  });",
@@ -478,8 +478,8 @@ for (const [id, styling, monorepo, toolchain] of STACK_IDS.flatMap((stackId) =>
             "",
           ].join("\n")
         );
-        writeFileSync(path.join(probe, "card.tsx"), proof.component);
-        writeFileSync(path.join(probe, "card.test.tsx"), cardTest(vitest));
+        writeFileSync(path.join(probe, "notice.tsx"), proof.component);
+        writeFileSync(path.join(probe, "notice.test.tsx"), noticeTest(vitest));
         sh(dir, "git", ["add", "--all"]);
         const commit = sh(dir, "git", [
           ...IDENTITY,

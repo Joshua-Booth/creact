@@ -1,7 +1,9 @@
 import type { OxlintConfig } from "{{oxlint}}";
 import betterTailwindcss from "eslint-plugin-better-tailwindcss";
+import designSystem from "outtrue/configs/recommended.json" with { type: "json" };
 
 type Override = NonNullable<OxlintConfig["overrides"]>[number];
+type Rules = NonNullable<Override["rules"]>;
 
 const shadcnComponentsAsWritten: Override = {
   files: ["packages/ui/src/components/**"],
@@ -10,6 +12,9 @@ const shadcnComponentsAsWritten: Override = {
     "jsx-a11y/label-has-associated-control": "off",
     "jsx-a11y/click-events-have-key-events": "off",
     "jsx-a11y/no-noninteractive-element-interactions": "off",
+    "design-system/no-important": "off",
+    "design-system/layout-only-classname": "off",
+    "design-system/no-raw-values": "off",
   },
 };
 
@@ -18,6 +23,17 @@ const betterTStackTemplateAsWritten: Override = {
   rules: {
     "no-empty-pattern": "off",
     "typescript/strict-boolean-expressions": "off",
+  },
+};
+
+const betterTStackClassesAsWritten: Override = {
+  files: [
+    "apps/web/src/components/mode-toggle.tsx",
+    "apps/web/src/app/layout.tsx",
+  ],
+  rules: {
+    "design-system/no-raw-values": "off",
+    "design-system/no-template-classname": "off",
   },
 };
 
@@ -44,6 +60,9 @@ const registryMarkerClasses: Override = {
 export const styling = {
   settings: {
     "better-tailwindcss": { cwd: "apps/web", entryPoint: "src/index.css" },
+    "design-system": {
+      primitives: ["packages/ui/src/components", "@{{name}}/ui/components/"],
+    },
   },
   overrides: [
     {
@@ -61,8 +80,25 @@ export const styling = {
         "better-tailwindcss/enforce-shorthand-classes": "warn",
       },
     },
+    {
+      files: ["**/*.tsx"],
+      jsPlugins: designSystem.jsPlugins,
+      rules: {
+        ...(designSystem.rules as Rules),
+        "design-system/known-tokens": [
+          "error",
+          {
+            theme: [
+              "packages/ui/src/styles/globals.css",
+              "apps/web/src/index.css",
+            ],
+          },
+        ],
+      },
+    },
     shadcnComponentsAsWritten,
     betterTStackTemplateAsWritten,
+    betterTStackClassesAsWritten,
     registryItemsAsWritten,
     registryMarkerClasses,
   ],

@@ -303,7 +303,7 @@ export const OVERLAYS: Readonly<Record<OverlayId, Overlay>> = {
       },
       packages: {
         "package.json": {
-          devDependencies: ["eslint-plugin-better-tailwindcss"],
+          devDependencies: ["eslint-plugin-better-tailwindcss", "outtrue"],
         },
       },
       skills: ["shadcn"],
