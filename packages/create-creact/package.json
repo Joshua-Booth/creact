@@ -1,6 +1,6 @@
 {
   "name": "create-creact",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Set up a React project with creact's lint, format, tsconfig, git hooks and tests",
   "keywords": [
     "create",
@@ -22,7 +22,7 @@
   "author": "Joshua Booth",
   "type": "module",
   "bin": {
-    "create-creact": "./dist/main.js"
+    "create-creact": "dist/main.js"
   },
   "files": [
     "dist",

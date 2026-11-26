@@ -339,7 +339,9 @@ function plain(log: Log): Renderer {
       }
     },
     succeeded(final) {
-      if (typeof final.skills === "object") outLine(`log: ${log.file}`);
+      if (typeof final.skills === "object" && log.written) {
+        outLine(`log: ${log.file}`);
+      }
       outLine(`next: cd ${shellQuoted(final.dir)} && pnpm dev`);
     },
     failed(error, kind) {
@@ -442,7 +444,7 @@ function rich(log: Log, cwd: string): Renderer {
         out(`\n  Ready in ${elapsed}. Next:\n\n`);
         for (const command of next) out(`    ${color("cyan", command)}\n`);
       }
-      if (typeof report.skills === "object") {
+      if (typeof report.skills === "object" && log.written) {
         const where = `Full output: ${log.file}`;
         out(`\n  ${color("dim", where)}\n`);
       }

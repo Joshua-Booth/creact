@@ -273,7 +273,7 @@ describe("the skills restore", () => {
     t.assert.strictEqual(failed.status, 0, failed.stderr);
     const log = path.join(
       tmpdir(),
-      "create-creact-" + path.basename(dir) + ".log"
+      `create-creact-${String(process.getuid?.())}-${path.basename(dir)}.log`
     );
     t.assert.ok(
       failed.stdout.includes(
@@ -557,5 +557,25 @@ describe("--json", () => {
     t.assert.strictEqual(report.ok, false);
     t.assert.strictEqual(report.kind, "usage");
     t.assert.match(String(report.message), /--bogus/);
+    t.assert.strictEqual(report.log, null);
+  });
+
+  it("goes on without a log when it can't write the log file", (t: TestContext) => {
+    const dir = upstreamBase("next");
+    recordState(dir, "next");
+    const temp = tempDir();
+    mkdirSync(
+      path.join(
+        temp,
+        `create-creact-${String(process.getuid?.())}-${path.basename(dir)}.log`
+      )
+    );
+    const result = cli([dir, "--no-git", "--json"], {
+      ...pnpmFake("true"),
+      TMPDIR: temp,
+    });
+    t.assert.strictEqual(result.status, 0, result.stderr);
+    const report = JSON.parse(result.stdout) as { ok: boolean; log: unknown };
+    t.assert.deepStrictEqual([report.ok, report.log], [true, null]);
   });
 });

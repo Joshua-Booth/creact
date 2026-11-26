@@ -385,15 +385,21 @@ async function restoreSkills(
     await run(command, args, dir, log);
   } catch (error) {
     if (!(error instanceof CommandFailed)) throw error;
-    const where = log === undefined ? "above" : `in ${log.file}`;
+    const where = outputAt(log);
     return {
       skills: {
         failed: (await succeeds("git", ["--version"], dir))
-          ? `${error.message}. Its output is ${where}`
+          ? `${error.message}${where}`
           : "git isn't on PATH, and the restore clones the skills with it",
       },
       skillCount,
     };
   }
   return { skills: "restored", skillCount };
+}
+
+// Where the failed command's output can be read, as the end of a sentence.
+function outputAt(log: Log | undefined): string {
+  if (log === undefined) return ". Its output is above";
+  return log.written ? `. Its output is in ${log.file}` : "";
 }
