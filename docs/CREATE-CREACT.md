@@ -56,9 +56,9 @@ The run has five steps: `monorepo`, `tooling`, `git`, `install` and `skills`. Ho
 
 - In a terminal, each step gets a spinner while it runs, then a mark, a short summary and its time, and the run ends with the commands to run next. `NO_COLOR` turns the colour off.
 - Piped, with `CI` set, or with `TERM=dumb`, as in an agent's shell, each finished step is one line on stdout, `done`, `skip`, `warn` or `fail`, then the step and its outcome in fixed words. The last line is `next: cd '<dir>' && pnpm dev`.
-- With `--json`, stdout gets one object when the run ends: `ok`, the choices, each step's outcome and time in `steps`, and `next` as commands to run. A failure gives `ok: false`, its `kind` (`command` or `usage`), the failed `step`, the last lines of the command's output in `tail`, and the log's path. Nothing goes to stderr.
+- With `--json`, stdout gets one object when the run ends: `ok`, the choices, each step's outcome and time in `steps`, and `next` as commands to run. A failure gives `ok: false`, its `kind` (`command` or `usage`), the failed `step`, the last lines of the command's output in `tail`, and the log's path in `log`, which is `null` when no log was written. Nothing goes to stderr.
 
-The commands it runs, Better-T-Stack and pnpm among them, write to `create-creact-<user id>-<dir name>.log` in the OS temp dir rather than the terminal, and each run starts it afresh. If that file can't be written, the run goes on without a log. When one fails, create-creact prints its last lines and the log's path to stderr, and a usage error prints one line there.
+The commands it runs, Better-T-Stack and pnpm among them, write to `create-creact-<user id>-<dir name>.log` in the OS temp dir rather than the terminal, and each run starts it afresh. It's created fresh and never through a symlink. If it can't be written, the run goes on without a log. When one fails, create-creact prints its last lines and the log's path to stderr, and a usage error prints one line there.
 
 Run the command again on the same directory to finish an interrupted run or take a newer layer. Layer files you edited stay as you left them and are listed as kept. The `package.json` and tsconfig files creact patches are merged again on every run, so the scripts and compiler options creact sets go back to creact's values.
 

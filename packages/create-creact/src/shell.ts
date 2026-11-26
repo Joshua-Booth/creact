@@ -3,7 +3,7 @@ import {
   spawn,
   type StdioOptions,
 } from "node:child_process";
-import { appendFileSync, writeFileSync } from "node:fs";
+import { openSync, unlinkSync, writeSync } from "node:fs";
 import { stripVTControlCharacters } from "node:util";
 
 export class CommandFailed extends Error {
@@ -26,7 +26,7 @@ const TAIL_LINES = 12;
 // the log off rather than failing the run.
 export class Log {
   readonly file: string;
-  #written = false;
+  #fd: number | undefined;
   #broken = false;
 
   constructor(file: string) {
@@ -34,22 +34,33 @@ export class Log {
   }
 
   get written(): boolean {
-    return this.#written;
+    return this.#fd !== undefined;
   }
 
   write(text: string): void {
     if (this.#broken) return;
     try {
-      /* oxlint-disable security/detect-non-literal-fs-filename -- a file in the OS temp dir, named by main */
-      if (this.#written) appendFileSync(this.file, text);
-      else writeFileSync(this.file, text);
-      /* oxlint-enable security/detect-non-literal-fs-filename -- the write ends here */
-      this.#written = true;
+      this.#fd ??= openFresh(this.file);
+      writeSync(this.#fd, text);
     } catch {
       this.#broken = true;
-      this.#written = false;
+      this.#fd = undefined;
     }
   }
+}
+
+// Removes what's at the path, then creates the file only if nothing is there,
+// so a symlink planted in a shared temp dir is never followed. The run keeps
+// the file open, so the path can't be swapped between writes.
+function openFresh(file: string): number {
+  /* oxlint-disable security/detect-non-literal-fs-filename -- a file in the OS temp dir, named by main */
+  try {
+    unlinkSync(file);
+  } catch (error) {
+    if ((error as NodeJS.ErrnoException).code !== "ENOENT") throw error;
+  }
+  return openSync(file, "wx", 0o600);
+  /* oxlint-enable security/detect-non-literal-fs-filename -- the open ends here */
 }
 
 const NO_PROMPTS_OUTPUT_TO_STDERR: StdioOptions = ["ignore", 2, 2];

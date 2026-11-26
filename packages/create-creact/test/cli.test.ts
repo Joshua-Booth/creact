@@ -579,3 +579,48 @@ describe("--json", () => {
     t.assert.deepStrictEqual([report.ok, report.log], [true, null]);
   });
 });
+
+describe("the log file", () => {
+  it("replaces a symlink at its path instead of writing through it", (t: TestContext) => {
+    const dir = upstreamBase("next");
+    recordState(dir, "next");
+    const temp = tempDir();
+    const target = path.join(temp, "target");
+    writeFileSync(target, "keep\n");
+    const log = path.join(
+      temp,
+      `create-creact-${String(process.getuid?.())}-${path.basename(dir)}.log`
+    );
+    symlinkSync(target, log);
+    const result = cli([dir, "--no-git", "--json"], {
+      ...pnpmFake("echo restore output; exit 1"),
+      TMPDIR: temp,
+    });
+    t.assert.strictEqual(result.status, 0, result.stderr);
+    t.assert.strictEqual(readFileSync(target, "utf8"), "keep\n");
+    t.assert.ok(!lstatSync(log).isSymbolicLink());
+    t.assert.match(readFileSync(log, "utf8"), /restore output/);
+  });
+
+  it("leaves the failed restore's warning without a path when it can't write", (t: TestContext) => {
+    const dir = upstreamBase("next");
+    recordState(dir, "next");
+    const temp = tempDir();
+    mkdirSync(
+      path.join(
+        temp,
+        `create-creact-${String(process.getuid?.())}-${path.basename(dir)}.log`
+      )
+    );
+    const result = cli([dir, "--no-git"], {
+      ...pnpmFake("exit 1", GIT_SHIM),
+      TMPDIR: temp,
+    });
+    t.assert.strictEqual(result.status, 0, result.stderr);
+    t.assert.match(
+      result.stdout,
+      /^warn skills {4}not restored, as .* exited with 1\n/m
+    );
+    t.assert.doesNotMatch(result.stdout, /^log: /m);
+  });
+});
