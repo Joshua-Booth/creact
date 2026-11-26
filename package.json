@@ -120,7 +120,7 @@
     "monocart-reporter": "^2.15.1",
     "msw": "^3.0.7",
     "msw-storybook-addon": "^3.0.3",
-    "oxfmt": "^0.75.0",
+    "oxfmt": "^0.80.0",
     "oxlint": "^1.95.0",
     "oxlint-tsgolint": "^7.0.2008",
     "playwright": "^1.65.1",
