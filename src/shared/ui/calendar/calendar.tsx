@@ -15,7 +15,11 @@ import {
   ChevronLeftIcon,
   ChevronRightIcon,
 } from "lucide-react";
-import { DayPicker, getDefaultClassNames } from "react-day-picker";
+import {
+  DayPicker,
+  getDefaultClassNames,
+  labelDayButton,
+} from "react-day-picker";
 
 import { Button, buttonVariants } from "@/shared/ui/button";
 
@@ -71,6 +75,7 @@ function Calendar({
   buttonVariant = "ghost",
   locale,
   formatters,
+  labels,
   components,
   ...props
 }: React.ComponentProps<typeof DayPicker> & {
@@ -93,6 +98,13 @@ function Calendar({
         formatMonthDropdown: (date) =>
           date.toLocaleString(locale?.code, { month: "short" }),
         ...formatters,
+      }}
+      labels={{
+        // Leads with the day number shown on the button, so the accessible
+        // name contains its visible text (axe's label-content-name-mismatch).
+        labelDayButton: (date, modifiers, options, dateLib) =>
+          `${dateLib?.format(date, "d") ?? String(date.getDate())}, ${labelDayButton(date, modifiers, options, dateLib)}`,
+        ...labels,
       }}
       classNames={{
         root: cn("w-fit", defaultClassNames.root),

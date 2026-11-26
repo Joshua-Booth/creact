@@ -667,7 +667,6 @@ function SidebarMenuSkeleton({
 }) {
   // Random width between 50 to 90%.
   const [width] = React.useState(() => {
-    // eslint-disable-next-line sonarjs/pseudo-random -- Safe for visual skeleton widths only
     return `${Math.floor(Math.random() * 40) + 50}%`;
   });
 
