@@ -1,6 +1,6 @@
 {
   "name": "create-creact",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "Set up a React project with creact's lint, format, tsconfig, git hooks and tests",
   "keywords": [
     "create",
