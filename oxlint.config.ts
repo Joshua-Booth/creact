@@ -1,6 +1,7 @@
 // Lives at the repo root: ignorePatterns only match files inside the config
 // file's directory, so a config in config/ couldn't ignore src/, public/, etc.
 import eslintReact from "@eslint-react/eslint-plugin";
+import landminesRecommended from "@interfere/landmines/configs/recommended.json" with { type: "json" };
 import betterTailwindcss from "eslint-plugin-better-tailwindcss";
 import jsdoc from "eslint-plugin-jsdoc";
 import reactYouMightNotNeedAnEffect from "eslint-plugin-react-you-might-not-need-an-effect";
@@ -69,6 +70,7 @@ export default defineConfig({
     "eslint-plugin-barrel-files",
     "eslint-plugin-check-file",
     { name: "jsdoc-js", specifier: "eslint-plugin-jsdoc" },
+    { name: "landmines", specifier: "@interfere/landmines" },
   ],
 
   settings: {
@@ -516,6 +518,29 @@ export default defineConfig({
     "unicorn/no-useless-undefined": ["error", { checkArguments: false }],
 
     "barrel-files/avoid-re-export-all": "error",
+
+    // Landmines' correctness and suspicious rules stop tests that pass without
+    // proving anything. The allow counts cover existing violations and fail
+    // when a file's count changes, so they only go down.
+    ...(landminesRecommended.rules as Rules),
+    "landmines/strict-msw": [
+      "error",
+      { allow: { ".storybook/preview.tsx": 1 } },
+    ],
+    "landmines/no-cold-start-in-test": [
+      "error",
+      {
+        allow: {
+          "packages/create-creact/test/cli.test.ts": 46,
+          "packages/create-creact/test/scaffold.test.ts": 19,
+          "packages/create-creact/test/plan.test.ts": 1,
+        },
+      },
+    ],
+    "landmines/no-cold-import-in-test": [
+      "error",
+      { allow: { "src/shared/api/token-provider.test.ts": 5 } },
+    ],
   },
 
   overrides: [
@@ -637,6 +662,30 @@ export default defineConfig({
           { ignoreTopLevelDescribe: true },
         ],
       },
+    },
+
+    {
+      // no-test-doubles has no allow counts, so these existing tests opt out
+      // until they move to real implementations and MSW.
+      files: [
+        "src/app/routes/locales.test.ts",
+        "src/entities/user/lib/set-auth-token.test.ts",
+        "src/entities/user/lib/token.test.ts",
+        "src/entities/user/model/store.test.ts",
+        "src/pages/forgot-password/api/forgot-password.test.ts",
+        "src/pages/forgot-password/model/action.test.ts",
+        "src/pages/login/api/login.test.ts",
+        "src/pages/login/model/action.test.ts",
+        "src/pages/logout/model/action.test.ts",
+        "src/pages/signup/api/signup.test.ts",
+        "src/pages/signup/model/action.test.ts",
+        "src/shared/api/api-error.test.ts",
+        "src/shared/api/token-provider.test.ts",
+        "src/shared/lib/data-table-core/format.test.ts",
+        "src/shared/lib/seo/json-ld.test.ts",
+        "src/shared/lib/seo/meta.test.ts",
+      ],
+      rules: { "landmines/no-test-doubles": "off" },
     },
 
     {

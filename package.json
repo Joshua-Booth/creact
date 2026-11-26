@@ -70,6 +70,7 @@
     "@eslint-react/eslint-plugin": "^5.28.8",
     "@fast-check/vitest": "^0.5.0",
     "@feature-sliced/steiger-plugin": "^0.8.1",
+    "@interfere/landmines": "^0.3.1",
     "@msw/playwright": "^0.7.0",
     "@netlify/vite-plugin-react-router": "^4.0.0",
     "@playwright/test": "^1.64.1",

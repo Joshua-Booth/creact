@@ -67,9 +67,8 @@ export default defineConfig({
     baseURL: `http://localhost:${port}`,
     headless: true,
     screenshot: "only-on-failure",
-    trace: "on-first-retry",
+    trace: "retain-on-failure",
   },
-  retries: process.env.CI ? 1 : 0,
   reporter: [
     ...(process.env.CI ? [["github"] as const] : []),
     ["html", { outputFolder: "../playwright-report" }],
