@@ -13,6 +13,7 @@ const shadcnComponentsAsWritten: Override = {
     "jsx-a11y/click-events-have-key-events": "off",
     "jsx-a11y/no-noninteractive-element-interactions": "off",
     "design-system/no-important": "off",
+    "design-system/layout-only-classname": "off",
     "design-system/no-raw-values": "off",
   },
 };
@@ -59,7 +60,9 @@ const registryMarkerClasses: Override = {
 export const styling = {
   settings: {
     "better-tailwindcss": { cwd: "apps/web", entryPoint: "src/index.css" },
-    "design-system": { primitives: "packages/ui/src/components" },
+    "design-system": {
+      primitives: ["packages/ui/src/components", "@{{name}}/ui/components/"],
+    },
   },
   overrides: [
     {
