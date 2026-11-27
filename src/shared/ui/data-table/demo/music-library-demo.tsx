@@ -28,7 +28,7 @@ interface Track {
 
 // --- Sample data ---
 
-function createTrackData(): Track[] {
+function createTrackData() {
   return [
     {
       id: "1",
@@ -222,7 +222,7 @@ const moodOptions = [
 
 // --- Helpers ---
 
-function formatDuration(seconds: number): string {
+function formatDuration(seconds: number) {
   const m = Math.floor(seconds / 60);
   const s = seconds % 60;
 

@@ -12,7 +12,7 @@ function handleGlobalError(err: unknown) {
   }
 }
 
-const fetcher = async <T,>(url: string): Promise<T> => {
+const fetcher = async <T,>(url: string) => {
   try {
     return await api.get(url).json<T>();
   } catch (error) {

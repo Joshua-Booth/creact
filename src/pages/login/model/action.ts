@@ -10,9 +10,7 @@ export interface LoginActionData {
   error: string;
 }
 
-export async function loginAction(
-  formData: FormData
-): Promise<LoginActionData | Response> {
+export async function loginAction(formData: FormData) {
   const result = loginSchema.safeParse({
     email: formData.get("email"),
     password: formData.get("password"),
@@ -25,7 +23,7 @@ export async function loginAction(
       error:
         result.error.issues[0]?.message ??
         i18next.t("errors.api.invalidFormData"),
-    };
+    } satisfies LoginActionData;
   }
 
   try {
@@ -35,6 +33,6 @@ export async function loginAction(
   } catch (error) {
     const message = parseLoginError(error);
 
-    return { success: false, error: message };
+    return { success: false, error: message } satisfies LoginActionData;
   }
 }

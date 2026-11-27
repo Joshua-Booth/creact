@@ -26,7 +26,7 @@ interface MenuItem {
 
 // --- Sample data ---
 
-function createMenuData(): MenuItem[] {
+function createMenuData() {
   return [
     {
       id: "1",

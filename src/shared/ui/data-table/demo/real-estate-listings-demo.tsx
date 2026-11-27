@@ -41,7 +41,7 @@ interface Listing {
 
 // --- Sample data ---
 
-function createListingData(): Listing[] {
+function createListingData() {
   return [
     {
       id: "1",

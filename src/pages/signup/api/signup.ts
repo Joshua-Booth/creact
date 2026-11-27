@@ -9,13 +9,11 @@ interface SignupResponse {
   key: string;
 }
 
-export async function signupApi(
-  data: Omit<SignupFormData, "confirmPassword">
-): Promise<SignupResponse> {
+export async function signupApi(data: Omit<SignupFormData, "confirmPassword">) {
   return api.post(AUTH_URLS.SIGNUP, { json: data }).json<SignupResponse>();
 }
 
-export function parseSignupError(error: unknown): string {
+export function parseSignupError(error: unknown) {
   return apiErrorMessage(error, {
     fields: [
       { key: "email", shape: "list" },

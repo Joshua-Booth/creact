@@ -16,7 +16,7 @@ function emptySubscribe() {
  * attached.
  * @returns Whether the client has completed hydration
  */
-export function useHydrated(): boolean {
+export function useHydrated() {
   return useSyncExternalStore(
     emptySubscribe,
     () => true,

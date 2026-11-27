@@ -19,17 +19,17 @@ interface ShadcnConfig {
   tsx: boolean;
 }
 
-function readShadcnConfig(): ShadcnConfig {
+function readShadcnConfig() {
   const raw = readFileSync(resolve("components.json"), "utf-8");
 
   return JSON.parse(raw) as ShadcnConfig;
 }
 
-function resolveAlias(alias: string): string {
+function resolveAlias(alias: string) {
   return alias.replace(/^@\//, "src/");
 }
 
-export default function plopfile(plop: NodePlopAPI): void {
+export default function plopfile(plop: NodePlopAPI) {
   const shadcnConfig = readShadcnConfig();
   const uiPath = resolveAlias(shadcnConfig.aliases.ui);
   const ext = shadcnConfig.tsx ? "tsx" : "ts";

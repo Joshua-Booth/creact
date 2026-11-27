@@ -22,7 +22,7 @@ interface Employee {
 
 // --- Sample data ---
 
-function createEmployeeData(): Employee[] {
+function createEmployeeData() {
   return [
     {
       id: "1",

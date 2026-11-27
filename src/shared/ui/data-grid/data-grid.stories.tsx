@@ -76,7 +76,7 @@ export const ProductCatalog = meta.story({
 
 // --- Test helpers ---
 
-function getFirstCellWrapper(canvasElement: HTMLElement): HTMLElement {
+function getFirstCellWrapper(canvasElement: HTMLElement) {
   const wrapper = canvasElement.querySelector<HTMLElement>(
     '[data-slot="grid-cell-wrapper"]'
   );

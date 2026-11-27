@@ -12,10 +12,10 @@ import { defineConfig } from "oxlint";
 
 type Rules = NonNullable<Parameters<typeof defineConfig>[0]["rules"]>;
 
-const errors = (names: string[]): Rules =>
+const errors = (names: string[]) =>
   Object.fromEntries(names.map((name) => [name, "error"]));
 
-const alias = (rules: object, from: string, to: string): Rules =>
+const alias = (rules: object, from: string, to: string) =>
   Object.fromEntries(
     Object.entries(rules).map(([name, value]) => [
       name.replace(`${from}/`, `${to}/`),
@@ -542,6 +542,7 @@ export default defineConfig({
       "error",
       { allow: { "src/shared/api/token-provider.test.ts": 5 } },
     ],
+    "landmines/no-explicit-return-types": "error",
   },
 
   overrides: [
@@ -687,6 +688,13 @@ export default defineConfig({
         "src/shared/lib/seo/meta.test.ts",
       ],
       rules: { "landmines/no-test-doubles": "off" },
+    },
+
+    {
+      // create-creact is a published CLI whose return types carry its
+      // discriminated unions and recursive JSON types, so it keeps them.
+      files: ["packages/create-creact/**"],
+      rules: { "landmines/no-explicit-return-types": "off" },
     },
 
     {

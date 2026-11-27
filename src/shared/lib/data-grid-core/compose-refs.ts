@@ -19,8 +19,8 @@ function setRef<T>(ref: PossibleRef<T>, value: T) {
  * @param refs - Array of refs to compose
  * @returns A ref callback that sets all provided refs
  */
-function composeRefs<T>(...refs: PossibleRef<T>[]): RefCallback<T> {
-  return (node) => {
+function composeRefs<T>(...refs: PossibleRef<T>[]) {
+  const composed: RefCallback<T> = (node) => {
     const cleanups = refs.map((ref) => setRef(ref, node));
 
     /* istanbul ignore start @preserve -- ref cleanup during unmount */
@@ -37,6 +37,8 @@ function composeRefs<T>(...refs: PossibleRef<T>[]): RefCallback<T> {
     };
     /* istanbul ignore end @preserve */
   };
+
+  return composed;
 }
 
 /**
@@ -44,7 +46,7 @@ function composeRefs<T>(...refs: PossibleRef<T>[]): RefCallback<T> {
  * @param refs - Array of refs to compose
  * @returns A memoized ref callback that sets all provided refs
  */
-function useComposedRefs<T>(...refs: PossibleRef<T>[]): RefCallback<T> {
+function useComposedRefs<T>(...refs: PossibleRef<T>[]) {
   // eslint-disable-next-line react-hooks/exhaustive-deps, react/use-memo -- variadic refs require dynamic dep array; re-memoize whenever any ref value changes
   return useCallback(composeRefs(...refs), [...refs]);
 }

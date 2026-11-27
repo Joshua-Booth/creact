@@ -8,9 +8,7 @@ export interface ForgotPasswordActionData {
   error?: string;
 }
 
-export async function forgotPasswordAction(
-  formData: FormData
-): Promise<ForgotPasswordActionData> {
+export async function forgotPasswordAction(formData: FormData) {
   const result = forgotPasswordSchema.safeParse({
     email: formData.get("email"),
   });
@@ -22,16 +20,16 @@ export async function forgotPasswordAction(
       error:
         result.error.issues[0]?.message ??
         i18next.t("errors.api.invalidFormData"),
-    };
+    } satisfies ForgotPasswordActionData;
   }
 
   try {
     await forgotPasswordApi(result.data);
 
     // Always show success to prevent email enumeration
-    return { success: true };
+    return { success: true } satisfies ForgotPasswordActionData;
   } catch {
     // Always show success to prevent email enumeration
-    return { success: true };
+    return { success: true } satisfies ForgotPasswordActionData;
   }
 }

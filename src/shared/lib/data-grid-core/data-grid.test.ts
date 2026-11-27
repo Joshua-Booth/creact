@@ -391,7 +391,7 @@ function mockBorderColumn<
   isPinned?: false | "start" | "end";
   isFirstRight?: boolean;
   isLastRight?: boolean;
-}): DataGridColumn<TData> {
+}) {
   return {
     getIsPinned: () => overrides.isPinned ?? false,
     getIsFirstColumn: () => overrides.isFirstRight ?? false,
@@ -470,7 +470,7 @@ function mockPinColumn<
   start?: number;
   after?: number;
   size?: number;
-}): DataGridColumn<TData> {
+}) {
   return {
     getIsPinned: () => overrides.isPinned ?? false,
     getIsLastColumn: () => overrides.isLastLeft ?? false,

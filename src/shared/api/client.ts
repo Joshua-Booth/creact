@@ -27,7 +27,7 @@ export class ApiError extends Error {
  * @param headers - The outgoing request headers to mutate.
  * @param token - The auth token, or null when unauthenticated.
  */
-export function applyAuthHeader(headers: Headers, token: string | null): void {
+export function applyAuthHeader(headers: Headers, token: string | null) {
   // eslint-disable-next-line security/detect-possible-timing-attacks -- False positive: checking existence, not comparing secrets
   if (token !== null) headers.set("Authorization", `Token ${token}`);
 }

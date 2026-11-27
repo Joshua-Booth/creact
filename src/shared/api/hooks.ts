@@ -1,4 +1,4 @@
-import type { SWRConfiguration, SWRResponse } from "swr";
+import type { SWRConfiguration } from "swr";
 import useSWR from "swr";
 
 import type { ApiError } from "./client";
@@ -16,7 +16,7 @@ import { getToken } from "./token-provider";
 export function useApi<T>(
   endpoint: string | null,
   options?: SWRConfiguration<T, ApiError>
-): SWRResponse<T, ApiError> {
+) {
   return useSWR<T, ApiError>(endpoint, options);
 }
 
@@ -30,7 +30,7 @@ export function useApi<T>(
 export function useAuthenticatedApi<T>(
   endpoint: string | null,
   options?: SWRConfiguration<T, ApiError>
-): SWRResponse<T, ApiError> {
+) {
   const token = getToken();
 
   return useSWR<T, ApiError>(token === null ? null : endpoint, options);

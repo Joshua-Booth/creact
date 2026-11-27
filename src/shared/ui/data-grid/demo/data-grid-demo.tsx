@@ -54,8 +54,8 @@ export interface Task {
 // --- Sample data ---
 
 /** Eight sample tasks spanning common statuses, priorities, and assignees. */
-export function createSampleData(): Task[] {
-  return [
+export function createSampleData() {
+  const tasks: Task[] = [
     {
       id: "1",
       title: "Set up CI/CD pipeline",
@@ -137,6 +137,8 @@ export function createSampleData(): Task[] {
       dueDate: "2026-02-10",
     },
   ];
+
+  return tasks;
 }
 
 // --- Toolbar ---
@@ -276,15 +278,9 @@ function SortControl<TData extends RowData>({
   );
 }
 
-interface FilterableColumn {
-  id: string;
-  label: string;
-  options: CellSelectOption[];
-}
-
 function getFilterableColumns<TData extends RowData>(
   table: DataGridInstance<TData>
-): FilterableColumn[] {
+) {
   return table
     .getAllColumns()
     .filter((col) => {

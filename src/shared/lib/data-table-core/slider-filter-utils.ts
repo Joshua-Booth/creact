@@ -17,7 +17,7 @@ export function getIsValidRange(value: unknown): value is RangeValue {
  * @param value - filter value to parse as a numeric range
  * @returns parsed [number, number] tuple or undefined if invalid
  */
-export function parseValuesAsNumbers(value: unknown): RangeValue | undefined {
+export function parseValuesAsNumbers(value: unknown) {
   if (
     Array.isArray(value) &&
     value.length === 2 &&
@@ -26,10 +26,10 @@ export function parseValuesAsNumbers(value: unknown): RangeValue | undefined {
         (typeof v === "string" || typeof v === "number") && !Number.isNaN(v)
     )
   ) {
-    return [Number(value[0]), Number(value[1])];
-  }
+    const range: RangeValue = [Number(value[0]), Number(value[1])];
 
-  return undefined;
+    return range;
+  }
 }
 
 /**

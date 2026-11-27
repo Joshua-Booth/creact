@@ -6,7 +6,7 @@ import { env } from "./env";
  * Site URL from environment, with fallback for development.
  * @returns Site URL string
  */
-export function getSiteUrl(): string {
+export function getSiteUrl() {
   /* istanbul ignore start @preserve -- Fallback only used when env var is missing */
   return env.VITE_PUBLIC_URL ?? `http://localhost:${env.VITE_PORT}`;
   /* istanbul ignore end @preserve */

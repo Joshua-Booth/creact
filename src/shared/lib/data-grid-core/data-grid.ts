@@ -24,7 +24,6 @@ import {
 import type { DataGridColumn, DataGridFeatures } from "./features";
 import type {
   CellOpts,
-  CellPosition,
   Direction,
   FileCellData,
   RowHeightValue,
@@ -39,7 +38,7 @@ import type {
 export function flexRender<TProps extends object>(
   Comp: ((props: TProps) => React.ReactNode) | string | undefined,
   props: TProps
-): React.ReactNode {
+) {
   if (typeof Comp === "string") {
     return Comp;
   }
@@ -72,7 +71,7 @@ export function getIsFileCellData(item: unknown): item is FileCellData {
 export function matchSelectOption(
   value: string,
   options: { value: string; label: string }[]
-): string | undefined {
+) {
   return options.find(
     (o) =>
       o.value === value ||
@@ -96,7 +95,7 @@ export function getCellKey(rowIndex: number, columnId: string) {
  * @param cellKey - The cell key string to parse
  * @returns The parsed cell position
  */
-export function parseCellKey(cellKey: string): Required<CellPosition> {
+export function parseCellKey(cellKey: string) {
   const parts = cellKey.split(":");
   const rowIndexStr = parts[0];
   const columnId = parts[1];
@@ -117,7 +116,7 @@ export function parseCellKey(cellKey: string): Required<CellPosition> {
  * @param rowHeight - The row height setting
  * @returns The height in pixels
  */
-export function getRowHeightValue(rowHeight: RowHeightValue): number {
+export function getRowHeightValue(rowHeight: RowHeightValue) {
   const rowHeightMap: Record<RowHeightValue, number> = {
     short: 36,
     medium: 56,
@@ -133,7 +132,7 @@ export function getRowHeightValue(rowHeight: RowHeightValue): number {
  * @param rowHeight - The row height setting
  * @returns The number of visible text lines
  */
-export function getLineCount(rowHeight: RowHeightValue): number {
+export function getLineCount(rowHeight: RowHeightValue) {
   const lineCountMap: Record<RowHeightValue, number> = {
     short: 1,
     medium: 2,
@@ -156,10 +155,7 @@ export function getColumnBorderVisibility<TData extends RowData>(params: {
   column: DataGridColumn<TData>;
   nextColumn?: DataGridColumn<TData>;
   isLastColumn: boolean;
-}): {
-  showEndBorder: boolean;
-  showStartBorder: boolean;
-} {
+}) {
   const { column, nextColumn, isLastColumn } = params;
 
   const isPinned = column.getIsPinned();
@@ -198,7 +194,7 @@ export function getColumnPinningStyle<TData extends RowData>(params: {
   column: DataGridColumn<TData>;
   withBorder?: boolean;
   dir?: Direction;
-}): React.CSSProperties {
+}) {
   const { column, dir = "ltr", withBorder = false } = params;
 
   const isPinned = column.getIsPinned();
@@ -240,7 +236,7 @@ export function getColumnPinningStyle<TData extends RowData>(params: {
     background: "var(--background)",
     width: column.getSize(),
     zIndex: isPinned === false ? undefined : 1,
-  };
+  } satisfies React.CSSProperties;
 }
 
 /**
@@ -248,9 +244,7 @@ export function getColumnPinningStyle<TData extends RowData>(params: {
  * @param direction - The input direction string
  * @returns The normalized scroll direction
  */
-export function getScrollDirection(
-  direction: string
-): "left" | "right" | "home" | "end" | undefined {
+export function getScrollDirection(direction: string) {
   if (
     direction === "left" ||
     direction === "right" ||
@@ -263,8 +257,6 @@ export function getScrollDirection(
   if (direction === "pageleft") return "left";
 
   if (direction === "pageright") return "right";
-
-  return undefined;
 }
 
 /**
@@ -284,7 +276,7 @@ export function scrollCellIntoView<TData extends RowData>(params: {
   viewportOffset: number;
   direction?: "left" | "right" | "home" | "end";
   isRtl: boolean;
-}): void {
+}) {
   const { container, targetCell, tableRef, direction, viewportOffset, isRtl } =
     params;
 
@@ -348,7 +340,7 @@ export function scrollCellIntoView<TData extends RowData>(params: {
  * @param element - The element to check
  * @returns True if the element is inside a popover
  */
-export function getIsInPopover(element: unknown): boolean {
+export function getIsInPopover(element: unknown) {
   return (
     element instanceof Element &&
     (element.closest("[data-grid-cell-editor]") ??
@@ -361,10 +353,7 @@ export function getIsInPopover(element: unknown): boolean {
  * @param variant - The cell variant type
  * @returns An object with icon and label, or null
  */
-export function getColumnVariant(variant?: CellOpts["variant"]): {
-  icon: React.ComponentType<React.SVGProps<SVGSVGElement>>;
-  label: string;
-} | null {
+export function getColumnVariant(variant?: CellOpts["variant"]) {
   switch (variant) {
     case "short-text":
       return { label: "Short text", icon: BaselineIcon };
@@ -394,7 +383,7 @@ export function getColumnVariant(variant?: CellOpts["variant"]): {
  * @param urlString - The URL string to normalize
  * @returns The normalized URL href
  */
-export function getUrlHref(urlString: string): string {
+export function getUrlHref(urlString: string) {
   if (urlString === "" || urlString.trim() === "") return "";
 
   const trimmed = urlString.trim();
@@ -415,7 +404,7 @@ export function getUrlHref(urlString: string): string {
  * @param dateStr - The date value to parse
  * @returns The parsed Date object, or null if invalid
  */
-export function parseLocalDate(dateStr: unknown): Date | null {
+export function parseLocalDate(dateStr: unknown) {
   if (dateStr == null) return null;
 
   if (dateStr instanceof Date) return dateStr;
@@ -453,7 +442,7 @@ export function parseLocalDate(dateStr: unknown): Date | null {
  * @param date - The Date object to format
  * @returns The formatted date string
  */
-export function formatDateToString(date: Date): string {
+export function formatDateToString(date: Date) {
   const year = date.getFullYear();
   const month = String(date.getMonth() + 1).padStart(2, "0");
   const day = String(date.getDate()).padStart(2, "0");
@@ -466,7 +455,7 @@ export function formatDateToString(date: Date): string {
  * @param dateStr - The date value to format
  * @returns The formatted display string
  */
-export function formatDateForDisplay(dateStr: unknown): string {
+export function formatDateForDisplay(dateStr: unknown) {
   if (dateStr == null) return "";
 
   const date = parseLocalDate(dateStr);
@@ -481,7 +470,7 @@ export function formatDateForDisplay(dateStr: unknown): string {
  * @param bytes - The number of bytes
  * @returns The formatted file size string
  */
-export function formatFileSize(bytes: number): string {
+export function formatFileSize(bytes: number) {
   if (bytes <= 0 || !Number.isFinite(bytes)) return "0 B";
 
   const k = 1024;
@@ -500,9 +489,7 @@ export function formatFileSize(bytes: number): string {
  * @param type - The MIME type string
  * @returns The icon component for the file type
  */
-export function getFileIcon(
-  type: string
-): React.ComponentType<React.SVGProps<SVGSVGElement>> {
+export function getFileIcon(type: string) {
   if (type.startsWith("image/")) return FileImage;
 
   if (type.startsWith("video/")) return FileVideo;

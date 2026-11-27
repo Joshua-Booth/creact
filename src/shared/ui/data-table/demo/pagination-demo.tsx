@@ -11,7 +11,7 @@ import { statusIcons } from "./data-table-demo";
 
 // --- Sample data ---
 
-function createPaginationData(): Project[] {
+function createPaginationData() {
   return Array.from({ length: 35 }, (_, i) => ({
     id: String(i + 1),
     title: `Project ${i + 1}`,

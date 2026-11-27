@@ -8,7 +8,7 @@ let _getToken: TokenProvider = () => null;
  * Call once at app startup from the entities layer.
  * @param provider - A function returning the current token or null.
  */
-export function configureTokenProvider(provider: TokenProvider): void {
+export function configureTokenProvider(provider: TokenProvider) {
   _configured = true;
 
   _getToken = provider;
@@ -18,7 +18,7 @@ export function configureTokenProvider(provider: TokenProvider): void {
  * Retrieve the current auth token via the configured provider.
  * @returns The current token, or null when no provider is configured or no token exists.
  */
-export function getToken(): string | null {
+export function getToken() {
   if (!_configured && import.meta.env.DEV) {
     console.warn(
       "[API] Token provider not configured. Call configureTokenProvider() at startup."

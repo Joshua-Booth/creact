@@ -22,7 +22,7 @@ function measureBadgeWidth({
   iconSize,
   maxWidth,
   className,
-}: MeasureBadgeWidthProps): number {
+}: MeasureBadgeWidthProps) {
   const cached = badgeWidthCache.get(cacheKey);
 
   if (cached !== undefined) {
@@ -87,12 +87,6 @@ interface UseBadgeOverflowProps<T> {
   overflowBadgeWidth?: number;
 }
 
-interface UseBadgeOverflowReturn<T> {
-  visibleItems: T[];
-  hiddenCount: number;
-  containerWidth: number;
-}
-
 /**
  * Calculate which badge items are visible given container width constraints.
  * @param root0 - The badge overflow configuration
@@ -121,7 +115,7 @@ export function useBadgeOverflow<T>({
   iconSize,
   maxWidth,
   className,
-}: UseBadgeOverflowProps<T>): UseBadgeOverflowReturn<T> {
+}: UseBadgeOverflowProps<T>) {
   const [containerWidth, setContainerWidth] = useState(0);
 
   useEffect(() => {
@@ -221,7 +215,7 @@ export function useBadgeOverflow<T>({
  * Clear the badge width measurement cache.
  * @public
  */
-export function clearBadgeWidthCache(): void {
+export function clearBadgeWidthCache() {
   badgeWidthCache.clear();
 }
 /* istanbul ignore end @preserve */

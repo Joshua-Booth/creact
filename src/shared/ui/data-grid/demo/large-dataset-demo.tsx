@@ -9,7 +9,7 @@ import { DataGridToolbar } from "./data-grid-demo";
 
 // --- Sample data ---
 
-function createLargeDataset(): Task[] {
+function createLargeDataset() {
   const statuses: Task["status"][] = ["todo", "in-progress", "done"];
   const priorities: Task["priority"][] = ["low", "medium", "high"];
   const assignees = ["Alice", "Bob", "Charlie", "Diana", "Eve"];

@@ -1649,7 +1649,7 @@ export function FileCell<TData extends RowData>({
   }
 
   const validateFile = useCallback(
-    (file: File): string | null => {
+    (file: File) => {
       if (maxFileSize !== 0 && file.size > maxFileSize) {
         return t("dataGrid.cell.fileSizeExceeds", {
           size: formatFileSize(maxFileSize),

@@ -7,7 +7,7 @@ import { AUTH_URLS } from "@/shared/config";
  * Called as a clientLoader before the logout page renders.
  * @returns null after cleanup completes
  */
-export async function logoutAction(): Promise<null> {
+export async function logoutAction() {
   try {
     await api.post(AUTH_URLS.LOGOUT);
   } catch {
