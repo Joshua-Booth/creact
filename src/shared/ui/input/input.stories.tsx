@@ -352,10 +352,12 @@ Default.test(
   "when user enters text, should see it in the input field",
   async ({ canvas, step }) => {
     const input = await canvas.findByPlaceholderText(/email/i);
+
     const mockedInput = "mocked@shadcn.com";
 
     await step("focus and type into the input field", async () => {
       await userEvent.click(input);
+
       await userEvent.type(input, mockedInput);
     });
 

@@ -22,6 +22,7 @@ function CarouselWithDots(args: React.ComponentProps<typeof Carousel>) {
     React.useCallback(
       (callback) => {
         api?.on("select", callback);
+
         return () => api?.off("select", callback);
       },
       [api]
@@ -84,6 +85,7 @@ function CarouselWithThumbnails(args: React.ComponentProps<typeof Carousel>) {
     React.useCallback(
       (callback) => {
         api?.on("select", callback);
+
         return () => api?.off("select", callback);
       },
       [api]
@@ -345,8 +347,11 @@ Default.test(
   "when clicking next/previous buttons, should navigate through slides",
   async ({ canvas, step }) => {
     const slides = await canvas.findAllByRole("group");
+
     await expect(slides).toHaveLength(5);
+
     const nextBtn = await canvas.findByRole("button", { name: /next/i });
+
     const prevBtn = await canvas.findByRole("button", {
       name: /previous/i,
     });
@@ -369,16 +374,21 @@ Default.test(
   "when pressing arrow keys, should navigate through slides",
   async ({ canvas }) => {
     const nextBtn = await canvas.findByRole("button", { name: /next/i });
+
     const prevBtn = await canvas.findByRole("button", { name: /previous/i });
 
     await userEvent.click(nextBtn);
+
     await waitFor(() => expect(prevBtn).toBeEnabled());
 
     await userEvent.keyboard("{ArrowRight}");
+
     await waitFor(() => expect(prevBtn).toBeEnabled());
 
     await userEvent.keyboard("{ArrowLeft}");
+
     await userEvent.keyboard("{ArrowLeft}");
+
     await waitFor(() => expect(prevBtn).toBeDisabled());
   }
 );
@@ -391,11 +401,13 @@ API.test(
     });
 
     await userEvent.click(dots[2]!);
+
     await waitFor(() =>
       expect(canvas.getByText("Slide 3 of 5")).toBeInTheDocument()
     );
 
     await userEvent.click(dots[0]!);
+
     await waitFor(() =>
       expect(canvas.getByText("Slide 1 of 5")).toBeInTheDocument()
     );

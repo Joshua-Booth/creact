@@ -56,6 +56,7 @@ function DataGridKeyboardShortcutsImpl({
 
   const onOpenChange = useCallback((isOpen: boolean) => {
     setOpen(isOpen);
+
     if (!isOpen) {
       setInput("");
     }
@@ -211,6 +212,7 @@ function DataGridKeyboardShortcutsImpl({
     if (input.trim() === "") return shortcutGroups;
 
     const query = input.toLowerCase();
+
     return shortcutGroups
       .map((group) => ({
         ...group,
@@ -225,11 +227,13 @@ function DataGridKeyboardShortcutsImpl({
     function onKeyDown(event: KeyboardEvent) {
       if ((event.ctrlKey || event.metaKey) && event.key === SHORTCUT_KEY) {
         event.preventDefault();
+
         setOpen(true);
       }
     }
 
     window.addEventListener("keydown", onKeyDown);
+
     return () => {
       window.removeEventListener("keydown", onKeyDown);
     };

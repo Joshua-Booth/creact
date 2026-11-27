@@ -83,16 +83,21 @@ interface ContextMenuInnerProps<TData extends RowData>
 /* istanbul ignore start @preserve -- memo comparator is a performance optimization */
 const ContextMenuInner = memo(ContextMenuInnerImpl, (prev, next) => {
   if (prev.contextMenu.open !== next.contextMenu.open) return false;
+
   if (!next.contextMenu.open) return true;
+
   if (prev.contextMenu.x !== next.contextMenu.x) return false;
+
   if (prev.contextMenu.y !== next.contextMenu.y) return false;
 
   const prevSize = prev.selectionState?.selectedCells.size ?? 0;
   const nextSize = next.selectionState?.selectedCells.size ?? 0;
+
   if (prevSize !== nextSize) return false;
 
   return true;
 }) as typeof ContextMenuInnerImpl;
+
 /* istanbul ignore end @preserve */
 
 /* istanbul ignore start @preserve -- browser-only context menu tested via Storybook */
@@ -109,6 +114,7 @@ function ContextMenuInnerImpl<TData extends RowData>({
   onCellsCut,
 }: ContextMenuInnerProps<TData>) {
   const { t } = useTranslation("components");
+
   const propsRef = useAsRef({
     dataGridRef,
     selectionState,
@@ -165,12 +171,16 @@ function ContextMenuInnerImpl<TData extends RowData>({
 
       const column = columns.find((col) => {
         if (col.id) return col.id === columnId;
+
         if ("accessorKey" in col) return col.accessorKey === columnId;
+
         return false;
       });
+
       const cellVariant = column?.meta?.cell?.variant;
 
       let emptyValue: unknown = "";
+
       switch (cellVariant) {
         case "multi-select":
         case "file": {
@@ -213,8 +223,10 @@ function ContextMenuInnerImpl<TData extends RowData>({
         return;
 
       const rowIndices = new Set<number>();
+
       for (const cellKey of selectionState.selectedCells) {
         const { rowIndex } = parseCellKey(cellKey);
+
         rowIndices.add(rowIndex);
       }
 
@@ -226,6 +238,7 @@ function ContextMenuInnerImpl<TData extends RowData>({
       toast.success(t("dataGrid.contextMenu.rowsDeleted", { count: rowCount }));
     })();
   }, [propsRef, t]);
+
   /* istanbul ignore end @preserve */
 
   return (

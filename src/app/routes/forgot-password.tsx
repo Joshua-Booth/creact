@@ -28,5 +28,6 @@ export default ForgotPasswordPage;
 
 export async function clientAction({ request }: Route.ClientActionArgs) {
   const formData = await request.formData();
+
   return forgotPasswordAction(formData);
 }

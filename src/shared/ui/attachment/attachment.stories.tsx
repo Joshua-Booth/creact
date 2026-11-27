@@ -253,6 +253,7 @@ Trigger.test(
     await expect(
       canvas.getByRole("link", { name: "Open quarterly-report.pdf" })
     ).toBeInTheDocument();
+
     await expect(
       canvas.getByRole("button", { name: "Remove" })
     ).toBeInTheDocument();

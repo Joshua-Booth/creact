@@ -6,11 +6,17 @@ import { pickMode, seconds, shown, stackLine } from "../src/ui.ts";
 describe("pickMode", () => {
   it("draws in a terminal and prints plain lines anywhere else", (t: TestContext) => {
     const tty = { isTTY: true };
+
     t.assert.strictEqual(pickMode(false, tty, {}), "rich");
+
     t.assert.strictEqual(pickMode(false, {}, {}), "plain");
+
     t.assert.strictEqual(pickMode(false, tty, { CI: "true" }), "plain");
+
     t.assert.strictEqual(pickMode(false, tty, { CI: "false" }), "rich");
+
     t.assert.strictEqual(pickMode(false, tty, { TERM: "dumb" }), "plain");
+
     t.assert.strictEqual(pickMode(true, tty, {}), "json");
   });
 });
@@ -27,7 +33,9 @@ describe("seconds", () => {
 describe("shown", () => {
   it("gives the path as typed under cwd, and the full path elsewhere", (t: TestContext) => {
     t.assert.strictEqual(shown("/work/my-app", "/work"), "my-app");
+
     t.assert.strictEqual(shown("/srv/my-app", "/work"), "/srv/my-app");
+
     t.assert.strictEqual(shown("/work", "/work"), "/work");
   });
 });
@@ -41,10 +49,12 @@ describe("stackLine", () => {
       toolchain: "standalone",
       extras: [],
     } as const;
+
     t.assert.strictEqual(
       stackLine(choices),
       "React Router · Tailwind CSS · pnpm workspaces"
     );
+
     t.assert.strictEqual(
       stackLine({ ...choices, stack: "next", toolchain: "vite-plus" }),
       "Next.js · Tailwind CSS · pnpm workspaces · Vite+"

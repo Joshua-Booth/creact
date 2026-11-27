@@ -102,6 +102,7 @@ Default.test("should render all rows", async ({ canvas, step }) => {
   await step("verify table rows render", async () => {
     // Check that project titles are visible (first page, default 10 per page)
     await expect(canvas.getByText("Website Redesign")).toBeVisible();
+
     await expect(canvas.getByText("Mobile App")).toBeVisible();
   });
 });
@@ -111,13 +112,17 @@ Default.test("should select a row with checkbox", async ({ canvas, step }) => {
     const firstRowCheckbox = canvas.getAllByRole("checkbox", {
       name: /select row/i,
     })[0];
+
     if (!firstRowCheckbox)
       throw new Error("Expected at least one row checkbox");
+
     await userEvent.click(firstRowCheckbox);
+
     await waitFor(async () => {
       const dataRow = canvas
         .getAllByRole("row")
         .find((row) => row.getAttribute("data-state") === "selected");
+
       await expect(dataRow).toBeDefined();
     });
   });
@@ -128,6 +133,7 @@ Default.test("should render view options toggle", async ({ canvas, step }) => {
     const viewButton = canvas.getByRole("combobox", {
       name: /toggle columns/i,
     });
+
     await expect(viewButton).toBeVisible();
   });
 });
@@ -139,11 +145,14 @@ Default.test(
       const headerCheckbox = canvas.getByRole("checkbox", {
         name: /select all/i,
       });
+
       await userEvent.click(headerCheckbox);
+
       await waitFor(async () => {
         const selectedRows = canvas
           .getAllByRole("row")
           .filter((row) => row.getAttribute("data-state") === "selected");
+
         await expect(selectedRows.length).toBeGreaterThan(0);
       });
     });
@@ -157,12 +166,14 @@ Default.test(
       "click Budget header and verify sort options appear",
       async () => {
         const budgetHeader = canvas.getByRole("button", { name: /budget/i });
+
         await userEvent.click(budgetHeader);
 
         await waitFor(async () => {
           const sortItems = canvasElement.ownerDocument.querySelectorAll(
             '[role="menuitemcheckbox"]'
           );
+
           await expect(sortItems.length).toBeGreaterThanOrEqual(2);
         });
 
@@ -177,13 +188,17 @@ Default.test(
   async ({ canvas, step }) => {
     await step("type in title filter and verify filtering", async () => {
       const filterInput = canvas.getByPlaceholderText(/search titles/i);
+
       await userEvent.clear(filterInput);
+
       await userEvent.type(filterInput, "Design");
+
       await waitFor(async () => {
         await expect(filterInput).toHaveValue("Design");
       });
 
       await userEvent.clear(filterInput);
+
       await waitFor(async () => {
         await expect(filterInput).toHaveValue("");
       });
@@ -198,16 +213,19 @@ Default.test(
       const viewButton = canvas.getByRole("combobox", {
         name: /toggle columns/i,
       });
+
       await userEvent.click(viewButton);
 
       await waitFor(async () => {
         const option =
           canvasElement.ownerDocument.querySelector('[role="option"]');
+
         await expect(option).not.toBeNull();
       });
 
       const options =
         canvasElement.ownerDocument.querySelectorAll('[role="option"]');
+
       if (options.length > 0 && options[0]) {
         await userEvent.click(options[0]);
       }
@@ -220,12 +238,14 @@ Default.test(
   async ({ canvas, canvasElement, step }) => {
     await step("open Title dropdown and click Desc", async () => {
       const titleHeader = canvas.getByRole("button", { name: /title/i });
+
       await userEvent.click(titleHeader);
 
       await waitFor(async () => {
         const menuItems = canvasElement.ownerDocument.querySelectorAll(
           '[role="menuitemcheckbox"]'
         );
+
         await expect(menuItems.length).toBeGreaterThanOrEqual(2);
       });
 
@@ -233,21 +253,25 @@ Default.test(
       const menuItems = canvasElement.ownerDocument.querySelectorAll(
         '[role="menuitemcheckbox"]'
       );
+
       if (menuItems[1]) await fireEvent.click(menuItems[1]);
     });
 
     await step("re-open dropdown and click Reset", async () => {
       const titleHeader = canvas.getByRole("button", { name: /title/i });
+
       await userEvent.click(titleHeader);
 
       await waitFor(async () => {
         const resetItem =
           canvasElement.ownerDocument.querySelector('[role="menuitem"]');
+
         await expect(resetItem).not.toBeNull();
       });
 
       const resetItem =
         canvasElement.ownerDocument.querySelector('[role="menuitem"]');
+
       if (resetItem) await fireEvent.click(resetItem);
     });
   }
@@ -259,16 +283,20 @@ Default.test(
     await step("open Status dropdown and click Hide", async () => {
       // Target the column header button inside thead to avoid matching the filter button
       const thead = canvasElement.querySelector("thead");
+
       if (!thead) throw new Error("Expected thead");
+
       const statusHeader = within(thead).getByRole("button", {
         name: /status/i,
       });
+
       await userEvent.click(statusHeader);
 
       await waitFor(async () => {
         const menuItems = canvasElement.ownerDocument.querySelectorAll(
           '[role="menuitemcheckbox"]'
         );
+
         await expect(menuItems.length).toBeGreaterThanOrEqual(1);
       });
 
@@ -276,19 +304,24 @@ Default.test(
       const menuItems = canvasElement.ownerDocument.querySelectorAll(
         '[role="menuitemcheckbox"]'
       );
+
       const hideItem = [...menuItems].find((item) =>
         item.textContent.includes("Hide")
       );
+
       if (hideItem) await fireEvent.click(hideItem);
     });
 
     await step("verify Status column header is gone from thead", async () => {
       await waitFor(async () => {
         const thead = canvasElement.querySelector("thead");
+
         if (!thead) throw new Error("Expected thead");
+
         const statusHeader = within(thead).queryByRole("button", {
           name: /status/i,
         });
+
         await expect(statusHeader).toBeNull();
       });
     });
@@ -300,18 +333,21 @@ Default.test(
   async ({ canvas, canvasElement, step }) => {
     await step("open header dropdown and click Sort asc", async () => {
       const titleHeader = canvas.getByRole("button", { name: /title/i });
+
       await userEvent.click(titleHeader);
 
       await waitFor(async () => {
         const sortAsc = canvasElement.ownerDocument.querySelector(
           '[role="menuitemcheckbox"]'
         );
+
         await expect(sortAsc).not.toBeNull();
       });
 
       const sortItems = canvasElement.ownerDocument.querySelectorAll(
         '[role="menuitemcheckbox"]'
       );
+
       if (sortItems[0]) {
         await userEvent.click(sortItems[0]);
       }
@@ -319,6 +355,7 @@ Default.test(
 
     await step("verify sort was applied", async () => {
       const titleHeader = canvas.getByRole("button", { name: /title/i });
+
       await expect(titleHeader).toBeVisible();
     });
   }
@@ -329,15 +366,20 @@ AllFilters.test(
   async ({ canvas, canvasElement, step }) => {
     await step("verify filter controls are present", async () => {
       await expect(canvas.getByPlaceholderText(/search titles/i)).toBeVisible();
+
       await expect(canvas.getByPlaceholderText(/budget/i)).toBeVisible();
+
       const toolbar = canvasElement.querySelector(
         '[data-slot="data-table-toolbar"]'
       );
+
       await expect(toolbar).not.toBeNull();
+
       // Faceted filter buttons (rendered with border-dashed class)
       const filterButtons = canvasElement.querySelectorAll(
         '[data-slot="data-table-toolbar"] button.border-dashed'
       );
+
       await expect(filterButtons.length).toBeGreaterThanOrEqual(3);
     });
   }
@@ -346,7 +388,9 @@ AllFilters.test(
 AllFilters.test("should filter by number input", async ({ canvas, step }) => {
   await step("type in budget number filter", async () => {
     const numberInput = canvas.getByPlaceholderText(/budget/i);
+
     await userEvent.type(numberInput, "10000");
+
     await expect(numberInput).toHaveValue(10_000);
   });
 });
@@ -360,12 +404,15 @@ AllFilters.test(
       );
 
       let statusButton: HTMLElement | null = null;
+
       for (const btn of filterButtons) {
         if (btn.textContent.includes("Status")) {
           statusButton = btn as HTMLElement;
+
           break;
         }
       }
+
       if (!statusButton) throw new Error("Expected Status filter button");
 
       await userEvent.click(statusButton);
@@ -373,6 +420,7 @@ AllFilters.test(
       await waitFor(async () => {
         const popover =
           canvasElement.ownerDocument.querySelector('[role="dialog"]');
+
         await expect(popover).not.toBeNull();
       });
     });
@@ -381,6 +429,7 @@ AllFilters.test(
       const options = canvasElement.ownerDocument.querySelectorAll(
         '[data-slot="popover-content"] [role="option"]'
       );
+
       await expect(options.length).toBeGreaterThan(0);
 
       if (options[0]) {
@@ -403,12 +452,15 @@ AllFilters.test(
       );
 
       let progressButton: HTMLElement | null = null;
+
       for (const btn of filterButtons) {
         if (btn.textContent.includes("Progress")) {
           progressButton = btn as HTMLElement;
+
           break;
         }
       }
+
       if (!progressButton) throw new Error("Expected Progress filter button");
 
       await userEvent.click(progressButton);
@@ -418,6 +470,7 @@ AllFilters.test(
         const inputs = canvasElement.ownerDocument.querySelectorAll(
           'input[type="number"]'
         );
+
         await expect(inputs.length).toBeGreaterThanOrEqual(2);
       });
     });
@@ -426,10 +479,13 @@ AllFilters.test(
       const inputs = canvasElement.ownerDocument.querySelectorAll(
         'input[type="number"]'
       );
+
       const fromInput = inputs[0];
+
       if (!fromInput) throw new Error("Expected from input");
 
       await userEvent.clear(fromInput);
+
       await userEvent.type(fromInput, "25");
     });
 
@@ -438,6 +494,7 @@ AllFilters.test(
         const clearBtn = canvasElement.ownerDocument.querySelector(
           'button[aria-label*="Clear"]'
         );
+
         await expect(clearBtn).not.toBeNull();
       });
     });
@@ -453,18 +510,22 @@ AllFilters.test(
       );
 
       let dateButton: HTMLElement | null = null;
+
       for (const btn of filterButtons) {
         if (btn.textContent.includes("Start Date")) {
           dateButton = btn as HTMLElement;
+
           break;
         }
       }
+
       if (!dateButton) throw new Error("Expected Start Date filter button");
 
       await userEvent.click(dateButton);
 
       await waitFor(async () => {
         const calendar = canvasElement.ownerDocument.querySelector("table");
+
         await expect(calendar).not.toBeNull();
       });
     });
@@ -473,6 +534,7 @@ AllFilters.test(
       const dayButtons = canvasElement.ownerDocument.querySelectorAll(
         'table button[name="day"]'
       );
+
       if (dayButtons.length > 0 && dayButtons[10]) {
         await userEvent.click(dayButtons[10]);
       }
@@ -487,37 +549,47 @@ AllFilters.test(
       const filterButtons = canvasElement.querySelectorAll(
         '[data-slot="data-table-toolbar"] button.border-dashed'
       );
+
       let statusButton: HTMLElement | null = null;
+
       for (const btn of filterButtons) {
         if (btn.textContent.includes("Status")) {
           statusButton = btn as HTMLElement;
+
           break;
         }
       }
+
       if (!statusButton) throw new Error("Expected Status filter button");
+
       await userEvent.click(statusButton);
 
       await waitFor(async () => {
         const options = canvasElement.ownerDocument.querySelectorAll(
           '[data-slot="popover-content"] [role="option"]'
         );
+
         await expect(options.length).toBeGreaterThanOrEqual(3);
       });
 
       // Select all 3 options one at a time, skipping already-selected ones
       // (prior tests in the same story may have toggled some options on)
       const win = canvasElement.ownerDocument.defaultView ?? window;
+
       for (let i = 0; i < 3; i++) {
         const opts = canvasElement.ownerDocument.querySelectorAll(
           '[data-slot="popover-content"] [role="option"]'
         );
+
         const opt = opts[i];
+
         if (!opt) continue;
 
         // Only click if the option is not already selected.
         // Selected options have a visible check SVG; unselected ones
         // use [&_svg]:invisible (visibility: hidden).
         const svg = opt.querySelector("svg.lucide-check");
+
         if (!svg || win.getComputedStyle(svg).visibility === "hidden") {
           await userEvent.click(opt);
         }
@@ -527,7 +599,9 @@ AllFilters.test(
           const freshOpts = canvasElement.ownerDocument.querySelectorAll(
             '[data-slot="popover-content"] [role="option"]'
           );
+
           const checkmark = freshOpts[i]?.querySelector("svg.lucide-check");
+
           await expect(checkmark).toBeVisible();
         });
       }
@@ -535,15 +609,18 @@ AllFilters.test(
 
     await step("verify aggregate badge appears", async () => {
       await userEvent.keyboard("{Escape}");
+
       // "3 selected" renders on lg+ screens; "3" badge renders on smaller viewports
       await waitFor(
         async () => {
           const badges = canvasElement.querySelectorAll('[data-slot="badge"]');
+
           const hasBadgeWith3 = [...badges].some(
             (b) =>
               b.textContent.includes("3 selected") ||
               b.textContent.trim() === "3"
           );
+
           await expect(hasBadgeWith3).toBe(true);
         },
         { timeout: 5000 }
@@ -559,26 +636,33 @@ AllFilters.test(
       const filterButtons = canvasElement.querySelectorAll(
         '[data-slot="data-table-toolbar"] button.border-dashed'
       );
+
       let statusButton: HTMLElement | null = null;
+
       for (const btn of filterButtons) {
         if (btn.textContent.includes("Status")) {
           statusButton = btn as HTMLElement;
+
           break;
         }
       }
+
       if (!statusButton) throw new Error("Expected Status filter button");
+
       await userEvent.click(statusButton);
 
       await waitFor(async () => {
         const options = canvasElement.ownerDocument.querySelectorAll(
           '[data-slot="popover-content"] [role="option"]'
         );
+
         await expect(options.length).toBeGreaterThan(0);
       });
 
       const options = canvasElement.ownerDocument.querySelectorAll(
         '[data-slot="popover-content"] [role="option"]'
       );
+
       if (options[0]) await userEvent.click(options[0]);
     });
 
@@ -587,16 +671,19 @@ AllFilters.test(
         const clearItem = canvasElement.ownerDocument.querySelector(
           '[data-slot="popover-content"] [role="option"]'
         );
+
         await expect(clearItem).not.toBeNull();
       });
 
       const allOptions = canvasElement.ownerDocument.querySelectorAll(
         '[data-slot="popover-content"] [role="option"]'
       );
+
       // "Clear filters" is the last option after the separator
       const clearOption = [...allOptions].find((opt) =>
         opt.textContent.includes("Clear filters")
       );
+
       if (clearOption) await userEvent.click(clearOption);
     });
 
@@ -613,21 +700,28 @@ AllFilters.test(
       const filterButtons = canvasElement.querySelectorAll(
         '[data-slot="data-table-toolbar"] button.border-dashed'
       );
+
       let progressButton: HTMLElement | null = null;
+
       for (const btn of filterButtons) {
         if (btn.textContent.includes("Progress")) {
           progressButton = btn as HTMLElement;
+
           break;
         }
       }
+
       if (!progressButton) throw new Error("Expected Progress filter button");
+
       await userEvent.click(progressButton);
 
       await waitFor(async () => {
         const popover = canvasElement.ownerDocument.querySelector(
           '[data-slot="popover-content"]'
         );
+
         const inputs = popover?.querySelectorAll('input[type="number"]');
+
         await expect(inputs?.length).toBeGreaterThanOrEqual(2);
       });
     });
@@ -636,12 +730,16 @@ AllFilters.test(
       const popover = canvasElement.ownerDocument.querySelector(
         '[data-slot="popover-content"]'
       );
+
       if (!popover) throw new Error("Expected popover content");
+
       const inputs = popover.querySelectorAll('input[type="number"]');
       const toInput = inputs[1];
+
       if (!toInput) throw new Error("Expected To input");
 
       await userEvent.clear(toInput);
+
       await userEvent.type(toInput, "75");
     });
   }
@@ -654,32 +752,44 @@ AllFilters.test(
       const filterButtons = canvasElement.querySelectorAll(
         '[data-slot="data-table-toolbar"] button.border-dashed'
       );
+
       let progressButton: HTMLElement | null = null;
+
       for (const btn of filterButtons) {
         if (btn.textContent.includes("Progress")) {
           progressButton = btn as HTMLElement;
+
           break;
         }
       }
+
       if (!progressButton) throw new Error("Expected Progress filter button");
+
       await userEvent.click(progressButton);
 
       await waitFor(async () => {
         const popover = canvasElement.ownerDocument.querySelector(
           '[data-slot="popover-content"]'
         );
+
         const inputs = popover?.querySelectorAll('input[type="number"]');
+
         await expect(inputs?.length).toBeGreaterThanOrEqual(2);
       });
 
       const popover = canvasElement.ownerDocument.querySelector(
         '[data-slot="popover-content"]'
       );
+
       if (!popover) throw new Error("Expected popover content");
+
       const inputs = popover.querySelectorAll('input[type="number"]');
       const fromInput = inputs[0];
+
       if (!fromInput) throw new Error("Expected from input");
+
       await userEvent.clear(fromInput);
+
       await userEvent.type(fromInput, "25");
     });
 
@@ -687,11 +797,15 @@ AllFilters.test(
       const popover = canvasElement.ownerDocument.querySelector(
         '[data-slot="popover-content"]'
       );
+
       if (!popover) throw new Error("Expected popover content");
+
       const popoverScope = within(popover as HTMLElement);
+
       const clearBtn = popoverScope.getByRole("button", {
         name: /clear progress filter/i,
       });
+
       // fireEvent bypasses pointer-events check on popover overlay
       await fireEvent.click(clearBtn);
     });
@@ -703,7 +817,9 @@ AllFilters.test(
   async ({ canvas, canvasElement, step }) => {
     await step("set a text filter to make Reset button appear", async () => {
       const filterInput = canvas.getByPlaceholderText(/search titles/i);
+
       await userEvent.clear(filterInput);
+
       await userEvent.type(filterInput, "test");
     });
 
@@ -713,13 +829,16 @@ AllFilters.test(
           const resetBtn = canvas.getByRole("button", {
             name: /reset filters/i,
           });
+
           await expect(resetBtn).toBeTruthy();
         },
         { timeout: 3000 }
       );
+
       const resetBtn = canvas.getByRole("button", {
         name: /reset filters/i,
       });
+
       await fireEvent.click(resetBtn);
     });
 
@@ -728,6 +847,7 @@ AllFilters.test(
         const resetBtn = canvasElement.querySelector(
           'button[aria-label="Reset filters"]'
         );
+
         await expect(resetBtn).toBeNull();
       });
     });
@@ -737,6 +857,7 @@ AllFilters.test(
 Pagination.test("should navigate between pages", async ({ canvas, step }) => {
   await step("verify pagination controls are present", async () => {
     await expect(canvas.getByText(/page 1 of/i)).toBeVisible();
+
     await expect(
       canvas.getByRole("button", { name: /go to next page/i })
     ).toBeVisible();
@@ -746,7 +867,9 @@ Pagination.test("should navigate between pages", async ({ canvas, step }) => {
     const nextButton = canvas.getByRole("button", {
       name: /go to next page/i,
     });
+
     await userEvent.click(nextButton);
+
     await waitFor(async () => {
       await expect(canvas.getByText(/page 2 of/i)).toBeVisible();
     });
@@ -779,6 +902,7 @@ Pagination.test(
       const prevButton = canvas.getByRole("button", {
         name: /go to previous page/i,
       });
+
       if (!(prevButton as HTMLButtonElement).disabled) {
         await userEvent.click(prevButton);
       }
@@ -796,6 +920,7 @@ Pagination.test(
       const trigger = canvas.getByRole("combobox", {
         name: /rows per page/i,
       });
+
       await userEvent.click(trigger);
 
       // Select 20 rows per page. The popup mounts in its closed state before
@@ -804,6 +929,7 @@ Pagination.test(
         "option",
         { name: "20" }
       );
+
       await userEvent.click(option);
     });
   }
@@ -817,6 +943,7 @@ Pagination.test(
       const firstPageBtn = canvas.getByRole("button", {
         name: /go to first page/i,
       });
+
       await expect(firstPageBtn).toBeDisabled();
     });
 
@@ -824,7 +951,9 @@ Pagination.test(
       const nextButton = canvas.getByRole("button", {
         name: /go to next page/i,
       });
+
       await userEvent.click(nextButton);
+
       await waitFor(async () => {
         await expect(canvas.getByText(/page 2 of/i)).toBeVisible();
       });
@@ -834,7 +963,9 @@ Pagination.test(
       const firstPageBtn = canvas.getByRole("button", {
         name: /go to first page/i,
       });
+
       await userEvent.click(firstPageBtn);
+
       await waitFor(async () => {
         await expect(canvas.getByText(/page 1 of/i)).toBeVisible();
       });
@@ -844,11 +975,14 @@ Pagination.test(
       const lastPageBtn = canvas.getByRole("button", {
         name: /go to last page/i,
       });
+
       await userEvent.click(lastPageBtn);
+
       await waitFor(async () => {
         const lastPageBtn2 = canvas.getByRole("button", {
           name: /go to last page/i,
         });
+
         await expect(lastPageBtn2).toBeDisabled();
       });
     });
@@ -885,9 +1019,12 @@ ActionBar.test(
       const firstRowCheckbox = canvas.getAllByRole("checkbox", {
         name: /select row/i,
       })[0];
+
       if (!firstRowCheckbox)
         throw new Error("Expected at least one row checkbox");
+
       await userEvent.click(firstRowCheckbox);
+
       await waitFor(async () => {
         await expect(canvas.getByText("Delete selected")).toBeVisible();
       });
@@ -903,9 +1040,11 @@ NonSortableColumn.test(
       async () => {
         // The ID column header should be plain text, not a button
         await expect(canvas.getByText("ID")).toBeVisible();
+
         // Should not be a button
         const buttons = canvas.getAllByRole("button");
         const idButton = buttons.find((btn) => btn.textContent.trim() === "ID");
+
         await expect(idButton).toBeUndefined();
       }
     );
@@ -919,23 +1058,33 @@ FacetedFilterWithCounts.test(
       const filterButtons = canvasElement.querySelectorAll(
         '[data-slot="data-table-toolbar"] button.border-dashed'
       );
+
       let statusButton: HTMLElement | null = null;
+
       for (const btn of filterButtons) {
         if (btn.textContent.includes("Status")) {
           statusButton = btn as HTMLElement;
+
           break;
         }
       }
+
       if (!statusButton) throw new Error("Expected Status filter button");
+
       await userEvent.click(statusButton);
 
       await waitFor(async () => {
         const doc = within(canvasElement.ownerDocument.body);
+
         await expect(doc.getByText("5")).toBeVisible();
+
         // "3" and "2" may match multiple elements (table data + filter counts)
         const threes = doc.getAllByText("3");
+
         await expect(threes.length).toBeGreaterThanOrEqual(1);
+
         const twos = doc.getAllByText("2");
+
         await expect(twos.length).toBeGreaterThanOrEqual(1);
       });
     });

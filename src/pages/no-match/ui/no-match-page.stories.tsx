@@ -59,6 +59,7 @@ Default.test(
     await expect(canvas.getByRole("heading", { level: 1 })).toHaveTextContent(
       "404 - Page Not Found"
     );
+
     await expect(
       canvas.getByText("Sorry, the page you are looking for does not exist.")
     ).toBeVisible();
@@ -71,6 +72,7 @@ RouteError.test(
     await expect(canvas.getByRole("heading", { level: 1 })).toHaveTextContent(
       "404 - Page Not Found"
     );
+
     await expect(canvas.getByText("404: Not Found")).toBeVisible();
   }
 );

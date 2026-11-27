@@ -194,6 +194,7 @@ function SortControl<TData extends RowData>({
 
   function toggleColumnSort(columnId: string) {
     const existing = sorting.find((s) => s.id === columnId);
+
     if (!existing) {
       table.setSorting([...sorting, { id: columnId, desc: false }]);
     } else if (existing.desc) {
@@ -233,6 +234,7 @@ function SortControl<TData extends RowData>({
               {sortableColumns.map((col) => {
                 const active = sorting.find((s) => s.id === col.id);
                 const label = col.columnDef.meta?.label ?? col.id;
+
                 return (
                   <CommandItem
                     key={col.id}
@@ -256,6 +258,7 @@ function SortControl<TData extends RowData>({
                         className="text-muted-foreground hover:text-foreground ml-auto"
                         onClick={(e) => {
                           e.stopPropagation();
+
                           removeSort(col.id);
                         }}
                       >
@@ -286,7 +289,9 @@ function getFilterableColumns<TData extends RowData>(
     .getAllColumns()
     .filter((col) => {
       const cell = col.columnDef.meta?.cell;
+
       if (!cell) return false;
+
       return (
         (cell.variant === "select" || cell.variant === "multi-select") &&
         "options" in cell &&
@@ -298,6 +303,7 @@ function getFilterableColumns<TData extends RowData>(
         variant: "select" | "multi-select";
         options: CellSelectOption[];
       };
+
       return {
         id: col.id,
         label: col.columnDef.meta?.label ?? col.id,
@@ -319,18 +325,23 @@ function FilterControl<TData extends RowData>({
 
   const activeFilterCount = columnFilters.filter((f) => {
     const val = f.value;
+
     if (Array.isArray(val)) return val.length > 0;
+
     return val != null && val !== "";
   }).length;
 
   function toggleFilterOption(columnId: string, optionValue: string) {
     const column = table.getColumn(columnId);
+
     if (!column) return;
 
     const current = (column.getFilterValue() as string[] | undefined) ?? [];
+
     const next = current.includes(optionValue)
       ? current.filter((v) => v !== optionValue)
       : [...current, optionValue];
+
     column.setFilterValue(next.length > 0 ? next : undefined);
   }
 
@@ -363,6 +374,7 @@ function FilterControl<TData extends RowData>({
             <CommandGroup>
               {filterableColumns.map((fc) => {
                 const isExpanded = expandedColumn === fc.id;
+
                 const currentValues =
                   (table.getColumn(fc.id)?.getFilterValue() as
                     | string[]
@@ -395,6 +407,7 @@ function FilterControl<TData extends RowData>({
                     {isExpanded &&
                       fc.options.map((opt) => {
                         const isSelected = currentValues.includes(opt.value);
+
                         return (
                           <CommandItem
                             key={opt.value}
@@ -464,8 +477,10 @@ function RowHeightControl({
           onValueChange={(newValue: unknown) => {
             const values = newValue as string[];
             const selected = values[0] as RowHeightValue | undefined;
+
             if (selected != null) {
               onChange(selected);
+
               setOpen(false);
             }
           }}
@@ -520,6 +535,7 @@ function ViewControl<TData extends RowData>({
               {hideableColumns.map((col) => {
                 const isVisible = col.getIsVisible();
                 const label = col.columnDef.meta?.label ?? col.id;
+
                 return (
                   <CommandItem
                     key={col.id}
@@ -656,7 +672,9 @@ export function DataGridDemo({ readOnly = false }: { readOnly?: boolean }) {
       effort: 1,
       dueDate: new Date().toISOString().split("T")[0] ?? "",
     };
+
     setData((prev) => [...prev, newRow]);
+
     return null;
   };
 

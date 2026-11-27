@@ -121,6 +121,7 @@ function AlertDialogMedia({
     />
   );
 }
+
 /* istanbul ignore end @preserve */
 
 /** Accessible heading for the alert dialog. */

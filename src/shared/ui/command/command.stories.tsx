@@ -383,27 +383,34 @@ Default.test(
       async () => {
         // cspell:ignore calen
         await userEvent.type(input, "calen", { delay: 100 });
+
         await expect(
           canvas.getAllByRole("option", { name: /calendar/i })
         ).toHaveLength(1);
+
         await userEvent.clear(input);
       }
     );
 
     await step("search for 'se' returns multiple results", async () => {
       await userEvent.type(input, "se", { delay: 100 });
+
       await expect(canvas.getAllByRole("option").length).toBeGreaterThan(1);
+
       await expect(
         canvas.getAllByRole("option", { name: /search/i })
       ).toHaveLength(1);
+
       await userEvent.clear(input);
     });
 
     await step("search for 'story' returns no results", async () => {
       await userEvent.type(input, "story", { delay: 100 });
+
       await expect(
         canvas.queryAllByRole("option", { hidden: false })
       ).toHaveLength(0);
+
       await expect(canvas.getByText(/no results/i)).toBeVisible();
     });
   }

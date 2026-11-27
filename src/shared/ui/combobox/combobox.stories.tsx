@@ -433,6 +433,7 @@ Default.test(
 
     await step("open combobox and select an item", async () => {
       const input = canvas.getByPlaceholderText("Select a fruit...");
+
       await userEvent.click(input);
 
       await waitFor(async () => {
@@ -446,6 +447,7 @@ Default.test(
 
     await step("verify input shows selected value", async () => {
       const input = canvas.getByPlaceholderText("Select a fruit...");
+
       await expect(input).toHaveValue("Banana");
     });
   }
@@ -491,7 +493,9 @@ Default.test(
 
     await step("type in input and verify value updates", async () => {
       const input = canvas.getByPlaceholderText("Search fruits...");
+
       await userEvent.click(input);
+
       await userEvent.type(input, "Blu");
 
       await expect(input).toHaveValue("Blu");
@@ -545,7 +549,9 @@ Default.test(
 
     await step("type non-matching text", async () => {
       const input = canvas.getByPlaceholderText("Search fruits...");
+
       await userEvent.click(input);
+
       await userEvent.type(input, "xyz123");
     });
 
@@ -599,6 +605,7 @@ Default.test(
   async ({ canvas, canvasElement, step }) => {
     await step("verify initial value is set", async () => {
       const input = canvas.getByPlaceholderText("Select a fruit...");
+
       await expect(input).toHaveValue("Apple");
     });
 
@@ -607,9 +614,11 @@ Default.test(
       const clearButton = canvasElement.querySelector(
         '[data-slot="combobox-clear"]'
       )!;
+
       await userEvent.click(clearButton);
 
       const input = canvas.getByPlaceholderText("Select a fruit...");
+
       await expect(input).toHaveValue("");
     });
   }
@@ -655,7 +664,9 @@ Default.test(
 
     await step("focus input and press ArrowDown to open listbox", async () => {
       const input = canvas.getByPlaceholderText("Select a fruit...");
+
       await userEvent.click(input);
+
       await userEvent.keyboard("{ArrowDown}");
 
       await waitFor(async () => {
@@ -668,16 +679,20 @@ Default.test(
 
       await waitFor(async () => {
         const options = canvasBody.getAllByRole("option");
+
         const highlighted = options.find(
           (opt) => opt.getAttribute("data-highlighted") !== null
         );
+
         await expect(highlighted).toBeDefined();
       });
     });
 
     await step("press Enter to select highlighted option", async () => {
       await userEvent.keyboard("{Enter}");
+
       const input = canvas.getByPlaceholderText("Select a fruit...");
+
       await waitFor(async () => {
         await expect(input).not.toHaveValue("");
       });
@@ -685,7 +700,9 @@ Default.test(
 
     await step("press ArrowDown to reopen and Escape to close", async () => {
       const input = canvas.getByPlaceholderText("Select a fruit...");
+
       await userEvent.clear(input);
+
       await userEvent.type(input, "App");
 
       await waitFor(async () => {
@@ -693,6 +710,7 @@ Default.test(
       });
 
       await userEvent.keyboard("{Escape}");
+
       await waitFor(async () => {
         await expect(canvasBody.queryByRole("listbox")).not.toBeInTheDocument();
       });

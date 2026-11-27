@@ -172,12 +172,15 @@ Default.test(
 
     await step("verify dropdown menu items appear", async () => {
       const body = within(canvasElement.ownerDocument.body);
+
       await expect(
         await body.findByRole("menuitem", { name: "Products" })
       ).toBeInTheDocument();
+
       await expect(
         await body.findByRole("menuitem", { name: "Categories" })
       ).toBeInTheDocument();
+
       await expect(
         await body.findByRole("menuitem", { name: "Electronics" })
       ).toBeInTheDocument();

@@ -225,6 +225,7 @@ const moodOptions = [
 function formatDuration(seconds: number): string {
   const m = Math.floor(seconds / 60);
   const s = seconds % 60;
+
   return `${m}:${String(s).padStart(2, "0")}`;
 }
 
@@ -315,6 +316,7 @@ export function MusicLibraryDemo() {
         ),
         cell: ({ cell }) => {
           const genre = cell.getValue<string>();
+
           const dotColors: Record<string, string> = {
             Rock: "bg-red-500",
             Funk: "bg-orange-500",
@@ -324,7 +326,9 @@ export function MusicLibraryDemo() {
             Pop: "bg-pink-500",
             "R&B": "bg-emerald-500",
           };
+
           const dotColor = dotColors[genre] ?? "bg-gray-500";
+
           return (
             <Badge variant="outline">
               <span className={cn("size-2 shrink-0 rounded-full", dotColor)} />

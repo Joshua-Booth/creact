@@ -43,19 +43,24 @@ import {
 
 const MAIN = path.join(import.meta.dirname, "../src/main.ts");
 const LAYER = path.join(import.meta.dirname, "../layer");
+
 const IDENTITY = [
   "-c",
   "user.name=create-creact test",
   "-c",
   "user.email=test@example.invalid",
 ];
+
 const SRC = "apps/web/src";
 const CHECKS = ["build", "typecheck", "lint", "format:check", "test"];
 const STACK_IDS = Object.keys(STACKS) as StackId[];
+
 const STYLING_IDS = Object.keys(STYLINGS).filter((id): id is StylingId =>
   isBuilt(STYLINGS, id)
 );
+
 const MONOREPO_IDS = Object.keys(MONOREPOS) as MonorepoId[];
+
 const TOOLCHAIN_IDS = Object.keys(TOOLCHAINS).filter((id): id is ToolchainId =>
   isBuilt(TOOLCHAINS, id)
 );
@@ -70,6 +75,7 @@ function selected(
   toolchain: ToolchainId
 ): boolean {
   const keys = monorepo === "pnpm" ? ["1", stack, `${stack}:${styling}`] : [];
+
   return [...keys, `${stack}:${styling}:${monorepo}`].some(
     (key) =>
       SCAFFOLD.has(`${toolchain}:${key}`) ||
@@ -108,8 +114,11 @@ function readJson(file: string): JsonObject {
 function leftOver(doc: JsonObject, removal: Removal): string[] {
   return Object.entries(removal).flatMap(([key, rule]) => {
     const value = doc[key];
+
     if (value === undefined) return [];
+
     if (rule === null) return [key];
+
     return isObject(value) ? leftOver(value, rule) : [];
   });
 }
@@ -202,6 +211,7 @@ const noticeTest = (vitest: string): string =>
 
 function renameLast(css: string, from: string, to: string): string {
   const at = css.lastIndexOf(from);
+
   return `${css.slice(0, at)}${to}${css.slice(at + from.length)}`;
 }
 
@@ -247,8 +257,11 @@ const TOOL_CONFIG: Readonly<Record<MonorepoId, string | undefined>> = {
 
 function withEmptyHome(parent: string): NodeJS.ProcessEnv {
   const home = path.join(parent, "home");
+
   mkdirSync(home);
+
   const store = sh(parent, "pnpm", ["store", "path"]).stdout.trim();
+
   return {
     ...PROJECT_ENV,
     HOME: home,
@@ -281,7 +294,9 @@ for (const [id, styling, monorepo, toolchain] of STACK_IDS.flatMap((stackId) =>
 
       before(() => {
         parent = mkdtempSync(path.join(tmpdir(), "create-creact-"));
+
         dir = path.join(parent, "app");
+
         env = withEmptyHome(parent);
       });
 
@@ -307,13 +322,18 @@ for (const [id, styling, monorepo, toolchain] of STACK_IDS.flatMap((stackId) =>
           ],
           env
         );
+
         t.assert.strictEqual(result.status, 0, result.stderr);
+
         t.assert.match(result.stdout, / 0 unchanged, 0 kept\n/);
+
         t.assert.match(result.stdout, /^done skills {4}restored into/m);
+
         t.assert.deepStrictEqual(
           readdirSync(parent).filter((entry) => entry.includes("staging")),
           []
         );
+
         t.assert.deepStrictEqual(
           readdirSync(path.join(parent, "home"), {
             recursive: true,
@@ -323,17 +343,21 @@ for (const [id, styling, monorepo, toolchain] of STACK_IDS.flatMap((stackId) =>
         );
 
         const ids: readonly OverlayId[] = ["base", toolchain, styling];
+
         const prune = plan(await loadLayer(LAYER, ids, id), ids, {
           stack: id,
           monorepo,
           toolchain,
           name: projectName(dir),
         }).find((op) => op.kind === "prune");
+
         t.assert.ok(prune?.kind === "prune");
+
         t.assert.deepStrictEqual(
           prune.paths.filter((entry) => existsSync(path.join(dir, entry))),
           []
         );
+
         t.assert.deepStrictEqual(
           prune.json.flatMap(({ file, removal }) =>
             leftOver(readJson(path.join(dir, file)), removal)
@@ -342,6 +366,7 @@ for (const [id, styling, monorepo, toolchain] of STACK_IDS.flatMap((stackId) =>
         );
 
         const config = TOOL_CONFIG[monorepo];
+
         t.assert.deepStrictEqual(
           Object.values(TOOL_CONFIG).filter(
             (file) => file !== undefined && existsSync(path.join(dir, file))
@@ -354,23 +379,30 @@ for (const [id, styling, monorepo, toolchain] of STACK_IDS.flatMap((stackId) =>
         const lock = readJson(path.join(dir, "skills-lock.json")) as {
           skills: JsonObject;
         };
+
         const ids = Object.keys(lock.skills);
+
         t.assert.ok(ids.length > 0);
+
         t.assert.strictEqual(ids.includes("shadcn"), styling === "tailwind");
+
         for (const skill of ids) {
           t.assert.ok(
             existsSync(path.join(dir, ".claude/skills", skill, "SKILL.md")),
             skill
           );
         }
+
         t.assert.strictEqual(
           readFileSync(path.join(dir, "CLAUDE.md"), "utf8"),
           "@AGENTS.md\n"
         );
+
         t.assert.match(
           readFileSync(path.join(dir, "AGENTS.md"), "utf8"),
           /^# app\n/
         );
+
         t.assert.strictEqual(
           existsSync(path.join(dir, "apps/web/CLAUDE.md")),
           id === "next"
@@ -382,18 +414,22 @@ for (const [id, styling, monorepo, toolchain] of STACK_IDS.flatMap((stackId) =>
           sh(dir, "git", ["config", "core.hooksPath"]).stdout.trim(),
           HOOKS_PATH[toolchain]
         );
+
         sh(dir, "git", ["add", "--all"]);
+
         const result = sh(dir, "git", [
           ...IDENTITY,
           "commit",
           "--message",
           "chore: start from create-creact",
         ]);
+
         t.assert.strictEqual(result.status, 0, result.stderr);
       });
 
       it("rejects a commit message that isn't Conventional Commits", (t: TestContext) => {
         const head = sh(dir, "git", ["rev-parse", "HEAD"]).stdout;
+
         const result = sh(dir, "git", [
           ...IDENTITY,
           "commit",
@@ -401,11 +437,14 @@ for (const [id, styling, monorepo, toolchain] of STACK_IDS.flatMap((stackId) =>
           "--message",
           "bad",
         ]);
+
         t.assert.notStrictEqual(result.status, 0);
+
         t.assert.match(
           result.stdout + result.stderr,
           /subject may not be empty/
         );
+
         t.assert.strictEqual(
           sh(dir, "git", ["rev-parse", "HEAD"]).stdout,
           head
@@ -415,6 +454,7 @@ for (const [id, styling, monorepo, toolchain] of STACK_IDS.flatMap((stackId) =>
       it("builds, typechecks, lints, checks formatting and tests from the root", (t: TestContext) => {
         for (const check of CHECKS) {
           const result = sh(dir, "pnpm", ["run", check]);
+
           t.assert.strictEqual(
             result.status,
             0,
@@ -428,13 +468,18 @@ for (const [id, styling, monorepo, toolchain] of STACK_IDS.flatMap((stackId) =>
           path.join(dir, SRC, "styles", "tokens.css"),
           "utf8"
         );
+
         const accent = tokens
           .split("--color-accent:")[1]
           ?.split(";")[0]
           ?.trim();
+
         const css = builtCss(path.join(dir, CSS_OUTPUT[id]));
+
         t.assert.ok(accent !== undefined && css.includes(accent), accent);
+
         for (const mark of proof.cssHas) t.assert.match(css, mark);
+
         for (const mark of proof.cssLacks) t.assert.doesNotMatch(css, mark);
       });
 
@@ -444,25 +489,34 @@ for (const [id, styling, monorepo, toolchain] of STACK_IDS.flatMap((stackId) =>
 
       it("writes nothing and keeps the tree clean when run again", (t: TestContext) => {
         const result = sh(parent, process.execPath, [MAIN, "app"], env);
+
         t.assert.strictEqual(result.status, 0, result.stderr);
+
         t.assert.match(result.stdout, / 0 written, \d+ unchanged, 0 kept/);
+
         t.assert.match(result.stdout, /^skip skills {4}present in/m);
+
         t.assert.strictEqual(porcelain(dir), "");
       });
 
       it("formats a staged file on commit, resolves the app's alias in a test and renders a styled component", (t: TestContext) => {
         const tsconfig = readJson(path.join(dir, "apps/web/tsconfig.json"));
+
         const { paths } = tsconfig.compilerOptions as {
           paths: Record<string, string[]>;
         };
+
         t.assert.deepStrictEqual(paths["@/*"], ["./src/*"]);
 
         const probe = path.join(dir, SRC, "probe");
+
         mkdirSync(probe);
+
         writeFileSync(
           path.join(probe, "add.ts"),
           "export function add(a:number,b:number):number{return a+b}\n"
         );
+
         writeFileSync(
           path.join(probe, "add.test.ts"),
           [
@@ -478,35 +532,49 @@ for (const [id, styling, monorepo, toolchain] of STACK_IDS.flatMap((stackId) =>
             "",
           ].join("\n")
         );
+
         writeFileSync(path.join(probe, "notice.tsx"), proof.component);
+
         writeFileSync(path.join(probe, "notice.test.tsx"), noticeTest(vitest));
+
         sh(dir, "git", ["add", "--all"]);
+
         const commit = sh(dir, "git", [
           ...IDENTITY,
           "commit",
           "--message",
           "test: add an alias probe",
         ]);
+
         t.assert.strictEqual(commit.status, 0, commit.stdout + commit.stderr);
+
         const committed = sh(dir, "git", [
           "show",
           `HEAD:${SRC}/probe/add.ts`,
         ]).stdout;
+
         t.assert.match(committed, /return a \+ b;/);
 
         const result = sh(dir, "pnpm", ["run", "test"]);
+
         t.assert.strictEqual(result.status, 0, result.stdout + result.stderr);
+
         t.assert.match(result.stdout, /Tests {2}4 passed/);
+
         t.assert.doesNotMatch(result.stdout + result.stderr, /close timed out/);
       });
 
       it("fails the token test on a token that drifts in one mode block or by a prefix, naming it, and passes once it's back", (t: TestContext) => {
         const file = path.join(dir, SRC, "styles", "tokens.css");
         const tokens = readFileSync(file, "utf8");
+
         for (const { name, drift, leftover } of DRIFTS) {
           writeFileSync(file, drift(tokens));
+
           const failed = sh(dir, "pnpm", ["run", "test"]);
+
           t.assert.notStrictEqual(failed.status, 0, name);
+
           t.assert.ok(
             (failed.stdout + failed.stderr).includes(
               `[ '${leftover}' ] to strictly equal []`
@@ -514,25 +582,33 @@ for (const [id, styling, monorepo, toolchain] of STACK_IDS.flatMap((stackId) =>
             `${name}:\n${failed.stdout}${failed.stderr}`
           );
         }
+
         writeFileSync(file, tokens);
+
         const passed = sh(dir, "pnpm", ["run", "test"]);
+
         t.assert.strictEqual(passed.status, 0, passed.stdout + passed.stderr);
       });
 
       it("updates an unedited layer file and keeps an edited one", async (t: TestContext) => {
         const layer = path.join(parent, "layer");
+
         cpSync(LAYER, layer, { recursive: true });
+
         for (const [overlay, file] of [
           [toolchain, TEST_CONFIG[toolchain]],
           ["base", "commitlint.config.ts"],
         ] as const) {
           const source = path.join(layer, overlay, "all", `${file}.layer`);
+
           writeFileSync(
             source,
             `${readFileSync(source, "utf8")}// newer layer\n`
           );
         }
+
         const edited = path.join(dir, "commitlint.config.ts");
+
         writeFileSync(
           edited,
           `${readFileSync(edited, "utf8")}// project rule\n`
@@ -552,32 +628,43 @@ for (const [id, styling, monorepo, toolchain] of STACK_IDS.flatMap((stackId) =>
           },
           layer
         );
+
         t.assert.strictEqual(
           report.layer.files[TEST_CONFIG[toolchain]],
           "written"
         );
+
         t.assert.strictEqual(
           report.layer.files["commitlint.config.ts"],
           "kept"
         );
+
         t.assert.match(
           readFileSync(path.join(dir, TEST_CONFIG[toolchain]), "utf8"),
           /\/\/ newer layer\n$/
         );
+
         t.assert.match(readFileSync(edited, "utf8"), /\/\/ project rule\n$/);
       });
 
       it("fails lint from the root on a planted styling mistake and passes once it's gone", (t: TestContext) => {
         const planted = path.join(dir, SRC, "planted.tsx");
+
         writeFileSync(planted, proof.badComponent);
+
         const failed = sh(dir, "pnpm", ["run", "lint"]);
+
         rmSync(planted);
+
         t.assert.notStrictEqual(failed.status, 0);
+
         t.assert.ok(
           (failed.stdout + failed.stderr).includes(proof.lintRule),
           failed.stdout + failed.stderr
         );
+
         const passed = sh(dir, "pnpm", ["run", "lint"]);
+
         t.assert.strictEqual(passed.status, 0, passed.stdout + passed.stderr);
       });
     }

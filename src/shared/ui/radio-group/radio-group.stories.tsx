@@ -254,17 +254,22 @@ Default.test(
   "when clicking on a radio button, it should toggle its state",
   async ({ canvas, step }) => {
     const radios = await canvas.findAllByRole("radio");
+
     await expect(radios).toHaveLength(3);
 
     await step("click the default radio button", async () => {
       await userEvent.click(radios[0]!);
+
       await waitFor(() => expect(radios[0]).toBeChecked());
+
       await waitFor(() => expect(radios[1]).not.toBeChecked());
     });
 
     await step("click the comfortable radio button", async () => {
       await userEvent.click(radios[1]!);
+
       await waitFor(() => expect(radios[1]).toBeChecked());
+
       await waitFor(() => expect(radios[0]).not.toBeChecked());
     });
   }
@@ -277,15 +282,21 @@ Default.test(
 
     await step("focus first radio and press ArrowDown", async () => {
       await userEvent.click(radios[0]!);
+
       await waitFor(() => expect(radios[0]).toBeChecked());
+
       await userEvent.keyboard("{ArrowDown}");
+
       await waitFor(() => expect(radios[1]).toBeChecked());
+
       await waitFor(() => expect(radios[1]).toHaveFocus());
     });
 
     await step("press ArrowDown again", async () => {
       await userEvent.keyboard("{ArrowDown}");
+
       await waitFor(() => expect(radios[2]).toBeChecked());
+
       await waitFor(() => expect(radios[2]).toHaveFocus());
     });
   }

@@ -15,12 +15,15 @@ describe("sitemap.xml loader", () => {
 
   it("emits a urlset entry for the site root with weekly priority 1.0", async () => {
     const xml = await loader().text();
+
     const siteUrl = getSiteUrl();
 
     expect(xml).toContain('<?xml version="1.0" encoding="UTF-8"?>');
+
     expect(xml).toContain(
       '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">'
     );
+
     expect(xml).toContain(`<loc>${siteUrl}</loc>`);
     expect(xml).toContain("<changefreq>weekly</changefreq>");
     expect(xml).toContain("<priority>1.0</priority>");

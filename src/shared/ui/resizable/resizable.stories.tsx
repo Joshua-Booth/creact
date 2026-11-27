@@ -168,16 +168,19 @@ Default.test(
 
     await step("focus the resize handle", async () => {
       await userEvent.click(separator);
+
       await expect(separator).toHaveFocus();
     });
 
     await step("resize with ArrowRight", async () => {
       await userEvent.keyboard("{ArrowRight}");
+
       await expect(args.onLayoutChange).toHaveBeenCalled();
     });
 
     await step("resize with ArrowLeft", async () => {
       await userEvent.keyboard("{ArrowLeft}");
+
       await expect(args.onLayoutChange).toHaveBeenCalled();
     });
   }

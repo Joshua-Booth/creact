@@ -35,6 +35,7 @@ describe("buildColumnFilters", () => {
       name: null,
       role: "admin",
     });
+
     expect(result).toEqual([
       { id: "status", value: ["active"] },
       { id: "role", value: ["admin"] },

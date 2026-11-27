@@ -58,12 +58,16 @@ export const DataGridRow = memo(DataGridRowImpl, (prev, next) => {
   const nextRowIndex = next.virtualItem.index;
 
   if (prev.row.id !== next.row.id) return false;
+
   if (prev.row.original !== next.row.original) return false;
+
   if (prev.virtualItem.start !== next.virtualItem.start) return false;
 
   const prevHasFocus = prev.focusedCell?.rowIndex === prevRowIndex;
   const nextHasFocus = next.focusedCell?.rowIndex === nextRowIndex;
+
   if (prevHasFocus !== nextHasFocus) return false;
+
   if (
     nextHasFocus &&
     prevHasFocus &&
@@ -74,7 +78,9 @@ export const DataGridRow = memo(DataGridRowImpl, (prev, next) => {
 
   const prevHasEditing = prev.editingCell?.rowIndex === prevRowIndex;
   const nextHasEditing = next.editingCell?.rowIndex === nextRowIndex;
+
   if (prevHasEditing !== nextHasEditing) return false;
+
   if (
     nextHasEditing &&
     prevHasEditing &&
@@ -84,19 +90,29 @@ export const DataGridRow = memo(DataGridRowImpl, (prev, next) => {
     return false;
 
   if (prev.cellSelectionKeys !== next.cellSelectionKeys) return false;
+
   if (prev.columnVisibility !== next.columnVisibility) return false;
+
   if (prev.rowHeight !== next.rowHeight) return false;
+
   if (prev.columnPinning !== next.columnPinning) return false;
+
   if (prev.readOnly !== next.readOnly) return false;
+
   if (prev.searchMatchColumns !== next.searchMatchColumns) return false;
+
   if (prev.activeSearchMatch?.columnId !== next.activeSearchMatch?.columnId)
     return false;
+
   if (prev.dir !== next.dir) return false;
+
   if (prev.adjustLayout !== next.adjustLayout) return false;
+
   if (prev.stretchColumns !== next.stretchColumns) return false;
 
   return true;
 }) as typeof DataGridRowImpl;
+
 /* istanbul ignore end @preserve */
 
 function DataGridRowImpl<TData extends RowData>({
@@ -128,6 +144,7 @@ function DataGridRowImpl<TData extends RowData>({
     (node: HTMLDivElement | null) => {
       if (node) {
         measureElement(node);
+
         // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition -- ref.current is null before mount and after unmount
         rowMapRef.current?.set(virtualRowIndex, node);
       } else {
@@ -147,6 +164,7 @@ function DataGridRowImpl<TData extends RowData>({
     () => row.getVisibleCells(),
     [row, columnVisibility, columnPinning]
   );
+
   /* eslint-enable react-hooks/exhaustive-deps -- end visibleCells deps */
 
   return (
@@ -179,9 +197,11 @@ function DataGridRowImpl<TData extends RowData>({
         const isCellFocused =
           focusedCell?.rowIndex === virtualRowIndex &&
           focusedCell.columnId === columnId;
+
         const isCellEditing =
           editingCell?.rowIndex === virtualRowIndex &&
           editingCell.columnId === columnId;
+
         const isCellSelected = cellSelectionKeys.has(
           getCellKey(virtualRowIndex, columnId)
         );
@@ -191,6 +211,7 @@ function DataGridRowImpl<TData extends RowData>({
 
         const nextCell = visibleCells[colIndex + 1];
         const isLastColumn = colIndex === visibleCells.length - 1;
+
         const { showEndBorder, showStartBorder } = getColumnBorderVisibility({
           column: cell.column,
           nextColumn: nextCell?.column,

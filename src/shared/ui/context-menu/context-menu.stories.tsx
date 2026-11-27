@@ -422,8 +422,11 @@ Basic.test(
         },
       });
     });
+
     await expect(await canvasBody.findByRole("menu")).toBeInTheDocument();
+
     const items = await canvasBody.findAllByRole("menuitem");
+
     await expect(items).toHaveLength(3);
 
     await step("Click the first menu item", async () => {
@@ -450,7 +453,9 @@ Basic.test(
 
     await step("Verify the disabled item has correct attributes", async () => {
       const forwardItem = await canvasBody.findByText("Forward");
+
       const menuItem = forwardItem.closest("[data-slot='context-menu-item']")!;
+
       await expect(menuItem).toHaveAttribute("data-disabled");
     });
   }
@@ -474,6 +479,7 @@ Submenu.test(
 
     await step("Hover on 'More Tools' sub-trigger", async () => {
       const subTrigger = await canvasBody.findByText("More Tools");
+
       await userEvent.hover(subTrigger);
     });
 
@@ -505,6 +511,7 @@ Checkboxes.test(
       const statusBar = await canvasBody.findByRole("menuitemcheckbox", {
         name: /status bar/i,
       });
+
       await expect(statusBar).toHaveAttribute("aria-checked", "true");
     });
 
@@ -512,7 +519,9 @@ Checkboxes.test(
       const activityBar = await canvasBody.findByRole("menuitemcheckbox", {
         name: /activity bar/i,
       });
+
       await expect(activityBar).toHaveAttribute("aria-checked", "false");
+
       await userEvent.click(activityBar);
     });
 
@@ -525,9 +534,11 @@ Checkboxes.test(
           y: canvasElement.clientHeight / 2,
         },
       });
+
       const activityBar = await canvasBody.findByRole("menuitemcheckbox", {
         name: /activity bar/i,
       });
+
       await expect(activityBar).toHaveAttribute("aria-checked", "true");
     });
   }
@@ -553,6 +564,7 @@ Radio.test(
       const bottom = await canvasBody.findByRole("menuitemradio", {
         name: /bottom/i,
       });
+
       await expect(bottom).toHaveAttribute("aria-checked", "true");
     });
 
@@ -560,6 +572,7 @@ Radio.test(
       const top = await canvasBody.findByRole("menuitemradio", {
         name: /^top$/i,
       });
+
       await userEvent.click(top);
     });
 
@@ -572,13 +585,17 @@ Radio.test(
           y: canvasElement.clientHeight / 2,
         },
       });
+
       const top = await canvasBody.findByRole("menuitemradio", {
         name: /^top$/i,
       });
+
       await expect(top).toHaveAttribute("aria-checked", "true");
+
       const bottom = await canvasBody.findByRole("menuitemradio", {
         name: /bottom/i,
       });
+
       await expect(bottom).toHaveAttribute("aria-checked", "false");
     });
   }
@@ -608,7 +625,9 @@ Basic.test(
 
     await step("Press ArrowDown to move focus to the first item", async () => {
       await userEvent.keyboard("{ArrowDown}");
+
       const items = await canvasBody.findAllByRole("menuitem");
+
       await waitFor(() => expect(items[0]).toHaveFocus());
     });
 
@@ -616,14 +635,18 @@ Basic.test(
       "Press ArrowDown to move focus to the disabled item",
       async () => {
         await userEvent.keyboard("{ArrowDown}");
+
         const items = await canvasBody.findAllByRole("menuitem");
+
         await waitFor(() => expect(items[1]).toHaveFocus());
       }
     );
 
     await step("Press ArrowDown to move focus to Reload", async () => {
       await userEvent.keyboard("{ArrowDown}");
+
       const items = await canvasBody.findAllByRole("menuitem");
+
       await waitFor(() => expect(items[2]).toHaveFocus());
     });
 
@@ -631,13 +654,16 @@ Basic.test(
       "Press ArrowUp to move focus back to the disabled item",
       async () => {
         await userEvent.keyboard("{ArrowUp}");
+
         const items = await canvasBody.findAllByRole("menuitem");
+
         await waitFor(() => expect(items[1]).toHaveFocus());
       }
     );
 
     await step("Press Escape to close the menu", async () => {
       await userEvent.keyboard("{Escape}");
+
       await waitFor(() => expect(menu).toHaveAttribute("data-closed"));
     });
   }
@@ -661,7 +687,9 @@ Destructive.test(
 
     await step("Verify the Delete item has destructive variant", async () => {
       const deleteItem = await canvasBody.findByText("Delete");
+
       const menuItem = deleteItem.closest("[data-slot='context-menu-item']")!;
+
       await expect(menuItem).toHaveAttribute("data-variant", "destructive");
     });
   }

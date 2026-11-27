@@ -18,10 +18,12 @@ export const useAuthStore = create<AuthState>()((set) => ({
   token: storedToken,
   login: (token) => {
     setAuthToken(token);
+
     set({ token });
   },
   logout: () => {
     removeAuthToken();
+
     set({ token: null });
   },
 }));
@@ -34,6 +36,7 @@ export function syncAuthFromStorage(
   event: Pick<StorageEvent, "key" | "newValue">
 ): void {
   if (event.key !== TOKEN_KEY) return;
+
   const { token } = useAuthStore.getState();
 
   if (event.newValue === null && token !== null) {

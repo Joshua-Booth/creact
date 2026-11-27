@@ -241,10 +241,13 @@ Default.test(
       await userEvent.click(
         await canvasBody.findByRole("button", { name: /open/i })
       );
+
       await expect(args.onOpenChange).toHaveBeenCalled();
 
       const dialog = await canvasBody.findByRole("dialog");
+
       await expect(dialog).toBeInTheDocument();
+
       await expect(dialog).toHaveAttribute("data-state", "open");
     });
 
@@ -253,7 +256,9 @@ Default.test(
         await canvasBody.findByRole("button", { name: /submit/i }),
         { delay: 100 }
       );
+
       await expect(args.onClose).toHaveBeenCalled();
+
       await expect(await canvasBody.findByRole("dialog")).toHaveAttribute(
         "data-state",
         "closed"
@@ -271,10 +276,13 @@ Default.test(
       await userEvent.click(
         await canvasBody.findByRole("button", { name: /open/i })
       );
+
       await expect(args.onOpenChange).toHaveBeenCalled();
 
       const dialog = await canvasBody.findByRole("dialog");
+
       await expect(dialog).toBeInTheDocument();
+
       await expect(dialog).toHaveAttribute("data-state", "open");
     });
 
@@ -283,7 +291,9 @@ Default.test(
         await canvasBody.findByRole("button", { name: /cancel/i }),
         { delay: 100 }
       );
+
       await expect(args.onClose).toHaveBeenCalled();
+
       await expect(await canvasBody.findByRole("dialog")).toHaveAttribute(
         "data-state",
         "closed"
@@ -301,8 +311,11 @@ Sides.test(
       await userEvent.click(
         await canvasBody.findByRole("button", { name: /right/i })
       );
+
       const dialog = await canvasBody.findByRole("dialog");
+
       await expect(dialog).toBeInTheDocument();
+
       await expect(dialog).toHaveAttribute("data-state", "open");
     });
 
@@ -310,6 +323,7 @@ Sides.test(
       await userEvent.click(
         await canvasBody.findByRole("button", { name: /close/i })
       );
+
       await expect(await canvasBody.findByRole("dialog")).toHaveAttribute(
         "data-state",
         "closed"
@@ -333,7 +347,9 @@ ResponsiveDialog.test(
       await userEvent.click(
         await canvasBody.findByRole("button", { name: /edit profile/i })
       );
+
       const dialog = await canvasBody.findByRole("dialog");
+
       await expect(dialog).toBeInTheDocument();
     });
   }

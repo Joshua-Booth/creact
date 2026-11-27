@@ -29,7 +29,9 @@ const createLocalStorageMock = () => ({
 describe("token", () => {
   beforeEach(() => {
     store = new Map();
+
     vi.stubGlobal("localStorage", createLocalStorageMock());
+
     vi.stubGlobal("window", globalThis);
   });
 

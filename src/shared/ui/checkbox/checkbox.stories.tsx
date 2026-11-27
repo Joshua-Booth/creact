@@ -251,11 +251,13 @@ export const InTable = meta.story({
 
     const handleSelectRow = (id: string, checked: boolean) => {
       const newSelected = new Set(selectedRows);
+
       if (checked) {
         newSelected.add(id);
       } else {
         newSelected.delete(id);
       }
+
       setSelectedRows(newSelected);
     };
 
@@ -313,11 +315,17 @@ Default.test(
   "when the checkbox is clicked, should toggle between checked and not checked",
   async ({ canvas }) => {
     const checkbox = canvas.getByRole("checkbox");
+
     await userEvent.click(checkbox);
+
     await expect(checkbox).toBeChecked();
+
     await userEvent.click(checkbox, { delay: 100 });
+
     await expect(checkbox).not.toBeChecked();
+
     await userEvent.click(checkbox, { delay: 100 });
+
     await expect(checkbox).toBeChecked();
   }
 );
@@ -327,9 +335,13 @@ Default.test(
   async ({ canvas }) => {
     const label = canvas.getByText(/accept terms/i);
     const checkbox = canvas.getByRole("checkbox");
+
     await userEvent.click(label);
+
     await expect(checkbox).toBeChecked();
+
     await userEvent.click(label, { delay: 100 });
+
     await expect(checkbox).not.toBeChecked();
   }
 );

@@ -55,9 +55,11 @@ export const useFeatureFlagVariant = (
   options?: FeatureFlagOptions<string>
 ): string | undefined => {
   const variant = useFeatureFlagVariantKey(key);
+
   if (typeof variant === "string") {
     return variant;
   }
+
   return options?.defaultValue;
 };
 
@@ -79,6 +81,7 @@ export const useFeatureFlagConfig = <T = FeatureFlagPayload>(
   options?: FeatureFlagOptions<T>
 ): T | undefined => {
   const payload = useFeatureFlagPayload(key);
+
   return (payload as T | undefined) ?? options?.defaultValue;
 };
 

@@ -156,6 +156,7 @@ export const Position = meta.story({
             variant="outline"
             onClick={() => {
               setPosition("top-left");
+
               toast("Event has been created", { position: "top-left" });
             }}
           >
@@ -165,6 +166,7 @@ export const Position = meta.story({
             variant="outline"
             onClick={() => {
               setPosition("top-center");
+
               toast("Event has been created", { position: "top-center" });
             }}
           >
@@ -174,6 +176,7 @@ export const Position = meta.story({
             variant="outline"
             onClick={() => {
               setPosition("top-right");
+
               toast("Event has been created", { position: "top-right" });
             }}
           >
@@ -183,6 +186,7 @@ export const Position = meta.story({
             variant="outline"
             onClick={() => {
               setPosition("bottom-left");
+
               toast("Event has been created", { position: "bottom-left" });
             }}
           >
@@ -192,6 +196,7 @@ export const Position = meta.story({
             variant="outline"
             onClick={() => {
               setPosition("bottom-center");
+
               toast("Event has been created", { position: "bottom-center" });
             }}
           >
@@ -201,6 +206,7 @@ export const Position = meta.story({
             variant="outline"
             onClick={() => {
               setPosition("bottom-right");
+
               toast("Event has been created", { position: "bottom-right" });
             }}
           >
@@ -219,12 +225,14 @@ Default.test(
   "when clicking Show Toast button, should show a toast",
   async ({ canvasElement, step }) => {
     const canvasBody = within(canvasElement.ownerDocument.body);
+
     const triggerBtn = await canvasBody.findByRole("button", {
       name: /show/i,
     });
 
     await step("create a toast", async () => {
       await userEvent.click(triggerBtn);
+
       await waitFor(() =>
         expect(canvasBody.queryByRole("listitem")).toBeInTheDocument()
       );
@@ -232,7 +240,9 @@ Default.test(
 
     await step("create more toasts", async () => {
       await userEvent.click(triggerBtn);
+
       await userEvent.click(triggerBtn);
+
       await waitFor(() =>
         expect(canvasBody.getAllByRole("listitem")).toHaveLength(3)
       );
@@ -244,6 +254,7 @@ Default.test(
   "when clicking the close button, should close the toast",
   async ({ canvasElement, step }) => {
     const canvasBody = within(canvasElement.ownerDocument.body);
+
     const triggerBtn = await canvasBody.findByRole("button", {
       name: /show/i,
     });
@@ -256,6 +267,7 @@ Default.test(
       await userEvent.click(
         await canvasBody.findByRole("button", { name: /undo/i })
       );
+
       await waitFor(() =>
         expect(canvasBody.queryByRole("listitem")).not.toBeInTheDocument()
       );
@@ -273,6 +285,7 @@ Default.test(
       await userEvent.click(
         await within(body).findByRole("button", { name: /show/i })
       );
+
       await waitFor(() =>
         expect(toaster()).toHaveAttribute("data-sonner-theme", "light")
       );
@@ -280,6 +293,7 @@ Default.test(
 
     await step("add the dark class to the root", async () => {
       documentElement.classList.add("dark");
+
       try {
         await waitFor(() =>
           expect(toaster()).toHaveAttribute("data-sonner-theme", "dark")

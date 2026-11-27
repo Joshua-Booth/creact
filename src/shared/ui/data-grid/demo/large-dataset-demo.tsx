@@ -13,6 +13,7 @@ function createLargeDataset(): Task[] {
   const statuses: Task["status"][] = ["todo", "in-progress", "done"];
   const priorities: Task["priority"][] = ["low", "medium", "high"];
   const assignees = ["Alice", "Bob", "Charlie", "Diana", "Eve"];
+
   return Array.from({ length: 500 }, (_, i) => ({
     id: String(i + 1),
     title: `Task ${i + 1}: ${["Implement", "Fix", "Refactor", "Test", "Document"][i % 5]} ${["auth", "API", "UI", "build", "deploy"][i % 5]}`,

@@ -17,7 +17,9 @@ vi.mock("@/entities/user", () => ({
 describe("loginAction", () => {
   it("should return validation error for missing email", async () => {
     const formData = new FormData();
+
     formData.set("email", "");
+
     formData.set("password", "password123");
 
     const result = await loginAction(formData);
@@ -32,7 +34,9 @@ describe("loginAction", () => {
 
   it("should return validation error for missing password", async () => {
     const formData = new FormData();
+
     formData.set("email", "user@example.com");
+
     formData.set("password", "");
 
     const result = await loginAction(formData);
@@ -47,11 +51,15 @@ describe("loginAction", () => {
 
   it("should call setAuthTokenAndRedirect on successful login", async () => {
     const mockResponse = new Response(null, { status: 302 });
+
     vi.mocked(loginApi).mockResolvedValue({ key: "test-token" });
+
     vi.mocked(setAuthTokenAndRedirect).mockReturnValue(mockResponse);
 
     const formData = new FormData();
+
     formData.set("email", "user@example.com");
+
     formData.set("password", "password123");
 
     const result = await loginAction(formData);
@@ -60,16 +68,20 @@ describe("loginAction", () => {
       email: "user@example.com",
       password: "password123",
     });
+
     expect(setAuthTokenAndRedirect).toHaveBeenCalledWith("test-token");
     expect(result).toBe(mockResponse);
   });
 
   it("should return parsed error when API throws", async () => {
     vi.mocked(loginApi).mockRejectedValue(new Error("API error"));
+
     vi.mocked(parseLoginError).mockReturnValue("Invalid credentials");
 
     const formData = new FormData();
+
     formData.set("email", "user@example.com");
+
     formData.set("password", "password123");
 
     const result = await loginAction(formData);

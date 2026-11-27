@@ -49,6 +49,7 @@ export function PaginationDemo() {
         cell: ({ cell }) => {
           const status = cell.getValue<Project["status"]>();
           const Icon = statusIcons[status];
+
           return (
             <Badge variant="outline" className="capitalize">
               <Icon className="size-3.5" />
@@ -66,6 +67,7 @@ export function PaginationDemo() {
         ),
         cell: ({ cell }) => {
           const amount = cell.getValue<number>();
+
           return (
             <div className="text-right font-medium tabular-nums">
               {`$${amount.toLocaleString()}`}

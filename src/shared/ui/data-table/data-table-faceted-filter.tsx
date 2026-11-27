@@ -45,6 +45,7 @@ export function DataTableFacetedFilter<TData extends RowData, TValue>({
   const [open, setOpen] = useState(false);
 
   const columnFilterValue = column?.getFilterValue();
+
   const selectedValues = useMemo(
     () => new Set(Array.isArray(columnFilterValue) ? columnFilterValue : []),
     [columnFilterValue]
@@ -58,19 +59,23 @@ export function DataTableFacetedFilter<TData extends RowData, TValue>({
       /* istanbul ignore else @preserve */
       if (multiple) {
         const newSelectedValues = new Set(selectedValues);
+
         /* istanbul ignore next @preserve */
         if (isSelected) {
           newSelectedValues.delete(option.value);
         } else {
           newSelectedValues.add(option.value);
         }
+
         const filterValues = [...newSelectedValues];
+
         /* istanbul ignore next @preserve */
         column.setFilterValue(
           filterValues.length > 0 ? filterValues : undefined
         );
       } else {
         column.setFilterValue(isSelected ? undefined : [option.value]);
+
         setOpen(false);
       }
     },

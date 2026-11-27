@@ -15,10 +15,12 @@ describe("robots.txt loader", () => {
 
   it("allows crawling, disallows private paths, and links the sitemap", async () => {
     const text = await loader().text();
+
     const siteUrl = getSiteUrl();
 
     expect(text).toContain("User-agent: *");
     expect(text).toContain("Allow: /");
+
     for (const path of [
       "/login",
       "/signup",
@@ -28,6 +30,7 @@ describe("robots.txt loader", () => {
     ]) {
       expect(text).toContain(`Disallow: ${path}`);
     }
+
     expect(text).toContain(`Sitemap: ${siteUrl}/sitemap.xml`);
   });
 });

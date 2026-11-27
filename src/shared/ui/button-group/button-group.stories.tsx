@@ -496,11 +496,15 @@ Default.test(
       const thirdButton = canvas.getByRole("button", { name: "Third" });
 
       await userEvent.click(firstButton);
+
       await userEvent.click(secondButton);
+
       await userEvent.click(thirdButton);
 
       await expect(firstButton).toBeEnabled();
+
       await expect(secondButton).toBeEnabled();
+
       await expect(thirdButton).toBeEnabled();
     });
   }
@@ -510,6 +514,7 @@ Orientation.test(
   "when orientation is vertical, should set data-orientation attribute",
   async ({ canvas }) => {
     const group = canvas.getByRole("group");
+
     await expect(group).toHaveAttribute("data-orientation", "vertical");
   }
 );
@@ -521,12 +526,15 @@ DropdownMenuStory.test(
 
     await step("click the dropdown trigger", async () => {
       const buttons = canvas.getAllByRole("button");
+
       await userEvent.click(buttons[1]!);
     });
 
     await step("verify the menu is open with items", async () => {
       await expect(await body.findByRole("menu")).toBeInTheDocument();
+
       const items = await body.findAllByRole("menuitem");
+
       await expect(items).toHaveLength(7);
     });
   }
@@ -539,6 +547,7 @@ PopoverStory.test(
 
     await step("click the popover trigger", async () => {
       const trigger = canvas.getByRole("button", { name: "Open Popover" });
+
       await userEvent.click(trigger);
     });
 

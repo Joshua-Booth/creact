@@ -27,6 +27,7 @@ describe("parseAsDate", () => {
   it("should return a Date for a valid number", () => {
     const ts = new Date(2026, 0, 15).getTime();
     const result = parseAsDate(ts);
+
     expect(result).toBeInstanceOf(Date);
     expect(result?.getTime()).toBe(ts);
   });
@@ -34,6 +35,7 @@ describe("parseAsDate", () => {
   it("should return a Date for a string number", () => {
     const ts = new Date(2026, 0, 15).getTime();
     const result = parseAsDate(String(ts));
+
     expect(result).toBeInstanceOf(Date);
     expect(result?.getTime()).toBe(ts);
   });
@@ -90,6 +92,7 @@ describe("formatDateRangeLabel", () => {
     const from = new Date(2026, 0, 1);
     const to = new Date(2026, 0, 31);
     const result = formatDateRangeLabel({ from, to });
+
     expect(result).toContain(" - ");
     expect(result).toContain("January");
   });
@@ -97,12 +100,14 @@ describe("formatDateRangeLabel", () => {
   it("should return single date when only from is set", () => {
     const from = new Date(2026, 5, 15);
     const result = formatDateRangeLabel({ from, to: undefined });
+
     expect(result).toContain("June");
   });
 
   it("should return single date when only to is set", () => {
     const to = new Date(2026, 11, 25);
     const result = formatDateRangeLabel({ from: undefined, to });
+
     expect(result).toContain("December");
   });
 });

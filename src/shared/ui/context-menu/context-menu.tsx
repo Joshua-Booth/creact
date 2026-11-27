@@ -21,6 +21,7 @@ function ContextMenuPortal({ ...props }: ContextMenuPrimitive.Portal.Props) {
     <ContextMenuPrimitive.Portal data-slot="context-menu-portal" {...props} />
   );
 }
+
 /* istanbul ignore end @preserve */
 
 /** Element that opens the context menu on right-click. */

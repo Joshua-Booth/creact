@@ -523,6 +523,7 @@ export const Complex = meta.story({
       sms: false,
       push: true,
     });
+
     const [theme, setTheme] = useState("light");
 
     return (
@@ -842,9 +843,12 @@ Default.test(
 
     await step("Open the dropdown menu", async () => {
       await userEvent.click(await body.findByRole("button", { name: /open/i }));
+
       await expect(await body.findByRole("menu")).toBeInTheDocument();
     });
+
     const items = await body.findAllByRole("menuitem");
+
     await expect(items).toHaveLength(10);
 
     await step("Click the first menu item", async () => {
@@ -876,9 +880,13 @@ Default.test(
 
     await step("focus trigger and press Enter to open menu", async () => {
       const trigger = canvas.getByRole("button", { name: /open/i });
+
       await userEvent.click(trigger);
+
       const menu = await body.findByRole("menu");
+
       await expect(menu).toBeInTheDocument();
+
       await waitFor(() =>
         expect(menu.contains(menu.ownerDocument.activeElement)).toBeTruthy()
       );
@@ -886,12 +894,15 @@ Default.test(
 
     await step("navigate items with ArrowDown", async () => {
       await userEvent.keyboard("{ArrowDown}");
+
       const items = await body.findAllByRole("menuitem");
+
       await expect(items[0]).toHaveFocus();
     });
 
     await step("press Escape to close menu", async () => {
       await userEvent.keyboard("{Escape}");
+
       await waitFor(async () => {
         await expect(body.queryByRole("menu")).not.toBeInTheDocument();
       });

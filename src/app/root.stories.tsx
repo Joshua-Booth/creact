@@ -68,6 +68,7 @@ OnLandingPage.test(
   "should render app container with Header on landing page",
   async ({ canvas }) => {
     await expect(canvas.getByText("Login")).toBeVisible();
+
     await expect(canvas.getByText("Sign Up")).toBeVisible();
   }
 );
@@ -76,11 +77,13 @@ OnAuthRoute.test(
   "should not render Header on auth routes",
   async ({ canvas }) => {
     await expect(canvas.queryByText("Login")).not.toBeInTheDocument();
+
     await expect(canvas.queryByText("Sign Up")).not.toBeInTheDocument();
   }
 );
 
 Fallback.test("should render loading spinner and text", async ({ canvas }) => {
   await expect(canvas.getByRole("status")).toBeVisible();
+
   await expect(canvas.getAllByText("Loading...").length).toBeGreaterThan(0);
 });

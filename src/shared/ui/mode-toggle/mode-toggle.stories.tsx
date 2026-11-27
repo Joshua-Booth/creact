@@ -36,6 +36,7 @@ Default.test(
   async ({ canvas, canvasElement }) => {
     const body = within(canvasElement.ownerDocument.body);
     const trigger = canvas.getByRole("button", { name: "Toggle theme" });
+
     await expect(trigger).toBeVisible();
 
     await userEvent.click(trigger);
@@ -43,9 +44,11 @@ Default.test(
     await expect(
       await body.findByRole("menuitem", { name: "Light" })
     ).toBeInTheDocument();
+
     await expect(
       await body.findByRole("menuitem", { name: "Dark" })
     ).toBeInTheDocument();
+
     await expect(
       await body.findByRole("menuitem", { name: "System" })
     ).toBeInTheDocument();

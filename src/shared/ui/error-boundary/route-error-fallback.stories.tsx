@@ -63,6 +63,7 @@ RouteErrorResponse.test(
   "should render HTTP status and status text",
   async ({ canvas }) => {
     await expect(canvas.getByText("500: Internal Server Error")).toBeVisible();
+
     await expect(
       canvas.getByRole("link", { name: /go home/i })
     ).toHaveAttribute("href", "/");
@@ -98,11 +99,13 @@ UnexpectedError.test(
   "should render generic error message",
   async ({ canvas }) => {
     await expect(canvas.getByText("Something went wrong")).toBeVisible();
+
     await expect(
       canvas.getByText(
         "An unexpected error occurred. Please try navigating back home."
       )
     ).toBeVisible();
+
     await expect(canvas.getByRole("link", { name: /go home/i })).toBeVisible();
   }
 );

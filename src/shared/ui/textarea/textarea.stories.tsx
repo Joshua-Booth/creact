@@ -92,10 +92,12 @@ Default.test(
   "when user types into textarea, should display the text",
   async ({ canvas, step }) => {
     const textarea = await canvas.findByRole("textbox");
+
     const message = "Hello, this is a test message.";
 
     await step("focus and type into the textarea", async () => {
       await userEvent.click(textarea);
+
       await userEvent.type(textarea, message);
     });
 

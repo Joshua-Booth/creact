@@ -155,6 +155,7 @@ const config: UserConfig = {
       "always",
       ({ subject }: Commit): RuleResult => {
         if (!subject) return [true];
+
         const firstWord = (subject.split(" ")[0] ?? "").toLowerCase();
 
         const nonImperative =
@@ -200,12 +201,15 @@ const config: UserConfig = {
             refactored: "refactor",
             refactoring: "refactor",
           };
+
           const imperative = verbMap[firstWord] ?? firstWord;
+
           return [
             false,
             `Use imperative mood: "${firstWord}" -> use "${imperative}" (e.g., "add feature" not "added feature")`,
           ];
         }
+
         return [true];
       },
     ],
@@ -221,6 +225,7 @@ const config: UserConfig = {
       "always",
       ({ subject }: Commit): RuleResult => {
         if (!subject) return [true];
+
         const weakVerbs = [
           "make",
           "do",
@@ -229,6 +234,7 @@ const config: UserConfig = {
           "handle",
           "process",
         ];
+
         const firstWord = (subject.split(" ")[0] ?? "").toLowerCase();
 
         if (weakVerbs.includes(firstWord)) {
@@ -237,6 +243,7 @@ const config: UserConfig = {
             `Avoid weak verb "${firstWord}" - use a more specific action verb (e.g., "add", "fix", "refactor", "extract")`,
           ];
         }
+
         return [true];
       },
     ],
@@ -254,12 +261,14 @@ const config: UserConfig = {
         if (!subject) return [true];
 
         const vagueWords = /\b(stuff|things?|various|misc|lots|code|wip)\b/i;
+
         if (vagueWords.test(subject)) {
           return [
             false,
             "Avoid vague words (stuff, things, various, misc, code, wip) - be specific about what changed",
           ];
         }
+
         return [true];
       },
     ],
@@ -275,6 +284,7 @@ const config: UserConfig = {
       "always",
       ({ subject }: Commit): RuleResult => {
         if (!subject) return [true];
+
         const firstWord = subject.split(" ")[0] ?? "";
 
         // Skip short words and known exceptions
@@ -293,6 +303,7 @@ const config: UserConfig = {
           "speed",
           "embed",
         ];
+
         if (
           firstWord.length <= 3 ||
           exceptions.includes(firstWord.toLowerCase())
@@ -305,11 +316,13 @@ const config: UserConfig = {
           !/^(need|seed|feed|speed)$/i.test(firstWord)
         ) {
           const imperative = firstWord.replace(/ed$/i, "");
+
           return [
             false,
             `Use present tense: "${firstWord}" appears to be past tense - use "${imperative}"`,
           ];
         }
+
         return [true];
       },
     ],
@@ -339,6 +352,7 @@ const config: UserConfig = {
             "Invalid ticket format - use JB-XXX where XXX is a number (e.g., JB-123)",
           ];
         }
+
         return [true];
       },
     ],
@@ -359,12 +373,14 @@ const config: UserConfig = {
 
         // Placeholder patterns: JB-0, JB-00, JB-000, JB-XXX, JB-xxx
         const placeholders = /jb-(0+|xxx)/i;
+
         if (placeholders.test(fullMessage)) {
           return [
             false,
             "Placeholder ticket references (JB-0, JB-XXX) are not allowed - use a real ticket number or omit entirely",
           ];
         }
+
         return [true];
       },
     ],
@@ -389,6 +405,7 @@ const config: UserConfig = {
             'Consider splitting into atomic commits - subject contains "and" (suggests multiple changes)',
           ];
         }
+
         return [true];
       },
     ],
@@ -409,12 +426,14 @@ const config: UserConfig = {
 
         // Match #123 but not in URLs or code references
         const githubIssue = /(?<![\w/])#\d+(?!\d)/;
+
         if (githubIssue.test(fullMessage)) {
           return [
             false,
             "GitHub issue references (#123) are not allowed - use JB-XXX Linear ticket references instead",
           ];
         }
+
         return [true];
       },
     ],
@@ -441,6 +460,7 @@ const config: UserConfig = {
             "Breaking changes require a detailed body explanation (minimum 20 characters describing the breaking change and migration path)",
           ];
         }
+
         return [true];
       },
     ],

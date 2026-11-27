@@ -14,10 +14,12 @@ import { Toaster as Sonner } from "sonner";
 
 function subscribeToRootClass(onChange: () => void) {
   const observer = new MutationObserver(onChange);
+
   observer.observe(document.documentElement, {
     attributes: true,
     attributeFilter: ["class"],
   });
+
   return () => observer.disconnect();
 }
 

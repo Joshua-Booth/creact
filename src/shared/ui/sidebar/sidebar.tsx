@@ -46,10 +46,12 @@ const SidebarContext = React.createContext<SidebarContextProps | null>(null);
 /** Hook to access sidebar state and controls from any child component. */
 function useSidebar() {
   const context = React.use(SidebarContext);
+
   /* istanbul ignore start @preserve -- Defensive guard: unreachable when used within <SidebarProvider /> */
   if (!context) {
     throw new Error("useSidebar must be used within a SidebarProvider.");
   }
+
   /* istanbul ignore end @preserve */
 
   return context;
@@ -84,6 +86,7 @@ function SidebarProvider({
     /* istanbul ignore start @preserve -- Controlled mode: stories use uncontrolled sidebar */
     (value: boolean | ((value: boolean) => boolean)) => {
       const openState = typeof value === "function" ? value(open) : value;
+
       if (setOpenProp) {
         setOpenProp(openState);
       } else {
@@ -119,13 +122,16 @@ function SidebarProvider({
         (event.metaKey || event.ctrlKey)
       ) {
         event.preventDefault();
+
         toggleSidebar();
       }
     };
 
     window.addEventListener("keydown", handleKeyDown);
+
     return () => window.removeEventListener("keydown", handleKeyDown);
   }, [toggleSidebar]);
+
   /* istanbul ignore end @preserve */
 
   // We add a state so that we can do data-state="expanded" or "collapsed".
@@ -229,6 +235,7 @@ function Sidebar({
       </Sheet>
     );
   }
+
   /* istanbul ignore end @preserve */
 
   return (
@@ -297,6 +304,7 @@ function SidebarTrigger({
       className={cn(className)}
       onClick={(event) => {
         onClick?.(event);
+
         toggleSidebar();
       }}
       {...props}
@@ -364,6 +372,7 @@ function SidebarInput({
     />
   );
 }
+
 /* istanbul ignore end @preserve */
 
 /** Top section of the sidebar for branding or navigation. */
@@ -405,6 +414,7 @@ function SidebarSeparator({
     />
   );
 }
+
 /* istanbul ignore end @preserve */
 
 /** Scrollable area containing sidebar groups and menu items. */
@@ -484,6 +494,7 @@ function SidebarGroupAction({
     },
   });
 }
+
 /* istanbul ignore end @preserve */
 
 /** Content area within a sidebar group. */
@@ -564,6 +575,7 @@ function SidebarMenuButton({
     tooltip?: string | React.ComponentProps<typeof TooltipContent>;
   } & VariantProps<typeof sidebarMenuButtonVariants>) {
   const { isMobile, state } = useSidebar();
+
   const comp = useRender({
     defaultTagName: "button",
     props: mergeProps<"button">(
@@ -586,6 +598,7 @@ function SidebarMenuButton({
   if (tooltip == null) {
     return comp;
   }
+
   if (typeof tooltip === "string") {
     tooltip = {
       children: tooltip,
@@ -758,6 +771,7 @@ function SidebarMenuSubButton({
     },
   });
 }
+
 /* istanbul ignore end @preserve */
 
 export {

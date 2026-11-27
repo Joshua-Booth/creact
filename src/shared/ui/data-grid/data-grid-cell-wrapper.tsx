@@ -48,6 +48,7 @@ export function DataGridCellWrapper<TData extends RowData>({
     },
     [rowIndex, columnId, cellMapRef]
   );
+
   /* istanbul ignore end @preserve */
 
   const composedRef = useComposedRefs(ref, onCellChange);
@@ -57,7 +58,9 @@ export function DataGridCellWrapper<TData extends RowData>({
     (event: React.MouseEvent<HTMLDivElement>) => {
       if (!isEditing) {
         event.preventDefault();
+
         onClickProp?.(event);
+
         if (isFocused && !readOnly) {
           tableMeta?.onCellEditingStart?.(rowIndex, columnId);
         } else {
@@ -81,6 +84,7 @@ export function DataGridCellWrapper<TData extends RowData>({
     (event: React.MouseEvent) => {
       if (!isEditing) {
         event.preventDefault();
+
         tableMeta?.onCellDoubleClick?.(rowIndex, columnId);
       }
     },
@@ -111,21 +115,29 @@ export function DataGridCellWrapper<TData extends RowData>({
       if (isFocused && !isEditing && !readOnly) {
         if (event.key === "F2" || event.key === "Enter") {
           event.preventDefault();
+
           event.stopPropagation();
+
           tableMeta?.onCellEditingStart?.(rowIndex, columnId);
+
           return;
         }
 
         if (event.key === " ") {
           event.preventDefault();
+
           event.stopPropagation();
+
           tableMeta?.onCellEditingStart?.(rowIndex, columnId);
+
           return;
         }
 
         if (event.key.length === 1 && !event.ctrlKey && !event.metaKey) {
           event.preventDefault();
+
           event.stopPropagation();
+
           tableMeta?.onCellEditingStart?.(rowIndex, columnId);
         }
       }
@@ -162,6 +174,7 @@ export function DataGridCellWrapper<TData extends RowData>({
       tableMeta?.onCellMouseUp?.();
     }
   }, [tableMeta, isEditing]);
+
   /* istanbul ignore end @preserve */
 
   return (
