@@ -171,7 +171,6 @@ overrides:
   ip-address: '>=10.7.5'
   postcss-selector-parser: '>=7.1.7'
   smol-toml: '>=1.9.1'
-  '@semantic-release/release-notes-generator>conventional-changelog-writer': ^9.3.0
 
 packageExtensionsChecksum: sha256-bTcs5ncUP+QdHuwY5V1bUX/D0Q2TEyGH9yJOymy9tws=
 
