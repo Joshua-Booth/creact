@@ -16,6 +16,14 @@ import path from "node:path";
 import { describe, it, type TestContext } from "node:test";
 
 import {
+  fixture,
+  LAYER,
+  ops,
+  recordState,
+  tempDir,
+  upstreamBase,
+} from "../test/helpers.ts";
+import {
   apply,
   CLAUDE_SKILLS,
   CREACT_LOCK,
@@ -32,7 +40,7 @@ import {
   SKILLS_DIR,
   SKILLS_LOCK,
   STATE_FILE,
-} from "../src/layer.ts";
+} from "./layer.ts";
 import {
   EXTRAS,
   isBuilt,
@@ -41,16 +49,8 @@ import {
   type ToolchainId,
   TOOLCHAINS,
   UsageError,
-} from "../src/options.ts";
-import { BTS, type StackId, STACKS } from "../src/stacks.ts";
-import {
-  fixture,
-  LAYER,
-  ops,
-  recordState,
-  tempDir,
-  upstreamBase,
-} from "./helpers.ts";
+} from "./options.ts";
+import { BTS, type StackId, STACKS } from "./stacks.ts";
 
 const REPO = path.join(import.meta.dirname, "../../..");
 const STACK_IDS = Object.keys(STACKS) as StackId[];

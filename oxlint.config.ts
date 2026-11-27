@@ -10,7 +10,12 @@ import storybook from "eslint-plugin-storybook";
 import zod from "eslint-plugin-zod";
 import { defineConfig } from "oxlint";
 
+import landminesAllow from "./config/landmines-allow.json" with { type: "json" };
+
 type Rules = NonNullable<Parameters<typeof defineConfig>[0]["rules"]>;
+
+const { maxExports: MAX_EXPORTS_ALLOW, maxFileLines: MAX_FILE_LINES_ALLOW } =
+  landminesAllow;
 
 const errors = (names: string[]) =>
   Object.fromEntries(names.map((name) => [name, "error"]));
@@ -534,7 +539,7 @@ export default defineConfig({
         allow: {
           "packages/create-creact/test/cli.test.ts": 46,
           "packages/create-creact/test/scaffold.test.ts": 19,
-          "packages/create-creact/test/plan.test.ts": 1,
+          "packages/create-creact/src/plan.test.ts": 1,
         },
       },
     ],
@@ -543,6 +548,32 @@ export default defineConfig({
       { allow: { "src/shared/api/token-provider.test.ts": 5 } },
     ],
     "landmines/no-explicit-return-types": "error",
+
+    // Landmines' structure rules keep modules small and tests beside their
+    // subject. The allow counts cover files that predate them.
+    // declared-test-inputs stays off: it checks Turbo inputs, and this repo
+    // doesn't use Turbo.
+    "landmines/colocated-tests": "error",
+    "landmines/max-exports-per-module": ["error", { allow: MAX_EXPORTS_ALLOW }],
+    "landmines/max-file-lines": ["error", { allow: MAX_FILE_LINES_ALLOW }],
+    "landmines/max-files-per-directory": "error",
+    "landmines/no-github-scripts": "error",
+    "landmines/no-inline-hex-encoding": "error",
+    "landmines/no-prefix-cluster": "error",
+    "landmines/no-scripts-directory": "error",
+    "landmines/package-exports": "error",
+    "landmines/package-scripts": [
+      "error",
+      {
+        names: ["prepack", "test:scaffold"],
+        allow: { "packages/create-creact/package.json": 2 },
+      },
+    ],
+    "landmines/test-dir-only-cross-functional": [
+      "error",
+      { crossFunctional: [String.raw`process\.execPath, \[MAIN`] },
+    ],
+    "landmines/test-file-names": "error",
   },
 
   overrides: [
@@ -703,8 +734,22 @@ export default defineConfig({
     },
 
     {
+      // The repo's own build steps, which no framework or vendor CLI covers.
       files: ["scripts/**/*.ts"],
-      rules: { "security/detect-non-literal-fs-filename": "off" },
+      rules: {
+        "security/detect-non-literal-fs-filename": "off",
+        "landmines/no-scripts-directory": "off",
+      },
+    },
+
+    {
+      // Vitest's setup file and the script that refreshes create-creact's
+      // fixtures aren't tests or test data, so their names don't follow it.
+      files: [
+        "tests/setup.ts",
+        "packages/create-creact/test/capture-fixtures.ts",
+      ],
+      rules: { "landmines/test-file-names": "off" },
     },
   ],
 

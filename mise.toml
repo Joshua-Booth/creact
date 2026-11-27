@@ -256,7 +256,7 @@ run = "vitest --config {{vars.storybook_config}}/vitest.config.ts"
 [tasks."test:cli"]
 description = "Run the create-creact offline tests"
 dir = "packages/create-creact"
-run = "node --test test/options.test.ts test/cli.test.ts test/plan.test.ts test/ui.test.ts"
+run = "node --test src/options.test.ts test/cli.test.ts src/plan.test.ts src/ui.test.ts"
 
 [tasks."test:scaffold"]
 description = "Scaffold create-creact projects (CREACT_SCAFFOLD=1, stack, stack:styling or stack:styling:monorepo, prefixed with vite-plus: for Vite+)"
