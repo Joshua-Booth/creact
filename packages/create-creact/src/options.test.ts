@@ -11,8 +11,8 @@ import {
   type Request,
   resolveChoices,
   UsageError,
-} from "../src/options.ts";
-import { btsArgs } from "../src/stacks.ts";
+} from "./options.ts";
+import { btsArgs } from "./stacks.ts";
 
 const CWD = "/work";
 

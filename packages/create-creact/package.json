@@ -30,7 +30,7 @@
   ],
   "scripts": {
     "prepack": "tsc --project tsconfig.build.json",
-    "test": "node --test test/options.test.ts test/cli.test.ts test/plan.test.ts test/ui.test.ts",
+    "test": "node --test src/options.test.ts test/cli.test.ts src/plan.test.ts src/ui.test.ts",
     "test:scaffold": "node --test test/scaffold.test.ts"
   },
   "engines": {

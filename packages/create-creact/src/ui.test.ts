@@ -1,7 +1,7 @@
 /* oxlint-disable typescript/no-floating-promises -- node:test's describe and it return promises the runner awaits */
 import { describe, it, type TestContext } from "node:test";
 
-import { pickMode, seconds, shown, stackLine } from "../src/ui.ts";
+import { pickMode, seconds, shown, stackLine } from "./ui.ts";
 
 describe("pickMode", () => {
   it("draws in a terminal and prints plain lines anywhere else", (t: TestContext) => {
