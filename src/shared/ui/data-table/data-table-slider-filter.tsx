@@ -84,8 +84,10 @@ export function DataTableSliderFilter<TData extends RowData>({
     return { min: minValue, max: maxValue, step };
   }, [column, defaultRange]);
 
-  const range = useMemo((): RangeValue => {
-    return columnFilterValue ?? [min, max];
+  const range = useMemo(() => {
+    const fullRange: RangeValue = [min, max];
+
+    return columnFilterValue ?? fullRange;
   }, [columnFilterValue, min, max]);
 
   const onFromInputChange = useCallback(

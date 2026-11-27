@@ -21,8 +21,6 @@ interface Commit {
   footer: string | null;
 }
 
-type RuleResult = [boolean] | [boolean, string];
-
 const FSD_SCOPES = [
   "app",
   "pages",
@@ -153,7 +151,7 @@ const config: UserConfig = {
     "function-rules/subject-case": [
       ERROR,
       "always",
-      ({ subject }: Commit): RuleResult => {
+      ({ subject }: Commit) => {
         if (!subject) return [true];
         const firstWord = (subject.split(" ")[0] ?? "").toLowerCase();
 
@@ -219,7 +217,7 @@ const config: UserConfig = {
     "function-rules/subject-empty": [
       ERROR,
       "always",
-      ({ subject }: Commit): RuleResult => {
+      ({ subject }: Commit) => {
         if (!subject) return [true];
         const weakVerbs = [
           "make",
@@ -250,7 +248,7 @@ const config: UserConfig = {
     "function-rules/subject-min-length": [
       ERROR,
       "always",
-      ({ subject }: Commit): RuleResult => {
+      ({ subject }: Commit) => {
         if (!subject) return [true];
 
         const vagueWords = /\b(stuff|things?|various|misc|lots|code|wip)\b/i;
@@ -273,7 +271,7 @@ const config: UserConfig = {
     "function-rules/subject-max-length": [
       ERROR,
       "always",
-      ({ subject }: Commit): RuleResult => {
+      ({ subject }: Commit) => {
         if (!subject) return [true];
         const firstWord = subject.split(" ")[0] ?? "";
 
@@ -326,7 +324,7 @@ const config: UserConfig = {
     "function-rules/header-case": [
       ERROR,
       "always",
-      ({ header, body, footer }: Commit): RuleResult => {
+      ({ header, body, footer }: Commit) => {
         const fullMessage = `${header ?? ""} ${body ?? ""} ${footer ?? ""}`;
 
         if (!/jb-/i.test(fullMessage)) {
@@ -354,7 +352,7 @@ const config: UserConfig = {
     "function-rules/header-full-stop": [
       ERROR,
       "always",
-      ({ header, body, footer }: Commit): RuleResult => {
+      ({ header, body, footer }: Commit) => {
         const fullMessage = `${header ?? ""} ${body ?? ""} ${footer ?? ""}`;
 
         // Placeholder patterns: JB-0, JB-00, JB-000, JB-XXX, JB-xxx
@@ -379,7 +377,7 @@ const config: UserConfig = {
     "function-rules/scope-enum": [
       WARNING,
       "always",
-      ({ subject }: Commit): RuleResult => {
+      ({ subject }: Commit) => {
         if (!subject) return [true];
 
         // Match " and " but not in compound nouns like "drag-and-drop"
@@ -404,7 +402,7 @@ const config: UserConfig = {
     "function-rules/scope-case": [
       ERROR,
       "always",
-      ({ header, body, footer }: Commit): RuleResult => {
+      ({ header, body, footer }: Commit) => {
         const fullMessage = `${header ?? ""} ${body ?? ""} ${footer ?? ""}`;
 
         // Match #123 but not in URLs or code references
@@ -430,7 +428,7 @@ const config: UserConfig = {
     "function-rules/body-case": [
       ERROR,
       "always",
-      ({ header, body, footer }: Commit): RuleResult => {
+      ({ header, body, footer }: Commit) => {
         const isBreaking =
           (header?.includes("!") ?? false) ||
           (footer != null && /breaking[\s-]?change/i.test(footer));

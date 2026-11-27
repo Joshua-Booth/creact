@@ -32,7 +32,7 @@ export const useAuthStore = create<AuthState>()((set) => ({
  */
 export function syncAuthFromStorage(
   event: Pick<StorageEvent, "key" | "newValue">
-): void {
+) {
   if (event.key !== TOKEN_KEY) return;
   const { token } = useAuthStore.getState();
 

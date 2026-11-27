@@ -8,9 +8,7 @@ export interface ForgotPasswordActionData {
   error?: string;
 }
 
-export async function forgotPasswordAction(
-  formData: FormData
-): Promise<ForgotPasswordActionData> {
+export async function forgotPasswordAction(formData: FormData) {
   const result = forgotPasswordSchema.safeParse({
     email: formData.get("email"),
   });

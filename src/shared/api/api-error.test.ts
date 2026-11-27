@@ -17,7 +17,7 @@ const options = {
   logLabel: "[Test]",
 } as const;
 
-function createHTTPError(body: unknown, status = 400): HTTPError {
+function createHTTPError(body: unknown, status = 400) {
   const response = { status } as Response;
   const error = new HTTPError(
     response,

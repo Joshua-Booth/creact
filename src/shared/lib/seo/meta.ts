@@ -40,7 +40,7 @@ function isLanguage(value: unknown): value is Language {
  */
 export function getLocaleFromMatches(
   matches: readonly (MetaMatch | undefined)[]
-): Language {
+) {
   const rootMatch = matches.find((m): m is MetaMatch => m?.id === "root");
   const loaderData = rootMatch?.loaderData;
 
@@ -63,10 +63,7 @@ export function getLocaleFromMatches(
  * @param pageKey - Key of the SEO page translations
  * @returns Object with title and description strings
  */
-export function getSeoTranslation(
-  locale: Language,
-  pageKey: SeoPageKey
-): { title: string; description: string } {
+export function getSeoTranslation(locale: Language, pageKey: SeoPageKey) {
   const seo = resources[locale].common.seo;
   const page = seo.pages[pageKey];
   return {
@@ -81,7 +78,7 @@ export function getSeoTranslation(
  * @param pageMeta - Page metadata including title, description, and optional fields
  * @returns Array of meta descriptor objects
  */
-export function generateMeta(pageMeta: PageMeta): MetaDescriptor[] {
+export function generateMeta(pageMeta: PageMeta) {
   const siteUrl = getSiteUrl();
   const fullTitle = `${pageMeta.title} | ${SITE_NAME}`;
   const ogImageUrl = pageMeta.ogImage

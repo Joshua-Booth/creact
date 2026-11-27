@@ -27,7 +27,7 @@ interface AllCellTypesRow {
 
 // --- Sample data ---
 
-function createAllCellTypesData(): AllCellTypesRow[] {
+function createAllCellTypesData() {
   return [
     {
       id: "1",

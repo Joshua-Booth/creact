@@ -37,7 +37,7 @@ import { useDebouncedCallback } from "./use-debounced-callback";
  */
 export function buildColumnFilters(
   filterValues: Record<string, string | string[] | null>
-): ColumnFiltersState {
+) {
   const filters: ColumnFiltersState = [];
   for (const [key, value] of Object.entries(filterValues)) {
     if (value !== null) {

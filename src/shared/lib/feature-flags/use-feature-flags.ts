@@ -35,7 +35,7 @@ export function useFeatureFlag(
 export function useFeatureFlag(
   key: FeatureFlagKey,
   options?: FeatureFlagOptions<boolean>
-): boolean | undefined {
+) {
   return useFeatureFlagEnabled(key) ?? options?.defaultValue;
 }
 
@@ -53,7 +53,7 @@ export function useFeatureFlag(
 export const useFeatureFlagVariant = (
   key: FeatureFlagKey,
   options?: FeatureFlagOptions<string>
-): string | undefined => {
+) => {
   const variant = useFeatureFlagVariantKey(key);
   if (typeof variant === "string") {
     return variant;
@@ -77,7 +77,7 @@ export const useFeatureFlagVariant = (
 export const useFeatureFlagConfig = <T = FeatureFlagPayload>(
   key: FeatureFlagKey,
   options?: FeatureFlagOptions<T>
-): T | undefined => {
+) => {
   const payload = useFeatureFlagPayload(key);
   return (payload as T | undefined) ?? options?.defaultValue;
 };
@@ -92,6 +92,6 @@ export const useFeatureFlagConfig = <T = FeatureFlagPayload>(
  * console.log("Active flags:", activeFlags);
  * ```
  */
-export const useActiveFlags = (): string[] => {
+export const useActiveFlags = () => {
   return useActiveFeatureFlags();
 };

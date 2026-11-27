@@ -29,7 +29,7 @@ interface Student {
 
 // --- Sample data ---
 
-function createStudentData(): Student[] {
+function createStudentData() {
   const students = [
     {
       id: "1",
@@ -169,7 +169,7 @@ const gradeOptions = [
 
 // --- Helpers ---
 
-function averageColor(avg: number): string {
+function averageColor(avg: number) {
   if (avg < 60) return "text-red-700 dark:text-red-400";
   if (avg < 80) return "text-amber-800 dark:text-yellow-400";
   return "text-green-800 dark:text-green-400";

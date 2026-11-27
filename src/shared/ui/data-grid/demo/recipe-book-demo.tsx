@@ -26,7 +26,7 @@ interface Recipe {
 
 // --- Sample data ---
 
-function createRecipeData(): Recipe[] {
+function createRecipeData() {
   return [
     {
       id: "1",

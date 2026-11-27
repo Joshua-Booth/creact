@@ -12,7 +12,7 @@ interface DeviceState {
   isDesktop: boolean;
 }
 
-function getDeviceState(width: number): DeviceState {
+function getDeviceState(width: number) {
   return {
     isMobile: width < BREAKPOINTS.MOBILE,
     isTablet: width >= BREAKPOINTS.MOBILE && width < BREAKPOINTS.TABLET,
@@ -32,7 +32,7 @@ function getDeviceState(width: number): DeviceState {
  * }
  * ```
  */
-export function useDevice(): DeviceState {
+export function useDevice() {
   const [state, setState] = React.useState<DeviceState>(() =>
     getDeviceState(window.innerWidth)
   );

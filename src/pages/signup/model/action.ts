@@ -10,9 +10,7 @@ export interface SignupActionData {
   error: string;
 }
 
-export async function signupAction(
-  formData: FormData
-): Promise<SignupActionData | Response> {
+export async function signupAction(formData: FormData) {
   const result = signupSchema.safeParse({
     email: formData.get("email"),
     password: formData.get("password"),

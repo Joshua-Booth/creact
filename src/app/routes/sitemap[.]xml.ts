@@ -14,7 +14,7 @@ interface SitemapEntry {
   priority: number;
 }
 
-function generateSitemapXml(entries: SitemapEntry[]): string {
+function generateSitemapXml(entries: SitemapEntry[]) {
   const urlEntries = entries
     .map(
       (entry) => `  <url>

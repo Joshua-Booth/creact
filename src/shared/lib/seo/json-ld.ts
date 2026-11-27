@@ -1,7 +1,7 @@
 import { getSiteUrl, SITE_NAME } from "@/shared/config";
 
 /** Organization schema for structured data */
-export interface OrganizationSchema {
+interface OrganizationSchema {
   "@context": "https://schema.org";
   "@type": "Organization";
   name: string;
@@ -9,7 +9,7 @@ export interface OrganizationSchema {
 }
 
 /** WebSite schema for structured data */
-export interface WebSiteSchema {
+interface WebSiteSchema {
   "@context": "https://schema.org";
   "@type": "WebSite";
   name: string;
@@ -20,24 +20,28 @@ export interface WebSiteSchema {
  * Generates Organization JSON-LD structured data.
  * @returns Organization schema object
  */
-export function generateOrganizationJsonLd(): OrganizationSchema {
-  return {
+export function generateOrganizationJsonLd() {
+  const schema: OrganizationSchema = {
     "@context": "https://schema.org",
     "@type": "Organization",
     name: SITE_NAME,
     url: getSiteUrl(),
   };
+
+  return schema;
 }
 
 /**
  * Generates WebSite JSON-LD structured data.
  * @returns WebSite schema object
  */
-export function generateWebSiteJsonLd(): WebSiteSchema {
-  return {
+export function generateWebSiteJsonLd() {
+  const schema: WebSiteSchema = {
     "@context": "https://schema.org",
     "@type": "WebSite",
     name: SITE_NAME,
     url: getSiteUrl(),
   };
+
+  return schema;
 }

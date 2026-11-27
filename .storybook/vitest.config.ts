@@ -18,7 +18,7 @@ const EXPECTED_ERROR_PATTERNS = [
   "suspended inside an `act` scope",
 ];
 
-function isExpectedError(msg: string): boolean {
+function isExpectedError(msg: string) {
   return EXPECTED_ERROR_PATTERNS.some((pattern) => msg.includes(pattern));
 }
 

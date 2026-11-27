@@ -31,8 +31,8 @@ interface FilterProject {
 
 // --- Sample data ---
 
-function createFilterProjects(): FilterProject[] {
-  return [
+function createFilterProjects() {
+  const projects: FilterProject[] = [
     {
       id: "1",
       title: "Website Redesign",
@@ -124,6 +124,8 @@ function createFilterProjects(): FilterProject[] {
       progress: 0,
     },
   ];
+
+  return projects;
 }
 
 // --- Demo ---

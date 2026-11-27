@@ -35,11 +35,11 @@ export class ErrorBoundary extends Component<
     this.state = { hasError: false, error: null };
   }
 
-  static getDerivedStateFromError(error: Error): ErrorBoundaryState {
+  static getDerivedStateFromError(error: Error) {
     return { hasError: true, error };
   }
 
-  override componentDidCatch(error: Error, errorInfo: ErrorInfo): void {
+  override componentDidCatch(error: Error, errorInfo: ErrorInfo) {
     Sentry.captureException(error, {
       extra: {
         componentStack: errorInfo.componentStack,
@@ -48,12 +48,12 @@ export class ErrorBoundary extends Component<
   }
 
   /* istanbul ignore start @preserve -- Reset handler only triggered via user interaction on fallback UI */
-  handleReset = (): void => {
+  handleReset = () => {
     this.setState({ hasError: false, error: null });
   };
   /* istanbul ignore end @preserve */
 
-  override render(): ReactNode {
+  override render() {
     if (this.state.hasError) {
       if (this.props.fallback != null) {
         return this.props.fallback;

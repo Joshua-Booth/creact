@@ -23,7 +23,7 @@ export function apiErrorMessage(
     readonly fallback: string;
     readonly logLabel: string;
   }
-): string {
+) {
   if (!(error instanceof HTTPError)) {
     console.error(`${options.logLabel} Non-HTTP error:`, error);
     if (error instanceof DOMException && error.name === "AbortError") {
@@ -47,19 +47,15 @@ export function apiErrorMessage(
   });
 }
 
-function readBody(
-  body: object,
-  fields: readonly ApiErrorField[]
-): string | undefined {
+function readBody(body: object, fields: readonly ApiErrorField[]) {
   const record = body as Record<string, unknown>;
   for (const field of fields) {
     const value = record[field.key];
     const picked = field.shape === "list" ? firstItem(value) : value;
     if (typeof picked === "string") return picked;
   }
-  return undefined;
 }
 
-function firstItem(value: unknown): unknown {
+function firstItem(value: unknown) {
   return Array.isArray(value) ? value[0] : undefined;
 }

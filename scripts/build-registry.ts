@@ -100,13 +100,13 @@ const warnings: string[] = [];
 
 const byName = (a: string, b: string) => a.localeCompare(b);
 
-function listFiles(dir: string): string[] {
+function listFiles(dir: string) {
   return readdirSync(dir, { recursive: true, encoding: "utf8" })
     .filter((entry) => statSync(path.join(dir, entry)).isFile())
     .sort(byName);
 }
 
-function listDirs(dir: string): string[] {
+function listDirs(dir: string) {
   return readdirSync(dir)
     .filter((entry) => statSync(path.join(dir, entry)).isDirectory())
     .sort(byName);
@@ -116,29 +116,29 @@ const isShipped = (file: string) =>
   !/\.stories\.tsx$|\.mdx$/.test(file) &&
   !file.split(path.sep).includes("demo");
 
-function titleCase(name: string): string {
+function titleCase(name: string) {
   return name
     .split("-")
     .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
     .join(" ");
 }
 
-function packageRoot(specifier: string): string {
+function packageRoot(specifier: string) {
   const parts = specifier.split("/");
   if (specifier.startsWith("@")) return parts.slice(0, 2).join("/");
   return parts[0];
 }
 
-function registryRef(name: string): string {
+function registryRef(name: string) {
   const ref = args.ref === undefined ? "" : `#${args.ref}`;
   return `${GITHUB_PREFIX}/${name}${ref}`;
 }
 
-function itemName(address: string): string {
+function itemName(address: string) {
   return address.slice(GITHUB_PREFIX.length + 1).split("#")[0];
 }
 
-function stripComments(source: string): string {
+function stripComments(source: string) {
   const codeLines: string[] = [];
   let inBlockComment = false;
   for (const line of source.split("\n")) {
@@ -154,7 +154,7 @@ function stripComments(source: string): string {
   return codeLines.join("\n");
 }
 
-function parseImports(source: string): string[] {
+function parseImports(source: string) {
   const pattern = /(?:import|export)[\s\S]*?from\s+["']([^"']+)["']/g;
   return [...stripComments(source).matchAll(pattern)].map((match) => match[1]);
 }
@@ -164,12 +164,7 @@ interface DocSymbol {
   name: string;
 }
 
-interface DocComment {
-  summary: string;
-  symbol?: DocSymbol;
-}
-
-function docComments(source: string): DocComment[] {
+function docComments(source: string) {
   return [...source.matchAll(/\/\*\*([\s\S]*?)\*\//g)].map((match) => {
     const paragraph: string[] = [];
     for (const rawLine of match[1].split("\n")) {
@@ -192,15 +187,11 @@ function docComments(source: string): DocComment[] {
   });
 }
 
-function backedItemName(libName: string): string {
+function backedItemName(libName: string) {
   return libName.replace(/-core$/, "");
 }
 
-function describeFromJsdoc(
-  name: string,
-  dir: string,
-  files: string[]
-): string | undefined {
+function describeFromJsdoc(name: string, dir: string, files: string[]) {
   const mainFiles = [`${name}.tsx`, `${name}.ts`, "index.ts"];
   const rank = (file: string) => {
     const index = mainFiles.indexOf(file);
@@ -230,7 +221,7 @@ function describeFromJsdoc(
   )?.summary;
 }
 
-function itemForPath(absolute: string): string | undefined {
+function itemForPath(absolute: string) {
   for (const dir of Object.values(SLICES)) {
     const relative = path.relative(dir, absolute);
     if (relative.startsWith("..")) continue;
@@ -238,10 +229,9 @@ function itemForPath(absolute: string): string | undefined {
     const stats = statSync(path.join(dir, head), { throwIfNoEntry: false });
     return stats?.isDirectory() === true ? head : undefined;
   }
-  return undefined;
 }
 
-function resolveAlias(specifier: string): string {
+function resolveAlias(specifier: string) {
   for (const { find, replacement } of aliases) {
     if (specifier.startsWith(`${find}/`)) {
       return replacement + specifier.slice(find.length);
@@ -250,7 +240,7 @@ function resolveAlias(specifier: string): string {
   return specifier;
 }
 
-function barrelReexportsOthers(itemDir: string): boolean {
+function barrelReexportsOthers(itemDir: string) {
   const ownFile = `./${path.basename(itemDir)}`;
   const barrel = readFileSync(path.join(itemDir, "index.ts"), "utf8");
   return parseImports(barrel).some((specifier) => specifier !== ownFile);
@@ -261,7 +251,7 @@ function recordImport(
   fileDir: string,
   ownDirs: string[],
   targets: ImportTargets
-): void {
+) {
   if (specifier.startsWith("node:")) return;
   const isInternal = specifier.startsWith("@/") || specifier.startsWith(".");
   if (!isInternal) {
@@ -296,7 +286,7 @@ function recordImport(
   targets.items.add(item);
 }
 
-function collectImports(filePaths: string[], ownDirs: string[]): ImportTargets {
+function collectImports(filePaths: string[], ownDirs: string[]) {
   const targets: ImportTargets = { npm: new Set(), items: new Set() };
   for (const filePath of filePaths) {
     if (!/\.tsx?$/.test(filePath)) continue;
@@ -307,7 +297,7 @@ function collectImports(filePaths: string[], ownDirs: string[]): ImportTargets {
   return targets;
 }
 
-function withVersion(itemName: string, pkg: string): string {
+function withVersion(itemName: string, pkg: string) {
   const version = packageVersions[pkg];
   if (version === undefined) {
     warnings.push(`${itemName}: npm dependency "${pkg}" not in package.json`);
@@ -316,19 +306,13 @@ function withVersion(itemName: string, pkg: string): string {
   return `${pkg}@${version}`;
 }
 
-function hostRequirementsFor(npm: ReadonlySet<string>): string[] {
+function hostRequirementsFor(npm: ReadonlySet<string>) {
   return HOST_REQUIREMENTS.filter((requirement) =>
     requirement.packages.some((pkg) => npm.has(pkg))
   ).map((requirement) => requirement.name);
 }
 
-function dependencyFields(
-  itemName: string,
-  targets: ImportTargets
-): Pick<
-  RegistryItem,
-  "dependencies" | "devDependencies" | "registryDependencies"
-> {
+function dependencyFields(itemName: string, targets: ImportTargets) {
   const npm = [...targets.npm].sort(byName);
   const dependencies = npm
     .filter((pkg) => pkg in packageJson.dependencies)
@@ -349,12 +333,18 @@ function dependencyFields(
   };
 }
 
-function shippedFile(absolute: string): RegistryFile {
+function shippedFile(absolute: string) {
   const relative = path.relative(ROOT, absolute);
-  return { path: relative, type: "registry:file", target: `~/${relative}` };
+  const file: RegistryFile = {
+    path: relative,
+    type: "registry:file",
+    target: `~/${relative}`,
+  };
+
+  return file;
 }
 
-function buildSliceItem(type: SliceType, name: string): RegistryItem {
+function buildSliceItem(type: SliceType, name: string) {
   const dir = path.join(SLICES[type], name);
   const shipped = listFiles(dir).filter(isShipped);
   const targets = collectImports(
@@ -365,7 +355,7 @@ function buildSliceItem(type: SliceType, name: string): RegistryItem {
   if (description === undefined) {
     warnings.push(`${name}: no JSDoc to describe the item`);
   }
-  return {
+  const item: RegistryItem = {
     name,
     type,
     title: titleCase(name),
@@ -373,9 +363,11 @@ function buildSliceItem(type: SliceType, name: string): RegistryItem {
     ...dependencyFields(name, targets),
     files: shipped.map((file) => shippedFile(path.join(dir, file))),
   };
+
+  return item;
 }
 
-function buildComponentItems(): RegistryItem[] {
+function buildComponentItems() {
   return listDirs(UI_DIR)
     .filter((name) =>
       listFiles(path.join(UI_DIR, name)).some(
@@ -385,11 +377,11 @@ function buildComponentItems(): RegistryItem[] {
     .map((name) => buildSliceItem("registry:ui", name));
 }
 
-function dependencyNames(item: RegistryItem): string[] {
+function dependencyNames(item: RegistryItem) {
   return (item.registryDependencies ?? []).map(itemName);
 }
 
-function buildLibItems(consumers: RegistryItem[]): RegistryItem[] {
+function buildLibItems(consumers: RegistryItem[]) {
   const libNames = new Set(listDirs(LIB_DIR));
   const built = new Map<string, RegistryItem>();
   const pending = consumers.flatMap(dependencyNames);
@@ -402,7 +394,7 @@ function buildLibItems(consumers: RegistryItem[]): RegistryItem[] {
   return [...built.values()];
 }
 
-function assertNoSliceNameCollisions(): void {
+function assertNoSliceNameCollisions() {
   const uiNames = new Set(listDirs(UI_DIR));
   for (const name of listDirs(LIB_DIR)) {
     if (uiNames.has(name)) {
@@ -423,7 +415,7 @@ interface InfraSpec {
   docs?: string;
 }
 
-function buildInfraItem(spec: InfraSpec): RegistryItem {
+function buildInfraItem(spec: InfraSpec) {
   const filePaths = spec.paths.flatMap((relative) => {
     const absolute = path.join(ROOT, relative);
     return statSync(absolute).isDirectory()
@@ -447,7 +439,7 @@ function buildInfraItem(spec: InfraSpec): RegistryItem {
   };
 }
 
-function cssBlock(css: string, prelude: string): string {
+function cssBlock(css: string, prelude: string) {
   const start = css.indexOf(`${prelude} {`);
   if (start === -1) throw new Error(`globals.css has no "${prelude}" block`);
   const open = start + prelude.length + 1;
@@ -461,14 +453,14 @@ function cssBlock(css: string, prelude: string): string {
   throw new Error(`globals.css has no balanced "${prelude}" block`);
 }
 
-function cssDeclarations(block: string): string[] {
+function cssDeclarations(block: string) {
   return block
     .split(";")
     .map((declaration) => declaration.trim())
     .filter((declaration) => declaration !== "");
 }
 
-function cssVars(block: string): Record<string, string> {
+function cssVars(block: string) {
   const vars: Record<string, string> = {};
   for (const declaration of cssDeclarations(block)) {
     if (!declaration.startsWith("--")) continue;
@@ -480,7 +472,7 @@ function cssVars(block: string): Record<string, string> {
   return vars;
 }
 
-function buildThemeItem(): RegistryItem {
+function buildThemeItem() {
   const globalsCss = readFileSync(GLOBALS_CSS, "utf8");
   const packageImports = [...globalsCss.matchAll(/^@import "([^"]+)";/gm)]
     .map(([, specifier]) => specifier)
@@ -531,7 +523,7 @@ function buildThemeItem(): RegistryItem {
   };
 }
 
-function buildHostRequirementItem(requirement: HostRequirement): RegistryItem {
+function buildHostRequirementItem(requirement: HostRequirement) {
   return {
     name: requirement.name,
     type: "registry:item",
@@ -544,7 +536,7 @@ function buildHostRequirementItem(requirement: HostRequirement): RegistryItem {
   };
 }
 
-function buildInfraItems(): RegistryItem[] {
+function buildInfraItems() {
   return [
     buildThemeItem(),
     buildInfraItem({
@@ -601,7 +593,7 @@ function buildInfraItems(): RegistryItem[] {
   ];
 }
 
-function verifyRegistryDependencies(items: RegistryItem[]): void {
+function verifyRegistryDependencies(items: RegistryItem[]) {
   const itemNames = new Set(items.map((item) => item.name));
   for (const item of items) {
     for (const dependency of dependencyNames(item)) {
@@ -614,7 +606,7 @@ function verifyRegistryDependencies(items: RegistryItem[]): void {
   }
 }
 
-function verifyHostRequirementsUsed(items: RegistryItem[]): void {
+function verifyHostRequirementsUsed(items: RegistryItem[]) {
   const used = new Set(items.flatMap(dependencyNames));
   for (const { name } of HOST_REQUIREMENTS) {
     if (!used.has(name)) {
@@ -625,7 +617,7 @@ function verifyHostRequirementsUsed(items: RegistryItem[]): void {
   }
 }
 
-function main(): void {
+function main() {
   assertNoSliceNameCollisions();
   const shipped = [...buildComponentItems(), ...buildInfraItems()];
   const items = [

@@ -36,7 +36,7 @@ interface IstanbulEntry {
   b: Record<string, number[]>;
 }
 
-function locKey(loc: { start: { line: number; column: number } }): string {
+function locKey(loc: { start: { line: number; column: number } }) {
   return `${String(loc.start.line)}:${String(loc.start.column)}`;
 }
 
@@ -54,7 +54,7 @@ function locKey(loc: { start: { line: number; column: number } }): string {
 function containsPoint(
   range: IstanbulLocation,
   point: { line: number; column: number }
-): boolean {
+) {
   const { start, end } = range;
   // Same start → not "inside", handled by exact locKey match
   if (point.line === start.line && point.column === start.column) return false;
@@ -81,7 +81,7 @@ const IGNORE_START_RE = /(?:\/\*|\/\/)\s*istanbul ignore start\b/;
 const IGNORE_END_RE = /(?:\/\*|\/\/)\s*istanbul ignore end\b/;
 const IGNORE_NEXT_RE = /(?:\/\*|\/\/)\s*istanbul ignore next\b/;
 
-function parseIstanbulIgnoreRanges(source: string): IgnoreRange[] {
+function parseIstanbulIgnoreRanges(source: string) {
   const lines = source.split("\n");
   const ranges: IgnoreRange[] = [];
   let ignoreStartLine: number | null = null;
@@ -111,7 +111,7 @@ function parseIstanbulIgnoreRanges(source: string): IgnoreRange[] {
 
 function buildLocIndex(
   map: Record<string, { loc: IstanbulLocation } | IstanbulLocation>
-): Map<string, string> {
+) {
   const index = new Map<string, string>();
   for (const [id, entry] of Object.entries(map)) {
     const loc = "loc" in entry ? entry.loc : entry;
@@ -124,7 +124,7 @@ function mergeStatements(
   result: IstanbulEntry,
   overlay: IstanbulEntry,
   stmtByLoc: Map<string, string>
-): void {
+) {
   let nextId = Math.max(0, ...Object.keys(result.statementMap).map(Number)) + 1;
   for (const [id, loc] of Object.entries(overlay.statementMap)) {
     const existingId = stmtByLoc.get(locKey(loc));
@@ -149,7 +149,7 @@ function mergeFunctions(
   result: IstanbulEntry,
   overlay: IstanbulEntry,
   fnByLoc: Map<string, string>
-): void {
+) {
   let nextId = Math.max(0, ...Object.keys(result.fnMap).map(Number)) + 1;
   for (const [id, fn] of Object.entries(overlay.fnMap)) {
     const existingId = fnByLoc.get(locKey(fn.loc));
@@ -164,7 +164,7 @@ function mergeFunctions(
   }
 }
 
-function addBranchCounts(base: number[], overlay: number[]): void {
+function addBranchCounts(base: number[], overlay: number[]) {
   for (let i = 0; i < Math.max(base.length, overlay.length); i++) {
     base[i] = (base[i] ?? 0) + (overlay[i] ?? 0);
   }
@@ -174,7 +174,7 @@ function findMatchingBranch(
   branchByLoc: Map<string, string>,
   result: IstanbulEntry,
   overlayLoc: IstanbulLocation
-): string | undefined {
+) {
   const exactId = branchByLoc.get(locKey(overlayLoc));
   if (exactId != null) return exactId;
 
@@ -184,14 +184,13 @@ function findMatchingBranch(
       return baseId;
     }
   }
-  return undefined;
 }
 
 function mergeBranches(
   result: IstanbulEntry,
   overlay: IstanbulEntry,
   branchByLoc: Map<string, string>
-): void {
+) {
   let nextId = Math.max(0, ...Object.keys(result.branchMap).map(Number)) + 1;
   for (const [id, br] of Object.entries(overlay.branchMap)) {
     const matchedId = findMatchingBranch(branchByLoc, result, br.loc);
@@ -223,10 +222,7 @@ function mergeBranches(
  * @param overlay - Secondary coverage entry to merge in
  * @returns New entry with combined coverage counts
  */
-function mergeEntries(
-  base: IstanbulEntry,
-  overlay: IstanbulEntry
-): IstanbulEntry {
+function mergeEntries(base: IstanbulEntry, overlay: IstanbulEntry) {
   const result = structuredClone(base);
 
   const stmtByLoc = buildLocIndex(result.statementMap);
@@ -248,9 +244,7 @@ function mergeEntries(
  * suppressed by v8 ignore comments in browser-mode coverage.
  * @param combined - Merged coverage map to mutate
  */
-function stripPhantomImportBranches(
-  combined: Record<string, IstanbulEntry>
-): void {
+function stripPhantomImportBranches(combined: Record<string, IstanbulEntry>) {
   for (const entry of Object.values(combined)) {
     const idsToRemove: string[] = [];
     for (const [id, br] of Object.entries(entry.branchMap)) {
@@ -273,7 +267,7 @@ function stripPhantomImportBranches(
   }
 }
 
-function isLineIgnored(ranges: IgnoreRange[], line: number): boolean {
+function isLineIgnored(ranges: IgnoreRange[], line: number) {
   return ranges.some((r) => line >= r.startLine && line <= r.endLine);
 }
 
@@ -284,9 +278,7 @@ function isLineIgnored(ranges: IgnoreRange[], line: number): boolean {
  * reintroduce entries for regions the Istanbul instrumenter would skip.
  * @param combined - Merged coverage map to mutate
  */
-function stripIstanbulIgnoredEntries(
-  combined: Record<string, IstanbulEntry>
-): void {
+function stripIstanbulIgnoredEntries(combined: Record<string, IstanbulEntry>) {
   for (const entry of Object.values(combined)) {
     let source: string;
     try {
@@ -360,7 +352,7 @@ const EXCLUDED = new RegExp(
   ].join("|")
 );
 
-function isSourceFile(filePath: string): boolean {
+function isSourceFile(filePath: string) {
   return (
     filePath.includes("src/") &&
     !filePath.includes("node_modules") &&
@@ -373,7 +365,7 @@ const coverageFilterOptions = {
   entryFilter: (entry: { url: string }) => entry.url.includes("/assets/"),
 };
 
-function collectIstanbulFiles(): string[] {
+function collectIstanbulFiles() {
   const files: string[] = [];
 
   // Unit tests (vitest --project unit)
@@ -394,7 +386,7 @@ function collectIstanbulFiles(): string[] {
   return files;
 }
 
-async function convertE2eToIstanbul(e2eRawDir: string): Promise<string> {
+async function convertE2eToIstanbul(e2eRawDir: string) {
   const outputDir = path.join(rootDir, "coverage/e2e-istanbul");
   const outputFile = path.join(outputDir, "coverage-final.json");
 
@@ -411,9 +403,7 @@ async function convertE2eToIstanbul(e2eRawDir: string): Promise<string> {
   return outputFile;
 }
 
-function loadAndMergeIstanbulFiles(
-  files: string[]
-): Record<string, IstanbulEntry> {
+function loadAndMergeIstanbulFiles(files: string[]) {
   const combined: Record<string, IstanbulEntry> = {};
 
   for (const file of files) {
@@ -436,7 +426,7 @@ function loadAndMergeIstanbulFiles(
   return combined;
 }
 
-async function main(): Promise<void> {
+async function main() {
   const istanbulFiles = collectIstanbulFiles();
   const e2eRawDir = path.join(rootDir, "coverage/e2e/coverage/raw");
   const hasE2E = existsSync(e2eRawDir);

@@ -21,7 +21,7 @@ export function getCommonPinningStyles<TData extends RowData>({
 }: {
   column: DataTableColumn<TData>;
   withBorder?: boolean;
-}): React.CSSProperties {
+}) {
   const isPinned = column.getIsPinned();
   const isLastStartPinnedColumn =
     isPinned === "start" && column.getIsLastColumn("start");
@@ -49,7 +49,7 @@ export function getCommonPinningStyles<TData extends RowData>({
     width: column.getSize(),
     maxWidth: hasExplicitSize ? column.getSize() : undefined,
     zIndex: isPinned === false ? undefined : 1,
-  };
+  } satisfies React.CSSProperties;
 }
 
 /**
@@ -92,9 +92,7 @@ export function getDefaultFilterOperator(filterVariant: FilterVariant) {
  * @param filters - The array of column filters to validate
  * @returns Only the filters that contain valid, non-empty values
  */
-export function getValidFilters<TData>(
-  filters: ExtendedColumnFilter<TData>[]
-): ExtendedColumnFilter<TData>[] {
+export function getValidFilters<TData>(filters: ExtendedColumnFilter<TData>[]) {
   return filters.filter(
     (filter) =>
       filter.operator === "isEmpty" ||

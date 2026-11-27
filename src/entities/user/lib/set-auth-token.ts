@@ -8,7 +8,7 @@ import { useAuthStore } from "../model/store";
  * @param token - The authentication token to store
  * @returns A redirect response to the dashboard
  */
-export function setAuthTokenAndRedirect(token: string): Response {
+export function setAuthTokenAndRedirect(token: string) {
   useAuthStore.getState().login(token);
   return redirect(href("/dashboard"));
 }

@@ -112,7 +112,7 @@ interface DataGridStore {
 function useStore<T>(
   store: DataGridStore,
   selector: (state: DataGridState) => T
-): T {
+) {
   const getSnapshot = useCallback(
     () => selector(store.getState()),
     [store, selector]
@@ -344,9 +344,9 @@ export function useDataGrid<TData extends RowData>({
   } | null>(null);
 
   /* istanbul ignore start @preserve -- browser-only ARIA helper */
-  const getVisualRowIndex = useCallback((rowId: string): number | undefined => {
+  const getVisualRowIndex = useCallback((rowId: string) => {
     const rows = tableRef.current?.getRowModel().rows;
-    if (!rows) return undefined;
+    if (!rows) return;
 
     if (visualRowIndexCacheRef.current?.rows !== rows) {
       const map = new Map<string, number>();
@@ -363,7 +363,7 @@ export function useDataGrid<TData extends RowData>({
   /* istanbul ignore start @preserve -- column ID extraction */
   const columnIds = useMemo(() => {
     return columns
-      .map((c): string | undefined => {
+      .map((c) => {
         if (c.id) return c.id;
         return "accessorKey" in c ? (c.accessorKey as string) : undefined;
       })
@@ -553,85 +553,82 @@ export function useDataGrid<TData extends RowData>({
   /* istanbul ignore end @preserve */
 
   /* istanbul ignore start @preserve -- browser-only callback tested via Storybook */
-  const serializeCellsToTsv = useCallback(
-    (selectedCellsArray: string[]): string | null => {
-      const currentTable = tableRef.current;
-      const rows = currentTable?.getRowModel().rows;
-      if (!rows) return null;
+  const serializeCellsToTsv = useCallback((selectedCellsArray: string[]) => {
+    const currentTable = tableRef.current;
+    const rows = currentTable?.getRowModel().rows;
+    if (!rows) return null;
 
-      const selectedColumnIds: string[] = [];
+    const selectedColumnIds: string[] = [];
 
-      for (const cellKey of selectedCellsArray) {
-        const { columnId } = parseCellKey(cellKey);
-        if (columnId !== "" && !selectedColumnIds.includes(columnId)) {
-          selectedColumnIds.push(columnId);
-        }
+    for (const cellKey of selectedCellsArray) {
+      const { columnId } = parseCellKey(cellKey);
+      if (columnId !== "" && !selectedColumnIds.includes(columnId)) {
+        selectedColumnIds.push(columnId);
       }
+    }
 
-      const cellData = new Map<string, string>();
-      for (const cellKey of selectedCellsArray) {
-        const { rowIndex, columnId } = parseCellKey(cellKey);
-        const row = rows[rowIndex];
-        if (row) {
-          const cell = row
-            .getVisibleCells()
-            .find((c) => c.column.id === columnId);
-          if (cell) {
-            const value = cell.getValue();
-            const cellVariant = cell.column.columnDef.meta?.cell?.variant;
+    const cellData = new Map<string, string>();
+    for (const cellKey of selectedCellsArray) {
+      const { rowIndex, columnId } = parseCellKey(cellKey);
+      const row = rows[rowIndex];
+      if (row) {
+        const cell = row
+          .getVisibleCells()
+          .find((c) => c.column.id === columnId);
+        if (cell) {
+          const value = cell.getValue();
+          const cellVariant = cell.column.columnDef.meta?.cell?.variant;
 
-            let serializedValue = "";
-            if (cellVariant === "file" || cellVariant === "multi-select") {
-              serializedValue = value == null ? "" : JSON.stringify(value);
-            } else if (value instanceof Date) {
-              serializedValue = value.toISOString();
-            } else if (value != null && typeof value === "object") {
-              serializedValue = JSON.stringify(value);
-            } else if (
-              typeof value === "string" ||
-              typeof value === "number" ||
-              typeof value === "boolean" ||
-              typeof value === "bigint"
-            ) {
-              serializedValue = String(value);
-            }
-
-            cellData.set(cellKey, serializedValue);
+          let serializedValue = "";
+          if (cellVariant === "file" || cellVariant === "multi-select") {
+            serializedValue = value == null ? "" : JSON.stringify(value);
+          } else if (value instanceof Date) {
+            serializedValue = value.toISOString();
+          } else if (value != null && typeof value === "object") {
+            serializedValue = JSON.stringify(value);
+          } else if (
+            typeof value === "string" ||
+            typeof value === "number" ||
+            typeof value === "boolean" ||
+            typeof value === "bigint"
+          ) {
+            serializedValue = String(value);
           }
+
+          cellData.set(cellKey, serializedValue);
         }
       }
+    }
 
-      const rowIndices = new Set<number>();
-      const colIndices = new Set<number>();
+    const rowIndices = new Set<number>();
+    const colIndices = new Set<number>();
 
-      for (const cellKey of selectedCellsArray) {
-        const { rowIndex, columnId } = parseCellKey(cellKey);
-        rowIndices.add(rowIndex);
-        const colIndex = selectedColumnIds.indexOf(columnId);
-        if (colIndex >= 0) {
-          colIndices.add(colIndex);
-        }
+    for (const cellKey of selectedCellsArray) {
+      const { rowIndex, columnId } = parseCellKey(cellKey);
+      rowIndices.add(rowIndex);
+      const colIndex = selectedColumnIds.indexOf(columnId);
+      if (colIndex >= 0) {
+        colIndices.add(colIndex);
       }
+    }
 
-      const sortedRowIndices = [...rowIndices].sort((a, b) => a - b);
-      const sortedColIndices = [...colIndices].sort((a, b) => a - b);
-      const sortedColumnIds = sortedColIndices.map((i) => selectedColumnIds[i]);
+    const sortedRowIndices = [...rowIndices].sort((a, b) => a - b);
+    const sortedColIndices = [...colIndices].sort((a, b) => a - b);
+    const sortedColumnIds = sortedColIndices.map((i) => selectedColumnIds[i]);
 
-      return sortedRowIndices
-        .map((rowIndex) =>
-          sortedColumnIds
-            .map((columnId) => {
-              const cellKey = `${rowIndex}:${columnId}`;
-              return cellData.get(cellKey) ?? "";
-            })
-            .join("\t")
-        )
-        .join("\n");
-    },
-    []
-  );
+    return sortedRowIndices
+      .map((rowIndex) =>
+        sortedColumnIds
+          .map((columnId) => {
+            const cellKey = `${rowIndex}:${columnId}`;
+            return cellData.get(cellKey) ?? "";
+          })
+          .join("\t")
+      )
+      .join("\n");
+  }, []);
 
-  const getSelectedCellKeys = useCallback((): string[] | null => {
+  const getSelectedCellKeys = useCallback(() => {
     const currentState = store.getState();
 
     if (currentState.selectionState.selectedCells.size > 0) {
@@ -2308,7 +2305,7 @@ export function useDataGrid<TData extends RowData>({
       focusGuardRef.current = true;
 
       const navigableId = propsRef.current.columns
-        .map((c): string | undefined => {
+        .map((c) => {
           if (c.id) return c.id;
           return "accessorKey" in c ? (c.accessorKey as string) : undefined;
         })

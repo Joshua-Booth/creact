@@ -8,7 +8,7 @@ import { emailSchema, passwordSchema, simplePasswordSchema } from "./index";
 function firstIssueMessage(result: {
   success: boolean;
   error?: { issues: { message: string }[] };
-}): string {
+}) {
   expect(result.success).toBe(false);
   // eslint-disable-next-line @typescript-eslint/no-explicit-any, @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-unsafe-return -- narrowed above via expect
   return (result as any).error.issues[0].message;

@@ -19,10 +19,8 @@ export function getIsDateRange(value: DateSelection): value is DateRange {
  * @param timestamp - numeric or string timestamp to parse
  * @returns parsed Date or undefined if invalid
  */
-export function parseAsDate(
-  timestamp: number | string | undefined
-): Date | undefined {
-  if (timestamp == null) return undefined;
+export function parseAsDate(timestamp: number | string | undefined) {
+  if (timestamp == null) return;
   const numericTimestamp =
     typeof timestamp === "string" ? Number(timestamp) : timestamp;
   const date = new Date(numericTimestamp);
@@ -33,9 +31,7 @@ export function parseAsDate(
  * @param value - column filter value to parse
  * @returns array of parsed numeric or string values
  */
-export function parseColumnFilterValue(
-  value: unknown
-): (number | string | undefined)[] {
+export function parseColumnFilterValue(value: unknown) {
   if (value === null || value === undefined) {
     return [];
   }
@@ -57,7 +53,7 @@ export function parseColumnFilterValue(
  * @param range - date range to format
  * @returns formatted label string
  */
-export function formatDateRangeLabel(range: DateRange): string {
+export function formatDateRangeLabel(range: DateRange) {
   if (range.from == null && range.to == null) return "";
   if (range.from != null && range.to != null) {
     return `${formatDate(range.from)} - ${formatDate(range.to)}`;

@@ -10,9 +10,7 @@ export interface LoginActionData {
   error: string;
 }
 
-export async function loginAction(
-  formData: FormData
-): Promise<LoginActionData | Response> {
+export async function loginAction(formData: FormData) {
   const result = loginSchema.safeParse({
     email: formData.get("email"),
     password: formData.get("password"),

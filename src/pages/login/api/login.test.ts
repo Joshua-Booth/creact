@@ -19,7 +19,7 @@ vi.mock("@/shared/api", async (importOriginal) => {
   return { ...actual, api: { post: postMock } };
 });
 
-function createHTTPError(body: unknown): HTTPError {
+function createHTTPError(body: unknown) {
   const response = {} as Response;
   const error = new HTTPError(
     response,
@@ -30,7 +30,7 @@ function createHTTPError(body: unknown): HTTPError {
   return error;
 }
 
-function createHTTPErrorWithJsonFailure(): HTTPError {
+function createHTTPErrorWithJsonFailure() {
   const response = { status: 502 } as Response;
   return new HTTPError(
     response,

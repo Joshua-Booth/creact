@@ -9,11 +9,11 @@ interface LoginResponse {
   key: string;
 }
 
-export async function loginApi(data: LoginFormData): Promise<LoginResponse> {
+export async function loginApi(data: LoginFormData) {
   return api.post(AUTH_URLS.LOGIN, { json: data }).json<LoginResponse>();
 }
 
-export function parseLoginError(error: unknown): string {
+export function parseLoginError(error: unknown) {
   return apiErrorMessage(error, {
     fields: [
       { key: "non_field_errors", shape: "list" },

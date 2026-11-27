@@ -9,7 +9,7 @@ const sortingItemSchema = z.object({
   desc: z.boolean(),
 });
 
-function toSet(columnIds: string[] | Set<string>): Set<string> {
+function toSet(columnIds: string[] | Set<string>) {
   return columnIds instanceof Set ? columnIds : new Set(columnIds);
 }
 

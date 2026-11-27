@@ -27,7 +27,7 @@ interface Product {
 
 // --- Sample data ---
 
-function createProductData(): Product[] {
+function createProductData() {
   return [
     {
       id: "1",
