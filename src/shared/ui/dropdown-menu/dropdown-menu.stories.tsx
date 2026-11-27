@@ -131,8 +131,6 @@ const meta = preview.meta({
   },
 });
 
-// --- Stories ---
-
 /**
  * The default form of the dropdown menu.
  */
@@ -833,8 +831,6 @@ export const Positions = meta.story({
     </div>
   ),
 });
-
-// --- Tests ---
 
 Default.test(
   "when clicking an item, should close the dropdown menu",

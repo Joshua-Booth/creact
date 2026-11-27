@@ -51,8 +51,6 @@ const meta = preview.meta({
   ),
 });
 
-// --- Stories ---
-
 /**
  * The default form of the toast.
  */
@@ -218,8 +216,6 @@ export const Position = meta.story({
     );
   },
 });
-
-// --- Tests ---
 
 Default.test(
   "when clicking Show Toast button, should show a toast",

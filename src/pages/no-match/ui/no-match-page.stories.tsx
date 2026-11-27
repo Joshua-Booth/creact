@@ -21,8 +21,6 @@ const meta = preview.meta({
   },
 });
 
-// --- Stories ---
-
 export const Default = meta.story();
 
 export const RouteError = meta.story({
@@ -50,8 +48,6 @@ export const RouteError = meta.story({
     }),
   },
 });
-
-// --- Tests ---
 
 Default.test(
   "should render 404 heading and description",

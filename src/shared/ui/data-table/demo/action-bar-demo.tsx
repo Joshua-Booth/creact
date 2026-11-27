@@ -9,8 +9,6 @@ import { DataTable } from "../data-table";
 import { DataTableColumnHeader } from "../data-table-column-header";
 import { projects } from "./data-table-demo";
 
-// --- Demo ---
-
 /** Table with an action bar that appears when rows are selected. */
 export function ActionBarDemo() {
   const columns = useMemo<DataTableColumnDef<Project>[]>(

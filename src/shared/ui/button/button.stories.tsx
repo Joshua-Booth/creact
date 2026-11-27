@@ -57,8 +57,6 @@ const meta = preview.meta({
   },
 });
 
-// --- Stories ---
-
 /**
  * The default form of the button, used for primary actions and commands.
  */
@@ -224,8 +222,6 @@ export const Render = meta.story({
     </Button>
   ),
 });
-
-// --- Tests ---
 
 Default.test(
   "when clicking the button, should trigger onClick",

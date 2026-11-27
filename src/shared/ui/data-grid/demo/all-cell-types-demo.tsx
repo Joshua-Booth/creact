@@ -10,8 +10,6 @@ import { DataGrid } from "../data-grid";
 import { DataGridToolbar } from "./data-grid-demo";
 import { mockFilesUpload } from "./mock-files-upload";
 
-// --- Types ---
-
 interface AllCellTypesRow {
   id: string;
   shortText: string;
@@ -24,8 +22,6 @@ interface AllCellTypesRow {
   date: string;
   files: FileCellData[];
 }
-
-// --- Sample data ---
 
 function createAllCellTypesData() {
   return [
@@ -126,8 +122,6 @@ function createAllCellTypesData() {
   ];
 }
 
-// --- Options ---
-
 const allCellTypesSelectOptions = [
   { label: "Active", value: "active" },
   { label: "Draft", value: "draft" },
@@ -141,8 +135,6 @@ const allCellTypesTagOptions = [
   { label: "Mobile", value: "mobile" },
   { label: "Ops", value: "ops" },
 ];
-
-// --- Demo component ---
 
 /** Grid showcasing all 9 cell type variants. */
 export function AllCellTypesDemo({ readOnly = false }: { readOnly?: boolean }) {

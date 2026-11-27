@@ -46,8 +46,6 @@ const meta = preview.meta({
   },
 });
 
-// --- Stories ---
-
 /**
  * The default form of the command.
  */
@@ -370,8 +368,6 @@ export const ManyItems = meta.story({
     </Command>
   ),
 });
-
-// --- Tests ---
 
 Default.test(
   "should filter results when typing in combobox",

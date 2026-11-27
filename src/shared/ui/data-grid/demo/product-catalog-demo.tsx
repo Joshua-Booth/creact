@@ -10,8 +10,6 @@ import { DataGrid } from "../data-grid";
 import { DataGridToolbar } from "./data-grid-demo";
 import { mockFilesUpload } from "./mock-files-upload";
 
-// --- Types ---
-
 interface Product {
   id: string;
   name: string;
@@ -24,8 +22,6 @@ interface Product {
   inStock: boolean;
   images: FileCellData[];
 }
-
-// --- Sample data ---
 
 function createProductData() {
   return [
@@ -188,8 +184,6 @@ function createProductData() {
   ];
 }
 
-// --- Options ---
-
 const categoryOptions = [
   { label: "Electronics", value: "Electronics" },
   { label: "Apparel", value: "Apparel" },
@@ -208,8 +202,6 @@ const productTagOptions = [
   { label: "Limited Edition", value: "Limited Edition" },
   { label: "Clearance", value: "Clearance" },
 ];
-
-// --- Demo component ---
 
 /** E-commerce product catalog with all cell variants, paste, and search. */
 export function ProductCatalogDemo({

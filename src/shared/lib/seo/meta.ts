@@ -15,17 +15,11 @@ import type { MetaDescriptor, PageMeta } from "./types";
 
 type SeoPageKey = keyof (typeof resources)["en"]["common"]["seo"]["pages"];
 
-/** Match object from React Router MetaArgs */
 interface MetaMatch {
   id: string;
   loaderData?: unknown;
 }
 
-/**
- * Type guard to check if a value is a valid Language.
- * @param value - Value to check
- * @returns True if value is a supported language
- */
 function isLanguage(value: unknown): value is Language {
   return (
     typeof value === "string" && SUPPORTED_LANGUAGES.includes(value as Language)
@@ -74,8 +68,7 @@ export function getSeoTranslation(locale: Language, pageKey: SeoPageKey) {
 }
 
 /**
- * Generates an array of meta descriptors for React Router v7.
- * Accepts pre-translated strings for title and description.
+ * Builds the meta descriptors for a page from its pre-translated title and description.
  * @param pageMeta - Page metadata including title, description, and optional fields
  * @returns Array of meta descriptor objects
  */

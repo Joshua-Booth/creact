@@ -30,8 +30,6 @@ const meta = preview.meta({
   },
 });
 
-// --- Stories ---
-
 export const OnLandingPage = meta.story({
   decorators: [withUnauthenticated],
   render: (args) => <Root {...args} />,
@@ -61,8 +59,6 @@ export const Fallback = meta.story({
     }),
   },
 });
-
-// --- Tests ---
 
 OnLandingPage.test(
   "should render app container with Header on landing page",

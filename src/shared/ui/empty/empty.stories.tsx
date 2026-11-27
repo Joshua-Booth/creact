@@ -39,8 +39,6 @@ const meta = preview.meta({
   },
 });
 
-// --- Stories ---
-
 /**
  * The default empty state with icon, title, description, two buttons, and a link.
  */

@@ -175,7 +175,6 @@ export function ShortTextCell<TData extends RowData>({
 
             break;
           }
-          // No default
         }
       } else if (
         isFocused &&
@@ -574,7 +573,6 @@ export function NumberCell<TData extends RowData>({
 
             break;
           }
-          // No default
         }
       } else if (isFocused) {
         if (event.key === "Backspace") {
@@ -733,7 +731,6 @@ export function UrlCell<TData extends RowData>({
 
             break;
           }
-          // No default
         }
       } else if (
         isFocused &&
@@ -2126,7 +2123,6 @@ export function FileCell<TData extends RowData>({
 
             break;
           }
-          // No default
         }
       } else if (isFocused && event.key === "Enter") {
         event.preventDefault();

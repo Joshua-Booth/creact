@@ -65,8 +65,6 @@ function ListItem({
   );
 }
 
-// --- Stories ---
-
 /**
  * The default form of the navigation menu with a simple trigger and dropdown.
  */
@@ -400,8 +398,6 @@ export const Icon = meta.story({
     </NavigationMenu>
   ),
 });
-
-// --- Tests ---
 
 Default.test(
   "when clicking trigger, should open and display content",

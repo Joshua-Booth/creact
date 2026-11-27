@@ -27,8 +27,6 @@ const meta = preview.meta({
   },
 });
 
-// --- Stories ---
-
 /**
  * Displays when a route throws a standard Response (e.g. 500 from a loader).
  * Shows the HTTP status code and status text.

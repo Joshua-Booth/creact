@@ -12,8 +12,6 @@ import { DataTable } from "../data-table";
 import { DataTableColumnHeader } from "../data-table-column-header";
 import { DataTableToolbar } from "../data-table-toolbar";
 
-// --- Types ---
-
 interface Track {
   id: string;
   title: string;
@@ -25,8 +23,6 @@ interface Track {
   durationSec: number;
   rating: number;
 }
-
-// --- Sample data ---
 
 function createTrackData() {
   return [
@@ -198,8 +194,6 @@ function createTrackData() {
   ];
 }
 
-// --- Options ---
-
 const genreOptions = [
   { label: "Rock", value: "Rock" },
   { label: "Funk", value: "Funk" },
@@ -219,8 +213,6 @@ const moodOptions = [
   { label: "Mellow", value: "Mellow" },
   { label: "Atmospheric", value: "Atmospheric" },
 ];
-
-// --- Helpers ---
 
 function formatDuration(seconds: number) {
   const m = Math.floor(seconds / 60);
@@ -243,8 +235,6 @@ function StarRating({ rating }: { rating: number }) {
     </div>
   );
 }
-
-// --- Demo ---
 
 /** Music library table with dateRange filter, BPM range, star ratings, and genre badges. */
 export function MusicLibraryDemo() {

@@ -19,8 +19,6 @@ const meta = preview.meta({
   },
 });
 
-// --- Stories ---
-
 export const Default = meta.story({
   decorators: [withUnauthenticated],
 });
@@ -28,8 +26,6 @@ export const Default = meta.story({
 export const Authenticated = meta.story({
   decorators: [withAuthenticated],
 });
-
-// --- Tests ---
 
 Default.test(
   "should show login and signup links when unauthenticated",

@@ -36,8 +36,6 @@ const meta = preview.meta({
   },
 });
 
-// --- Stories ---
-
 /**
  * The default form of the progress.
  */
@@ -100,8 +98,6 @@ export const Completed = meta.story({
     value: 100,
   },
 });
-
-// --- Tests ---
 
 Default.test(
   "should render progressbar with correct aria values",

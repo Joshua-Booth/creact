@@ -9,7 +9,6 @@ import viteConfig from "./vite.config";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
-/** Patterns for expected error boundary console.error output that should not appear in test output. */
 const EXPECTED_ERROR_PATTERNS = [
   "simulated error for demonstration purposes",
   "The above error occurred",
@@ -46,7 +45,6 @@ export default mergeConfig(
       storybookTest({
         configDir: __dirname,
       }),
-      // Filter expected error boundary console.error forwarded from browser via Vite HMR
       {
         name: "filter-expected-errors",
         configureServer(server) {

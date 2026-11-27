@@ -237,7 +237,6 @@ describe("getFileIcon", () => {
     expect(getFileIcon(mimeType)).toBeDefined();
   });
 
-  // Verify all icons are distinct for key types
   it("should return different icons for different types", () => {
     const imageIcon = getFileIcon("image/png");
     const videoIcon = getFileIcon("video/mp4");
@@ -695,7 +694,6 @@ describe("scrollCellIntoView", () => {
       expected: -50,
     },
     {
-      // In RTL, "home" scrolls right
       name: "should swap home/end semantics in RTL",
       rects: clippedRight,
       direction: "home",
@@ -756,7 +754,6 @@ describe("scrollCellIntoView", () => {
       isRtl: false,
     });
 
-    // Cell left (100) < viewportLeft (0 + 120), so scrolls left
     expect(container.scrollLeft).toBe(-20);
   });
 
@@ -799,7 +796,6 @@ describe("scrollCellIntoView", () => {
       isRtl: false,
     });
 
-    // Cell right (450) > viewportRight (500 - 120 = 380), so scrolls right
     expect(container.scrollLeft).toBe(70);
   });
 
@@ -820,9 +816,6 @@ describe("scrollCellIntoView", () => {
       isRtl: false,
     });
 
-    // hasNegativeScroll = true, so isActuallyRtl = true
-    // With RTL, viewportLeft uses rightPinnedWidth (0), viewportRight uses leftPinnedWidth (0)
-    // Cell is fully visible, no scroll
     expect(container.scrollLeft).toBe(-10);
   });
 

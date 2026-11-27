@@ -11,8 +11,6 @@ import { DataTable } from "../data-table";
 import { DataTableColumnHeader } from "../data-table-column-header";
 import { DataTableToolbar } from "../data-table-toolbar";
 
-// --- Types ---
-
 export interface Project {
   id: string;
   title: string;
@@ -20,8 +18,6 @@ export interface Project {
   priority: "low" | "medium" | "high";
   budget: number;
 }
-
-// --- Sample data ---
 
 export const projects: Project[] = [
   {
@@ -110,8 +106,6 @@ export const projects: Project[] = [
   },
 ];
 
-// --- Column helpers ---
-
 export const statusIcons = {
   active: CheckCircle2,
   draft: CircleDashed,
@@ -135,8 +129,6 @@ export const priorityOptions = [
   { label: "Medium", value: "medium", icon: Clock },
   { label: "High", value: "high", icon: CheckCircle2 },
 ];
-
-// --- Main demo ---
 
 /** Project data table with sorting, filtering, selection, and pagination. */
 export function DataTableDemo() {

@@ -7,8 +7,6 @@ import type { Task } from "./data-grid-demo";
 import { DataGrid } from "../data-grid";
 import { createSampleData, DataGridToolbar } from "./data-grid-demo";
 
-// --- Demo component ---
-
 /** Grid with tall row height. */
 export function RowHeightsDemo({ readOnly = false }: { readOnly?: boolean }) {
   const [data, setData] = useState(createSampleData);

@@ -44,14 +44,10 @@ const meta = preview.meta({
   },
 });
 
-// --- Stories ---
-
 /**
  * The default form of the popover.
  */
 export const Default = meta.story();
-
-// --- Tests ---
 
 Default.test(
   "when clicking the trigger, should open and close the popover",

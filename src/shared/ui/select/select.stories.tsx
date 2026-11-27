@@ -31,8 +31,6 @@ import {
   SelectValue,
 } from "./select";
 
-// --- Helpers ---
-
 const fruitItems = [
   { value: "apple", label: "Apple" },
   { value: "banana", label: "Banana" },
@@ -97,14 +95,10 @@ const meta = preview.meta({
   },
 });
 
-// --- Stories ---
-
 /**
  * The default form of the select.
  */
 export const Default = meta.story();
-
-// --- Tests ---
 
 Default.test(
   "when an option is selected, should be checked",

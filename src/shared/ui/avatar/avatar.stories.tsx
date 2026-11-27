@@ -51,8 +51,6 @@ const meta = preview.meta({
   },
 });
 
-// --- Stories ---
-
 /**
  * The default form of the avatar.
  */
@@ -217,8 +215,6 @@ export const Dropdown = meta.story({
     </DropdownMenu>
   ),
 });
-
-// --- Tests ---
 
 Dropdown.test(
   "when clicking the avatar, should open the dropdown menu",

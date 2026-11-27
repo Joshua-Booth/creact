@@ -22,14 +22,10 @@ const meta = preview.meta({
   },
 });
 
-// --- Stories ---
-
 /**
  * The default toggle button showing the current theme icon.
  */
 export const Default = meta.story();
-
-// --- Tests ---
 
 Default.test(
   "should open dropdown with theme options on click",

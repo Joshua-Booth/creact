@@ -58,8 +58,6 @@ const meta = preview.meta({
   },
 });
 
-// --- Stories ---
-
 /**
  * An order details panel that expands to reveal shipping and item
  * information.
@@ -284,8 +282,6 @@ export const FileTree = meta.story({
     );
   },
 });
-
-// --- Tests ---
 
 Default.test(
   "when trigger is clicked, should toggle content visibility",

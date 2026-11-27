@@ -2,13 +2,9 @@ import * as React from "react";
 
 import { BREAKPOINTS } from "./breakpoints";
 
-/** Device state indicating which device category the viewport falls into */
 interface DeviceState {
-  /** `true` if viewport is below 768px */
   isMobile: boolean;
-  /** `true` if viewport is between 768px and 1023px */
   isTablet: boolean;
-  /** `true` if viewport is 1024px or above */
   isDesktop: boolean;
 }
 

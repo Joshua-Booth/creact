@@ -9,8 +9,6 @@ import { DataTable } from "../data-table";
 import { DataTableColumnHeader } from "../data-table-column-header";
 import { statusIcons } from "./data-table-demo";
 
-// --- Sample data ---
-
 function createPaginationData() {
   return Array.from({ length: 35 }, (_, i) => ({
     id: String(i + 1),
@@ -20,8 +18,6 @@ function createPaginationData() {
     budget: (i + 1) * 1000,
   }));
 }
-
-// --- Demo ---
 
 /** Table with 35 generated rows demonstrating multi-page pagination controls. */
 export function PaginationDemo() {

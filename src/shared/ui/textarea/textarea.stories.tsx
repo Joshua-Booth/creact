@@ -26,8 +26,6 @@ const meta = preview.meta({
   },
 });
 
-// --- Stories ---
-
 /**
  * The default form of the textarea.
  */
@@ -85,8 +83,6 @@ export const ButtonStory = meta.story({
     </div>
   ),
 });
-
-// --- Tests ---
 
 Default.test(
   "when user types into textarea, should display the text",

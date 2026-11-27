@@ -81,7 +81,6 @@ function FieldGroup({ className, ...props }: React.ComponentProps<"div">) {
   );
 }
 
-/** Style variants for the {@link Field} component. */
 const fieldVariants = cva(
   "group/field data-invalid:text-destructive flex w-full gap-3",
   {
@@ -271,7 +270,6 @@ function FieldError({
   );
 }
 
-// Additional Base UI primitives for form integration
 /** Base UI field control primitive for custom input integration. */
 const FieldControl = FieldPrimitive.Control;
 /** Base UI validity primitive for accessing field validation state. */

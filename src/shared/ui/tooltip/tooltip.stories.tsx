@@ -53,8 +53,6 @@ const meta = preview.meta({
   ),
 });
 
-// --- Stories ---
-
 /**
  * The default form of the tooltip.
  */
@@ -124,8 +122,6 @@ export const DisabledButton = meta.story({
     </TooltipProvider>
   ),
 });
-
-// --- Tests ---
 
 function getTooltip(canvasElement: HTMLElement) {
   return canvasElement.ownerDocument.body.querySelector(

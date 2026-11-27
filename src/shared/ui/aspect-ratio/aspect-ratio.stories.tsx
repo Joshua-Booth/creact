@@ -39,8 +39,6 @@ const meta = preview.meta({
   ),
 });
 
-// --- Stories ---
-
 /**
  * The default 16:9 aspect ratio, commonly used for video content and hero images.
  */

@@ -67,8 +67,6 @@ const meta = preview.meta({
   },
 });
 
-// --- Stories ---
-
 /**
  * A scrollable conversation; scroll up to reveal the scroll-to-end button.
  */

@@ -45,8 +45,6 @@ const meta = preview.meta({
   },
 });
 
-// --- Stories ---
-
 /**
  * The default form of the input field.
  */
@@ -345,8 +343,6 @@ export const Form = meta.story({
     </form>
   ),
 });
-
-// --- Tests ---
 
 Default.test(
   "when user enters text, should see it in the input field",

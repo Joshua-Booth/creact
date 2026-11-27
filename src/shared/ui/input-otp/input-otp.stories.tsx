@@ -62,8 +62,6 @@ const meta = preview.meta({
   },
 });
 
-// --- Stories ---
-
 /**
  * The default form of the InputOTP field.
  */
@@ -101,8 +99,6 @@ export const Separator = meta.story({
     </InputOTP>
   ),
 });
-
-// --- Tests ---
 
 Default.test(
   "when typing text, should call onChange and onComplete",

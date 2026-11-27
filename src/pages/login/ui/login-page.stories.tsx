@@ -22,11 +22,7 @@ const meta = preview.meta({
   },
 });
 
-// --- Stories ---
-
 export const Default = meta.story();
-
-// --- Tests ---
 
 Default.test(
   "when submitting empty form, should show validation errors",

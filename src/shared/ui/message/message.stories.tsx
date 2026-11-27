@@ -51,8 +51,6 @@ const meta = preview.meta({
   },
 });
 
-// --- Stories ---
-
 /**
  * A received message with an avatar and a bubble.
  */

@@ -29,8 +29,6 @@ const meta = preview.meta({
   },
 });
 
-// --- Stories ---
-
 /**
  * The default form of the toggle.
  */
@@ -88,8 +86,6 @@ export const Disabled = meta.story({
     disabled: true,
   },
 });
-
-// --- Tests ---
 
 Default.test(
   "when clicking the toggle, should toggle pressed state",

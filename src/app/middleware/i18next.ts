@@ -33,7 +33,6 @@ export const [i18nextMiddleware, getLocale, getInstance] =
     plugins: [initReactI18next],
   });
 
-// Type-safety for the `t` function
 declare module "i18next" {
   interface CustomTypeOptions {
     defaultNS: "common";

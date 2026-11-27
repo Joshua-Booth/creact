@@ -8,8 +8,6 @@ import { DataTable } from "../data-table";
 import { DataTableColumnHeader } from "../data-table-column-header";
 import { DataTableToolbar } from "../data-table-toolbar";
 
-// --- Demo ---
-
 /** Table with an empty data array to demonstrate the "No results" state. */
 export function EmptyStateDemo() {
   const emptyData: Project[] = [];

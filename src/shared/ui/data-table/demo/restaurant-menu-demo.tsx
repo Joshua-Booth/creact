@@ -11,8 +11,6 @@ import { DataTable } from "../data-table";
 import { DataTableColumnHeader } from "../data-table-column-header";
 import { DataTableToolbar } from "../data-table-toolbar";
 
-// --- Types ---
-
 interface MenuItem {
   id: string;
   name: string;
@@ -23,8 +21,6 @@ interface MenuItem {
   allergens: string[];
   vegetarian: boolean;
 }
-
-// --- Sample data ---
 
 function createMenuData() {
   return [
@@ -183,8 +179,6 @@ function createMenuData() {
   ];
 }
 
-// --- Options ---
-
 const courseOptions = [
   { label: "Appetizer", value: "Appetizer" },
   { label: "Main", value: "Main" },
@@ -203,15 +197,11 @@ const allergenOptions = [
   { label: "Shellfish", value: "Shellfish" },
 ];
 
-// --- Helpers ---
-
 const formatPrice = (amount: number) =>
   new Intl.NumberFormat("en-US", {
     style: "currency",
     currency: "USD",
   }).format(amount);
-
-// --- Demo ---
 
 /** Restaurant menu table without row selection, with allergen badges and boolean filters. */
 export function RestaurantMenuDemo() {

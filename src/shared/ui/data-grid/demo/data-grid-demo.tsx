@@ -38,8 +38,6 @@ import { ToggleGroup, ToggleGroupItem } from "@/shared/ui/toggle-group";
 import { DataGrid } from "../data-grid";
 import { DataGridKeyboardShortcuts } from "../data-grid-keyboard-shortcuts";
 
-// --- Types ---
-
 export interface Task {
   id: string;
   title: string;
@@ -50,8 +48,6 @@ export interface Task {
   effort: number;
   dueDate: string;
 }
-
-// --- Sample data ---
 
 /** Eight sample tasks spanning common statuses, priorities, and assignees. */
 export function createSampleData() {
@@ -140,8 +136,6 @@ export function createSampleData() {
 
   return tasks;
 }
-
-// --- Toolbar ---
 
 const ROW_HEIGHT_LABELS: Record<RowHeightValue, string> = {
   short: "Short",
@@ -556,8 +550,6 @@ function ViewControl<TData extends RowData>({
     </Popover>
   );
 }
-
-// --- Main demo ---
 
 /** Editable task-tracking grid with sort, filter, row-height, and column-visibility toolbar controls. */
 export function DataGridDemo({ readOnly = false }: { readOnly?: boolean }) {

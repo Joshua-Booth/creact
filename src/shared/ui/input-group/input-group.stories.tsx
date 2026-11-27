@@ -64,8 +64,6 @@ const meta = preview.meta({
   },
 });
 
-// --- Stories ---
-
 /**
  * Search input with result count.
  */
@@ -515,8 +513,6 @@ export const Disabled = meta.story({
     </InputGroup>
   ),
 });
-
-// --- Tests ---
 
 Default.test(
   "when typing in input with addon, should update value",

@@ -58,8 +58,6 @@ const meta = preview.meta({
   },
 });
 
-// --- Stories ---
-
 /**
  * The default form of the resizable panel group.
  */
@@ -141,8 +139,6 @@ export const Nested = meta.story({
     </ResizablePanelGroup>
   ),
 });
-
-// --- Tests ---
 
 Default.test(
   "when using keyboard arrows, should resize panels",

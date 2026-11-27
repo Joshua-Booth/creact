@@ -39,7 +39,6 @@ function ComboboxTrigger({
   );
 }
 
-/** Button that clears the current combobox selection. */
 function ComboboxClear({ className, ...props }: ComboboxPrimitive.Clear.Props) {
   const { t } = useTranslation("components");
 

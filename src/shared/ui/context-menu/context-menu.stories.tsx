@@ -70,8 +70,6 @@ const meta = preview.meta({
   },
 });
 
-// --- Stories ---
-
 /**
  * A basic context menu with navigation actions.
  */
@@ -404,8 +402,6 @@ export const Sides = meta.story({
     </div>
   ),
 });
-
-// --- Tests ---
 
 Basic.test(
   "when right-clicking the trigger area, the menu appears and can be interacted with",

@@ -199,7 +199,6 @@ function ContextMenuInnerImpl<TData extends RowData>({
 
           break;
         }
-        // No default
       }
 
       updates.push({ rowIndex, columnId, value: emptyValue });

@@ -7,8 +7,6 @@ import type { Task } from "./data-grid-demo";
 import { DataGrid } from "../data-grid";
 import { DataGridToolbar } from "./data-grid-demo";
 
-// --- Sample data ---
-
 function createLargeDataset() {
   const statuses: Task["status"][] = ["todo", "in-progress", "done"];
   const priorities: Task["priority"][] = ["low", "medium", "high"];
@@ -25,8 +23,6 @@ function createLargeDataset() {
     dueDate: `2026-${String((i % 12) + 1).padStart(2, "0")}-${String((i % 28) + 1).padStart(2, "0")}`,
   }));
 }
-
-// --- Demo component ---
 
 /** Virtualized grid with 500 rows. */
 export function LargeDatasetDemo({ readOnly = false }: { readOnly?: boolean }) {

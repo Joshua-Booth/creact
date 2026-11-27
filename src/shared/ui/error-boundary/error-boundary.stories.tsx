@@ -11,8 +11,6 @@ import { ErrorBoundary } from "./error-boundary";
 
 type ErrorBoundaryProps = ComponentProps<typeof ErrorBoundary>;
 
-// --- Helpers ---
-
 function BuggyComponent({ shouldThrow }: { shouldThrow: boolean }) {
   if (shouldThrow) {
     throw new Error("This is a simulated error for demonstration purposes");
@@ -124,8 +122,6 @@ const meta = preview.meta({
   },
 });
 
-// --- Stories ---
-
 /**
  * The default error boundary behavior. Click "Trigger Error" to see the
  * fallback UI, then use "Try again" or "Reset" to recover.
@@ -187,12 +183,6 @@ function ErrorBoundaryTestDemo(
   );
 }
 
-/**
- * When an error is triggered, should display fallback UI.
- */
-
-// --- Tests ---
-
 Default.test(
   "when error is triggered, should display fallback UI",
   {
@@ -222,9 +212,6 @@ Default.test(
   }
 );
 
-/**
- * When reset is clicked after error, should recover and show normal content.
- */
 Default.test(
   "when reset is clicked after error, should recover",
   {

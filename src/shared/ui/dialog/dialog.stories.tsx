@@ -17,8 +17,6 @@ import {
   DialogTrigger,
 } from "./dialog";
 
-// --- Helpers ---
-
 // cspell:disable
 const LOREM_PARAGRAPHS = [
   {
@@ -117,8 +115,6 @@ const meta = preview.meta({
     },
   },
 });
-
-// --- Stories ---
 
 /**
  * The default form of the dialog with an edit profile form.
@@ -239,8 +235,6 @@ export const ScrollableContent = meta.story({
     </Dialog>
   ),
 });
-
-// --- Tests ---
 
 Default.test(
   "when clicking Save changes button, should close the dialog",
@@ -376,7 +370,6 @@ Default.test(
 
       const dialogScope = within(dialog);
 
-      // Tab through all focusable elements — focus should remain within the dialog
       const nameInput = dialogScope.getByLabelText("Name");
       const usernameInput = dialogScope.getByLabelText("Username");
 

@@ -11,15 +11,11 @@ import { DataTableColumnHeader } from "../data-table-column-header";
 import { DataTableToolbar } from "../data-table-toolbar";
 import { projects } from "./data-table-demo";
 
-// --- Options ---
-
 const statusOptionsWithCounts = [
   { label: "Active", value: "active", icon: CheckCircle2, count: 5 },
   { label: "Draft", value: "draft", icon: CircleDashed, count: 3 },
   { label: "Archived", value: "archived", icon: XCircle, count: 2 },
 ];
-
-// --- Demo ---
 
 /** Table with faceted filter options that display count badges. */
 export function FacetedFilterWithCountsDemo() {

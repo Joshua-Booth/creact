@@ -34,8 +34,6 @@ const meta = preview.meta({
   },
 });
 
-// --- Stories ---
-
 /**
  * The default form of the slider.
  */
@@ -128,8 +126,6 @@ export const Disabled = meta.story({
     disabled: true,
   },
 });
-
-// --- Tests ---
 
 Default.test(
   "when using keyboard arrows, should adjust slider value",

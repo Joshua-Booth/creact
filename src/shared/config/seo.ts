@@ -1,5 +1,3 @@
-/** SEO configuration constants */
-
 import { env } from "./env";
 
 /**

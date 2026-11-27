@@ -27,12 +27,10 @@ function SheetClose({ ...props }: SheetPrimitive.Close.Props) {
   return <SheetPrimitive.Close data-slot="sheet-close" {...props} />;
 }
 
-/** Renders sheet content outside the DOM hierarchy via a portal. */
 function SheetPortal({ ...props }: SheetPrimitive.Portal.Props) {
   return <SheetPrimitive.Portal data-slot="sheet-portal" {...props} />;
 }
 
-/** Portal-rendered overlay backdrop that dims the page behind the sheet. */
 function SheetOverlay({ className, ...props }: SheetPrimitive.Backdrop.Props) {
   return (
     <SheetPrimitive.Backdrop

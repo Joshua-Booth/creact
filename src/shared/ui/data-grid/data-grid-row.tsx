@@ -166,7 +166,6 @@ function DataGridRowImpl<TData extends RowData>({
   );
 
   /* eslint-enable react-hooks/exhaustive-deps -- end visibleCells deps */
-
   return (
     <div
       key={row.id}

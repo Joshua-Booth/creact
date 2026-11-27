@@ -38,8 +38,6 @@ const meta = preview.meta({
   },
 });
 
-// --- Stories ---
-
 /**
  * The default form of the tabs.
  */
@@ -140,8 +138,6 @@ export const Icons = meta.story({
     </Tabs>
   ),
 });
-
-// --- Tests ---
 
 Default.test(
   "when using arrow keys, should navigate between tabs",

@@ -31,8 +31,6 @@ const meta = preview.meta({
   },
 });
 
-// --- Stories ---
-
 /**
  * A marker with an icon and content.
  */

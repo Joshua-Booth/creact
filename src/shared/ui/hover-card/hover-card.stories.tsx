@@ -50,8 +50,6 @@ const meta = preview.meta({
   },
 });
 
-// --- Stories ---
-
 /**
  * The default form of the hover card.
  */
@@ -92,8 +90,6 @@ export const Sides = meta.story({
     );
   },
 });
-
-// --- Tests ---
 
 const getHoverCard = (el: HTMLElement) =>
   el.ownerDocument.body.querySelector('[data-slot="hover-card-content"]');

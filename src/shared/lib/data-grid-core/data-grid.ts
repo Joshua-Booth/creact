@@ -318,7 +318,6 @@ export function scrollCellIntoView<TData extends RowData>(params: {
   let scrollDelta;
 
   if (direction == null) {
-    // Must be clipped left or right — cell can't reach here unless clipped
     scrollDelta = isClippedRight
       ? cellRect.right - viewportRight
       : -(viewportLeft - cellRect.left);

@@ -152,8 +152,6 @@ const meta = preview.meta({
   },
 });
 
-// --- Stories ---
-
 /**
  * The default form of the menubar with File, Edit, View, and Profiles menus.
  */
@@ -374,8 +372,6 @@ export const Icons = meta.story({
     </Menubar>
   ),
 });
-
-// --- Tests ---
 
 Default.test(
   "when clicking an item, should close the menubar",

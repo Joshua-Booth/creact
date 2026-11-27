@@ -49,8 +49,6 @@ const meta = preview.meta({
   },
 });
 
-// --- Stories ---
-
 /**
  * The default form of the label.
  */
@@ -253,12 +251,6 @@ export const PaymentForm = meta.story({
     </div>
   ),
 });
-
-/**
- * When clicking label, should focus associated input.
- */
-
-// --- Tests ---
 
 Default.test(
   "when clicking label, should focus associated input",
