@@ -11,27 +11,33 @@ import { parseSignupError, signupApi } from "./signup";
 const { jsonMock, postMock } = vi.hoisted(() => {
   const jsonMock = vi.fn();
   const postMock = vi.fn(() => ({ json: jsonMock }));
+
   return { jsonMock, postMock };
 });
 
 vi.mock("@/shared/api", async (importOriginal) => {
   const actual = await importOriginal<typeof SharedApi>();
+
   return { ...actual, api: { post: postMock } };
 });
 
 function createHTTPError(body: unknown): HTTPError {
   const response = {} as Response;
+
   const error = new HTTPError(
     response,
     new Request("https://api.test/signup"),
     {} as NormalizedOptions
   );
+
   error.data = body;
+
   return error;
 }
 
 function createHTTPErrorWithJsonFailure(): HTTPError {
   const response = { status: 502 } as Response;
+
   return new HTTPError(
     response,
     new Request("https://api.test/signup"),
@@ -53,6 +59,7 @@ describe("parseSignupError", () => {
     const error = createHTTPError({
       email: ["Email already exists", "Invalid email"],
     });
+
     expect(parseSignupError(error)).toBe("Email already exists");
   });
 
@@ -60,6 +67,7 @@ describe("parseSignupError", () => {
     const error = createHTTPError({
       password: ["Password too weak"],
     });
+
     expect(parseSignupError(error)).toBe("Password too weak");
   });
 
@@ -67,11 +75,13 @@ describe("parseSignupError", () => {
     const error = createHTTPError({
       non_field_errors: ["Registration is disabled"],
     });
+
     expect(parseSignupError(error)).toBe("Registration is disabled");
   });
 
   it("should return detail string", () => {
     const error = createHTTPError({ detail: "Service unavailable" });
+
     expect(parseSignupError(error)).toBe("Service unavailable");
   });
 
@@ -80,11 +90,13 @@ describe("parseSignupError", () => {
       email: ["Email taken"],
       password: ["Too short"],
     });
+
     expect(parseSignupError(error)).toBe("Email taken");
   });
 
   it("should return server error message when JSON parsing fails", () => {
     const error = createHTTPErrorWithJsonFailure();
+
     expect(parseSignupError(error)).toBe(
       "Server error (502). Please try again later."
     );
@@ -92,6 +104,7 @@ describe("parseSignupError", () => {
 
   it('should return "Registration failed" for empty body', () => {
     const error = createHTTPError({});
+
     expect(parseSignupError(error)).toBe("Registration failed");
   });
 
@@ -100,6 +113,7 @@ describe("parseSignupError", () => {
       "The operation was aborted",
       "AbortError"
     );
+
     expect(parseSignupError(abortError)).toBe(
       "Request timed out. Please try again."
     );
@@ -127,6 +141,7 @@ describe("signupApi", () => {
     expect(postMock).toHaveBeenCalledWith("auth/signup/", {
       json: { email: "a@b.com", password: "pass123" },
     });
+
     expect(result).toEqual({ key: "xyz789" });
   });
 });

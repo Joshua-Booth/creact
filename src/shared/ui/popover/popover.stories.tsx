@@ -62,6 +62,7 @@ Default.test(
       await userEvent.click(
         await canvasBody.findByRole("button", { name: /open popover/i })
       );
+
       await expect(await canvasBody.findByRole("dialog")).toBeInTheDocument();
     });
 
@@ -69,6 +70,7 @@ Default.test(
       await userEvent.click(
         await canvasBody.findByRole("button", { name: /open popover/i })
       );
+
       await expect(await canvasBody.findByRole("dialog")).toHaveAttribute(
         "data-closed"
       );
@@ -85,11 +87,13 @@ Default.test(
       await userEvent.click(
         await canvasBody.findByRole("button", { name: /open popover/i })
       );
+
       await expect(await canvasBody.findByRole("dialog")).toBeInTheDocument();
     });
 
     await step("press Escape to dismiss", async () => {
       await userEvent.keyboard("{Escape}");
+
       await expect(await canvasBody.findByRole("dialog")).toHaveAttribute(
         "data-closed"
       );

@@ -54,11 +54,14 @@ interface PasteDialogInnerProps
 /* istanbul ignore start @preserve -- memo comparator is a performance optimization */
 const PasteDialogInner = memo(PasteDialogInnerImpl, (prev, next) => {
   if (prev.pasteDialog.open !== next.pasteDialog.open) return false;
+
   if (!next.pasteDialog.open) return true;
+
   if (prev.pasteDialog.rowsNeeded !== next.pasteDialog.rowsNeeded) return false;
 
   return true;
 });
+
 /* istanbul ignore end @preserve */
 
 /* istanbul ignore start @preserve -- browser-only callback tested via Storybook */
@@ -68,6 +71,7 @@ function PasteDialogInnerImpl({
   onCellsPaste,
 }: PasteDialogInnerProps) {
   const { t } = useTranslation("components");
+
   const propsRef = useAsRef({
     onPasteDialogOpenChange,
     onCellsPaste,

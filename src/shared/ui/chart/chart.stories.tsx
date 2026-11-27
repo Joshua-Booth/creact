@@ -527,9 +527,12 @@ BarTooltip.test(
   async ({ canvas, canvasElement, step }) => {
     await step("move mouse over the chart area", async () => {
       const wrapper = canvasElement.querySelector(".recharts-wrapper");
+
       await expect(wrapper).toBeTruthy();
+
       if (wrapper) {
         const rect = wrapper.getBoundingClientRect();
+
         void fireEvent.mouseMove(wrapper, {
           clientX: rect.left + rect.width * 0.5,
           clientY: rect.top + rect.height * 0.5,
@@ -539,6 +542,7 @@ BarTooltip.test(
 
     await step("verify tooltip displays series label", async () => {
       const label = await canvas.findByText("Desktop");
+
       await expect(label).toBeVisible();
     });
   }
@@ -550,24 +554,30 @@ Interactive.test(
     const desktopButton = await canvas.findByRole("button", {
       name: /desktop/i,
     });
+
     const mobileButton = await canvas.findByRole("button", {
       name: /mobile/i,
     });
 
     await step("desktop toggle is active by default", async () => {
       await expect(desktopButton).toHaveAttribute("data-active", "true");
+
       await expect(mobileButton).toHaveAttribute("data-active", "false");
     });
 
     await step("click Mobile toggle", async () => {
       await userEvent.click(mobileButton);
+
       await expect(mobileButton).toHaveAttribute("data-active", "true");
+
       await expect(desktopButton).toHaveAttribute("data-active", "false");
     });
 
     await step("click Desktop toggle to switch back", async () => {
       await userEvent.click(desktopButton);
+
       await expect(desktopButton).toHaveAttribute("data-active", "true");
+
       await expect(mobileButton).toHaveAttribute("data-active", "false");
     });
   }

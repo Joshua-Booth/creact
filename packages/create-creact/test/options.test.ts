@@ -22,19 +22,24 @@ function parse(argv: readonly string[]): Parsed {
 
 function request(argv: readonly string[]): Request {
   const parsed = parse(argv);
+
   if (parsed.kind !== "run") throw new Error(JSON.stringify(parsed));
+
   return parsed.request;
 }
 
 function usage(argv: readonly string[]): string {
   const parsed = parse(argv);
+
   return parsed.kind === "usage" ? parsed.message : `not usage: ${parsed.kind}`;
 }
 
 describe("parseRequest", () => {
   it("names every planned flag in one message instead of failing on the first", (t: TestContext) => {
     const message = usage(["app", "--storybook", "--msw", "--sentry"]);
+
     t.assert.match(message, /^not built yet: /);
+
     for (const flag of ["--storybook", "--msw", "--sentry"]) {
       t.assert.ok(message.includes(flag), `${flag} missing from: ${message}`);
     }
@@ -49,6 +54,7 @@ describe("parseRequest", () => {
 
   it("takes --monorepo nx and leaves it unset when not given", (t: TestContext) => {
     t.assert.strictEqual(request(["app", "--monorepo", "nx"]).monorepo, "nx");
+
     t.assert.strictEqual(request(["app"]).monorepo, undefined);
   });
 
@@ -64,6 +70,7 @@ describe("parseRequest", () => {
       request(["app", "--toolchain", "vite-plus"]).toolchain,
       "vite-plus"
     );
+
     t.assert.strictEqual(request(["app"]).toolchain, undefined);
   });
 
@@ -88,6 +95,7 @@ describe("parseRequest", () => {
 
   it("needs exactly one project directory", (t: TestContext) => {
     t.assert.strictEqual(parse(["--stack", "next"]).kind, "usage");
+
     t.assert.strictEqual(
       parse(["one", "two", "--stack", "next"]).kind,
       "usage"
@@ -103,13 +111,16 @@ describe("parseRequest", () => {
       [request(["app"]).install, request(["app"]).git],
       [true, true]
     );
+
     const off = request(["app", "--no-install", "--no-git"]);
+
     t.assert.deepStrictEqual([off.install, off.git], [false, false]);
   });
 
   it("lists every stack and every extra in the help text", (t: TestContext) => {
     const parsed = parse(["--help"]);
     const text = parsed.kind === "help" ? parsed.text : "";
+
     for (const word of [
       "react-router",
       "next",
@@ -125,7 +136,9 @@ describe("parseRequest", () => {
   it("marks an extra that needs one styling in the help text", (t: TestContext) => {
     const parsed = parse(["--help"]);
     const text = parsed.kind === "help" ? parsed.text : "";
+
     t.assert.match(text, /--shadcn {10}.*\(tailwind only\)\n/);
+
     t.assert.doesNotMatch(text, /--storybook .*only\)/);
   });
 });
@@ -168,11 +181,13 @@ describe("resolveChoices", () => {
       name: "app",
       hashes: {},
     };
+
     t.assert.deepStrictEqual(resolveChoices(request(["app"]), state), RECORDED);
   });
 
   it("refuses a --stack, --monorepo or --toolchain that contradicts the recorded project", (t: TestContext) => {
     const dir = path.resolve(CWD, "app");
+
     t.assert.throws(
       () =>
         resolveChoices(request(["app", "--stack", "react-router"]), RECORDED),
@@ -181,6 +196,7 @@ describe("resolveChoices", () => {
         message: `${dir} is recorded as stack next, so --stack react-router can't apply`,
       }
     );
+
     t.assert.throws(
       () => resolveChoices(request(["app", "--monorepo", "pnpm"]), RECORDED),
       {
@@ -188,6 +204,7 @@ describe("resolveChoices", () => {
         message: `${dir} is recorded as monorepo turborepo, so --monorepo pnpm can't apply`,
       }
     );
+
     t.assert.throws(
       () =>
         resolveChoices(request(["app", "--toolchain", "standalone"]), RECORDED),
@@ -263,7 +280,9 @@ describe("btsArgs", () => {
 
   it("passes the monorepo tool as Better-T-Stack's addon", (t: TestContext) => {
     t.assert.strictEqual(addon(btsArgs(app, "next", "turborepo")), "turborepo");
+
     t.assert.strictEqual(addon(btsArgs(app, "next", "nx")), "nx");
+
     t.assert.strictEqual(
       btsArgs(app, "next", "turborepo").filter((arg) => arg === "--addons")
         .length,
@@ -304,6 +323,7 @@ describe("an extra that needs one styling", () => {
       toolchain: "standalone",
       extras: [],
     } as const;
+
     t.assert.throws(
       () => resolveChoices(asking(["app"]), recorded, TAILWIND_ONLY),
       UsageError

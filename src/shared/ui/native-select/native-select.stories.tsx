@@ -115,11 +115,13 @@ Default.test(
 
     await step("select option 2", async () => {
       await userEvent.selectOptions(select, "2");
+
       await expect(select).toHaveValue("2");
     });
 
     await step("select option 3", async () => {
       await userEvent.selectOptions(select, "3");
+
       await expect(select).toHaveValue("3");
     });
   }

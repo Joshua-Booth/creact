@@ -35,12 +35,14 @@ Default.test(
       const submitButton = await canvas.findByRole("button", {
         name: /create account/i,
       });
+
       await userEvent.click(submitButton);
     });
 
     await step("verify email validation error", async () => {
       await waitFor(async () => {
         const emailInput = canvas.getByLabelText("Email");
+
         await expect(emailInput).toHaveAttribute("aria-invalid", "true");
       });
     });
@@ -52,26 +54,32 @@ Default.test(
   async ({ canvas, step }) => {
     await step("enter valid email", async () => {
       const emailInput = await canvas.findByLabelText("Email");
+
       await userEvent.type(emailInput, "user@example.com");
     });
 
     await step("enter weak password", async () => {
       const passwordInput = await canvas.findByLabelText("Password");
+
       await userEvent.type(passwordInput, "weak");
     });
 
     await step("confirm password and submit", async () => {
       const confirmInput = await canvas.findByLabelText("Confirm Password");
+
       await userEvent.type(confirmInput, "weak");
+
       const submitButton = await canvas.findByRole("button", {
         name: /create account/i,
       });
+
       await userEvent.click(submitButton);
     });
 
     await step("verify password validation error", async () => {
       await waitFor(async () => {
         const passwordInput = canvas.getByLabelText("Password");
+
         await expect(passwordInput).toHaveAttribute("aria-invalid", "true");
       });
     });
@@ -83,26 +91,32 @@ Default.test(
   async ({ canvas, step }) => {
     await step("enter valid email", async () => {
       const emailInput = await canvas.findByLabelText("Email");
+
       await userEvent.type(emailInput, "user@example.com");
     });
 
     await step("enter strong password", async () => {
       const passwordInput = await canvas.findByLabelText("Password");
+
       await userEvent.type(passwordInput, "Password123");
     });
 
     await step("enter mismatched confirmation and submit", async () => {
       const confirmInput = await canvas.findByLabelText("Confirm Password");
+
       await userEvent.type(confirmInput, "Password456");
+
       const submitButton = await canvas.findByRole("button", {
         name: /create account/i,
       });
+
       await userEvent.click(submitButton);
     });
 
     await step("verify confirmation validation error", async () => {
       await waitFor(async () => {
         const confirmInput = canvas.getByLabelText("Confirm Password");
+
         await expect(confirmInput).toHaveAttribute("aria-invalid", "true");
       });
     });
@@ -114,16 +128,19 @@ Default.test(
   async ({ canvas, step }) => {
     await step("enter valid email", async () => {
       const emailInput = await canvas.findByLabelText("Email");
+
       await userEvent.type(emailInput, "newuser@example.com");
     });
 
     await step("enter strong password", async () => {
       const passwordInput = await canvas.findByLabelText("Password");
+
       await userEvent.type(passwordInput, "StrongPass123");
     });
 
     await step("enter matching confirmation", async () => {
       const confirmInput = await canvas.findByLabelText("Confirm Password");
+
       await userEvent.type(confirmInput, "StrongPass123");
     });
 
@@ -131,12 +148,14 @@ Default.test(
       const submitButton = await canvas.findByRole("button", {
         name: /create account/i,
       });
+
       await userEvent.click(submitButton);
     });
 
     await step("verify no validation errors on inputs", async () => {
       await waitFor(async () => {
         const emailInput = canvas.getByLabelText("Email");
+
         await expect(emailInput).not.toHaveAttribute("aria-invalid", "true");
       });
     });

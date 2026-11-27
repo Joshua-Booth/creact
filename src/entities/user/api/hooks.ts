@@ -25,5 +25,6 @@ export function useCurrentUser(
 ): CurrentUserResult {
   const { data, error, isLoading, isValidating, mutate } =
     useAuthenticatedApi<User>(AUTH_URLS.USER_PROFILE, options);
+
   return { user: data, error, isLoading, isValidating, mutate };
 }

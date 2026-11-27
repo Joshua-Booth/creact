@@ -309,7 +309,9 @@ export function RecipeBookDemo({ readOnly = false }: { readOnly?: boolean }) {
           sourceUrl: "",
           photos: [],
         };
+
         setData((prev) => [...prev, newRow]);
+
         return null;
       };
 

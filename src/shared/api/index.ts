@@ -1,8 +1,11 @@
 import { getToken } from "./token-provider";
 
 export { apiErrorMessage } from "./api-error";
+
 export { api, ApiError } from "./client";
+
 export { mutate, useApi, useAuthenticatedApi } from "./hooks";
+
 export { configureTokenProvider } from "./token-provider";
 
 /**
@@ -12,5 +15,6 @@ export { configureTokenProvider } from "./token-provider";
  */
 export const auth = () => {
   const token = getToken();
+
   return token === null ? {} : { Authorization: `Token ${token}` };
 };

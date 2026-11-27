@@ -152,8 +152,10 @@ function createStudentData(): Student[] {
       enrolledDate: new Date(2025, 8, 1).getTime(),
     },
   ];
+
   return students.map((s) => {
     const avg = Math.round((s.math + s.science + s.english + s.history) / 4);
+
     return { ...s, average: avg, passing: avg >= 60 };
   });
 }
@@ -171,7 +173,9 @@ const gradeOptions = [
 
 function averageColor(avg: number): string {
   if (avg < 60) return "text-red-700 dark:text-red-400";
+
   if (avg < 80) return "text-amber-800 dark:text-yellow-400";
+
   return "text-green-800 dark:text-green-400";
 }
 
@@ -215,6 +219,7 @@ export function StudentGradesDemo() {
         ),
         cell: ({ row, cell }) => {
           const passing = row.original.passing;
+
           return (
             <div
               className={cn(
@@ -312,6 +317,7 @@ export function StudentGradesDemo() {
         ),
         cell: ({ cell }) => {
           const avg = cell.getValue<number>();
+
           return (
             <div
               className={cn(
@@ -338,6 +344,7 @@ export function StudentGradesDemo() {
         ),
         cell: ({ cell }) => {
           const pass = cell.getValue<boolean>();
+
           return (
             <Badge variant={pass ? "default" : "destructive"}>
               {pass ? "Pass" : "Fail"}

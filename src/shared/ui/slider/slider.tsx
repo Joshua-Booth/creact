@@ -19,9 +19,11 @@ function Slider({
     if (typeof value === "object") {
       return value;
     }
+
     if (typeof defaultValue === "object") {
       return defaultValue;
     }
+
     return [min, max];
   }, [value, defaultValue, min, max]);
 

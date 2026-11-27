@@ -143,16 +143,19 @@ Default.test(
 
     await step("focus the slider", async () => {
       await userEvent.click(slider);
+
       await expect(slider).toHaveFocus();
     });
 
     await step("increase value with ArrowRight", async () => {
       await userEvent.keyboard("{ArrowRight}");
+
       await expect(args.onValueChange).toHaveBeenCalled();
     });
 
     await step("decrease value with ArrowLeft", async () => {
       await userEvent.keyboard("{ArrowLeft}");
+
       await expect(args.onValueChange).toHaveBeenCalled();
     });
   }
@@ -166,6 +169,7 @@ Disabled.test(
 
     await step("attempt to click the disabled slider", async () => {
       await userEvent.click(slider);
+
       await expect(args.onValueChange).not.toHaveBeenCalled();
     });
   }

@@ -30,6 +30,7 @@ export function useForgotPasswordForm() {
 
   function onSubmit(data: ForgotPasswordFormData) {
     form.clearErrors("root");
+
     void fetcher.submit(data, { method: "post" });
   }
 

@@ -34,6 +34,7 @@ interface Line {
 const LABEL_WIDTH = 9;
 const PLAIN_LABEL_WIDTH = 10;
 const DETAIL_WIDTH = 30;
+
 const RUNNING: Readonly<Record<StepId, string>> = {
   monorepo: "running Better-T-Stack",
   tooling: "adding creact's setup",
@@ -41,6 +42,7 @@ const RUNNING: Readonly<Record<StepId, string>> = {
   install: "pnpm install, lint, format",
   skills: "restoring agent skills",
 };
+
 const SPINNER = ["⠋", "⠙", "⠹", "⠸", "⠼", "⠴", "⠦", "⠧", "⠇", "⠏"];
 const RETRY = "Fix it and run the same command again.";
 
@@ -88,7 +90,9 @@ export function pickMode(
   env: NodeJS.ProcessEnv
 ): Mode {
   if (json) return "json";
+
   const ci = env.CI !== undefined && env.CI !== "" && env.CI !== "false";
+
   return stream.isTTY === true && !ci && env.TERM !== "dumb" ? "rich" : "plain";
 }
 
@@ -108,13 +112,17 @@ export function renderer(mode: Mode, log: Log, cwd: string): Renderer {
 
 export function seconds(ms: number): string {
   if (ms < 9950) return `${(ms / 1000).toFixed(1)}s`;
+
   if (ms < 60_000) return `${Math.round(ms / 1000)}s`;
+
   const whole = Math.round(ms / 1000);
+
   return `${Math.floor(whole / 60)}m ${String(whole % 60).padStart(2, "0")}s`;
 }
 
 function shellQuoted(value: string): string {
   const closed = value.replaceAll("'", String.raw`'\''`);
+
   return `'${closed}'`;
 }
 
@@ -125,6 +133,7 @@ function quotedIfNeeded(value: string): string {
 // The path as the caller would type it: relative when it sits under cwd.
 export function shown(dir: string, cwd: string): string {
   const relative = path.relative(cwd, dir);
+
   return relative === "" ||
     relative.startsWith("..") ||
     path.isAbsolute(relative)
@@ -168,12 +177,15 @@ function richLine(step: StepId, report: Partial<Report>): Line {
       const files = report.layer?.files ?? {};
       const outcomes = Object.values(files);
       const written = outcomes.filter((outcome) => outcome === "written");
+
       const kept = Object.entries(files)
         .filter(([, outcome]) => outcome === "kept")
         .map(([file]) => `kept ${file}, which you edited`);
+
       if (report.base === "created") {
         return { mark: "done", detail: "lint, format, hooks and tests" };
       }
+
       return written.length > 0
         ? {
             mark: "done",
@@ -197,6 +209,7 @@ function richLine(step: StepId, report: Partial<Report>): Line {
     }
     case "install": {
       const count = packagesToAdd(report);
+
       if (report.install === "skipped") {
         return count === 0
           ? { mark: "same", detail: "skipped" }
@@ -206,6 +219,7 @@ function richLine(step: StepId, report: Partial<Report>): Line {
               more: ["run again without --no-install to finish"],
             };
       }
+
       return {
         mark: "done",
         detail:
@@ -216,6 +230,7 @@ function richLine(step: StepId, report: Partial<Report>): Line {
     }
     case "skills": {
       const { skills, skillCount = 0 } = report;
+
       if (typeof skills === "object") {
         return {
           mark: "warn",
@@ -226,6 +241,7 @@ function richLine(step: StepId, report: Partial<Report>): Line {
           ],
         };
       }
+
       switch (skills) {
         case "restored": {
           return {
@@ -255,9 +271,12 @@ function plainLine(step: StepId, report: Partial<Report>): Line {
     }
     case "tooling": {
       const entries = Object.entries(report.layer?.files ?? {});
+
       const named = (outcome: string) =>
         entries.filter(([, value]) => value === outcome).map(([file]) => file);
+
       const kept = named("kept");
+
       return {
         mark: "done",
         detail: `${named("written").length} written, ${named("unchanged").length} unchanged, ${kept.length} kept`,
@@ -272,6 +291,7 @@ function plainLine(step: StepId, report: Partial<Report>): Line {
     }
     case "install": {
       const count = packagesToAdd(report);
+
       return report.install === "done"
         ? {
             mark: "done",
@@ -284,6 +304,7 @@ function plainLine(step: StepId, report: Partial<Report>): Line {
     }
     case "skills": {
       const { skills } = report;
+
       if (typeof skills === "object") {
         return {
           mark: "warn",
@@ -291,11 +312,13 @@ function plainLine(step: StepId, report: Partial<Report>): Line {
           more: [`finish with ${finishCommand(report.dir ?? "")}`],
         };
       }
+
       const words = {
         restored: "restored into .agents/skills",
         present: "present in .agents/skills",
         skipped: "skipped",
       } as const;
+
       return {
         mark: skills === "restored" ? "done" : "same",
         detail: words[skills ?? "skipped"],
@@ -312,6 +335,7 @@ const PLAIN_MARK: Readonly<Record<Mark, string>> = {
 
 function plain(log: Log): Renderer {
   let current: StepId | undefined;
+
   return {
     begin(dir, choices) {
       const ids = [
@@ -321,6 +345,7 @@ function plain(log: Log): Renderer {
         choices.toolchain,
         ...choices.extras,
       ];
+
       outLine(`create-creact ${VERSION}: ${dir} (${ids.join(", ")})`);
     },
     start(step) {
@@ -328,12 +353,15 @@ function plain(log: Log): Renderer {
     },
     finish(step, partial) {
       current = undefined;
+
       const line = plainLine(step, partial);
       const ms = partial.ms?.[step] ?? 0;
       const time = ms >= 500 ? `  ${seconds(ms)}` : "";
+
       outLine(
         `${PLAIN_MARK[line.mark]} ${step.padEnd(PLAIN_LABEL_WIDTH)}${line.detail}${time}`
       );
+
       for (const more of line.more ?? []) {
         outLine(`${" ".repeat(PLAIN_LABEL_WIDTH + 5)}${more}`);
       }
@@ -342,12 +370,14 @@ function plain(log: Log): Renderer {
       if (typeof final.skills === "object" && log.written) {
         outLine(`log: ${log.file}`);
       }
+
       outLine(`next: cd ${shellQuoted(final.dir)} && pnpm dev`);
     },
     failed(error, kind) {
       if (current !== undefined) {
         outLine(`fail ${current.padEnd(PLAIN_LABEL_WIDTH)}${error.message}`);
       }
+
       process.stderr.write(errorBlock(error, kind, log, (text) => text));
     },
   };
@@ -360,7 +390,9 @@ function errorBlock(
   dim: (text: string) => string
 ): string {
   if (kind === "usage") return `create-creact: ${error.message}\n`;
+
   const tail = error instanceof CommandFailed ? error.tail : [];
+
   return [
     `create-creact: ${error.message}. ${RETRY}`,
     ...tail.map((text) => dim(`  ${text}`)),
@@ -376,6 +408,7 @@ function rich(log: Log, cwd: string): Renderer {
     warn: color("yellow", "!"),
     fail: color("red", "✗"),
   };
+
   let started = 0;
   let current: StepId | undefined;
   let stepStarted = 0;
@@ -386,78 +419,116 @@ function rich(log: Log, cwd: string): Renderer {
   const row = (mark: string, step: StepId, detail: string, ms?: number) => {
     const time = ms !== undefined && ms >= 500 ? color("dim", seconds(ms)) : "";
     const padded = time === "" ? detail : detail.padEnd(DETAIL_WIDTH);
+
     return `  ${mark} ${step.padEnd(LABEL_WIDTH)} ${color("dim", padded)}  ${time}`.trimEnd();
   };
+
   const stop = () => {
     if (timer !== undefined) clearInterval(timer);
+
     timer = undefined;
+
     showCursor();
   };
+
   const draw = () => {
     if (current === undefined) return;
+
     frame = (frame + 1) % SPINNER.length;
+
     const spin = color("cyan", SPINNER[frame] ?? "");
+
     clear();
+
     out(row(spin, current, RUNNING[current], performance.now() - stepStarted));
   };
 
   return {
     begin(target, choices) {
       dir = target;
+
       started = performance.now();
+
       out("\u001B[?25l");
+
       process.once("exit", showCursor);
+
       process.once("SIGINT", () => {
         showCursor();
+
         process.exit(130);
       });
+
       const badge = color(["inverse", "bold"], " creact ");
+
       out(
         `\n ${badge} ${color("bold", path.basename(target))}  ${color("dim", stackLine(choices))}\n\n`
       );
     },
     start(step) {
       current = step;
+
       stepStarted = performance.now();
+
       draw();
+
       timer = setInterval(draw, 80);
+
       timer.unref();
     },
     finish(step, partial) {
       if (timer !== undefined) clearInterval(timer);
+
       timer = undefined;
+
       current = undefined;
+
       const line = richLine(step, partial);
+
       clear();
+
       out(`${row(marks[line.mark], step, line.detail, partial.ms?.[step])}\n`);
+
       for (const more of line.more ?? []) {
         out(`${" ".repeat(LABEL_WIDTH + 5)}${color("dim", more)}\n`);
       }
     },
     succeeded(report) {
       stop();
+
       const elapsed = seconds(performance.now() - started);
+
       if (report.install === "skipped") {
         out(`\n  Done in ${elapsed}, without installing.\n`);
       } else {
         const next = [`cd ${quotedIfNeeded(shown(dir, cwd))}`, "pnpm dev"];
+
         out(`\n  Ready in ${elapsed}. Next:\n\n`);
+
         for (const command of next) out(`    ${color("cyan", command)}\n`);
       }
+
       if (typeof report.skills === "object" && log.written) {
         const where = `Full output: ${log.file}`;
+
         out(`\n  ${color("dim", where)}\n`);
       }
+
       out("\n");
     },
     failed(error, kind) {
       stop();
+
       if (current === undefined) {
         process.stderr.write(errorBlock(error, kind, log, (text) => text));
+
         return;
       }
+
       clear();
+
       const tail = error instanceof CommandFailed ? error.tail : [];
+
       process.stderr.write(
         [
           `  ${marks.fail} ${current.padEnd(LABEL_WIDTH)} ${errColor("red", error.message)}`,
@@ -481,10 +552,13 @@ function rich(log: Log, cwd: string): Renderer {
 function stepsJson(report: Partial<Report>): Record<string, unknown> {
   const ms = report.ms ?? {};
   const steps: Record<string, unknown> = {};
+
   for (const step of STEPS) {
     if (ms[step] === undefined) continue;
+
     steps[step] = { ...stepJson(step, report), ms: ms[step] };
   }
+
   return steps;
 }
 
@@ -500,8 +574,10 @@ function stepJson(
     }
     case "tooling": {
       const entries = Object.entries(report.layer?.files ?? {});
+
       const count = (outcome: string) =>
         entries.filter(([, value]) => value === outcome).length;
+
       return {
         status: "done",
         removed: report.layer?.pruned ?? [],
@@ -517,12 +593,14 @@ function stepJson(
     }
     case "install": {
       const count = packagesToAdd(report);
+
       return report.install === "done"
         ? { status: "done", added: count }
         : { status: "skipped", toAdd: count };
     }
     case "skills": {
       const { skills, skillCount } = report;
+
       return typeof skills === "object"
         ? {
             status: "failed",
@@ -537,6 +615,7 @@ function stepJson(
 function json(log: Log): Renderer {
   let current: StepId | undefined;
   let report: Partial<Report> = {};
+
   return {
     begin: heard,
     start(step) {
@@ -544,6 +623,7 @@ function json(log: Log): Renderer {
     },
     finish(_step, partial) {
       current = undefined;
+
       report = partial;
     },
     succeeded(final) {

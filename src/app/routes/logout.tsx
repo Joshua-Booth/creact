@@ -24,6 +24,7 @@ export function meta({ matches }: Route.MetaArgs) {
 
 export async function clientLoader() {
   if (getAuthToken() === null) return redirect(href("/login"));
+
   return logoutAction();
 }
 

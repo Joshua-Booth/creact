@@ -12,7 +12,9 @@ import { Input } from "@/shared/ui/input";
 /* istanbul ignore start @preserve -- pointer capture handling for search button focus management */
 function onTriggerPointerDown(event: React.PointerEvent<HTMLButtonElement>) {
   const target = event.target;
+
   if (!(target instanceof HTMLElement)) return;
+
   if (target.hasPointerCapture(event.pointerId)) {
     target.releasePointerCapture(event.pointerId);
   }
@@ -26,12 +28,14 @@ function onTriggerPointerDown(event: React.PointerEvent<HTMLButtonElement>) {
     event.preventDefault();
   }
 }
+
 /* istanbul ignore end @preserve */
 
 /** Search overlay with debounced query input and prev/next match navigation. */
 /* istanbul ignore start @preserve -- memo comparator is a performance optimization */
 export const DataGridSearch = memo(DataGridSearchImpl, (prev, next) => {
   if (prev.searchOpen !== next.searchOpen) return false;
+
   if (!next.searchOpen) return true;
 
   if (
@@ -59,6 +63,7 @@ export const DataGridSearch = memo(DataGridSearchImpl, (prev, next) => {
 
   return true;
 });
+
 /* istanbul ignore end @preserve */
 
 function DataGridSearchImpl({
@@ -73,6 +78,7 @@ function DataGridSearchImpl({
   onNavigateToPrevMatch,
 }: SearchState) {
   const { t } = useTranslation("components");
+
   const propsRef = useAsRef({
     onSearchOpenChange,
     onSearchQueryChange,
@@ -99,12 +105,15 @@ function DataGridSearchImpl({
     function onEscape(event: KeyboardEvent) {
       if (event.key === "Escape") {
         event.preventDefault();
+
         propsRef.current.onSearchOpenChange(false);
       }
     }
+
     /* istanbul ignore end @preserve */
 
     document.addEventListener("keydown", onEscape);
+
     return () => document.removeEventListener("keydown", onEscape);
   }, [searchOpen, propsRef]);
 
@@ -114,6 +123,7 @@ function DataGridSearchImpl({
 
       if (event.key === "Enter") {
         event.preventDefault();
+
         if (event.shiftKey) {
           propsRef.current.onNavigateToPrevMatch();
         } else {
@@ -131,7 +141,9 @@ function DataGridSearchImpl({
   const onChange = useCallback(
     (event: React.ChangeEvent<HTMLInputElement>) => {
       const value = event.target.value;
+
       propsRef.current.onSearchQueryChange(value);
+
       debouncedSearch(value);
     },
     [propsRef, debouncedSearch]
@@ -149,6 +161,7 @@ function DataGridSearchImpl({
   const onNextMatch = useCallback(() => {
     propsRef.current.onNavigateToNextMatch();
   }, [propsRef]);
+
   /* istanbul ignore end @preserve */
 
   if (!searchOpen) return null;

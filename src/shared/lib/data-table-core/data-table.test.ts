@@ -13,6 +13,7 @@ import {
 describe("getFilterOperators", () => {
   it("should return text operators", () => {
     const ops = getFilterOperators("text");
+
     expect(ops).toBe(dataTableConfig.textOperators);
     expect(ops.length).toBeGreaterThan(0);
   });
@@ -95,6 +96,7 @@ describe("getValidFilters", () => {
         filterId: "f1",
       },
     ];
+
     expect(getValidFilters(filters)).toHaveLength(1);
   });
 
@@ -108,6 +110,7 @@ describe("getValidFilters", () => {
         filterId: "f1",
       },
     ];
+
     expect(getValidFilters(filters)).toHaveLength(0);
   });
 
@@ -121,6 +124,7 @@ describe("getValidFilters", () => {
         filterId: "f2",
       },
     ];
+
     expect(getValidFilters(filters)).toHaveLength(1);
   });
 
@@ -134,6 +138,7 @@ describe("getValidFilters", () => {
         filterId: "f2",
       },
     ];
+
     expect(getValidFilters(filters)).toHaveLength(0);
   });
 
@@ -154,6 +159,7 @@ describe("getValidFilters", () => {
         filterId: "f4",
       },
     ];
+
     expect(getValidFilters(filters)).toHaveLength(2);
   });
 
@@ -171,6 +177,7 @@ describe("getValidFilters", () => {
         filterId: "f5",
       },
     ];
+
     expect(getValidFilters(filters)).toHaveLength(1);
   });
 });
@@ -201,6 +208,7 @@ function createMockColumn(
 describe("getCommonPinningStyles", () => {
   it("should return relative position for unpinned column", () => {
     const styles = getCommonPinningStyles({ column: createMockColumn() });
+
     expect(styles.position).toBe("relative");
     expect(styles.opacity).toBe(1);
     expect(styles.left).toBeUndefined();
@@ -213,6 +221,7 @@ describe("getCommonPinningStyles", () => {
     const styles = getCommonPinningStyles({
       column: createMockColumn({ isPinned: "start", start: 50 }),
     });
+
     expect(styles.position).toBe("sticky");
     expect(styles.left).toBe("50px");
     expect(styles.right).toBeUndefined();
@@ -224,6 +233,7 @@ describe("getCommonPinningStyles", () => {
     const styles = getCommonPinningStyles({
       column: createMockColumn({ isPinned: "end", after: 100 }),
     });
+
     expect(styles.position).toBe("sticky");
     expect(styles.right).toBe("100px");
     expect(styles.left).toBeUndefined();
@@ -234,6 +244,7 @@ describe("getCommonPinningStyles", () => {
       column: createMockColumn({ isPinned: "start", isLastLeft: true }),
       withBorder: true,
     });
+
     expect(styles.boxShadow).toBe("-4px 0 4px -4px var(--border) inset");
   });
 
@@ -242,6 +253,7 @@ describe("getCommonPinningStyles", () => {
       column: createMockColumn({ isPinned: "end", isFirstRight: true }),
       withBorder: true,
     });
+
     expect(styles.boxShadow).toBe("4px 0 4px -4px var(--border) inset");
   });
 
@@ -250,6 +262,7 @@ describe("getCommonPinningStyles", () => {
       column: createMockColumn({ isPinned: "start", isLastLeft: false }),
       withBorder: true,
     });
+
     expect(styles.boxShadow).toBeUndefined();
   });
 
@@ -257,6 +270,7 @@ describe("getCommonPinningStyles", () => {
     const styles = getCommonPinningStyles({
       column: createMockColumn({ isPinned: "start", isLastLeft: true }),
     });
+
     expect(styles.boxShadow).toBeUndefined();
   });
 
@@ -264,6 +278,7 @@ describe("getCommonPinningStyles", () => {
     const styles = getCommonPinningStyles({
       column: createMockColumn({ size: 200 }),
     });
+
     expect(styles.width).toBe(200);
   });
 
@@ -271,6 +286,7 @@ describe("getCommonPinningStyles", () => {
     const styles = getCommonPinningStyles({
       column: createMockColumn({ size: 120 }),
     });
+
     expect(styles.maxWidth).toBe(120);
   });
 
@@ -278,6 +294,7 @@ describe("getCommonPinningStyles", () => {
     const styles = getCommonPinningStyles({
       column: createMockColumn(),
     });
+
     expect(styles.maxWidth).toBeUndefined();
   });
 });

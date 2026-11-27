@@ -20,6 +20,7 @@ function SelectGroup({ className, ...props }: SelectPrimitive.Group.Props) {
     />
   );
 }
+
 /* istanbul ignore end @preserve */
 
 /** Display element for the currently selected value. */
@@ -171,6 +172,7 @@ function SelectSeparator({
     />
   );
 }
+
 /* istanbul ignore end @preserve */
 
 /** Arrow button for scrolling the select list upward. */

@@ -27,6 +27,7 @@ function composeRefs<T>(...refs: PossibleRef<T>[]): RefCallback<T> {
     return () => {
       for (let i = 0; i < cleanups.length; i++) {
         const cleanup = cleanups[i];
+
         if (typeof cleanup === "function") {
           cleanup();
         } else {

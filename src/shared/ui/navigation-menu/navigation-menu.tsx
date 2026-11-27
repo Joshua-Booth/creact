@@ -169,6 +169,7 @@ function NavigationMenuIndicator({
     </NavigationMenuPrimitive.Icon>
   );
 }
+
 /* istanbul ignore end @preserve */
 
 export {

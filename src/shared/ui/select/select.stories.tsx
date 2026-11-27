@@ -110,21 +110,26 @@ Default.test(
   "when an option is selected, should be checked",
   async ({ canvasElement, step }) => {
     const canvasBody = within(canvasElement.ownerDocument.body);
+
     const select = await canvasBody.findByRole("combobox");
 
     await step("open and select item", async () => {
       await userEvent.click(select);
+
       await userEvent.click(
         await canvasBody.findByRole("option", { name: /Banana/ })
       );
+
       await expect(select).toHaveTextContent(/Banana/);
     });
 
     await step("verify the selected option", async () => {
       await userEvent.click(select);
+
       await expect(
         await canvasBody.findByRole("option", { name: /Banana/ })
       ).toHaveAttribute("data-selected");
+
       await userEvent.keyboard("{Escape}");
     });
   }
@@ -352,15 +357,18 @@ Default.test(
   "when pressing Escape, should close the dropdown",
   async ({ canvasElement, step }) => {
     const canvasBody = within(canvasElement.ownerDocument.body);
+
     const select = await canvasBody.findByRole("combobox");
 
     await step("open the dropdown", async () => {
       await userEvent.click(select);
+
       await expect(await canvasBody.findByRole("listbox")).toBeInTheDocument();
     });
 
     await step("press Escape to close", async () => {
       await userEvent.keyboard("{Escape}");
+
       await expect(select).toHaveAttribute("aria-expanded", "false");
     });
   }
@@ -370,13 +378,18 @@ Default.test(
   "when using keyboard navigation, should move through options",
   async ({ canvasElement, step }) => {
     const canvasBody = within(canvasElement.ownerDocument.body);
+
     const select = await canvasBody.findByRole("combobox");
 
     await step("open and navigate with arrow keys", async () => {
       await userEvent.click(select);
+
       await expect(await canvasBody.findByRole("listbox")).toBeInTheDocument();
+
       await userEvent.keyboard("{ArrowDown}");
+
       await userEvent.keyboard("{ArrowDown}");
+
       await userEvent.keyboard("{Enter}");
     });
 

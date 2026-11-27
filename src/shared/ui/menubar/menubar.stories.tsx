@@ -384,18 +384,23 @@ Default.test(
 
     await step("open the File menu", async () => {
       const triggers = canvas.getAllByRole("menuitem");
+
       const fileTrigger = triggers.find(
         (el) => el.textContent.trim() === "File"
       );
+
       await userEvent.click(fileTrigger!);
+
       await body.findByRole("menu");
     });
 
     await step("click an item to close the menubar", async () => {
       const items = await body.findAllByRole("menuitem");
+
       const newTabItem = items.find((item) =>
         item.textContent.includes("New Tab")
       );
+
       await userEvent.click(newTabItem!, { delay: 100 });
     });
   }
@@ -408,26 +413,33 @@ Default.test(
 
     await step("open the File menu via click", async () => {
       const triggers = canvas.getAllByRole("menuitem");
+
       const fileTrigger = triggers.find(
         (el) => el.textContent.trim() === "File"
       );
+
       await userEvent.click(fileTrigger!);
+
       await body.findByRole("menu");
     });
 
     await step("navigate items with ArrowDown", async () => {
       await userEvent.keyboard("{ArrowDown}");
+
       await waitFor(async () => {
         const items = await body.findAllByRole("menuitem");
+
         const newTabItem = items.find((item) =>
           item.textContent.includes("New Tab")
         );
+
         await expect(newTabItem).toHaveFocus();
       });
     });
 
     await step("press Escape to close menu", async () => {
       await userEvent.keyboard("{Escape}");
+
       await waitFor(async () => {
         await expect(body.queryByRole("menu")).not.toBeInTheDocument();
       });
@@ -442,6 +454,7 @@ Checkbox.test(
 
     await step("open the Format menu", async () => {
       await userEvent.click(canvas.getByRole("menuitem", { name: /format/i }));
+
       await body.findByRole("menu");
     });
 
@@ -449,15 +462,19 @@ Checkbox.test(
       const codeItem = await body.findByRole("menuitemcheckbox", {
         name: /^code$/i,
       });
+
       await expect(codeItem).toHaveAttribute("aria-checked", "false");
+
       await userEvent.click(codeItem);
     });
 
     await step("verify the Code item is now checked", async () => {
       await userEvent.click(canvas.getByRole("menuitem", { name: /format/i }));
+
       const codeItem = await body.findByRole("menuitemcheckbox", {
         name: /^code$/i,
       });
+
       await expect(codeItem).toHaveAttribute("aria-checked", "true");
     });
   }
@@ -472,6 +489,7 @@ Radio.test(
       await userEvent.click(
         canvas.getByRole("menuitem", { name: /profiles/i })
       );
+
       await body.findByRole("menu");
     });
 
@@ -479,6 +497,7 @@ Radio.test(
       const benoitItem = await body.findByRole("menuitemradio", {
         name: /benoit/i,
       });
+
       await expect(benoitItem).toHaveAttribute("aria-checked", "true");
     });
 
@@ -486,6 +505,7 @@ Radio.test(
       const andyItem = await body.findByRole("menuitemradio", {
         name: /andy/i,
       });
+
       await userEvent.click(andyItem);
     });
 
@@ -493,9 +513,11 @@ Radio.test(
       await userEvent.click(
         canvas.getByRole("menuitem", { name: /profiles/i })
       );
+
       const andyItem = await body.findByRole("menuitemradio", {
         name: /andy/i,
       });
+
       await expect(andyItem).toHaveAttribute("aria-checked", "true");
     });
   }
@@ -508,10 +530,13 @@ Submenu.test(
 
     await step("open the File menu", async () => {
       const triggers = canvas.getAllByRole("menuitem");
+
       const fileTrigger = triggers.find(
         (el) => el.textContent.trim() === "File"
       );
+
       await userEvent.click(fileTrigger!);
+
       await body.findByRole("menu");
     });
 
@@ -519,7 +544,9 @@ Submenu.test(
       const shareTrigger = await body.findByRole("menuitem", {
         name: /share/i,
       });
+
       await userEvent.hover(shareTrigger);
+
       await body.findByRole("menuitem", { name: /email link/i });
     });
   }

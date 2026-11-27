@@ -111,12 +111,15 @@ Default.test(
 
     await step("type into input textbox", async () => {
       await userEvent.click(inputTextbox);
+
       await userEvent.type(inputTextbox, "mocked");
+
       await expect(args.onChange).toHaveBeenCalledTimes(6);
     });
 
     await step("finish typing by pressing Enter", async () => {
       await userEvent.keyboard("{enter}");
+
       await expect(args.onComplete).toHaveBeenCalledTimes(1);
     });
   }
@@ -132,17 +135,21 @@ Default.test(
 
     await step("type text into input textbox", async () => {
       await userEvent.click(inputTextbox);
+
       await userEvent.type(inputTextbox, "mocked");
+
       await expect(args.onChange).toHaveBeenCalledTimes(0);
     });
 
     await step("type numbers into input textbox", async () => {
       await userEvent.type(inputTextbox, "123456");
+
       await expect(args.onChange).toHaveBeenCalledTimes(6);
     });
 
     await step("finish typing by pressing Enter", async () => {
       await userEvent.keyboard("{enter}");
+
       await expect(args.onComplete).toHaveBeenCalledTimes(1);
     });
   }

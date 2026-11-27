@@ -71,7 +71,9 @@ export const EXTRAS = {
 } as const satisfies Record<string, Feature>;
 
 export type StylingId = Built<typeof STYLINGS>;
+
 export type ToolchainId = Built<typeof TOOLCHAINS>;
+
 export type ExtraId = Built<typeof EXTRAS>;
 
 export interface Choices {
@@ -90,6 +92,7 @@ export const DEFAULTS = {
 } as const satisfies Omit<Choices, "extras">;
 
 declare const projectNameBrand: unique symbol;
+
 export type ProjectName = string & { readonly [projectNameBrand]: true };
 
 export interface Request {
@@ -150,8 +153,11 @@ function lookup<R extends Readonly<Record<string, Feature>>>(
   flag: string
 ): Lookup<R> {
   if (isBuilt(registry, key)) return { kind: "built", id: key };
+
   const feature = Object.hasOwn(registry, key) ? registry[key] : undefined;
+
   if (feature === undefined) return { kind: "unknown" };
+
   return {
     kind: "planned",
     flag: feature.note === undefined ? flag : `${flag} (${feature.note})`,
@@ -160,6 +166,7 @@ function lookup<R extends Readonly<Record<string, Feature>>>(
 
 export function parseRequest(argv: readonly string[], cwd: string): Parsed {
   let parsed;
+
   try {
     parsed = parseArgs({
       args: [...argv],
@@ -170,12 +177,16 @@ export function parseRequest(argv: readonly string[], cwd: string): Parsed {
     });
   } catch (error) {
     const reason = error instanceof Error ? error.message : String(error);
+
     return usage(`${reason}. Run with --help to see the flags.`);
   }
+
   const { values, positionals } = parsed;
+
   if (values.help) return { kind: "help", text: helpText() };
 
   const [dir, ...rest] = positionals;
+
   if (dir === undefined || rest.length > 0) {
     return usage("give one project directory, as in: create-creact ../my-app");
   }
@@ -183,21 +194,25 @@ export function parseRequest(argv: readonly string[], cwd: string): Parsed {
   if (values.stack !== undefined && !Object.hasOwn(STACKS, values.stack)) {
     return usage(`--stack must be one of ${Object.keys(STACKS).join(", ")}`);
   }
+
   const stack = values.stack as StackId | undefined;
 
   const styling =
     values.styling === undefined
       ? undefined
       : lookup(STYLINGS, values.styling, `--styling ${values.styling}`);
+
   if (styling?.kind === "unknown") {
     return usage(
       `--styling must be one of ${Object.keys(STYLINGS).join(", ")}`
     );
   }
+
   const monorepo =
     values.monorepo === undefined
       ? undefined
       : lookup(MONOREPOS, values.monorepo, `--monorepo ${values.monorepo}`);
+
   if (monorepo?.kind === "unknown") {
     return usage(
       `--monorepo must be one of ${Object.keys(MONOREPOS).join(", ")}`
@@ -208,6 +223,7 @@ export function parseRequest(argv: readonly string[], cwd: string): Parsed {
     values.toolchain === undefined
       ? undefined
       : lookup(TOOLCHAINS, values.toolchain, `--toolchain ${values.toolchain}`);
+
   if (toolchain?.kind === "unknown") {
     return usage(
       `--toolchain must be one of ${Object.keys(TOOLCHAINS).join(", ")}`
@@ -217,6 +233,7 @@ export function parseRequest(argv: readonly string[], cwd: string): Parsed {
   const extras = EXTRA_NAMES.filter((extra) => values[extra]).map((name) =>
     lookup(EXTRAS, name, `--${name}`)
   );
+
   const planned = [styling, monorepo, toolchain, ...extras].flatMap((found) =>
     found?.kind === "planned" ? [found.flag] : []
   );
@@ -252,14 +269,17 @@ export function resolveChoices(
 ): Choices {
   const choices = choose(request, recorded);
   const extras: readonly string[] = choices.extras;
+
   for (const extra of extras) {
     const onlyWith = registry[extra]?.onlyWith;
+
     if (onlyWith !== undefined && !onlyWith.includes(choices.styling)) {
       throw new UsageError(
         `--${extra} works with --styling ${onlyWith.join("|")}, and ${request.dir} is ${choices.styling}`
       );
     }
   }
+
   return choices;
 }
 
@@ -267,12 +287,14 @@ function choose(request: Request, recorded: Choices | undefined): Choices {
   if (recorded !== undefined) {
     for (const key of ["stack", "styling", "monorepo", "toolchain"] as const) {
       const asked = request[key];
+
       if (asked !== undefined && asked !== recorded[key]) {
         throw new UsageError(
           `${request.dir} is recorded as ${key} ${recorded[key]}, so --${key} ${asked} can't apply`
         );
       }
     }
+
     return {
       stack: recorded.stack,
       styling: recorded.styling,
@@ -283,11 +305,13 @@ function choose(request: Request, recorded: Choices | undefined): Choices {
   }
 
   const stack = request.stack ?? (request.yes ? DEFAULTS.stack : undefined);
+
   if (stack === undefined) {
     throw new UsageError(
       `choose a stack with --stack ${Object.keys(STACKS).join("|")}, or pass --yes for ${DEFAULTS.stack}`
     );
   }
+
   return {
     stack,
     styling: request.styling ?? DEFAULTS.styling,
@@ -303,11 +327,13 @@ export function isProjectName(name: string): name is ProjectName {
 
 export function projectName(dir: string): ProjectName {
   const name = path.basename(dir);
+
   if (!isProjectName(name)) {
     throw new UsageError(
       `${name} would become the package scope @${name}, so it needs lowercase letters, digits, ".", "_" or "-", starting with a letter or digit. Pick another directory name.`
     );
   }
+
   return name;
 }
 
@@ -320,6 +346,7 @@ function choicesLine(registry: Readonly<Record<string, Feature>>): string {
   const built = ids.filter(([, feature]) => feature.status === "built");
   const planned = ids.filter(([, feature]) => feature.status === "planned");
   const names = built.map(([id]) => id).join(", ");
+
   return planned.length === 0
     ? names
     : `${names}; planned: ${planned.map(([id]) => id).join(", ")}`;
@@ -327,14 +354,18 @@ function choicesLine(registry: Readonly<Record<string, Feature>>): string {
 
 function helpText(): string {
   const registry: Readonly<Record<string, Feature>> = EXTRAS;
+
   const extras = Object.entries(registry).map(([id, extra]) => {
     const planned = extra.status === "planned" ? "planned: " : "";
+
     const only =
       extra.onlyWith === undefined
         ? ""
         : ` (${extra.onlyWith.join(", ")} only)`;
+
     return `  --${id.padEnd(16)}${planned}${extra.summary}${only}`;
   });
+
   return [
     "Usage: create-creact <dir> [flags]",
     "",

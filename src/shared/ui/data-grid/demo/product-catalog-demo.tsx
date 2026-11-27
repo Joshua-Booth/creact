@@ -333,7 +333,9 @@ export function ProductCatalogDemo({
           inStock: true,
           images: [],
         };
+
         setData((prev) => [...prev, newRow]);
+
         return null;
       };
 

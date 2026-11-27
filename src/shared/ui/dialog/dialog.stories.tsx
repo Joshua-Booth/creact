@@ -62,6 +62,7 @@ const LOREM_PARAGRAPHS = [
     text: "Omnis voluptas assumenda est, omnis dolor repellendus. Temporibus autem quibusdam et aut officiis debitis aut rerum necessitatibus saepe eveniet ut et voluptates repudiandae sint et molestiae non recusandae.",
   },
 ] as const;
+
 // cspell:enable
 
 /**
@@ -250,8 +251,11 @@ Default.test(
       await userEvent.click(
         await canvasBody.findByRole("button", { name: /open dialog/i })
       );
+
       const dialog = await canvasBody.findByRole("dialog");
+
       await expect(dialog).toBeInTheDocument();
+
       await expect(dialog).toHaveAttribute("data-open");
     });
 
@@ -259,6 +263,7 @@ Default.test(
       await userEvent.click(
         await canvasBody.findByRole("button", { name: /save changes/i })
       );
+
       await expect(await canvasBody.findByRole("dialog")).toHaveAttribute(
         "data-closed"
       );
@@ -275,8 +280,11 @@ Default.test(
       await userEvent.click(
         await canvasBody.findByRole("button", { name: /open dialog/i })
       );
+
       const dialog = await canvasBody.findByRole("dialog");
+
       await expect(dialog).toBeInTheDocument();
+
       await expect(dialog).toHaveAttribute("data-open");
     });
 
@@ -284,6 +292,7 @@ Default.test(
       await userEvent.click(
         await canvasBody.findByRole("button", { name: /cancel/i })
       );
+
       await expect(await canvasBody.findByRole("dialog")).toHaveAttribute(
         "data-closed"
       );
@@ -300,8 +309,11 @@ Default.test(
       await userEvent.click(
         await canvasBody.findByRole("button", { name: /open dialog/i })
       );
+
       const dialog = await canvasBody.findByRole("dialog");
+
       await expect(dialog).toBeInTheDocument();
+
       await expect(dialog).toHaveAttribute("data-open");
     });
 
@@ -309,6 +321,7 @@ Default.test(
       await userEvent.click(
         await canvasBody.findByRole("button", { name: /close/i })
       );
+
       await expect(await canvasBody.findByRole("dialog")).toHaveAttribute(
         "data-closed"
       );
@@ -325,13 +338,17 @@ Default.test(
       await userEvent.click(
         await canvasBody.findByRole("button", { name: /open dialog/i })
       );
+
       const dialog = await canvasBody.findByRole("dialog");
+
       await expect(dialog).toBeInTheDocument();
+
       await expect(dialog).toHaveAttribute("data-open");
     });
 
     await step("press Escape to close the dialog", async () => {
       await userEvent.keyboard("{Escape}");
+
       await expect(await canvasBody.findByRole("dialog")).toHaveAttribute(
         "data-closed"
       );
@@ -348,6 +365,7 @@ Default.test(
       await userEvent.click(
         await canvasBody.findByRole("button", { name: /open dialog/i })
       );
+
       await expect(await canvasBody.findByRole("dialog")).toHaveAttribute(
         "data-open"
       );
@@ -355,6 +373,7 @@ Default.test(
 
     await step("tab through focusable elements within dialog", async () => {
       const dialog = await canvasBody.findByRole("dialog");
+
       const dialogScope = within(dialog);
 
       // Tab through all focusable elements — focus should remain within the dialog
@@ -362,9 +381,11 @@ Default.test(
       const usernameInput = dialogScope.getByLabelText("Username");
 
       await userEvent.click(nameInput);
+
       await expect(nameInput).toHaveFocus();
 
       await userEvent.tab();
+
       await expect(usernameInput).toHaveFocus();
     });
   }

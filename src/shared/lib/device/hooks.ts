@@ -41,6 +41,7 @@ export function useDevice(): DeviceState {
     const mqlMobile = window.matchMedia(
       `(max-width: ${BREAKPOINTS.MOBILE - 1}px)`
     );
+
     const mqlTablet = window.matchMedia(
       `(min-width: ${BREAKPOINTS.MOBILE}px) and (max-width: ${BREAKPOINTS.TABLET - 1}px)`
     );
@@ -49,13 +50,16 @@ export function useDevice(): DeviceState {
     const onChange = () => {
       setState(getDeviceState(window.innerWidth));
     };
+
     /* istanbul ignore end @preserve */
 
     mqlMobile.addEventListener("change", onChange);
+
     mqlTablet.addEventListener("change", onChange);
 
     return () => {
       mqlMobile.removeEventListener("change", onChange);
+
       mqlTablet.removeEventListener("change", onChange);
     };
   }, []);

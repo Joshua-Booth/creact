@@ -184,9 +184,11 @@ Actions.test(
     await expect(
       canvas.getByRole("button", { name: "Copy message" })
     ).toBeInTheDocument();
+
     await expect(
       canvas.getByRole("button", { name: "Retry" })
     ).toBeInTheDocument();
+
     await expect(
       canvas.getByRole("button", { name: "Good response" })
     ).toBeInTheDocument();

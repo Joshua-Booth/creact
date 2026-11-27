@@ -99,6 +99,7 @@ export const Default = meta.story({
 Default.test("should render the conversation", async ({ canvas }) => {
   // Guards against render errors swallowed by decorator error boundaries
   await expect(canvas.getByText("Nope, see you at 10!")).toBeInTheDocument();
+
   await expect(
     canvas.getByRole("region", { name: "Messages" })
   ).toBeInTheDocument();
@@ -108,9 +109,11 @@ Default.test(
   "when scrolled up, should reveal the button and scroll back to the end",
   async ({ canvas, canvasElement, step }) => {
     const viewport = canvas.getByRole("region", { name: "Messages" });
+
     const button = canvasElement.querySelector<HTMLButtonElement>(
       '[data-slot="message-scroller-button"]'
     );
+
     if (!button) throw new Error("scroll button not found");
 
     await step("starts at the end with the button inactive", async () => {
@@ -121,6 +124,7 @@ Default.test(
 
     await step("scroll to the top to activate the button", async () => {
       viewport.scrollTop = 0;
+
       await waitFor(() =>
         expect(button).toHaveAttribute("data-active", "true")
       );
@@ -128,6 +132,7 @@ Default.test(
 
     await step("click the button to return to the end", async () => {
       await userEvent.click(button);
+
       await waitFor(() =>
         expect(
           viewport.scrollTop + viewport.clientHeight

@@ -51,6 +51,7 @@ function DashboardContent() {
 
   /* istanbul ignore start @preserve -- Defensive guard: unreachable after Suspense resolves */
   if (!user) throw new Error("Unreachable: user is undefined after Suspense");
+
   /* istanbul ignore end @preserve */
 
   const { firstName, lastName, email } = user;

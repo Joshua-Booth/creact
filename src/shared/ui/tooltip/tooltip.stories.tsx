@@ -140,17 +140,22 @@ Default.test(
 
     await step("hover over trigger", async () => {
       await userEvent.hover(triggerBtn);
+
       await waitFor(async () => {
         const tooltip = getTooltip(canvasElement);
+
         await expect(tooltip).toBeInTheDocument();
+
         await expect(tooltip).toHaveAttribute("data-open");
       });
     });
 
     await step("unhover trigger", async () => {
       await userEvent.unhover(triggerBtn);
+
       await waitFor(async () => {
         const tooltip = getTooltip(canvasElement);
+
         await expect(tooltip).toHaveAttribute("data-closed");
       });
     });
@@ -164,18 +169,24 @@ Default.test(
 
     await step("focus trigger via Tab", async () => {
       await userEvent.tab();
+
       await waitFor(() => expect(triggerBtn).toHaveFocus());
+
       await waitFor(async () => {
         const tooltip = getTooltip(canvasElement);
+
         await expect(tooltip).toBeInTheDocument();
+
         await expect(tooltip).toHaveAttribute("data-open");
       });
     });
 
     await step("blur trigger via Tab", async () => {
       await userEvent.tab();
+
       await waitFor(async () => {
         const tooltip = getTooltip(canvasElement);
+
         await expect(tooltip).toHaveAttribute("data-closed");
       });
     });

@@ -582,6 +582,7 @@ Default.test(
 
     await step("verify media is rendered", async () => {
       const media = canvas.getByTestId("item-media");
+
       await expect(media).toBeVisible();
     });
   }
@@ -633,12 +634,15 @@ Default.test(
       const favoriteButton = canvas.getByRole("button", {
         name: /add to favorites/i,
       });
+
       const moreButton = canvas.getByRole("button", { name: /more options/i });
 
       await userEvent.click(favoriteButton);
+
       await userEvent.click(moreButton);
 
       await expect(favoriteButton).toBeEnabled();
+
       await expect(moreButton).toBeEnabled();
     });
   }

@@ -21,6 +21,7 @@ interface ShadcnConfig {
 
 function readShadcnConfig(): ShadcnConfig {
   const raw = readFileSync(resolve("components.json"), "utf-8");
+
   return JSON.parse(raw) as ShadcnConfig;
 }
 
@@ -32,6 +33,7 @@ export default function plopfile(plop: NodePlopAPI): void {
   const shadcnConfig = readShadcnConfig();
   const uiPath = resolveAlias(shadcnConfig.aliases.ui);
   const ext = shadcnConfig.tsx ? "tsx" : "ts";
+
   plop.setWelcomeMessage("What would you like to generate?");
 
   plop.setHelper("eq", function (this: unknown, a, b, options) {
@@ -66,6 +68,7 @@ export default function plopfile(plop: NodePlopAPI): void {
     ],
     actions: (data) => {
       const actions: Parameters<NodePlopAPI["setGenerator"]>[1]["actions"] = [];
+
       if (!data) return actions;
 
       const { layer, name, segments } = data as {
@@ -102,6 +105,7 @@ export default function plopfile(plop: NodePlopAPI): void {
 
       for (const segment of segments) {
         if (segment === "ui") continue;
+
         actions.push({
           type: "add",
           path: `${base}/${segment}/${name}.ts`,

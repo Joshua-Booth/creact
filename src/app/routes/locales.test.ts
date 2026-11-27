@@ -10,6 +10,7 @@ const { envState } = vi.hoisted(() => ({
 // Proxy `env` so NODE_ENV can be flipped per-test (the parsed env is otherwise frozen at import).
 vi.mock("@/shared/config", async (importOriginal) => {
   const actual = await importOriginal<typeof ConfigModule>();
+
   return {
     ...actual,
     env: new Proxy(actual.env, {
@@ -49,6 +50,7 @@ describe("locales loader", () => {
 
   it("omits cache headers outside production", () => {
     envState.NODE_ENV = "test";
+
     const result = call("en", "common");
 
     expect(new Headers(result.init?.headers).get("Cache-Control")).toBeNull();
@@ -56,7 +58,9 @@ describe("locales loader", () => {
 
   it("sets a long-lived cache header in production", () => {
     envState.NODE_ENV = "production";
+
     const result = call("en", "common");
+
     envState.NODE_ENV = "test";
 
     expect(new Headers(result.init?.headers).get("Cache-Control")).toContain(

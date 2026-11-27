@@ -72,5 +72,6 @@ async function main() {
 
 main().catch((error) => {
   console.error(error);
+
   Sentry.captureException(error);
 });

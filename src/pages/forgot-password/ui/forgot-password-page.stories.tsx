@@ -50,12 +50,14 @@ Default.test(
       const submitButton = await canvas.findByRole("button", {
         name: /send reset link/i,
       });
+
       await userEvent.click(submitButton);
     });
 
     await step("verify email validation error", async () => {
       await waitFor(async () => {
         const emailInput = canvas.getByLabelText("Email");
+
         await expect(emailInput).toHaveAttribute("aria-invalid", "true");
       });
     });
@@ -67,6 +69,7 @@ Default.test(
   async ({ canvas, step }) => {
     await step("enter valid email", async () => {
       const emailInput = await canvas.findByLabelText("Email");
+
       await userEvent.type(emailInput, "user@example.com");
     });
 
@@ -74,6 +77,7 @@ Default.test(
       const submitButton = await canvas.findByRole("button", {
         name: /send reset link/i,
       });
+
       await userEvent.click(submitButton);
     });
 
@@ -82,6 +86,7 @@ Default.test(
         const heading = canvas.getByRole("heading", {
           name: /check your email/i,
         });
+
         await expect(heading).toBeInTheDocument();
       });
     });
@@ -93,6 +98,7 @@ Default.test(
   async ({ canvas, step }) => {
     await step("enter invalid email", async () => {
       const emailInput = await canvas.findByLabelText("Email");
+
       await userEvent.type(emailInput, "invalid-email");
     });
 
@@ -100,12 +106,14 @@ Default.test(
       const submitButton = await canvas.findByRole("button", {
         name: /send reset link/i,
       });
+
       await userEvent.click(submitButton);
     });
 
     await step("verify email validation error", async () => {
       await waitFor(async () => {
         const emailInput = canvas.getByLabelText("Email");
+
         await expect(emailInput).toHaveAttribute("aria-invalid", "true");
       });
     });
