@@ -89,6 +89,7 @@ const meta = preview.meta({
   args: {
     children: <div />,
     className: "min-h-[200px] w-full",
+    // Suppress ResponsiveContainer warnings in Storybook (SSR/test environment)
     width: 320,
     aspect: 1.6,
   },

@@ -575,6 +575,9 @@ AllFilters.test(
 
         if (!opt) continue;
 
+        // Only click if the option is not already selected.
+        // Selected options have a visible check SVG; unselected ones
+        // use [&_svg]:invisible (visibility: hidden).
         const svg = opt.querySelector("svg.lucide-check");
 
         if (!svg || win.getComputedStyle(svg).visibility === "hidden") {

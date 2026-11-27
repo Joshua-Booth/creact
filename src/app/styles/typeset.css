@@ -1,3 +1,8 @@
+/*
+ * shadcn/typeset
+ * https://ui.shadcn.com/docs/typeset.
+ */
+
 @layer components {
   .typeset {
     --typeset-font-body: inherit;

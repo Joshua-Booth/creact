@@ -57,6 +57,14 @@ import { Textarea } from "@/shared/ui/textarea";
 import { DataGridCellWrapper } from "./data-grid-cell-wrapper";
 
 // Remaining eslint-disable reasons:
+//  - no-unnecessary-condition: tableMeta methods are optional at runtime despite types
+//  - react-hooks/refs: ref reads during render for sync-prop-to-state (getDerivedStateFromProps replacement)
+//  - cognitive-complexity: keyboard-handling switch statements, splitting hurts readability
+//  - no-deprecated: FormEvent (correct for contentEditable onInput), execCommand (no replacement)
+//  - no-event-handler: useEffect for focus management on isEditing flip, event-based would need API changes
+//  - role-supports-aria-props: intentional aria-invalid/aria-disabled on role="region" dropzone
+//  - no-autofocus: autoFocus on Calendar in popover, standard UX
+//  - no-noninteractive-element-interactions: dropzone region with click/keyboard handlers, intentional
 /* eslint-disable @typescript-eslint/no-unnecessary-condition, react-hooks/refs, sonarjs/cognitive-complexity, @typescript-eslint/no-deprecated, react-you-might-not-need-an-effect/no-event-handler, jsx-a11y/role-supports-aria-props, jsx-a11y/no-autofocus, jsx-a11y/no-noninteractive-element-interactions -- see above */
 
 function stopPropagation(event: React.SyntheticEvent) {

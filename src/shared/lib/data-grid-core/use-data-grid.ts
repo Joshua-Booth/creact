@@ -2467,6 +2467,7 @@ export function useDataGrid<TData extends RowData>({
 
   tableRef.current ??= table;
 
+  // columnResizing and columnSizing are used for calculating the column size vars
   const columnSizeVars = useMemo(() => {
     const headers = table.getFlatHeaders();
     const colSizes: Record<string, number> = {};
@@ -2499,6 +2500,7 @@ export function useDataGrid<TData extends RowData>({
   );
 
   /* istanbul ignore start @preserve -- Firefox layout adjustment and virtualizer setup */
+  // columnPinning is used for calculating the adjustLayout
   const adjustLayout = useMemo(() => {
     const columnPinning = table.state.columnPinning;
 
