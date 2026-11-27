@@ -325,7 +325,8 @@ for (const [id, styling, monorepo, toolchain] of STACK_IDS.flatMap((stackId) =>
 
         t.assert.strictEqual(result.status, 0, result.stderr);
 
-        t.assert.match(result.stdout, / 0 unchanged, 0 kept\n/);
+        // A step that takes 500ms or more ends with its time, like "  1.1s".
+        t.assert.match(result.stdout, / 0 unchanged, 0 kept(?: |$)/m);
 
         t.assert.match(result.stdout, /^done skills {4}restored into/m);
 
