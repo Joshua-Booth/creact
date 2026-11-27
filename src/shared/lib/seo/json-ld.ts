@@ -1,6 +1,5 @@
 import { getSiteUrl, SITE_NAME } from "@/shared/config";
 
-/** Organization schema for structured data */
 interface OrganizationSchema {
   "@context": "https://schema.org";
   "@type": "Organization";
@@ -8,7 +7,6 @@ interface OrganizationSchema {
   url: string;
 }
 
-/** WebSite schema for structured data */
 interface WebSiteSchema {
   "@context": "https://schema.org";
   "@type": "WebSite";

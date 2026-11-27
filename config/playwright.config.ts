@@ -8,7 +8,6 @@ const rootDir = path.resolve(import.meta.dirname, "..");
 const port = Number(process.env.VITE_PORT) || 8080;
 const collectCoverage = process.env.COVERAGE === "true";
 
-/** Patterns excluded from coverage metrics (aligned with vitest.config.ts) */
 // eslint-disable-next-line security/detect-non-literal-regexp -- Pattern list is static, not user-supplied
 const EXCLUDED = new RegExp(
   [
@@ -39,7 +38,6 @@ const coverageReporter = collectCoverage
         {
           name: "E2E Coverage",
           outputFile: path.join(rootDir, "coverage/e2e/index.html"),
-          // Configure monocart-reporter to receive coverage from addCoverageReport
           coverage: {
             entryFilter: (entry: { url: string }) =>
               entry.url.includes("/assets/"),

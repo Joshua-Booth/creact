@@ -38,8 +38,6 @@ const meta = preview.meta({
   },
 });
 
-// --- Stories ---
-
 /**
  * The default form of the toggle group with multiple selection enabled.
  */
@@ -152,8 +150,6 @@ export const Disabled = meta.story({
     disabled: true,
   },
 });
-
-// --- Tests ---
 
 Default.test(
   "when clicking items, should toggle their pressed state independently",

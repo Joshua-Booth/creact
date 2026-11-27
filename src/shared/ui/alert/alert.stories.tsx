@@ -39,8 +39,6 @@ const meta = preview.meta({
   },
 });
 
-// --- Stories ---
-
 /**
  * The default form of the alert.
  */
@@ -101,8 +99,6 @@ export const Colors = meta.story({
     </Alert>
   ),
 });
-
-// --- Tests ---
 
 Action.test("action button should be clickable", async ({ canvas }) => {
   const button = await canvas.findByRole("button", { name: /enable/i });

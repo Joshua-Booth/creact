@@ -12,8 +12,6 @@ import { DataTable } from "../data-table";
 import { DataTableColumnHeader } from "../data-table-column-header";
 import { DataTableToolbar } from "../data-table-toolbar";
 
-// --- Types ---
-
 interface Student {
   id: string;
   name: string;
@@ -26,8 +24,6 @@ interface Student {
   passing: boolean;
   enrolledDate: number;
 }
-
-// --- Sample data ---
 
 function createStudentData() {
   const students = [
@@ -160,16 +156,12 @@ function createStudentData() {
   });
 }
 
-// --- Options ---
-
 const gradeOptions = [
   { label: "Freshman", value: "Freshman" },
   { label: "Sophomore", value: "Sophomore" },
   { label: "Junior", value: "Junior" },
   { label: "Senior", value: "Senior" },
 ];
-
-// --- Helpers ---
 
 function averageColor(avg: number) {
   if (avg < 60) return "text-red-700 dark:text-red-400";
@@ -178,8 +170,6 @@ function averageColor(avg: number) {
 
   return "text-green-800 dark:text-green-400";
 }
-
-// --- Demo ---
 
 /** Student gradebook table with conditional styling, pass/fail badges, and multiple range filters. */
 export function StudentGradesDemo() {

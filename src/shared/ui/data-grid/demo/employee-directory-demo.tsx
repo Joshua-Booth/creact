@@ -7,8 +7,6 @@ import { DataGrid } from "../data-grid";
 import { DataGridKeyboardShortcuts } from "../data-grid-keyboard-shortcuts";
 import { DataGridToolbar } from "./data-grid-demo";
 
-// --- Types ---
-
 interface Employee {
   id: string;
   fullName: string;
@@ -19,8 +17,6 @@ interface Employee {
   startDate: string;
   active: boolean;
 }
-
-// --- Sample data ---
 
 function createEmployeeData() {
   return [
@@ -147,8 +143,6 @@ function createEmployeeData() {
   ];
 }
 
-// --- Options ---
-
 const departmentOptions = [
   { label: "Engineering", value: "Engineering" },
   { label: "Design", value: "Design" },
@@ -175,8 +169,6 @@ const skillOptions = [
   { label: "Analytics", value: "Analytics" },
   { label: "Playwright", value: "Playwright" },
 ];
-
-// --- Demo component ---
 
 /** Read-only company directory with search for employee lookup. */
 export function EmployeeDirectoryDemo({

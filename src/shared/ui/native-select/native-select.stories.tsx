@@ -23,8 +23,6 @@ const meta = preview.meta({
   },
 });
 
-// --- Stories ---
-
 export const Default = meta.story({
   args: {
     "aria-label": "Select",
@@ -105,8 +103,6 @@ export const Invalid = meta.story({
     ),
   },
 });
-
-// --- Tests ---
 
 Default.test(
   "when an option is selected, should update the value",

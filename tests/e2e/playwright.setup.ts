@@ -42,13 +42,8 @@ export const test = testBase.extend<TestFixtures>({
   ],
 });
 
-/** Timeout for the hydration check (controls becoming enabled). */
 export const HYDRATION_TIMEOUT = 10_000;
 
-/**
- * Logs in via the UI by filling the login form and waiting for the dashboard.
- * Use this helper in any test that needs an authenticated session as a precondition.
- */
 export async function loginAsUser(
   page: Page,
   { email = "test@mail.com", password = "password" } = {}

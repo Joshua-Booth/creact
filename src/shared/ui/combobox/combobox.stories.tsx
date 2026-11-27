@@ -27,8 +27,6 @@ import {
   ComboboxValue,
 } from "./combobox";
 
-// --- Helpers ---
-
 const fruitNames = [
   "Apple",
   "Banana",
@@ -91,8 +89,6 @@ const meta = preview.meta({
     },
   },
 });
-
-// --- Stories ---
 
 /**
  * The default combobox with single selection.
@@ -394,8 +390,6 @@ export const InputGroupStory = meta.story({
  * When an item is clicked, should update the input value.
  */
 
-// --- Tests ---
-
 Default.test(
   "when item is clicked, should update input value",
   {
@@ -453,9 +447,6 @@ Default.test(
   }
 );
 
-/**
- * When typing in the input, should update input value and show matching options.
- */
 Default.test(
   "when typing, should update input and show matching option",
   {
@@ -511,9 +502,6 @@ Default.test(
   }
 );
 
-/**
- * When no matches found, should show empty state message.
- */
 Default.test(
   "when no matches found, should show empty state",
   {
@@ -563,9 +551,6 @@ Default.test(
   }
 );
 
-/**
- * When clear button is clicked, should reset selection.
- */
 Default.test(
   "when clear button is clicked, should reset selection",
   {
@@ -624,9 +609,6 @@ Default.test(
   }
 );
 
-/**
- * When using keyboard, should navigate and select options.
- */
 Default.test(
   "when using keyboard, should navigate and select options",
   {

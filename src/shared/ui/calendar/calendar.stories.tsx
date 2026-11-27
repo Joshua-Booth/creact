@@ -65,8 +65,6 @@ const meta = preview.meta({
   },
 });
 
-// --- Stories ---
-
 /**
  * Basic calendar with single date selection.
  */
@@ -305,7 +303,6 @@ export const CustomDays = meta.story({
   },
   parameters: {
     a11y: {
-      // Custom day content with small text has color contrast issues by design
       disable: true,
     },
   },
@@ -320,7 +317,6 @@ export const WeekNumbers = meta.story({
   },
   parameters: {
     a11y: {
-      // react-day-picker has a known issue with scope attribute on week numbers
       disable: true,
     },
   },
@@ -350,8 +346,6 @@ export const Timezone = meta.story({
     );
   },
 });
-
-// --- Tests ---
 
 Default.test(
   "when using the calendar navigation, should change months",

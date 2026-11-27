@@ -77,8 +77,6 @@ function SidebarProvider({
   const { isMobile } = useDevice();
   const [openMobile, setOpenMobile] = React.useState(false);
 
-  // This is the internal state of the sidebar.
-  // We use openProp and setOpenProp for control from outside the component.
   const [internalOpen, setInternalOpen] = React.useState(defaultOpen);
   const open = openProp ?? internalOpen;
 
@@ -97,12 +95,10 @@ function SidebarProvider({
     [setOpenProp, open]
   );
 
-  // Persist sidebar state to cookie when it changes.
   React.useEffect(() => {
     document.cookie = `${SIDEBAR_COOKIE_NAME}=${String(open)}; path=/; max-age=${SIDEBAR_COOKIE_MAX_AGE}`;
   }, [open]);
 
-  // Helper to toggle the sidebar.
   const toggleSidebar = React.useCallback(() => {
     /* istanbul ignore start @preserve -- Mobile toggle path not exercised in desktop stories */
     if (isMobile) {
@@ -113,7 +109,6 @@ function SidebarProvider({
     /* istanbul ignore end @preserve */
   }, [isMobile, setOpen, setOpenMobile]);
 
-  // Adds a keyboard shortcut to toggle the sidebar.
   /* istanbul ignore start @preserve -- Keyboard shortcut effect not triggered in component tests */
   React.useEffect(() => {
     const handleKeyDown = (event: KeyboardEvent) => {
@@ -134,8 +129,6 @@ function SidebarProvider({
 
   /* istanbul ignore end @preserve */
 
-  // We add a state so that we can do data-state="expanded" or "collapsed".
-  // This makes it easier to style the sidebar with Tailwind classes.
   const state = open ? "expanded" : "collapsed";
 
   const contextValue = React.useMemo<SidebarContextProps>(
@@ -247,7 +240,6 @@ function Sidebar({
       data-side={side}
       data-slot="sidebar"
     >
-      {/* This is what handles the sidebar gap on desktop */}
       <div
         data-slot="sidebar-gap"
         className={cn(
@@ -265,7 +257,6 @@ function Sidebar({
         data-side={side}
         className={cn(
           `fixed inset-y-0 z-10 hidden h-svh w-(--sidebar-width) transition-[left,right,width] duration-200 ease-linear data-[side=left]:left-0 data-[side=left]:group-data-[collapsible=offcanvas]:-left-(--sidebar-width) data-[side=right]:right-0 data-[side=right]:group-data-[collapsible=offcanvas]:-right-(--sidebar-width) md:flex`,
-          // Adjust the padding for floating and inset variants.
           /* istanbul ignore next 4 -- Variant ternary: stories only exercise default variant */
           variant === "floating" || variant === "inset"
             ? `p-2 group-data-[collapsible=icon]:w-[calc(var(--sidebar-width-icon)+(--spacing(4))+2px)]`
@@ -536,7 +527,6 @@ function SidebarMenuItem({ className, ...props }: React.ComponentProps<"li">) {
   );
 }
 
-/** Style variants for the {@link SidebarMenuButton} component. */
 const sidebarMenuButtonVariants = cva(
   `peer/menu-button group/menu-button ring-sidebar-ring hover:bg-sidebar-accent hover:text-sidebar-accent-foreground active:bg-sidebar-accent active:text-sidebar-accent-foreground data-open:hover:bg-sidebar-accent data-open:hover:text-sidebar-accent-foreground data-active:bg-sidebar-accent data-active:text-sidebar-accent-foreground flex w-full items-center gap-2 overflow-hidden rounded-md p-2 text-left text-sm outline-hidden transition-[width,height,padding] group-has-data-[sidebar=menu-action]/menu-item:pr-8 group-data-[collapsible=icon]:size-8! group-data-[collapsible=icon]:p-2! focus-visible:ring-2 disabled:pointer-events-none disabled:opacity-50 aria-disabled:pointer-events-none aria-disabled:opacity-50 data-active:font-medium [&_svg]:size-4 [&_svg]:shrink-0 [&>span:last-child]:truncate`,
   {
@@ -618,7 +608,6 @@ function SidebarMenuButton({
   );
 }
 
-/* Sub-components for complex sidebar compositions, tested transitively via app-level integration */
 /** Secondary action button that appears alongside a menu button. */
 function SidebarMenuAction({
   className,
@@ -678,7 +667,6 @@ function SidebarMenuSkeleton({
   /** Whether to show a circular icon placeholder alongside the text skeleton. */
   showIcon?: boolean;
 }) {
-  // Random width between 50 to 90%.
   const [width] = React.useState(() => {
     return `${Math.floor(Math.random() * 40) + 50}%`;
   });

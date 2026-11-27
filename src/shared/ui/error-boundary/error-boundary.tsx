@@ -71,7 +71,6 @@ interface ErrorFallbackProps {
   onReset: () => void;
 }
 
-/** Default fallback UI rendered when {@link ErrorBoundary} catches an error. */
 function ErrorFallback({ onReset }: ErrorFallbackProps) {
   const { t } = useTranslation();
 

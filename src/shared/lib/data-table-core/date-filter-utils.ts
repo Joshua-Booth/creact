@@ -63,7 +63,6 @@ export function formatDateRangeLabel(range: DateRange) {
     return `${formatDate(range.from)} - ${formatDate(range.to)}`;
   }
 
-  // At least one of from/to is non-null after earlier checks
   // eslint-disable-next-line @typescript-eslint/no-non-null-assertion -- guaranteed by guards above
   const singleDate = (range.from ?? range.to)!;
 

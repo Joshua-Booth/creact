@@ -15,8 +15,6 @@ import { RealEstateListingsDemo } from "./demo/real-estate-listings-demo";
 import { RestaurantMenuDemo } from "./demo/restaurant-menu-demo";
 import { StudentGradesDemo } from "./demo/student-grades-demo";
 
-// --- Story setup ---
-
 const meta = preview.meta({
   title: "ui/DataTable",
   component: DataTableDemo,
@@ -38,8 +36,6 @@ const meta = preview.meta({
     },
   },
 });
-
-// --- Stories ---
 
 /** Data table with sorting, filtering, and pagination. */
 export const Default = meta.story({
@@ -96,11 +92,8 @@ export const FacetedFilterWithCounts = meta.story({
   render: (args) => <FacetedFilterWithCountsDemo {...args} />,
 });
 
-// --- Tests ---
-
 Default.test("should render all rows", async ({ canvas, step }) => {
   await step("verify table rows render", async () => {
-    // Check that project titles are visible (first page, default 10 per page)
     await expect(canvas.getByText("Website Redesign")).toBeVisible();
 
     await expect(canvas.getByText("Mobile App")).toBeVisible();
@@ -281,7 +274,6 @@ Default.test(
   "should hide column via header dropdown",
   async ({ canvasElement, step }) => {
     await step("open Status dropdown and click Hide", async () => {
-      // Target the column header button inside thead to avoid matching the filter button
       const thead = canvasElement.querySelector("thead");
 
       if (!thead) throw new Error("Expected thead");
@@ -375,7 +367,6 @@ AllFilters.test(
 
       await expect(toolbar).not.toBeNull();
 
-      // Faceted filter buttons (rendered with border-dashed class)
       const filterButtons = canvasElement.querySelectorAll(
         '[data-slot="data-table-toolbar"] button.border-dashed'
       );
@@ -466,7 +457,6 @@ AllFilters.test(
       await userEvent.click(progressButton);
 
       await waitFor(async () => {
-        // The slider filter popover contains number inputs
         const inputs = canvasElement.ownerDocument.querySelectorAll(
           'input[type="number"]'
         );
@@ -585,9 +575,6 @@ AllFilters.test(
 
         if (!opt) continue;
 
-        // Only click if the option is not already selected.
-        // Selected options have a visible check SVG; unselected ones
-        // use [&_svg]:invisible (visibility: hidden).
         const svg = opt.querySelector("svg.lucide-check");
 
         if (!svg || win.getComputedStyle(svg).visibility === "hidden") {
@@ -610,7 +597,6 @@ AllFilters.test(
     await step("verify aggregate badge appears", async () => {
       await userEvent.keyboard("{Escape}");
 
-      // "3 selected" renders on lg+ screens; "3" badge renders on smaller viewports
       await waitFor(
         async () => {
           const badges = canvasElement.querySelectorAll('[data-slot="badge"]');
@@ -679,7 +665,6 @@ AllFilters.test(
         '[data-slot="popover-content"] [role="option"]'
       );
 
-      // "Clear filters" is the last option after the separator
       const clearOption = [...allOptions].find((opt) =>
         opt.textContent.includes("Clear filters")
       );
@@ -893,12 +878,10 @@ Pagination.test(
         name: /go to next page/i,
       });
 
-      // Click next (may go to page 3 or 4 depending on prior test state)
       if (!(nextButton as HTMLButtonElement).disabled) {
         await userEvent.click(nextButton);
       }
 
-      // Click previous to go back
       const prevButton = canvas.getByRole("button", {
         name: /go to previous page/i,
       });
@@ -907,7 +890,6 @@ Pagination.test(
         await userEvent.click(prevButton);
       }
 
-      // Verify pagination controls are still functional
       await expect(canvas.getByText(/rows per page/i)).toBeVisible();
     });
   }
@@ -939,7 +921,6 @@ Pagination.test(
   "should navigate with first and last page buttons",
   async ({ canvas, step }) => {
     await step("verify first page button is disabled on page 1", async () => {
-      // First page button is hidden on non-lg screens, but we can check disabled state
       const firstPageBtn = canvas.getByRole("button", {
         name: /go to first page/i,
       });
@@ -1038,10 +1019,8 @@ NonSortableColumn.test(
     await step(
       "verify ID column renders as plain text without dropdown",
       async () => {
-        // The ID column header should be plain text, not a button
         await expect(canvas.getByText("ID")).toBeVisible();
 
-        // Should not be a button
         const buttons = canvas.getAllByRole("button");
         const idButton = buttons.find((btn) => btn.textContent.trim() === "ID");
 
@@ -1078,7 +1057,6 @@ FacetedFilterWithCounts.test(
 
         await expect(doc.getByText("5")).toBeVisible();
 
-        // "3" and "2" may match multiple elements (table data + filter counts)
         const threes = doc.getAllByText("3");
 
         await expect(threes.length).toBeGreaterThanOrEqual(1);

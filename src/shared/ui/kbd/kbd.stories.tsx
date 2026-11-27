@@ -36,8 +36,6 @@ const meta = preview.meta({
   },
 });
 
-// --- Stories ---
-
 /**
  * A single keyboard key.
  */

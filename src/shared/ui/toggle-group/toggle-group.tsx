@@ -45,7 +45,6 @@ function ToggleGroup({
       data-size={size}
       data-spacing={spacing}
       data-orientation={orientation}
-      // role="group" doesn't accept aria-orientation; orientation is conveyed via data-orientation + CSS
       aria-orientation={undefined}
       style={{ "--gap": spacing } as React.CSSProperties}
       className={cn(

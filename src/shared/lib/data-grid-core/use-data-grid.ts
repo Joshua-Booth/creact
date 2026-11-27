@@ -1153,7 +1153,6 @@ export function useDataGrid<TData extends RowData>({
 
                   break;
                 }
-                // No default
               }
 
               allUpdates.push({ rowIndex, columnId, value: emptyValue });
@@ -2468,7 +2467,6 @@ export function useDataGrid<TData extends RowData>({
 
   tableRef.current ??= table;
 
-  // biome-ignore lint/correctness/useExhaustiveDependencies: columnResizing and columnSizing are used for calculating the column size vars
   const columnSizeVars = useMemo(() => {
     const headers = table.getFlatHeaders();
     const colSizes: Record<string, number> = {};
@@ -2501,7 +2499,6 @@ export function useDataGrid<TData extends RowData>({
   );
 
   /* istanbul ignore start @preserve -- Firefox layout adjustment and virtualizer setup */
-  // biome-ignore lint/correctness/useExhaustiveDependencies: columnPinning is used for calculating the adjustLayout
   const adjustLayout = useMemo(() => {
     const columnPinning = table.state.columnPinning;
 
@@ -2868,7 +2865,6 @@ export function useDataGrid<TData extends RowData>({
 
                 break;
               }
-              // No default
             }
 
             updates.push({ rowIndex, columnId, value: emptyValue });

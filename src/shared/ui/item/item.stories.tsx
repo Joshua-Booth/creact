@@ -64,8 +64,6 @@ const meta = preview.meta({
   },
 });
 
-// --- Stories ---
-
 /**
  * The default item with title and description.
  */
@@ -546,12 +544,6 @@ export const GroupWithSeparator = meta.story({
   ),
 });
 
-/**
- * Should render item with media, title, and description.
- */
-
-// --- Tests ---
-
 Default.test(
   "should render item with media, title, and description",
   {
@@ -588,9 +580,6 @@ Default.test(
   }
 );
 
-/**
- * When action buttons are clicked, should trigger handlers.
- */
 Default.test(
   "when action buttons are clicked, should trigger handlers",
   {

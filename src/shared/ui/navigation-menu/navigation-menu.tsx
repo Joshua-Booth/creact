@@ -35,7 +35,6 @@ function NavigationMenuList({
   return (
     <NavigationMenuPrimitive.List
       data-slot="navigation-menu-list"
-      // WAI-ARIA: aria-orientation not valid here; base-ui sets it unconditionally.
       aria-orientation={undefined}
       className={cn(
         "group flex flex-1 list-none items-center justify-center gap-0",

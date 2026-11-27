@@ -16,8 +16,6 @@ import {
   AccordionTrigger,
 } from "./accordion";
 
-// --- Helpers ---
-
 function getOpenPanels(container: HTMLElement) {
   return container.querySelectorAll(
     '[data-slot="accordion-content"][data-open]'
@@ -82,8 +80,6 @@ const meta = preview.meta({
     },
   },
 });
-
-// --- Stories ---
 
 /**
  * The default behavior of the accordion allows only one item to be open.
@@ -216,8 +212,6 @@ export const CardStory = meta.story({
     </Card>
   ),
 });
-
-// --- Tests ---
 
 Default.test(
   "when accordions are clicked, should open only one item at a time",

@@ -28,8 +28,6 @@ const meta = preview.meta({
   },
 });
 
-// --- Stories ---
-
 export const Default = meta.story({
   beforeEach({ msw }) {
     msw.use(
@@ -61,8 +59,6 @@ export const ErrorState = meta.story({
     );
   },
 });
-
-// --- Tests ---
 
 Default.test("renders heading after user loads", async ({ canvas }) => {
   await waitFor(() =>

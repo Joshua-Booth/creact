@@ -65,8 +65,6 @@ const meta = preview.meta({
   },
 });
 
-// --- Stories ---
-
 /**
  * The default form of the drawer.
  */
@@ -229,8 +227,6 @@ export const ResponsiveDialog = meta.story({
     );
   },
 });
-
-// --- Tests ---
 
 Default.test(
   "when clicking Submit button, should close the drawer",

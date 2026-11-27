@@ -25,7 +25,6 @@ function InputGroup({ className, ...props }: React.ComponentProps<"div">) {
   );
 }
 
-/** Style variants for the {@link InputGroupAddon} component. */
 const inputGroupAddonVariants = cva(
   `text-muted-foreground flex h-auto cursor-text items-center justify-center gap-2 py-1.5 text-sm font-medium select-none group-data-[disabled=true]/input-group:opacity-50 [&>kbd]:rounded-[calc(var(--radius)-5px)] [&>svg:not([class*='size-'])]:size-4`,
   {
@@ -70,7 +69,6 @@ function InputGroupAddon({
   );
 }
 
-/** Style variants for the {@link InputGroupButton} component. */
 const inputGroupButtonVariants = cva(
   "flex items-center gap-2 text-sm shadow-none",
   {

@@ -19,8 +19,6 @@ const meta = preview.meta({
   },
 });
 
-// --- Stories ---
-
 /**
  * Avatar circle with text lines, commonly used for list items.
  */

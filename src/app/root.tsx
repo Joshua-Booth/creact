@@ -84,7 +84,6 @@ export async function loader({ request, context }: Route.LoaderArgs) {
 
 /* istanbul ignore end @preserve */
 
-/** Root loader data type for use in child route meta functions */
 export type RootLoaderData = Awaited<ReturnType<typeof loader>>["data"];
 
 /* istanbul ignore start @preserve -- Document shell: renders <html>, cannot be nested in Storybook */
@@ -112,7 +111,6 @@ function InnerLayout({
         <JsonLd data={generateOrganizationJsonLd()} />
         <JsonLd data={generateWebSiteJsonLd()} />
 
-        {/* PWA Configuration */}
         <meta name="theme-color" content="#FFFFFF" />
         <meta name="apple-mobile-web-app-capable" content="yes" />
         <meta name="apple-mobile-web-app-title" content={SITE_NAME} />

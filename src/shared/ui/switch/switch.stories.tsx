@@ -36,8 +36,6 @@ const meta = preview.meta({
   ),
 });
 
-// --- Stories ---
-
 /**
  * The default form of the switch.
  */
@@ -50,11 +48,7 @@ export const Description = meta.story({
   parameters: {
     a11y: {
       config: {
-        rules: [
-          // Base UI Switch with FieldTitle uses aria-describedby for association
-          // but axe expects aria-labelledby, which would be redundant
-          { id: "aria-toggle-field-name", enabled: false },
-        ],
+        rules: [{ id: "aria-toggle-field-name", enabled: false }],
       },
     },
   },
@@ -79,11 +73,7 @@ export const ChoiceCard = meta.story({
   parameters: {
     a11y: {
       config: {
-        rules: [
-          // FieldLabel wraps inner Field for card styling
-          // The switch is accessible via the FieldTitle text
-          { id: "aria-toggle-field-name", enabled: false },
-        ],
+        rules: [{ id: "aria-toggle-field-name", enabled: false }],
       },
     },
   },
@@ -144,11 +134,7 @@ export const Invalid = meta.story({
   parameters: {
     a11y: {
       config: {
-        rules: [
-          // Base UI Switch with FieldTitle uses aria-describedby for association
-          // but axe expects aria-labelledby, which would be redundant
-          { id: "aria-toggle-field-name", enabled: false },
-        ],
+        rules: [{ id: "aria-toggle-field-name", enabled: false }],
       },
     },
   },
@@ -194,11 +180,7 @@ export const Form = meta.story({
   parameters: {
     a11y: {
       config: {
-        rules: [
-          // Base UI Switch with FieldTitle uses aria-describedby for association
-          // but axe expects aria-labelledby, which would be redundant
-          { id: "aria-toggle-field-name", enabled: false },
-        ],
+        rules: [{ id: "aria-toggle-field-name", enabled: false }],
       },
     },
   },
@@ -231,8 +213,6 @@ export const Form = meta.story({
     </form>
   ),
 });
-
-// --- Tests ---
 
 Default.test(
   "when clicking the switch, should toggle it on and off",

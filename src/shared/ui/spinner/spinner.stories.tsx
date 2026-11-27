@@ -46,8 +46,6 @@ const meta = preview.meta({
   },
 });
 
-// --- Stories ---
-
 /**
  * The default spinner size (16px / size-4).
  */
@@ -180,8 +178,6 @@ export const EmptyStory = meta.story({
     </Empty>
   ),
 });
-
-// --- Tests ---
 
 Default.test("should have accessible loading role", async ({ canvas }) => {
   const spinner = await canvas.findByRole("status");

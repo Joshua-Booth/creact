@@ -23,8 +23,6 @@ import { DataTable } from "../data-table";
 import { DataTableColumnHeader } from "../data-table-column-header";
 import { DataTableToolbar } from "../data-table-toolbar";
 
-// --- Types ---
-
 interface Listing {
   id: string;
   address: string;
@@ -38,8 +36,6 @@ interface Listing {
   status: string;
   listedDate: number;
 }
-
-// --- Sample data ---
 
 function createListingData() {
   return [
@@ -202,8 +198,6 @@ function createListingData() {
   ];
 }
 
-// --- Options ---
-
 const listingTypeOptions = [
   { label: "Single Family", value: "Single Family" },
   { label: "Condo", value: "Condo" },
@@ -217,16 +211,12 @@ const listingStatusOptions = [
   { label: "Sold", value: "Sold", icon: XCircle },
 ];
 
-// --- Helpers ---
-
 const formatCurrency = (amount: number) =>
   new Intl.NumberFormat("en-US", {
     style: "currency",
     currency: "USD",
     maximumFractionDigits: 0,
   }).format(amount);
-
-// --- Demo ---
 
 /** Real estate listings table with boolean, range, date, and multi-select filters. */
 export function RealEstateListingsDemo() {

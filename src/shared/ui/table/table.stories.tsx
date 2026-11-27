@@ -21,8 +21,6 @@ import {
   TableRow,
 } from "./table";
 
-// --- Helpers ---
-
 const invoices = [
   {
     invoice: "INV001",
@@ -86,8 +84,6 @@ const meta = preview.meta({
     },
   },
 });
-
-// --- Stories ---
 
 /**
  * A complete table with header, body, footer, and caption.
@@ -208,8 +204,6 @@ export const Actions = meta.story({
     </Table>
   ),
 });
-
-// --- Tests ---
 
 Actions.test(
   "when opening row actions, should display menu items",

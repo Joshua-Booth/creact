@@ -1,13 +1,9 @@
-/* Import Inter variable font (covers all weights in a single file) */
 @import "@fontsource-variable/inter";
-
-/* Import Tailwind CSS */
 @import "tailwindcss";
 @import "tw-animate-css";
 @import "shadcn/tailwind.css";
 @import "./typeset.css";
 
-/* Explicitly register source paths for Tailwind to scan */
 @source "../../shared";
 @source "../../entities";
 @source "../../features";

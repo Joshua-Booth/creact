@@ -85,7 +85,6 @@ interface DataTableToolbarFilterProps<TData extends RowData> {
   column: DataTableColumn<TData>;
 }
 
-/** Renders the appropriate filter control for a column based on its meta variant. */
 function DataTableToolbarFilter<TData extends RowData>({
   column,
 }: DataTableToolbarFilterProps<TData>) {

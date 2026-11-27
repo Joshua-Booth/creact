@@ -53,8 +53,6 @@ const meta = preview.meta({
   },
 });
 
-// --- Stories ---
-
 /**
  * The default form of the alert dialog.
  */
@@ -171,8 +169,6 @@ export const Destructive = meta.story({
     </AlertDialog>
   ),
 });
-
-// --- Tests ---
 
 Default.test(
   "when trigger is clicked, should open dialog and close via cancel",

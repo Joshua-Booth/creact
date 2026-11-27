@@ -51,8 +51,6 @@ const meta = preview.meta({
   ),
 });
 
-// --- Stories ---
-
 /**
  * The default form of the checkbox.
  */
@@ -308,8 +306,6 @@ export const InTable = meta.story({
     );
   },
 });
-
-// --- Tests ---
 
 Default.test(
   "when the checkbox is clicked, should toggle between checked and not checked",

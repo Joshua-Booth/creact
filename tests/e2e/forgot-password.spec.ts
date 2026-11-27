@@ -15,7 +15,6 @@ test.describe("Forgot Password", () => {
     await page.getByLabel("Email").fill("user@mail.com");
     await submitButton.click();
 
-    // Should show success message (anti-enumeration: always shows success)
     await expect(
       page.getByRole("heading", { name: /check your email/i })
     ).toBeVisible();

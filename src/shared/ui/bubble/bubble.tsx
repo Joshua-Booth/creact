@@ -17,7 +17,6 @@ function BubbleGroup({ className, ...props }: React.ComponentProps<"div">) {
   );
 }
 
-/** Style variants for the {@link Bubble} component. */
 const bubbleVariants = cva(
   `group/bubble relative flex w-fit max-w-[80%] min-w-0 flex-col gap-1 group-data-[align=end]/message:self-end data-[align=end]:self-end data-[variant=ghost]:max-w-full`,
   {
@@ -87,7 +86,6 @@ function BubbleContent({
   });
 }
 
-/** Style variants for the {@link BubbleReactions} component. */
 const bubbleReactionsVariants = cva(
   `bg-muted ring-card absolute z-10 flex w-fit shrink-0 items-center justify-center gap-1 rounded-full px-1.5 py-0.5 text-sm ring-3 has-[button]:p-0`,
   {

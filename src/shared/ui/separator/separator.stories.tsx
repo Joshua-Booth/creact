@@ -18,8 +18,6 @@ const meta = preview.meta({
   },
 });
 
-// --- Stories ---
-
 /**
  * The default horizontal separator dividing content sections.
  */

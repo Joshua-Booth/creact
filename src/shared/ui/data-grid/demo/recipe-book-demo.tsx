@@ -10,8 +10,6 @@ import { DataGrid } from "../data-grid";
 import { DataGridToolbar } from "./data-grid-demo";
 import { mockFilesUpload } from "./mock-files-upload";
 
-// --- Types ---
-
 interface Recipe {
   id: string;
   name: string;
@@ -23,8 +21,6 @@ interface Recipe {
   sourceUrl: string;
   photos: FileCellData[];
 }
-
-// --- Sample data ---
 
 function createRecipeData() {
   return [
@@ -171,8 +167,6 @@ function createRecipeData() {
   ];
 }
 
-// --- Options ---
-
 const cuisineOptions = [
   { label: "Thai", value: "Thai" },
   { label: "Italian", value: "Italian" },
@@ -195,8 +189,6 @@ const dietaryOptions = [
   { label: "Low-Carb", value: "Low-Carb" },
   { label: "Keto", value: "Keto" },
 ];
-
-// --- Demo component ---
 
 /** Editable recipe collection with long-text instructions, multi-select dietary tags, and file uploads. */
 export function RecipeBookDemo({ readOnly = false }: { readOnly?: boolean }) {

@@ -10,8 +10,6 @@ import { ProductCatalogDemo } from "./demo/product-catalog-demo";
 import { RecipeBookDemo } from "./demo/recipe-book-demo";
 import { RowHeightsDemo } from "./demo/row-heights-demo";
 
-// --- Story setup ---
-
 const meta = preview.meta({
   title: "ui/DataGrid",
   component: DataGridDemo,
@@ -29,8 +27,6 @@ const meta = preview.meta({
     readOnly: false,
   },
 });
-
-// --- Stories ---
 
 /** Editable data grid with multiple cell variants. */
 export const Default = meta.story({
@@ -74,8 +70,6 @@ export const ProductCatalog = meta.story({
   render: (args) => <ProductCatalogDemo {...args} />,
 });
 
-// --- Test helpers ---
-
 function getFirstCellWrapper(canvasElement: HTMLElement) {
   const wrapper = canvasElement.querySelector<HTMLElement>(
     '[data-slot="grid-cell-wrapper"]'
@@ -86,15 +80,12 @@ function getFirstCellWrapper(canvasElement: HTMLElement) {
   return wrapper;
 }
 
-// --- Tests ---
-
 Default.test(
   "should render the grid with all rows",
   async ({ canvas, step }) => {
     await step("verify grid and rows render", async () => {
       const rows = canvas.getAllByRole("row");
 
-      // 8 data rows + 1 header row + 1 add-row footer
       await expect(rows).toHaveLength(10);
     });
   }
@@ -121,7 +112,6 @@ Default.test(
     await step("double-click a text cell and verify editing", async () => {
       const firstWrapper = getFirstCellWrapper(canvasElement);
 
-      // Double-click from unfocused triggers focus then editing
       await userEvent.dblClick(firstWrapper);
 
       await waitFor(async () => {
@@ -298,7 +288,6 @@ Default.test(
         await expect(selectedCells.length).toBeGreaterThan(1);
       });
 
-      // Ctrl+C to copy (exercises handler)
       await userEvent.keyboard("{Meta>}c{/Meta}");
     });
   }
@@ -433,7 +422,6 @@ Default.test(
         await expect(firstWrapper).toHaveAttribute("data-focused", "");
       });
 
-      // Ctrl+V won't actually paste (clipboard not available) but exercises the handler
       await userEvent.keyboard("{Meta>}v{/Meta}");
 
       await waitFor(async () => {
@@ -539,7 +527,6 @@ Default.test(
         await expect(items.length).toBeGreaterThanOrEqual(3);
       });
 
-      // Click Clear (3rd menu item)
       const items = canvasElement.ownerDocument.querySelectorAll(
         '[data-grid-popover] [role="menuitem"]'
       );
@@ -563,7 +550,6 @@ Default.test(
 
       await userEvent.click(grid);
 
-      // Dispatch keyboard event directly on window since the listener is on window
       canvasElement.ownerDocument.defaultView?.dispatchEvent(
         new KeyboardEvent("keydown", {
           key: "/",
@@ -671,7 +657,6 @@ Default.test(
             '[data-slot="grid-search"]'
           );
 
-          // Should show match count or "No results"
           await expect(matchInfo?.textContent).toBeTruthy();
         },
         { timeout: 1000 }
@@ -852,10 +837,8 @@ Default.test(
 
       await userEvent.keyboard("{Shift>}{ArrowRight}{/Shift}");
 
-      // First Escape clears selection
       await userEvent.keyboard("{Escape}");
 
-      // Second Escape blurs
       await userEvent.keyboard("{Escape}");
     });
   }
@@ -1007,7 +990,6 @@ Default.test(
         await expect(items.length).toBeGreaterThanOrEqual(3);
       });
 
-      // Click Cut (2nd item)
       const items = canvasElement.ownerDocument.querySelectorAll(
         '[data-grid-popover] [role="menuitem"]'
       );
@@ -1044,7 +1026,6 @@ Default.test(
         await expect(items.length).toBeGreaterThanOrEqual(1);
       });
 
-      // Click Clear cell (3rd item typically)
       const items = canvasElement.ownerDocument.querySelectorAll(
         '[data-grid-popover] [role="menuitem"]'
       );
@@ -1076,7 +1057,6 @@ Default.test(
         await expect(firstCell).toHaveAttribute("data-focused", "");
       });
 
-      // Use keyboard to extend selection (Shift+click not available in testing-library)
       await userEvent.keyboard("{Shift>}{ArrowDown}{ArrowDown}{/Shift}");
 
       await waitFor(async () => {
@@ -1212,7 +1192,6 @@ ReadOnly.test(
     await step("verify grid renders with rows", async () => {
       const rows = canvas.getAllByRole("row");
 
-      // 8 data rows + 1 header row
       await expect(rows).toHaveLength(9);
     });
   }
@@ -1305,7 +1284,6 @@ AllCellTypes.test(
           await expect(firstWrapper).toHaveAttribute("data-editing", "");
         });
 
-        // Short text cell uses contentEditable - type and press Enter to save
         await userEvent.keyboard("Updated text{Enter}");
 
         await waitFor(async () => {
@@ -1372,8 +1350,6 @@ AllCellTypes.test(
   "should render date cells with formatted dates",
   async ({ canvas, step }) => {
     await step("verify date cells contain formatted date text", async () => {
-      // The sample data has dates like "2026-03-15" which formatDateForDisplay
-      // converts via toLocaleDateString(). Verify actual date text is visible.
       const gridCells = canvas.getAllByRole("gridcell");
 
       const dateTexts = gridCells
@@ -1408,7 +1384,6 @@ AllCellTypes.test(
         await expect(firstWrapper).toHaveAttribute("data-focused", "");
       });
 
-      // Tab twice to reach the Number column (Short Text -> Long Text -> Number)
       await userEvent.keyboard("{Tab}{Tab}");
 
       const focusedCell = canvasElement.querySelector<HTMLElement>(
@@ -1459,7 +1434,6 @@ AllCellTypes.test(
     await step("double-click to edit, Tab to save and move", async () => {
       const firstWrapper = getFirstCellWrapper(canvasElement);
 
-      // Double-click to reliably enter edit mode
       await userEvent.dblClick(firstWrapper);
 
       await waitFor(async () => {
@@ -1479,7 +1453,6 @@ AllCellTypes.test(
   "should edit number cell with keyboard input",
   async ({ canvasElement, step }) => {
     await step("click number cell and type a value", async () => {
-      // Find the number column cells (3rd column, index 2)
       const wrappers = canvasElement.querySelectorAll<HTMLElement>(
         '[data-slot="grid-cell-wrapper"]'
       );
@@ -1517,7 +1490,6 @@ AllCellTypes.test(
   "should toggle checkbox cell via keyboard",
   async ({ canvasElement, step }) => {
     await step("focus checkbox cell and press Space", async () => {
-      // Checkbox is 5th column (index 4)
       const wrappers = canvasElement.querySelectorAll<HTMLElement>(
         '[data-slot="grid-cell-wrapper"]'
       );
@@ -1534,7 +1506,6 @@ AllCellTypes.test(
 
       await userEvent.keyboard(" ");
 
-      // Enter also toggles
       await userEvent.keyboard("{Enter}");
     });
   }
@@ -1544,7 +1515,6 @@ AllCellTypes.test(
   "should open select cell dropdown",
   async ({ canvasElement, step }) => {
     await step("click select cell and enter edit mode", async () => {
-      // Select cell is 6th column (index 5)
       const wrappers = canvasElement.querySelectorAll<HTMLElement>(
         '[data-slot="grid-cell-wrapper"]'
       );
@@ -1574,7 +1544,6 @@ AllCellTypes.test(
   "should open url cell and display link",
   async ({ canvasElement, step }) => {
     await step("focus URL cell", async () => {
-      // URL is 4th column (index 3)
       const wrappers = canvasElement.querySelectorAll<HTMLElement>(
         '[data-slot="grid-cell-wrapper"]'
       );
@@ -1604,7 +1573,6 @@ AllCellTypes.test(
   "should open date cell calendar picker",
   async ({ canvasElement, step }) => {
     await step("click date cell and open calendar", async () => {
-      // Date cell is 9th column (index 8)
       const wrappers = canvasElement.querySelectorAll<HTMLElement>(
         '[data-slot="grid-cell-wrapper"]'
       );
@@ -1634,7 +1602,6 @@ AllCellTypes.test(
   "should open long text cell popover",
   async ({ canvasElement, step }) => {
     await step("focus long text cell and enter edit mode", async () => {
-      // Long text is 2nd column (index 1)
       const wrappers = canvasElement.querySelectorAll<HTMLElement>(
         '[data-slot="grid-cell-wrapper"]'
       );
@@ -1674,7 +1641,6 @@ AllCellTypes.test(
 
       await userEvent.keyboard("changed text");
 
-      // Escape to cancel editing (reverts value)
       await userEvent.keyboard("{Escape}");
 
       await waitFor(async () => {
@@ -1696,7 +1662,6 @@ AllCellTypes.test(
         await expect(firstWrapper).toHaveAttribute("data-focused", "");
       });
 
-      // Type a single character to start editing
       await userEvent.keyboard("x");
 
       await waitFor(async () => {
@@ -1712,7 +1677,6 @@ AllCellTypes.test(
   "should open multi-select and toggle an option",
   async ({ canvasElement, step }) => {
     await step("open multi-select dropdown and select option", async () => {
-      // Multi-select is 7th column (index 6)
       const wrappers = canvasElement.querySelectorAll<HTMLElement>(
         '[data-slot="grid-cell-wrapper"]'
       );
@@ -1746,7 +1710,6 @@ AllCellTypes.test(
 
 AllCellTypes.test("should edit URL cell", async ({ canvasElement, step }) => {
   await step("focus and edit URL cell", async () => {
-    // URL is 4th column (index 3)
     const wrappers = canvasElement.querySelectorAll<HTMLElement>(
       '[data-slot="grid-cell-wrapper"]'
     );
@@ -1757,7 +1720,6 @@ AllCellTypes.test("should edit URL cell", async ({ canvasElement, step }) => {
 
     await userEvent.dblClick(urlCell);
 
-    // Wait for editing state (URL uses contentEditable)
     await waitFor(async () => {
       await expect(urlCell).toHaveAttribute("data-editing", "");
     });
@@ -1770,7 +1732,6 @@ AllCellTypes.test(
   "should clear date cell value",
   async ({ canvasElement, step }) => {
     await step("focus date cell and press Delete", async () => {
-      // Date cell is 9th column (index 8)
       const wrappers = canvasElement.querySelectorAll<HTMLElement>(
         '[data-slot="grid-cell-wrapper"]'
       );
@@ -1794,7 +1755,6 @@ AllCellTypes.test(
   "should select option in select dropdown",
   async ({ canvasElement, step }) => {
     await step("open select dropdown and choose option", async () => {
-      // Select cell is 6th column (index 5)
       const wrappers = canvasElement.querySelectorAll<HTMLElement>(
         '[data-slot="grid-cell-wrapper"]'
       );
@@ -1828,7 +1788,6 @@ AllCellTypes.test(
   "should edit file cell and see file display",
   async ({ canvasElement, step }) => {
     await step("focus file cell", async () => {
-      // File cell is last column (index 8 in AllCellTypes)
       const wrappers = canvasElement.querySelectorAll<HTMLElement>(
         '[data-slot="grid-cell-wrapper"]'
       );
@@ -1895,7 +1854,6 @@ AllCellTypes.test(
   "should start editing with F2 on number cell",
   async ({ canvasElement, step }) => {
     await step("focus number cell and press F2", async () => {
-      // Number is 3rd column (index 2)
       const wrappers = canvasElement.querySelectorAll<HTMLElement>(
         '[data-slot="grid-cell-wrapper"]'
       );
@@ -1925,7 +1883,6 @@ AllCellTypes.test(
   "should clear checkbox cell via Delete key",
   async ({ canvasElement, step }) => {
     await step("focus checkbox cell and press Delete", async () => {
-      // Checkbox is 5th column (index 4)
       const wrappers = canvasElement.querySelectorAll<HTMLElement>(
         '[data-slot="grid-cell-wrapper"]'
       );
@@ -1949,7 +1906,6 @@ LargeDataset.test(
   "should render a large virtualized grid",
   async ({ canvas, step }) => {
     await step("verify grid renders", async () => {
-      // Should render header + visible virtualized rows (not all 500)
       const rows = canvas.getAllByRole("row");
 
       await expect(rows.length).toBeLessThan(500);
@@ -2019,10 +1975,8 @@ LargeDataset.test(
         await expect(firstWrapper).toHaveAttribute("data-focused", "");
       });
 
-      // Alt+ArrowDown for page down
       await userEvent.keyboard("{Alt>}{ArrowDown}{/Alt}");
 
-      // Alt+ArrowUp for page up
       await userEvent.keyboard("{Alt>}{ArrowUp}{/Alt}");
 
       // Paging scrolls the virtual rows, so the focused cell can render a frame later
@@ -2066,7 +2020,6 @@ RowHeights.test(
         await expect(firstWrapper).toHaveAttribute("data-focused", "");
       });
 
-      // Type a character to start editing, then Escape to cancel
       await userEvent.keyboard("a");
 
       await userEvent.keyboard("{Escape}");
@@ -2086,7 +2039,6 @@ RecipeBook.test(
   "should edit recipe long text cell",
   async ({ canvasElement, step }) => {
     await step("double-click instructions cell to edit", async () => {
-      // Instructions is 2nd column (index 1)
       const wrappers = canvasElement.querySelectorAll<HTMLElement>(
         '[data-slot="grid-cell-wrapper"]'
       );
@@ -2135,7 +2087,6 @@ EmployeeDirectory.test(
         await expect(firstWrapper).toHaveAttribute("data-focused", "");
       });
 
-      // Arrow navigation should still work in read-only mode
       await userEvent.keyboard("{ArrowRight}");
 
       await userEvent.keyboard("{ArrowDown}");

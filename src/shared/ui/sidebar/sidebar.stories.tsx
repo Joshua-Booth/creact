@@ -108,8 +108,6 @@ const items = [
   },
 ];
 
-// --- Stories ---
-
 /**
  * A simple sidebar with a group of menu items.
  */
@@ -176,8 +174,6 @@ export const Footer = meta.story({
     </Sidebar>
   ),
 });
-
-// --- Tests ---
 
 Simple.test(
   "when clicking the trigger, should close and open the sidebar",

@@ -26,8 +26,6 @@ import {
   ChartTooltipContent,
 } from "./chart";
 
-// --- Helpers ---
-
 const multiSeriesData = [
   { month: "January", desktop: 186, mobile: 80 },
   { month: "February", desktop: 305, mobile: 200 },
@@ -91,7 +89,6 @@ const meta = preview.meta({
   args: {
     children: <div />,
     className: "min-h-[200px] w-full",
-    // Suppress ResponsiveContainer warnings in Storybook (SSR/test environment)
     width: 320,
     aspect: 1.6,
   },
@@ -104,8 +101,6 @@ const meta = preview.meta({
     },
   },
 });
-
-// --- Stories ---
 
 /**
  * A basic bar chart with two data series — the simplest starting point.
@@ -519,8 +514,6 @@ export const Doughnut = meta.story({
     );
   },
 });
-
-// --- Tests ---
 
 BarTooltip.test(
   "when hovering the chart, should display tooltip content",

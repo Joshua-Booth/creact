@@ -17,8 +17,6 @@ import {
   statusOptions,
 } from "./data-table-demo";
 
-// --- Types ---
-
 interface FilterProject {
   id: string;
   title: string;
@@ -28,8 +26,6 @@ interface FilterProject {
   startDate: number;
   progress: number;
 }
-
-// --- Sample data ---
 
 function createFilterProjects() {
   const projects: FilterProject[] = [
@@ -127,8 +123,6 @@ function createFilterProjects() {
 
   return projects;
 }
-
-// --- Demo ---
 
 /** Project table showcasing all filter variants: text, number, range, date, select, and multiSelect. */
 export function AllFiltersDemo() {

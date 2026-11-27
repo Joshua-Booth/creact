@@ -67,8 +67,6 @@ const meta = preview.meta({
   },
 });
 
-// --- Stories ---
-
 /**
  * The default form of the pagination.
  */
@@ -186,8 +184,6 @@ export const ReactRouter = meta.story({
     </Pagination>
   ),
 });
-
-// --- Tests ---
 
 Default.test(
   "should render pagination with active page and navigation",

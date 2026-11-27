@@ -60,14 +60,11 @@ test.describe("Login", () => {
     network: _network,
     page,
   }) => {
-    // Default handler is set up, but client-side validation should prevent API call
-
     await page.goto("/login");
 
     const submitButton = page.getByRole("button", { name: /sign in/i });
     await expect(submitButton).toBeEnabled({ timeout: HYDRATION_TIMEOUT });
 
-    // Type invalid email character by character to trigger validation
     const emailInput = page.getByLabel("Email");
     await emailInput.click();
     await emailInput.pressSequentially("invalid-email", { delay: 10 });
@@ -78,7 +75,6 @@ test.describe("Login", () => {
 
     await submitButton.click();
 
-    // Client-side validation should display an error and prevent navigation
     const validationError = page.getByRole("alert").first();
     await expect(validationError).toBeVisible();
     await expect(page).toHaveURL(/\/login/);

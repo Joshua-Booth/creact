@@ -34,8 +34,6 @@ const meta = preview.meta({
   },
 });
 
-// --- Stories ---
-
 /**
  * The default form of the card, showing a login form with `CardAction`,
  * form inputs, and footer buttons.

@@ -99,8 +99,6 @@ const meta = preview.meta({
   ),
 });
 
-// --- Stories ---
-
 /**
  * The default horizontal button group layout.
  */
@@ -451,8 +449,6 @@ export const TextAddon = meta.story({
     </ButtonGroup>
   ),
 });
-
-// --- Tests ---
 
 Default.test(
   "when buttons are clicked, should call handlers",

@@ -10,15 +10,10 @@ export function getAuthToken() {
   return localStorage.getItem(TOKEN_KEY);
 }
 
-/**
- * Persist an auth token to localStorage.
- * @param token - The authentication token to store.
- */
 export function setAuthToken(token: string) {
   localStorage.setItem(TOKEN_KEY, token);
 }
 
-/** Remove the auth token from localStorage. */
 export function removeAuthToken() {
   localStorage.removeItem(TOKEN_KEY);
 }

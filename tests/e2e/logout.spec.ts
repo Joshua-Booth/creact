@@ -35,14 +35,11 @@ test.describe("Logout", () => {
 
     await page.goto("/logout");
 
-    // Despite the API error, the user should see the signed-out page
     await expect(
       page.getByRole("heading", { name: /signed out/i })
     ).toBeVisible();
     await expect(page.getByText(/safely signed out/i)).toBeVisible();
 
-    // Navigating to a protected route should redirect to login
-    // because the local token was cleared
     const backToLogin = page.getByRole("link", { name: /back to login/i });
     await backToLogin.click();
     await page.waitForURL(/\/login/);
@@ -54,7 +51,6 @@ test.describe("Logout", () => {
   }) => {
     await page.goto("/logout");
 
-    // Should redirect to /login since there's no auth token
     await page.waitForURL(/\/login/);
   });
 });

@@ -16,8 +16,6 @@ import {
   SheetTrigger,
 } from "./sheet";
 
-// --- Helpers ---
-
 const SHEET_SIDES = ["top", "right", "bottom", "left"] as const;
 
 /**
@@ -82,8 +80,6 @@ const meta = preview.meta({
     },
   },
 });
-
-// --- Stories ---
 
 /**
  * The default form of the sheet with a profile editing form.
@@ -153,8 +149,6 @@ export const NoCloseButton = meta.story({
     showCloseButton: false,
   },
 });
-
-// --- Tests ---
 
 Default.test(
   "when clicking Save changes button, should close the sheet",

@@ -44,8 +44,6 @@ const meta = preview.meta({
   },
 });
 
-// --- Stories ---
-
 /**
  * A single bubble with content.
  */

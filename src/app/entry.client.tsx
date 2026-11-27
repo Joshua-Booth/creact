@@ -48,7 +48,6 @@ async function main() {
       supportedLngs: [...SUPPORTED_LANGUAGES],
       defaultNS: "common",
       ns: ["common", "components", "validation"],
-      // Detect language from html tag (set by server)
       detection: { order: ["htmlTag"], caches: [] },
       backend: { loadPath: "/api/locales/{{lng}}/{{ns}}" },
       interpolation: {

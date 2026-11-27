@@ -52,8 +52,6 @@ const meta = preview.meta({
   },
 });
 
-// --- Stories ---
-
 /**
  * Basic breadcrumb navigation showing hierarchical path.
  */
@@ -153,8 +151,6 @@ export const Dropdown = meta.story({
     </Breadcrumb>
   ),
 });
-
-// --- Tests ---
 
 Default.test(
   "when clicking ellipsis, should reveal dropdown menu items",

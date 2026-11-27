@@ -94,7 +94,6 @@ function CarouselWithThumbnails(args: React.ComponentProps<typeof Carousel>) {
     () => 0
   );
 
-  // Sync thumbnail carousel with main carousel selection
   React.useEffect(() => {
     thumbApi?.scrollTo(current);
   }, [current, thumbApi]);
@@ -193,8 +192,6 @@ const meta = preview.meta({
     },
   },
 });
-
-// --- Stories ---
 
 /**
  * The default form of the carousel.
@@ -340,8 +337,6 @@ export const Loop = meta.story({
 export const Thumbnails = meta.story({
   render: (args) => <CarouselWithThumbnails {...args} />,
 });
-
-// --- Tests ---
 
 Default.test(
   "when clicking next/previous buttons, should navigate through slides",

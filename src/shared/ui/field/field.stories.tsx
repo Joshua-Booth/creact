@@ -58,8 +58,6 @@ const meta = preview.meta({
   },
 });
 
-// --- Stories ---
-
 /**
  * Basic text input fields with labels and descriptions.
  */
@@ -524,8 +522,6 @@ export const Disabled = meta.story({
     </Field>
   ),
 });
-
-// --- Tests ---
 
 Default.test(
   "when field has error, should show aria-invalid and error message",

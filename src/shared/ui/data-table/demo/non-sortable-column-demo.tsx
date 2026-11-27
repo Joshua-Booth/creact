@@ -8,8 +8,6 @@ import { DataTable } from "../data-table";
 import { DataTableColumnHeader } from "../data-table-column-header";
 import { projects } from "./data-table-demo";
 
-// --- Demo ---
-
 /** Table with non-sortable, non-hideable column headers rendered as plain text. */
 export function NonSortableColumnDemo() {
   const columns = useMemo<DataTableColumnDef<Project>[]>(

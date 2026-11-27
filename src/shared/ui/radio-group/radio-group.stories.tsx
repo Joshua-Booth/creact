@@ -58,8 +58,6 @@ const meta = preview.meta({
   },
 });
 
-// --- Stories ---
-
 /**
  * The default form of the radio group.
  */
@@ -247,8 +245,6 @@ export const Invalid = meta.story({
     </RadioGroup>
   ),
 });
-
-// --- Tests ---
 
 Default.test(
   "when clicking on a radio button, it should toggle its state",

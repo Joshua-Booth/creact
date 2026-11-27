@@ -53,8 +53,6 @@ const meta = preview.meta({
   },
 });
 
-// --- Stories ---
-
 /**
  * An attachment with media, content, and a remove action.
  */

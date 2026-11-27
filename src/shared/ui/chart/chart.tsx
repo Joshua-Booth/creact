@@ -3,7 +3,6 @@ import * as React from "react";
 import { cn } from "cn";
 import * as RechartsPrimitive from "recharts";
 
-// Format: { THEME_NAME: CSS_SELECTOR }
 const THEMES = { light: "", dark: ".dark" } as const;
 
 /** Configuration mapping chart data keys to labels, icons, and theme-aware colors. */
@@ -24,7 +23,6 @@ interface ChartContextProps {
 
 const ChartContext = React.createContext<ChartContextProps | null>(null);
 
-/** Hook to access chart configuration from any child component. */
 function useChart() {
   const context = React.use(ChartContext);
 
@@ -286,7 +284,6 @@ function ChartTooltipContent({
 }
 
 /* eslint-enable @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-unsafe-argument, @typescript-eslint/strict-boolean-expressions -- re-enable after Recharts untyped tooltip rendering */
-
 /** Recharts legend component for labeling chart data series. */
 const ChartLegend = RechartsPrimitive.Legend;
 
