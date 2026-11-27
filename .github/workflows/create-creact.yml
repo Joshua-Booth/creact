@@ -46,3 +46,31 @@ jobs:
         run: mise run test:scaffold
         env:
           CREACT_SCAFFOLD: ${{ matrix.toolchain }}:${{ matrix.stack }}:${{ matrix.styling }}
+
+  # creact itself runs on Node 26, but create-creact still supports the
+  # engines minimum in its package.json, so keep MISE_NODE_VERSION in step
+  # with it. The CLI needs no dependencies, so this job skips the repo
+  # install, which engineStrict refuses below Node 26.
+  scaffold-min-node:
+    name: Scaffold ${{ matrix.stack }} + ${{ matrix.styling }} on Node 24
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - stack: react-router
+            styling: tailwind
+          - stack: next
+            styling: stylex
+    env:
+      MISE_NODE_VERSION: "24.22.2"
+    steps:
+      - uses: actions/checkout@v7
+      - uses: jdx/mise-action@v5
+        with:
+          experimental: true
+      - name: Scaffold, build, lint and test a project
+        run: mise run test:scaffold
+        env:
+          CREACT_SCAFFOLD: ${{ matrix.stack }}:${{ matrix.styling }}
