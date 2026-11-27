@@ -24,7 +24,7 @@ export async function signupAction(formData: FormData) {
       error:
         result.error.issues[0]?.message ??
         i18next.t("errors.api.invalidFormData"),
-    };
+    } satisfies SignupActionData;
   }
 
   try {
@@ -37,6 +37,6 @@ export async function signupAction(formData: FormData) {
   } catch (error) {
     const message = parseSignupError(error);
 
-    return { success: false, error: message };
+    return { success: false, error: message } satisfies SignupActionData;
   }
 }
