@@ -192,6 +192,7 @@ export function DataTableDemo() {
         cell: ({ cell }) => {
           const status = cell.getValue<Project["status"]>();
           const Icon = statusIcons[status];
+
           return (
             <Badge variant="outline" className="capitalize">
               <Icon className="size-3.5" />
@@ -215,6 +216,7 @@ export function DataTableDemo() {
         cell: ({ cell }) => {
           const priority = cell.getValue<Project["priority"]>();
           const Icon = priorityIcons[priority];
+
           return (
             <div className="flex items-center gap-2 capitalize">
               <Icon className="text-muted-foreground size-3.5" />
@@ -237,11 +239,13 @@ export function DataTableDemo() {
         ),
         cell: ({ cell }) => {
           const amount = cell.getValue<number>();
+
           const formatted = new Intl.NumberFormat("en-US", {
             style: "currency",
             currency: "USD",
             maximumFractionDigits: 0,
           }).format(amount);
+
           return (
             <div className="text-right font-medium tabular-nums">
               {formatted}

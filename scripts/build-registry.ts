@@ -91,6 +91,7 @@ const packageJson = JSON.parse(
   dependencies: Record<string, string>;
   devDependencies: Record<string, string>;
 };
+
 const packageVersions: Record<string, string | undefined> = {
   ...packageJson.devDependencies,
   ...packageJson.dependencies,
@@ -125,12 +126,15 @@ function titleCase(name: string): string {
 
 function packageRoot(specifier: string): string {
   const parts = specifier.split("/");
+
   if (specifier.startsWith("@")) return parts.slice(0, 2).join("/");
+
   return parts[0];
 }
 
 function registryRef(name: string): string {
   const ref = args.ref === undefined ? "" : `#${args.ref}`;
+
   return `${GITHUB_PREFIX}/${name}${ref}`;
 }
 
@@ -141,8 +145,10 @@ function itemName(address: string): string {
 function stripComments(source: string): string {
   const codeLines: string[] = [];
   let inBlockComment = false;
+
   for (const line of source.split("\n")) {
     const trimmed = line.trimStart();
+
     if (inBlockComment) {
       if (trimmed.includes("*/")) inBlockComment = false;
     } else if (trimmed.startsWith("/*") && !trimmed.includes("*/")) {
@@ -151,11 +157,13 @@ function stripComments(source: string): string {
       codeLines.push(line);
     }
   }
+
   return codeLines.join("\n");
 }
 
 function parseImports(source: string): string[] {
   const pattern = /(?:import|export)[\s\S]*?from\s+["']([^"']+)["']/g;
+
   return [...stripComments(source).matchAll(pattern)].map((match) => match[1]);
 }
 
@@ -172,14 +180,19 @@ interface DocComment {
 function docComments(source: string): DocComment[] {
   return [...source.matchAll(/\/\*\*([\s\S]*?)\*\//g)].map((match) => {
     const paragraph: string[] = [];
+
     for (const rawLine of match[1].split("\n")) {
       const line = rawLine.replace(/^\s*\*?\s?/, "").trim();
+
       if (line.startsWith("@") || (line === "" && paragraph.length > 0)) break;
+
       if (line !== "") paragraph.push(line);
     }
+
     const declaration = /^(?:export\s)?(function|const|class)\s(\w+)/.exec(
       source.slice(match.index + match[0].length).trimStart()
     );
+
     return {
       summary: paragraph.join(" "),
       ...(declaration !== null && {
@@ -202,10 +215,13 @@ function describeFromJsdoc(
   files: string[]
 ): string | undefined {
   const mainFiles = [`${name}.tsx`, `${name}.ts`, "index.ts"];
+
   const rank = (file: string) => {
     const index = mainFiles.indexOf(file);
+
     return index === -1 ? mainFiles.length : index;
   };
+
   const commentsByFile = files
     .filter((file) => /\.tsx?$/.test(file) && !/\.test\.tsx?$/.test(file))
     .sort((a, b) => rank(a) - rank(b))
@@ -215,10 +231,14 @@ function describeFromJsdoc(
         (comment) => comment.summary !== ""
       ),
     }));
+
   const comments = commentsByFile.flatMap((file) => file.comments);
+
   const find = (matches: (symbol: DocSymbol) => boolean) =>
     comments.find(({ symbol }) => symbol !== undefined && matches(symbol));
+
   const symbolName = backedItemName(name).replaceAll("-", "");
+
   return (
     find((symbol) => symbol.name.toLowerCase() === symbolName) ??
     find(
@@ -233,11 +253,15 @@ function describeFromJsdoc(
 function itemForPath(absolute: string): string | undefined {
   for (const dir of Object.values(SLICES)) {
     const relative = path.relative(dir, absolute);
+
     if (relative.startsWith("..")) continue;
+
     const head = relative.split(path.sep)[0];
     const stats = statSync(path.join(dir, head), { throwIfNoEntry: false });
+
     return stats?.isDirectory() === true ? head : undefined;
   }
+
   return undefined;
 }
 
@@ -247,12 +271,14 @@ function resolveAlias(specifier: string): string {
       return replacement + specifier.slice(find.length);
     }
   }
+
   return specifier;
 }
 
 function barrelReexportsOthers(itemDir: string): boolean {
   const ownFile = `./${path.basename(itemDir)}`;
   const barrel = readFileSync(path.join(itemDir, "index.ts"), "utf8");
+
   return parseImports(barrel).some((specifier) => specifier !== ownFile);
 }
 
@@ -263,56 +289,76 @@ function recordImport(
   targets: ImportTargets
 ): void {
   if (specifier.startsWith("node:")) return;
+
   const isInternal = specifier.startsWith("@/") || specifier.startsWith(".");
+
   if (!isInternal) {
     const root = packageRoot(specifier);
+
     if (root !== "react" && root !== "react-dom") targets.npm.add(root);
+
     return;
   }
+
   const absolute = specifier.startsWith(".")
     ? path.resolve(fileDir, specifier)
     : resolveAlias(specifier);
+
   if (
     specifier.startsWith("@/") &&
     path.dirname(absolute) === UI_DIR &&
     barrelReexportsOthers(absolute)
   ) {
     const name = path.basename(absolute);
+
     warnings.push(
       `${path.relative(ROOT, fileDir)}: "${specifier}" barrel re-exports more than ./${name}, so consumers' copies would import "${specifier}/${name}" and miss those exports. Import the specific file instead.`
     );
   }
+
   const within = (dir: string) =>
     absolute === dir || absolute.startsWith(dir + path.sep);
+
   if (ownDirs.some(within)) return;
+
   if (PREINSTALLED_DIRS.some(within)) return;
+
   const item = itemForPath(absolute);
+
   if (item === undefined) {
     warnings.push(
       `${path.relative(ROOT, fileDir)}: unmapped internal import "${specifier}"`
     );
+
     return;
   }
+
   targets.items.add(item);
 }
 
 function collectImports(filePaths: string[], ownDirs: string[]): ImportTargets {
   const targets: ImportTargets = { npm: new Set(), items: new Set() };
+
   for (const filePath of filePaths) {
     if (!/\.tsx?$/.test(filePath)) continue;
+
     for (const specifier of parseImports(readFileSync(filePath, "utf8"))) {
       recordImport(specifier, path.dirname(filePath), ownDirs, targets);
     }
   }
+
   return targets;
 }
 
 function withVersion(itemName: string, pkg: string): string {
   const version = packageVersions[pkg];
+
   if (version === undefined) {
     warnings.push(`${itemName}: npm dependency "${pkg}" not in package.json`);
+
     return pkg;
   }
+
   return `${pkg}@${version}`;
 }
 
@@ -330,18 +376,22 @@ function dependencyFields(
   "dependencies" | "devDependencies" | "registryDependencies"
 > {
   const npm = [...targets.npm].sort(byName);
+
   const dependencies = npm
     .filter((pkg) => pkg in packageJson.dependencies)
     .map((pkg) => withVersion(itemName, pkg));
+
   const devDependencies = npm
     .filter((pkg) => !(pkg in packageJson.dependencies))
     .map((pkg) => withVersion(itemName, pkg));
+
   const registryDependencies = [
     ...targets.items,
     ...hostRequirementsFor(targets.npm),
   ]
     .sort(byName)
     .map(registryRef);
+
   return {
     ...(dependencies.length > 0 && { dependencies }),
     ...(devDependencies.length > 0 && { devDependencies }),
@@ -351,20 +401,25 @@ function dependencyFields(
 
 function shippedFile(absolute: string): RegistryFile {
   const relative = path.relative(ROOT, absolute);
+
   return { path: relative, type: "registry:file", target: `~/${relative}` };
 }
 
 function buildSliceItem(type: SliceType, name: string): RegistryItem {
   const dir = path.join(SLICES[type], name);
   const shipped = listFiles(dir).filter(isShipped);
+
   const targets = collectImports(
     shipped.map((file) => path.join(dir, file)),
     [dir]
   );
+
   const description = describeFromJsdoc(name, dir, shipped);
+
   if (description === undefined) {
     warnings.push(`${name}: no JSDoc to describe the item`);
   }
+
   return {
     name,
     type,
@@ -393,17 +448,23 @@ function buildLibItems(consumers: RegistryItem[]): RegistryItem[] {
   const libNames = new Set(listDirs(LIB_DIR));
   const built = new Map<string, RegistryItem>();
   const pending = consumers.flatMap(dependencyNames);
+
   for (const name of pending) {
     if (!libNames.has(name) || built.has(name)) continue;
+
     const item = buildSliceItem("registry:lib", name);
+
     built.set(name, item);
+
     pending.push(...dependencyNames(item));
   }
+
   return [...built.values()];
 }
 
 function assertNoSliceNameCollisions(): void {
   const uiNames = new Set(listDirs(UI_DIR));
+
   for (const name of listDirs(LIB_DIR)) {
     if (uiNames.has(name)) {
       throw new Error(
@@ -426,16 +487,22 @@ interface InfraSpec {
 function buildInfraItem(spec: InfraSpec): RegistryItem {
   const filePaths = spec.paths.flatMap((relative) => {
     const absolute = path.join(ROOT, relative);
+
     return statSync(absolute).isDirectory()
       ? listFiles(absolute).map((file) => path.join(absolute, file))
       : [absolute];
   });
+
   const ownDirs = spec.paths.map((relative) => {
     const absolute = path.join(ROOT, relative);
+
     return statSync(absolute).isDirectory() ? absolute : path.dirname(absolute);
   });
+
   const targets = collectImports(filePaths, ownDirs);
+
   for (const pkg of spec.packagesReferencedByName ?? []) targets.npm.add(pkg);
+
   return {
     name: spec.name,
     type: spec.type,
@@ -449,15 +516,20 @@ function buildInfraItem(spec: InfraSpec): RegistryItem {
 
 function cssBlock(css: string, prelude: string): string {
   const start = css.indexOf(`${prelude} {`);
+
   if (start === -1) throw new Error(`globals.css has no "${prelude}" block`);
+
   const open = start + prelude.length + 1;
   let depth = 0;
+
   for (let index = open; index < css.length; index++) {
     if (css[index] === "{") depth++;
+
     if (css[index] === "}" && --depth === 0) {
       return css.slice(open + 1, index);
     }
   }
+
   throw new Error(`globals.css has no balanced "${prelude}" block`);
 }
 
@@ -470,22 +542,28 @@ function cssDeclarations(block: string): string[] {
 
 function cssVars(block: string): Record<string, string> {
   const vars: Record<string, string> = {};
+
   for (const declaration of cssDeclarations(block)) {
     if (!declaration.startsWith("--")) continue;
+
     const colon = declaration.indexOf(":");
+
     vars[declaration.slice(2, colon).trim()] = declaration
       .slice(colon + 1)
       .trim();
   }
+
   return vars;
 }
 
 function buildThemeItem(): RegistryItem {
   const globalsCss = readFileSync(GLOBALS_CSS, "utf8");
+
   const packageImports = [...globalsCss.matchAll(/^@import "([^"]+)";/gm)]
     .map(([, specifier]) => specifier)
     .filter((specifier) => specifier !== "tailwindcss")
     .filter((specifier) => !specifier.startsWith("."));
+
   // shadcn writes the `--color-X: var(--X)` mappings itself from cssVars.
   const theme = Object.fromEntries(
     Object.entries(cssVars(cssBlock(globalsCss, "@theme inline"))).filter(
@@ -493,12 +571,14 @@ function buildThemeItem(): RegistryItem {
         !(name.startsWith("color-") && value === `var(--${name.slice(6)})`)
     )
   );
+
   const baseRules = Object.fromEntries(
     cssBlock(globalsCss, "@layer base")
       .split("}")
       .filter((rule) => rule.includes("{"))
       .map((rule) => {
         const [selector, body] = rule.split("{");
+
         return [
           selector.trim(),
           Object.fromEntries(
@@ -507,6 +587,7 @@ function buildThemeItem(): RegistryItem {
         ];
       })
   );
+
   return {
     name: "theme",
     type: "registry:theme",
@@ -603,6 +684,7 @@ function buildInfraItems(): RegistryItem[] {
 
 function verifyRegistryDependencies(items: RegistryItem[]): void {
   const itemNames = new Set(items.map((item) => item.name));
+
   for (const item of items) {
     for (const dependency of dependencyNames(item)) {
       if (!itemNames.has(dependency)) {
@@ -616,6 +698,7 @@ function verifyRegistryDependencies(items: RegistryItem[]): void {
 
 function verifyHostRequirementsUsed(items: RegistryItem[]): void {
   const used = new Set(items.flatMap(dependencyNames));
+
   for (const { name } of HOST_REQUIREMENTS) {
     if (!used.has(name)) {
       warnings.push(
@@ -627,13 +710,17 @@ function verifyHostRequirementsUsed(items: RegistryItem[]): void {
 
 function main(): void {
   assertNoSliceNameCollisions();
+
   const shipped = [...buildComponentItems(), ...buildInfraItems()];
+
   const items = [
     ...shipped,
     ...buildLibItems(shipped),
     ...HOST_REQUIREMENTS.map(buildHostRequirementItem),
   ].sort((a, b) => byName(a.name, b.name));
+
   verifyRegistryDependencies(items);
+
   verifyHostRequirementsUsed(items);
 
   const registry = {
@@ -642,25 +729,33 @@ function main(): void {
     homepage: "https://github.com/Joshua-Booth/creact",
     items,
   };
+
   const output = `${JSON.stringify(registry, null, 2)}\n`;
 
   for (const warning of warnings) console.warn(`WARN ${warning}`);
 
   if (!args.check) {
     writeFileSync(OUT_FILE, output);
+
     console.log(`Wrote registry.json (${items.length} items).`);
+
     return;
   }
+
   if (readFileSync(OUT_FILE, "utf8") !== output) {
     console.error(
       "registry.json is out of date. Run `mise run registry:build`."
     );
+
     process.exit(1);
   }
+
   if (warnings.length > 0) {
     console.error(`Fix the ${warnings.length} registry warning(s) above.`);
+
     process.exit(1);
   }
+
   console.log(`registry.json is up to date (${items.length} items).`);
 }
 

@@ -7,6 +7,7 @@ import { api, ApiError } from "@/shared/api";
 function handleGlobalError(err: unknown) {
   if (err instanceof ApiError && err.status === 401) {
     useAuthStore.getState().logout();
+
     window.location.href = "/login";
   }
 }
@@ -17,6 +18,7 @@ const fetcher = async <T,>(url: string): Promise<T> => {
   } catch (error) {
     if (error instanceof HTTPError) {
       const body: unknown = error.data;
+
       const message =
         typeof body === "object" &&
         body !== null &&
@@ -24,8 +26,10 @@ const fetcher = async <T,>(url: string): Promise<T> => {
         typeof body.message === "string"
           ? body.message
           : `Request failed: ${error.response.status}`;
+
       throw new ApiError(message, error.response.status, body);
     }
+
     throw error;
   }
 };

@@ -552,6 +552,7 @@ Default.test(
 
     await step("verify input has aria-invalid attribute", async () => {
       const input = canvas.getByPlaceholderText("Enter email");
+
       await expect(input).toHaveAttribute("aria-invalid", "true");
     });
   }

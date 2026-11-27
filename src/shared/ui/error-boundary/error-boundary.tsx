@@ -32,6 +32,7 @@ export class ErrorBoundary extends Component<
 > {
   constructor(props: ErrorBoundaryProps) {
     super(props);
+
     this.state = { hasError: false, error: null };
   }
 

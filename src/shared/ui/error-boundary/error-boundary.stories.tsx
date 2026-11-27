@@ -17,6 +17,7 @@ function BuggyComponent({ shouldThrow }: { shouldThrow: boolean }) {
   if (shouldThrow) {
     throw new Error("This is a simulated error for demonstration purposes");
   }
+
   return (
     <div className="rounded-md border p-8 text-center">
       <p className="text-muted-foreground">
@@ -47,6 +48,7 @@ function ErrorBoundaryDemo(args: ErrorBoundaryProps) {
           variant="outline"
           onClick={() => {
             setShouldThrow(false);
+
             setKey((k) => k + 1);
           }}
         >
@@ -78,6 +80,7 @@ function CustomFallbackDemo(args: ErrorBoundaryProps) {
           className="mt-4"
           onClick={() => {
             setShouldThrow(false);
+
             setKey((k) => k + 1);
           }}
         >
@@ -160,6 +163,7 @@ function ErrorBoundaryTestDemo(
           variant="destructive"
           onClick={() => {
             setShouldThrow(true);
+
             onTrigger?.();
           }}
           disabled={shouldThrow}
@@ -170,7 +174,9 @@ function ErrorBoundaryTestDemo(
           variant="outline"
           onClick={() => {
             setShouldThrow(false);
+
             setKey((k) => k + 1);
+
             onReset?.();
           }}
         >
@@ -204,9 +210,11 @@ Default.test(
       const triggerButton = canvas.getByRole("button", {
         name: /trigger error/i,
       });
+
       await userEvent.click(triggerButton);
 
       await expect(canvas.getByText(/something went wrong/i)).toBeVisible();
+
       await expect(
         canvas.getByRole("button", { name: /try again/i })
       ).toBeVisible();
@@ -228,12 +236,15 @@ Default.test(
       const triggerButton = canvas.getByRole("button", {
         name: /trigger error/i,
       });
+
       await userEvent.click(triggerButton);
+
       await expect(canvas.getByText(/something went wrong/i)).toBeVisible();
     });
 
     await step("click reset and verify recovery", async () => {
       const resetButton = canvas.getByRole("button", { name: /reset/i });
+
       await userEvent.click(resetButton);
 
       await expect(

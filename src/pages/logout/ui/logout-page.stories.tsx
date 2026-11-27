@@ -30,6 +30,7 @@ Default.test(
     await expect(canvas.getByRole("heading", { level: 1 })).toHaveTextContent(
       "You've been signed out"
     );
+
     await expect(
       canvas.getByText("You've been safely signed out of your account.")
     ).toBeVisible();
@@ -38,6 +39,8 @@ Default.test(
 
 Default.test("should render back to login link", async ({ canvas }) => {
   const link = canvas.getByRole("link", { name: /back to login/i });
+
   await expect(link).toBeVisible();
+
   await expect(link).toHaveAttribute("href", "/login");
 });

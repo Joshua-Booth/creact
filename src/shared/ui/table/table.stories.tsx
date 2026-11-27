@@ -215,6 +215,7 @@ Actions.test(
   "when opening row actions, should display menu items",
   async ({ canvas, canvasElement, step }) => {
     const body = within(canvasElement.ownerDocument.body);
+
     const buttons = await canvas.findAllByRole("button", {
       name: /open menu/i,
     });
@@ -228,7 +229,9 @@ Actions.test(
       await expect(
         await body.findByRole("menuitem", { name: /edit/i })
       ).toBeInTheDocument();
+
       body.getByRole("menuitem", { name: /duplicate/i });
+
       body.getByRole("menuitem", { name: /delete/i });
     });
   }

@@ -13,6 +13,7 @@ describe("token-provider", () => {
 
   it("should warn in dev mode when provider is not configured", async () => {
     const warnSpy = vi.spyOn(console, "warn").mockImplementation(vi.fn());
+
     const { getToken } = await import("./token-provider");
 
     getToken();
@@ -42,10 +43,12 @@ describe("token-provider", () => {
 
   it("should not warn after provider is configured", async () => {
     const warnSpy = vi.spyOn(console, "warn").mockImplementation(vi.fn());
+
     const { configureTokenProvider, getToken } =
       await import("./token-provider");
 
     configureTokenProvider(() => "token");
+
     getToken();
 
     expect(warnSpy).not.toHaveBeenCalled();

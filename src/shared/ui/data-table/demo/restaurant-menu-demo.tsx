@@ -256,6 +256,7 @@ export function RestaurantMenuDemo() {
         ),
         cell: ({ cell }) => {
           const course = cell.getValue<string>();
+
           const dotColors: Record<string, string> = {
             Appetizer: "bg-emerald-500",
             Main: "bg-blue-500",
@@ -263,7 +264,9 @@ export function RestaurantMenuDemo() {
             Dessert: "bg-pink-500",
             Beverage: "bg-slate-500",
           };
+
           const dotColor = dotColors[course] ?? "bg-gray-500";
+
           return (
             <Badge variant="outline">
               <span className={cn("size-2 shrink-0 rounded-full", dotColor)} />
@@ -325,8 +328,10 @@ export function RestaurantMenuDemo() {
         ),
         cell: ({ cell }) => {
           const items = cell.getValue<string[]>();
+
           if (items.length === 0)
             return <span className="text-muted-foreground">None</span>;
+
           return (
             <div className="flex flex-wrap gap-1">
               {items.map((a) => (

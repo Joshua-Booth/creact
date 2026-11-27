@@ -34,9 +34,11 @@ export async function signupAction(
       email: result.data.email,
       password: result.data.password,
     });
+
     return setAuthTokenAndRedirect(response.key);
   } catch (error) {
     const message = parseSignupError(error);
+
     return { success: false, error: message };
   }
 }

@@ -11,8 +11,11 @@ import { ChevronLeftIcon, ChevronRightIcon } from "lucide-react";
 import { Button } from "@/shared/ui/button";
 
 type CarouselApi = UseEmblaCarouselType[1];
+
 type UseCarouselParameters = Parameters<typeof useEmblaCarousel>;
+
 type CarouselOptions = UseCarouselParameters[0];
+
 type CarouselPlugin = UseCarouselParameters[1];
 
 interface CarouselProps {
@@ -41,6 +44,7 @@ function useCarousel() {
   if (!context) {
     throw new Error("useCarousel must be used within a <Carousel />");
   }
+
   /* istanbul ignore end @preserve */
 
   return context;
@@ -63,14 +67,17 @@ function Carousel({
     },
     plugins
   );
+
   const [canScrollPrev, setCanScrollPrev] = React.useState(false);
   const [canScrollNext, setCanScrollNext] = React.useState(false);
 
   const onSelect = React.useCallback((api: CarouselApi) => {
     /* istanbul ignore start @preserve -- Defensive guard: api is always defined when called from useEffect */
     if (!api) return;
+
     /* istanbul ignore end @preserve */
     setCanScrollPrev(api.canScrollPrev());
+
     setCanScrollNext(api.canScrollNext());
   }, []);
 
@@ -87,28 +94,35 @@ function Carousel({
     (event: React.KeyboardEvent<HTMLDivElement>) => {
       if (event.key === "ArrowLeft") {
         event.preventDefault();
+
         scrollPrev();
       } else if (event.key === "ArrowRight") {
         event.preventDefault();
+
         scrollNext();
       }
     },
     [scrollPrev, scrollNext]
   );
+
   /* istanbul ignore end @preserve */
 
   React.useEffect(() => {
     // eslint-disable-next-line react-you-might-not-need-an-effect/no-event-handler -- Exposing the embla api instance to the parent is intentional imperative-API exposure
     if (!api || !setApi) return;
+
     // eslint-disable-next-line react-you-might-not-need-an-effect/no-pass-data-to-parent -- Exposing imperative API to parent is intentional; the parent needs the api instance created by useEmblaCarousel
     setApi(api);
   }, [api, setApi]);
 
   React.useEffect(() => {
     if (!api) return;
+
     // eslint-disable-next-line react-hooks/set-state-in-effect, @eslint-react/set-state-in-effect, react-you-might-not-need-an-effect/no-external-store-subscription -- Initial sync of state with external carousel API; subsequent updates flow through api.on() subscriptions
     onSelect(api);
+
     api.on("reInit", onSelect);
+
     api.on("select", onSelect);
 
     return () => {

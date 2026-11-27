@@ -53,6 +53,7 @@ export const Horizontal = meta.story({
       { artist: "Vladimir Malyavko", title: "Silent Forest" },
       { artist: "Giuseppe Mondì", title: "Tuscan Sunset" },
     ];
+
     /* cspell:enable */
 
     return (
@@ -119,6 +120,7 @@ Default.test(
       const scrollbar = canvasElement.querySelector(
         '[data-slot="scroll-area-scrollbar"]'
       );
+
       await expect(scrollbar).not.toBeNull();
     });
   }

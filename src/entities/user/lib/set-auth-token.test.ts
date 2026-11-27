@@ -4,6 +4,7 @@ import { setAuthTokenAndRedirect } from "./set-auth-token";
 
 const localStorageMock = (() => {
   let store = new Map<string, string>();
+
   return {
     getItem: vi.fn((key: string) => store.get(key) ?? null),
     setItem: vi.fn((key: string, value: string) => {
@@ -38,6 +39,7 @@ vi.mock("react-router", () => ({
 describe("setAuthTokenAndRedirect", () => {
   beforeEach(() => {
     localStorageMock.clear();
+
     vi.clearAllMocks();
   });
 

@@ -10,6 +10,7 @@ let _getToken: TokenProvider = () => null;
  */
 export function configureTokenProvider(provider: TokenProvider): void {
   _configured = true;
+
   _getToken = provider;
 }
 
@@ -23,5 +24,6 @@ export function getToken(): string | null {
       "[API] Token provider not configured. Call configureTokenProvider() at startup."
     );
   }
+
   return _getToken();
 }

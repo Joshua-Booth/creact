@@ -38,6 +38,7 @@ export function DataTableColumnHeader<TData extends RowData, TValue>({
   ...props
 }: DataTableColumnHeaderProps<TData, TValue>) {
   const { t } = useTranslation("components");
+
   if (!column.getCanSort() && !column.getCanHide()) {
     return <div className={cn(className)}>{label}</div>;
   }
@@ -47,8 +48,11 @@ export function DataTableColumnHeader<TData extends RowData, TValue>({
   function getSortIcon() {
     /* istanbul ignore next @preserve */
     if (!column.getCanSort()) return null;
+
     if (sorted === "desc") return <ChevronDown />;
+
     if (sorted === "asc") return <ChevronUp />;
+
     return <ChevronsUpDown />;
   }
 

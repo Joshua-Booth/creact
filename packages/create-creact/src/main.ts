@@ -20,31 +20,38 @@ const parsed = parseRequest(argv, cwd);
 switch (parsed.kind) {
   case "help": {
     process.stdout.write(parsed.text);
+
     break;
   }
   case "usage": {
     usage(parsed.message);
+
     break;
   }
   case "run": {
     const { request } = parsed;
     const log = new Log(logFile(request.dir));
+
     const ui = renderer(
       pickMode(wantsJson, process.stdout, process.env),
       log,
       cwd
     );
+
     try {
       ui.succeeded(await create(request, LAYER_DIR, { progress: ui, log }));
     } catch (error) {
       if (error instanceof UsageError) {
         ui.failed(error, "usage");
+
         process.exitCode = EXIT.usage;
       } else if (error instanceof CommandFailed) {
         ui.failed(error, "command");
+
         process.exitCode = EXIT.commandFailed;
       } else throw error;
     }
+
     break;
   }
 }
@@ -57,6 +64,7 @@ function usage(message: string): void {
   } else {
     process.stderr.write(`create-creact: ${message}\n`);
   }
+
   process.exitCode = EXIT.usage;
 }
 
@@ -66,5 +74,6 @@ function usage(message: string): void {
 function logFile(dir: string): string {
   const name = path.basename(dir).replaceAll(/[^\w.-]/g, "_");
   const user = process.getuid?.() ?? userInfo().username;
+
   return path.join(tmpdir(), `create-creact-${user}-${name}.log`);
 }

@@ -159,6 +159,7 @@ Default.test(
   "when clicking items, should toggle their pressed state independently",
   async ({ canvas, step }) => {
     const buttons = await canvas.findAllByRole("button");
+
     // eslint-disable-next-line @typescript-eslint/no-non-null-assertion -- findAllByRole throws if no elements found
     const first = buttons[0]!;
     // eslint-disable-next-line @typescript-eslint/no-non-null-assertion -- findAllByRole throws if no elements found
@@ -166,23 +167,29 @@ Default.test(
 
     await step("click first item to press it", async () => {
       await userEvent.click(first);
+
       await expect(first).toHaveAttribute("aria-pressed", "true");
     });
 
     await step("click second item, first stays selected", async () => {
       await userEvent.click(second);
+
       await expect(first).toHaveAttribute("aria-pressed", "true");
+
       await expect(second).toHaveAttribute("aria-pressed", "true");
     });
 
     await step("click first again to deselect it", async () => {
       await userEvent.click(first);
+
       await expect(first).toHaveAttribute("aria-pressed", "false");
+
       await expect(second).toHaveAttribute("aria-pressed", "true");
     });
 
     await step("click second again to deselect it", async () => {
       await userEvent.click(second);
+
       await expect(second).toHaveAttribute("aria-pressed", "false");
     });
   }
@@ -193,8 +200,11 @@ Disabled.test(
   async ({ canvas }) => {
     // eslint-disable-next-line @typescript-eslint/no-non-null-assertion -- findAllByRole throws if no elements found
     const first = (await canvas.findAllByRole("button"))[0]!;
+
     await expect(first).toHaveAttribute("aria-pressed", "false");
+
     await userEvent.click(first, { pointerEventsCheck: 0 });
+
     await expect(first).toHaveAttribute("aria-pressed", "false");
   }
 );

@@ -108,7 +108,9 @@ Default.test(
   async ({ canvas, step }) => {
     await step("verify progressbar role and aria attributes", async () => {
       const progressbar = canvas.getByRole("progressbar");
+
       await expect(progressbar).toHaveAttribute("aria-valuenow", "30");
+
       await expect(progressbar).toHaveAttribute("aria-valuemax", "100");
     });
   }

@@ -98,15 +98,18 @@ export async function create(
   { progress = SILENT, log }: Hooks = {}
 ): Promise<Report> {
   const target = await inspect(request.dir);
+
   const recorded = target.kind === "project" ? target.state : undefined;
   const choices = resolveChoices(request, recorded);
   const name = recorded?.name ?? projectName(request.dir);
+
   const ids: readonly OverlayId[] = [
     "base",
     choices.toolchain,
     choices.styling,
     ...choices.extras,
   ];
+
   const ops = plan(await loadLayer(layerDir, ids, choices.stack), ids, {
     stack: choices.stack,
     monorepo: choices.monorepo,
@@ -115,34 +118,48 @@ export async function create(
   });
 
   progress.begin(request.dir, choices);
+
   const ms: Partial<Record<StepId, number>> = {};
   let report: Partial<Report> = { dir: request.dir, choices, ms };
+
   const step = async <T extends Partial<Report>>(
     id: StepId,
     work: () => T | Promise<T>
   ): Promise<T> => {
     progress.start(id);
+
     const started = performance.now();
+
     const result = await work();
+
     ms[id] = Math.round(performance.now() - started);
+
     report = { ...report, ...result };
+
     progress.finish(id, report);
+
     return result;
   };
 
   let layer: ApplyReport;
+
   if (target.kind === "fresh") {
     const staging = path.join(
       path.dirname(request.dir),
       `.${name}.creact-staging`
     );
+
     await rm(staging, { recursive: true, force: true });
+
     try {
       let made = "";
+
       await step("monorepo", async () => {
         made = await obtainBase(staging, choices, name, log);
+
         return { base: "created" as const };
       });
+
       ({ layer } = await step("tooling", async () => ({
         layer: await applyLayer(
           made,
@@ -151,12 +168,14 @@ export async function create(
           { name, choices }
         ),
       })));
+
       await place(made, request.dir, target.exists);
     } finally {
       await rm(staging, { recursive: true, force: true });
     }
   } else {
     await step("monorepo", () => ({ base: "kept" as const }));
+
     ({ layer } = await step("tooling", async () => ({
       layer: await applyLayer(
         request.dir,
@@ -170,15 +189,19 @@ export async function create(
   const { git } = await step("git", async () => ({
     git: request.git ? await initGit(request.dir, log) : ("skipped" as const),
   }));
+
   await step("install", async () => {
     if (request.install) {
       await install(request.dir, layer.missing, log);
+
       await fixThenFormat(request.dir, log);
     }
+
     return {
       install: request.install ? ("done" as const) : ("skipped" as const),
     };
   });
+
   const { skills, skillCount } = await step("skills", async () =>
     request.install
       ? restoreSkills(request.dir, log)
@@ -200,6 +223,7 @@ export async function create(
 
 async function inspect(dir: string): Promise<Target> {
   const nearest = nearestExisting(dir);
+
   if (!(await stat(nearest)).isDirectory()) {
     throw new UsageError(
       nearest === dir
@@ -207,17 +231,25 @@ async function inspect(dir: string): Promise<Target> {
         : `${dir} would sit under the file ${nearest}. Give a directory for the project.`
     );
   }
+
   const exists = nearest === dir;
+
   const repo = await outerRepo(dir, nearest);
+
   if (repo !== undefined) {
     throw new UsageError(
       `${dir} is inside the git repository at ${repo}, so the project would get no repository of its own. Pick a directory outside it.`
     );
   }
+
   if (!exists) return { kind: "fresh", exists: false };
+
   const state = await readState(dir);
+
   if (state !== undefined) return { kind: "project", state };
+
   if ((await readdir(dir)).length === 0) return { kind: "fresh", exists: true };
+
   throw new UsageError(
     `${dir} isn't empty and has no ${STATE_FILE}, so create-creact didn't make it. Pick a new directory.`
   );
@@ -225,7 +257,9 @@ async function inspect(dir: string): Promise<Target> {
 
 function nearestExisting(dir: string): string {
   let nearest = dir;
+
   while (!existsSync(nearest)) nearest = path.dirname(nearest);
+
   return nearest;
 }
 
@@ -236,6 +270,7 @@ async function outerRepo(
   nearest: string
 ): Promise<string | undefined> {
   const real = await realpath(nearest);
+
   for (
     let probe = nearest === dir ? path.dirname(real) : real;
     probe !== path.dirname(probe);
@@ -243,6 +278,7 @@ async function outerRepo(
   ) {
     if (existsSync(path.join(probe, ".git"))) return probe;
   }
+
   return undefined;
 }
 
@@ -256,7 +292,9 @@ export async function obtainBase(
   log?: Log
 ): Promise<string> {
   const home = path.join(staging, ".home");
+
   await mkdir(home, { recursive: true });
+
   await run(
     "pnpm",
     [
@@ -271,6 +309,7 @@ export async function obtainBase(
     staging,
     log
   );
+
   return path.join(staging, name);
 }
 
@@ -283,6 +322,7 @@ async function applyLayer(
   const missing = [STACKS[project.choices.stack].signature, ...JSON_FILES]
     .filter((file) => !existsSync(path.join(dir, file)))
     .join(", ");
+
   if (missing !== "") {
     throw prior.kind === "upstream-only"
       ? new CommandFailed(
@@ -292,7 +332,9 @@ async function applyLayer(
           `${dir} is missing ${missing}, which the layer builds on, so create-creact can't update it`
         );
   }
+
   const layer = await apply(dir, ops, prior);
+
   await writeState(dir, {
     schema: 2,
     creact: VERSION,
@@ -300,6 +342,7 @@ async function applyLayer(
     ...project.choices,
     hashes: layer.hashes,
   });
+
   return layer;
 }
 
@@ -312,14 +355,18 @@ async function place(
 ): Promise<void> {
   if (!exists) {
     await rename(base, target);
+
     return;
   }
+
   const stateDir = path.dirname(STATE_FILE);
+
   for (const entry of await readdir(base)) {
     if (entry !== stateDir) {
       await rename(path.join(base, entry), path.join(target, entry));
     }
   }
+
   await rename(path.join(base, stateDir), path.join(target, stateDir));
 }
 
@@ -328,7 +375,9 @@ async function initGit(dir: string, log?: Log): Promise<Report["git"]> {
   if (await succeeds("git", ["rev-parse", "--is-inside-work-tree"], dir)) {
     return "existing";
   }
+
   await run("git", ["init", "--quiet"], dir, log);
+
   return "initialised";
 }
 
@@ -344,9 +393,11 @@ async function install(
   for (const { manifest, dependencies, devDependencies } of missing) {
     const cwd = path.join(dir, path.dirname(manifest));
     const root = manifest === "package.json" ? ["--workspace-root"] : [];
+
     if (dependencies.length > 0) {
       await run("pnpm", ["add", ...root, ...dependencies], cwd, log);
     }
+
     if (devDependencies.length > 0) {
       await run(
         "pnpm",
@@ -356,7 +407,9 @@ async function install(
       );
     }
   }
+
   await run("pnpm", ["install"], dir, log);
+
   await run("pnpm", ["run", "prepare"], dir, log);
 }
 
@@ -366,6 +419,7 @@ async function fixThenFormat(dir: string, log?: Log): Promise<void> {
   if (!(await succeeds("pnpm", ["run", "lint", "--fix"], dir))) {
     await run("pnpm", ["run", "lint", "--fix"], dir, log);
   }
+
   await run("pnpm", ["run", "format"], dir, log);
 }
 
@@ -376,16 +430,22 @@ async function restoreSkills(
   log?: Log
 ): Promise<{ readonly skills: Skills; readonly skillCount: number }> {
   const ids = await lockedSkills(dir);
+
   const skillCount = ids.size;
+
   if ([...ids].every((id) => existsSync(path.join(dir, SKILLS_DIR, id)))) {
     return { skills: "present", skillCount };
   }
+
   const [command, ...args] = RESTORE;
+
   try {
     await run(command, args, dir, log);
   } catch (error) {
     if (!(error instanceof CommandFailed)) throw error;
+
     const where = outputAt(log);
+
     return {
       skills: {
         failed: (await succeeds("git", ["--version"], dir))
@@ -395,11 +455,13 @@ async function restoreSkills(
       skillCount,
     };
   }
+
   return { skills: "restored", skillCount };
 }
 
 // Where the failed command's output can be read, as the end of a sentence.
 function outputAt(log: Log | undefined): string {
   if (log === undefined) return ". Its output is above";
+
   return log.written ? `. Its output is in ${log.file}` : "";
 }

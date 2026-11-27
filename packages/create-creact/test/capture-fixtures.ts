@@ -9,19 +9,23 @@ import { DEFAULTS, projectName } from "../src/options.ts";
 import { BTS, type StackId, STACKS } from "../src/stacks.ts";
 
 const asked = process.argv.slice(2);
+
 for (const id of asked) {
   if (!Object.hasOwn(STACKS, id)) throw new Error(`${id} isn't in STACKS`);
 }
+
 const stacks = (asked.length > 0 ? asked : Object.keys(STACKS)) as StackId[];
 
 for (const stack of stacks) {
   const staging = mkdtempSync(path.join(tmpdir(), "creact-fixture-"));
+
   try {
     const base = await obtainBase(
       staging,
       { ...DEFAULTS, stack, extras: [] },
       projectName("app")
     );
+
     const fixture = {
       bts: BTS,
       ...Object.fromEntries(
@@ -31,6 +35,7 @@ for (const stack of stacks) {
         ])
       ),
     };
+
     writeFileSync(
       path.join(import.meta.dirname, "fixtures", `${stack}.json`),
       `${JSON.stringify(fixture, null, 2)}\n`

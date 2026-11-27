@@ -28,11 +28,13 @@ describe("getCellKey / parseCellKey", () => {
   it("should round-trip encode a cell key", () => {
     const key = getCellKey(3, "title");
     const parsed = parseCellKey(key);
+
     expect(parsed).toEqual({ rowIndex: 3, columnId: "title" });
   });
 
   it("should handle zero row index", () => {
     const key = getCellKey(0, "status");
+
     expect(parseCellKey(key)).toEqual({ rowIndex: 0, columnId: "status" });
   });
 
@@ -113,6 +115,7 @@ describe("getUrlHref", () => {
 describe("parseLocalDate", () => {
   it("should parse a valid YYYY-MM-DD string", () => {
     const date = parseLocalDate("2026-03-15");
+
     expect(date).toBeInstanceOf(Date);
     expect(date?.getFullYear()).toBe(2026);
     expect(date?.getMonth()).toBe(2);
@@ -130,6 +133,7 @@ describe("parseLocalDate", () => {
 
   it("should return a Date if given a Date", () => {
     const d = new Date(2026, 0, 1);
+
     expect(parseLocalDate(d)).toBe(d);
   });
 
@@ -161,11 +165,13 @@ describe("parseLocalDate", () => {
 describe("formatDateToString", () => {
   it("should format a Date to YYYY-MM-DD", () => {
     const date = new Date(2026, 2, 15);
+
     expect(formatDateToString(date)).toBe("2026-03-15");
   });
 
   it("should pad single-digit months and days", () => {
     const date = new Date(2026, 0, 5);
+
     expect(formatDateToString(date)).toBe("2026-01-05");
   });
 });
@@ -178,6 +184,7 @@ describe("formatDateForDisplay", () => {
 
   it("should format a valid date string", () => {
     const result = formatDateForDisplay("2026-03-15");
+
     expect(result).toBeTruthy();
     expect(result).not.toBe("");
   });
@@ -235,6 +242,7 @@ describe("getFileIcon", () => {
     const imageIcon = getFileIcon("image/png");
     const videoIcon = getFileIcon("video/mp4");
     const audioIcon = getFileIcon("audio/mpeg");
+
     expect(imageIcon).not.toBe(videoIcon);
     expect(videoIcon).not.toBe(audioIcon);
   });
@@ -294,6 +302,7 @@ describe("matchSelectOption", () => {
 describe("getColumnVariant", () => {
   it("should return correct variant for short-text", () => {
     const result = getColumnVariant("short-text");
+
     expect(result?.label).toBe("Short text");
     expect(result?.icon).toBeDefined();
   });
@@ -371,6 +380,7 @@ describe("flexRender", () => {
     const result = flexRender((props: { name: string }) => `Hi ${props.name}`, {
       name: "World",
     });
+
     expect(result).toBe("Hi World");
   });
 });
@@ -393,50 +403,60 @@ describe("getColumnBorderVisibility", () => {
   it("should show end border for unpinned non-last column", () => {
     const col = mockBorderColumn({ isPinned: false });
     const next = mockBorderColumn({ isPinned: false });
+
     const result = getColumnBorderVisibility({
       column: col,
       nextColumn: next,
       isLastColumn: false,
     });
+
     expect(result.showEndBorder).toBe(true);
     expect(result.showStartBorder).toBe(false);
   });
 
   it("should show end border for last column", () => {
     const col = mockBorderColumn({ isPinned: false });
+
     const result = getColumnBorderVisibility({
       column: col,
       isLastColumn: true,
     });
+
     expect(result.showEndBorder).toBe(true);
   });
 
   it("should hide end border before first right-pinned column", () => {
     const col = mockBorderColumn({ isPinned: false });
     const next = mockBorderColumn({ isPinned: "end", isFirstRight: true });
+
     const result = getColumnBorderVisibility({
       column: col,
       nextColumn: next,
       isLastColumn: false,
     });
+
     expect(result.showEndBorder).toBe(false);
   });
 
   it("should show start border for first right-pinned column", () => {
     const col = mockBorderColumn({ isPinned: "end", isFirstRight: true });
+
     const result = getColumnBorderVisibility({
       column: col,
       isLastColumn: false,
     });
+
     expect(result.showStartBorder).toBe(true);
   });
 
   it("should hide end border for last right-pinned column that is not last column", () => {
     const col = mockBorderColumn({ isPinned: "end", isLastRight: true });
+
     const result = getColumnBorderVisibility({
       column: col,
       isLastColumn: false,
     });
+
     expect(result.showEndBorder).toBe(false);
   });
 });
@@ -465,6 +485,7 @@ describe("getColumnPinningStyle", () => {
   it("should return relative position for unpinned column", () => {
     const col = mockPinColumn({ isPinned: false, size: 150 });
     const style = getColumnPinningStyle({ column: col });
+
     expect(style.position).toBe("relative");
     expect(style.opacity).toBe(1);
     expect(style.width).toBe(150);
@@ -475,6 +496,7 @@ describe("getColumnPinningStyle", () => {
   it("should return sticky position for left-pinned column", () => {
     const col = mockPinColumn({ isPinned: "start", start: 50, size: 100 });
     const style = getColumnPinningStyle({ column: col });
+
     expect(style.position).toBe("sticky");
     expect(style.left).toBe("50px");
     expect(style.right).toBeUndefined();
@@ -485,6 +507,7 @@ describe("getColumnPinningStyle", () => {
   it("should return sticky position for right-pinned column", () => {
     const col = mockPinColumn({ isPinned: "end", after: 30, size: 100 });
     const style = getColumnPinningStyle({ column: col });
+
     expect(style.position).toBe("sticky");
     expect(style.right).toBe("30px");
     expect(style.left).toBeUndefined();
@@ -493,30 +516,35 @@ describe("getColumnPinningStyle", () => {
   it("should not add box shadow for middle pinned column with border", () => {
     const col = mockPinColumn({ isPinned: "start", isLastLeft: false });
     const style = getColumnPinningStyle({ column: col, withBorder: true });
+
     expect(style.boxShadow).toBeUndefined();
   });
 
   it("should add box shadow for last left-pinned column with border", () => {
     const col = mockPinColumn({ isPinned: "start", isLastLeft: true });
     const style = getColumnPinningStyle({ column: col, withBorder: true });
+
     expect(style.boxShadow).toBe("-4px 0 4px -4px var(--border) inset");
   });
 
   it("should add box shadow for first right-pinned column with border", () => {
     const col = mockPinColumn({ isPinned: "end", isFirstRight: true });
     const style = getColumnPinningStyle({ column: col, withBorder: true });
+
     expect(style.boxShadow).toBe("4px 0 4px -4px var(--border) inset");
   });
 
   it("should not add box shadow without border flag", () => {
     const col = mockPinColumn({ isPinned: "start", isLastLeft: true });
     const style = getColumnPinningStyle({ column: col });
+
     expect(style.boxShadow).toBeUndefined();
   });
 
   it("should swap left/right in RTL mode", () => {
     const col = mockPinColumn({ isPinned: "start", start: 50 });
     const style = getColumnPinningStyle({ column: col, dir: "rtl" });
+
     expect(style.right).toBe("50px");
     expect(style.left).toBeUndefined();
   });
@@ -524,27 +552,32 @@ describe("getColumnPinningStyle", () => {
   it("should swap right to left in RTL mode for right-pinned", () => {
     const col = mockPinColumn({ isPinned: "end", after: 30 });
     const style = getColumnPinningStyle({ column: col, dir: "rtl" });
+
     expect(style.left).toBe("30px");
     expect(style.right).toBeUndefined();
   });
 
   it("should swap box shadow direction in RTL for last left-pinned", () => {
     const col = mockPinColumn({ isPinned: "start", isLastLeft: true });
+
     const style = getColumnPinningStyle({
       column: col,
       withBorder: true,
       dir: "rtl",
     });
+
     expect(style.boxShadow).toBe("4px 0 4px -4px var(--border) inset");
   });
 
   it("should swap box shadow direction in RTL for first right-pinned", () => {
     const col = mockPinColumn({ isPinned: "end", isFirstRight: true });
+
     const style = getColumnPinningStyle({
       column: col,
       withBorder: true,
       dir: "rtl",
     });
+
     expect(style.boxShadow).toBe("-4px 0 4px -4px var(--border) inset");
   });
 });
@@ -596,12 +629,14 @@ describe("scrollCellIntoView", () => {
     cellLeft: 100,
     cellRight: 200,
   };
+
   const clippedRight = {
     containerLeft: 0,
     containerRight: 500,
     cellLeft: 450,
     cellRight: 600,
   };
+
   const clippedLeft = {
     containerLeft: 100,
     containerRight: 500,

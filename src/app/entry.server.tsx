@@ -68,6 +68,7 @@ function handleBotRequest(
         onAllReady() {
           const body = new PassThrough();
           const stream = createReadableStreamFromReadable(body);
+
           responseHeaders.set("Content-Type", "text/html");
 
           resolve(
@@ -84,7 +85,9 @@ function handleBotRequest(
         },
         onError(error: unknown) {
           responseStatusCode = 500;
+
           console.error(error);
+
           Sentry.captureException(error);
         },
       }
@@ -110,6 +113,7 @@ function handleBrowserRequest(
         onShellReady() {
           const body = new PassThrough();
           const stream = createReadableStreamFromReadable(body);
+
           responseHeaders.set("Content-Type", "text/html");
 
           resolve(
@@ -126,7 +130,9 @@ function handleBrowserRequest(
         },
         onError(error: unknown) {
           responseStatusCode = 500;
+
           console.error(error);
+
           Sentry.captureException(error);
         },
       }

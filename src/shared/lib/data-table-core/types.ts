@@ -42,7 +42,9 @@ export interface Option {
 }
 
 export type FilterOperator = DataTableConfig["operators"][number];
+
 export type FilterVariant = DataTableConfig["filterVariants"][number];
+
 /** @public */
 export type JoinOperator = DataTableConfig["joinOperators"][number];
 

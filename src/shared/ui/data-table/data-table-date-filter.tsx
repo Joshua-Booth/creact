@@ -49,6 +49,7 @@ export function DataTableDateFilter<TData extends RowData>({
     /* istanbul ignore next @preserve */
     if (multiple) {
       const timestamps = parseColumnFilterValue(columnFilterValue);
+
       return {
         from: parseAsDate(timestamps[0]),
         to: parseAsDate(timestamps[1]),
@@ -59,6 +60,7 @@ export function DataTableDateFilter<TData extends RowData>({
     const timestamps = parseColumnFilterValue(columnFilterValue);
     /* istanbul ignore next @preserve */
     const date = parseAsDate(timestamps[0]);
+
     /* istanbul ignore next @preserve */
     return date == null ? [] : [date];
   }, [columnFilterValue, multiple]);
@@ -68,12 +70,14 @@ export function DataTableDateFilter<TData extends RowData>({
     /* istanbul ignore next @preserve */
     if (date == null) {
       column.setFilterValue(undefined);
+
       return;
     }
 
     if (multiple && !("getTime" in date)) {
       const from = date.from?.getTime();
       const to = date.to?.getTime();
+
       column.setFilterValue(
         from != null || to != null ? [from, to] : undefined
       );
@@ -91,11 +95,14 @@ export function DataTableDateFilter<TData extends RowData>({
     if (multiple) {
       /* istanbul ignore next @preserve */
       if (!getIsDateRange(selectedDates)) return false;
+
       /* istanbul ignore next @preserve */
       return selectedDates.from != null || selectedDates.to != null;
     }
+
     /* istanbul ignore next @preserve */
     if (!Array.isArray(selectedDates)) return false;
+
     /* istanbul ignore next @preserve */
     return selectedDates.length > 0;
   }, [multiple, selectedDates]);
@@ -108,10 +115,12 @@ export function DataTableDateFilter<TData extends RowData>({
       /* istanbul ignore next @preserve */
       const hasSelectedDates =
         selectedDates.from != null || selectedDates.to != null;
+
       /* istanbul ignore next @preserve */
       const dateText = hasSelectedDates
         ? formatDateRangeLabel(selectedDates)
         : t("dataTable.selectDateRange");
+
       /* istanbul ignore next @preserve */
       const separator = hasSelectedDates ? (
         <>
@@ -136,10 +145,12 @@ export function DataTableDateFilter<TData extends RowData>({
 
     /* istanbul ignore next @preserve */
     const hasSelectedDate = selectedDates.length > 0;
+
     /* istanbul ignore next @preserve */
     const dateText = hasSelectedDate
       ? formatDate(selectedDates[0])
       : t("dataTable.selectDate");
+
     /* istanbul ignore next @preserve */
     const separator = hasSelectedDate ? (
       <>
@@ -202,6 +213,7 @@ export function DataTableDateFilter<TData extends RowData>({
   const rangeSelected = getIsDateRange(selectedDates)
     ? selectedDates
     : { from: undefined, to: undefined };
+
   /* istanbul ignore next @preserve */
   const singleSelected = getIsDateRange(selectedDates)
     ? undefined

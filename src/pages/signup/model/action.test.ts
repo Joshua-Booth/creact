@@ -38,8 +38,11 @@ describe("signupAction", () => {
     "should return validation error for $reason",
     async ({ email, password, confirmPassword }) => {
       const formData = new FormData();
+
       formData.set("email", email);
+
       formData.set("password", password);
+
       formData.set("confirmPassword", confirmPassword);
 
       const result = await signupAction(formData);
@@ -55,12 +58,17 @@ describe("signupAction", () => {
 
   it("should call setAuthTokenAndRedirect on successful signup", async () => {
     const mockResponse = new Response(null, { status: 302 });
+
     vi.mocked(signupApi).mockResolvedValue({ key: "new-token" });
+
     vi.mocked(setAuthTokenAndRedirect).mockReturnValue(mockResponse);
 
     const formData = new FormData();
+
     formData.set("email", "user@example.com");
+
     formData.set("password", "Password1");
+
     formData.set("confirmPassword", "Password1");
 
     const result = await signupAction(formData);
@@ -69,17 +77,22 @@ describe("signupAction", () => {
       email: "user@example.com",
       password: "Password1",
     });
+
     expect(setAuthTokenAndRedirect).toHaveBeenCalledWith("new-token");
     expect(result).toBe(mockResponse);
   });
 
   it("should return parsed error when API throws", async () => {
     vi.mocked(signupApi).mockRejectedValue(new Error("API error"));
+
     vi.mocked(parseSignupError).mockReturnValue("Email already exists");
 
     const formData = new FormData();
+
     formData.set("email", "user@example.com");
+
     formData.set("password", "Password1");
+
     formData.set("confirmPassword", "Password1");
 
     const result = await signupAction(formData);

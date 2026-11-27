@@ -9,7 +9,9 @@ export function formatDate(
   opts: Intl.DateTimeFormatOptions = {}
 ) {
   if (date == null) return "";
+
   if (typeof date === "string" && date === "") return "";
+
   if (typeof date === "number" && Number.isNaN(date)) return "";
 
   try {
@@ -23,6 +25,7 @@ export function formatDate(
     if (import.meta.env.DEV) {
       console.warn("[formatDate] Failed to format date:", date, error);
     }
+
     return "";
   }
 }

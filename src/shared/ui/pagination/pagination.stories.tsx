@@ -194,6 +194,7 @@ Default.test(
   async ({ canvas, step }) => {
     await step("verify active page has aria-current", async () => {
       const activeLink = canvas.getByRole("button", { current: "page" });
+
       await expect(activeLink).toHaveTextContent("2");
     });
 
@@ -201,6 +202,7 @@ Default.test(
       await expect(
         canvas.getByRole("button", { name: /go to previous page/i })
       ).toBeVisible();
+
       await expect(
         canvas.getByRole("button", { name: /go to next page/i })
       ).toBeVisible();

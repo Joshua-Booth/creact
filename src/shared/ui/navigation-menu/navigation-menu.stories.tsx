@@ -445,6 +445,7 @@ Default.test(
 
     await step("Verify menu content is visible", async () => {
       await body.findByText("Introduction");
+
       await body.findByText("Installation");
     });
   }

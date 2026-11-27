@@ -27,6 +27,7 @@ export async function forgotPasswordAction(
 
   try {
     await forgotPasswordApi(result.data);
+
     // Always show success to prevent email enumeration
     return { success: true };
   } catch {

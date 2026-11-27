@@ -303,6 +303,7 @@ function ComboboxChipsInput({
 function useComboboxAnchor() {
   return React.useRef<HTMLDivElement | null>(null);
 }
+
 /* istanbul ignore end @preserve */
 
 export {

@@ -209,7 +209,9 @@ Default.test(
       const actionButton = canvasBody.getByRole("button", {
         name: /continue/i,
       });
+
       await expect(actionButton).toBeEnabled();
+
       await userEvent.click(actionButton, { delay: 100 });
     });
 
@@ -235,6 +237,7 @@ Default.test(
 
     await step("press Escape and verify dialog stays open", async () => {
       await userEvent.keyboard("{Escape}");
+
       await expect(canvasBody.getByRole("alertdialog")).toBeInTheDocument();
     });
 
@@ -260,9 +263,11 @@ Default.test(
 
     await step("verify dialog content", async () => {
       await expect(canvasBody.getByRole("alertdialog")).toBeInTheDocument();
+
       await expect(
         canvasBody.getByRole("button", { name: /cancel/i })
       ).toBeInTheDocument();
+
       await expect(
         canvasBody.getByRole("button", { name: /continue/i })
       ).toBeInTheDocument();

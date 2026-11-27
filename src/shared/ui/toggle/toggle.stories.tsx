@@ -98,11 +98,13 @@ Default.test(
 
     await step("click to press", async () => {
       await userEvent.click(toggle);
+
       await expect(toggle).toHaveAttribute("aria-pressed", "true");
     });
 
     await step("click to deselect", async () => {
       await userEvent.click(toggle);
+
       await expect(toggle).toHaveAttribute("aria-pressed", "false");
     });
   }
@@ -112,8 +114,11 @@ Disabled.test(
   "when toggle is disabled, should not toggle pressed state",
   async ({ canvas }) => {
     const toggle = await canvas.findByRole("button");
+
     await expect(toggle).toHaveAttribute("aria-pressed", "false");
+
     await userEvent.click(toggle, { pointerEventsCheck: 0 });
+
     await expect(toggle).toHaveAttribute("aria-pressed", "false");
   }
 );

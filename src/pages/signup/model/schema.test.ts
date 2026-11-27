@@ -9,6 +9,7 @@ describe("signupSchema", () => {
       password: "Password1",
       confirmPassword: "Password1",
     });
+
     expect(result.success).toBe(true);
   });
 
@@ -18,6 +19,7 @@ describe("signupSchema", () => {
       password: "Password1",
       confirmPassword: "Password2",
     });
+
     expect(result.success).toBe(false);
   });
 
@@ -27,6 +29,7 @@ describe("signupSchema", () => {
       password: "weak",
       confirmPassword: "weak",
     });
+
     expect(result.success).toBe(false);
   });
 });

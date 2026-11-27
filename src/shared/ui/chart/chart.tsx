@@ -32,6 +32,7 @@ function useChart() {
   if (!context) {
     throw new Error("useChart must be used within a <ChartContainer />");
   }
+
   /* istanbul ignore end @preserve */
 
   return context;
@@ -93,6 +94,7 @@ const ChartStyle = ({ id, config }: { id: string; config: ChartConfig }) => {
   if (colorConfig.length === 0) {
     return null;
   }
+
   /* istanbul ignore end @preserve */
 
   /* eslint-disable @eslint-react/dom-no-dangerously-set-innerhtml -- CSS injection for chart theming is intentional and safe */
@@ -108,6 +110,7 @@ ${colorConfig
     const color =
       itemConfig.theme?.[theme as keyof typeof itemConfig.theme] ??
       itemConfig.color;
+
     /* istanbul ignore start @preserve -- Null color branch only with incomplete config */
     return color ? `  --color-${key}: ${color};` : null;
     /* istanbul ignore end @preserve */
@@ -164,6 +167,7 @@ function ChartTooltipContent({
     const [item] = payload;
     const key = String(labelKey ?? item?.dataKey ?? item?.name ?? "value");
     const itemConfig = getPayloadConfigFromPayload(config, item, key);
+
     const value =
       !labelKey && typeof label === "string"
         ? (config[label]?.label ?? label)
@@ -191,6 +195,7 @@ function ChartTooltipContent({
     config,
     labelKey,
   ]);
+
   if (!active || !payload?.length) {
     return null;
   }
@@ -279,6 +284,7 @@ function ChartTooltipContent({
   );
   /* istanbul ignore end @preserve */
 }
+
 /* eslint-enable @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-unsafe-argument, @typescript-eslint/strict-boolean-expressions -- re-enable after Recharts untyped tooltip rendering */
 
 /** Recharts legend component for labeling chart data series. */
@@ -342,6 +348,7 @@ function ChartLegendContent({
     </div>
   );
 }
+
 /* eslint-enable @typescript-eslint/restrict-template-expressions, @typescript-eslint/strict-boolean-expressions -- re-enable after Recharts untyped legend rendering */
 /* istanbul ignore end @preserve */
 
@@ -379,6 +386,7 @@ function getPayloadConfigFromPayload(
 
   return configLabelKey in config ? config[configLabelKey] : config[key];
 }
+
 /* istanbul ignore end @preserve */
 
 export {
