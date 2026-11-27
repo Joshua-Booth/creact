@@ -14,6 +14,7 @@ function ToastProvider({ children }: ToastProviderProps) {
     </>
   );
 }
+
 /* istanbul ignore end @preserve */
 
 export { ToastProvider };

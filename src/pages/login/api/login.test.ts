@@ -11,27 +11,33 @@ import { loginApi, parseLoginError } from "./login";
 const { jsonMock, postMock } = vi.hoisted(() => {
   const jsonMock = vi.fn();
   const postMock = vi.fn(() => ({ json: jsonMock }));
+
   return { jsonMock, postMock };
 });
 
 vi.mock("@/shared/api", async (importOriginal) => {
   const actual = await importOriginal<typeof SharedApi>();
+
   return { ...actual, api: { post: postMock } };
 });
 
 function createHTTPError(body: unknown) {
   const response = {} as Response;
+
   const error = new HTTPError(
     response,
     new Request("https://api.test/login"),
     {} as NormalizedOptions
   );
+
   error.data = body;
+
   return error;
 }
 
 function createHTTPErrorWithJsonFailure() {
   const response = { status: 502 } as Response;
+
   return new HTTPError(
     response,
     new Request("https://api.test/login"),
@@ -53,16 +59,19 @@ describe("parseLoginError", () => {
     const error = createHTTPError({
       non_field_errors: ["Invalid credentials", "Second error"],
     });
+
     expect(parseLoginError(error)).toBe("Invalid credentials");
   });
 
   it("should return detail string", () => {
     const error = createHTTPError({ detail: "Account locked" });
+
     expect(parseLoginError(error)).toBe("Account locked");
   });
 
   it("should return server error message when JSON parsing fails", () => {
     const error = createHTTPErrorWithJsonFailure();
+
     expect(parseLoginError(error)).toBe(
       "Server error (502). Please try again later."
     );
@@ -70,6 +79,7 @@ describe("parseLoginError", () => {
 
   it('should return "Invalid credentials" for empty body', () => {
     const error = createHTTPError({});
+
     expect(parseLoginError(error)).toBe("Invalid credentials");
   });
 
@@ -78,6 +88,7 @@ describe("parseLoginError", () => {
       "The operation was aborted",
       "AbortError"
     );
+
     expect(parseLoginError(abortError)).toBe(
       "Request timed out. Please try again."
     );
@@ -105,6 +116,7 @@ describe("loginApi", () => {
     expect(postMock).toHaveBeenCalledWith("auth/login/", {
       json: { email: "a@b.com", password: "pass" },
     });
+
     expect(result).toEqual({ key: "abc123" });
   });
 });

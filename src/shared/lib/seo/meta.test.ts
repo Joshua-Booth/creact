@@ -9,16 +9,19 @@ vi.mock("@/shared/config/env", () => ({
 describe("getLocaleFromMatches", () => {
   it("should return locale from root match with valid locale", () => {
     const matches = [{ id: "root", loaderData: { locale: "en" } }];
+
     expect(getLocaleFromMatches(matches)).toBe("en");
   });
 
   it("should fall back to default language for invalid locale", () => {
     const matches = [{ id: "root", loaderData: { locale: "zz" } }];
+
     expect(getLocaleFromMatches(matches)).toBe("en");
   });
 
   it("should fall back to default language when no root match exists", () => {
     const matches = [{ id: "other", loaderData: { locale: "en" } }];
+
     expect(getLocaleFromMatches(matches)).toBe("en");
   });
 
@@ -28,11 +31,13 @@ describe("getLocaleFromMatches", () => {
 
   it("should fall back when loaderData is null", () => {
     const matches = [{ id: "root", loaderData: null }];
+
     expect(getLocaleFromMatches(matches)).toBe("en");
   });
 
   it("should fall back when loaderData has no locale property", () => {
     const matches = [{ id: "root", loaderData: { other: "value" } }];
+
     expect(getLocaleFromMatches(matches)).toBe("en");
   });
 });
@@ -40,6 +45,7 @@ describe("getLocaleFromMatches", () => {
 describe("getSeoTranslation", () => {
   it("should return correct title and description for home page", () => {
     const result = getSeoTranslation("en", "home");
+
     expect(result).toEqual({
       title: "Home",
       description: "Welcome to creact - A modern React frontend template.",
@@ -48,6 +54,7 @@ describe("getSeoTranslation", () => {
 
   it("should return correct title and description for login page", () => {
     const result = getSeoTranslation("en", "login");
+
     expect(result).toEqual({
       title: "Login",
       description: "Sign in to your account.",
@@ -63,18 +70,22 @@ describe("generateMeta", () => {
     });
 
     expect(meta).toContainEqual({ title: "Test Page | creact" });
+
     expect(meta).toContainEqual({
       name: "description",
       content: "Test description",
     });
+
     expect(meta).toContainEqual({
       property: "og:title",
       content: "Test Page | creact",
     });
+
     expect(meta).toContainEqual({
       property: "og:type",
       content: "website",
     });
+
     expect(meta).toContainEqual({
       property: "og:image",
       content: "https://example.com/og-image.png",

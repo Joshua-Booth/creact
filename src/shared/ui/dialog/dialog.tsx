@@ -113,6 +113,7 @@ function DialogFooter({
   showCloseButton?: boolean;
 }) {
   const { t } = useTranslation("components");
+
   return (
     <div
       data-slot="dialog-footer"

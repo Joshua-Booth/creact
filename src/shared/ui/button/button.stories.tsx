@@ -234,11 +234,13 @@ Default.test(
 
     await step("click the button", async () => {
       await userEvent.click(button);
+
       await expect(args.onClick).toHaveBeenCalledTimes(1);
     });
 
     await step("click the button again", async () => {
       await userEvent.click(button);
+
       await expect(args.onClick).toHaveBeenCalledTimes(2);
     });
   }
@@ -248,8 +250,11 @@ SpinnerStory.test(
   "when button is disabled, should not trigger onClick",
   async ({ args, canvas }) => {
     const button = await canvas.findByRole("button");
+
     await expect(button).toBeDisabled();
+
     await userEvent.click(button, { pointerEventsCheck: 0 });
+
     await expect(args.onClick).not.toHaveBeenCalled();
   }
 );

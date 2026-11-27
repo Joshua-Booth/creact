@@ -49,6 +49,7 @@ export function getSortingStateParser<TData>(
       /* eslint-disable @typescript-eslint/no-unnecessary-condition -- defensive index access */
       a.every((item, index) => {
         const other = b[index];
+
         return item.id === other?.id && item.desc === other?.desc;
       }),
     /* eslint-enable @typescript-eslint/no-unnecessary-condition -- re-enable after defensive block */
@@ -101,6 +102,7 @@ export function getFiltersStateParser<TData>(
       /* eslint-disable @typescript-eslint/no-unnecessary-condition -- defensive index access */
       a.every((filter, index) => {
         const other = b[index];
+
         return (
           filter.id === other?.id &&
           filter.value === other?.value &&

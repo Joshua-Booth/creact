@@ -32,6 +32,7 @@ export function useAuthenticatedApi<T>(
   options?: SWRConfiguration<T, ApiError>
 ) {
   const token = getToken();
+
   return useSWR<T, ApiError>(token === null ? null : endpoint, options);
 }
 

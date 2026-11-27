@@ -23,12 +23,15 @@ export function getCommonPinningStyles<TData extends RowData>({
   withBorder?: boolean;
 }) {
   const isPinned = column.getIsPinned();
+
   const isLastStartPinnedColumn =
     isPinned === "start" && column.getIsLastColumn("start");
+
   const isFirstEndPinnedColumn =
     isPinned === "end" && column.getIsFirstColumn("end");
 
   let boxShadow: string | undefined;
+
   if (withBorder) {
     if (isLastStartPinnedColumn) {
       boxShadow = "-4px 0 4px -4px var(--border) inset";
@@ -82,6 +85,7 @@ export function getFilterOperators(filterVariant: FilterVariant) {
  */
 export function getDefaultFilterOperator(filterVariant: FilterVariant) {
   const operators = getFilterOperators(filterVariant);
+
   /* istanbul ignore next @preserve */
   // eslint-disable-next-line @typescript-eslint/no-non-null-assertion -- operators arrays are always non-empty
   return operators[0]!.value;

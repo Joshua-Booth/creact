@@ -42,6 +42,7 @@ export function flexRender<TProps extends object>(
   if (typeof Comp === "string") {
     return Comp;
   }
+
   return Comp?.(props);
 }
 
@@ -98,12 +99,15 @@ export function parseCellKey(cellKey: string) {
   const parts = cellKey.split(":");
   const rowIndexStr = parts[0];
   const columnId = parts[1];
+
   if (rowIndexStr && columnId) {
     const rowIndex = Number.parseInt(rowIndexStr, 10);
+
     if (!Number.isNaN(rowIndex)) {
       return { rowIndex, columnId };
     }
   }
+
   return { rowIndex: 0, columnId: "" };
 }
 
@@ -155,12 +159,15 @@ export function getColumnBorderVisibility<TData extends RowData>(params: {
   const { column, nextColumn, isLastColumn } = params;
 
   const isPinned = column.getIsPinned();
+
   const isFirstRightPinnedColumn =
     isPinned === "end" && column.getIsFirstColumn("end");
+
   const isLastRightPinnedColumn =
     isPinned === "end" && column.getIsLastColumn("end");
 
   const nextIsPinned = nextColumn?.getIsPinned();
+
   const isBeforeRightPinned =
     nextIsPinned === "end" && nextColumn?.getIsFirstColumn("end");
 
@@ -191,8 +198,10 @@ export function getColumnPinningStyle<TData extends RowData>(params: {
   const { column, dir = "ltr", withBorder = false } = params;
 
   const isPinned = column.getIsPinned();
+
   const isLastLeftPinnedColumn =
     isPinned === "start" && column.getIsLastColumn("start");
+
   const isFirstRightPinnedColumn =
     isPinned === "end" && column.getIsFirstColumn("end");
 
@@ -200,10 +209,12 @@ export function getColumnPinningStyle<TData extends RowData>(params: {
 
   const leftPosition =
     isPinned === "start" ? `${column.getStart("start")}px` : undefined;
+
   const rightPosition =
     isPinned === "end" ? `${column.getAfter("end")}px` : undefined;
 
   let boxShadow: string | undefined;
+
   if (withBorder) {
     if (isLastLeftPinnedColumn) {
       boxShadow = isRtl
@@ -242,7 +253,9 @@ export function getScrollDirection(direction: string) {
   ) {
     return direction;
   }
+
   if (direction === "pageleft") return "left";
+
   if (direction === "pageright") return "right";
 }
 
@@ -281,6 +294,7 @@ export function scrollCellIntoView<TData extends RowData>(params: {
     (sum, c) => sum + c.getSize(),
     0
   );
+
   const rightPinnedWidth = rightPinnedColumns.reduce(
     (sum, c) => sum + c.getSize(),
     0
@@ -289,6 +303,7 @@ export function scrollCellIntoView<TData extends RowData>(params: {
   const viewportLeft = isActuallyRtl
     ? containerRect.left + rightPinnedWidth + viewportOffset
     : containerRect.left + leftPinnedWidth + viewportOffset;
+
   const viewportRight = isActuallyRtl
     ? containerRect.right - leftPinnedWidth - viewportOffset
     : containerRect.right - rightPinnedWidth - viewportOffset;
@@ -391,9 +406,13 @@ export function getUrlHref(urlString: string) {
  */
 export function parseLocalDate(dateStr: unknown) {
   if (dateStr == null) return null;
+
   if (dateStr instanceof Date) return dateStr;
+
   if (typeof dateStr !== "string") return null;
+
   const [year, month, day] = dateStr.split("-").map(Number);
+
   if (
     /* istanbul ignore next -- unreachable: split always returns first element */
     year == null ||
@@ -404,7 +423,9 @@ export function parseLocalDate(dateStr: unknown) {
     day === 0
   )
     return null;
+
   const date = new Date(year, month - 1, day);
+
   if (
     date.getFullYear() !== year ||
     date.getMonth() !== month - 1 ||
@@ -412,6 +433,7 @@ export function parseLocalDate(dateStr: unknown) {
   ) {
     return null;
   }
+
   return date;
 }
 
@@ -424,6 +446,7 @@ export function formatDateToString(date: Date) {
   const year = date.getFullYear();
   const month = String(date.getMonth() + 1).padStart(2, "0");
   const day = String(date.getDate()).padStart(2, "0");
+
   return `${year}-${month}-${day}`;
 }
 
@@ -434,8 +457,11 @@ export function formatDateToString(date: Date) {
  */
 export function formatDateForDisplay(dateStr: unknown) {
   if (dateStr == null) return "";
+
   const date = parseLocalDate(dateStr);
+
   if (date == null) return typeof dateStr === "string" ? dateStr : "";
+
   return date.toLocaleDateString();
 }
 
@@ -446,12 +472,15 @@ export function formatDateForDisplay(dateStr: unknown) {
  */
 export function formatFileSize(bytes: number) {
   if (bytes <= 0 || !Number.isFinite(bytes)) return "0 B";
+
   const k = 1024;
   const sizes = ["B", "KB", "MB", "GB"];
+
   const i = Math.min(
     sizes.length - 1,
     Math.floor(Math.log(bytes) / Math.log(k))
   );
+
   return `${Number.parseFloat((bytes / k ** i).toFixed(1))} ${sizes[i]}`;
 }
 
@@ -462,23 +491,31 @@ export function formatFileSize(bytes: number) {
  */
 export function getFileIcon(type: string) {
   if (type.startsWith("image/")) return FileImage;
+
   if (type.startsWith("video/")) return FileVideo;
+
   if (type.startsWith("audio/")) return FileAudio;
+
   if (type.includes("pdf")) return FileText;
+
   if (type.includes("zip") || type.includes("rar")) return FileArchive;
+
   if (
     type.includes("word") ||
     type.includes("document") ||
     type.includes("doc")
   )
     return FileText;
+
   if (type.includes("sheet") || type.includes("excel") || type.includes("xls"))
     return FileSpreadsheet;
+
   if (
     type.includes("presentation") ||
     type.includes("powerpoint") ||
     type.includes("ppt")
   )
     return Presentation;
+
   return File;
 }

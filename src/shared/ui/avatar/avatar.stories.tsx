@@ -224,16 +224,19 @@ Dropdown.test(
   "when clicking the avatar, should open the dropdown menu",
   async ({ canvasElement }) => {
     const canvasBody = within(canvasElement.ownerDocument.body);
+
     const trigger = await canvasBody.findByRole("button");
 
     await userEvent.click(trigger);
 
     const menu = await canvasBody.findByRole("menu");
+
     await expect(menu).toBeInTheDocument();
 
     const profileItem = await canvasBody.findByRole("menuitem", {
       name: /profile/i,
     });
+
     await expect(profileItem).toBeInTheDocument();
   }
 );

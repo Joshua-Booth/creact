@@ -9,6 +9,7 @@ import { getAuthToken } from "@/entities/user";
  */
 export function clientLoader() {
   if (getAuthToken() === null) return redirect(href("/login"));
+
   return null;
 }
 

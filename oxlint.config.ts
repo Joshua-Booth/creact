@@ -523,6 +523,7 @@ export default defineConfig({
     // proving anything. The allow counts cover existing violations and fail
     // when a file's count changes, so they only go down.
     ...(landminesRecommended.rules as Rules),
+    "landmines/padding-between-statements": "error",
     "landmines/strict-msw": [
       "error",
       { allow: { ".storybook/preview.tsx": 1 } },

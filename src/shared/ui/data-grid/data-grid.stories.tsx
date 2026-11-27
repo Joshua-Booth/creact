@@ -80,7 +80,9 @@ function getFirstCellWrapper(canvasElement: HTMLElement) {
   const wrapper = canvasElement.querySelector<HTMLElement>(
     '[data-slot="grid-cell-wrapper"]'
   );
+
   if (!wrapper) throw new Error("Expected at least one grid cell wrapper");
+
   return wrapper;
 }
 
@@ -91,6 +93,7 @@ Default.test(
   async ({ canvas, step }) => {
     await step("verify grid and rows render", async () => {
       const rows = canvas.getAllByRole("row");
+
       // 8 data rows + 1 header row + 1 add-row footer
       await expect(rows).toHaveLength(10);
     });
@@ -102,7 +105,9 @@ Default.test(
   async ({ canvasElement, step }) => {
     await step("click a cell and verify focus", async () => {
       const firstWrapper = getFirstCellWrapper(canvasElement);
+
       await userEvent.click(firstWrapper);
+
       await waitFor(async () => {
         await expect(firstWrapper).toHaveAttribute("data-focused", "");
       });
@@ -115,8 +120,10 @@ Default.test(
   async ({ canvasElement, step }) => {
     await step("double-click a text cell and verify editing", async () => {
       const firstWrapper = getFirstCellWrapper(canvasElement);
+
       // Double-click from unfocused triggers focus then editing
       await userEvent.dblClick(firstWrapper);
+
       await waitFor(async () => {
         await expect(firstWrapper).toHaveAttribute("data-editing", "");
       });
@@ -129,12 +136,15 @@ Default.test(
   async ({ canvasElement, step }) => {
     await step("focus cell and press ArrowRight", async () => {
       const firstWrapper = getFirstCellWrapper(canvasElement);
+
       await userEvent.click(firstWrapper);
+
       await waitFor(async () => {
         await expect(firstWrapper).toHaveAttribute("data-focused", "");
       });
 
       await userEvent.keyboard("{ArrowRight}");
+
       await waitFor(async () => {
         await expect(firstWrapper).not.toHaveAttribute("data-focused", "");
       });
@@ -146,9 +156,13 @@ Default.test("should toggle checkbox cell", async ({ canvas, step }) => {
   await step("click checkbox cell and verify toggle", async () => {
     const checkboxes = canvas.getAllByRole("checkbox", { name: /done/i });
     const firstCheckbox = checkboxes[0];
+
     if (!firstCheckbox) throw new Error("Expected at least one Done checkbox");
+
     const wasChecked = firstCheckbox.ariaChecked === "true";
+
     await userEvent.click(firstCheckbox);
+
     await waitFor(async () => {
       await (wasChecked
         ? expect(firstCheckbox).not.toBeChecked()
@@ -162,12 +176,16 @@ Default.test(
   async ({ canvas, canvasElement, step }) => {
     await step("open search overlay", async () => {
       const grid = canvas.getByRole("grid");
+
       await userEvent.click(grid);
+
       await userEvent.keyboard("{Meta>}f{/Meta}");
+
       await waitFor(async () => {
         const searchInput = canvasElement.querySelector<HTMLInputElement>(
           '[data-slot="grid-search"] input'
         );
+
         await expect(searchInput).not.toBeNull();
       });
     });
@@ -176,8 +194,11 @@ Default.test(
       const searchInput = canvasElement.querySelector<HTMLInputElement>(
         '[data-slot="grid-search"] input'
       );
+
       if (!searchInput) throw new Error("Search input not found");
+
       await userEvent.type(searchInput, "Alice");
+
       await waitFor(async () => {
         await expect(searchInput).toHaveValue("Alice");
       });
@@ -190,19 +211,27 @@ Default.test(
   async ({ canvasElement, step }) => {
     await step("navigate with Tab and arrow keys", async () => {
       const firstWrapper = getFirstCellWrapper(canvasElement);
+
       await userEvent.click(firstWrapper);
+
       await waitFor(async () => {
         await expect(firstWrapper).toHaveAttribute("data-focused", "");
       });
 
       await userEvent.keyboard("{Tab}");
+
       await userEvent.keyboard("{ArrowDown}");
+
       await userEvent.keyboard("{Home}");
+
       await userEvent.keyboard("{Meta>}{ArrowRight}{/Meta}");
+
       await userEvent.keyboard("{Meta>}{ArrowDown}{/Meta}");
+
       const focused = canvasElement.querySelector(
         '[data-slot="grid-cell-wrapper"][data-focused]'
       );
+
       await expect(focused).not.toBeNull();
     });
   }
@@ -213,27 +242,33 @@ Default.test(
   async ({ canvasElement, step }) => {
     await step("Enter to edit, Escape to cancel, F2, type char", async () => {
       const firstWrapper = getFirstCellWrapper(canvasElement);
+
       await userEvent.click(firstWrapper);
+
       await waitFor(async () => {
         await expect(firstWrapper).toHaveAttribute("data-focused", "");
       });
 
       await userEvent.keyboard("{Enter}");
+
       await waitFor(async () => {
         await expect(firstWrapper).toHaveAttribute("data-editing", "");
       });
 
       await userEvent.keyboard("{Escape}");
+
       await waitFor(async () => {
         await expect(firstWrapper).not.toHaveAttribute("data-editing");
       });
 
       await userEvent.keyboard("{F2}");
+
       await waitFor(async () => {
         await expect(firstWrapper).toHaveAttribute("data-editing", "");
       });
 
       await userEvent.keyboard("{Escape}");
+
       await waitFor(async () => {
         await expect(firstWrapper).not.toHaveAttribute("data-editing");
       });
@@ -246,16 +281,20 @@ Default.test(
   async ({ canvasElement, step }) => {
     await step("Ctrl+A to select all, then Ctrl+C to copy", async () => {
       const firstWrapper = getFirstCellWrapper(canvasElement);
+
       await userEvent.click(firstWrapper);
+
       await waitFor(async () => {
         await expect(firstWrapper).toHaveAttribute("data-focused", "");
       });
 
       await userEvent.keyboard("{Meta>}a{/Meta}");
+
       await waitFor(async () => {
         const selectedCells = canvasElement.querySelectorAll(
           '[data-slot="grid-cell-wrapper"][data-selected]'
         );
+
         await expect(selectedCells.length).toBeGreaterThan(1);
       });
 
@@ -270,7 +309,9 @@ Default.test(
   async ({ canvasElement, step }) => {
     await step("focus cell and press Delete to clear it", async () => {
       const firstWrapper = getFirstCellWrapper(canvasElement);
+
       await userEvent.click(firstWrapper);
+
       await waitFor(async () => {
         await expect(firstWrapper).toHaveAttribute("data-focused", "");
       });
@@ -278,8 +319,10 @@ Default.test(
       const originalText = firstWrapper.textContent;
 
       await userEvent.keyboard("{Delete}");
+
       await waitFor(async () => {
         const currentText = firstWrapper.textContent;
+
         await expect(currentText).not.toBe(originalText);
       });
     });
@@ -293,6 +336,7 @@ Default.test(
       const addRowButton = canvasElement.querySelector<HTMLElement>(
         '[data-slot="grid-add-row"]'
       );
+
       await expect(addRowButton).not.toBeNull();
     });
   }
@@ -303,24 +347,31 @@ Default.test(
   async ({ canvas, canvasElement, step }) => {
     await step("open search then click close button", async () => {
       const grid = canvas.getByRole("grid");
+
       await userEvent.click(grid);
+
       await userEvent.keyboard("{Meta>}f{/Meta}");
+
       await waitFor(async () => {
         const searchInput = canvasElement.querySelector<HTMLInputElement>(
           '[data-slot="grid-search"] input'
         );
+
         await expect(searchInput).not.toBeNull();
       });
 
       const closeButton = canvasElement.querySelector<HTMLButtonElement>(
         '[data-slot="grid-search"] button[aria-label="Close search"]'
       );
+
       if (closeButton) {
         await userEvent.click(closeButton);
+
         await waitFor(async () => {
           const searchInput = canvasElement.querySelector<HTMLInputElement>(
             '[data-slot="grid-search"] input'
           );
+
           await expect(searchInput).toBeNull();
         });
       }
@@ -335,27 +386,34 @@ Default.test(
       "open search, type query, then press Enter to cycle matches",
       async () => {
         const grid = canvas.getByRole("grid");
+
         await userEvent.click(grid);
+
         await userEvent.keyboard("{Meta>}f{/Meta}");
 
         const searchInput = await waitFor(() => {
           const input = canvasElement.querySelector<HTMLInputElement>(
             '[data-slot="grid-search"] input'
           );
+
           if (!input) throw new Error("Search input not found");
+
           return input;
         });
 
         await userEvent.type(searchInput, "Alice");
+
         await waitFor(async () => {
           await expect(searchInput).toHaveValue("Alice");
         });
 
         await userEvent.keyboard("{Enter}");
+
         await waitFor(async () => {
           const overlay = canvasElement.querySelector(
             '[data-slot="grid-search"]'
           );
+
           await expect(overlay).not.toBeNull();
         });
       }
@@ -368,15 +426,19 @@ Default.test(
   async ({ canvasElement, step }) => {
     await step("focus cell and press Ctrl+V", async () => {
       const firstWrapper = getFirstCellWrapper(canvasElement);
+
       await userEvent.click(firstWrapper);
+
       await waitFor(async () => {
         await expect(firstWrapper).toHaveAttribute("data-focused", "");
       });
 
       // Ctrl+V won't actually paste (clipboard not available) but exercises the handler
       await userEvent.keyboard("{Meta>}v{/Meta}");
+
       await waitFor(async () => {
         const grid = canvasElement.querySelector('[role="grid"]');
+
         await expect(grid).not.toBeNull();
       });
     });
@@ -388,12 +450,15 @@ Default.test(
   async ({ canvasElement, step }) => {
     await step("focus cell and press Ctrl+X", async () => {
       const firstWrapper = getFirstCellWrapper(canvasElement);
+
       await userEvent.click(firstWrapper);
+
       await waitFor(async () => {
         await expect(firstWrapper).toHaveAttribute("data-focused", "");
       });
 
       await userEvent.keyboard("{Meta>}x{/Meta}");
+
       await waitFor(async () => {
         await expect(firstWrapper).toHaveAttribute("data-focused", "");
       });
@@ -406,7 +471,9 @@ Default.test(
   async ({ canvasElement, step }) => {
     await step("right-click a cell to open context menu", async () => {
       const firstWrapper = getFirstCellWrapper(canvasElement);
+
       await userEvent.click(firstWrapper);
+
       await waitFor(async () => {
         await expect(firstWrapper).toHaveAttribute("data-focused", "");
       });
@@ -420,6 +487,7 @@ Default.test(
         const menu = canvasElement.ownerDocument.querySelector(
           '[data-grid-popover] [role="menuitem"]'
         );
+
         await expect(menu).not.toBeNull();
       });
     });
@@ -428,6 +496,7 @@ Default.test(
       const copyItem = canvasElement.ownerDocument.querySelector(
         '[data-grid-popover] [role="menuitem"]'
       );
+
       if (copyItem) {
         await userEvent.click(copyItem);
       }
@@ -440,16 +509,20 @@ Default.test(
   async ({ canvasElement, step }) => {
     await step("right-click cell, select cells, clear", async () => {
       const firstWrapper = getFirstCellWrapper(canvasElement);
+
       await userEvent.click(firstWrapper);
+
       await waitFor(async () => {
         await expect(firstWrapper).toHaveAttribute("data-focused", "");
       });
 
       await userEvent.keyboard("{Shift>}{ArrowRight}{/Shift}");
+
       await waitFor(async () => {
         const selected = canvasElement.querySelectorAll(
           '[data-slot="grid-cell-wrapper"][data-selected]'
         );
+
         await expect(selected.length).toBeGreaterThanOrEqual(1);
       });
 
@@ -462,6 +535,7 @@ Default.test(
         const items = canvasElement.ownerDocument.querySelectorAll(
           '[data-grid-popover] [role="menuitem"]'
         );
+
         await expect(items.length).toBeGreaterThanOrEqual(3);
       });
 
@@ -469,6 +543,7 @@ Default.test(
       const items = canvasElement.ownerDocument.querySelectorAll(
         '[data-grid-popover] [role="menuitem"]'
       );
+
       if (items[2]) {
         await userEvent.click(items[2]);
       }
@@ -485,6 +560,7 @@ Default.test(
   async ({ canvas, canvasElement, step }) => {
     await step("press Ctrl+/ to open shortcuts dialog", async () => {
       const grid = canvas.getByRole("grid");
+
       await userEvent.click(grid);
 
       // Dispatch keyboard event directly on window since the listener is on window
@@ -499,6 +575,7 @@ Default.test(
       await waitFor(async () => {
         const dialog =
           canvasElement.ownerDocument.querySelector('[role="dialog"]');
+
         await expect(dialog).not.toBeNull();
       });
     });
@@ -506,25 +583,31 @@ Default.test(
     await step("verify shortcut groups render", async () => {
       const dialog =
         canvasElement.ownerDocument.querySelector('[role="dialog"]');
+
       if (!dialog) throw new Error("Dialog not found");
+
       const dialogEl = dialog as HTMLElement;
 
       const headings = dialogEl.querySelectorAll("h3");
+
       await expect(headings.length).toBeGreaterThanOrEqual(4);
     });
 
     await step("search for a shortcut", async () => {
       const dialog =
         canvasElement.ownerDocument.querySelector('[role="dialog"]');
+
       if (!dialog) throw new Error("Dialog not found");
 
       const searchInput = dialog.querySelector("input");
+
       if (!searchInput) throw new Error("Search input not found");
 
       await userEvent.type(searchInput, "navigate");
 
       await waitFor(async () => {
         const headings = dialog.querySelectorAll("h3");
+
         await expect(headings.length).toBeGreaterThanOrEqual(1);
       });
     });
@@ -532,16 +615,20 @@ Default.test(
     await step("search for non-existent term shows empty state", async () => {
       const dialog =
         canvasElement.ownerDocument.querySelector('[role="dialog"]');
+
       if (!dialog) throw new Error("Dialog not found");
 
       const searchInput = dialog.querySelector("input");
+
       if (!searchInput) throw new Error("Search input not found");
 
       await userEvent.clear(searchInput);
+
       await userEvent.type(searchInput, "zzzznonexistent");
 
       await waitFor(async () => {
         const emptyState = dialog.querySelector(".text-lg");
+
         await expect(emptyState?.textContent).toBe("No shortcuts found");
       });
     });
@@ -553,7 +640,9 @@ Default.test(
   async ({ canvasElement, step }) => {
     await step("open search and type a query", async () => {
       const grid = canvasElement.querySelector('[role="grid"]');
+
       if (!grid) throw new Error("Expected grid");
+
       await userEvent.click(grid);
 
       await userEvent.keyboard("{Meta>}f{/Meta}");
@@ -562,6 +651,7 @@ Default.test(
         const searchBar = canvasElement.querySelector(
           '[data-slot="grid-search"]'
         );
+
         await expect(searchBar).not.toBeNull();
       });
     });
@@ -570,6 +660,7 @@ Default.test(
       const searchInput = canvasElement.querySelector(
         '[data-slot="grid-search"] input'
       );
+
       if (!searchInput) throw new Error("Search input not found");
 
       await userEvent.type(searchInput, "Alice");
@@ -579,6 +670,7 @@ Default.test(
           const matchInfo = canvasElement.querySelector(
             '[data-slot="grid-search"]'
           );
+
           // Should show match count or "No results"
           await expect(matchInfo?.textContent).toBeTruthy();
         },
@@ -590,7 +682,9 @@ Default.test(
       const searchInput = canvasElement.querySelector(
         '[data-slot="grid-search"] input'
       );
+
       if (!searchInput) throw new Error("Search input not found");
+
       await userEvent.keyboard("{Enter}");
     });
 
@@ -602,13 +696,17 @@ Default.test(
       const searchBar = canvasElement.querySelector(
         '[data-slot="grid-search"]'
       );
+
       if (!searchBar) return;
 
       const buttons = searchBar.querySelectorAll("button");
+
       for (const btn of buttons) {
         const label = btn.getAttribute("aria-label");
+
         if (label?.includes("Next") || label?.includes("Previous")) {
           const style = window.getComputedStyle(btn);
+
           if (style.pointerEvents !== "none" && !btn.disabled) {
             await userEvent.click(btn);
           }
@@ -620,6 +718,7 @@ Default.test(
       const closeBtn = canvasElement.querySelector(
         '[data-slot="grid-search"] button[aria-label="Close search"]'
       );
+
       if (closeBtn) {
         await userEvent.click(closeBtn);
       }
@@ -632,7 +731,9 @@ Default.test(
   async ({ canvasElement, step }) => {
     await step("select range with Shift+Arrow keys", async () => {
       const firstWrapper = getFirstCellWrapper(canvasElement);
+
       await userEvent.click(firstWrapper);
+
       await waitFor(async () => {
         await expect(firstWrapper).toHaveAttribute("data-focused", "");
       });
@@ -645,6 +746,7 @@ Default.test(
         const focused = canvasElement.querySelector(
           '[data-slot="grid-cell-wrapper"][data-focused]'
         );
+
         await expect(focused).not.toBeNull();
       });
     });
@@ -656,19 +758,25 @@ Default.test(
   async ({ canvasElement, step }) => {
     await step("jump to edges with Ctrl+Arrow", async () => {
       const firstWrapper = getFirstCellWrapper(canvasElement);
+
       await userEvent.click(firstWrapper);
+
       await waitFor(async () => {
         await expect(firstWrapper).toHaveAttribute("data-focused", "");
       });
 
       await userEvent.keyboard("{Meta>}{ArrowLeft}{/Meta}");
+
       await userEvent.keyboard("{Meta>}{ArrowUp}{/Meta}");
+
       await userEvent.keyboard("{Meta>}{Home}{/Meta}");
+
       await userEvent.keyboard("{Meta>}{End}{/Meta}");
 
       const focused = canvasElement.querySelector(
         '[data-slot="grid-cell-wrapper"][data-focused]'
       );
+
       await expect(focused).not.toBeNull();
     });
   }
@@ -679,16 +787,20 @@ Default.test(
   async ({ canvasElement, step }) => {
     await step("extend selection to edges", async () => {
       const firstWrapper = getFirstCellWrapper(canvasElement);
+
       await userEvent.click(firstWrapper);
+
       await waitFor(async () => {
         await expect(firstWrapper).toHaveAttribute("data-focused", "");
       });
 
       await userEvent.keyboard("{Meta>}{Shift>}{ArrowRight}{/Shift}{/Meta}");
+
       await waitFor(async () => {
         const selected = canvasElement.querySelectorAll(
           '[data-slot="grid-cell-wrapper"][data-selected]'
         );
+
         await expect(selected.length).toBeGreaterThanOrEqual(1);
       });
     });
@@ -700,20 +812,27 @@ Default.test(
   async ({ canvasElement, step }) => {
     await step("use PageDown and Home/End keys", async () => {
       const firstWrapper = getFirstCellWrapper(canvasElement);
+
       await userEvent.click(firstWrapper);
+
       await waitFor(async () => {
         await expect(firstWrapper).toHaveAttribute("data-focused", "");
       });
 
       await userEvent.keyboard("{Home}");
+
       await userEvent.keyboard("{End}");
+
       await userEvent.keyboard("{ArrowDown}");
+
       await userEvent.keyboard("{PageUp}");
+
       await userEvent.keyboard("{PageDown}");
 
       const focused = canvasElement.querySelector(
         '[data-slot="grid-cell-wrapper"][data-focused]'
       );
+
       await expect(focused).not.toBeNull();
     });
   }
@@ -724,14 +843,18 @@ Default.test(
   async ({ canvasElement, step }) => {
     await step("select cells then press Escape twice", async () => {
       const firstWrapper = getFirstCellWrapper(canvasElement);
+
       await userEvent.click(firstWrapper);
+
       await waitFor(async () => {
         await expect(firstWrapper).toHaveAttribute("data-focused", "");
       });
 
       await userEvent.keyboard("{Shift>}{ArrowRight}{/Shift}");
+
       // First Escape clears selection
       await userEvent.keyboard("{Escape}");
+
       // Second Escape blurs
       await userEvent.keyboard("{Escape}");
     });
@@ -743,16 +866,20 @@ Default.test(
   async ({ canvas, canvasElement, step }) => {
     await step("press Shift+Enter to add row", async () => {
       const firstWrapper = getFirstCellWrapper(canvasElement);
+
       await userEvent.click(firstWrapper);
+
       await waitFor(async () => {
         await expect(firstWrapper).toHaveAttribute("data-focused", "");
       });
 
       const initialRows = canvas.getAllByRole("row");
+
       await userEvent.keyboard("{Shift>}{Enter}{/Shift}");
 
       await waitFor(async () => {
         const newRows = canvas.getAllByRole("row");
+
         await expect(newRows.length).toBeGreaterThanOrEqual(initialRows.length);
       });
     });
@@ -764,17 +891,21 @@ Default.test(
   async ({ canvasElement, step }) => {
     await step("tab forward then Shift+Tab backward", async () => {
       const firstWrapper = getFirstCellWrapper(canvasElement);
+
       await userEvent.click(firstWrapper);
+
       await waitFor(async () => {
         await expect(firstWrapper).toHaveAttribute("data-focused", "");
       });
 
       await userEvent.keyboard("{Tab}");
+
       await waitFor(async () => {
         await expect(firstWrapper).not.toHaveAttribute("data-focused", "");
       });
 
       await userEvent.keyboard("{Shift>}{Tab}{/Shift}");
+
       await waitFor(async () => {
         await expect(firstWrapper).toHaveAttribute("data-focused", "");
       });
@@ -787,13 +918,17 @@ Default.test(
   async ({ canvasElement, step }) => {
     await step("focus cell and press Ctrl+Delete", async () => {
       const firstWrapper = getFirstCellWrapper(canvasElement);
+
       await userEvent.click(firstWrapper);
+
       await waitFor(async () => {
         await expect(firstWrapper).toHaveAttribute("data-focused", "");
       });
 
       await userEvent.keyboard("{Meta>}{Delete}{/Meta}");
+
       const grid = canvasElement.querySelector('[role="grid"]');
+
       await expect(grid).not.toBeNull();
     });
   }
@@ -806,13 +941,16 @@ Default.test(
       const addRow = canvasElement.querySelector<HTMLElement>(
         '[data-slot="grid-add-row"] [role="gridcell"]'
       );
+
       if (!addRow) throw new Error("Expected Add row footer");
 
       const initialRows = canvas.getAllByRole("row");
+
       await userEvent.click(addRow);
 
       await waitFor(async () => {
         const newRows = canvas.getAllByRole("row");
+
         await expect(newRows.length).toBeGreaterThan(initialRows.length);
       });
     });
@@ -826,15 +964,18 @@ Default.test(
       const addRowCell = canvasElement.querySelector<HTMLElement>(
         '[data-slot="grid-add-row"] [role="gridcell"]'
       );
+
       if (!addRowCell) throw new Error("Expected Add row footer");
 
       addRowCell.focus();
+
       const initialRows = canvas.getAllByRole("row");
 
       await userEvent.keyboard("{Enter}");
 
       await waitFor(async () => {
         const newRows = canvas.getAllByRole("row");
+
         await expect(newRows.length).toBeGreaterThan(initialRows.length);
       });
     });
@@ -846,7 +987,9 @@ Default.test(
   async ({ canvasElement, step }) => {
     await step("right-click and click Cut", async () => {
       const firstWrapper = getFirstCellWrapper(canvasElement);
+
       await userEvent.click(firstWrapper);
+
       await waitFor(async () => {
         await expect(firstWrapper).toHaveAttribute("data-focused", "");
       });
@@ -860,6 +1003,7 @@ Default.test(
         const items = canvasElement.ownerDocument.querySelectorAll(
           '[data-grid-popover] [role="menuitem"]'
         );
+
         await expect(items.length).toBeGreaterThanOrEqual(3);
       });
 
@@ -867,6 +1011,7 @@ Default.test(
       const items = canvasElement.ownerDocument.querySelectorAll(
         '[data-grid-popover] [role="menuitem"]'
       );
+
       if (items[1]) {
         await userEvent.click(items[1]);
       }
@@ -879,7 +1024,9 @@ Default.test(
   async ({ canvasElement, step }) => {
     await step("right-click and click Clear cell", async () => {
       const firstWrapper = getFirstCellWrapper(canvasElement);
+
       await userEvent.click(firstWrapper);
+
       await waitFor(async () => {
         await expect(firstWrapper).toHaveAttribute("data-focused", "");
       });
@@ -893,6 +1040,7 @@ Default.test(
         const items = canvasElement.ownerDocument.querySelectorAll(
           '[data-grid-popover] [role="menuitem"]'
         );
+
         await expect(items.length).toBeGreaterThanOrEqual(1);
       });
 
@@ -900,6 +1048,7 @@ Default.test(
       const items = canvasElement.ownerDocument.querySelectorAll(
         '[data-grid-popover] [role="menuitem"]'
       );
+
       if (items[2]) {
         await userEvent.click(items[2]);
       }
@@ -914,22 +1063,27 @@ Default.test(
       const wrappers = canvasElement.querySelectorAll<HTMLElement>(
         '[data-slot="grid-cell-wrapper"]'
       );
+
       const firstCell = wrappers[0];
       const thirdRowCell = wrappers[14]; // 3rd row, 1st col (7 cols per row)
+
       if (!firstCell || !thirdRowCell)
         throw new Error("Expected cells for range");
 
       await userEvent.click(firstCell);
+
       await waitFor(async () => {
         await expect(firstCell).toHaveAttribute("data-focused", "");
       });
 
       // Use keyboard to extend selection (Shift+click not available in testing-library)
       await userEvent.keyboard("{Shift>}{ArrowDown}{ArrowDown}{/Shift}");
+
       await waitFor(async () => {
         const selected = canvasElement.querySelectorAll(
           '[data-slot="grid-cell-wrapper"][data-selected]'
         );
+
         await expect(selected.length).toBeGreaterThan(1);
       });
     });
@@ -941,19 +1095,23 @@ Default.test(
   async ({ canvas, canvasElement, step }) => {
     await step("open search and verify empty state text", async () => {
       const grid = canvas.getByRole("grid");
+
       await userEvent.click(grid);
+
       await userEvent.keyboard("{Meta>}f{/Meta}");
 
       await waitFor(async () => {
         const searchBar = canvasElement.querySelector(
           '[data-slot="grid-search"]'
         );
+
         await expect(searchBar).not.toBeNull();
       });
 
       const searchBar = canvasElement.querySelector(
         '[data-slot="grid-search"]'
       );
+
       await expect(searchBar?.textContent).toContain("Type to search");
     });
 
@@ -961,6 +1119,7 @@ Default.test(
       const searchInput = canvasElement.querySelector<HTMLInputElement>(
         '[data-slot="grid-search"] input'
       );
+
       if (!searchInput) throw new Error("Search input not found");
 
       await userEvent.type(searchInput, "zzzznonexistent");
@@ -970,6 +1129,7 @@ Default.test(
           const searchBar = canvasElement.querySelector(
             '[data-slot="grid-search"]'
           );
+
           await expect(searchBar?.textContent).toContain("No results");
         },
         { timeout: 2000 }
@@ -983,6 +1143,7 @@ Default.test(
   async ({ canvas, canvasElement, step }) => {
     await step("open and close shortcuts dialog", async () => {
       const grid = canvas.getByRole("grid");
+
       await userEvent.click(grid);
 
       canvasElement.ownerDocument.defaultView?.dispatchEvent(
@@ -996,13 +1157,16 @@ Default.test(
       await waitFor(async () => {
         const dialog =
           canvasElement.ownerDocument.querySelector('[role="dialog"]');
+
         await expect(dialog).not.toBeNull();
       });
 
       await userEvent.keyboard("{Escape}");
+
       await waitFor(async () => {
         const dialog =
           canvasElement.ownerDocument.querySelector('[role="dialog"]');
+
         await expect(dialog).toBeNull();
       });
     });
@@ -1016,12 +1180,15 @@ Default.test(
       const wrappers = canvasElement.querySelectorAll<HTMLElement>(
         '[data-slot="grid-cell-wrapper"]'
       );
+
       const firstCell = wrappers[0];
       const secondCell = wrappers[1];
+
       if (!firstCell || !secondCell)
         throw new Error("Expected at least two cells");
 
       await userEvent.click(firstCell);
+
       await waitFor(async () => {
         await expect(firstCell).toHaveAttribute("data-focused", "");
       });
@@ -1032,6 +1199,7 @@ Default.test(
         const selected = canvasElement.querySelectorAll(
           '[data-slot="grid-cell-wrapper"][data-selected]'
         );
+
         await expect(selected.length).toBeGreaterThanOrEqual(1);
       });
     });
@@ -1043,6 +1211,7 @@ ReadOnly.test(
   async ({ canvas, step }) => {
     await step("verify grid renders with rows", async () => {
       const rows = canvas.getAllByRole("row");
+
       // 8 data rows + 1 header row
       await expect(rows).toHaveLength(9);
     });
@@ -1054,8 +1223,11 @@ ReadOnly.test(
   async ({ canvasElement, step }) => {
     await step("double-click cell and verify no editing", async () => {
       const firstWrapper = getFirstCellWrapper(canvasElement);
+
       await userEvent.click(firstWrapper);
+
       await userEvent.dblClick(firstWrapper);
+
       await expect(firstWrapper).not.toHaveAttribute("data-editing");
     });
   }
@@ -1066,13 +1238,21 @@ AllCellTypes.test(
   async ({ canvas, step }) => {
     await step("verify grid renders with all column headers", async () => {
       await expect(canvas.getByText("Short Text")).toBeVisible();
+
       await expect(canvas.getByText("Long Text")).toBeVisible();
+
       await expect(canvas.getByText("Number")).toBeVisible();
+
       await expect(canvas.getByText("URL")).toBeVisible();
+
       await expect(canvas.getByText("Done")).toBeVisible();
+
       await expect(canvas.getByText("Status")).toBeVisible();
+
       await expect(canvas.getByText("Tags")).toBeVisible();
+
       await expect(canvas.getByText("Due Date")).toBeVisible();
+
       await expect(canvas.getByText("Attachments")).toBeVisible();
     });
   }
@@ -1085,6 +1265,7 @@ AllCellTypes.test(
       const link = canvasElement.querySelector<HTMLAnchorElement>(
         'a[href="https://example.com"]'
       );
+
       await expect(link).not.toBeNull();
     });
   }
@@ -1095,6 +1276,7 @@ AllCellTypes.test(
   async ({ canvasElement, step }) => {
     await step("verify multi-select cells render badge elements", async () => {
       const badges = canvasElement.querySelectorAll('[data-slot="badge"]');
+
       await expect(badges.length).toBeGreaterThan(0);
     });
   }
@@ -1116,13 +1298,16 @@ AllCellTypes.test(
       "double-click short text cell and verify edit mode",
       async () => {
         const firstWrapper = getFirstCellWrapper(canvasElement);
+
         await userEvent.dblClick(firstWrapper);
+
         await waitFor(async () => {
           await expect(firstWrapper).toHaveAttribute("data-editing", "");
         });
 
         // Short text cell uses contentEditable - type and press Enter to save
         await userEvent.keyboard("Updated text{Enter}");
+
         await waitFor(async () => {
           await expect(firstWrapper).not.toHaveAttribute("data-editing");
         });
@@ -1136,7 +1321,9 @@ AllCellTypes.test(
   async ({ canvasElement, step }) => {
     await step("tab through different cell types", async () => {
       const firstWrapper = getFirstCellWrapper(canvasElement);
+
       await userEvent.click(firstWrapper);
+
       await waitFor(async () => {
         await expect(firstWrapper).toHaveAttribute("data-focused", "");
       });
@@ -1149,7 +1336,9 @@ AllCellTypes.test(
         const focusedCell = canvasElement.querySelector(
           '[data-slot="grid-cell-wrapper"][data-focused]'
         );
+
         await expect(focusedCell).not.toBeNull();
+
         await expect(focusedCell).not.toBe(firstWrapper);
       });
     });
@@ -1162,10 +1351,14 @@ AllCellTypes.test(
     await step("click a checkbox cell", async () => {
       const checkboxes = canvas.getAllByRole("checkbox", { name: /done/i });
       const firstCheckbox = checkboxes[0];
+
       if (!firstCheckbox)
         throw new Error("Expected at least one Done checkbox");
+
       const wasChecked = firstCheckbox.ariaChecked === "true";
+
       await userEvent.click(firstCheckbox);
+
       await waitFor(async () => {
         await (wasChecked
           ? expect(firstCheckbox).not.toBeChecked()
@@ -1182,9 +1375,11 @@ AllCellTypes.test(
       // The sample data has dates like "2026-03-15" which formatDateForDisplay
       // converts via toLocaleDateString(). Verify actual date text is visible.
       const gridCells = canvas.getAllByRole("gridcell");
+
       const dateTexts = gridCells
         .map((cell) => cell.textContent)
         .filter((text) => text.includes("2026"));
+
       await expect(dateTexts.length).toBeGreaterThan(0);
     });
   }
@@ -1195,6 +1390,7 @@ AllCellTypes.test(
   async ({ canvas, step }) => {
     await step("verify number cell content", async () => {
       await expect(canvas.getByText("42")).toBeVisible();
+
       await expect(canvas.getByText("99")).toBeVisible();
     });
   }
@@ -1205,7 +1401,9 @@ AllCellTypes.test(
   async ({ canvasElement, step }) => {
     await step("navigate to number cell and edit", async () => {
       const firstWrapper = getFirstCellWrapper(canvasElement);
+
       await userEvent.click(firstWrapper);
+
       await waitFor(async () => {
         await expect(firstWrapper).toHaveAttribute("data-focused", "");
       });
@@ -1216,15 +1414,19 @@ AllCellTypes.test(
       const focusedCell = canvasElement.querySelector<HTMLElement>(
         '[data-slot="grid-cell-wrapper"][data-focused]'
       );
+
       if (!focusedCell) throw new Error("Expected a focused cell");
 
       await userEvent.keyboard("{Enter}");
+
       await waitFor(async () => {
         await expect(focusedCell).toHaveAttribute("data-editing", "");
       });
 
       await userEvent.keyboard("123");
+
       await userEvent.keyboard("{Tab}");
+
       await waitFor(async () => {
         await expect(focusedCell).not.toHaveAttribute("data-editing");
       });
@@ -1239,9 +1441,13 @@ AllCellTypes.test(
       const links = canvasElement.querySelectorAll<HTMLAnchorElement>(
         '[data-slot="grid-cell-wrapper"] a'
       );
+
       await expect(links.length).toBeGreaterThan(0);
+
       const firstLink = links[0];
+
       if (!firstLink) throw new Error("Expected at least one link");
+
       await expect(firstLink.getAttribute("target")).toBe("_blank");
     });
   }
@@ -1252,13 +1458,16 @@ AllCellTypes.test(
   async ({ canvasElement, step }) => {
     await step("double-click to edit, Tab to save and move", async () => {
       const firstWrapper = getFirstCellWrapper(canvasElement);
+
       // Double-click to reliably enter edit mode
       await userEvent.dblClick(firstWrapper);
+
       await waitFor(async () => {
         await expect(firstWrapper).toHaveAttribute("data-editing", "");
       });
 
       await userEvent.keyboard("{Tab}");
+
       await waitFor(async () => {
         await expect(firstWrapper).not.toHaveAttribute("data-editing");
       });
@@ -1274,22 +1483,28 @@ AllCellTypes.test(
       const wrappers = canvasElement.querySelectorAll<HTMLElement>(
         '[data-slot="grid-cell-wrapper"]'
       );
+
       const numberCell = wrappers[2];
+
       if (!numberCell) throw new Error("Expected number cell");
 
       await userEvent.click(numberCell);
+
       await waitFor(async () => {
         await expect(numberCell).toHaveAttribute("data-focused", "");
       });
 
       await userEvent.keyboard("{Enter}");
+
       await waitFor(async () => {
         await expect(numberCell).toHaveAttribute("data-editing", "");
       });
 
       const input = numberCell.querySelector("input");
+
       if (input) {
         await userEvent.clear(input);
+
         await userEvent.type(input, "42");
       }
 
@@ -1306,15 +1521,19 @@ AllCellTypes.test(
       const wrappers = canvasElement.querySelectorAll<HTMLElement>(
         '[data-slot="grid-cell-wrapper"]'
       );
+
       const checkboxCell = wrappers[4];
+
       if (!checkboxCell) throw new Error("Expected checkbox cell");
 
       await userEvent.click(checkboxCell);
+
       await waitFor(async () => {
         await expect(checkboxCell).toHaveAttribute("data-focused", "");
       });
 
       await userEvent.keyboard(" ");
+
       // Enter also toggles
       await userEvent.keyboard("{Enter}");
     });
@@ -1329,15 +1548,19 @@ AllCellTypes.test(
       const wrappers = canvasElement.querySelectorAll<HTMLElement>(
         '[data-slot="grid-cell-wrapper"]'
       );
+
       const selectCell = wrappers[5];
+
       if (!selectCell) throw new Error("Expected select cell");
 
       await userEvent.click(selectCell);
+
       await waitFor(async () => {
         await expect(selectCell).toHaveAttribute("data-focused", "");
       });
 
       await userEvent.keyboard("{Enter}");
+
       await waitFor(async () => {
         await expect(selectCell).toHaveAttribute("data-editing", "");
       });
@@ -1355,15 +1578,19 @@ AllCellTypes.test(
       const wrappers = canvasElement.querySelectorAll<HTMLElement>(
         '[data-slot="grid-cell-wrapper"]'
       );
+
       const urlCell = wrappers[3];
+
       if (!urlCell) throw new Error("Expected URL cell");
 
       await userEvent.click(urlCell);
+
       await waitFor(async () => {
         await expect(urlCell).toHaveAttribute("data-focused", "");
       });
 
       await userEvent.keyboard("{Enter}");
+
       await waitFor(async () => {
         await expect(urlCell).toHaveAttribute("data-editing", "");
       });
@@ -1381,15 +1608,19 @@ AllCellTypes.test(
       const wrappers = canvasElement.querySelectorAll<HTMLElement>(
         '[data-slot="grid-cell-wrapper"]'
       );
+
       const dateCell = wrappers[8];
+
       if (!dateCell) throw new Error("Expected date cell");
 
       await userEvent.click(dateCell);
+
       await waitFor(async () => {
         await expect(dateCell).toHaveAttribute("data-focused", "");
       });
 
       await userEvent.keyboard("{Enter}");
+
       await waitFor(async () => {
         await expect(dateCell).toHaveAttribute("data-editing", "");
       });
@@ -1407,15 +1638,19 @@ AllCellTypes.test(
       const wrappers = canvasElement.querySelectorAll<HTMLElement>(
         '[data-slot="grid-cell-wrapper"]'
       );
+
       const longTextCell = wrappers[1];
+
       if (!longTextCell) throw new Error("Expected long text cell");
 
       await userEvent.click(longTextCell);
+
       await waitFor(async () => {
         await expect(longTextCell).toHaveAttribute("data-focused", "");
       });
 
       await userEvent.keyboard("{Enter}");
+
       await waitFor(async () => {
         await expect(longTextCell).toHaveAttribute("data-editing", "");
       });
@@ -1430,14 +1665,18 @@ AllCellTypes.test(
   async ({ canvasElement, step }) => {
     await step("edit and cancel with Escape", async () => {
       const firstWrapper = getFirstCellWrapper(canvasElement);
+
       await userEvent.dblClick(firstWrapper);
+
       await waitFor(async () => {
         await expect(firstWrapper).toHaveAttribute("data-editing", "");
       });
 
       await userEvent.keyboard("changed text");
+
       // Escape to cancel editing (reverts value)
       await userEvent.keyboard("{Escape}");
+
       await waitFor(async () => {
         await expect(firstWrapper).not.toHaveAttribute("data-editing");
       });
@@ -1450,13 +1689,16 @@ AllCellTypes.test(
   async ({ canvasElement, step }) => {
     await step("type single character to start editing", async () => {
       const firstWrapper = getFirstCellWrapper(canvasElement);
+
       await userEvent.click(firstWrapper);
+
       await waitFor(async () => {
         await expect(firstWrapper).toHaveAttribute("data-focused", "");
       });
 
       // Type a single character to start editing
       await userEvent.keyboard("x");
+
       await waitFor(async () => {
         await expect(firstWrapper).toHaveAttribute("data-editing", "");
       });
@@ -1474,7 +1716,9 @@ AllCellTypes.test(
       const wrappers = canvasElement.querySelectorAll<HTMLElement>(
         '[data-slot="grid-cell-wrapper"]'
       );
+
       const multiSelectCell = wrappers[6];
+
       if (!multiSelectCell) throw new Error("Expected multi-select cell");
 
       await userEvent.dblClick(multiSelectCell);
@@ -1483,12 +1727,14 @@ AllCellTypes.test(
         const editor = canvasElement.ownerDocument.querySelector(
           "[data-grid-cell-editor]"
         );
+
         await expect(editor).not.toBeNull();
       });
 
       const option = canvasElement.ownerDocument.querySelector(
         '[data-grid-cell-editor] [role="option"]'
       );
+
       if (option) {
         await userEvent.click(option);
       }
@@ -1504,7 +1750,9 @@ AllCellTypes.test("should edit URL cell", async ({ canvasElement, step }) => {
     const wrappers = canvasElement.querySelectorAll<HTMLElement>(
       '[data-slot="grid-cell-wrapper"]'
     );
+
     const urlCell = wrappers[3];
+
     if (!urlCell) throw new Error("Expected URL cell");
 
     await userEvent.dblClick(urlCell);
@@ -1526,10 +1774,13 @@ AllCellTypes.test(
       const wrappers = canvasElement.querySelectorAll<HTMLElement>(
         '[data-slot="grid-cell-wrapper"]'
       );
+
       const dateCell = wrappers[8];
+
       if (!dateCell) throw new Error("Expected date cell");
 
       await userEvent.click(dateCell);
+
       await waitFor(async () => {
         await expect(dateCell).toHaveAttribute("data-focused", "");
       });
@@ -1547,7 +1798,9 @@ AllCellTypes.test(
       const wrappers = canvasElement.querySelectorAll<HTMLElement>(
         '[data-slot="grid-cell-wrapper"]'
       );
+
       const selectCell = wrappers[5];
+
       if (!selectCell) throw new Error("Expected select cell");
 
       await userEvent.dblClick(selectCell);
@@ -1556,12 +1809,14 @@ AllCellTypes.test(
         const editor = canvasElement.ownerDocument.querySelector(
           "[data-grid-cell-editor]"
         );
+
         await expect(editor).not.toBeNull();
       });
 
       const option = canvasElement.ownerDocument.querySelector(
         '[data-grid-cell-editor] [role="option"]'
       );
+
       if (option) {
         await userEvent.click(option);
       }
@@ -1577,15 +1832,19 @@ AllCellTypes.test(
       const wrappers = canvasElement.querySelectorAll<HTMLElement>(
         '[data-slot="grid-cell-wrapper"]'
       );
+
       const fileCell = wrappers[8];
+
       if (!fileCell) throw new Error("Expected file cell");
 
       await userEvent.click(fileCell);
+
       await waitFor(async () => {
         await expect(fileCell).toHaveAttribute("data-focused", "");
       });
 
       await userEvent.keyboard("{Enter}");
+
       await waitFor(async () => {
         await expect(fileCell).toHaveAttribute("data-editing", "");
       });
@@ -1600,23 +1859,30 @@ AllCellTypes.test(
   async ({ canvasElement, step }) => {
     await step("navigate to row 2 cells", async () => {
       const firstWrapper = getFirstCellWrapper(canvasElement);
+
       await userEvent.click(firstWrapper);
+
       await waitFor(async () => {
         await expect(firstWrapper).toHaveAttribute("data-focused", "");
       });
 
       await userEvent.keyboard("{ArrowDown}");
+
       const focused = canvasElement.querySelector<HTMLElement>(
         '[data-slot="grid-cell-wrapper"][data-focused]'
       );
+
       await expect(focused).not.toBeNull();
+
       await expect(focused).not.toBe(firstWrapper);
 
       await userEvent.keyboard("{Enter}");
+
       await waitFor(async () => {
         const editing = canvasElement.querySelector(
           '[data-slot="grid-cell-wrapper"][data-editing]'
         );
+
         await expect(editing).not.toBeNull();
       });
 
@@ -1633,15 +1899,19 @@ AllCellTypes.test(
       const wrappers = canvasElement.querySelectorAll<HTMLElement>(
         '[data-slot="grid-cell-wrapper"]'
       );
+
       const numberCell = wrappers[2];
+
       if (!numberCell) throw new Error("Expected number cell");
 
       await userEvent.click(numberCell);
+
       await waitFor(async () => {
         await expect(numberCell).toHaveAttribute("data-focused", "");
       });
 
       await userEvent.keyboard("{F2}");
+
       await waitFor(async () => {
         await expect(numberCell).toHaveAttribute("data-editing", "");
       });
@@ -1659,10 +1929,13 @@ AllCellTypes.test(
       const wrappers = canvasElement.querySelectorAll<HTMLElement>(
         '[data-slot="grid-cell-wrapper"]'
       );
+
       const checkboxCell = wrappers[4];
+
       if (!checkboxCell) throw new Error("Expected checkbox cell");
 
       await userEvent.click(checkboxCell);
+
       await waitFor(async () => {
         await expect(checkboxCell).toHaveAttribute("data-focused", "");
       });
@@ -1678,7 +1951,9 @@ LargeDataset.test(
     await step("verify grid renders", async () => {
       // Should render header + visible virtualized rows (not all 500)
       const rows = canvas.getAllByRole("row");
+
       await expect(rows.length).toBeLessThan(500);
+
       await expect(rows.length).toBeGreaterThan(1);
     });
   }
@@ -1689,7 +1964,9 @@ LargeDataset.test(
   async ({ canvasElement, step }) => {
     await step("focus cell and navigate with arrow keys", async () => {
       const firstWrapper = getFirstCellWrapper(canvasElement);
+
       await userEvent.click(firstWrapper);
+
       await waitFor(async () => {
         await expect(firstWrapper).toHaveAttribute("data-focused", "");
       });
@@ -1702,6 +1979,7 @@ LargeDataset.test(
         const focusedCell = canvasElement.querySelector(
           '[data-slot="grid-cell-wrapper"][data-focused]'
         );
+
         await expect(focusedCell).not.toBeNull();
       });
     });
@@ -1713,12 +1991,15 @@ LargeDataset.test(
   async ({ canvasElement, step }) => {
     await step("press Ctrl+End to jump to last cell", async () => {
       const firstWrapper = getFirstCellWrapper(canvasElement);
+
       await userEvent.click(firstWrapper);
+
       await waitFor(async () => {
         await expect(firstWrapper).toHaveAttribute("data-focused", "");
       });
 
       await userEvent.keyboard("{Meta>}{End}{/Meta}");
+
       await waitFor(async () => {
         await expect(firstWrapper).not.toHaveAttribute("data-focused", "");
       });
@@ -1731,13 +2012,16 @@ LargeDataset.test(
   async ({ canvasElement, step }) => {
     await step("use Alt+ArrowDown for page down", async () => {
       const firstWrapper = getFirstCellWrapper(canvasElement);
+
       await userEvent.click(firstWrapper);
+
       await waitFor(async () => {
         await expect(firstWrapper).toHaveAttribute("data-focused", "");
       });
 
       // Alt+ArrowDown for page down
       await userEvent.keyboard("{Alt>}{ArrowDown}{/Alt}");
+
       // Alt+ArrowUp for page up
       await userEvent.keyboard("{Alt>}{ArrowUp}{/Alt}");
 
@@ -1746,6 +2030,7 @@ LargeDataset.test(
         const focused = canvasElement.querySelector(
           '[data-slot="grid-cell-wrapper"][data-focused]'
         );
+
         await expect(focused).not.toBeNull();
       });
     });
@@ -1759,8 +2044,11 @@ RowHeights.test(
       const dataRow = canvasElement.querySelector<HTMLElement>(
         '[data-slot="grid-row"]'
       );
+
       if (!dataRow) throw new Error("Expected at least one data row");
+
       const height = Number.parseInt(dataRow.style.height, 10);
+
       await expect(height).toBe(76);
     });
   }
@@ -1773,12 +2061,14 @@ RowHeights.test(
       const firstWrapper = getFirstCellWrapper(canvasElement);
 
       await userEvent.click(firstWrapper);
+
       await waitFor(async () => {
         await expect(firstWrapper).toHaveAttribute("data-focused", "");
       });
 
       // Type a character to start editing, then Escape to cancel
       await userEvent.keyboard("a");
+
       await userEvent.keyboard("{Escape}");
     });
   }
@@ -1787,6 +2077,7 @@ RowHeights.test(
 RecipeBook.test("should render recipe book grid", async ({ canvas, step }) => {
   await step("verify grid and recipe data", async () => {
     await expect(canvas.getByText("Pad Thai")).toBeVisible();
+
     await expect(canvas.getByText("Recipe")).toBeVisible();
   });
 });
@@ -1799,15 +2090,19 @@ RecipeBook.test(
       const wrappers = canvasElement.querySelectorAll<HTMLElement>(
         '[data-slot="grid-cell-wrapper"]'
       );
+
       const instructionsCell = wrappers[1];
+
       if (!instructionsCell) throw new Error("Expected instructions cell");
 
       await userEvent.click(instructionsCell);
+
       await waitFor(async () => {
         await expect(instructionsCell).toHaveAttribute("data-focused", "");
       });
 
       await userEvent.keyboard("{Enter}");
+
       await waitFor(async () => {
         await expect(instructionsCell).toHaveAttribute("data-editing", "");
       });
@@ -1822,6 +2117,7 @@ EmployeeDirectory.test(
   async ({ canvas, step }) => {
     await step("verify grid renders with pinned column", async () => {
       await expect(canvas.getByText("Full Name")).toBeVisible();
+
       await expect(canvas.getByText("Amara Okafor")).toBeVisible();
     });
   }
@@ -1832,19 +2128,24 @@ EmployeeDirectory.test(
   async ({ canvasElement, step }) => {
     await step("navigate with arrow keys in read-only grid", async () => {
       const firstWrapper = getFirstCellWrapper(canvasElement);
+
       await userEvent.click(firstWrapper);
+
       await waitFor(async () => {
         await expect(firstWrapper).toHaveAttribute("data-focused", "");
       });
 
       // Arrow navigation should still work in read-only mode
       await userEvent.keyboard("{ArrowRight}");
+
       await userEvent.keyboard("{ArrowDown}");
+
       await userEvent.keyboard("{Tab}");
 
       const focused = canvasElement.querySelector(
         '[data-slot="grid-cell-wrapper"][data-focused]'
       );
+
       await expect(focused).not.toBeNull();
     });
   }
@@ -1855,11 +2156,15 @@ ProductCatalog.test(
   async ({ canvas, canvasElement, step }) => {
     await step("verify grid renders with product data", async () => {
       await expect(canvas.getByText("Product")).toBeVisible();
+
       const dataRow = canvasElement.querySelector<HTMLElement>(
         '[data-slot="grid-row"]'
       );
+
       if (!dataRow) throw new Error("Expected at least one data row");
+
       const height = Number.parseInt(dataRow.style.height, 10);
+
       await expect(height).toBe(96);
     });
   }
@@ -1870,12 +2175,15 @@ ProductCatalog.test(
   async ({ canvasElement, step }) => {
     await step("focus and edit a product name cell", async () => {
       const firstWrapper = getFirstCellWrapper(canvasElement);
+
       await userEvent.dblClick(firstWrapper);
+
       await waitFor(async () => {
         await expect(firstWrapper).toHaveAttribute("data-editing", "");
       });
 
       await userEvent.keyboard("Updated Name{Enter}");
+
       await waitFor(async () => {
         await expect(firstWrapper).not.toHaveAttribute("data-editing");
       });

@@ -208,8 +208,10 @@ export const Form = meta.story({
       className="flex w-96 flex-col gap-4"
       onSubmit={(e) => {
         e.preventDefault();
+
         const formData = new FormData(e.currentTarget);
         const form = e.currentTarget;
+
         form.dataset.submitted = "true";
         form.dataset.value = formData.get("marketing") === "on" ? "on" : "off";
       }}
@@ -239,11 +241,13 @@ Default.test(
 
     await step("toggle the switch on", async () => {
       await userEvent.click(switchBtn);
+
       await expect(switchBtn).toBeChecked();
     });
 
     await step("toggle the switch off", async () => {
       await userEvent.click(switchBtn);
+
       await expect(switchBtn).not.toBeChecked();
     });
   }
@@ -256,12 +260,15 @@ Default.test(
 
     await step("focus and press Space to toggle on", async () => {
       switchBtn.focus();
+
       await userEvent.keyboard(" ");
+
       await expect(switchBtn).toBeChecked();
     });
 
     await step("press Space again to toggle off", async () => {
       await userEvent.keyboard(" ");
+
       await expect(switchBtn).not.toBeChecked();
     });
   }
@@ -271,8 +278,11 @@ Disabled.test(
   "when clicking a disabled switch, should not toggle",
   async ({ canvas }) => {
     const switchBtn = await canvas.findByRole("switch");
+
     await expect(switchBtn).not.toBeChecked();
+
     await userEvent.click(switchBtn, { pointerEventsCheck: 0 });
+
     await expect(switchBtn).not.toBeChecked();
   }
 );
@@ -281,17 +291,22 @@ Form.test(
   "when submitting the form with switch enabled, should submit",
   async ({ canvas, step }) => {
     const switchBtn = await canvas.findByRole("switch");
+
     const submitBtn = await canvas.findByRole("button", { name: "Submit" });
+
     const form = await canvas.findByTestId("test-form");
 
     await step("enable the switch", async () => {
       await userEvent.click(switchBtn);
+
       await expect(switchBtn).toBeChecked();
     });
 
     await step("submit the form", async () => {
       await userEvent.click(submitBtn);
+
       await expect(form).toHaveAttribute("data-submitted", "true");
+
       await expect(form).toHaveAttribute("data-value", "on");
     });
   }

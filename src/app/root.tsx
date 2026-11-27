@@ -64,6 +64,7 @@ export const middleware = [i18nextMiddleware];
 /* istanbul ignore start @preserve -- Server-only: meta/loader use session resolvers and cookies */
 export function meta() {
   const seo = getSeoTranslation(DEFAULT_LANGUAGE, "home");
+
   return generateMeta({
     title: seo.title,
     description: seo.description,
@@ -72,12 +73,15 @@ export function meta() {
 
 export async function loader({ request, context }: Route.LoaderArgs) {
   const { getTheme } = await themeSessionResolver(request);
+
   const locale = getLocale(context);
+
   return data(
     { locale, theme: getTheme() },
     { headers: { "Set-Cookie": await localeCookie.serialize(locale) } }
   );
 }
+
 /* istanbul ignore end @preserve */
 
 /** Root loader data type for use in child route meta functions */
@@ -152,6 +156,7 @@ function InnerLayout({
 
 export function Layout({ children }: { children: React.ReactNode }) {
   const data = useRouteLoaderData<typeof loader>("root");
+
   return (
     <ThemeProvider
       specifiedTheme={data?.theme ?? null}
@@ -161,6 +166,7 @@ export function Layout({ children }: { children: React.ReactNode }) {
     </ThemeProvider>
   );
 }
+
 /* istanbul ignore end @preserve */
 
 /* istanbul ignore start @preserve -- Root error boundary: last-resort catch-all for unhandled route errors */
@@ -199,10 +205,12 @@ export function ErrorBoundary() {
     </Empty>
   );
 }
+
 /* istanbul ignore end @preserve */
 
 export function HydrateFallback() {
   const { t } = useTranslation();
+
   return (
     <div className="flex min-h-screen items-center justify-center">
       <div className="text-center">
@@ -243,6 +251,7 @@ export default function Root({ loaderData: { locale } }: Route.ComponentProps) {
     // eslint-disable-next-line react-you-might-not-need-an-effect/no-event-handler -- Syncing i18n to the server-detected route-loader locale is a legitimate external-system sync
     if (i18n.language !== locale) void i18n.changeLanguage(locale);
   }, [locale, i18n]);
+
   /* istanbul ignore end @preserve */
 
   return (

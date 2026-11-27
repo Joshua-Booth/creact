@@ -115,6 +115,7 @@ function DataTableToolbarFilter<TData extends RowData>({
 
       case "number": {
         const isPrefix = columnMeta.unitPlacement === "prefix";
+
         return (
           <div className="relative">
             {columnMeta.unit && isPrefix && (

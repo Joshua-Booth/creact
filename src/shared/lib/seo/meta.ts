@@ -66,6 +66,7 @@ export function getLocaleFromMatches(
 export function getSeoTranslation(locale: Language, pageKey: SeoPageKey) {
   const seo = resources[locale].common.seo;
   const page = seo.pages[pageKey];
+
   return {
     title: page.title,
     description: page.description,
@@ -81,9 +82,11 @@ export function getSeoTranslation(locale: Language, pageKey: SeoPageKey) {
 export function generateMeta(pageMeta: PageMeta) {
   const siteUrl = getSiteUrl();
   const fullTitle = `${pageMeta.title} | ${SITE_NAME}`;
+
   const ogImageUrl = pageMeta.ogImage
     ? `${siteUrl}${pageMeta.ogImage}`
     : `${siteUrl}${DEFAULT_OG_IMAGE}`;
+
   const canonicalUrl = pageMeta.canonicalPath
     ? `${siteUrl}${pageMeta.canonicalPath}`
     : undefined;

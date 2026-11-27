@@ -10,5 +10,6 @@ import { useAuthStore } from "../model/store";
  */
 export function setAuthTokenAndRedirect(token: string) {
   useAuthStore.getState().login(token);
+
   return redirect(href("/dashboard"));
 }

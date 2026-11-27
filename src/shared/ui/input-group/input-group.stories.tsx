@@ -584,6 +584,7 @@ Default.test(
       const button = canvas.getByTestId("search-button");
 
       await expect(button).toBeEnabled();
+
       await userEvent.click(button);
     });
   }
@@ -612,6 +613,7 @@ Default.test(
       const inputGroup = canvas
         .getByPlaceholderText("Search...")
         .closest("[data-slot='input-group']");
+
       await expect(inputGroup).toHaveAttribute("data-disabled", "true");
     });
   }

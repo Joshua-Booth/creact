@@ -24,39 +24,52 @@ function measureBadgeWidth({
   className,
 }: MeasureBadgeWidthProps) {
   const cached = badgeWidthCache.get(cacheKey);
+
   if (cached !== undefined) {
     return cached;
   }
 
   const measureEl = document.createElement("div");
+
   measureEl.className = `inline-flex items-center rounded-md border px-1.5 text-xs font-semibold h-5 gap-1 shrink-0 absolute invisible pointer-events-none ${
     className ?? ""
   }`;
+
   measureEl.style.whiteSpace = "nowrap";
 
   if (iconSize != null && iconSize !== 0) {
     const icon = document.createElement("span");
+
     icon.className = "shrink-0";
+
     icon.style.width = `${iconSize}px`;
     icon.style.height = `${iconSize}px`;
+
     measureEl.appendChild(icon);
   }
 
   if (maxWidth != null && maxWidth !== 0) {
     const text = document.createElement("span");
+
     text.className = "truncate";
+
     text.style.maxWidth = `${maxWidth}px`;
+
     text.textContent = label;
+
     measureEl.appendChild(text);
   } else {
     measureEl.textContent = label;
   }
 
   document.body.appendChild(measureEl);
+
   const width = measureEl.offsetWidth;
+
   document.body.removeChild(measureEl);
 
   badgeWidthCache.set(cacheKey, width);
+
   return width;
 }
 
@@ -112,6 +125,7 @@ export function useBadgeOverflow<T>({
     function measureWidth() {
       if (containerRef.current) {
         const width = containerRef.current.clientWidth - containerPadding;
+
         setContainerWidth(width);
       }
     }
@@ -120,6 +134,7 @@ export function useBadgeOverflow<T>({
     measureWidth();
 
     const resizeObserver = new ResizeObserver(measureWidth);
+
     resizeObserver.observe(containerRef.current);
 
     return () => {
@@ -138,8 +153,10 @@ export function useBadgeOverflow<T>({
 
     for (const item of items) {
       const label = getLabel(item);
+
       const cacheKey =
         cacheKeyPrefix === "" ? label : `${cacheKeyPrefix}:${label}`;
+
       const badgeWidth = measureBadgeWidth({
         label,
         cacheKey,
@@ -147,14 +164,18 @@ export function useBadgeOverflow<T>({
         maxWidth,
         className,
       });
+
       const widthWithGap = badgeWidth + badgeGap;
 
       if (currentLineWidth + widthWithGap <= containerWidth) {
         currentLineWidth += widthWithGap;
+
         visible.push(item);
       } else if (currentLine < lineCount) {
         currentLine++;
+
         currentLineWidth = widthWithGap;
+
         visible.push(item);
       } else {
         if (

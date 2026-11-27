@@ -185,5 +185,6 @@ export const EmptyStory = meta.story({
 
 Default.test("should have accessible loading role", async ({ canvas }) => {
   const spinner = await canvas.findByRole("status");
+
   await expect(spinner).toHaveAccessibleName("Loading...");
 });

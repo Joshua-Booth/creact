@@ -12,6 +12,7 @@ export class CommandFailed extends Error {
 
   constructor(message: string, tail: readonly string[] = []) {
     super(message);
+
     this.tail = tail;
   }
 }
@@ -39,8 +40,10 @@ export class Log {
 
   write(text: string): void {
     if (this.#broken) return;
+
     try {
       this.#fd ??= openFresh(this.file);
+
       writeSync(this.#fd, text);
     } catch {
       this.#broken = true;
@@ -59,6 +62,7 @@ function openFresh(file: string): number {
   } catch (error) {
     if ((error as NodeJS.ErrnoException).code !== "ENOENT") throw error;
   }
+
   return openSync(file, "wx", 0o600);
   /* oxlint-enable security/detect-non-literal-fs-filename -- the open ends here */
 }
@@ -101,6 +105,7 @@ export async function run(
   log?: Log
 ): Promise<void> {
   const line = [command, ...args].join(" ");
+
   if (log === undefined) {
     const code = await exitCode(
       command,
@@ -108,26 +113,38 @@ export async function run(
       cwd,
       NO_PROMPTS_OUTPUT_TO_STDERR
     );
+
     if (code !== 0) {
       throw new CommandFailed(`${line} exited with ${code ?? "a signal"}`);
     }
+
     return;
   }
+
   log.write(`\n$ ${line}\n  in ${cwd}\n\n`);
+
   const child = spawn(command, args, {
     cwd,
     env: withoutGitContext(),
     stdio: ["ignore", "pipe", "pipe"],
   });
+
   let output = "";
+
   const keep = (chunk: Buffer): void => {
     const text = chunk.toString();
+
     log.write(text);
+
     output = (output + text).slice(-16_384);
   };
+
   child.stdout.on("data", keep);
+
   child.stderr.on("data", keep);
+
   const code = await closed(child, command);
+
   if (code !== 0) {
     throw new CommandFailed(
       `${line} exited with ${code ?? "a signal"}`,
@@ -153,6 +170,7 @@ export async function succeeds(
     return (await exitCode(command, args, cwd, "ignore")) === 0;
   } catch (error) {
     if (error instanceof CommandFailed) return false;
+
     throw error;
   }
 }
@@ -177,6 +195,7 @@ async function closed(
     child.on("error", (error) => {
       reject(new CommandFailed(`${command} couldn't start: ${error.message}`));
     });
+
     child.on("close", resolve);
   });
 }

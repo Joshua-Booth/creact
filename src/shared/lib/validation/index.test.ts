@@ -10,6 +10,7 @@ function firstIssueMessage(result: {
   error?: { issues: { message: string }[] };
 }) {
   expect(result.success).toBe(false);
+
   // eslint-disable-next-line @typescript-eslint/no-explicit-any, @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-unsafe-return -- narrowed above via expect
   return (result as any).error.issues[0].message;
 }
@@ -37,6 +38,7 @@ describe("validation schemas", () => {
 
     it("should return translated email error message", () => {
       const result = emailSchema.safeParse("invalid");
+
       expect(firstIssueMessage(result)).toBe(
         "Please enter a valid email address"
       );
@@ -60,6 +62,7 @@ describe("validation schemas", () => {
 
     it("should return translated minLength error message", () => {
       const result = passwordSchema.safeParse("Pass1");
+
       expect(firstIssueMessage(result)).toBe(
         "Password must be at least 8 characters"
       );
@@ -67,6 +70,7 @@ describe("validation schemas", () => {
 
     it("should return translated uppercase error message", () => {
       const result = passwordSchema.safeParse("password1");
+
       expect(firstIssueMessage(result)).toBe(
         "Password must contain at least one uppercase letter"
       );
@@ -74,6 +78,7 @@ describe("validation schemas", () => {
 
     it("should return translated lowercase error message", () => {
       const result = passwordSchema.safeParse("PASSWORD1");
+
       expect(firstIssueMessage(result)).toBe(
         "Password must contain at least one lowercase letter"
       );
@@ -81,6 +86,7 @@ describe("validation schemas", () => {
 
     it("should return translated number error message", () => {
       const result = passwordSchema.safeParse("Password");
+
       expect(firstIssueMessage(result)).toBe(
         "Password must contain at least one number"
       );
@@ -99,6 +105,7 @@ describe("validation schemas", () => {
 
     it("should return translated required error message", () => {
       const result = simplePasswordSchema.safeParse("");
+
       expect(firstIssueMessage(result)).toBe("Password is required");
     });
   });

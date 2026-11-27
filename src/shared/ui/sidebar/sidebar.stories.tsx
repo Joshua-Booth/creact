@@ -185,6 +185,7 @@ Simple.test(
     const sidebarBtn = await canvas.findByRole("button", {
       name: /toggle/i,
     });
+
     await step("close the sidebar", async () => {
       await userEvent.click(sidebarBtn);
     });

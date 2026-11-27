@@ -165,8 +165,11 @@ Default.test(
       await userEvent.click(
         await canvasBody.findByRole("button", { name: /open/i })
       );
+
       const sheet = await canvasBody.findByRole("dialog");
+
       await expect(sheet).toBeInTheDocument();
+
       await expect(sheet).toHaveAttribute("data-open");
     });
 
@@ -174,6 +177,7 @@ Default.test(
       await userEvent.click(
         await canvasBody.findByRole("button", { name: /save changes/i })
       );
+
       await waitFor(() =>
         expect(canvasBody.queryByRole("dialog")).not.toBeInTheDocument()
       );
@@ -190,8 +194,11 @@ Default.test(
       await userEvent.click(
         await canvasBody.findByRole("button", { name: /open/i })
       );
+
       const sheet = await canvasBody.findByRole("dialog");
+
       await expect(sheet).toBeInTheDocument();
+
       await expect(sheet).toHaveAttribute("data-open");
     });
 
@@ -199,6 +206,7 @@ Default.test(
       await userEvent.click(
         await canvasBody.findByRole("button", { name: /close/i })
       );
+
       await waitFor(() =>
         expect(canvasBody.queryByRole("dialog")).not.toBeInTheDocument()
       );

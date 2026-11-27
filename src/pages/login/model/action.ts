@@ -28,9 +28,11 @@ export async function loginAction(formData: FormData) {
 
   try {
     const response = await loginApi(result.data);
+
     return setAuthTokenAndRedirect(response.key);
   } catch (error) {
     const message = parseLoginError(error);
+
     return { success: false, error: message };
   }
 }

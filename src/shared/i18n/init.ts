@@ -18,5 +18,6 @@ export function initI18n() {
       .use(initReactI18next)
       .init({ lng: DEFAULT_LANGUAGE, resources, ...I18N_CONFIG });
   }
+
   return i18next;
 }

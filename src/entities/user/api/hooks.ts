@@ -15,5 +15,6 @@ import type { User } from "../model/types";
 export function useCurrentUser(options?: SWRConfiguration<User, ApiError>) {
   const { data, error, isLoading, isValidating, mutate } =
     useAuthenticatedApi<User>(AUTH_URLS.USER_PROFILE, options);
+
   return { user: data, error, isLoading, isValidating, mutate };
 }

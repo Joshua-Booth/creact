@@ -395,13 +395,16 @@ export function RealEstateListingsDemo() {
         ),
         cell: ({ cell }) => {
           const type = cell.getValue<string>();
+
           const icons: Record<string, typeof Home> = {
             "Single Family": Home,
             Condo: Building2,
             Townhouse: Landmark,
             Estate: Castle,
           };
+
           const Icon = icons[type] ?? Home;
+
           return (
             <Badge variant="outline">
               <Icon className="size-3.5" />
@@ -426,6 +429,7 @@ export function RealEstateListingsDemo() {
           const status = cell.getValue<string>();
           const opt = listingStatusOptions.find((o) => o.value === status);
           const Icon = opt?.icon ?? CircleDashed;
+
           return (
             <Badge variant="outline">
               <Icon className="size-3.5" />

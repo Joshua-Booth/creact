@@ -5,6 +5,7 @@ import { formatDate } from "./format";
 describe("formatDate", () => {
   it("should format a Date object", () => {
     const result = formatDate(new Date(2026, 2, 15));
+
     expect(result).toContain("March");
     expect(result).toContain("15");
     expect(result).toContain("2026");
@@ -12,12 +13,14 @@ describe("formatDate", () => {
 
   it("should format a timestamp number", () => {
     const result = formatDate(new Date(2026, 0, 1).getTime());
+
     expect(result).toContain("January");
     expect(result).toContain("2026");
   });
 
   it("should format a date string", () => {
     const result = formatDate("2026-06-20");
+
     expect(result).toBeTruthy();
     expect(result).not.toBe("");
   });
@@ -44,6 +47,7 @@ describe("formatDate", () => {
       month: "short",
       day: "2-digit",
     });
+
     expect(result).toContain("Mar");
   });
 
@@ -51,7 +55,9 @@ describe("formatDate", () => {
     const spy = vi.spyOn(Intl, "DateTimeFormat").mockImplementation(() => {
       throw new Error("Unsupported locale");
     });
+
     expect(formatDate(new Date(2026, 0, 1))).toBe("");
+
     spy.mockRestore();
   });
 });

@@ -235,6 +235,7 @@ function DropdownMenuRadioItem({
     </MenuPrimitive.RadioItem>
   );
 }
+
 /* istanbul ignore end @preserve */
 
 /** Horizontal divider between menu sections. */

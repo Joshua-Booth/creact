@@ -40,7 +40,9 @@ after(() => {
 
 export function tempDir(): string {
   const dir = mkdtempSync(path.join(tmpdir(), "creact-plan-"));
+
   TEMP_DIRS.push(dir);
+
   return dir;
 }
 
@@ -64,6 +66,7 @@ export async function ops(
   toolchain: ToolchainId = "standalone"
 ): Promise<readonly Op[]> {
   const ids: readonly OverlayId[] = ["base", toolchain, styling];
+
   return plan(await loadLayer(LAYER, ids, stack), ids, {
     stack,
     monorepo,
@@ -78,14 +81,18 @@ export function upstreamBase(
   dir = tempDir()
 ): string {
   const files = fixture(stack);
+
   for (const file of JSON_FILES) {
     mkdirSync(path.dirname(path.join(dir, file)), { recursive: true });
+
     writeFileSync(
       path.join(dir, file),
       JSON.stringify(merge(files[file], extra[file] ?? {}))
     );
   }
+
   writeFileSync(path.join(dir, STACKS[stack].signature), "");
+
   return dir;
 }
 
@@ -95,6 +102,7 @@ export function recordState(
   fields: JsonObject = {}
 ): void {
   mkdirSync(path.join(dir, ".creact"));
+
   writeFileSync(
     path.join(dir, STATE_FILE),
     JSON.stringify({

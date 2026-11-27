@@ -39,9 +39,11 @@ export function buildColumnFilters(
   filterValues: Record<string, string | string[] | null>
 ) {
   const filters: ColumnFiltersState = [];
+
   for (const [key, value] of Object.entries(filterValues)) {
     if (value !== null) {
       let processedValue: string[];
+
       if (Array.isArray(value)) {
         processedValue = value;
       } else if (typeof value === "string" && /[^\dA-Za-z]/.test(value)) {
@@ -56,6 +58,7 @@ export function buildColumnFilters(
       });
     }
   }
+
   return filters;
 }
 
@@ -152,6 +155,7 @@ export function useDataTable<TData extends RowData>(
   const [rowSelection, setRowSelection] = useState<RowSelectionState>(
     initialState?.rowSelection ?? {}
   );
+
   const [columnVisibility, setColumnVisibility] =
     useState<ColumnVisibilityState>(initialState?.columnVisibility ?? {});
 
@@ -159,6 +163,7 @@ export function useDataTable<TData extends RowData>(
     pageKey,
     parseAsInteger.withOptions(queryStateOptions).withDefault(1)
   );
+
   const [perPage, setPerPage] = useQueryState(
     perPageKey,
     parseAsInteger
@@ -179,7 +184,9 @@ export function useDataTable<TData extends RowData>(
         typeof updaterOrValue === "function"
           ? updaterOrValue(pagination)
           : /* istanbul ignore next @preserve */ updaterOrValue;
+
       void setPage(next.pageIndex + 1);
+
       void setPerPage(next.pageSize);
     },
     [pagination, setPage, setPerPage]
@@ -206,6 +213,7 @@ export function useDataTable<TData extends RowData>(
         typeof updaterOrValue === "function"
           ? updaterOrValue(sorting)
           : /* istanbul ignore next @preserve */ updaterOrValue;
+
       void setSorting(next as ExtendedColumnSort<TData>[]);
     },
     [sorting, setSorting]
@@ -214,6 +222,7 @@ export function useDataTable<TData extends RowData>(
   const filterableColumns = useMemo(() => {
     /* istanbul ignore next @preserve */
     if (enableAdvancedFilter) return [];
+
     return columns.filter((column) => column.enableColumnFilter);
   }, [columns, enableAdvancedFilter]);
 
@@ -225,6 +234,7 @@ export function useDataTable<TData extends RowData>(
       string,
       SingleParser<string> | SingleParser<string[]>
     > = {};
+
     for (const column of filterableColumns) {
       // eslint-disable-next-line unicorn/prefer-ternary -- keeps the per-branch istanbul ignore comments
       if (column.meta?.options) {
@@ -238,6 +248,7 @@ export function useDataTable<TData extends RowData>(
         parsers[column.id ?? ""] = parseAsString.withOptions(queryStateOptions);
       }
     }
+
     return parsers;
   }, [filterableColumns, queryStateOptions, enableAdvancedFilter]);
 
@@ -247,6 +258,7 @@ export function useDataTable<TData extends RowData>(
     /* istanbul ignore next @preserve */
     (values: typeof filterValues) => {
       void setPage(1);
+
       void setFilterValues(values);
     },
     debounceMs
@@ -255,6 +267,7 @@ export function useDataTable<TData extends RowData>(
   const initialColumnFilters: ColumnFiltersState = useMemo(() => {
     /* istanbul ignore next @preserve */
     if (enableAdvancedFilter) return [];
+
     return buildColumnFilters(filterValues);
   }, [filterValues, enableAdvancedFilter]);
 
@@ -273,6 +286,7 @@ export function useDataTable<TData extends RowData>(
             : /* istanbul ignore next @preserve */ updaterOrValue;
 
         const filterUpdates: Record<string, string | string[] | null> = {};
+
         for (const filter of next) {
           /* istanbul ignore else @preserve */
           if (filterableColumns.some((column) => column.id === filter.id)) {
@@ -287,6 +301,7 @@ export function useDataTable<TData extends RowData>(
         }
 
         debouncedSetFilterValues(filterUpdates);
+
         return next;
       });
     },

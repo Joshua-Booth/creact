@@ -4,6 +4,7 @@ import { forgotPasswordApi } from "./forgot-password";
 
 vi.mock("@/shared/api", () => {
   const postMock = vi.fn(() => Promise.resolve());
+
   return { api: { post: postMock } };
 });
 

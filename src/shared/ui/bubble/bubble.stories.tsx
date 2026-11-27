@@ -152,6 +152,7 @@ LinksAndButtons.test(
     await expect(
       canvas.getByRole("link", { name: "Check out the new component docs →" })
     ).toBeInTheDocument();
+
     await expect(
       canvas.getByRole("button", { name: "Tap to retry sending this message" })
     ).toBeInTheDocument();

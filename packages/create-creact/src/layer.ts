@@ -36,6 +36,7 @@ export type Json =
   | null
   | readonly Json[]
   | { readonly [key: string]: Json };
+
 export type JsonObject = Readonly<Record<string, Json>>;
 
 // oxlint-disable-next-line typescript/no-redundant-type-constituents -- ExtraId is never until the first extra is built
@@ -158,6 +159,7 @@ export const SKILLS_LOCK = "skills-lock.json";
 export const SKILLS_DIR = ".agents/skills";
 export const CLAUDE_SKILLS = ".claude/skills";
 const GITIGNORE = ".gitignore";
+
 const AGENT_GITIGNORE = [
   "!/.claude/",
   "/.claude/*",
@@ -172,6 +174,7 @@ export type Overlay = Readonly<Partial<Record<Scope, Part>>>;
 
 function withoutDependencies(names: readonly string[]): Removal {
   const gone = Object.fromEntries(names.map((name) => [name, null]));
+
   return { dependencies: gone, devDependencies: gone };
 }
 
@@ -436,29 +439,38 @@ export async function loadLayer(
   stack: StackId
 ): Promise<ReadonlyMap<string, string>> {
   const files = new Map<string, string>();
+
   const roots = ids.flatMap((id) =>
     scopes(stack).map((scope) => path.join(layerDir, id, scope))
   );
+
   for (const root of roots.filter((dir) => existsSync(dir))) {
     const entries = await readdir(root, {
       recursive: true,
       withFileTypes: true,
     });
+
     for (const entry of entries.filter((dirent) => dirent.isFile())) {
       const source = path.join(entry.parentPath, entry.name);
       const relative = path.relative(root, source).split(path.sep).join("/");
+
       if (!relative.endsWith(".layer")) {
         throw new Error(`${source} needs the .layer suffix`);
       }
+
       const file = relative.slice(0, -".layer".length);
+
       const content = await readFile(source, "utf8");
+
       const earlier = files.get(file);
+
       if (earlier === undefined) files.set(file, content);
       else if (file.endsWith(".md")) {
         files.set(file, `${earlier.trimEnd()}\n\n${content}`);
       } else throw new Error(`${source} is already in an earlier overlay`);
     }
   }
+
   return files;
 }
 
@@ -472,6 +484,7 @@ export function plan(
     monorepo: MONOREPOS[project.monorepo].summary,
     ...TOOLCHAINS[project.toolchain].imports,
   };
+
   const parts = ids.flatMap((id) =>
     scopes(project.stack).flatMap((scope) => OVERLAYS[id][scope] ?? [])
   );
@@ -479,6 +492,7 @@ export function plan(
   const skills = [
     ...new Set(parts.flatMap((part) => part.skills ?? [])),
   ].toSorted();
+
   const lock = {
     version: 1,
     skills: Object.fromEntries(
@@ -493,6 +507,7 @@ export function plan(
       ])
     ),
   };
+
   const seeds: readonly Extract<Op, { kind: "file" }>[] =
     skills.length > 0
       ? [
@@ -504,22 +519,27 @@ export function plan(
           },
         ]
       : [];
+
   const linkOps = skills.map((id) => ({
     kind: "link" as const,
     skill: id,
     path: `${CLAUDE_SKILLS}/${id}`,
     target: `../../${SKILLS_DIR}/${id}`,
   }));
+
   const ignored = parts.flatMap((part) => part.gitignore ?? []);
+
   const ignoreOps =
     ignored.length > 0 ? [{ kind: "gitignore" as const, lines: ignored }] : [];
 
   const paths = parts
     .flatMap((part) => part.prune?.paths ?? [])
     .map((entry) => render(entry, entry, vars));
+
   const removals = parts.flatMap((part) =>
     JSON_FILES.flatMap((file) => {
       const removal = part.prune?.json?.[file];
+
       return removal === undefined
         ? []
         : [{ file, removal: renderKeys(removal, vars) }];
@@ -537,7 +557,9 @@ export function plan(
 
   const jsonOps = JSON_FILES.flatMap((file) => {
     let patch: JsonObject = {};
+
     for (const part of parts) patch = merge(patch, part.json?.[file] ?? {});
+
     return Object.keys(patch).length > 0
       ? [{ kind: "json" as const, path: file, patch }]
       : [];
@@ -546,8 +568,10 @@ export function plan(
   const depsOps = MANIFESTS.flatMap((manifest) => {
     const listed = (key: keyof Packages) =>
       parts.flatMap((part) => part.packages?.[manifest]?.[key] ?? []);
+
     const dependencies = listed("dependencies");
     const devDependencies = listed("devDependencies");
+
     return dependencies.length + devDependencies.length > 0
       ? [{ kind: "deps" as const, manifest, dependencies, devDependencies }]
       : [];
@@ -572,7 +596,9 @@ export function render(
 ): string {
   return content.replaceAll(/\{\{(\w+)\}\}/g, (_match, name: string) => {
     const value = vars[name];
+
     if (value === undefined) throw new Error(`${file}: unknown {{${name}}}`);
+
     return value;
   });
 }
@@ -591,11 +617,14 @@ function renderKeys(
 
 export function merge(doc: JsonObject, patch: JsonObject): JsonObject {
   const result: Record<string, Json> = { ...doc };
+
   for (const [key, value] of Object.entries(patch)) {
     const current = result[key];
+
     result[key] =
       isObject(current) && isObject(value) ? merge(current, value) : value;
   }
+
   return result;
 }
 
@@ -604,17 +633,25 @@ function remove(
   removal: Removal
 ): readonly [JsonObject, readonly string[]] {
   const removed: string[] = [];
+
   const kept = Object.entries(doc).flatMap(([key, value]): [string, Json][] => {
     const rule = removal[key];
+
     if (rule === null) {
       removed.push(key);
+
       return [];
     }
+
     if (rule === undefined || !isObject(value)) return [[key, value]];
+
     const [inner, gone] = remove(value, rule);
+
     removed.push(...gone);
+
     return [[key, inner]];
   });
+
   return [Object.fromEntries(kept), removed];
 }
 
@@ -633,53 +670,67 @@ export async function apply(
     switch (op.kind) {
       case "prune": {
         if (prior.kind === "upstream-only") pruned = await applyPrune(dir, op);
+
         break;
       }
       case "file": {
         const result = op.seed
           ? await seedFile(dir, op.path, op.content)
           : await applyFile(dir, op.path, op.content, prior);
+
         files[op.path] = result.outcome;
+
         if (result.hash !== undefined) hashes[op.path] = result.hash;
+
         break;
       }
       case "link": {
         locked ??= await lockedSkills(dir);
+
         if (locked.has(op.skill)) {
           files[op.path] = await applyLink(dir, op.path, op.target, prior);
         }
+
         break;
       }
       case "gitignore": {
         files[GITIGNORE] = await applyIgnore(dir, op.lines);
+
         break;
       }
       case "json": {
         files[op.path] = await applyJson(path.join(dir, op.path), op.patch);
+
         break;
       }
       case "deps": {
         const pkg = await readJson(path.join(dir, op.manifest));
+
         const present = new Set(
           DEPENDENCY_MAPS.flatMap((key) => Object.keys(objectAt(pkg, key)))
         );
+
         const absent = (names: readonly string[]) =>
           names.filter((name) => !present.has(name));
+
         const addition = {
           manifest: op.manifest,
           dependencies: absent(op.dependencies),
           devDependencies: absent(op.devDependencies),
         };
+
         if (
           addition.dependencies.length + addition.devDependencies.length >
           0
         ) {
           missing.push(addition);
         }
+
         break;
       }
     }
   }
+
   return { files, hashes, pruned, missing };
 }
 
@@ -690,19 +741,25 @@ async function applyPrune(
   const paths = prune.paths.filter((entry) =>
     existsSync(path.join(dir, entry))
   );
+
   for (const entry of paths) {
     await rm(path.join(dir, entry), { recursive: true, force: true });
   }
 
   const keys = new Set<string>();
+
   for (const { file, removal } of prune.json) {
     const target = path.join(dir, file);
+
     const [doc, removed] = remove(await readJson(target), removal);
+
     if (removed.length > 0) {
       await writeAtomic(target, `${JSON.stringify(doc, null, 2)}\n`);
+
       for (const key of removed) keys.add(key);
     }
   }
+
   return [...paths, ...keys];
 }
 
@@ -713,18 +770,24 @@ async function applyFile(
   prior: Prior
 ): Promise<{ readonly outcome: Outcome; readonly hash: string | undefined }> {
   const target = path.join(dir, file);
+
   const current = await readText(target);
+
   const recorded = prior.kind === "recorded" ? prior.hashes[file] : undefined;
+
   if (current === content)
     return { outcome: "unchanged", hash: sha256(content) };
+
   if (
     current === undefined ||
     prior.kind === "upstream-only" ||
     sha256(current) === recorded
   ) {
     await writeAtomic(target, content);
+
     return { outcome: "written", hash: sha256(content) };
   }
+
   return { outcome: "kept", hash: recorded };
 }
 
@@ -732,6 +795,7 @@ async function applyFile(
 // removed on a rerun.
 export async function lockedSkills(dir: string): Promise<ReadonlySet<string>> {
   const lock = await readJson(path.join(dir, SKILLS_LOCK));
+
   return new Set(Object.keys(isObject(lock.skills) ? lock.skills : {}));
 }
 
@@ -743,8 +807,11 @@ async function seedFile(
   content: string
 ): Promise<{ readonly outcome: Outcome; readonly hash: undefined }> {
   const target = path.join(dir, file);
+
   if (existsSync(target)) return { outcome: "unchanged", hash: undefined };
+
   await writeAtomic(target, content);
+
   return { outcome: "written", hash: undefined };
 }
 
@@ -755,14 +822,21 @@ async function applyLink(
   prior: Prior
 ): Promise<Outcome> {
   const link = path.join(dir, file);
+
   const current = await lstat(link).catch(() => null);
+
   if (current?.isSymbolicLink() && (await readlink(link)) === target) {
     return "unchanged";
   }
+
   if (current !== null && prior.kind === "recorded") return "kept";
+
   await rm(link, { recursive: true, force: true });
+
   await mkdir(path.dirname(link), { recursive: true });
+
   await symlink(target, link);
+
   return "written";
 }
 
@@ -771,9 +845,13 @@ async function applyIgnore(
   block: readonly string[]
 ): Promise<Outcome> {
   const file = path.join(dir, GITIGNORE);
+
   const current = (await readText(file)) ?? "";
+
   if (containsBlock(current.split("\n"), block)) return "unchanged";
+
   await writeAtomic(file, withBlock(current, block));
+
   return "written";
 }
 
@@ -790,36 +868,51 @@ function withBlock(current: string, block: readonly string[]): string {
   const lines = current.split("\n");
   const own = new Set(block);
   const first = lines.findIndex((line) => own.has(line));
+
   if (first === -1) {
     const head = current === "" ? "" : `${current.trimEnd()}\n\n`;
+
     return `${head}${block.join("\n")}\n`;
   }
+
   const rest = lines.slice(first).filter((line) => !own.has(line));
+
   return [...lines.slice(0, first), ...block, ...rest].join("\n");
 }
 
 async function applyJson(file: string, patch: JsonObject): Promise<Outcome> {
   const current = await readJson(file);
+
   const next = merge(current, patch);
+
   if (JSON.stringify(next) === JSON.stringify(current)) return "unchanged";
+
   await writeAtomic(file, `${JSON.stringify(next, null, 2)}\n`);
+
   return "written";
 }
+
 export async function readState(dir: string): Promise<State | undefined> {
   const file = path.join(dir, STATE_FILE);
+
   if (!existsSync(file)) return undefined;
+
   const raw = await readJson(file);
+
   const { schema, creact, name, stack, styling, monorepo, extras, hashes } =
     raw;
+
   // Projects made before Vite+ was a choice have no toolchain recorded.
   const toolchain = Object.hasOwn(raw, "toolchain")
     ? raw.toolchain
     : "standalone";
+
   if (schema === 1) {
     throw new UsageError(
       `${file} comes from the first create-creact, which made single-package projects. This one makes monorepos and can't update it.`
     );
   }
+
   const valid =
     schema === 2 &&
     typeof creact === "string" &&
@@ -837,18 +930,23 @@ export async function readState(dir: string): Promise<State | undefined> {
     extras.every((id) => typeof id === "string" && isBuilt(EXTRAS, id)) &&
     isObject(hashes) &&
     Object.values(hashes).every((hash) => typeof hash === "string");
+
   if (!valid) {
     throw new UsageError(`${file} isn't a create-creact state file`);
   }
+
   return { ...raw, toolchain } as unknown as State;
 }
 
 export async function writeState(dir: string, state: State): Promise<void> {
   const file = path.join(dir, STATE_FILE);
+
   if (existsSync(file)) {
     const current = await readJson(file);
+
     if (JSON.stringify(current) === JSON.stringify(state)) return;
   }
+
   await writeAtomic(file, `${JSON.stringify(state, null, 2)}\n`);
 }
 
@@ -858,6 +956,7 @@ export function isObject(value: Json | undefined): value is JsonObject {
 
 function objectAt(doc: JsonObject, key: string): JsonObject {
   const value = doc[key];
+
   return isObject(value) ? value : {};
 }
 
@@ -871,13 +970,18 @@ async function readText(file: string): Promise<string | undefined> {
 
 export async function readJson(file: string): Promise<JsonObject> {
   const parsed = JSON.parse(await readFile(file, "utf8")) as Json;
+
   if (!isObject(parsed)) throw new UsageError(`${file} isn't a JSON object`);
+
   return parsed;
 }
 
 async function writeAtomic(file: string, content: string): Promise<void> {
   await mkdir(path.dirname(file), { recursive: true });
+
   const temp = `${file}.creact-tmp`;
+
   await writeFile(temp, content);
+
   await rename(temp, file);
 }

@@ -102,22 +102,29 @@ Default.test(
   "when hovering over trigger, should show hover card content",
   async ({ canvasElement, step }) => {
     const canvasBody = within(canvasElement.ownerDocument.body);
+
     const trigger = await canvasBody.findByRole("button", {
       name: /@nextjs/,
     });
 
     await step("Hover over the trigger element", async () => {
       await userEvent.hover(trigger);
+
       await waitFor(async () => {
         const hoverCard = getHoverCard(canvasElement);
+
         await expect(hoverCard).toBeInTheDocument();
+
         await expect(hoverCard).toHaveAttribute("data-open");
       });
     });
+
     await step("Unhover the trigger element", async () => {
       await userEvent.unhover(trigger);
+
       await waitFor(async () => {
         const hoverCard = getHoverCard(canvasElement);
+
         await expect(hoverCard).toHaveAttribute("data-closed");
       });
     });
@@ -131,20 +138,28 @@ Default.test(
 
     await step("Tab to focus the trigger element", async () => {
       await userEvent.tab();
+
       const trigger = await canvasBody.findByRole("button", {
         name: /@nextjs/,
       });
+
       await expect(trigger).toHaveFocus();
+
       await waitFor(async () => {
         const hoverCard = getHoverCard(canvasElement);
+
         await expect(hoverCard).toBeInTheDocument();
+
         await expect(hoverCard).toHaveAttribute("data-open");
       });
     });
+
     await step("Tab away from the trigger element", async () => {
       await userEvent.tab();
+
       await waitFor(async () => {
         const hoverCard = getHoverCard(canvasElement);
+
         await expect(hoverCard).toHaveAttribute("data-closed");
       });
     });

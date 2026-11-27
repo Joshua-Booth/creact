@@ -35,7 +35,9 @@ Default.test(
   "should show login and signup links when unauthenticated",
   async ({ canvas }) => {
     await expect(canvas.getByText("Login")).toBeVisible();
+
     await expect(canvas.getByText("Sign Up")).toBeVisible();
+
     await expect(canvas.getByRole("link", { name: "Home" })).toHaveAttribute(
       "href",
       "/"
@@ -47,7 +49,9 @@ Authenticated.test(
   "should hide login/signup links when authenticated",
   async ({ canvas }) => {
     await expect(canvas.queryByText("Login")).not.toBeInTheDocument();
+
     await expect(canvas.queryByText("Sign Up")).not.toBeInTheDocument();
+
     await expect(canvas.getByRole("link", { name: "Home" })).toHaveAttribute(
       "href",
       "/dashboard"

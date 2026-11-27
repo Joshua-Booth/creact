@@ -4,6 +4,7 @@ import { useSyncExternalStore } from "react";
 function noop() {
   // Intentionally empty - used as a stable no-op callback reference
 }
+
 function emptySubscribe() {
   return noop;
 }

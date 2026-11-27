@@ -73,6 +73,7 @@ function stopPropagation(event: React.SyntheticEvent) {
 
 function preventDefaultAndStopPropagation(event: React.SyntheticEvent) {
   event.preventDefault();
+
   event.stopPropagation();
 }
 
@@ -98,9 +99,12 @@ export function ShortTextCell<TData extends RowData>({
   const containerRef = useRef<HTMLDivElement>(null);
 
   const prevInitialValueRef = useRef(initialValue);
+
   if (initialValue !== prevInitialValueRef.current) {
     prevInitialValueRef.current = initialValue;
+
     setValue(initialValue);
+
     if (cellRef.current && !isEditing) {
       cellRef.current.textContent = initialValue;
     }
@@ -108,14 +112,17 @@ export function ShortTextCell<TData extends RowData>({
 
   const onBlur = useCallback(() => {
     const currentValue = cellRef.current?.textContent ?? "";
+
     if (!readOnly && currentValue !== initialValue) {
       tableMeta?.onDataUpdate?.({ rowIndex, columnId, value: currentValue });
     }
+
     tableMeta?.onCellEditingStop?.();
   }, [tableMeta, rowIndex, columnId, initialValue, readOnly]);
 
   const onInput = useCallback((event: React.FormEvent<HTMLDivElement>) => {
     const currentValue = event.currentTarget.textContent ?? "";
+
     setValue(currentValue);
   }, []);
 
@@ -125,7 +132,9 @@ export function ShortTextCell<TData extends RowData>({
         switch (event.key) {
           case "Enter": {
             event.preventDefault();
+
             const currentValue = cellRef.current?.textContent ?? "";
+
             if (currentValue !== initialValue) {
               tableMeta?.onDataUpdate?.({
                 rowIndex,
@@ -133,13 +142,16 @@ export function ShortTextCell<TData extends RowData>({
                 value: currentValue,
               });
             }
+
             tableMeta?.onCellEditingStop?.({ moveToNextRow: true });
 
             break;
           }
           case "Tab": {
             event.preventDefault();
+
             const currentValue = cellRef.current?.textContent ?? "";
+
             if (currentValue !== initialValue) {
               tableMeta?.onDataUpdate?.({
                 rowIndex,
@@ -147,6 +159,7 @@ export function ShortTextCell<TData extends RowData>({
                 value: currentValue,
               });
             }
+
             tableMeta?.onCellEditingStop?.({
               direction: event.shiftKey ? "left" : "right",
             });
@@ -155,7 +168,9 @@ export function ShortTextCell<TData extends RowData>({
           }
           case "Escape": {
             event.preventDefault();
+
             setValue(initialValue);
+
             cellRef.current?.blur();
 
             break;
@@ -173,11 +188,16 @@ export function ShortTextCell<TData extends RowData>({
         queueMicrotask(() => {
           if (cellRef.current?.contentEditable === "true") {
             cellRef.current.textContent = event.key;
+
             const range = document.createRange();
             const selection = window.getSelection();
+
             range.selectNodeContents(cellRef.current);
+
             range.collapse(false);
+
             selection?.removeAllRanges();
+
             selection?.addRange(range);
           }
         });
@@ -197,9 +217,13 @@ export function ShortTextCell<TData extends RowData>({
       if (cellRef.current.textContent !== "") {
         const range = document.createRange();
         const selection = window.getSelection();
+
         range.selectNodeContents(cellRef.current);
+
         range.collapse(false);
+
         selection?.removeAllRanges();
+
         selection?.addRange(range);
       }
     }
@@ -270,6 +294,7 @@ export function LongTextCell<TData extends RowData>({
 
   if (initialValue !== prevInitialValueRef.current) {
     prevInitialValueRef.current = initialValue;
+
     setValue(initialValue ?? "");
   }
 
@@ -283,14 +308,17 @@ export function LongTextCell<TData extends RowData>({
     if (!readOnly && value !== initialValue) {
       tableMeta?.onDataUpdate?.({ rowIndex, columnId, value });
     }
+
     tableMeta?.onCellEditingStop?.();
   }, [tableMeta, value, initialValue, rowIndex, columnId, readOnly]);
 
   const onCancel = useCallback(() => {
     setValue(initialValue ?? "");
+
     if (!readOnly) {
       tableMeta?.onDataUpdate?.({ rowIndex, columnId, value: initialValue });
     }
+
     tableMeta?.onCellEditingStop?.();
   }, [tableMeta, initialValue, rowIndex, columnId, readOnly]);
 
@@ -302,6 +330,7 @@ export function LongTextCell<TData extends RowData>({
         if (!readOnly && value !== initialValue) {
           tableMeta?.onDataUpdate?.({ rowIndex, columnId, value });
         }
+
         tableMeta?.onCellEditingStop?.();
       }
     },
@@ -311,12 +340,16 @@ export function LongTextCell<TData extends RowData>({
   const initialFocus = useCallback(() => {
     if (textareaRef.current) {
       textareaRef.current.focus();
+
       const length = textareaRef.current.value.length;
+
       textareaRef.current.setSelectionRange(length, length);
 
       if (pendingCharRef.current) {
         const char = pendingCharRef.current;
+
         pendingCharRef.current = null;
+
         /* istanbul ignore next 7 -- requestAnimationFrame callback */
         requestAnimationFrame(() => {
           if (
@@ -324,6 +357,7 @@ export function LongTextCell<TData extends RowData>({
             document.activeElement === textareaRef.current
           ) {
             document.execCommand("insertText", false, char);
+
             textareaRef.current.scrollTop = textareaRef.current.scrollHeight;
           }
         });
@@ -353,13 +387,16 @@ export function LongTextCell<TData extends RowData>({
     if (!readOnly && value !== initialValue) {
       tableMeta?.onDataUpdate?.({ rowIndex, columnId, value });
     }
+
     tableMeta?.onCellEditingStop?.();
   }, [tableMeta, value, initialValue, rowIndex, columnId, readOnly]);
 
   const onChange = useCallback(
     (event: React.ChangeEvent<HTMLTextAreaElement>) => {
       const newValue = event.target.value;
+
       setValue(newValue);
+
       debouncedSave(newValue);
     },
     [debouncedSave]
@@ -369,20 +406,26 @@ export function LongTextCell<TData extends RowData>({
     (event: React.KeyboardEvent<HTMLTextAreaElement>) => {
       if (event.key === "Escape") {
         event.preventDefault();
+
         onCancel();
       } else if (event.key === "Enter" && (event.ctrlKey || event.metaKey)) {
         event.preventDefault();
+
         onSave();
       } else if (event.key === "Tab") {
         event.preventDefault();
+
         if (value !== initialValue) {
           tableMeta?.onDataUpdate?.({ rowIndex, columnId, value });
         }
+
         tableMeta?.onCellEditingStop?.({
           direction: event.shiftKey ? "left" : "right",
         });
+
         return;
       }
+
       event.stopPropagation();
     },
     [onSave, onCancel, value, initialValue, tableMeta, rowIndex, columnId]
@@ -461,16 +504,20 @@ export function NumberCell<TData extends RowData>({
   const prevIsEditingRef = useRef(isEditing);
 
   const prevInitialValueRef = useRef(initialValue);
+
   if (initialValue !== prevInitialValueRef.current) {
     prevInitialValueRef.current = initialValue;
+
     setValue(String(initialValue ?? ""));
   }
 
   const onBlur = useCallback(() => {
     const numValue = value === "" ? null : Number(value);
+
     if (!readOnly && numValue !== initialValue) {
       tableMeta?.onDataUpdate?.({ rowIndex, columnId, value: numValue });
     }
+
     tableMeta?.onCellEditingStop?.();
   }, [tableMeta, rowIndex, columnId, initialValue, value, readOnly]);
 
@@ -484,7 +531,9 @@ export function NumberCell<TData extends RowData>({
         switch (event.key) {
           case "Enter": {
             event.preventDefault();
+
             const numValue = value === "" ? null : Number(value);
+
             if (numValue !== initialValue) {
               tableMeta?.onDataUpdate?.({
                 rowIndex,
@@ -492,13 +541,16 @@ export function NumberCell<TData extends RowData>({
                 value: numValue,
               });
             }
+
             tableMeta?.onCellEditingStop?.({ moveToNextRow: true });
 
             break;
           }
           case "Tab": {
             event.preventDefault();
+
             const numValue = value === "" ? null : Number(value);
+
             if (numValue !== initialValue) {
               tableMeta?.onDataUpdate?.({
                 rowIndex,
@@ -506,6 +558,7 @@ export function NumberCell<TData extends RowData>({
                 value: numValue,
               });
             }
+
             tableMeta?.onCellEditingStop?.({
               direction: event.shiftKey ? "left" : "right",
             });
@@ -514,7 +567,9 @@ export function NumberCell<TData extends RowData>({
           }
           case "Escape": {
             event.preventDefault();
+
             setValue(String(initialValue ?? ""));
+
             inputRef.current?.blur();
 
             break;
@@ -534,6 +589,7 @@ export function NumberCell<TData extends RowData>({
 
   useEffect(() => {
     const wasEditing = prevIsEditingRef.current;
+
     prevIsEditingRef.current = isEditing;
 
     if (isEditing && !wasEditing && inputRef.current) {
@@ -600,7 +656,9 @@ export function UrlCell<TData extends RowData>({
 
   if (initialValue !== prevInitialValueRef.current) {
     prevInitialValueRef.current = initialValue;
+
     setValue(initialValue ?? "");
+
     if (cellRef.current && !isEditing) {
       cellRef.current.textContent = initialValue ?? "";
     }
@@ -616,11 +674,13 @@ export function UrlCell<TData extends RowData>({
         value: currentValue === "" ? null : currentValue,
       });
     }
+
     tableMeta?.onCellEditingStop?.();
   }, [tableMeta, rowIndex, columnId, initialValue, readOnly]);
 
   const onInput = useCallback((event: React.FormEvent<HTMLDivElement>) => {
     const currentValue = event.currentTarget.textContent ?? "";
+
     setValue(currentValue);
   }, []);
 
@@ -630,7 +690,9 @@ export function UrlCell<TData extends RowData>({
         switch (event.key) {
           case "Enter": {
             event.preventDefault();
+
             const currentValue = cellRef.current?.textContent?.trim() ?? "";
+
             if (!readOnly && currentValue !== initialValue) {
               tableMeta?.onDataUpdate?.({
                 rowIndex,
@@ -638,13 +700,16 @@ export function UrlCell<TData extends RowData>({
                 value: currentValue === "" ? null : currentValue,
               });
             }
+
             tableMeta?.onCellEditingStop?.({ moveToNextRow: true });
 
             break;
           }
           case "Tab": {
             event.preventDefault();
+
             const currentValue = cellRef.current?.textContent?.trim() ?? "";
+
             if (!readOnly && currentValue !== initialValue) {
               tableMeta?.onDataUpdate?.({
                 rowIndex,
@@ -652,6 +717,7 @@ export function UrlCell<TData extends RowData>({
                 value: currentValue === "" ? null : currentValue,
               });
             }
+
             tableMeta?.onCellEditingStop?.({
               direction: event.shiftKey ? "left" : "right",
             });
@@ -660,7 +726,9 @@ export function UrlCell<TData extends RowData>({
           }
           case "Escape": {
             event.preventDefault();
+
             setValue(initialValue ?? "");
+
             cellRef.current?.blur();
 
             break;
@@ -679,11 +747,16 @@ export function UrlCell<TData extends RowData>({
         queueMicrotask(() => {
           if (cellRef.current?.contentEditable === "true") {
             cellRef.current.textContent = event.key;
+
             const range = document.createRange();
             const selection = window.getSelection();
+
             range.selectNodeContents(cellRef.current);
+
             range.collapse(false);
+
             selection?.removeAllRanges();
+
             selection?.addRange(range);
           }
         });
@@ -704,15 +777,19 @@ export function UrlCell<TData extends RowData>({
     (event: React.MouseEvent<HTMLAnchorElement>) => {
       if (isEditing) {
         event.preventDefault();
+
         return;
       }
 
       const href = getUrlHref(value);
+
       if (href === "") {
         event.preventDefault();
+
         toast.error(t("dataGrid.cell.invalidUrl"), {
           description: t("dataGrid.cell.dangerousProtocol"),
         });
+
         return;
       }
 
@@ -732,9 +809,13 @@ export function UrlCell<TData extends RowData>({
       if (cellRef.current.textContent !== "") {
         const range = document.createRange();
         const selection = window.getSelection();
+
         range.selectNodeContents(cellRef.current);
+
         range.collapse(false);
+
         selection?.removeAllRanges();
+
         selection?.addRange(range);
       }
     }
@@ -818,15 +899,19 @@ export function CheckboxCell<TData extends RowData>({
   const containerRef = useRef<HTMLDivElement>(null);
 
   const prevInitialValueRef = useRef(initialValue);
+
   if (initialValue !== prevInitialValueRef.current) {
     prevInitialValueRef.current = initialValue;
+
     setValue(initialValue);
   }
 
   const onCheckedChange = useCallback(
     (checked: boolean) => {
       if (readOnly) return;
+
       setValue(checked);
+
       tableMeta?.onDataUpdate?.({ rowIndex, columnId, value: checked });
     },
     [tableMeta, rowIndex, columnId, readOnly]
@@ -840,10 +925,13 @@ export function CheckboxCell<TData extends RowData>({
         (event.key === " " || event.key === "Enter")
       ) {
         event.preventDefault();
+
         event.stopPropagation();
+
         onCheckedChange(!value);
       } else if (isFocused && event.key === "Tab") {
         event.preventDefault();
+
         tableMeta?.onCellEditingStop?.({
           direction: event.shiftKey ? "left" : "right",
         });
@@ -856,7 +944,9 @@ export function CheckboxCell<TData extends RowData>({
     (event: React.MouseEvent) => {
       if (isFocused && !readOnly) {
         event.preventDefault();
+
         event.stopPropagation();
+
         onCheckedChange(!value);
       }
     },
@@ -919,14 +1009,18 @@ export function SelectCell<TData extends RowData>({
 
   if (initialValue !== prevInitialValueRef.current) {
     prevInitialValueRef.current = initialValue;
+
     setValue(initialValue);
   }
 
   const onValueChange = useCallback(
     (newValue: string | null) => {
       if (readOnly || newValue === null) return;
+
       setValue(newValue);
+
       tableMeta?.onDataUpdate?.({ rowIndex, columnId, value: newValue });
+
       tableMeta?.onCellEditingStop?.();
     },
     [tableMeta, rowIndex, columnId, readOnly]
@@ -947,10 +1041,13 @@ export function SelectCell<TData extends RowData>({
     (event: React.KeyboardEvent<HTMLDivElement>) => {
       if (isEditing && event.key === "Escape") {
         event.preventDefault();
+
         setValue(initialValue);
+
         tableMeta?.onCellEditingStop?.();
       } else if (isFocused && event.key === "Tab") {
         event.preventDefault();
+
         tableMeta?.onCellEditingStop?.({
           direction: event.shiftKey ? "left" : "right",
         });
@@ -1043,8 +1140,10 @@ export function MultiSelectCell<TData extends RowData>({
   readOnly,
 }: DataGridCellProps<TData>) {
   const { t } = useTranslation("components");
+
   const cellValue = useMemo(() => {
     const value = cell.getValue() as string[];
+
     return value ?? [];
   }, [cell]);
 
@@ -1064,23 +1163,30 @@ export function MultiSelectCell<TData extends RowData>({
 
   if (cellValue !== prevCellValueRef.current) {
     prevCellValueRef.current = cellValue;
+
     setSelectedValues(cellValue);
   }
 
   if (prevCellKeyRef.current !== cellKey) {
     prevCellKeyRef.current = cellKey;
+
     setSearchValue("");
   }
+
   const onValueChange = useCallback(
     (value: string) => {
       if (readOnly) return;
+
       const newValues = selectedValues.includes(value)
         ? selectedValues.filter((v) => v !== value)
         : [...selectedValues, value];
 
       setSelectedValues(newValues);
+
       tableMeta?.onDataUpdate?.({ rowIndex, columnId, value: newValues });
+
       setSearchValue("");
+
       queueMicrotask(() => inputRef.current?.focus());
     },
     [selectedValues, tableMeta, rowIndex, columnId, readOnly]
@@ -1089,11 +1195,17 @@ export function MultiSelectCell<TData extends RowData>({
   const removeValue = useCallback(
     (valueToRemove: string, event?: React.MouseEvent) => {
       if (readOnly) return;
+
       event?.stopPropagation();
+
       event?.preventDefault();
+
       const newValues = selectedValues.filter((v) => v !== valueToRemove);
+
       setSelectedValues(newValues);
+
       tableMeta?.onDataUpdate?.({ rowIndex, columnId, value: newValues });
+
       setTimeout(() => inputRef.current?.focus(), 0);
     },
     [selectedValues, tableMeta, rowIndex, columnId, readOnly]
@@ -1101,8 +1213,11 @@ export function MultiSelectCell<TData extends RowData>({
 
   const clearAll = useCallback(() => {
     if (readOnly) return;
+
     setSelectedValues([]);
+
     tableMeta?.onDataUpdate?.({ rowIndex, columnId, value: [] });
+
     queueMicrotask(() => inputRef.current?.focus());
   }, [tableMeta, rowIndex, columnId, readOnly]);
 
@@ -1112,6 +1227,7 @@ export function MultiSelectCell<TData extends RowData>({
         tableMeta?.onCellEditingStart?.(rowIndex, columnId);
       } else {
         setSearchValue("");
+
         tableMeta?.onCellEditingStop?.();
       }
     },
@@ -1126,12 +1242,17 @@ export function MultiSelectCell<TData extends RowData>({
     (event: React.KeyboardEvent<HTMLDivElement>) => {
       if (isEditing && event.key === "Escape") {
         event.preventDefault();
+
         setSelectedValues(cellValue);
+
         setSearchValue("");
+
         tableMeta?.onCellEditingStop?.();
       } else if (isFocused && event.key === "Tab") {
         event.preventDefault();
+
         setSearchValue("");
+
         tableMeta?.onCellEditingStop?.({
           direction: event.shiftKey ? "left" : "right",
         });
@@ -1148,11 +1269,14 @@ export function MultiSelectCell<TData extends RowData>({
         selectedValues.length > 0
       ) {
         event.preventDefault();
+
         const lastValue = selectedValues.at(-1);
+
         if (lastValue) {
           removeValue(lastValue);
         }
       }
+
       if (event.key === "Escape") {
         event.stopPropagation();
       }
@@ -1227,6 +1351,7 @@ export function MultiSelectCell<TData extends RowData>({
                         onPointerDown={
                           /* istanbul ignore next 4 */ (event) => {
                             event.preventDefault();
+
                             event.stopPropagation();
                           }
                         }
@@ -1343,6 +1468,7 @@ export function DateCell<TData extends RowData>({
 
   if (initialValue !== prevInitialValueRef.current) {
     prevInitialValueRef.current = initialValue;
+
     setValue(initialValue ?? "");
   }
 
@@ -1354,8 +1480,11 @@ export function DateCell<TData extends RowData>({
       if (!date || readOnly) return;
 
       const formattedDate = formatDateToString(date);
+
       setValue(formattedDate);
+
       tableMeta?.onDataUpdate?.({ rowIndex, columnId, value: formattedDate });
+
       tableMeta?.onCellEditingStop?.();
     },
     [tableMeta, rowIndex, columnId, readOnly]
@@ -1376,10 +1505,13 @@ export function DateCell<TData extends RowData>({
     (event: React.KeyboardEvent<HTMLDivElement>) => {
       if (isEditing && event.key === "Escape") {
         event.preventDefault();
+
         setValue(initialValue);
+
         tableMeta?.onCellEditingStop?.();
       } else if (isFocused && event.key === "Tab") {
         event.preventDefault();
+
         tableMeta?.onCellEditingStop?.({
           direction: event.shiftKey ? "left" : "right",
         });
@@ -1447,6 +1579,7 @@ export function FileCell<TData extends RowData>({
   readOnly,
 }: DataGridCellProps<TData>) {
   const { t } = useTranslation("components");
+
   const cellValue = useMemo(
     () => (cell.getValue() as FileCellData[]) ?? [],
     [cell]
@@ -1459,12 +1592,15 @@ export function FileCell<TData extends RowData>({
   const descriptionId = useId();
 
   const [files, setFiles] = useState<FileCellData[]>(cellValue);
+
   const [uploadingFiles, setUploadingFiles] = useState<Set<string>>(
     () => new Set()
   );
+
   const [deletingFiles, setDeletingFiles] = useState<Set<string>>(
     () => new Set()
   );
+
   const [isDraggingOver, setIsDraggingOver] = useState(false);
   const [isDragging, setIsDragging] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -1494,19 +1630,24 @@ export function FileCell<TData extends RowData>({
 
   if (cellValue !== prevCellValueRef.current) {
     prevCellValueRef.current = cellValue;
+
     for (const file of files) {
       if (file.url) {
         URL.revokeObjectURL(file.url);
       }
     }
+
     setFiles(cellValue);
+
     setError(null);
   }
 
   if (prevCellKeyRef.current !== cellKey) {
     prevCellKeyRef.current = cellKey;
+
     setError(null);
   }
+
   const validateFile = useCallback(
     (file: File) => {
       if (maxFileSize !== 0 && file.size > maxFileSize) {
@@ -1514,22 +1655,29 @@ export function FileCell<TData extends RowData>({
           size: formatFileSize(maxFileSize),
         });
       }
+
       if (acceptedTypes) {
         const fileExtension = `.${file.name.split(".").pop()}`;
+
         const isAccepted = acceptedTypes.some((type) => {
           if (type.endsWith("/*")) {
             const baseType = type.slice(0, -2);
+
             return file.type.startsWith(`${baseType}/`);
           }
+
           if (type.startsWith(".")) {
             return fileExtension.toLowerCase() === type.toLowerCase();
           }
+
           return file.type === type;
         });
+
         if (!isAccepted) {
           return t("dataGrid.cell.fileTypeNotAccepted");
         }
       }
+
       return null;
     },
     [maxFileSize, acceptedTypes, t]
@@ -1538,17 +1686,22 @@ export function FileCell<TData extends RowData>({
   const addFiles = useCallback(
     async (newFiles: File[], skipUpload = false) => {
       if (readOnly || isPending) return;
+
       setError(null);
 
       if (maxFiles !== 0 && files.length + newFiles.length > maxFiles) {
         const errorMessage = t("dataGrid.cell.maxFilesAllowed", {
           count: maxFiles,
         });
+
         setError(errorMessage);
+
         toast(errorMessage);
+
         setTimeout(() => {
           setError(null);
         }, 2000);
+
         return;
       }
 
@@ -1557,15 +1710,19 @@ export function FileCell<TData extends RowData>({
 
       for (const file of newFiles) {
         const validationError = validateFile(file);
+
         if (validationError) {
           rejectedFiles.push({ name: file.name, reason: validationError });
+
           continue;
         }
+
         filesToValidate.push(file);
       }
 
       if (rejectedFiles.length > 0) {
         const firstError = rejectedFiles[0];
+
         if (firstError) {
           setError(firstError.reason);
 
@@ -1604,8 +1761,11 @@ export function FileCell<TData extends RowData>({
             type: f.type,
             url: URL.createObjectURL(f),
           }));
+
           const updatedFiles = [...files, ...newFilesData];
+
           setFiles(updatedFiles);
+
           tableMeta?.onDataUpdate?.({
             rowIndex,
             columnId,
@@ -1619,10 +1779,13 @@ export function FileCell<TData extends RowData>({
             type: f.type,
             url: undefined,
           }));
+
           const filesWithTemp = [...files, ...tempFiles];
+
           setFiles(filesWithTemp);
 
           const uploadingIds = new Set<string>(tempFiles.map((f) => f.id));
+
           setUploadingFiles(uploadingIds);
 
           let uploadedFiles: FileCellData[] = [];
@@ -1638,13 +1801,18 @@ export function FileCell<TData extends RowData>({
               const fallbackMessage = t("dataGrid.cell.failedToUpload", {
                 count: filesToValidate.length,
               });
+
               const errorMessage =
                 uploadError instanceof Error
                   ? uploadError.message
                   : fallbackMessage;
+
               toast.error(errorMessage);
+
               setFiles((prev) => prev.filter((f) => !uploadingIds.has(f.id)));
+
               setUploadingFiles(new Set());
+
               return;
             }
           } else {
@@ -1662,12 +1830,15 @@ export function FileCell<TData extends RowData>({
               if (uploadingIds.has(f.id)) {
                 return uploadedFiles.find((uf) => uf.name === f.name) ?? f;
               }
+
               return f;
             })
             .filter((f) => f.url !== undefined);
 
           setFiles(finalFiles);
+
           setUploadingFiles(new Set());
+
           tableMeta?.onDataUpdate?.({ rowIndex, columnId, value: finalFiles });
         }
       }
@@ -1688,9 +1859,11 @@ export function FileCell<TData extends RowData>({
   const removeFile = useCallback(
     async (fileId: string) => {
       if (readOnly || isPending) return;
+
       setError(null);
 
       const fileToRemove = files.find((f) => f.id === fileId);
+
       if (!fileToRemove) return;
 
       setDeletingFiles((prev) => new Set(prev).add(fileId));
@@ -1710,11 +1883,15 @@ export function FileCell<TData extends RowData>({
                   name: fileToRemove.name,
                 })
           );
+
           setDeletingFiles((prev) => {
             const next = new Set(prev);
+
             next.delete(fileId);
+
             return next;
           });
+
           return;
         }
       }
@@ -1724,12 +1901,17 @@ export function FileCell<TData extends RowData>({
       }
 
       const updatedFiles = files.filter((f) => f.id !== fileId);
+
       setFiles(updatedFiles);
+
       setDeletingFiles((prev) => {
         const next = new Set(prev);
+
         next.delete(fileId);
+
         return next;
       });
+
       tableMeta?.onDataUpdate?.({ rowIndex, columnId, value: updatedFiles });
     },
     [files, tableMeta, rowIndex, columnId, readOnly, isPending, t]
@@ -1737,9 +1919,11 @@ export function FileCell<TData extends RowData>({
 
   const clearAll = useCallback(async () => {
     if (readOnly || isPending) return;
+
     setError(null);
 
     const fileIds = files.map((f) => f.id);
+
     setDeletingFiles(new Set(fileIds));
 
     if (tableMeta?.onFilesDelete && files.length > 0) {
@@ -1755,7 +1939,9 @@ export function FileCell<TData extends RowData>({
             ? deleteError.message
             : t("dataGrid.cell.failedToDeleteFiles")
         );
+
         setDeletingFiles(new Set());
+
         return;
       }
     }
@@ -1765,14 +1951,19 @@ export function FileCell<TData extends RowData>({
         URL.revokeObjectURL(file.url);
       }
     }
+
     setFiles([]);
+
     setDeletingFiles(new Set());
+
     tableMeta?.onDataUpdate?.({ rowIndex, columnId, value: [] });
   }, [files, tableMeta, rowIndex, columnId, readOnly, isPending, t]);
 
   const onCellDragEnter = useCallback((event: React.DragEvent) => {
     event.preventDefault();
+
     event.stopPropagation();
+
     if (event.dataTransfer.types.includes("Files")) {
       setIsDraggingOver(true);
     }
@@ -1780,7 +1971,9 @@ export function FileCell<TData extends RowData>({
 
   const onCellDragLeave = useCallback((event: React.DragEvent) => {
     event.preventDefault();
+
     event.stopPropagation();
+
     const rect = event.currentTarget.getBoundingClientRect();
     const x = event.clientX;
     const y = event.clientY;
@@ -1800,10 +1993,13 @@ export function FileCell<TData extends RowData>({
   const onCellDrop = useCallback(
     (event: React.DragEvent) => {
       event.preventDefault();
+
       event.stopPropagation();
+
       setIsDraggingOver(false);
 
       const droppedFiles = [...event.dataTransfer.files];
+
       if (droppedFiles.length > 0) {
         void addFiles(droppedFiles, false);
       }
@@ -1813,13 +2009,17 @@ export function FileCell<TData extends RowData>({
 
   const onDropzoneDragEnter = useCallback((event: React.DragEvent) => {
     event.preventDefault();
+
     event.stopPropagation();
+
     setIsDragging(true);
   }, []);
 
   const onDropzoneDragLeave = useCallback((event: React.DragEvent) => {
     event.preventDefault();
+
     event.stopPropagation();
+
     const rect = event.currentTarget.getBoundingClientRect();
     const x = event.clientX;
     const y = event.clientY;
@@ -1839,10 +2039,13 @@ export function FileCell<TData extends RowData>({
   const onDropzoneDrop = useCallback(
     (event: React.DragEvent) => {
       event.preventDefault();
+
       event.stopPropagation();
+
       setIsDragging(false);
 
       const droppedFiles = [...event.dataTransfer.files];
+
       void addFiles(droppedFiles, false);
     },
     [addFiles]
@@ -1855,6 +2058,7 @@ export function FileCell<TData extends RowData>({
   const onDropzoneKeyDown = (event: React.KeyboardEvent<HTMLDivElement>) => {
     if (event.key === "Enter" || event.key === " ") {
       event.preventDefault();
+
       fileInputRef.current?.click();
     }
   };
@@ -1862,7 +2066,9 @@ export function FileCell<TData extends RowData>({
   const onFileInputChange = useCallback(
     (event: React.ChangeEvent<HTMLInputElement>) => {
       const selectedFiles = [...(event.target.files ?? [])];
+
       void addFiles(selectedFiles, false);
+
       event.target.value = "";
     },
     [addFiles]
@@ -1872,9 +2078,11 @@ export function FileCell<TData extends RowData>({
     (open: boolean) => {
       if (open && !readOnly) {
         setError(null);
+
         tableMeta?.onCellEditingStart?.(rowIndex, columnId);
       } else {
         setError(null);
+
         tableMeta?.onCellEditingStop?.();
       }
     },
@@ -1893,20 +2101,25 @@ export function FileCell<TData extends RowData>({
         switch (event.key) {
           case "Escape": {
             event.preventDefault();
+
             setFiles(cellValue);
+
             setError(null);
+
             tableMeta?.onCellEditingStop?.();
 
             break;
           }
           case " ": {
             event.preventDefault();
+
             fileInputRef.current?.click();
 
             break;
           }
           case "Tab": {
             event.preventDefault();
+
             tableMeta?.onCellEditingStop?.({
               direction: event.shiftKey ? "left" : "right",
             });
@@ -1917,9 +2130,11 @@ export function FileCell<TData extends RowData>({
         }
       } else if (isFocused && event.key === "Enter") {
         event.preventDefault();
+
         tableMeta?.onCellEditingStart?.(rowIndex, columnId);
       } else if (isFocused && event.key === "Tab") {
         event.preventDefault();
+
         tableMeta?.onCellEditingStop?.({
           direction: event.shiftKey ? "left" : "right",
         });
@@ -1954,14 +2169,17 @@ export function FileCell<TData extends RowData>({
   const dropzoneDescription = (() => {
     const maxFilesLabel =
       maxFiles === 0 ? "" : t("dataGrid.cell.maxFiles", { count: maxFiles });
+
     if (maxFileSize !== 0) {
       const sizeLabel = t("dataGrid.cell.maxSize", {
         size: formatFileSize(maxFileSize),
       });
+
       return maxFilesLabel === ""
         ? sizeLabel
         : `${sizeLabel} \u2022 ${maxFilesLabel}`;
     }
+
     return maxFilesLabel === ""
       ? t("dataGrid.cell.selectFilesToUpload")
       : maxFilesLabel;
@@ -2077,6 +2295,7 @@ export function FileCell<TData extends RowData>({
                       const isFilePending = isFileUploading || isFileDeleting;
 
                       let fileStatus: string;
+
                       if (isFileUploading) {
                         fileStatus = t("dataGrid.cell.uploading");
                       } else if (isFileDeleting) {

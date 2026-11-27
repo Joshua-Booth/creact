@@ -56,19 +56,26 @@ function containsPoint(
   point: { line: number; column: number }
 ) {
   const { start, end } = range;
+
   // Same start → not "inside", handled by exact locKey match
   if (point.line === start.line && point.column === start.column) return false;
+
   if (end.line == null) return false;
+
   if (point.line < start.line) return false;
+
   if (point.line === start.line && point.column < start.column) return false;
+
   // After range end (null end.column = end of line)
   if (point.line > end.line) return false;
+
   if (
     point.line === end.line &&
     end.column != null &&
     point.column > end.column
   )
     return false;
+
   return true;
 }
 
@@ -93,10 +100,13 @@ function parseIstanbulIgnoreRanges(source: string) {
     if (IGNORE_START_RE.test(line)) {
       ignoreStartLine = lineNum;
     }
+
     if (IGNORE_END_RE.test(line) && ignoreStartLine != null) {
       ranges.push({ startLine: ignoreStartLine, endLine: lineNum });
+
       ignoreStartLine = null;
     }
+
     if (IGNORE_NEXT_RE.test(line)) {
       ranges.push({ startLine: lineNum, endLine: lineNum + 1 });
     }
@@ -113,10 +123,13 @@ function buildLocIndex(
   map: Record<string, { loc: IstanbulLocation } | IstanbulLocation>
 ) {
   const index = new Map<string, string>();
+
   for (const [id, entry] of Object.entries(map)) {
     const loc = "loc" in entry ? entry.loc : entry;
+
     index.set(locKey(loc), id);
   }
+
   return index;
 }
 
@@ -126,21 +139,29 @@ function mergeStatements(
   stmtByLoc: Map<string, string>
 ) {
   let nextId = Math.max(0, ...Object.keys(result.statementMap).map(Number)) + 1;
+
   for (const [id, loc] of Object.entries(overlay.statementMap)) {
     const existingId = stmtByLoc.get(locKey(loc));
+
     if (existingId != null) {
       result.s[existingId] += overlay.s[id];
+
       continue;
     }
+
     // Skip coarse-grained overlay statements that encompass existing finer ones
     const subsumed = [...stmtByLoc.values()].some((baseId) =>
       containsPoint(loc, result.statementMap[baseId].start)
     );
+
     if (subsumed) continue;
 
     const newId = String(nextId++);
+
     result.statementMap[newId] = loc;
+
     result.s[newId] = overlay.s[id];
+
     stmtByLoc.set(locKey(loc), newId);
   }
 }
@@ -151,12 +172,17 @@ function mergeFunctions(
   fnByLoc: Map<string, string>
 ) {
   let nextId = Math.max(0, ...Object.keys(result.fnMap).map(Number)) + 1;
+
   for (const [id, fn] of Object.entries(overlay.fnMap)) {
     const existingId = fnByLoc.get(locKey(fn.loc));
+
     if (existingId == null) {
       const newId = String(nextId++);
+
       result.fnMap[newId] = fn;
+
       result.f[newId] = overlay.f[id];
+
       fnByLoc.set(locKey(fn.loc), newId);
     } else {
       result.f[existingId] += overlay.f[id];
@@ -176,6 +202,7 @@ function findMatchingBranch(
   overlayLoc: IstanbulLocation
 ) {
   const exactId = branchByLoc.get(locKey(overlayLoc));
+
   if (exactId != null) return exactId;
 
   // Fallback: base branch whose range contains the overlay start
@@ -192,11 +219,13 @@ function mergeBranches(
   branchByLoc: Map<string, string>
 ) {
   let nextId = Math.max(0, ...Object.keys(result.branchMap).map(Number)) + 1;
+
   for (const [id, br] of Object.entries(overlay.branchMap)) {
     const matchedId = findMatchingBranch(branchByLoc, result, br.loc);
 
     if (matchedId != null) {
       addBranchCounts(result.b[matchedId], overlay.b[id]);
+
       continue;
     }
 
@@ -204,11 +233,15 @@ function mergeBranches(
     const subsumed = [...branchByLoc.values()].some((baseId) =>
       containsPoint(br.loc, result.branchMap[baseId].loc.start)
     );
+
     if (subsumed) continue;
 
     const newId = String(nextId++);
+
     result.branchMap[newId] = br;
+
     result.b[newId] = [...overlay.b[id]];
+
     branchByLoc.set(locKey(br.loc), newId);
   }
 }
@@ -230,7 +263,9 @@ function mergeEntries(base: IstanbulEntry, overlay: IstanbulEntry) {
   const branchByLoc = buildLocIndex(result.branchMap);
 
   mergeStatements(result, overlay, stmtByLoc);
+
   mergeFunctions(result, overlay, fnByLoc);
+
   mergeBranches(result, overlay, branchByLoc);
 
   return result;
@@ -247,6 +282,7 @@ function mergeEntries(base: IstanbulEntry, overlay: IstanbulEntry) {
 function stripPhantomImportBranches(combined: Record<string, IstanbulEntry>) {
   for (const entry of Object.values(combined)) {
     const idsToRemove: string[] = [];
+
     for (const [id, br] of Object.entries(entry.branchMap)) {
       if (
         br.type === "binary-expr" &&
@@ -256,10 +292,12 @@ function stripPhantomImportBranches(combined: Record<string, IstanbulEntry>) {
         idsToRemove.push(id);
       }
     }
+
     for (const id of idsToRemove) {
       entry.branchMap = Object.fromEntries(
         Object.entries(entry.branchMap).filter(([k]) => k !== id)
       );
+
       entry.b = Object.fromEntries(
         Object.entries(entry.b).filter(([k]) => k !== id)
       );
@@ -281,6 +319,7 @@ function isLineIgnored(ranges: IgnoreRange[], line: number) {
 function stripIstanbulIgnoredEntries(combined: Record<string, IstanbulEntry>) {
   for (const entry of Object.values(combined)) {
     let source: string;
+
     try {
       source = readFileSync(entry.path, "utf-8");
     } catch {
@@ -288,6 +327,7 @@ function stripIstanbulIgnoredEntries(combined: Record<string, IstanbulEntry>) {
     }
 
     const ranges = parseIstanbulIgnoreRanges(source);
+
     if (ranges.length === 0) continue;
 
     const stmtIds = new Set(
@@ -295,9 +335,11 @@ function stripIstanbulIgnoredEntries(combined: Record<string, IstanbulEntry>) {
         .filter(([, loc]) => isLineIgnored(ranges, loc.start.line))
         .map(([id]) => id)
     );
+
     entry.statementMap = Object.fromEntries(
       Object.entries(entry.statementMap).filter(([k]) => !stmtIds.has(k))
     );
+
     entry.s = Object.fromEntries(
       Object.entries(entry.s).filter(([k]) => !stmtIds.has(k))
     );
@@ -307,9 +349,11 @@ function stripIstanbulIgnoredEntries(combined: Record<string, IstanbulEntry>) {
         .filter(([, fn]) => isLineIgnored(ranges, fn.loc.start.line))
         .map(([id]) => id)
     );
+
     entry.fnMap = Object.fromEntries(
       Object.entries(entry.fnMap).filter(([k]) => !fnIds.has(k))
     );
+
     entry.f = Object.fromEntries(
       Object.entries(entry.f).filter(([k]) => !fnIds.has(k))
     );
@@ -319,9 +363,11 @@ function stripIstanbulIgnoredEntries(combined: Record<string, IstanbulEntry>) {
         .filter(([, br]) => isLineIgnored(ranges, br.loc.start.line))
         .map(([id]) => id)
     );
+
     entry.branchMap = Object.fromEntries(
       Object.entries(entry.branchMap).filter(([k]) => !brIds.has(k))
     );
+
     entry.b = Object.fromEntries(
       Object.entries(entry.b).filter(([k]) => !brIds.has(k))
     );
@@ -370,10 +416,12 @@ function collectIstanbulFiles() {
 
   // Unit tests (vitest --project unit)
   const unitFile = path.join(rootDir, "coverage/unit/coverage-final.json");
+
   if (existsSync(unitFile)) files.push(unitFile);
 
   // Vitest workspace (local: vitest run --coverage runs both projects)
   const vitestFile = path.join(rootDir, "coverage/vitest/coverage-final.json");
+
   if (existsSync(vitestFile)) files.push(vitestFile);
 
   // Storybook component tests (vitest --project storybook)
@@ -381,6 +429,7 @@ function collectIstanbulFiles() {
     rootDir,
     "coverage/storybook/coverage-final.json"
   );
+
   if (existsSync(storybookFile)) files.push(storybookFile);
 
   return files;
@@ -398,6 +447,7 @@ async function convertE2eToIstanbul(e2eRawDir: string) {
     ...coverageFilterOptions,
     inputDir: e2eRawDir,
   });
+
   await e2eReport.generate();
 
   return outputFile;
@@ -416,6 +466,7 @@ function loadAndMergeIstanbulFiles(files: string[]) {
       const absPath = path.isAbsolute(filePath)
         ? filePath
         : path.resolve(rootDir, filePath);
+
       const entry = { ...data, path: absPath };
 
       combined[absPath] =
@@ -433,17 +484,21 @@ async function main() {
 
   if (istanbulFiles.length === 0 && !hasE2E) {
     console.log("No coverage files found.");
+
     process.exit(0);
   }
 
   const allIstanbulFiles = [...istanbulFiles];
+
   if (hasE2E) {
     const e2eIstanbulFile = await convertE2eToIstanbul(e2eRawDir);
+
     if (existsSync(e2eIstanbulFile)) allIstanbulFiles.push(e2eIstanbulFile);
   }
 
   if (allIstanbulFiles.length === 0) {
     console.log("No coverage data to merge.");
+
     process.exit(0);
   }
 
@@ -467,11 +522,13 @@ async function main() {
   });
 
   await report.add(combined);
+
   await report.generate();
 
   // Write serve.json to disable cleanUrls, which breaks relative links
   // in the HTML report by stripping trailing slashes from directory URLs
   const htmlDir = path.join(rootDir, "coverage/merged/html");
+
   if (existsSync(htmlDir)) {
     writeFileSync(
       path.join(htmlDir, "serve.json"),
@@ -482,5 +539,6 @@ async function main() {
 
 main().catch((error: unknown) => {
   console.error("Failed to merge coverage:", error);
+
   process.exit(1);
 });

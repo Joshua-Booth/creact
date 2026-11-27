@@ -35,12 +35,14 @@ Default.test(
       const submitButton = await canvas.findByRole("button", {
         name: /sign in/i,
       });
+
       await userEvent.click(submitButton);
     });
 
     await step("verify email validation error", async () => {
       await waitFor(async () => {
         const emailInput = canvas.getByLabelText("Email");
+
         await expect(emailInput).toHaveAttribute("aria-invalid", "true");
       });
     });
@@ -52,11 +54,13 @@ Default.test(
   async ({ canvas, step }) => {
     await step("enter valid email", async () => {
       const emailInput = await canvas.findByLabelText("Email");
+
       await userEvent.type(emailInput, "user@example.com");
     });
 
     await step("enter valid password", async () => {
       const passwordInput = await canvas.findByLabelText("Password");
+
       await userEvent.type(passwordInput, "Password123");
     });
 
@@ -64,12 +68,14 @@ Default.test(
       const submitButton = await canvas.findByRole("button", {
         name: /sign in/i,
       });
+
       await userEvent.click(submitButton);
     });
 
     await step("verify no validation errors on inputs", async () => {
       await waitFor(async () => {
         const emailInput = canvas.getByLabelText("Email");
+
         await expect(emailInput).not.toHaveAttribute("aria-invalid", "true");
       });
     });
@@ -81,21 +87,26 @@ Default.test(
   async ({ canvas, step }) => {
     await step("enter invalid email", async () => {
       const emailInput = await canvas.findByLabelText("Email");
+
       await userEvent.type(emailInput, "invalid-email");
     });
 
     await step("enter password and submit", async () => {
       const passwordInput = await canvas.findByLabelText("Password");
+
       await userEvent.type(passwordInput, "password");
+
       const submitButton = await canvas.findByRole("button", {
         name: /sign in/i,
       });
+
       await userEvent.click(submitButton);
     });
 
     await step("verify email validation error", async () => {
       await waitFor(async () => {
         const emailInput = canvas.getByLabelText("Email");
+
         await expect(emailInput).toHaveAttribute("aria-invalid", "true");
       });
     });

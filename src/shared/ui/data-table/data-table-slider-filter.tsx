@@ -57,14 +57,17 @@ export function DataTableSliderFilter<TData extends RowData>({
       [minValue, maxValue] = defaultRange;
     } else {
       const values = column.getFacetedMinMaxValues();
+
       // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition -- defensive check for runtime safety
       if (values != null && Array.isArray(values) && values.length === 2) {
         const [facetMinValue, facetMaxValue] = values;
+
         if (
           typeof facetMinValue === "number" &&
           typeof facetMaxValue === "number"
         ) {
           minValue = facetMinValue;
+
           maxValue = facetMaxValue;
         }
       }
@@ -72,6 +75,7 @@ export function DataTableSliderFilter<TData extends RowData>({
 
     const rangeSize = maxValue - minValue;
     let step: number;
+
     /* istanbul ignore next @preserve */
     if (rangeSize <= 20) {
       step = 1;
@@ -93,6 +97,7 @@ export function DataTableSliderFilter<TData extends RowData>({
   const onFromInputChange = useCallback(
     (event: React.ChangeEvent<HTMLInputElement>) => {
       const numValue = Number(event.target.value);
+
       /* istanbul ignore else @preserve */
       if (!Number.isNaN(numValue) && numValue >= min && numValue <= range[1]) {
         column.setFilterValue([numValue, range[1]]);
@@ -105,6 +110,7 @@ export function DataTableSliderFilter<TData extends RowData>({
   const onToInputChange = useCallback(
     (event: React.ChangeEvent<HTMLInputElement>) => {
       const numValue = Number(event.target.value);
+
       if (!Number.isNaN(numValue) && numValue <= max && numValue >= range[0]) {
         column.setFilterValue([range[0], numValue]);
       }

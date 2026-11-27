@@ -10,6 +10,7 @@ vi.mock("../api/forgot-password", () => ({
 describe("forgotPasswordAction", () => {
   it("should return validation error for empty email", async () => {
     const formData = new FormData();
+
     formData.set("email", "");
 
     const result = await forgotPasswordAction(formData);
@@ -20,11 +21,13 @@ describe("forgotPasswordAction", () => {
         error: expect.any(String) as string,
       })
     );
+
     expect(forgotPasswordApi).not.toHaveBeenCalled();
   });
 
   it("should return validation error for invalid email", async () => {
     const formData = new FormData();
+
     formData.set("email", "not-an-email");
 
     const result = await forgotPasswordAction(formData);
@@ -35,6 +38,7 @@ describe("forgotPasswordAction", () => {
         error: expect.any(String) as string,
       })
     );
+
     expect(forgotPasswordApi).not.toHaveBeenCalled();
   });
 
@@ -42,6 +46,7 @@ describe("forgotPasswordAction", () => {
     vi.mocked(forgotPasswordApi).mockResolvedValue();
 
     const formData = new FormData();
+
     formData.set("email", "user@example.com");
 
     const result = await forgotPasswordAction(formData);
@@ -49,6 +54,7 @@ describe("forgotPasswordAction", () => {
     expect(forgotPasswordApi).toHaveBeenCalledWith({
       email: "user@example.com",
     });
+
     expect(result).toEqual({ success: true });
   });
 
@@ -56,6 +62,7 @@ describe("forgotPasswordAction", () => {
     vi.mocked(forgotPasswordApi).mockRejectedValue(new Error("Not found"));
 
     const formData = new FormData();
+
     formData.set("email", "nonexistent@example.com");
 
     const result = await forgotPasswordAction(formData);
@@ -63,6 +70,7 @@ describe("forgotPasswordAction", () => {
     expect(forgotPasswordApi).toHaveBeenCalledWith({
       email: "nonexistent@example.com",
     });
+
     expect(result).toEqual({ success: true });
   });
 });

@@ -114,6 +114,7 @@ export const Presets = meta.story({
     const [date, setDate] = React.useState<Date | undefined>(
       () => new Date(new Date().getFullYear(), 1, 12)
     );
+
     const [currentMonth, setCurrentMonth] = React.useState<Date>(
       () => new Date(new Date().getFullYear(), new Date().getMonth(), 1)
     );
@@ -147,7 +148,9 @@ export const Presets = meta.story({
               className="flex-1"
               onClick={() => {
                 const newDate = addDays(new Date(), preset.value);
+
                 setDate(newDate);
+
                 setCurrentMonth(
                   new Date(newDate.getFullYear(), newDate.getMonth(), 1)
                 );
@@ -229,6 +232,7 @@ export const Disabled = meta.story({
     const [date, setDate] = React.useState<Date | undefined>(
       () => new Date(new Date().getFullYear(), 0, 6)
     );
+
     const bookedDates = Array.from(
       { length: 15 },
       (_, i) => new Date(new Date().getFullYear(), 0, 12 + i)
@@ -329,6 +333,7 @@ export const Timezone = meta.story({
   name: "Timezone",
   render: (args) => {
     const [date, setDate] = React.useState<Date | undefined>();
+
     const [timeZone] = React.useState(
       () => Intl.DateTimeFormat().resolvedOptions().timeZone
     );
@@ -358,24 +363,34 @@ Default.test(
   },
   async ({ canvas }) => {
     const title = await canvas.findByText(/2000/i);
+
     const startTitle = title.textContent;
+
     const backBtn = await canvas.findByRole("button", {
       name: /previous/i,
     });
+
     const nextBtn = await canvas.findByRole("button", {
       name: /next/i,
     });
+
     const steps = 6;
+
     for (let i = 0; i < steps / 2; i++) {
       await userEvent.click(backBtn);
+
       await expect(title).not.toHaveTextContent(startTitle);
     }
+
     for (let i = 0; i < steps; i++) {
       await userEvent.click(nextBtn);
+
       if (i == steps / 2 - 1) {
         await expect(title).toHaveTextContent(startTitle);
+
         continue;
       }
+
       await expect(title).not.toHaveTextContent(startTitle);
     }
   }
@@ -394,9 +409,13 @@ Default.test(
   async ({ args, canvas }) => {
     const onSelect = (args as unknown as { onSelect: ReturnType<typeof fn> })
       .onSelect;
+
     const dayText = await canvas.findByText("15");
+
     const dayButton = dayText.closest("button") ?? dayText;
+
     await userEvent.click(dayButton);
+
     await expect(onSelect).toHaveBeenCalledTimes(1);
   }
 );
@@ -415,14 +434,21 @@ Range.test(
   async ({ args, canvas }) => {
     const onSelect = (args as unknown as { onSelect: ReturnType<typeof fn> })
       .onSelect;
+
     const startText = await canvas.findByText("10");
+
     const startButton = startText.closest("button") ?? startText;
+
     await userEvent.click(startButton);
+
     await expect(onSelect).toHaveBeenCalledTimes(1);
 
     const endText = await canvas.findByText("20");
+
     const endButton = endText.closest("button") ?? endText;
+
     await userEvent.click(endButton);
+
     await expect(onSelect).toHaveBeenCalledTimes(2);
   }
 );
@@ -441,14 +467,21 @@ Default.test(
   async ({ args, canvas }) => {
     const onSelect = (args as unknown as { onSelect: ReturnType<typeof fn> })
       .onSelect;
+
     const enabledText = await canvas.findByText("10");
+
     const enabledButton = enabledText.closest("button") ?? enabledText;
+
     await userEvent.click(enabledButton);
+
     await expect(onSelect).toHaveBeenCalledTimes(1);
 
     const disabledText = await canvas.findByText("15");
+
     const disabledButton = disabledText.closest("button") ?? disabledText;
+
     await userEvent.click(disabledButton, { pointerEventsCheck: 0 });
+
     await expect(onSelect).toHaveBeenCalledTimes(1);
   }
 );

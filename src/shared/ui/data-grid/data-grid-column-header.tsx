@@ -58,6 +58,7 @@ export function DataGridColumnHeader<TData extends RowData, TValue>({
 }: DataGridColumnHeaderProps<TData, TValue>) {
   const { t } = useTranslation("components");
   const column = header.column;
+
   const label =
     column.columnDef.meta?.label ??
     (typeof column.columnDef.header === "string"
@@ -81,6 +82,7 @@ export function DataGridColumnHeader<TData extends RowData, TValue>({
         const existingSortIndex = prev.findIndex(
           (sort) => sort.id === column.id
         );
+
         const newSort: ColumnSort = {
           id: column.id,
           desc: direction === "desc",
@@ -88,9 +90,12 @@ export function DataGridColumnHeader<TData extends RowData, TValue>({
 
         if (existingSortIndex >= 0) {
           const updated = [...prev];
+
           updated[existingSortIndex] = newSort;
+
           return updated;
         }
+
         return [...prev, newSort];
       });
     },
@@ -122,10 +127,12 @@ export function DataGridColumnHeader<TData extends RowData, TValue>({
       if (event.button !== 0) {
         return;
       }
+
       table.options.meta?.onColumnClick?.(column.id);
     },
     [table.options.meta, column.id]
   );
+
   /* istanbul ignore end @preserve */
 
   /* istanbul ignore start @preserve -- browser-only JSX tested via Storybook */
@@ -274,6 +281,7 @@ const DataGridColumnResizer = memo(DataGridColumnResizerImpl, (prev, next) => {
 
   return true;
 }) as typeof DataGridColumnResizerImpl;
+
 /* istanbul ignore end @preserve */
 
 interface DataGridColumnResizerProps<
@@ -296,6 +304,7 @@ function DataGridColumnResizerImpl<TData extends RowData, TValue>({
   const onDoubleClick = useCallback(() => {
     header.column.resetSize();
   }, [header.column]);
+
   /* istanbul ignore end @preserve */
 
   return (

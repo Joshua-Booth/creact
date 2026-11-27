@@ -8,6 +8,7 @@ describe("loginSchema", () => {
       email: "test@example.com",
       password: "password",
     });
+
     expect(result.success).toBe(true);
   });
 
@@ -16,6 +17,7 @@ describe("loginSchema", () => {
       email: "invalid",
       password: "password",
     });
+
     expect(result.success).toBe(false);
   });
 
@@ -24,6 +26,7 @@ describe("loginSchema", () => {
       email: "test@example.com",
       password: "",
     });
+
     expect(result.success).toBe(false);
   });
 });

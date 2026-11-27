@@ -231,6 +231,7 @@ function FieldError({
     if (errors === undefined || errors.length === 0) {
       return null;
     }
+
     /* istanbul ignore end @preserve */
 
     const uniqueErrors = [
@@ -255,6 +256,7 @@ function FieldError({
   if (content == null) {
     return null;
   }
+
   /* istanbul ignore end @preserve */
 
   return (
@@ -293,6 +295,7 @@ function FieldItem({ className, ...props }: FieldPrimitive.Item.Props) {
     />
   );
 }
+
 /* istanbul ignore end @preserve */
 
 export {

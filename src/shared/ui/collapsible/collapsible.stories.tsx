@@ -294,6 +294,7 @@ Default.test(
 
     await step("Open the collapsible", async () => {
       await userEvent.click(trigger, { delay: 100 });
+
       await expect(
         canvas.getByText("100 Market St, San Francisco")
       ).toBeVisible();
@@ -301,6 +302,7 @@ Default.test(
 
     await step("Close the collapsible", async () => {
       await userEvent.click(trigger, { delay: 100 });
+
       await expect(
         canvas.queryByText("100 Market St, San Francisco")
       ).toBeNull();
@@ -315,7 +317,9 @@ Default.test(
 
     await step("Open with Enter key", async () => {
       trigger.focus();
+
       await userEvent.keyboard("{Enter}");
+
       await expect(
         canvas.getByText("100 Market St, San Francisco")
       ).toBeVisible();
@@ -323,6 +327,7 @@ Default.test(
 
     await step("Close with Space key", async () => {
       await userEvent.keyboard(" ");
+
       await expect(
         canvas.queryByText("100 Market St, San Francisco")
       ).toBeNull();
@@ -337,13 +342,17 @@ FileTree.test(
       const componentsButton = canvas.getByRole("button", {
         name: /components/i,
       });
+
       await userEvent.click(componentsButton, { delay: 100 });
+
       await expect(canvas.getByRole("button", { name: /ui/i })).toBeVisible();
     });
 
     await step("Expand nested ui folder", async () => {
       const uiButton = canvas.getByRole("button", { name: /ui/i });
+
       await userEvent.click(uiButton, { delay: 100 });
+
       await expect(canvas.getByText("button.tsx")).toBeVisible();
     });
   }

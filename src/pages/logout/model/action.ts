@@ -13,7 +13,10 @@ export async function logoutAction() {
   } catch {
     // Best-effort: ignore failures so logout always succeeds locally
   }
+
   useAuthStore.getState().logout();
+
   await mutate(() => true, undefined, { revalidate: false });
+
   return null;
 }

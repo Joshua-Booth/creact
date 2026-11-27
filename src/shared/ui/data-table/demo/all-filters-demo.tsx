@@ -187,11 +187,13 @@ export function AllFiltersDemo() {
         ),
         cell: ({ cell }) => {
           const amount = cell.getValue<number>();
+
           const formatted = new Intl.NumberFormat("en-US", {
             style: "currency",
             currency: "USD",
             maximumFractionDigits: 0,
           }).format(amount);
+
           return (
             <div className="text-right font-medium tabular-nums">
               {formatted}
@@ -216,6 +218,7 @@ export function AllFiltersDemo() {
         ),
         cell: ({ cell }) => {
           const value = cell.getValue<number>();
+
           return <div className="text-right tabular-nums">{value}%</div>;
         },
         size: 100,
@@ -235,6 +238,7 @@ export function AllFiltersDemo() {
         ),
         cell: ({ cell }) => {
           const timestamp = cell.getValue<number>();
+
           return <div>{new Date(timestamp).toLocaleDateString("en-US")}</div>;
         },
         meta: {
@@ -253,6 +257,7 @@ export function AllFiltersDemo() {
         cell: ({ cell }) => {
           const status = cell.getValue<FilterProject["status"]>();
           const Icon = statusIcons[status];
+
           return (
             <Badge variant="outline" className="capitalize">
               <Icon className="size-3.5" />
@@ -276,6 +281,7 @@ export function AllFiltersDemo() {
         cell: ({ cell }) => {
           const priority = cell.getValue<FilterProject["priority"]>();
           const Icon = priorityIcons[priority];
+
           return (
             <div className="flex items-center gap-2 capitalize">
               <Icon className="text-muted-foreground size-3.5" />

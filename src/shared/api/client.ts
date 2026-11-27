@@ -16,6 +16,7 @@ export class ApiError extends Error {
   readonly response: unknown;
   constructor(message: string, status: number, response?: unknown) {
     super(message);
+
     this.status = status;
     this.response = response;
   }

@@ -20,21 +20,31 @@ import {
 /* istanbul ignore start @preserve -- memo comparator is a performance optimization */
 export const DataGridCell = memo(DataGridCellImpl, (prev, next) => {
   if (prev.isFocused !== next.isFocused) return false;
+
   if (prev.isEditing !== next.isEditing) return false;
+
   if (prev.isSelected !== next.isSelected) return false;
+
   if (prev.isSearchMatch !== next.isSearchMatch) return false;
+
   if (prev.isActiveSearchMatch !== next.isActiveSearchMatch) return false;
+
   if (prev.readOnly !== next.readOnly) return false;
+
   if (prev.rowIndex !== next.rowIndex) return false;
+
   if (prev.columnId !== next.columnId) return false;
+
   if (prev.rowHeight !== next.rowHeight) return false;
 
   const prevValue = (prev.cell.row.original as Record<string, unknown>)[
     prev.columnId
   ];
+
   const nextValue = (next.cell.row.original as Record<string, unknown>)[
     next.columnId
   ];
+
   if (prevValue !== nextValue) {
     return false;
   }
@@ -43,6 +53,7 @@ export const DataGridCell = memo(DataGridCellImpl, (prev, next) => {
 
   return true;
 }) as typeof DataGridCellImpl;
+
 /* istanbul ignore end @preserve */
 
 function DataGridCellImpl<TData extends RowData>({
@@ -66,35 +77,45 @@ function DataGridCellImpl<TData extends RowData>({
   switch (variant) {
     case "short-text":
       Comp = ShortTextCell;
+
       break;
     case "long-text":
       Comp = LongTextCell;
+
       break;
     case "number":
       Comp = NumberCell;
+
       break;
     case "url":
       Comp = UrlCell;
+
       break;
     case "checkbox":
       Comp = CheckboxCell;
+
       break;
     case "select":
       Comp = SelectCell;
+
       break;
     case "multi-select":
       Comp = MultiSelectCell;
+
       break;
     case "date":
       Comp = DateCell;
+
       break;
     case "file":
       Comp = FileCell;
+
       break;
 
     default:
       /* istanbul ignore start @preserve -- fallback for unknown variant */
       Comp = ShortTextCell;
+
       break;
     /* istanbul ignore end @preserve */
   }

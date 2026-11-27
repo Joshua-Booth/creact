@@ -52,8 +52,10 @@ export default mergeConfig(
         configureServer(server) {
           for (const env of Object.values(server.environments)) {
             const origError = env.logger.error.bind(env.logger);
+
             env.logger.error = (msg, options) => {
               if (typeof msg === "string" && isExpectedError(msg)) return;
+
               origError(msg, options);
             };
           }

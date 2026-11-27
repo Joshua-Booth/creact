@@ -21,9 +21,12 @@ export function getIsDateRange(value: DateSelection): value is DateRange {
  */
 export function parseAsDate(timestamp: number | string | undefined) {
   if (timestamp == null) return;
+
   const numericTimestamp =
     typeof timestamp === "string" ? Number(timestamp) : timestamp;
+
   const date = new Date(numericTimestamp);
+
   return Number.isNaN(date.getTime()) ? undefined : date;
 }
 
@@ -55,11 +58,14 @@ export function parseColumnFilterValue(value: unknown) {
  */
 export function formatDateRangeLabel(range: DateRange) {
   if (range.from == null && range.to == null) return "";
+
   if (range.from != null && range.to != null) {
     return `${formatDate(range.from)} - ${formatDate(range.to)}`;
   }
+
   // At least one of from/to is non-null after earlier checks
   // eslint-disable-next-line @typescript-eslint/no-non-null-assertion -- guaranteed by guards above
   const singleDate = (range.from ?? range.to)!;
+
   return formatDate(singleDate);
 }

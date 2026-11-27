@@ -12,6 +12,7 @@ function Separator({
   // base-ui always sets it from orientation, so strip when presentational.
   // Only forward role when explicitly set to preserve base-ui's default.
   let roleProps: Record<string, unknown> | undefined;
+
   if (role === "presentation" || role === "none") {
     roleProps = { role, "aria-orientation": undefined };
   } else if (role != null) {

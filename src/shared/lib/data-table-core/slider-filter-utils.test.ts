@@ -97,6 +97,7 @@ describe("parseValuesAsNumbers", () => {
 describe("formatValue", () => {
   it("should format 1000 with locale separator", () => {
     const result = formatValue(1000);
+
     expect(result).toBe("1,000");
   });
 

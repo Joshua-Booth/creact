@@ -24,6 +24,7 @@ Default.test("should render heading and subheading", async ({ canvas }) => {
   await expect(canvas.getByRole("heading", { level: 1 })).toHaveTextContent(
     "React Frontend"
   );
+
   await expect(canvas.getByRole("heading", { level: 2 })).toHaveTextContent(
     "A project template for creating awesome React web apps."
   );

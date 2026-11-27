@@ -56,6 +56,7 @@ function MenubarPortal({
 }: React.ComponentProps<typeof DropdownMenuPortal>) {
   return <DropdownMenuPortal data-slot="menubar-portal" {...props} />;
 }
+
 /* istanbul ignore end @preserve */
 
 /** Button that opens a menubar dropdown. */
@@ -207,6 +208,7 @@ function MenubarLabel({
     />
   );
 }
+
 /* istanbul ignore end @preserve */
 
 /** Horizontal divider between menubar sections. */

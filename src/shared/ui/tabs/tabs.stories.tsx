@@ -150,16 +150,19 @@ Default.test(
 
     await step("focus the first tab", async () => {
       await userEvent.click(tabs[0]!);
+
       await expect(tabs[0]).toHaveFocus();
     });
 
     await step("press ArrowRight to move to next tab", async () => {
       await userEvent.keyboard("{ArrowRight}");
+
       await waitFor(() => expect(tabs[1]).toHaveFocus());
     });
 
     await step("press ArrowLeft to move back", async () => {
       await userEvent.keyboard("{ArrowLeft}");
+
       await waitFor(() => expect(tabs[0]).toHaveFocus());
     });
   }
@@ -172,11 +175,14 @@ Default.test(
 
     for (let i = 0; i < tabs.length; i++) {
       const tab = tabs[i]!;
+
       await step(`click the '${tab.innerText}' tab`, async () => {
         await userEvent.click(tab);
+
         await waitFor(() =>
           expect(tab).toHaveAttribute("aria-selected", "true")
         );
+
         await expect(
           canvas.queryByRole("tabpanel", { name: tab.innerText })
         ).toBeVisible();
@@ -186,7 +192,9 @@ Default.test(
         for (let j = 0; j < tabs.length; j++) {
           if (j !== i) {
             const otherTab = tabs[j]!;
+
             await expect(otherTab).toHaveAttribute("aria-selected", "false");
+
             // Base UI keeps panels in DOM with inert during exit animation
             await waitFor(() =>
               expect(

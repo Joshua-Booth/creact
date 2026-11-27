@@ -106,6 +106,8 @@ export const Colors = meta.story({
 
 Action.test("action button should be clickable", async ({ canvas }) => {
   const button = await canvas.findByRole("button", { name: /enable/i });
+
   await expect(button).toBeEnabled();
+
   await userEvent.click(button);
 });

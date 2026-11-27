@@ -26,19 +26,25 @@ export function apiErrorMessage(
 ) {
   if (!(error instanceof HTTPError)) {
     console.error(`${options.logLabel} Non-HTTP error:`, error);
+
     if (error instanceof DOMException && error.name === "AbortError") {
       return i18next.t("errors.api.requestTimeout");
     }
+
     if (error instanceof TypeError) {
       return i18next.t("errors.api.networkError");
     }
+
     return i18next.t("errors.api.unexpectedError");
   }
 
   const body: unknown = error.data;
+
   if (typeof body === "object" && body !== null) {
     const message = readBody(body, options.fields);
+
     if (message !== undefined) return message;
+
     return options.fallback;
   }
 
@@ -49,9 +55,11 @@ export function apiErrorMessage(
 
 function readBody(body: object, fields: readonly ApiErrorField[]) {
   const record = body as Record<string, unknown>;
+
   for (const field of fields) {
     const value = record[field.key];
     const picked = field.shape === "list" ? firstItem(value) : value;
+
     if (typeof picked === "string") return picked;
   }
 }

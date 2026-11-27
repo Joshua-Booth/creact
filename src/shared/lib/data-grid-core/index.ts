@@ -25,7 +25,9 @@ export {
   parseLocalDate,
   scrollCellIntoView,
 } from "./data-grid";
+
 export { dataGridFeatures } from "./features";
+
 export type {
   DataGridCellProps,
   DataGridColumn,
@@ -33,6 +35,7 @@ export type {
   DataGridFeatures,
   DataGridInstance,
 } from "./features";
+
 export type {
   BooleanFilterOperator,
   CellOpts,
@@ -57,9 +60,15 @@ export type {
   SelectionState,
   TextFilterOperator,
 } from "./types";
+
 export { composeRefs, useComposedRefs } from "./compose-refs";
+
 export { useAsRef } from "./use-as-ref";
+
 export { clearBadgeWidthCache, useBadgeOverflow } from "./use-badge-overflow";
+
 export { useDataGrid, type UseDataGridProps } from "./use-data-grid";
+
 export { useIsomorphicLayoutEffect } from "./use-isomorphic-layout-effect";
+
 export { useLazyRef } from "./use-lazy-ref";
